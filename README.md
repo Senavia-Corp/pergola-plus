@@ -23,9 +23,20 @@ funciona hasta que alguien regenera y se lo lleva por delante — pasó con la
 retirada del widget de Google Reviews, que hubo que rehacer dentro del
 transformador (`ELFSIGHT_RESENAS`).
 
-Queda pendiente una puerta que compare fragmentos contra la salida de los
-generadores y falle si divergen: hoy la deriva solo se nota cuando alguien
-regenera y mira el diff.
+La puerta es `npm run check:generadores`. Cubre los **dos** modos de deriva:
+
+| | Qué detecta | Caso real |
+|---|---|---|
+| **Fuente** | Un script lee de fuera del repo, o la fuente no está | Las capturas vivieron en `/tmp` y al traerlas se repuntó un script de cuatro |
+| **Contenido** | Alguien editó salida generada a mano | Los 40 fragmentos del widget de Google Reviews |
+
+Hacían falta las dos: una puerta que solo diffee fragmentos **no habría cazado
+la primera**. Mientras `/tmp` existiera, el diff salía vacío y todo parecía
+sano — y el reparto era el peor posible, porque la auditoría de paridad seguía
+en verde leyendo del repo mientras regenerar quedaba imposible. Por eso la
+puerta afirma de dónde ha leído antes de comparar nada, y por eso falla en vez
+de pasar cuando no puede regenerar: una puerta que pasa porque no pudo
+ejecutarse es peor que no tenerla.
 
 ## El shell (Nav y Footer) es código nuestro
 
