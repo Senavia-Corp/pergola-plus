@@ -1,0 +1,120 @@
+/**
+ * Puerta de los enlaces sin destino. Se ejecuta sobre dist/, DESPUES de
+ * `npm run build`.
+ *
+ *     npm run check:enlaces
+ *
+ * El Webflow original dejo un monton de <a href="#"> sin cablear: los dos del
+ * bloque `call-to-action-footer` (en ~100 paginas), los de las secciones de areas
+ * de servicio, la nota legal del formulario, el boton del telefono en el menu...
+ *
+ * El arreglo de casi todos vive en BOTONES_MUERTOS (scripts/lib/transformar.mjs)
+ * y se aplica al REGENERAR los fragmentos, no al construir: si alguien regenera
+ * con el mapa roto, o edita un fragmento a mano, el href="#" vuelve en silencio.
+ * Esto lo caza.
+ *
+ * Mira el HTML final y no los fragmentos: es lo unico que prueba que el arreglo
+ * llego hasta la pagina servida, y ademas cubre el shell (Nav/Footer), que no
+ * pasa por el transformador.
+ */
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const RAIZ = path.resolve(import.meta.dirname, '..');
+const DIST = path.join(RAIZ, 'dist');
+
+/**
+ * Enlaces muertos que se quedan muertos, a proposito. Un href="#" que NO este
+ * aqui es un fallo; que uno de estos desaparezca, no (si alguien crea la pagina
+ * de landscaping y la cablea, esta lista sobra y se quita a mano).
+ */
+const CONOCIDOS = [
+  { texto: 'Landscaping', porque: 'no existe /services/landscaping; ver Nav.astro' },
+  { texto: 'Paisajismo', porque: 'el mismo item del menu en /es/' },
+  {
+    texto: 'Read More →',
+    porque:
+      'las 5 tarjetas de /resources/warranties ya enseñan el texto entero y no hay ' +
+      'pagina de detalle a la que ir. Si se decide que van a la marca, son 5 destinos ' +
+      'distintos con el MISMO texto, asi que no caben en BOTONES_MUERTOS',
+  },
+  {
+    texto: 'Back',
+    porque:
+      'controles del formulario multi-paso (msf-*) de /contact-us/get-a-quote. La libreria ' +
+      'de Finsweet que los movia no se migro (paso 5 del transformador), pero ningun CSS ' +
+      'oculta los 3 pasos: el formulario se ve entero y se envia. Son botones vestigiales',
+  },
+  { texto: 'Next', porque: 'el par del anterior' },
+];
+
+/** El bloque del CTA compartido, para contarlo aparte: es el grueso del arreglo. */
+const CTA = /class="call-to-action-footer"[\s\S]*?<\/section>/g;
+/**
+ * Cualquier <a href="#">, con o sin atributos, y su contenido. Se captura el
+ * <a ...> entero, no solo el texto: hace falta la clase para distinguir el
+ * lightbox, y hay enlaces que envuelven <div>/<img> en vez de texto suelto.
+ */
+const MUERTO = /<a\s([^>]*href="#"[^>]*)>([\s\S]*?)<\/a>/g;
+
+/**
+ * El lightbox de Webflow. Su href="#" NO es un enlace sin cablear: es el disparador
+ * del visor, y el destino real va en el <script type="application/json"> de dentro.
+ * Tocarlo romperia la galeria.
+ */
+const LIGHTBOX = /\bw-lightbox\b/;
+
+const texto = (html) => html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+
+const htmls = (await fs.readdir(DIST, { recursive: true })).filter((p) => p.endsWith('.html'));
+if (!htmls.length) throw new Error('dist/ vacio: corre `npm run build` primero');
+
+const fallos = [];
+const tolerados = new Map();
+let bloques = 0;
+let vacios = 0;
+let lightbox = 0;
+
+for (const rel of htmls) {
+  const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  bloques += [...html.matchAll(CTA)].length;
+
+  for (const [, attrs, dentro] of html.matchAll(MUERTO)) {
+    if (LIGHTBOX.test(attrs)) { lightbox++; continue; }
+    const t = texto(dentro);
+    // Un <a href="#"> sin texto ni imagen no lleva a ninguna parte, pero tampoco
+    // se ve ni se tabula: no es un enlace roto para nadie.
+    if (!t && !/<img|<svg/i.test(dentro)) { vacios++; continue; }
+    const conocido = CONOCIDOS.find((c) => c.texto === t);
+    if (conocido) {
+      tolerados.set(t, (tolerados.get(t) ?? 0) + 1);
+      continue;
+    }
+    fallos.push({ rel, t: t || '(sin texto, con imagen)' });
+  }
+}
+
+console.log(`  ${htmls.length} paginas · ${bloques} bloques call-to-action-footer`);
+for (const [t, n] of tolerados) {
+  const c = CONOCIDOS.find((x) => x.texto === t);
+  console.log(`  ok     "${t}" sigue muerto en ${n} paginas — ${c.porque}`);
+}
+if (lightbox) console.log(`  ok     ${lightbox} disparadores de lightbox (su href="#" es correcto)`);
+if (vacios) console.log(`  ok     ${vacios} <a href="#"> sin texto ni imagen (invisibles)`);
+
+if (fallos.length) {
+  const porTexto = new Map();
+  for (const f of fallos) porTexto.set(f.t, (porTexto.get(f.t) ?? 0) + 1);
+  console.log(`  FALLO  ${fallos.length} enlaces sin destino:`);
+  for (const [t, n] of [...porTexto].sort((a, b) => b[1] - a[1])) {
+    console.log(`         "${t}" x${n}   (p.ej. ${fallos.find((f) => f.t === t).rel})`);
+  }
+  console.log('         si el destino existe, ponlo en BOTONES_MUERTOS y regenera;');
+  console.log('         si no existe, anotalo en CONOCIDOS con el porque.');
+  process.exit(1);
+}
+if (!bloques) {
+  console.log('  FALLO  ni un bloque call-to-action-footer: el selector ya no vale');
+  process.exit(1);
+}
+console.log('  ok     ningun enlace sin destino');

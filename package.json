@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check:blog": "node scripts/comprobar-blog.mjs",
-    "check:cta": "node scripts/comprobar-cta.mjs"
+    "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",
