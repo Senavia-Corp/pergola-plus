@@ -25,7 +25,7 @@ export const RUTAS = {
   'project-gallery.html': '/project-gallery',
   'thank-you.html': '/thank-you',
   '404.html': '/404',
-  'about-us/about-us.html': '/about-us',
+  'about-us/about-us.html': '/about-us/about-us',
   'about-us/brands.html': '/about-us/brands',
   'about-us/industries-we-serve.html': '/about-us/industries-we-serve',
   'about-us/testimonials.html': '/about-us/testimonials',
@@ -60,6 +60,9 @@ export const ENLACES_ROTOS = {
  */
 export const PLACEHOLDERS = {
   'https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg': '/images/wf-placeholder.svg',
+  // Mismo archivo, otro host: el HTML en vivo lo pide asi en algunas paginas y
+  // ahi devuelve 403. Apunta a la misma copia local.
+  'https://cdn.prod.website-files.com/plugins/Basic/assets/placeholder.60f9b1840c.svg': '/images/wf-placeholder.svg',
   'https://d3e54v103j8qbb.cloudfront.net/img/placeholder-thumb.svg': '/images/wf-placeholder-thumb.svg',
   'https://d3e54v103j8qbb.cloudfront.net/static/page-not-found.211a85e40c.svg': '/images/wf-page-not-found.svg',
   'https://cdn.prod.website-files.com/68236ade63ce8f10f54939cb/68375d0ede677a2f502a999b_Image.svg': '/images/wf-marquee-image.svg',
@@ -87,6 +90,58 @@ export const PLACEHOLDERS = {
  *                 distintos, uno por pagina: lo pone BaseLayout via prop.
  */
 const ATRIBUTOS_BASURA = /\s+data-wf-(?:page-id|element-id)="[^"]*"/g;
+
+const EXT = 'jpg|jpeg|png|webp|avif|svg|gif';
+
+/**
+ * Reescribe las URLs del CDN de Webflow a la copia local.
+ *
+ * En el HTML en vivo conviven DOS site IDs y hay que tratarlos distinto:
+ *
+ *   698a55281e50ce048618d1ae -> assets del CMS. Estan en el manifest (los bajo
+ *                               PROMPT A) y se resuelven por URL exacta.
+ *   6903b7794d5df3d76a7a2488 -> assets del sitio. Son los mismos que el export
+ *                               trae en images/, servidos por CDN. Se resuelven
+ *                               por NOMBRE DE ARCHIVO quitando el hash, lo que
+ *                               ademas cubre las variantes -p-500/-p-800 del
+ *                               srcset.
+ *
+ * `mapa` = img-map.json (url -> {src})
+ * `locales` = Set con los nombres de archivo que hay en public/images/
+ *
+ * Si una URL no se resuelve por ninguna via, se LANZA. Un fallo de build vale
+ * mas que una imagen apuntando a Webflow en produccion.
+ */
+export function reescribirImagenes(html, mapa, locales) {
+  const sinResolver = new Set();
+
+  const resolver = (url) => {
+    if (mapa[url]) return mapa[url].src;
+    const base = decodeURIComponent(url.split('/').pop()).replace(/^[0-9a-f]{20,32}_/i, '');
+    if (locales.has(base)) return `/images/${base}`;
+    sinResolver.add(url);
+    return null;
+  };
+
+  // Pasada 1: URLs planas.
+  const RX = new RegExp(`https://cdn\\.prod\\.website-files\\.com/[^"'\\s)\\\\]+?\\.(?:${EXT})(?:\\.(?:${EXT}))*`, 'gi');
+  let s = html.replace(RX, (url) => resolver(url) ?? url);
+
+  // Pasada 2: URLs URL-CODIFICADAS.
+  // El lightbox de Webflow guarda su configuracion en un
+  // <script type="application/json"> metido dentro de un atributo, asi que ahi
+  // las URLs salen como https%3A%2F%2Fcdn.prod.website-files.com%2F...
+  // Sin esta pasada quedaban 32 paginas apuntando al CDN de Webflow aunque el
+  // <img> visible ya estuviera reescrito.
+  const RXE = new RegExp(`https%3A%2F%2Fcdn\\.prod\\.website-files\\.com%2F[^"'\\s)\\\\]+?\\.(?:${EXT})`, 'gi');
+  s = s.replace(RXE, (enc) => {
+    const url = decodeURIComponent(enc);
+    const local = resolver(url);
+    return local ? encodeURIComponent(local) : enc;
+  });
+
+  return { html: s, sinResolver: [...sinResolver] };
+}
 
 export function transformar(html) {
   let s = html;

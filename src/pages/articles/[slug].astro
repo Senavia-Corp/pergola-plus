@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import items from '../../contenido-migrado/articles/_items.json';
+
+// Generado por scripts/generar-detalle.mjs — NO editar a mano.
+//
+// El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
+// es lo unico que cambia: en vez de leer el fragmento, se consulta Sanity y se
+// renderiza la plantilla con sus datos. La estructura de la pagina y el <head>
+// ya quedan aqui.
+const fragmentos = import.meta.glob('../../contenido-migrado/articles/*.html', {
+  query: '?raw', import: 'default', eager: true,
+});
+
+export function getStaticPaths() {
+  return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const html = fragmentos['../../contenido-migrado/articles/' + item.slug + '.html'];
+if (!html) throw new Error('sin fragmento para articles/' + item.slug);
+---
+
+<BaseLayout
+  title={item.title}
+  description={item.description ?? undefined}
+  ogImage={item.ogImage ?? undefined}
+  pageStyles={item.pageStyles ?? undefined}
+  wfPage={item.wfPage ?? undefined}
+  wfSite={item.wfSite ?? undefined}
+>
+  <Fragment set:html={html} />
+</BaseLayout>
