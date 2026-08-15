@@ -37,7 +37,11 @@ export interface Post {
   altPrincipal: string;
   publicado: Date;
   creado: Date;
+  /** `Updated On`. Alimenta `dateModified` del JSON-LD. */
+  actualizado: Date;
   minutos: number;
+  /** Palabras del cuerpo, sin etiquetas. Alimenta `wordCount` del JSON-LD. */
+  palabras: number;
   /** `Featured?`. Esta en true en 10 de 21: no sirve para elegir uno, si para ordenar. */
   destacadoCms: boolean;
   /** `Super Blog`. Este si marca UNO solo: es el del bloque destacado. */
@@ -65,12 +69,11 @@ function fecha(valor: string): Date {
   return d;
 }
 
-function minutosDeLectura(html: string): number {
-  const palabras = html
+function contarPalabras(html: string): number {
+  return html
     .replace(/<[^>]*>/g, ' ')
     .split(/\s+/)
     .filter(Boolean).length;
-  return Math.max(1, Math.round(palabras / PPM));
 }
 
 /**
@@ -137,7 +140,9 @@ export const posts: Post[] = filasPosts
       altPrincipal: imgAlt(f['Main Image']!) || f['Metadescripcion Imagen']!,
       publicado: fecha(f['Published On']!),
       creado: fecha(f['Created On']!),
-      minutos: minutosDeLectura(f['Post Body']!),
+      actualizado: fecha(f['Updated On']!),
+      minutos: Math.max(1, Math.round(contarPalabras(f['Post Body']!) / PPM)),
+      palabras: contarPalabras(f['Post Body']!),
       destacadoCms: f['Featured?'] === 'true',
       esHero: f['Super Blog'] === 'true',
       descripcionSeo: f['Metadescription SEO']!,

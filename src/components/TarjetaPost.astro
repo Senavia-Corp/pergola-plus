@@ -1,0 +1,56 @@
+---
+/**
+ * Tarjeta de articulo. La usan el listado, las categorias y los relacionados del
+ * detalle, asi que vive aparte para que las tres no se separen con el tiempo.
+ */
+import { fechaLarga, fechaIso, type Post } from '../lib/blog';
+
+interface Props {
+  post: Post;
+  /** Solo para el destacado del listado y la primera fila: evita lazy en LCP. */
+  prioridad?: boolean;
+}
+
+const { post, prioridad = false } = Astro.props;
+---
+
+<article class="pp-card">
+  <div class="pp-card-media">
+    <img
+      src={post.miniatura.src}
+      alt={post.altMiniatura}
+      width={post.miniatura.width ?? undefined}
+      height={post.miniatura.height ?? undefined}
+      loading={prioridad ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  </div>
+  <div class="pp-card-cuerpo">
+    <div class="pp-meta">
+      <span class="pp-etiqueta">{post.categoria.nombre}</span>
+      {/* Fecha y tiempo de lectura van en UN solo span: como items flex separados,
+          al envolver en movil el "·" se quedaba huerfano al principio de la
+          segunda linea. */}
+      <span class="pp-dato">
+        <time datetime={fechaIso(post.publicado)}>{fechaLarga(post.publicado)}</time>
+        {` · ${post.minutos} min read`}
+      </span>
+    </div>
+    <h3><a href={`/post/${post.slug}`}>{post.titulo}</a></h3>
+    <p class="pp-card-resumen">{post.resumen}</p>
+    {/* Decoracion: el enlace real es el titulo, y su ::after cubre la tarjeta
+        entera. Antes esto era un <a>Read More</a> repetido 21 veces con el mismo
+        texto y 18px de alto tactil. */}
+    <span class="pp-card-mas" aria-hidden="true">
+      Read More
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path
+          d="M1 7h11M8 3l4 4-4 4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </span>
+  </div>
+</article>
