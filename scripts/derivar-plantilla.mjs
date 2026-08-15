@@ -27,7 +27,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const VIVO = '/private/tmp/claude-501/-Users-senavia/c6c8d2e5-148e-47e5-b6cf-e7286ffbc547/scratchpad/vivo';
+const RAIZ = path.resolve(import.meta.dirname, '..');
+const VIVO = path.join(RAIZ, 'docs/vivo');
 const EXPORT = '/Users/senavia/Downloads/Webflow Pergola Plus Florida';
 
 /** Campos administrativos de Webflow: no son contenido. */

@@ -43,7 +43,7 @@ const LOCALES = new Set(await fs.readdir(path.resolve(import.meta.dirname, '../p
 const sinResolverGlobal = new Set();
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const VIVO = '/private/tmp/claude-501/-Users-senavia/c6c8d2e5-148e-47e5-b6cf-e7286ffbc547/scratchpad/vivo';
+const VIVO = path.join(RAIZ, 'docs/vivo');
 const FRAG = path.join(RAIZ, 'src/contenido-migrado');
 const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
 

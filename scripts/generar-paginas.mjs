@@ -42,7 +42,7 @@ import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS } from './li
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const VIVO = '/private/tmp/claude-501/-Users-senavia/c6c8d2e5-148e-47e5-b6cf-e7286ffbc547/scratchpad/vivo';
+const VIVO = path.join(RAIZ, 'docs/vivo');
 const FRAG = path.join(RAIZ, 'src/contenido-migrado/estaticas');
 const PAGES = path.join(RAIZ, 'src/pages');
 
