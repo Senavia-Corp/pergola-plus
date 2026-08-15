@@ -90,6 +90,25 @@ export const BOTONES_MUERTOS = {
 };
 
 /**
+ * Las 5 tarjetas de /resources/warranties. Las cinco dicen "Read More →", asi que
+ * NO caben en BOTONES_MUERTOS: ahi la llave es el texto del enlace, y aqui el
+ * texto es el mismo en las cinco. La llave es el titulo de la tarjeta, y cada una
+ * va a la pagina de su marca.
+ *
+ * Faltan las dos puntas del desajuste entre garantias y marcas:
+ *   MaestroShield  tiene tarjeta y NO tiene pagina de marca -> se queda muerta,
+ *                  anotada en scripts/comprobar-enlaces-muertos.mjs.
+ *   Appolo         tiene pagina de marca y NO tiene tarjeta.
+ */
+const TARJETA_GARANTIA = '<div class="warranty_item">';
+const GARANTIAS = {
+  FORTE: '/brands/pergola-plus-forte',
+  Equinox: '/brands/equinox',
+  Renaissance: '/brands/renaissance',
+  Fenetex: '/brands/fenetex',
+};
+
+/**
  * Indice de busqueda. El texto del enlace llega del vivo con basura pegada
  * ("Terms ", "Privacy Policy.", "Get a Quote" con la a en minuscula), asi que se
  * normaliza en vez de meter una entrada por variante.
@@ -281,6 +300,26 @@ export function transformar(html, ruta) {
     if (ruta.startsWith('#') && !s.includes(`id="${ruta.slice(1)}"`)) return tal_cual;
     return `<a href="${ruta}"${attrs}>${texto}</a>`;
   });
+
+  // 3c. Las tarjetas de garantia, cada una a su marca. Se trocea por tarjeta para
+  //     leer el titulo de CADA una; sin eso no hay forma de saber a que marca va
+  //     un "Read More →" que es identico en las cinco. La sustitucion pide la
+  //     clase entera (`warraty-card-link`, con la errata de Webflow) para que no
+  //     pueda cruzarse con ningun otro href="#" del trozo.
+  s = s
+    .split(TARJETA_GARANTIA)
+    .map((trozo, i) => {
+      if (i === 0) return trozo;
+      const titulo = trozo.match(/<h3[^>]*>([^<]*)/)?.[1] ?? '';
+      const marca = Object.keys(GARANTIAS).find((m) => titulo.includes(m));
+      return marca
+        ? trozo.replace(
+            '<a href="#" class="warraty-card-link',
+            `<a href="${GARANTIAS[marca]}" class="warraty-card-link`,
+          )
+        : trozo;
+    })
+    .join(TARJETA_GARANTIA);
 
   // 4. Atributos internos.
   s = s.replace(ATRIBUTOS_BASURA, '');
