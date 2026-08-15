@@ -1,15 +1,43 @@
 ---
+/**
+ * Listado del blog. CODIGO DE AUTORIA PROPIA.
+ *
+ * Ya NO lo escribe scripts/generar-paginas.mjs: la ruta esta en su Set MANUALES.
+ * El generador sigue produciendo el fragmento migrado en
+ * src/contenido-migrado/estaticas/resources__blog.html —es la unica copia en el
+ * repo del markup original y sirve para diffear— pero no pisa este archivo.
+ *
+ * Convive con src/pages/resources/blog/[categoria].astro igual que products.astro
+ * convive con products/[slug].astro.
+ */
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/resources__blog.html?raw';
+import BlogListado from '../../components/BlogListado.astro';
+import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../lib/blog';
 
-// Generado por scripts/generar-paginas.mjs desde el HTML real de /resources/blog.
-// NO editar a mano. El nav y el footer los pone BaseLayout.
+const TITULO = 'Outdoor Living Blog | Pergola Plus Florida';
+const DESCRIPCION =
+  'Expert insights on aluminum pergolas, motorized louvered roofs and outdoor shade systems engineered for South Florida homes.';
+
+const site = Astro.site!;
+const url = new URL('/resources/blog', site).href;
 ---
 
 <BaseLayout
-  title="Blog"
-  wfPage="698a9130a69620b147bce65e"
-  wfSite="6903b7794d5df3d76a7a2488"
+  title={TITULO}
+  description={DESCRIPCION}
+  wfPage={WF_PAGE}
+  wfSite={WF_SITE}
+  jsonLd={jsonLdBlog({
+    url,
+    nombre: 'Pergola Plus Florida Blog',
+    descripcion: DESCRIPCION,
+    entradas: posts,
+    site: site.href,
+  })}
 >
-  <Fragment set:html={html} />
+  <BlogListado
+    activa="todo"
+    titulo="blog & tips"
+    intro="Explore expert insights on aluminum pergolas, motorized louvered roofs, and outdoor shade systems engineered for Florida’s climate, durability, and elevated outdoor living design."
+  />
 </BaseLayout>

@@ -1,73 +1,86 @@
 ---
-// Footer — extraido de index.html (lineas 848-968) por scripts/generar-shell.mjs.
-// NO editar a mano: se regenera. Verificado BYTE-IDENTICO en las 34 paginas del
-// export; el unico delta era data-wf-page-id, que es interno de Webflow.
+// Footer — CODIGO DE AUTORIA PROPIA. Se edita a mano.
+//
+// Nacio como extraccion de index.html via scripts/generar-shell.mjs, pero desde
+// el rediseno del menu ya no se genera (ese script esta retirado).
 //
 // El formulario de suscripcion queda con action="" a proposito: se cablea en la
 // Fase 3 junto con Turnstile.
+//
+// Los data-w-id de aqui SI son IX2 (SCROLL_INTO_VIEW). No borrarlos.
+import { idiomaDeRuta } from '../i18n';
+import { traductor } from '../i18n/shell';
+
+const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+const esActiva = (href: string) => ruta === href || ruta.startsWith(href + '/');
+const t = traductor(idiomaDeRuta(Astro.url.pathname));
 ---
   <footer class="footer">
     <div class="w-layout-blockcontainer container-menu w-container">
       <div class="wrapper-footer">
         <div data-w-id="e5de5a0c-53a0-ec9b-3b42-737243767a7e" class="column-left-footer"><img loading="lazy" src="/images/Logo-White.svg" alt="Pergola Plus Florida Logo" class="logo-footer">
-          <div>Get updates on new pergolas and outdoor solutions.</div>
+          <div>{t('footerSuscribete')}</div>
           <div class="form-block w-form">
-            <form id="wf-form-Footer-Form" name="wf-form-Footer-Form" data-name="Footer Form" method="get" class="form"><input class="text-field w-input" maxlength="256" name="email" data-name="Email" placeholder="Enter your email address" type="email" id="email" required=""><input type="submit" data-wait="Please wait..." class="submit-button w-button" value="Subscribe"></form>
+            <form id="wf-form-Footer-Form" name="wf-form-Footer-Form" data-name="Footer Form" method="get" class="form"><input class="text-field w-input" maxlength="256" name="email" data-name="Email" placeholder={t('footerEmail')} type="email" id="email" required=""><input type="submit" data-wait={t('footerEspera')} class="submit-button w-button" value={t('footerBoton')}></form>
             <div class="w-form-done">
-              <div>Thank you! Your submission has been received!</div>
+              <div>{t('footerFormOk')}</div>
             </div>
             <div class="w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
+              <div>{t('footerFormError')}</div>
             </div>
           </div>
-          <div class="text-block">By subscribing you agree to our Privacy Policy and consent to receive updates from Pergola Plus Florida.</div>
+          <div class="text-block">{t('footerLegal')}</div>
         </div>
         <div class="column-right-footer">
           <div class="item-footer">
-            <div class="heading-footer">Help Links</div>
+            <div class="heading-footer">{t('footerHelp')}</div>
             <ul role="list" class="list-footer">
               <li>
-                <a href="/products" class="link-footer">Our Products</a>
+                <a href="/products" class="link-footer">{t('footerProductos')}</a>
               </li>
               <li>
-                <a href="/services" class="link-footer">Services</a>
+                <a href="/services" class="link-footer">{t('footerServicios')}</a>
               </li>
               <li>
-                <a href="/project-gallery" class="link-footer">Project Gallery</a>
+                <a href="/project-gallery" class="link-footer">{t('footerGaleria')}</a>
               </li>
               <li>
-                <a href="/contact-us/get-in-touch" class="link-footer">Contact Us</a>
+                <a href="/project-estimator" class:list={["link-footer", { "w--current": esActiva("/project-estimator") }]} aria-current={esActiva("/project-estimator") ? "page" : undefined}>{t('footerEstimador')}</a>
               </li>
               <li>
-                <a href="/resources/blog" class="link-footer">Blog &amp; Tips</a>
+                <a href="/contact-us/get-in-touch" class="link-footer">{t('footerContacto')}</a>
               </li>
               <li>
-                <a href="/resources/faq" class="link-footer">FAQ</a>
+                <a href="/resources/blog" class="link-footer">{t('footerBlog')}</a>
+              </li>
+              <li>
+                <a href="/resources/faq" class="link-footer">{t('footerFaq')}</a>
               </li>
             </ul>
           </div>
           <div class="item-footer">
-            <div class="heading-footer">Company</div>
+            <div class="heading-footer">{t('footerCompany')}</div>
             <ul role="list" class="list-footer">
               <li>
-                <a href="/about-us" class="link-footer">About Us</a>
+                <a href="/about-us" class="link-footer">{t('footerAbout')}</a>
               </li>
               <li>
-                <a href="/about-us/brands" class="link-footer">Our Brands Partners</a>
+                <a href="/about-us/brands" class="link-footer">{t('footerBrands')}</a>
               </li>
               <li>
-                <a href="/about-us/where-we-work" class="link-footer">Where We Work</a>
+                <a href="/about-us/where-we-work" class="link-footer">{t('footerWhere')}</a>
               </li>
               <li>
-                <a href="/about-us/industries-we-serve" class="link-footer">Industries We Serve</a>
+                <a href="/about-us/industries-we-serve" class="link-footer">{t('footerIndustries')}</a>
               </li>
               <li>
-                <a href="#" class="link-footer">Testimonials</a>
+                {/* Venia con href="#" del export. La pagina existe. */}
+                <a href="/about-us/testimonials" class="link-footer">{t('footerTestimonials')}</a>
               </li>
             </ul>
           </div>
           <div class="item-footer">
-            <div class="heading-footer">Follow us</div>
+            <div class="heading-footer">{t('footerFollow')}</div>
             <ul role="list" class="list-footer-social">
               <li>
                 <a href="https://www.facebook.com/p/Pergola-Plus-Corp-100089973993816/" target="_blank" class="link-block w-inline-block"><img loading="lazy" src="/images/Facebook.svg" alt="" class="icon-social-media">
@@ -97,30 +110,27 @@
         <div>
           <div class="div-block-6">
             <a href="https://www.bbb.org/us/fl/boca-raton/profile/pool-enclosures/pergola-plus-corp-0633-92032287" target="_blank" class="w-inline-block"><img loading="lazy" src="/images/bbb.svg" alt="" class="bbb"></a>
-            <div>Pergola Plus Florida - Licensed &amp; Insured CGC1539940 in South Florida</div>
+            <div>{t('footerLicencia')}</div>
           </div>
         </div>
-        <div class="div-block-8">
-          <div class="code-embed-traslate w-embed w-script"><!--  Elfsight Website Translator | Pergola Plus Florida  -->
-            <div class="elfsight-app-fa8dd75a-f26d-4af7-9ad8-0ed517c6e75a" data-elfsight-app-lazy=""></div>
-          </div>
-        </div>
+        {/* Aqui vivia el traductor de Elfsight (plan gratuito, host perezoso a
+            14344px de scroll: no llegaba a aplicarse al navegar). Retirado. El
+            espanol se hara con i18n real de Astro en una fase aparte. */}
       </div>
       <div data-w-id="e5de5a0c-53a0-ec9b-3b42-737243767ad0" class="line-footer"></div>
       <div data-w-id="e5de5a0c-53a0-ec9b-3b42-737243767ad1" class="wrapper-bar-footer">
-        <div class="link-footer">© 2025 Pergola Plus Florida. All rights reserved.</div>
-        <div class="link-footer">Developed by <a href="https://www.senaviacorp.com/" target="_blank" class="link"><strong>Senavia Corp.</strong></a>
+        <div class="link-footer">{t('footerDerechos')}</div>
+        <div class="link-footer">{t('footerDesarrollado')} <a href="https://www.senaviacorp.com/" target="_blank" class="link"><strong>Senavia Corp.</strong></a>
         </div>
+        {/* Esto era una coleccion del CMS de Webflow que llegaba VACIA: un solo
+            <a href="#" class="link-footer"></a> sin texto, asi que las dos
+            paginas legales no tenian enlace desde ningun sitio. Ambas existen
+            (/articles/privacy-policy y /articles/terms-of-service), asi que se
+            escriben tal cual: son dos, no necesitan coleccion. */}
         <div>
-          <div class="w-dyn-list">
-            <div role="list" class="collection-list-articles w-dyn-items">
-              <div role="listitem" class="collection-item-articles w-dyn-item">
-                <a href="#" class="link-footer"></a>
-              </div>
-            </div>
-            <div class="w-dyn-empty">
-              <div>No items found.</div>
-            </div>
+          <div class="collection-list-articles">
+            <a href="/articles/privacy-policy" class="link-footer">{t('footerPrivacidad')}</a>
+            <a href="/articles/terms-of-service" class="link-footer">{t('footerTerminos')}</a>
           </div>
         </div>
       </div>

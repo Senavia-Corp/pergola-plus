@@ -1,0 +1,300 @@
+---
+/**
+ * Cuerpo compartido del blog: hero, destacado, filtros, grid y CTA.
+ *
+ * CODIGO DE AUTORIA PROPIA. No sale de scripts/generar-paginas.mjs.
+ *
+ * Las tres vistas (indice y las 8 categorias) renderizan en servidor LAS MISMAS 21
+ * tarjetas, y las que no tocan salen con el atributo `hidden` puesto en build. Una
+ * sola regla gobierna las tres, identica en servidor y en cliente:
+ *
+ *   activa === 'todo'  ->  se oculta solo la tarjeta del destacado (ya esta arriba)
+ *   activa === 'X'     ->  se oculta el destacado, y toda tarjeta con categoria != X
+ *
+ * Por que asi y no re-renderizando en cliente: las 749 interacciones IX2 de
+ * webflow.js se enlazan UNA vez por documento (por eso astro.config prohibe
+ * ClientRouter). Si el filtro reemplazara nodos, IX2 no los volveria a enlazar y
+ * quedarian congelados. Alternar `hidden` sobre nodos que ya existen no toca la
+ * estructura, asi que IX2 ni se entera.
+ *
+ * TECHO CONOCIDO: cada ruta envia las 21 tarjetas (~22 KB). A partir de unos 60
+ * posts eso deja de salir gratis y hay que elegir entre paginar en servidor o
+ * soltar el filtro instantaneo.
+ */
+import { posts, categoriasConPosts, destacado, fechaLarga, fechaIso } from '../lib/blog';
+import '../styles/blog.css';
+
+interface Props {
+  /** 'todo' o el slug de una categoria. */
+  activa: string;
+  titulo: string;
+  intro: string;
+}
+
+const { activa, titulo, intro } = Astro.props;
+
+const esTodo = activa === 'todo';
+const oculta = (slugPost: string, slugCat: string) =>
+  esTodo ? slugPost === destacado.slug : slugCat !== activa;
+
+const chips = [
+  { slug: 'todo', nombre: 'All', total: posts.length, href: '/resources/blog', titulo: 'Blog & Tips | Pergola Plus Florida' },
+  ...categoriasConPosts.map((c) => ({
+    slug: c.slug,
+    nombre: c.nombre,
+    total: c.total,
+    href: `/resources/blog/${c.slug}`,
+    titulo: `${c.nombre} | Pergola Plus Florida Blog`,
+  })),
+];
+---
+
+<header class="header-page">
+  <div class="w-layout-blockcontainer container w-container">
+    <div data-w-id="15b709b4-f6d7-0064-6f7b-160d6783adab" class="wrapper-hero-page">
+      <h1>{titulo}</h1>
+      <div>{intro}</div>
+    </div>
+  </div>
+</header>
+
+<section class="body-page" id="pp-blog">
+  {/* Destacado. Conserva las clases migradas pero NO el style="opacity:0" en linea
+      que traia: ese es justo el que dejaba el bloque invisible sin JS. */}
+  <div class="section-blog-featured" id="pp-destacado" hidden={!esTodo}>
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="blog-featured_layout">
+        <div class="blog-featured_grid">
+          <div class="blog-featured_column">
+            <img
+              src={destacado.principal.src}
+              alt={destacado.altPrincipal}
+              width={destacado.principal.width ?? undefined}
+              height={destacado.principal.height ?? undefined}
+              class="blog-featured_image"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="blog-featured_column" data-pp-reveal>
+            <div class="blog-featured_category">
+              <div>{destacado.categoria.nombre}</div>
+            </div>
+            <h2>{destacado.tituloLargo}</h2>
+            <div class="pp-meta">
+              <span class="pp-dato">
+                <time datetime={fechaIso(destacado.publicado)}>{fechaLarga(destacado.publicado)}</time>
+              </span>
+              <span class="pp-dato">{destacado.minutos} min read</span>
+            </div>
+            <div>{destacado.resumen}</div>
+            <div class="wrapper-buttons">
+              <a href={`/post/${destacado.slug}`} class="button feature-blog w-button">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="pp-filtros" id="pp-filtros" aria-label="Blog categories">
+    <div class="pp-wrap">
+      <div class="title-deco">Filter by category</div>
+      <div class="pp-chips-scroll">
+        <ul class="pp-chips">
+          {
+            chips.map((c) => (
+              <li>
+                {/* El nombre visible y la cuenta son dos cajas flex, asi que a la
+                    vista quedan separadas pero el nombre accesible saldria pegado
+                    ("All21"). El aria-label lo desambigua y sigue conteniendo el
+                    texto visible, que es lo que pide "Label in Name". */}
+                <a
+                  href={c.href}
+                  class="pp-chip"
+                  data-cat={c.slug}
+                  data-nombre={c.nombre}
+                  data-titulo={c.titulo}
+                  aria-label={`${c.nombre}, ${c.total} ${c.total === 1 ? 'article' : 'articles'}`}
+                  aria-current={c.slug === activa ? 'page' : undefined}
+                >
+                  {c.nombre}
+                  <span class="pp-chip-n">{c.total}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="pp-grid-seccion">
+    <div class="pp-wrap">
+      <p class="pp-sr" id="pp-anuncio" role="status" aria-live="polite"></p>
+
+      <ul class="pp-grid" id="pp-grid" data-destacado={destacado.slug}>
+        {/* data-pp-reveal va en el <li>, no en la .pp-card: una animacion con fill
+            activo gana a las declaraciones normales, asi que animar transform en la
+            tarjeta anularia el translateY(-4px) del hover. */}
+        {
+          posts.map((p) => (
+            <li
+              data-cat={p.categoria.slug}
+              data-slug={p.slug}
+              hidden={oculta(p.slug, p.categoria.slug)}
+              data-pp-reveal
+            >
+              <article class="pp-card">
+                <div class="pp-card-media">
+                  <img
+                    src={p.miniatura.src}
+                    alt={p.altMiniatura}
+                    width={p.miniatura.width ?? undefined}
+                    height={p.miniatura.height ?? undefined}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div class="pp-card-cuerpo">
+                  <div class="pp-meta">
+                    <span class="pp-etiqueta">{p.categoria.nombre}</span>
+                    {/* Fecha y tiempo de lectura van en UN solo span: como items
+                        flex separados, al envolver en movil el "·" se quedaba
+                        huerfano al principio de la segunda linea. */}
+                    <span class="pp-dato">
+                      <time datetime={fechaIso(p.publicado)}>{fechaLarga(p.publicado)}</time>
+                      {` · ${p.minutos} min read`}
+                    </span>
+                  </div>
+                  <h3><a href={`/post/${p.slug}`}>{p.titulo}</a></h3>
+                  <p class="pp-card-resumen">{p.resumen}</p>
+                  {/* Decoracion: el enlace real es el titulo, y su ::after cubre la
+                      tarjeta entera. Antes esto era un <a>Read More</a> repetido 21
+                      veces con el mismo texto y 18px de alto tactil. */}
+                  <span class="pp-card-mas" aria-hidden="true">
+                    Read More
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+        {/* No hay estado vacio, y es a proposito: solo se generan rutas para las
+            categorias CON articulos, asi que ninguna vista puede quedarse sin
+            tarjetas. Ver el comentario de [categoria].astro. */}
+      </ul>
+    </div>
+  </section>
+</section>
+
+<section class="call-to-action-footer">
+  <div class="wrapper-call-to-action">
+    <div data-w-id="f00e2efe-9b56-1210-e497-b72104be4b25" class="box-call-to-action">
+      <h2>Request your free Estimate</h2>
+      <div>
+        Meet with our exterior designers for a free consultation. We'll assess your space
+        and goals to plan the installation of pergolas, patio covers, or pool enclosures.
+      </div>
+      {/* Los dos href="#" vienen asi del sitio original y estan igual en las otras 99
+          paginas. Arreglarlos solo aqui dejaria el sitio incoherente: es un cambio
+          global, no de esta pagina. */}
+      <div class="process-cta">
+        <a href="#" class="button w-button">Get A Quote</a>
+        <a href="#" class="button secundary w-button">Schedule A Visit</a>
+      </div>
+    </div>
+  </div>
+  <img
+    sizes="(max-width: 2000px) 100vw, 2000px"
+    srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
+    alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties."
+    src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
+    loading="lazy"
+    class="image-call-to-action"
+  />
+</section>
+
+<style is:global>
+  /* Solo visible para lectores de pantalla. El resto del CSS vive en blog.css;
+     esto se queda aqui porque es de la mecanica del filtro, no del diseno. */
+  .pp-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  // Filtro instantaneo + reveal por scroll.
+  //
+  // El filtro SOLO alterna el atributo `hidden` sobre nodos que ya estan en el DOM.
+  // Nunca crea, mueve ni reemplaza nada: si lo hiciera, IX2 (que ya se enlazo al
+  // cargar el documento) dejaria los nodos nuevos congelados.
+  //
+  // Sin este script la pagina sigue funcionando: el servidor ya manda el `hidden`
+  // correcto en cada ruta y los chips son enlaces de verdad.
+  const grid = document.getElementById('pp-grid');
+  const filtros = document.getElementById('pp-filtros');
+
+  if (grid && filtros) {
+    const destacadoBloque = document.getElementById('pp-destacado');
+    const anuncio = document.getElementById('pp-anuncio');
+    const slugDestacado = grid.dataset.destacado;
+    const tarjetas = Array.from(grid.querySelectorAll<HTMLLIElement>('li[data-slug]'));
+    const chips = Array.from(filtros.querySelectorAll<HTMLAnchorElement>('.pp-chip'));
+
+    const aplicar = (activa: string, anunciar: boolean) => {
+      for (const li of tarjetas) {
+        li.hidden = activa === 'todo' ? li.dataset.slug === slugDestacado : li.dataset.cat !== activa;
+      }
+      if (destacadoBloque) destacadoBloque.hidden = activa !== 'todo';
+
+      let nombre = 'All';
+      for (const a of chips) {
+        const esActiva = a.dataset.cat === activa;
+        if (esActiva) {
+          a.setAttribute('aria-current', 'page');
+          nombre = a.dataset.nombre ?? nombre;
+          if (a.dataset.titulo) document.title = a.dataset.titulo;
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      }
+
+      if (anunciar && anuncio) {
+        const n = tarjetas.filter((li) => !li.hidden).length;
+        anuncio.textContent = `${n} ${n === 1 ? 'article' : 'articles'} in ${nombre}`;
+      }
+    };
+
+    const deLaUrl = () => {
+      const m = location.pathname.match(/^\/resources\/blog\/([^/]+)\/?$/);
+      return m ? m[1]! : 'todo';
+    };
+
+    filtros.addEventListener('click', (e) => {
+      const evento = e as MouseEvent;
+      if (evento.metaKey || evento.ctrlKey || evento.shiftKey || evento.altKey) return;
+      const a = (evento.target as Element | null)?.closest<HTMLAnchorElement>('.pp-chip');
+      if (!a?.dataset.cat) return;
+      evento.preventDefault();
+      aplicar(a.dataset.cat, true);
+      history.pushState({ cat: a.dataset.cat }, '', a.getAttribute('href'));
+    });
+
+    addEventListener('popstate', () => aplicar(deLaUrl(), true));
+  }
+  // La entrada por scroll NO esta aqui: es CSS puro (animation-timeline) en
+  // blog.css. Asi no hay ningun estado en el que un fallo de JS deje las tarjetas
+  // invisibles, que es justo el bug que traia el markup migrado.
+</script>

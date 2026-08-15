@@ -2,15 +2,28 @@
 /**
  * Fase 1 / PROMPT 0 — extrae Nav y Footer a componentes Astro.
  *
- * Verificado por hash antes de hacer esto:
- *   - el <nav> es identico en las 34 paginas salvo el marcador w--current
- *   - el <footer> es byte-identico en todas (unico delta: data-wf-page-id)
- * Asi que son un componente cada uno, sin props de contenido.
+ * ############################################################################
+ * # RETIRADO. ESTE SCRIPT YA NO GENERA EL SHELL.                             #
+ * ############################################################################
  *
- * El estado activo NO puede ir fijo: se calcula comparando cada href contra
- * Astro.url.pathname.
+ * Desde el rediseno del menu, `src/components/Nav.astro` y
+ * `src/components/Footer.astro` son codigo DE AUTORIA PROPIA, no markup
+ * migrado. Un menu redisenado ya no es una extraccion de `index.html`.
  *
- *   node scripts/generar-shell.mjs
+ * Lo que cambio y por que no se puede volver a extraer:
+ *   - el nav lleva enlaces "View all products/services" y "Project Estimator"
+ *     que no existen en el export
+ *   - se retiraron las 4 apps de Elfsight (el traductor vivia en el footer)
+ *   - el CSS del menu vive aparte, en `src/styles/menu.css`
+ *
+ * Correr esto sobrescribiria los dos componentes y se llevaria por delante todo
+ * lo anterior, en silencio. Por eso ahora exige --regenerar-shell y avisa.
+ *
+ * Lo que SIGUE valiendo de aqui: los limites verificados sobre index.html y las
+ * comprobaciones de data-w-id. Se conserva por trazabilidad y por si hace falta
+ * volver a mirar el original.
+ *
+ *   node scripts/generar-shell.mjs --regenerar-shell   # DESTRUCTIVO
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -18,6 +31,22 @@ import { transformar } from './lib/transformar.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const EXPORT = '/Users/senavia/Downloads/Webflow Pergola Plus Florida';
+
+// Guarda: Nav.astro y Footer.astro son de autoria propia desde el rediseno del
+// menu. Sin el flag esto no escribe nada (ver la cabecera del archivo).
+if (!process.argv.includes('--regenerar-shell')) {
+  console.error(`
+  generar-shell.mjs esta RETIRADO.
+
+  Nav.astro y Footer.astro ya no se generan: son codigo nuestro desde el
+  rediseno del menu. Correr esto los sobrescribiria y perderias el rediseno,
+  los enlaces "View all", "Project Estimator" y la retirada de Elfsight.
+
+  Si de verdad quieres volver al markup del export:
+      node scripts/generar-shell.mjs --regenerar-shell
+`);
+  process.exit(1);
+}
 
 const html = await fs.readFile(path.join(EXPORT, 'index.html'), 'utf8');
 const lineas = html.split('\n');

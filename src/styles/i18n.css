@@ -1,0 +1,42 @@
+/* =============================================================================
+   Ajustes tipográficos por idioma
+   =============================================================================
+
+   El CSS migrado de Webflow aplica `text-transform: capitalize` en 17 sitios,
+   entre ellos h1, h2 y h3. En inglés eso produce Title Case, que es correcto
+   para titulares. En español NO: solo van en mayúscula la primera palabra y los
+   nombres propios.
+
+   Sin esto, la home española renderiza
+       «Contratistas De Pérgolas Y Cubiertas De Patio Del Sur De Florida»
+   con «De», «Y» y «Del» en mayúscula, que es una falta de ortografía en cada
+   titular de la página.
+
+   Se enumeran los selectores en vez de usar `* { text-transform: none }` porque
+   eso también mataría los `uppercase` deliberados (las etiquetas de sección del
+   menú y del estimador), que sí deben seguir en mayúsculas.
+
+   `.nav-submenu-title` se deja fuera a propósito: menu.css lo pone en
+   `uppercase` como etiqueta de sección, y ahí el idioma da igual.
+   ============================================================================= */
+
+html[lang="es"] :is(
+  h1,
+  h2,
+  h3,
+  .button,
+  .button-3,
+  .button-4,
+  .button-styles,
+  .button-cta,
+  .heading-submenu,
+  .heading-link-submenu,
+  .text-link-submenu,
+  .title-deco,
+  .title-deco-hero,
+  .title-cta-form,
+  .text-item-kpis,
+  .text-color
+) {
+  text-transform: none;
+}

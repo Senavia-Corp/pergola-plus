@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import htmlOriginal from '../../contenido-migrado/estaticas/index.html?raw';
+import { traducirHtml } from '../../i18n';
+import { HOME_ES } from '../../i18n/home.es';
+
+// Home en español.
+//
+// NO es una copia del HTML: se reutiliza el markup del export y se sustituyen
+// solo los nodos de texto (ver src/i18n/index.ts). Con eso los `data-w-id`, el
+// bloque anti-FOUC, las imágenes y las clases quedan intactos, así que las
+// interacciones IX2 funcionan igual que en la home inglesa — y cualquier cambio
+// de maquetación en el original llega solo a las dos versiones.
+//
+// wfPage/wfSite son los MISMOS que la home inglesa a propósito: son la llave con
+// la que IX2 resuelve los ids page-scoped (los que llevan "|"), y esta página
+// usa exactamente esos elementos.
+
+const { html, traducidas, faltan } = traducirHtml(htmlOriginal, HOME_ES);
+
+// El build avisa de lo que se quedó sin traducir en vez de dejarlo pasar en
+// silencio. No rompe la build: una cadena sin traducir sale en inglés, que es
+// degradado aceptable; una build rota, no.
+if (faltan.length) {
+  console.warn(`\n  [i18n] /es/ — ${traducidas} cadenas traducidas, ${faltan.length} SIN traducir:`);
+  for (const f of faltan) console.warn(`         · ${f.slice(0, 100)}`);
+}
+
+const PAGE_STYLES =
+  '@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="9e6cd8cc-1a46-44d5-b687-f5405cbfa2df"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="9e6cd8cc-1a46-44d5-b687-f5405cbfa2df"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="9e6cd8cc-1a46-44d5-b687-f5405cbfa2df"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id="9e6cd8cc-1a46-44d5-b687-f5405cbfa2df"] {opacity:0;}}';
+---
+
+<BaseLayout
+  title="Pergola Plus Florida | Pérgolas a medida y vida al aire libre"
+  description="Contratista de pérgolas con licencia en el sur de Florida. Pérgolas de lamas motorizadas, cubiertas de patio y estructuras exteriores a medida. Más de 10 años de experiencia. Presupuesto gratis."
+  wfPage="6903b77b4d5df3d76a7a25a2"
+  wfSite="6903b7794d5df3d76a7a2488"
+  pageStyles={PAGE_STYLES}
+>
+  <Fragment set:html={html} />
+
+  {/* Aviso honesto: el resto del sitio sigue en inglés. Vale más decirlo que
+      dejar que el visitante lo descubra al segundo clic. Se retira en cuanto
+      estén traducidas las páginas interiores. */}
+  <section class="aviso-idioma">
+    <div class="w-layout-blockcontainer container w-container">
+      <p>
+        Por ahora solo esta página está en español; el resto del sitio está en inglés.
+        Si prefiere que le atendamos en español, escríbanos por
+        <a href="https://wa.me/15617108363" target="_blank" rel="noopener">WhatsApp</a>
+        o llámenos al <a href="tel:+15617108363">(561) 710-8363</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .aviso-idioma {
+    background-color: var(--secundary);
+    border-top: 1px solid #3a545b26;
+    padding: 1.25rem 2rem;
+  }
+
+  .aviso-idioma p {
+    color: var(--terceary);
+    max-width: 780px;
+    margin: 0 auto;
+    font-size: 13.5px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .aviso-idioma a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>

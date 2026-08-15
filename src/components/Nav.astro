@@ -1,13 +1,63 @@
 ---
-// Nav — extraido de index.html (lineas 37-374) por scripts/generar-shell.mjs.
-// NO editar a mano: se regenera. Verificado identico en las 34 paginas del
-// export salvo el marcador de pagina activa.
+// Nav — CODIGO DE AUTORIA PROPIA. Se edita a mano.
 //
-// Los data-w-id se conservan tal cual: son la llave de las interacciones de
-// webflow.js (menu movil, los 2 dropdowns). Borrar uno mata su animacion en
-// silencio.
+// Nacio como extraccion de index.html via scripts/generar-shell.mjs, pero desde
+// el rediseno del menu ya no se genera: ese script esta retirado tras el flag
+// --regenerar-shell y sobrescribir este archivo perderia el rediseno.
+//
+// Los data-w-id se conservan TAL CUAL. Los 18 de los .submenu-item son 18 pares
+// MOUSE_OVER/MOUSE_OUT con mediaQueries:["main"] que intercambian la imagen de
+// preview del mega-menu: son las UNICAS interacciones de hover de todo el sitio.
+// El 19o (...dd88df62, en <nav class="menu">) lleva PAGE_SCROLL_DOWN +
+// SCROLL_INTO_VIEW en los 4 breakpoints. Borrar uno mata su animacion en
+// silencio, sin error.
+//
+// Lo que NO hay que tocar: la estructura w-dropdown / w-dropdown-toggle /
+// w-dropdown-list y las clases w-nav*. La apertura de los paneles y del menu
+// movil la hacen los modulos `dropdown` y `navbar` de webflow.js apoyandose en
+// esas clases; no es IX2 (no existen eventos DROPDOWN_OPEN ni NAVBAR_OPEN en la
+// configuracion de este sitio).
+import '../styles/menu.css';
+import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
+import { traductor } from '../i18n/shell';
+
 const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+const idioma = idiomaDeRuta(Astro.url.pathname);
+const t = traductor(idioma);
 const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href || ruta.startsWith(href + '/'));
+
+// Los enlaces "View all" apuntan a la pagina indice, asi que quieren coincidencia
+// EXACTA: estando en /products/cabanas la seccion esta activa, pero "View all
+// products" no lo esta.
+const esExacta = (href: string) => ruta === href;
+
+// --- Selector de idioma -----------------------------------------------------
+// Las banderas van INLINE y dibujadas aqui a proposito. public/images/En.svg y
+// Sp.svg no valen: no traen ni bloque <style> ni atributos fill, asi que todos
+// sus paths heredarian negro y se verian como dos rectangulos negros. Ademas
+// Sp.svg pesa 113 KB por un escudo de 481 paths que a 22 px no se ve. Estas dos
+// pesan ~300 bytes y llevan el color puesto por construccion.
+//
+// Sin clipPath: dos instancias del mismo SVG en la pagina duplicarian el id. El
+// recorte circular lo hace el CSS con border-radius + overflow en el <span>.
+const BANDERA_EN = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
+  <rect width="24" height="24" fill="#fff"/>
+  <g fill="#b22234"><rect width="24" height="1.85"/><rect y="3.7" width="24" height="1.85"/><rect y="7.4" width="24" height="1.85"/><rect y="11.1" width="24" height="1.85"/><rect y="14.8" width="24" height="1.85"/><rect y="18.5" width="24" height="1.85"/><rect y="22.2" width="24" height="1.85"/></g>
+  <rect width="10.5" height="9.25" fill="#3c3b6e"/>
+  <g fill="#fff"><circle cx="2.2" cy="2" r=".75"/><circle cx="5.3" cy="2" r=".75"/><circle cx="8.4" cy="2" r=".75"/><circle cx="3.7" cy="4.6" r=".75"/><circle cx="6.8" cy="4.6" r=".75"/><circle cx="2.2" cy="7.2" r=".75"/><circle cx="5.3" cy="7.2" r=".75"/><circle cx="8.4" cy="7.2" r=".75"/></g>
+</svg>`;
+const BANDERA_ES = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
+  <rect width="24" height="24" fill="#c60b1e"/><rect y="6" width="24" height="12" fill="#ffc400"/>
+</svg>`;
+
+// Los nombres van SIEMPRE en su propio idioma, nunca traducidos.
+// El destino lo calcula rutaEnIdioma(): hoy en español solo existe la home, y
+// cuando haya más páginas traducidas ese es el único sitio que hay que tocar.
+const IDIOMAS = [
+  { codigo: 'EN', lang: 'en', nombre: 'English', href: rutaEnIdioma(Astro.url.pathname, 'en'), bandera: BANDERA_EN, activo: idioma === 'en' },
+  { codigo: 'ES', lang: 'es', nombre: 'Español', href: rutaEnIdioma(Astro.url.pathname, 'es'), bandera: BANDERA_ES, activo: idioma === 'es' },
+];
+const idiomaActual = IDIOMAS.find((i) => i.activo)!;
 ---
   <nav data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df62" class="menu">
     <div data-animation="over-right" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
@@ -17,92 +67,92 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
           <div class="wrapper-nav-menu">
             <a href="#" class="wrapper-box-call w-inline-block"><img loading="lazy" src="/images/phone.svg" alt="" class="icon-phone">
               <div class="div-block-call">
-                <div class="heading-call">Call Us!</div>
+                <div class="heading-call">{t('callUs')}</div>
                 <div class="phone-call">(561) 710-8363</div>
               </div>
             </a>
             <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
               <div class="nav-link dropdown-toggle w-dropdown-toggle">
-                <div>Our Products</div>
+                <div>{t('ourProducts')}</div>
                 <div class="icon w-icon-dropdown-toggle"></div>
               </div>
               <nav class="dropdown-list-products w-dropdown-list">
                 <div class="wrapper-submenu">
                   <div class="block-submenu">
-                    <div class="nav-submenu-title">Pérgolas &amp; Patio Coves</div>
+                    <div class="nav-submenu-title">{t('grupoPergolas')}</div>
                     <ul role="list" class="list">
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df7e" href="/products/motorized-louvered-pergolas" class:list={["submenu-item is-1 w-inline-block", { "w--current": esActiva("/products/motorized-louvered-pergolas") }]}  aria-current={esActiva("/products/motorized-louvered-pergolas") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Motorized Louvered Pergolas</div>
+                            <div class="heading-submenu">{t('motorizedLouvered')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df85" href="/products/solid-roof-pergolas" class:list={["submenu-item is-2 w-inline-block", { "w--current": esActiva("/products/solid-roof-pergolas") }]}  aria-current={esActiva("/products/solid-roof-pergolas") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Solid Roof Pergolas</div>
+                            <div class="heading-submenu">{t('solidRoof')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df8c" href="/products/polycarbonate-pergolas" class:list={["submenu-item is-3 w-inline-block", { "w--current": esActiva("/products/polycarbonate-pergolas") }]}  aria-current={esActiva("/products/polycarbonate-pergolas") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Polycarbonate Pergolas</div>
+                            <div class="heading-submenu">{t('polycarbonate')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df93" href="/products/open-air-pergolas" class:list={["submenu-item is-4 w-inline-block", { "w--current": esActiva("/products/open-air-pergolas") }]}  aria-current={esActiva("/products/open-air-pergolas") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Open-Air Pergolas</div>
+                            <div class="heading-submenu">{t('openAir')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df9a" href="/products/cabanas" class:list={["submenu-item is-5 w-inline-block", { "w--current": esActiva("/products/cabanas") }]}  aria-current={esActiva("/products/cabanas") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Cabanas</div>
+                            <div class="heading-submenu">{t('cabanas')}</div>
                           </div>
                         </a>
                       </li>
                     </ul>
                   </div>
                   <div class="block-submenu">
-                    <div class="nav-submenu-title">Outdoor Enclosures &amp; Systems</div>
+                    <div class="nav-submenu-title">{t('grupoCerramientos')}</div>
                     <ul role="list" class="list">
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfa5" href="/products/screen-enclosures" class:list={["submenu-item is-6 w-inline-block", { "w--current": esActiva("/products/screen-enclosures") }]}  aria-current={esActiva("/products/screen-enclosures") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Screen Enclosures</div>
+                            <div class="heading-submenu">{t('screenEnclosures')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfac" href="/products/motorized-screens" class:list={["submenu-item is-7 w-inline-block", { "w--current": esActiva("/products/motorized-screens") }]}  aria-current={esActiva("/products/motorized-screens") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Motorized Screens</div>
+                            <div class="heading-submenu">{t('motorizedScreens')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfb3" href="/products/carports" class:list={["submenu-item is-8 w-inline-block", { "w--current": esActiva("/products/carports") }]}  aria-current={esActiva("/products/carports") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Carports</div>
+                            <div class="heading-submenu">{t('carports')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfba" href="/products/solar-pergolas" class:list={["submenu-item is-9 w-inline-block", { "w--current": esActiva("/products/solar-pergolas") }]}  aria-current={esActiva("/products/solar-pergolas") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Solar Pergolas</div>
+                            <div class="heading-submenu">{t('solar')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfc1" href="/products/sukkha" class:list={["submenu-item is-10 w-inline-block", { "w--current": esActiva("/products/sukkha") }]}  aria-current={esActiva("/products/sukkha") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Sukkha</div>
+                            <div class="heading-submenu">{t('sukkha')}</div>
                           </div>
                         </a>
                       </li>
@@ -110,78 +160,82 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                   </div>
                   <div class="block-submenu-view-products">
                     <div class="preview-wrapper-products"><img loading="lazy" src="/images/pergola-contractors-south-florida.avif" alt="South Florida pergola contractors specializing in custom aluminum pergolas and motorized louvered roof systems. Licensed, engineered, design-build solutions for luxury properties." class="preview-image-cover"><img loading="lazy" src="/images/louvered-roof-pergolas-south-florida.avif" alt="Custom louvered roof pergolas designed and installed in South Florida. Motorized, engineered systems built for luxury homes and commercial properties." class="preview-image is-1"><img loading="lazy" src="/images/insulated-roof-pergolas-south-florida.avif" alt="High-performance insulated roof pergolas for South Florida homes. Engineered aluminum systems designed for heat control, durability, and long-term value." class="preview-image is-2"><img loading="lazy" src="/images/polycarbonate-pergolas-south-florida.avif" alt="Custom polycarbonate pergola systems designed for natural light and weather protection. Professionally installed throughout South Florida." class="preview-image is-3"><img loading="lazy" src="/images/open-air-pergolas-south-florida.avif" alt="Modern open-air aluminum pergolas designed for outdoor living in South Florida. Custom-built structures for luxury residential properties." class="preview-image is-4"><img loading="lazy" src="/images/custom-cabanas-south-florida.avif" alt="Custom-designed cabanas built for pools and outdoor spaces in South Florida. Engineered structures tailored to high-end residential environments." class="preview-image is-5"><img loading="lazy" src="/images/screen-enclosures-south-florida.avif" alt="Professionally installed screen enclosures for patios and outdoor living areas in South Florida. Designed for comfort, durability, and seamless integration." class="preview-image is-6"><img loading="lazy" src="/images/motorized-screens-south-florida.avif" alt="Motorized screen systems designed for pergolas and outdoor spaces in South Florida. Automated comfort, privacy, and insect protection." class="preview-image is-7"><img loading="lazy" src="/images/aluminum-carports-south-florida.avif" alt="Custom aluminum carports designed and built in South Florida. Engineered structures for residential and select commercial applications." class="preview-image is-8"><img loading="lazy" src="/images/solar-roof-structures-south-florida.avif" alt="Engineered solar roof structures combining shade and energy solutions. Custom-designed aluminum systems for South Florida properties." class="preview-image is-9"><img loading="lazy" src="/images/sukkha-3000-louvered-pergola-system.avif" alt="Sukkha 3000 louvered pergola system professionally installed in South Florida. A premium motorized solution for modern outdoor living." class="preview-image is-10"></div>
+                    <a
+                      href="/products"
+                      class:list={["ver-todo", { "w--current": esExacta("/products") }]}
+                      aria-current={esExacta("/products") ? "page" : undefined}>{t('verTodosProductos')}<svg class="ver-todo-flecha" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
                   </div>
                 </div>
               </nav>
             </div>
             <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
               <div class="nav-link dropdown-toggle w-dropdown-toggle">
-                <div>Our Services</div>
+                <div>{t('ourServices')}</div>
                 <div class="icon w-icon-dropdown-toggle"></div>
               </div>
               <nav class="dropdown-list-services w-dropdown-list">
                 <div class="wrapper-submenu">
                   <div class="block-submenu">
-                    <div class="nav-submenu-title">Hardscape &amp; Construction</div>
+                    <div class="nav-submenu-title">{t('grupoHardscape')}</div>
                     <ul role="list" class="list">
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfe0" href="/services/pergola-design-construction" class:list={["submenu-item is-1 w-inline-block", { "w--current": esActiva("/services/pergola-design-construction") }]}  aria-current={esActiva("/services/pergola-design-construction") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Custom Pergolas &amp; Patio Covers</div>
+                            <div class="heading-submenu">{t('customPergolas')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfe7" href="/services/pavers" class:list={["submenu-item is-2 w-inline-block", { "w--current": esActiva("/services/pavers") }]}  aria-current={esActiva("/services/pavers") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Pavers</div>
+                            <div class="heading-submenu">{t('pavers')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfee" href="/services/driveways" class:list={["submenu-item is-3 w-inline-block", { "w--current": esActiva("/services/driveways") }]}  aria-current={esActiva("/services/driveways") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Driveways</div>
+                            <div class="heading-submenu">{t('driveways')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dff5" href="/services/concrete" class:list={["submenu-item is-4 w-inline-block", { "w--current": esActiva("/services/concrete") }]}  aria-current={esActiva("/services/concrete") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Concrete</div>
+                            <div class="heading-submenu">{t('concrete')}</div>
                           </div>
                         </a>
                       </li>
                     </ul>
                   </div>
                   <div class="block-submenu">
-                    <div class="nav-submenu-title">Outdoor Enhancements</div>
+                    <div class="nav-submenu-title">{t('grupoExteriores')}</div>
                     <ul role="list" class="list">
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88e000" href="/services/deck-builders" class:list={["submenu-item is-5 w-inline-block", { "w--current": esActiva("/services/deck-builders") }]}  aria-current={esActiva("/services/deck-builders") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Deck </div>
+                            <div class="heading-submenu">{t('deck')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88e007" href="/services/fence-solutions" class:list={["submenu-item is-6 w-inline-block", { "w--current": esActiva("/services/fence-solutions") }]}  aria-current={esActiva("/services/fence-solutions") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Fence</div>
+                            <div class="heading-submenu">{t('fence')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88e00e" href="/services/patio-remodeling" class:list={["submenu-item is-7 w-inline-block", { "w--current": esActiva("/services/patio-remodeling") }]}  aria-current={esActiva("/services/patio-remodeling") ? "page" : undefined}>
                           <div>
-                            <div class="heading-submenu">Full Outdoor Remodel</div>
+                            <div class="heading-submenu">{t('fullRemodel')}</div>
                           </div>
                         </a>
                       </li>
                       <li>
                         <a data-w-id="e3bb8397-af45-2730-f4b9-60600b55ee46" href="#" class="submenu-item is-7 w-inline-block">
                           <div>
-                            <div class="heading-submenu">Landscaping</div>
+                            <div class="heading-submenu">{t('landscaping')}</div>
                           </div>
                         </a>
                       </li>
@@ -189,14 +243,18 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                   </div>
                   <div class="block-submenu-view">
                     <div class="preview-wrapper"><img loading="lazy" src="/images/outdoor-living-services.avif" alt="outdoor living contractors, patio remodeling South Florida, outdoor patio renovation, custom outdoor spaces Florida" class="preview-image-cover"><img loading="lazy" src="/images/pergola-design-construction-custom-aluminum-south-florida.avif" alt="Custom-designed aluminum pergola installed in a South Florida backyard with precision construction and clean lines." class="preview-image is-1"><img loading="lazy" src="/images/paver-patio-installation-south-florida.avif" alt="Professional paver patio installation in South Florida featuring clean patterns and durable materials." class="preview-image is-2"><img loading="lazy" src="/images/driveway-installation-south-florida.avif" alt="Residential driveway installation in South Florida built for durability, clean edges, and curb appeal." class="preview-image is-3"><img loading="lazy" src="/images/concrete-patio-slab-installation-south-florida.avif" alt="Concrete patio and slab installation in South Florida with smooth finishes and precise craftsmanship." class="preview-image is-4"><img loading="lazy" src="/images/custom-outdoor-deck-builder-south-florida.avif" alt="Custom outdoor deck construction in South Florida designed for durability and outdoor living comfort." class="preview-image is-5"><img loading="lazy" src="/images/residential-fence-installation-south-florida.avif" alt="Professional residential fence installation in South Florida for privacy, safety, and clean design." class="preview-image is-6"><img loading="lazy" src="/images/patio-remodeling-project-south-florida.avif" alt="Patio remodeling project in South Florida transforming outdoor spaces with modern design and finishes." class="preview-image is-7"></div>
+                    <a
+                      href="/services"
+                      class:list={["ver-todo", { "w--current": esExacta("/services") }]}
+                      aria-current={esExacta("/services") ? "page" : undefined}>{t('verTodosServicios')}<svg class="ver-todo-flecha" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
                   </div>
                 </div>
               </nav>
             </div>
-            <a href="/project-gallery" class:list={["nav-link w-nav-link", { "w--current": esActiva("/project-gallery") }]}  aria-current={esActiva("/project-gallery") ? "page" : undefined}>Project Gallery</a>
+            <a href="/project-gallery" class:list={["nav-link w-nav-link", { "w--current": esActiva("/project-gallery") }]}  aria-current={esActiva("/project-gallery") ? "page" : undefined}>{t('projectGallery')}</a>
             <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
               <div class="nav-link dropdown-toggle w-dropdown-toggle">
-                <div>About Us</div>
+                <div>{t('aboutUs')}</div>
                 <div class="icon w-icon-dropdown-toggle"></div>
               </div>
               <nav class="dropdown-list-mini w-dropdown-list">
@@ -205,8 +263,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/1_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">About Us</div>
-                        <div class="paragraph-link-submenu">Learn why we are the leading pergola contractors in South Florida for families.</div>
+                        <div class="heading-link-submenu">{t('aboutUsTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('aboutUsTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -214,8 +272,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/4.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Where We Work</div>
-                        <div class="paragraph-link-submenu">The service areas covered by expert pergola contractors in South Florida today.</div>
+                        <div class="heading-link-submenu">{t('whereWeWorkTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('whereWeWorkTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -223,8 +281,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/2_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Our Brand Partners</div>
-                        <div class="paragraph-link-submenu">Premium brands trusting the best pergola contractors in South Florida for home.</div>
+                        <div class="heading-link-submenu">{t('brandsTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('brandsTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -232,8 +290,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/3_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Industries We Serve</div>
-                        <div class="paragraph-link-submenu">Key sectors served by professional pergola contractors in South Florida always.</div>
+                        <div class="heading-link-submenu">{t('industriesTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('industriesTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -242,7 +300,7 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
             </div>
             <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
               <div class="nav-link dropdown-toggle w-dropdown-toggle">
-                <div>Resources</div>
+                <div>{t('resources')}</div>
                 <div class="icon w-icon-dropdown-toggle"></div>
               </div>
               <nav class="dropdown-list-mini w-dropdown-list">
@@ -251,8 +309,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/5.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Outdoor Living Blog</div>
-                        <div class="paragraph-link-submenu">Expert insights from leading pergola contractors in South Florida for your home.</div>
+                        <div class="heading-link-submenu">{t('blogTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('blogTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -260,8 +318,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/6.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Help Center &amp; FAQs</div>
-                        <div class="paragraph-link-submenu">Detailed answers from the top pergola contractors in South Florida for projects.</div>
+                        <div class="heading-link-submenu">{t('faqTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('faqTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -269,8 +327,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/7.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Warranty &amp; Protection</div>
-                        <div class="paragraph-link-submenu">Solid protection from trusted pergola contractors in South Florida you can rely.</div>
+                        <div class="heading-link-submenu">{t('warrantyTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('warrantyTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -278,8 +336,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/8.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Client Success Stories</div>
-                        <div class="paragraph-link-submenu">See why we are the top-rated pergola contractors in South Florida for luxury.</div>
+                        <div class="heading-link-submenu">{t('testimonialsTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('testimonialsTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -288,17 +346,19 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
             </div>
             <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
               <div class="nav-link dropdown-toggle w-dropdown-toggle">
-                <div>Contact Us</div>
+                <div>{t('contactUs')}</div>
                 <div class="icon w-icon-dropdown-toggle"></div>
               </div>
               <nav class="dropdown-list-mini w-dropdown-list">
                 <div class="wrapper-submenu-mini">
-                  <a href="/contact-us/schedule-a-visit" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>
+                  {/* Ordenado por compromiso ASCENDENTE: el estimador no pide
+                      datos, la cotizacion si, y la visita pide una cita. */}
+                  <a href="/project-estimator" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/project-estimator") }]}  aria-current={esActiva("/project-estimator") ? "page" : undefined}>
                     <div class="wrapper-submenu-link">
-                      <div class="block-icon-submenu"><img src="/images/10.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div class="block-icon-submenu"><img src="/images/project-estimator.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Schedule an Expert Visit</div>
-                        <div class="paragraph-link-submenu">Book a consultation with expert pergola contractors in South Florida for homes.</div>
+                        <div class="heading-link-submenu">{t('estimatorTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('estimatorTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -306,8 +366,17 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/9.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Request a Free Quote</div>
-                        <div class="paragraph-link-submenu">Get a free estimate from professional pergola contractors in South Florida now.</div>
+                        <div class="heading-link-submenu">{t('quoteTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('quoteTexto')}</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/contact-us/schedule-a-visit" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/10.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">{t('visitTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('visitTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -315,8 +384,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/12.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>
-                        <div class="heading-link-submenu">Contact Our Team</div>
-                        <div class="paragraph-link-submenu">Contact the leading pergola contractors in South Florida for custom designs.</div>
+                        <div class="heading-link-submenu">{t('touchTitulo')}</div>
+                        <div class="paragraph-link-submenu">{t('touchTexto')}</div>
                       </div>
                     </div>
                   </a>
@@ -324,8 +393,8 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
               </nav>
             </div>
             <div class="nav-button">
-              <a href="/contact-us/get-a-quote" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/get-a-quote") }]}  aria-current={esActiva("/contact-us/get-a-quote") ? "page" : undefined}>Get a Quote</a>
-              <a href="/contact-us/schedule-a-visit" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>Schedule A Visit</a>
+              <a href="/contact-us/get-a-quote" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/get-a-quote") }]}  aria-current={esActiva("/contact-us/get-a-quote") ? "page" : undefined}>{t('getAQuote')}</a>
+              <a href="/contact-us/schedule-a-visit" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>{t('scheduleAVisit')}</a>
               <a href="tel:+15617108363" class="block-call-menu w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewbox="0 0 32 32" app="ikonik" class="ikonik-icxtx">
                   <rect fill="none" width="32" height="32" app="ikonik"></rect>
                   <path d="M20.33,21.48l2.24-2.24a2.19,2.19,0,0,1,2.34-.48l2.73,1.09a2.18,2.18,0,0,1,1.36,2v5A2.17,2.17,0,0,1,26.72,29C7.59,27.81,3.73,11.61,3,5.41A2.17,2.17,0,0,1,5.17,3H10a2.16,2.16,0,0,1,2,1.36l1.09,2.73a2.16,2.16,0,0,1-.47,2.34l-2.24,2.24S11.67,20.4,20.33,21.48Z" app="ikonik"></path>
@@ -341,9 +410,243 @@ const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href 
             </a>
           </div>
         </nav>
+        {/* Selector de idioma. UNA sola instancia, colocada entre el nav-menu y
+            la hamburguesa dentro de .wrapper-menu (que es flex). Con eso cae
+            sola donde toca en los dos breakpoints:
+              >=992px  el nav-menu ocupa el ancho, asi que queda al final de la
+                       fila, a la derecha de los CTA y tras un divisor.
+              <=991px  el nav-menu se va a panel fijo fuera de flujo, asi que la
+                       fila queda logo + selector + hamburguesa: visible SIN
+                       abrir el menu, que es justo lo que necesita alguien que
+                       llega y no entiende la pagina.
+            Nada de duplicar markup por breakpoint. */}
+        <div class="idioma" data-idioma>
+          <button
+            type="button"
+            class="idioma-boton"
+            id="idioma-boton"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="idioma-lista"
+            aria-label={`${t('cambiarIdioma')} ${idiomaActual.nombre}`}>
+            <span class="idioma-bandera" set:html={idiomaActual.bandera} />
+            <span class="idioma-codigo">{idiomaActual.codigo}</span>
+            <svg class="idioma-chevron" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          {/* Enlaces reales, no un listbox: son destinos, no valores que se
+              eligen. Asi funcionan sin JS, admiten abrir en pestana nueva y el
+              hreflang es valido. El brief pedia aria-haspopup="listbox", pero
+              anunciar enlaces como opciones de un listbox enganaria al lector de
+              pantalla. Las flechas se manejan igual desde el teclado. */}
+          <ul class="idioma-lista" id="idioma-lista" hidden>
+            {IDIOMAS.map((i) => (
+              <li>
+                <a
+                  href={i.href}
+                  lang={i.lang}
+                  hreflang={i.lang}
+                  class:list={['idioma-opcion', { 'es-actual': i.activo }]}
+                  aria-current={i.activo ? 'true' : undefined}>
+                  <span class="idioma-bandera" set:html={i.bandera} />
+                  <span class="idioma-nombre">{i.nombre}</span>
+                  {i.activo && (
+                    <svg class="idioma-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                      <path d="M3 8.5l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div class="menu-button w-nav-button">
           <div class="w-icon-nav-menu"></div>
         </div>
       </div>
     </div>
   </nav>
+
+<script>
+  // Precalienta las imagenes de preview del mega-menu.
+  //
+  // El problema: las .preview-image son loading="lazy" Y display:none, asi que
+  // el navegador no las descarga NUNCA. Cuando IX2 revela una al pasar el raton
+  // por un item, la caja sale en blanco hasta que llega el fetch (medido:
+  // complete:false / naturalWidth:0 en 7 de las 10 de productos).
+  //
+  // No se puede arreglar con loading="eager": son 2,4 MB entre las 19 y se
+  // descargarian en CADA pagina. Se descargan al apuntar al desplegable, que da
+  // margen de sobra antes del primer hover, y solo a quien abre el menu.
+  //
+  // Solo en escritorio: a <=991px la columna de imagen esta oculta.
+  const anchoEscritorio = window.matchMedia('(min-width: 992px)');
+
+  for (const desplegable of document.querySelectorAll<HTMLElement>('.menu .dropdown')) {
+    const imagenes = desplegable.querySelectorAll<HTMLImageElement>('.preview-image');
+    if (!imagenes.length) continue;
+
+    const precalentar = () => {
+      if (!anchoEscritorio.matches) return;
+      for (const img of imagenes) new Image().src = img.src;
+    };
+
+    const disparador = desplegable.querySelector<HTMLElement>('.w-dropdown-toggle');
+    disparador?.addEventListener('pointerenter', precalentar, { once: true });
+    disparador?.addEventListener('focus', precalentar, { once: true });
+  }
+
+  // --- Panel móvil ----------------------------------------------------------
+  // El módulo `navbar` de Webflow abre y cierra el panel, pero no hace nada más:
+  // medido con el panel abierto en 375x812 —Escape no cerraba, la página de
+  // detrás seguía haciendo scroll y quedaban 70 elementos enfocables fuera del
+  // panel, tapados visualmente pero alcanzables con Tab—.
+  //
+  // No se reimplementa la apertura: se observa la clase `w--open` que pone
+  // Webflow y se añade encima lo que falta.
+  const botonMenu = document.querySelector<HTMLElement>('.menu .w-nav-button');
+  const panelMenu = document.querySelector<HTMLElement>('.menu .nav-menu');
+
+  if (botonMenu && panelMenu) {
+    const estaAbierto = () => botonMenu.classList.contains('w--open');
+    const cerrar = () => botonMenu.click(); // el propio módulo hace el resto
+
+    const enfocablesDelPanel = () =>
+      [...panelMenu.querySelectorAll<HTMLElement>('a[href], button, input, [tabindex]:not([tabindex="-1"])')]
+        .filter((e) => e.offsetParent !== null);
+
+    const alTeclear = (e: KeyboardEvent) => {
+      if (!estaAbierto()) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        cerrar();
+        botonMenu.focus();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      // Foco atrapado: la hamburguesa es el primer parada del ciclo para que
+      // cerrar esté siempre a un Tab de distancia.
+      const ciclo = [botonMenu, ...enfocablesDelPanel()];
+      if (!ciclo.length) return;
+
+      const actual = document.activeElement as HTMLElement;
+      const i = ciclo.indexOf(actual);
+      const dentro = i !== -1;
+
+      if (!dentro) {
+        e.preventDefault();
+        ciclo[0].focus();
+        return;
+      }
+
+      const ultimo = ciclo.length - 1;
+      if (!e.shiftKey && i === ultimo) {
+        e.preventDefault();
+        ciclo[0].focus();
+      } else if (e.shiftKey && i === 0) {
+        e.preventDefault();
+        ciclo[ultimo].focus();
+      }
+    };
+
+    document.addEventListener('keydown', alTeclear);
+
+    // Con el scrim, el scroll bloqueado y el foco atrapado, el panel es modal de
+    // hecho. `inert` lo termina de decir: saca del árbol de accesibilidad todo
+    // lo que está tapado, que si no sigue siendo explorable con lector de
+    // pantalla aunque el Tab ya no llegue.
+    const hermanos = () =>
+      [...document.body.children].filter((e) => e !== document.querySelector('.menu'));
+
+    // Bloqueo del scroll de fondo. Se marca <html> y el resto lo hace el CSS.
+    // ponytail: con overflow:hidden basta en iOS 16+ y en Android; si algún día
+    // hace falta soportar iOS 15, el patrón es fijar el body guardando scrollY.
+    const observador = new MutationObserver(() => {
+      const abierto = estaAbierto();
+      document.documentElement.classList.toggle('menu-movil-abierto', abierto);
+      for (const e of hermanos()) (e as HTMLElement).inert = abierto;
+    });
+    observador.observe(botonMenu, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // --- Selector de idioma ---------------------------------------------------
+  // Se escribe a mano en vez de reusar el modulo dropdown de Webflow: ese exige
+  // la estructura w-dropdown/w-dropdown-list y meteria este control en el mismo
+  // grupo que los 5 paneles del menu, con los que no tiene nada que ver.
+  const selector = document.querySelector<HTMLElement>('[data-idioma]');
+
+  if (selector) {
+    const boton = selector.querySelector<HTMLButtonElement>('.idioma-boton')!;
+    const lista = selector.querySelector<HTMLElement>('.idioma-lista')!;
+    const opciones = [...lista.querySelectorAll<HTMLAnchorElement>('.idioma-opcion')];
+
+    const abrir = (abierto: boolean) => {
+      boton.setAttribute('aria-expanded', String(abierto));
+      lista.hidden = !abierto;
+      selector.classList.toggle('esta-abierto', abierto);
+    };
+
+    const cerrarYDevolverFoco = () => {
+      abrir(false);
+      boton.focus();
+    };
+
+    boton.addEventListener('click', () => {
+      const abierto = boton.getAttribute('aria-expanded') === 'true';
+      abrir(!abierto);
+      if (!abierto) opciones[0]?.focus();
+    });
+
+    // Flechas para moverse, Home/End a los extremos, Escape cierra.
+    selector.addEventListener('keydown', (e) => {
+      const ev = e as KeyboardEvent;
+
+      if (ev.key === 'Escape') {
+        if (boton.getAttribute('aria-expanded') === 'true') {
+          ev.preventDefault();
+          cerrarYDevolverFoco();
+        }
+        return;
+      }
+
+      if (ev.key === 'ArrowDown' && document.activeElement === boton) {
+        ev.preventDefault();
+        abrir(true);
+        opciones[0]?.focus();
+        return;
+      }
+
+      const i = opciones.indexOf(document.activeElement as HTMLAnchorElement);
+      if (i === -1) return;
+
+      if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        ev.preventDefault();
+        const paso = ev.key === 'ArrowDown' ? 1 : -1;
+        opciones[(i + paso + opciones.length) % opciones.length].focus();
+      } else if (ev.key === 'Home') {
+        ev.preventDefault();
+        opciones[0].focus();
+      } else if (ev.key === 'End') {
+        ev.preventDefault();
+        opciones[opciones.length - 1].focus();
+      }
+    });
+
+    // Clic fuera y foco fuera (Tab hacia adelante desde la ultima opcion).
+    document.addEventListener('click', (e) => {
+      if (!selector.contains(e.target as Node)) abrir(false);
+    });
+    selector.addEventListener('focusout', () => {
+      // Se aplaza: en el momento del focusout, activeElement todavia es <body>.
+      setTimeout(() => {
+        if (!selector.contains(document.activeElement)) abrir(false);
+      }, 0);
+    });
+  }
+</script>

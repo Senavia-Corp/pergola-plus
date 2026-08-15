@@ -1,15 +1,28 @@
 ---
+/**
+ * Detalle de un articulo del blog. CODIGO DE AUTORIA PROPIA.
+ *
+ * Ya NO lo escribe scripts/generar-detalle.mjs: la coleccion `post` lleva
+ * `paginaPropia: true`. El generador sigue produciendo los 21 fragmentos y el
+ * _items.json —que es de donde sale el cuerpo—, pero no pisa este archivo.
+ *
+ * Por que hubo que sacarlo del generador: su plantilla es UNA SOLA cadena
+ * compartida por las 8 colecciones, asi que el JSON-LD de BlogPosting, el enlace
+ * de vuelta y el anterior/siguiente habrian caido tambien sobre products,
+ * services, project, brands, countries, pergolas-contractors y articles.
+ *
+ * El cuerpo del articulo sigue viniendo del fragmento migrado. Lo que se anade
+ * va FUERA de el, para no tocar markup migrado.
+ */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/post/_items.json';
+import { posts, fechaLarga, fechaIso, ORGANIZACION } from '../../lib/blog';
+import '../../styles/blog.css';
 
-// Generado por scripts/generar-detalle.mjs — NO editar a mano.
-//
-// El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
-// es lo unico que cambia: en vez de leer el fragmento, se consulta Sanity y se
-// renderiza la plantilla con sus datos. La estructura de la pagina y el <head>
-// ya quedan aqui.
 const fragmentos = import.meta.glob('../../contenido-migrado/post/*.html', {
-  query: '?raw', import: 'default', eager: true,
+  query: '?raw',
+  import: 'default',
+  eager: true,
 });
 
 export function getStaticPaths() {
@@ -17,8 +30,42 @@ export function getStaticPaths() {
 }
 
 const { item } = Astro.props;
-const html = fragmentos['../../contenido-migrado/post/' + item.slug + '.html'];
+const html = fragmentos['../../contenido-migrado/post/' + item.slug + '.html'] as string | undefined;
 if (!html) throw new Error('sin fragmento para post/' + item.slug);
+
+// Los metadatos (categoria, fecha, tiempo de lectura) NO estan en _items.json:
+// solo trae slug/title/description/og/wf. Salen del CSV, via src/lib/blog.ts.
+const i = posts.findIndex((p) => p.slug === item.slug);
+if (i === -1) throw new Error(`[post] ${item.slug} no esta en el CSV del CMS`);
+const post = posts[i]!;
+
+// Mismo orden que el listado, para que anterior/siguiente sea coherente con lo
+// que el lector acaba de ver.
+const anterior = posts[i - 1];
+const siguiente = posts[i + 1];
+
+const site = Astro.site!;
+const url = new URL(`/post/${post.slug}`, site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': `${url}#post`,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  url,
+  headline: post.titulo,
+  description: post.descripcionSeo || post.resumen,
+  image: new URL(post.principal.src, site).href,
+  datePublished: post.publicado.toISOString(),
+  articleSection: post.categoria.nombre,
+  timeRequired: `PT${post.minutos}M`,
+  inLanguage: 'en-US',
+  // No hay campo de autor en ninguno de los 14 CSV del export. La organizacion es
+  // un autor valido y honesto; inventarse una persona no lo seria.
+  author: ORGANIZACION,
+  publisher: ORGANIZACION,
+  isPartOf: { '@type': 'Blog', '@id': `${new URL('/resources/blog', site).href}#blog` },
+};
 ---
 
 <BaseLayout
@@ -28,6 +75,50 @@ if (!html) throw new Error('sin fragmento para post/' + item.slug);
   pageStyles={item.pageStyles ?? undefined}
   wfPage={item.wfPage ?? undefined}
   wfSite={item.wfSite ?? undefined}
+  ogType="article"
+  jsonLd={jsonLd}
 >
+  <div class="pp-wrap pp-volver-barra">
+    <a href="/resources/blog" class="pp-volver">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path
+          d="M13 7H2M6 3L2 7l4 4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      All articles
+    </a>
+    <span class="pp-dato">{post.categoria.nombre}</span>
+    <span class="pp-dato">
+      <time datetime={fechaIso(post.publicado)}>{fechaLarga(post.publicado)}</time>
+    </span>
+    <span class="pp-dato">{post.minutos} min read</span>
+  </div>
+
   <Fragment set:html={html} />
+
+  {
+    (anterior || siguiente) && (
+      <nav class="pp-wrap pp-post-nav" aria-label="More articles">
+        {anterior ? (
+          <a href={`/post/${anterior.slug}`} rel="prev">
+            <span class="pp-dato">Previous</span>
+            <span class="pp-post-nav-titulo">{anterior.titulo}</span>
+          </a>
+        ) : (
+          <span class="pp-post-nav-hueco" />
+        )}
+        {siguiente ? (
+          <a href={`/post/${siguiente.slug}`} rel="next" class="pp-post-nav-sig">
+            <span class="pp-dato">Next</span>
+            <span class="pp-post-nav-titulo">{siguiente.titulo}</span>
+          </a>
+        ) : (
+          <span class="pp-post-nav-hueco" />
+        )}
+      </nav>
+    )
+  }
 </BaseLayout>

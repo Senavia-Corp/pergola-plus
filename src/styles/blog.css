@@ -1,0 +1,517 @@
+/**
+ * Blog: listado, categorias y detalle.
+ *
+ * CSS DE AUTORIA PROPIA. No sale del export de Webflow.
+ *
+ * Reglas de la casa que se respetan aqui:
+ *  - public/css/pergola-plus-florida.webflow.css NO se toca. Esto se carga despues
+ *    (Astro lo emite al final del <head>), asi que gana a igualdad de especificidad.
+ *  - Prefijo pp- en todo lo nuevo. En concreto NO se reutiliza .blog-filter-section,
+ *    que arrastra un display:none desde la linea 2993 del CSS intocable.
+ *  - Tokens del sitio: --primary --terceary --secundary --gray --white.
+ *    Los nombres van mal escritos en el original (secundary, terceary); se respetan.
+ *  - Superficie de tarjeta igual que .product-card: fondo --secundary y radio 8px.
+ *    Radio 4px para imagenes, pildoras y botones.
+ *  - Breakpoints del sitio: 479 / 767 / 991.
+ */
+
+.pp-wrap {
+  width: 100%;
+  max-width: 1250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------------------------------------------------------------- filtros -- */
+
+.pp-filtros {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray);
+  padding: 1rem 2rem;
+}
+
+.pp-filtros .title-deco {
+  margin-bottom: 0.75rem;
+}
+
+/* La tira se desplaza en horizontal cuando no caben los chips. La mascara del
+   borde derecho es lo que avisa de que hay mas; se apaga al llegar al final con
+   animation-timeline, y donde no haya soporte simplemente se queda puesta. */
+.pp-chips-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* Sitio para el anillo de foco, que si no lo recorta el overflow. */
+  margin: -4px;
+  padding: 4px;
+}
+
+.pp-chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.pp-chips {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: max-content;
+  min-width: 100%;
+}
+
+.pp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  background-color: var(--gray);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.pp-chip:hover {
+  border-color: var(--terceary);
+  background-color: var(--terceary);
+  color: var(--white);
+}
+
+/* Estado activo: fondo + peso + borde. Nunca solo color. */
+.pp-chip[aria-current='page'] {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.pp-chip:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-chip[aria-current='page']:focus-visible {
+  outline-color: var(--terceary);
+}
+
+.pp-chip-n {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+/* ------------------------------------------------------------------ grid -- */
+
+.pp-grid-seccion {
+  padding: 3rem 2rem 8rem;
+}
+
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pp-grid > li {
+  display: flex;
+}
+
+.pp-grid > li[hidden] {
+  display: none;
+}
+
+/* ----------------------------------------------------------------- carta -- */
+
+.pp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--secundary);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px #3a545b26;
+}
+
+/* El anillo de foco lo pinta la tarjeta entera, porque el enlace real es el titulo
+   y su ::after cubre toda la superficie. */
+.pp-card:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-card-media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--gray);
+}
+
+.pp-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.pp-card:hover .pp-card-media img {
+  transform: scale(1.04);
+}
+
+.pp-card-cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+/* Meta: la categoria lee como etiqueta, la fecha y el tiempo como dato menor.
+   Antes las dos compartian .text-mini-blog a 10px y pesaban igual. */
+.pp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pp-etiqueta {
+  background-color: var(--primary);
+  color: var(--white);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.pp-dato {
+  color: var(--terceary);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.pp-dato + .pp-dato::before {
+  content: '·';
+  margin-right: 0.5rem;
+}
+
+.pp-card h3 {
+  margin: 0.25rem 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Toda la tarjeta clicable sin romper la semantica: un solo enlace, con el titulo
+   como texto accesible, y un ::after que cubre la superficie. Asi desaparecen los
+   21 enlaces que decian todos "Read More" y el objetivo tactil de 18px de alto. */
+.pp-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pp-card h3 a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.pp-card h3 a:focus-visible {
+  outline: none;
+}
+
+.pp-card-resumen {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Decoracion, no enlace: el enlace real es el titulo. */
+.pp-card-mas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pp-card-mas svg {
+  vertical-align: -1px;
+  transition: transform 0.25s ease;
+}
+
+.pp-card:hover .pp-card-mas svg {
+  transform: translateX(4px);
+}
+
+/* ---------------------------------------------------- entrada por scroll -- */
+
+/*
+ * Entrada por scroll, SOLO CSS. No hay JavaScript detras.
+ *
+ * El estado en reposo del elemento es VISIBLE, y esa es toda la gracia: no existe
+ * ningun camino que lo deje invisible.
+ *
+ *   - Chrome/Edge: animation-timeline lo engancha al scroll -> reveal de verdad.
+ *   - Safari/Firefox (sin animation-timeline): la animacion corre una vez al
+ *     cargar y `both` la deja fijada en el `to`, o sea visible.
+ *   - prefers-reduced-motion: no entra en el bloque -> visible.
+ *   - Sin JS / con JS roto: es CSS, ni se entera -> visible.
+ *
+ * Esto sustituye al style="opacity:0" en linea del markup migrado, que dejaba el
+ * grid y el destacado invisibles PARA SIEMPRE si fallaba webflow.js. El hero y el
+ * CTA no lo llevaban, asi que conservan su animacion IX2 y no pasan por aqui.
+ *
+ * DOS TRAMPAS, las dos pisadas ya:
+ *
+ * 1. El `to` va EXPLICITO. Un @keyframes con solo `from` toma como `to` implicito
+ *    el estilo calculado del elemento; si ese estilo era opacity:0, la animacion
+ *    interpola de 0 a 0 y no aparece nada nunca.
+ * 2. Esto anima el <li>, NO la .pp-card de dentro. Una animacion con fill activo
+ *    se impone a las declaraciones normales, asi que animar `transform` en la
+ *    propia tarjeta anularia el translateY(-4px) del hover.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-pp-reveal] {
+    animation: pp-entrada 0.5s ease-out both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 20%;
+  }
+}
+
+@keyframes pp-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* -------------------------------------------------- detalle: volver y nav -- */
+
+/* Barra sobre el articulo: salida al listado + categoria, fecha y lectura.
+   Va FUERA del fragmento migrado, para no tocar markup migrado.
+
+   El offset del nav: `.menu` es `position: fixed` (CSS migrado, linea 499), asi que
+   no ocupa sitio, y la convencion del sitio es que la primera seccion en flujo se
+   lo compense — `.body-blog` lleva `margin-top: 85px` (linea 4019), igual en todos
+   los breakpoints. Al meter esta barra delante, el primero en flujo pasa a ser
+   ella: si no hereda el offset se mete DEBAJO del nav, y si `.body-blog` mantiene
+   el suyo queda un hueco de 85px. Por eso se traslada aqui y se anula alli. */
+.pp-volver-barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 85px;
+  padding: 1.5rem 2rem 0;
+}
+
+.pp-volver-barra + .body-blog {
+  margin-top: 0;
+}
+
+.pp-volver-barra .pp-dato + .pp-dato::before {
+  content: '·';
+  margin-right: 1rem;
+}
+
+.pp-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-right: auto;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.pp-volver:hover {
+  color: var(--terceary);
+}
+
+.pp-volver:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 4rem;
+  padding: 2rem 2rem 0;
+  border-top: 1px solid var(--gray);
+}
+
+.pp-post-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background-color: var(--secundary);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  color: var(--primary);
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+
+.pp-post-nav a:hover {
+  background-color: var(--gray);
+}
+
+.pp-post-nav a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-post-nav .pp-dato {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+
+.pp-post-nav-titulo {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pp-post-nav-sig {
+  text-align: right;
+}
+
+/* La casilla vacia cuando el post es el primero o el ultimo. */
+.pp-post-nav-hueco {
+  display: none;
+}
+
+/* ------------------------------------------------------------ responsive -- */
+
+@media screen and (max-width: 991px) {
+  .pp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pp-grid-seccion {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .pp-filtros {
+    padding: 1rem;
+  }
+
+  /* Los 6 chips miden ~1069px, asi que de 991 para abajo SIEMPRE desbordan y hay
+     que avisar de que hay mas. El degradado del borde derecho es esa senal: sin el
+     la barra de scroll esta oculta y los chips parecen cortados sin motivo. */
+  .pp-chips-scroll {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  }
+
+  /* .title-deco se centra a 991px en el CSS del sitio; aqui la etiqueta del filtro
+     encabeza una tira alineada a la izquierda, asi que se deja a la izquierda. */
+  .pp-filtros .title-deco {
+    text-align: left;
+  }
+}
+
+/* El sitio original salta de 3 columnas a 2 en 991 y a 1 en 479, sin paso en 767:
+   deja tarjetas de ~370px con imagen de 150px justo en el movil apaisado. */
+@media screen and (max-width: 767px) {
+  .pp-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .pp-post-nav {
+    grid-template-columns: 1fr;
+    padding: 2rem 1rem 0;
+  }
+
+  .pp-post-nav-sig {
+    text-align: left;
+  }
+
+  .pp-volver-barra {
+    padding: 1rem 1rem 0;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .pp-card-cuerpo {
+    padding: 1rem;
+  }
+
+  .pp-vacio {
+    padding: 2rem 1rem;
+  }
+}
+
+/* ------------------------------------------------------ reduced motion -- */
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-card,
+  .pp-card-media img,
+  .pp-card-mas svg,
+  .pp-chip,
+  .pp-post-nav a {
+    transition: none;
+  }
+
+  /* El hover deja de moverse pero sigue respondiendo. */
+  .pp-card:hover {
+    transform: none;
+    box-shadow: 0 0 0 1px var(--terceary);
+  }
+
+  .pp-card:hover .pp-card-media img,
+  .pp-card:hover .pp-card-mas svg {
+    transform: none;
+  }
+}

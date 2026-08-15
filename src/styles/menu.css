@@ -1,0 +1,758 @@
+/* =============================================================================
+   Menú — rediseño
+   =============================================================================
+
+   Se importa desde src/components/Nav.astro. NUNCA se toca
+   public/css/pergola-plus-florida.webflow.css, que es el CSS migrado verbatim.
+
+   REGLA DE ESPECIFICIDAD: cada override va prefijado con `.menu` o `.navbar`.
+   Astro inyecta este archivo en el <head>, pero su posición respecto a los tres
+   <link> estáticos del BaseLayout no es un contrato. Ganar por especificidad en
+   vez de por orden de cascada hace que dé igual dónde acabe.
+
+   Tokens del sitio: --primary #3a545b · --terceary #61767c · --secundary #fffbf0
+                     --gray #f1f1f1 · --white #fff · Inter
+   ============================================================================= */
+
+.menu {
+  /* Escala propia del menú, derivada de los tokens. Los tintes salen del propio
+     --primary para que el hover no introduzca un color nuevo al sistema. */
+  --menu-radio: 8px;
+  --menu-tinte: #3a545b14; /* --primary al 8 % */
+  --menu-tinte-activo: #3a545b1f; /* --primary al 12 % */
+  --menu-anillo: #3a545b;
+  --menu-anillo-oscuro: var(--secundary);
+  --menu-transicion: 160ms ease;
+}
+
+/* -----------------------------------------------------------------------------
+   1 · Una sola unidad de ítem en los 5 paneles
+   -------------------------------------------------------------------------- */
+
+/* Los ítems del mega venían como <li> con list-style-type: disc heredado de
+   `.list`. Se veían las viñetas dentro de un mega-menú. */
+.menu .wrapper-submenu .list {
+  margin-top: .75rem;
+  list-style: none;
+}
+
+.menu .wrapper-submenu .list > li {
+  margin: 0;
+}
+
+/* Mega y mini comparten radio, transición y comportamiento; el mega es más
+   ancho y dedica menos alto por ítem, que es la única diferencia legítima. */
+.menu .submenu-item,
+.menu .item-submenu {
+  border-radius: var(--menu-radio);
+  transition:
+    background-color var(--menu-transicion),
+    color var(--menu-transicion),
+    border-color var(--menu-transicion);
+}
+
+.menu .submenu-item {
+  align-items: center;
+  padding: 10px 12px;
+}
+
+.menu .heading-submenu {
+  margin-bottom: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* La tarjeta del mini pesaba demasiado: borde de 2px, radio de 15px y 28px de
+   padding la hacían un bloque de 183px de alto por ítem. Baja a la misma
+   familia visual que el mega, sin perder icono ni descripción. */
+.menu .item-submenu {
+  border: 1px solid #3a545b26;
+  background-color: var(--white);
+  padding: 1.125rem;
+}
+
+.menu .item-submenu:hover {
+  border-color: var(--primary);
+  background-color: var(--secundary);
+}
+
+.menu .heading-link-submenu {
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.menu .paragraph-link-submenu {
+  color: var(--terceary);
+  letter-spacing: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.menu .block-icon-submenu {
+  width: 34px;
+  height: 34px;
+}
+
+.menu .wrapper-submenu-link {
+  grid-column-gap: .75em;
+  grid-row-gap: .75em;
+}
+
+/* -----------------------------------------------------------------------------
+   2 · Jerarquía: la categoría es una etiqueta, el destino es el protagonista
+   -------------------------------------------------------------------------- */
+
+/* Venía a 20px/700, más pesada que los propios destinos (18px/500). */
+.menu .nav-submenu-title {
+  color: var(--terceary);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* -----------------------------------------------------------------------------
+   3 · Alto por contenido, no por min-height fijo
+   -------------------------------------------------------------------------- */
+
+/* Medido con los paneles abiertos a 1440px:
+     mini      min-height 250px vs 183px de contenido → 67px de hueco
+     products  min-height 400px vs 364px             → 36px
+
+   OJO: no basta con quitar el min-height. Los paneles son
+   `position:absolute; inset:0 0 0 auto` dentro de `.menu`, que mide 85px, así
+   que con top Y bottom fijados su alto salía del contenedor —el min-height era
+   lo ÚNICO que los hacía altos—. Al ponerlo a 0 el panel colapsaba a 56px y el
+   contenido se desbordaba por encima de la barra. Hay que soltar el `bottom`
+   para que el alto lo mande el contenido. */
+.menu .dropdown-list-products,
+.menu .dropdown-list-products.w--open,
+.menu .dropdown-list-services.w--open,
+.menu .dropdown-list-mini.w--open {
+  bottom: auto;
+  height: auto;
+  min-height: 0;
+}
+
+.menu .dropdown-list-products.w--open,
+.menu .dropdown-list-services.w--open,
+.menu .dropdown-list-mini.w--open {
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+}
+
+.menu .block-submenu {
+  padding-top: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   4 · Hover y foco de verdad
+   -------------------------------------------------------------------------- */
+
+.menu .submenu-item:hover {
+  background-color: var(--menu-tinte);
+}
+
+/* `.submenu-item.is-1` traía su propio hover #e9e9e9 en el CSS de Webflow, que
+   rompía la uniformidad justo en el primer ítem de cada grupo. */
+.menu .submenu-item.is-1:hover {
+  background-color: var(--menu-tinte);
+}
+
+/* Antes NO había absolutamente nada para teclado: outline:none y box-shadow:none
+   en los toggles y en todos los enlaces del nav. Fallo de WCAG 2.4.7. */
+.menu .submenu-item:focus-visible,
+.menu .item-submenu:focus-visible,
+.menu .ver-todo:focus-visible {
+  outline: 2px solid var(--menu-anillo);
+  outline-offset: 2px;
+  background-color: var(--menu-tinte);
+}
+
+/* Sobre el fondo oscuro de la barra el anillo tiene que ser claro. */
+.menu .nav-link:focus-visible,
+.menu .w-dropdown-toggle:focus-visible,
+.menu .brand:focus-visible,
+.menu .button-menu:focus-visible,
+.menu .block-call-menu:focus-visible,
+.menu .link-block-call-movil:focus-visible,
+.menu .wrapper-box-call:focus-visible,
+.menu .w-nav-button:focus-visible {
+  outline: 2px solid var(--menu-anillo-oscuro);
+  outline-offset: -2px;
+}
+
+/* -----------------------------------------------------------------------------
+   5 · Estado activo visible
+   -------------------------------------------------------------------------- */
+
+/* `esActiva()` ya ponía w--current, pero la única regla existente era
+   `.nav-link.w--current { color: var(--white) }` — el mismo color que en reposo,
+   así que no se veía nada. */
+.menu .nav-link.w--current,
+.menu .w-dropdown-toggle.w--current {
+  box-shadow: inset 0 -2px 0 0 var(--secundary);
+}
+
+.menu .submenu-item.w--current,
+.menu .item-submenu.w--current {
+  background-color: var(--menu-tinte-activo);
+}
+
+.menu .submenu-item.w--current .heading-submenu,
+.menu .item-submenu.w--current .heading-link-submenu {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.menu .item-submenu.w--current {
+  border-color: var(--primary);
+}
+
+/* -----------------------------------------------------------------------------
+   6 · Enlace "ver todo" hacia las páginas índice
+   -------------------------------------------------------------------------- */
+
+/* Los toggles son <div>, no enlaces, así que /products y /services no tenían
+   NINGÚN camino desde el nav aunque ambas existan. */
+.menu .ver-todo {
+  grid-column-gap: .4rem;
+  align-items: center;
+  margin-top: 1rem;
+  border-radius: var(--menu-radio);
+  color: var(--primary);
+  justify-content: center;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--menu-transicion), color var(--menu-transicion);
+  display: flex;
+}
+
+.menu .ver-todo:hover {
+  background-color: var(--menu-tinte);
+}
+
+.menu .ver-todo-flecha {
+  width: 15px;
+  height: 15px;
+  transition: transform var(--menu-transicion);
+}
+
+.menu .ver-todo:hover .ver-todo-flecha {
+  transform: translateX(3px);
+}
+
+/* La columna de la imagen es un flex centrado; el enlace tiene que caer debajo
+   de la preview, no a su lado. */
+.menu .block-submenu-view,
+.menu .block-submenu-view-products {
+  flex-direction: column;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   7 · Selector de idioma
+   -------------------------------------------------------------------------- */
+
+.menu .idioma {
+  flex: none;
+  position: relative;
+}
+
+/* Divisor sutil que lo separa de los CTA. Solo en escritorio: en móvil el
+   selector vive en la barra superior, junto a la hamburguesa, y no hay nada de
+   lo que separarlo. */
+@media screen and (min-width: 992px) {
+  .menu .idioma {
+    margin-left: 1rem;
+    padding-left: 1rem;
+  }
+
+  .menu .idioma:before {
+    content: "";
+    background-color: #ffffff38;
+    width: 1px;
+    position: absolute;
+    inset: 25% auto 25% 0;
+  }
+}
+
+.menu .idioma-boton {
+  grid-column-gap: .45rem;
+  cursor: pointer;
+  color: var(--white);
+  background-color: #0000;
+  border: 1px solid #ffffff59;
+  border-radius: 999px;
+  align-items: center;
+  min-height: 44px; /* área táctil mínima */
+  padding: 5px 10px 5px 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color var(--menu-transicion), background-color var(--menu-transicion);
+  display: flex;
+}
+
+.menu .idioma-boton:hover {
+  border-color: var(--white);
+  background-color: #ffffff1a;
+}
+
+.menu .idioma-boton:focus-visible {
+  outline: 2px solid var(--menu-anillo-oscuro);
+  outline-offset: 2px;
+}
+
+/* La bandera NO es el único indicador: siempre va con el código visible y con
+   el aria-label del botón. Una bandera es un país, no un idioma. */
+.menu .idioma-bandera {
+  border-radius: 50%; /* el recorte circular, sin clipPath ni ids duplicados */
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: block;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px #0000001f;
+}
+
+.menu .idioma-bandera svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.menu .idioma-chevron {
+  opacity: .8;
+  width: 14px;
+  height: 14px;
+  transition: transform var(--menu-transicion);
+}
+
+.menu .idioma.esta-abierto .idioma-chevron {
+  transform: rotate(180deg);
+}
+
+/* El panel usa el mismo lenguaje que los otros 5: fondo --secundary, radio y
+   tipografía del sistema. Importar el look oscuro de otra marca rompería la
+   unidad que persigue el resto del rediseño. */
+.menu .idioma-lista {
+  z-index: 30;
+  background-color: var(--secundary);
+  border-radius: var(--menu-radio);
+  min-width: 190px;
+  margin: 0;
+  padding: .375rem;
+  list-style: none;
+  position: absolute;
+  top: calc(100% + .5rem);
+  right: 0;
+  box-shadow: 0 8px 24px #00000038;
+}
+
+.menu .idioma-lista[hidden] {
+  display: none;
+}
+
+.menu .idioma-opcion {
+  grid-column-gap: .6rem;
+  color: var(--black);
+  border-radius: 6px;
+  align-items: center;
+  min-height: 44px;
+  padding: .5rem .625rem;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color var(--menu-transicion);
+  display: flex;
+}
+
+.menu .idioma-opcion:hover {
+  background-color: var(--menu-tinte);
+}
+
+.menu .idioma-opcion:focus-visible {
+  outline: 2px solid var(--menu-anillo);
+  outline-offset: -2px;
+  background-color: var(--menu-tinte);
+}
+
+.menu .idioma-nombre {
+  flex: 1;
+}
+
+/* El idioma activo se marca con aria-current; esto es su reflejo visual, y no
+   depende solo del color: lleva peso y palomita. */
+.menu .idioma-opcion.es-actual {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.menu .idioma-check {
+  flex: none;
+  width: 15px;
+  height: 15px;
+}
+
+/* Entre 992px y ~1200px la fila del nav va justa —medido: a 1000px quedaban 0px
+   libres antes de añadir esto—, así que el control se reduce a la bandera. El
+   aria-label sigue diciendo qué idioma es. */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .menu .idioma-codigo {
+    display: none;
+  }
+
+  .menu .idioma-boton {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .menu .idioma {
+    margin-left: .5rem;
+    padding-left: .5rem;
+  }
+
+  /* Se recupera el hueco apretando lo que sí puede apretarse. */
+  .menu .nav-link {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .menu .nav-button {
+    grid-column-gap: .375rem;
+  }
+
+  .menu .button-menu {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Sin esto los rótulos parten en dos líneas ("Get a / Quote", "Project /
+     Gallery") y la barra crece a 82px de alto por fila. Medido: con nowrap los
+     CTA bajan de 62px a 41px y sigue cabiendo todo. */
+  .menu .nav-link,
+  .menu .button-menu,
+  .menu .w-dropdown-toggle > div:first-child {
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  /* En la barra superior, a la izquierda de la hamburguesa. */
+  .menu .idioma {
+    margin-left: auto;
+    margin-right: .625rem;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   8 · Móvil (<=991px)
+   -------------------------------------------------------------------------- */
+
+/* La clase la pone Nav.astro observando el `w--open` de Webflow. Sin esto la
+   página de detrás seguía haciendo scroll con el menú abierto (medido). */
+html.menu-movil-abierto,
+html.menu-movil-abierto body {
+  overflow: hidden;
+}
+
+/* Scrim.
+   Va en body::before y NO en `.w-nav-overlay` de Webflow por una razón concreta:
+   `.menu` tiene un transform de IX2 (medido: matrix(1,0,0,1,0,0) — identidad,
+   pero presente), y un ancestro con transform hace que `position: fixed` se
+   resuelva contra él en vez de contra la ventana. Puesto en el overlay, el scrim
+   aparecía en y=-28 y se habría descolocado más al animarse la barra con el
+   scroll. En body::before no hay ancestro transformado y siempre cubre la
+   ventana entera.
+
+   z-index 15: por debajo de `.menu` (20) para no tapar el panel ni la barra, y
+   por encima del contenido de la página. Al cubrirlo todo, además, los toques ya
+   no alcanzan los enlaces de detrás: antes la franja de 50px que quedaba a la
+   izquierda del panel activaba lo que hubiera debajo a la vez que cerraba. */
+html.menu-movil-abierto body:before {
+  content: "";
+  z-index: 15;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  background-color: #12222699;
+  position: fixed;
+  inset: 0;
+}
+
+@media screen and (min-width: 992px) {
+  /* El panel móvil no existe por encima del breakpoint; si el navegador se
+     redimensiona con el menú abierto, el scrim no puede quedarse pegado. */
+  html.menu-movil-abierto body:before {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  /* ---- 8.0 · El panel tiene que leerse como una CAPA ----------------------
+     Sombra y filo para que se vea dónde acaba el menú y empieza la página. Sin
+     esto el panel (--primary) se funde con las secciones de la página que usan
+     ese mismo color: el menú parecía llegar hasta abajo del todo. */
+  .menu .wrapper-nav-menu {
+    border-left: 1px solid #ffffff1f;
+    box-shadow: -12px 0 32px #0000004d;
+  }
+
+  /* ---- 7.1 · EL ARREGLO CRÍTICO -------------------------------------------
+     El módulo `navbar` de webflow.js escribe `height: <alto del documento>px`
+     INLINE sobre .nav-menu al abrir. Medido en la home: 14557px. Con
+     .nav-menu{overflow:hidden} y .wrapper-nav-menu{overflow:clip} el resultado
+     era scrollHeight === clientHeight === 14557, o sea CERO overflow que
+     rascar: el contenido que no cabía quedaba debajo del área visible y era
+     inalcanzable para siempre.
+
+     Con "Our Products" abierto en 375x812 eso dejaba fuera del alcance el
+     toggle "Contact Us" (y=818), "Get a Quote" (y=909) y el teléfono (y=963).
+     Un cliente que abría el menú en el móvil no podía llegar a pedir precio.
+
+     El !important es obligatorio: se está ganando a un `style=""` inline.      */
+  .navbar .nav-menu {
+    height: calc(100dvh - 85px) !important;
+    max-height: calc(100dvh - 85px);
+    overflow-y: auto;
+    overscroll-behavior: contain; /* el gesto no arrastra la página de detrás */
+    -webkit-overflow-scrolling: touch;
+
+    /* Ancho EXPLÍCITO. Webflow lo dejaba en shrink-to-fit, así que el panel
+       medía lo que midiera su contenido más ancho: al apilar los dos CTA que
+       antes iban en fila, pasó de 325px a 206px de golpe. Un panel cuyo ancho
+       depende del rótulo más largo se rompe con cada cambio de copy.
+       El min() deja ver un trozo de la página en móvil —zona de cierre y pista
+       de que hay algo detrás— y lo topa en tablet. */
+    width: min(88vw, 360px);
+  }
+
+  .navbar .wrapper-nav-menu {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+  }
+
+  /* ---- 7.2 · Áreas táctiles de 44px --------------------------------------
+     Las filas de primer nivel ya median 325x58. Los ítems de submenú, 34px.   */
+  .menu .submenu-item {
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 1rem;
+  }
+
+  .menu .item-submenu {
+    align-items: center;
+    min-height: 44px;
+    border-width: 0;
+    border-radius: 0;
+    padding: 10px 0;
+    display: flex;
+  }
+
+  .menu .wrapper-submenu-mini {
+    grid-row-gap: .25rem;
+    padding: 0 1rem;
+  }
+
+  /* ---- 7.3 · Jerarquía: en móvil la inversión era peor todavía ------------
+     título 16px/700 contra destino 14px/400.                                  */
+  .menu .nav-submenu-title {
+    margin-bottom: .25rem;
+    font-size: 11px;
+  }
+
+  .menu .heading-submenu {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .menu .heading-link-submenu {
+    margin-bottom: 0;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* Las descripciones de los mini no caben en 325px sin convertir el panel en
+     un muro de texto. El icono ya está oculto por el CSS de Webflow. */
+  .menu .paragraph-link-submenu {
+    display: none;
+  }
+
+  /* ---- 7.4 · Qué sección está abierta ------------------------------------ */
+  .menu .w-dropdown-toggle .icon {
+    transition: transform var(--menu-transicion);
+  }
+
+  .menu .w-dropdown-toggle.w--open .icon {
+    transform: rotate(180deg);
+  }
+
+  .menu .w-dropdown-toggle.w--open {
+    background-color: #ffffff14;
+    font-weight: 600;
+  }
+
+  /* ---- 7.5 · "Ver todo" también en móvil ---------------------------------
+     El CSS de Webflow oculta la columna entera a <=991px porque contiene la
+     preview. Se recupera la columna y se oculta solo la imagen, así el enlace
+     al índice sobrevive — que en móvil es donde más falta hace. */
+  .menu .block-submenu-view,
+  .menu .block-submenu-view-products {
+    padding: 0 1rem 1rem;
+    display: flex;
+  }
+
+  .menu .preview-wrapper,
+  .menu .preview-wrapper-products {
+    display: none;
+  }
+
+  .menu .ver-todo {
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 44px;
+    margin-top: .25rem;
+    padding-left: 1rem;
+  }
+
+  /* El panel abierto va sobre fondo crema; el ítem activo necesita más
+     contraste que el tinte del escritorio. */
+  .menu .submenu-item.w--current,
+  .menu .item-submenu.w--current {
+    background-color: var(--menu-tinte-activo);
+  }
+
+  /* ---- 7.6 · Reparto vertical --------------------------------------------
+     Medido con el panel cerrado: 472px de contenido en 727px de panel, o sea
+     255px muertos al final —el 35%— y justo en la franja que alcanza el pulgar.
+     Empujando el bloque de acciones al fondo, el hueco pasa a separar
+     navegación de conversión y los CTA caen donde se llega sin recolocar la
+     mano. Si un acordeón abierto desborda, el `auto` se colapsa solo y el panel
+     vuelve a hacer scroll normal. */
+  /* `align-items: center` venía del CSS de Webflow y encogía al contenido todo
+     hijo que no llevara un `width: 100%` explícito: por eso el bloque de
+     acciones medía 189px dentro de un panel de 330 y los botones acababan en
+     141. Las filas de navegación ya traen width:100%, así que estirar aquí no
+     las cambia. */
+  .menu .wrapper-nav-menu {
+    align-items: stretch;
+    min-height: 100%;
+  }
+
+  /* Webflow reservaba 8rem de padding al pie del panel. Sumados a los 255px
+     muertos dejaban el bloque de acciones flotando a 198px del fondo. */
+  .navbar .nav-menu {
+    padding-bottom: 1.5rem;
+  }
+
+  /* Bloque de acciones. El `align-items: center` que traía `.nav-button` de
+     Webflow encogía los botones al ancho del rótulo (medido: 141px de 330), así
+     que hay que estirarlos. El teléfono cuelga de `.wrapper-nav-menu`, no de
+     `.nav-button`, de ahí que el padding lateral se declare en los dos: si no,
+     los CTA salían a 266px y el teléfono a 329. */
+  .menu .nav-button {
+    border-top: 1px solid #ffffff26;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: auto;
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  .menu .link-block-call-movil {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+
+  /* ---- 7.7 · Áreas táctiles del bloque de acciones -----------------------
+     Los .submenu-item ya estaban a 44px, pero los CTA medían 38px y el teléfono
+     37px: los tres controles de conversión del menú eran los más pequeños.
+
+     Apilados y no en fila: con dos botones lado a lado en un panel de 325px,
+     «Schedule A Visit» partía en dos líneas y los dos quedaban de distinto alto.
+     Apilados caben de sobra, el rótulo entra en una línea y cada uno gana ancho
+     completo de toque. */
+  .menu .button-menu,
+  .menu .link-block-call-movil {
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    display: flex;
+  }
+
+  /* Solo los CTA llevan width:100%: el teléfono ya lo estira `align-items:
+     stretch` del contenedor, y sumarle el 100% a sus márgenes lo sacaba 48px
+     por la derecha. */
+  .menu .button-menu {
+    width: 100%;
+  }
+
+  .menu .button-menu + .button-menu {
+    margin-top: .5rem;
+  }
+
+  /* ---- 7.7b · Estructura de la lista de navegación -----------------------
+     Las 6 filas iban pegadas sin ninguna separación (medido: huecos de 0px), así
+     que el bloque se leía como un párrafo. Un filete tenue entre filas da ritmo
+     de lista sin meter ruido. */
+  .menu .wrapper-nav-menu > .dropdown,
+  .menu .wrapper-nav-menu > .nav-link {
+    border-bottom: 1px solid #ffffff14;
+  }
+
+  .menu .wrapper-nav-menu > .dropdown:last-of-type {
+    border-bottom: 0;
+  }
+
+  /* ---- 7.8 · El teléfono es la acción principal en móvil -----------------
+     Iba como tercer botón fantasma, con el mismo peso que los otros dos. En un
+     contratista, la llamada es la conversión más directa desde el móvil. */
+  .menu .link-block-call-movil {
+    background-color: var(--secundary);
+    border-color: var(--secundary);
+    border-radius: 6px;
+    justify-content: center;
+    margin-top: .625rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .menu .link-block-call-movil .ikonik-icxtx {
+    color: var(--primary);
+  }
+
+  /* ---- 7.9 · Página actual, visible ---------------------------------------
+     El subrayado inferior de 2px del escritorio no se lee en una fila de 58px a
+     ancho completo. En móvil se marca con una barra lateral, que es lo que se
+     percibe al recorrer una lista vertical. */
+  .menu .nav-link.w--current,
+  .menu .w-dropdown-toggle.w--current {
+    background-color: #ffffff14;
+    box-shadow: inset 3px 0 0 0 var(--secundary);
+    font-weight: 600;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   9 · Movimiento reducido
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .menu .submenu-item,
+  .menu .item-submenu,
+  .menu .ver-todo,
+  .menu .ver-todo-flecha,
+  .menu .w-dropdown-toggle .icon {
+    transition: none;
+  }
+
+  .menu .ver-todo:hover .ver-todo-flecha {
+    transform: none;
+  }
+}
