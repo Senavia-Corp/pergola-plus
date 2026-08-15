@@ -1,0 +1,622 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Project Estimator — PAGINA DE AUTORIA PROPIA.
+//
+// No viene del export de Webflow: no la genera scripts/generar-paginas.mjs y no
+// tiene HTML migrado. Se maqueta con las mismas clases que el resto del sitio
+// (.header-page / .container / .body-page / .call-to-action-footer) para que no
+// se note la costura, y lo propio del estimador va en el <style> de abajo.
+//
+// Sin wfPage/wfSite a proposito: `data-wf-page` solo lo consulta IX2 para ids
+// con delimitador "|" (page-scoped), y ninguno de los 4 del footer ni de los 18
+// del nav lo lleva, asi que sus animaciones funcionan igual. Esta pagina no
+// tiene interacciones propias, asi que tampoco necesita bloque anti-FOUC.
+
+// -----------------------------------------------------------------------------
+// PRECIOS
+// -----------------------------------------------------------------------------
+// TODO dato de aqui sale de la guia de costes publicada por la propia empresa,
+// /post/pergola-cost-south-florida ("Average Pergola Cost in South Florida
+// (2026)"), y coincide con /post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale.
+// No hay ni un numero inventado: si el cliente actualiza sus tarifas, se
+// actualizan las dos tablas de abajo y ya.
+//
+// El "+" del articulo ($150+, $175+) significa que el techo es abierto; se
+// arrastra hasta el resultado para no dar una cifra maxima que no es tal.
+
+const ESTRUCTURAS = [
+  { id: 'open-air',  nombre: 'Open-Air Aluminum Pergola',    min: 85,  max: 110, techoAbierto: false,
+    nota: 'Shade and architecture without full weather control.', href: '/products/open-air-pergolas' },
+  { id: 'insulated', nombre: 'Insulated Roof Pergola',       min: 95,  max: 130, techoAbierto: false,
+    nota: 'Heat control and full rain cover. Popular on the coast.', href: '/products/solid-roof-pergolas' },
+  { id: 'louvered',  nombre: 'Motorized Louvered Roof',      min: 110, max: 150, techoAbierto: true,
+    nota: 'Open or close the roof on demand. Year-round usability.', href: '/products/motorized-louvered-pergolas' },
+  { id: 'cabana',    nombre: 'Aluminum Cabana Structure',    min: 120, max: 175, techoAbierto: true,
+    nota: 'Free-standing structures for pools and estate properties.', href: '/products/cabanas' },
+];
+
+const EXTRAS = [
+  { id: 'engineering', nombre: 'Engineering & wind-load calculations', min: 2000, max: 5000,  techoAbierto: true,
+    nota: 'Sealed drawings for Florida wind-load compliance.' },
+  { id: 'footings',    nombre: 'Concrete footings',                    min: 3000, max: 10000, techoAbierto: true,
+    nota: 'Depth depends on soil and span.' },
+  { id: 'electrical',  nombre: 'Electrical & automation',              min: 1000, max: 4000,  techoAbierto: true,
+    nota: 'Integrated lighting, fans, motorized screens.' },
+  { id: 'waterfront',  nombre: 'Waterfront lot',                       min: 5000, max: 15000, techoAbierto: false,
+    nota: 'Deeper footings and longer spans on Intracoastal and oceanfront lots.' },
+];
+
+// Medidas por defecto: 16 x 20 ft = 320 sq ft, un tamano corriente de patio.
+const ANCHO_POR_DEFECTO = 16;
+const LARGO_POR_DEFECTO = 20;
+
+const datos = JSON.stringify({ estructuras: ESTRUCTURAS, extras: EXTRAS });
+---
+
+<BaseLayout
+  title="Pergola Cost Estimator | Pergola Plus Florida"
+  description="Estimate your custom pergola or patio cover investment in South Florida using our published 2026 installed price ranges. No contact details required."
+>
+  <header class="header-page">
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="wrapper-hero-page">
+        <h1>Project Estimator</h1>
+        <div>
+          Price your pergola or patio cover in minutes using our published 2026
+          installed rates for Miami-Dade, Broward, and Palm Beach County. No
+          contact details required — you will see the range immediately.
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="body-page">
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="est">
+        <form class="est-form" id="est-form" novalidate>
+          <fieldset class="est-bloque">
+            <legend class="est-legend">1 · Structure type</legend>
+            <div class="est-opciones">
+              {ESTRUCTURAS.map((e, i) => (
+                <label class="est-opcion">
+                  <input type="radio" name="estructura" value={e.id} checked={i === 0} />
+                  <span class="est-opcion-cuerpo">
+                    <span class="est-opcion-titulo">{e.nombre}</span>
+                    <span class="est-opcion-nota">{e.nota}</span>
+                    <span class="est-opcion-tarifa">
+                      ${e.min}–${e.max}{e.techoAbierto ? '+' : ''} <span class="est-unidad">per sq ft installed</span>
+                    </span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="est-bloque">
+            <legend class="est-legend">2 · Size</legend>
+            <div class="est-medidas">
+              <label class="est-medida">
+                <span>Width (ft)</span>
+                <input type="number" id="est-ancho" name="ancho" value={ANCHO_POR_DEFECTO}
+                       min="8" max="60" step="1" inputmode="numeric" />
+              </label>
+              <span class="est-por" aria-hidden="true">×</span>
+              <label class="est-medida">
+                <span>Length (ft)</span>
+                <input type="number" id="est-largo" name="largo" value={LARGO_POR_DEFECTO}
+                       min="8" max="60" step="1" inputmode="numeric" />
+              </label>
+              <p class="est-area">= <strong id="est-area">{ANCHO_POR_DEFECTO * LARGO_POR_DEFECTO}</strong> sq ft</p>
+            </div>
+            <p class="est-aviso" id="est-aviso" hidden></p>
+          </fieldset>
+
+          <fieldset class="est-bloque">
+            <legend class="est-legend">3 · Add what your project needs</legend>
+            <p class="est-ayuda">
+              These are the items that most often move a South Florida project above the
+              base rate. Leave them unchecked if you are not sure — we confirm them on site.
+            </p>
+            <div class="est-opciones est-opciones--extras">
+              {EXTRAS.map((x) => (
+                <label class="est-opcion">
+                  <input type="checkbox" name="extra" value={x.id} />
+                  <span class="est-opcion-cuerpo">
+                    <span class="est-opcion-titulo">{x.nombre}</span>
+                    <span class="est-opcion-nota">{x.nota}</span>
+                    <span class="est-opcion-tarifa">
+                      +${x.min.toLocaleString('en-US')}–${x.max.toLocaleString('en-US')}{x.techoAbierto ? '+' : ''}
+                    </span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </form>
+
+        <aside class="est-panel">
+          <div class="est-resultado" aria-live="polite">
+            <p class="est-resultado-etiqueta">Estimated investment</p>
+            <p class="est-resultado-cifra" id="est-total">—</p>
+            <p class="est-resultado-sub" id="est-sub"></p>
+            <ul class="est-desglose" id="est-desglose"></ul>
+          </div>
+
+          <p class="est-legal">
+            <strong>This is an estimate, not a quote.</strong> The ranges come from our
+            published <a href="/post/pergola-cost-south-florida">2026 South Florida cost
+            guide</a>. Final pricing depends on your site, span, wind-load engineering,
+            HOA and permitting requirements, and finish selections, and is confirmed only
+            after an on-site assessment. Nothing here is a binding offer.
+          </p>
+
+          <div class="est-cta">
+            <a href="/contact-us/get-a-quote" class="button w-button">Get an exact quote</a>
+            <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule a visit</a>
+          </div>
+        </aside>
+      </div>
+
+      <noscript>
+        <div class="est-noscript">
+          <h2>2026 installed rates</h2>
+          <table class="est-tabla">
+            <thead><tr><th>Structure</th><th>Per sq ft installed</th></tr></thead>
+            <tbody>
+              {ESTRUCTURAS.map((e) => (
+                <tr><td><a href={e.href}>{e.nombre}</a></td><td>${e.min}–${e.max}{e.techoAbierto ? '+' : ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          <table class="est-tabla">
+            <thead><tr><th>Common addition</th><th>Typical cost</th></tr></thead>
+            <tbody>
+              {EXTRAS.map((x) => (
+                <tr><td>{x.nombre}</td><td>${x.min.toLocaleString('en-US')}–${x.max.toLocaleString('en-US')}{x.techoAbierto ? '+' : ''}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          <p>Multiply your area in square feet by the rate above, then add what applies.
+             <a href="/contact-us/get-a-quote">Request a quote</a> for exact pricing.</p>
+        </div>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="call-to-action-footer">
+    <div class="wrapper-call-to-action">
+      <div class="box-call-to-action">
+        <h2>Request your free Estimate</h2>
+        <div>Meet with our exterior designers for a free consultation. We'll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.</div>
+        <div class="process-cta">
+          <a href="/contact-us/get-a-quote" class="button w-button">Get A Quote</a>
+          <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule A Visit</a>
+        </div>
+      </div>
+    </div>
+    <img
+      sizes="(max-width: 2000px) 100vw, 2000px"
+      srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
+      alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties."
+      src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
+      loading="lazy"
+      class="image-call-to-action"
+    />
+  </section>
+</BaseLayout>
+
+<script is:inline set:html={`window.__ESTIMADOR__ = ${datos};`} />
+
+<script>
+  // Estimador. Vanilla, sin dependencias: son cuatro multiplicaciones.
+  const { estructuras, extras } = (window as any).__ESTIMADOR__;
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const form = $('est-form') as HTMLFormElement;
+  const inAncho = $('est-ancho') as HTMLInputElement;
+  const inLargo = $('est-largo') as HTMLInputElement;
+  const elArea = $('est-area');
+  const elTotal = $('est-total');
+  const elSub = $('est-sub');
+  const elDesglose = $('est-desglose');
+  const elAviso = $('est-aviso');
+
+  const MIN_FT = 8, MAX_FT = 60;
+
+  // Se redondea a la baja/alza en tramos de 500: un estimador que escupe
+  // "$34.187" finge una precision que no tiene.
+  const aTramo = (n: number, arriba: boolean) =>
+    (arriba ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500;
+
+  const dinero = (n: number) => '$' + n.toLocaleString('en-US');
+
+  function lado(input: HTMLInputElement) {
+    const n = Math.round(Number(input.value));
+    if (!Number.isFinite(n)) return null;
+    return Math.min(MAX_FT, Math.max(MIN_FT, n));
+  }
+
+  function calcular() {
+    const ancho = lado(inAncho);
+    const largo = lado(inLargo);
+
+    if (ancho === null || largo === null) {
+      elAviso.textContent = 'Enter the width and length in feet.';
+      elAviso.hidden = false;
+      elTotal.textContent = '—';
+      elSub.textContent = '';
+      elDesglose.replaceChildren();
+      return;
+    }
+
+    // Se avisa del recorte en vez de corregir el input mientras se escribe:
+    // reescribir el valor bajo los dedos del usuario es de las cosas mas
+    // molestas que puede hacer un formulario.
+    const recortado = Number(inAncho.value) !== ancho || Number(inLargo.value) !== largo;
+    elAviso.textContent = recortado
+      ? `Estimating for ${ancho} × ${largo} ft. This tool covers ${MIN_FT}–${MAX_FT} ft per side; larger spans need engineering input.`
+      : '';
+    elAviso.hidden = !recortado;
+
+    const area = ancho * largo;
+    elArea.textContent = String(area);
+
+    const elegida = estructuras.find(
+      (e: any) => e.id === (form.querySelector('input[name="estructura"]:checked') as HTMLInputElement)?.value
+    ) ?? estructuras[0];
+
+    let min = area * elegida.min;
+    let max = area * elegida.max;
+    let abierto = elegida.techoAbierto;
+
+    const filas = [{
+      etiqueta: `${elegida.nombre} · ${area} sq ft`,
+      texto: `${dinero(aTramo(min, false))}–${dinero(aTramo(max, true))}${elegida.techoAbierto ? '+' : ''}`,
+    }];
+
+    for (const cb of form.querySelectorAll<HTMLInputElement>('input[name="extra"]:checked')) {
+      const x = extras.find((e: any) => e.id === cb.value);
+      if (!x) continue;
+      min += x.min;
+      max += x.max;
+      abierto = abierto || x.techoAbierto;
+      filas.push({ etiqueta: x.nombre, texto: `+${dinero(x.min)}–${dinero(x.max)}${x.techoAbierto ? '+' : ''}` });
+    }
+
+    elTotal.textContent = `${dinero(aTramo(min, false))} – ${dinero(aTramo(max, true))}${abierto ? '+' : ''}`;
+    elSub.textContent = `${elegida.nombre} · ${ancho} × ${largo} ft · ${area} sq ft installed`;
+
+    elDesglose.replaceChildren(...filas.map((f) => {
+      const li = document.createElement('li');
+      const a = document.createElement('span'); a.textContent = f.etiqueta;
+      const b = document.createElement('span'); b.textContent = f.texto;
+      li.append(a, b);
+      return li;
+    }));
+  }
+
+  form.addEventListener('input', calcular);
+  form.addEventListener('change', calcular);
+  form.addEventListener('submit', (e) => e.preventDefault()); // no hay nada que enviar
+  calcular();
+</script>
+
+<style>
+  /* Estilos propios del estimador. Usan los tokens del sitio; el CSS migrado de
+     Webflow no se toca. */
+  .est {
+    grid-column-gap: 2.5rem;
+    grid-row-gap: 2.5rem;
+    grid-template-columns: 1.35fr 1fr;
+    align-items: start;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    display: grid;
+  }
+
+  .est-bloque {
+    border: 0;
+    margin: 0 0 2.25rem;
+    padding: 0;
+  }
+
+  .est-legend {
+    color: var(--terceary);
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    margin-bottom: .9rem;
+    padding: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  .est-ayuda {
+    color: var(--terceary);
+    margin: -.4rem 0 1rem;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .est-opciones {
+    grid-column-gap: .75rem;
+    grid-row-gap: .75rem;
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+  }
+
+  .est-opciones--extras {
+    grid-template-columns: 1fr;
+  }
+
+  .est-opcion {
+    grid-column-gap: .75rem;
+    cursor: pointer;
+    border: 1px solid #3a545b26;
+    border-radius: 8px;
+    align-items: flex-start;
+    padding: 1rem;
+    transition: border-color .16s ease, background-color .16s ease;
+    display: flex;
+  }
+
+  .est-opcion:hover {
+    border-color: var(--primary);
+    background-color: var(--secundary);
+  }
+
+  /* El estado seleccionado no puede depender solo del radio nativo: tiene que
+     leerse de un vistazo en toda la tarjeta. */
+  .est-opcion:has(input:checked) {
+    border-color: var(--primary);
+    background-color: var(--secundary);
+    box-shadow: inset 0 0 0 1px var(--primary);
+  }
+
+  .est-opcion:has(input:focus-visible) {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  .est-opcion input {
+    accent-color: var(--primary);
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+  }
+
+  .est-opcion-cuerpo {
+    flex-direction: column;
+    display: flex;
+  }
+
+  .est-opcion-titulo {
+    color: var(--black);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .est-opcion-nota {
+    color: var(--terceary);
+    margin-top: 3px;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+
+  .est-opcion-tarifa {
+    color: var(--primary);
+    margin-top: .5rem;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .est-unidad {
+    color: var(--terceary);
+    font-weight: 400;
+  }
+
+  .est-medidas {
+    grid-column-gap: .75rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    display: flex;
+  }
+
+  .est-medida {
+    flex-direction: column;
+    display: flex;
+  }
+
+  .est-medida span {
+    color: var(--terceary);
+    margin-bottom: .35rem;
+    font-size: 12.5px;
+  }
+
+  .est-medida input {
+    border: 1px solid #3a545b40;
+    border-radius: 8px;
+    width: 7rem;
+    min-height: 44px; /* area tactil minima; con solo el padding se quedaba en 42 */
+    padding: .65rem .75rem;
+    font-family: inherit;
+    font-size: 16px; /* <16px hace que iOS haga zoom al enfocar */
+  }
+
+  .est-medida input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+  }
+
+  .est-por {
+    color: var(--terceary);
+    padding-bottom: .7rem;
+  }
+
+  .est-area {
+    color: var(--terceary);
+    margin: 0 0 0 .5rem;
+    padding-bottom: .55rem;
+    font-size: 14px;
+  }
+
+  .est-area strong {
+    color: var(--black);
+  }
+
+  .est-aviso {
+    color: var(--primary);
+    background-color: var(--secundary);
+    border-left: 3px solid var(--primary);
+    margin: .9rem 0 0;
+    padding: .6rem .75rem;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  /* --- panel de resultado --- */
+  .est-panel {
+    position: sticky;
+    top: 105px; /* 85px de barra + aire */
+  }
+
+  .est-resultado {
+    background-color: var(--primary);
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+
+  .est-resultado-etiqueta {
+    color: var(--secundary);
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    opacity: .75;
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  .est-resultado-cifra {
+    color: var(--white);
+    margin: .5rem 0 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .est-resultado-sub {
+    color: var(--secundary);
+    opacity: .8;
+    margin: .5rem 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .est-desglose {
+    border-top: 1px solid #ffffff2e;
+    margin: 1.25rem 0 0;
+    padding: 1rem 0 0;
+    list-style: none;
+  }
+
+  /* :global() obligatorio aqui. Astro escopa por atributo (data-astro-cid-…) y
+     estos <li>/<span> los crea el JS en tiempo de ejecucion, asi que nunca lo
+     reciben: sin :global la regla no los alcanza y el texto caia al color del
+     body (#333) sobre el panel navy — contraste 1,56:1, ilegible. */
+  .est-desglose :global(li) {
+    grid-column-gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+    line-height: 1.35;
+    display: flex;
+  }
+
+  .est-desglose :global(li span) {
+    color: var(--secundary);
+    font-size: 12.5px;
+  }
+
+  .est-desglose :global(li span:first-child) {
+    opacity: .8;
+  }
+
+  .est-desglose :global(li span:last-child) {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .est-legal {
+    color: var(--terceary);
+    margin: 1.25rem 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .est-legal strong {
+    color: var(--black);
+  }
+
+  .est-legal a {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+
+  .est-cta {
+    grid-column-gap: .5rem;
+    grid-row-gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+    display: flex;
+  }
+
+  /* --- sin JS --- */
+  .est-noscript {
+    margin-bottom: 3rem;
+  }
+
+  .est-tabla {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .est-tabla th,
+  .est-tabla td {
+    border-bottom: 1px solid #3a545b26;
+    padding: .6rem .5rem;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  @media screen and (max-width: 991px) {
+    .est {
+      grid-template-columns: 1fr;
+    }
+
+    .est-panel {
+      position: static;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .est-opciones {
+      grid-template-columns: 1fr;
+    }
+
+    .est-medida input {
+      width: 6rem;
+    }
+
+    .est-resultado-cifra {
+      font-size: 26px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .est-opcion {
+      transition: none;
+    }
+  }
+</style>
