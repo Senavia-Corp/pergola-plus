@@ -28,8 +28,8 @@
  * CMS en tiempo de build, tiene rutas por categoria, RSS y JSON-LD. Nada de eso
  * sale de una captura del vivo.
  *
- * El FRAGMENTO se sigue escribiendo —es la unica copia en el repo del markup
- * original, y VIVO vive en un scratchpad que se borra— pero la PAGINA no se pisa.
+ * El FRAGMENTO se sigue escribiendo —es la copia en el repo del markup original,
+ * util para diffear— pero la PAGINA no se pisa.
  * Sin esta guarda, un `node scripts/generar-paginas.mjs` se llevaria el rediseno
  * por delante, en silencio y sin error.
  *
