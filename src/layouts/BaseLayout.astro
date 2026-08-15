@@ -48,8 +48,6 @@ interface Props {
    * nombre, y anadir uno obligaria a tocar las 25 paginas que ya lo usan.
    */
   jsonLd?: unknown;
-  /** Para las categorias sin articulos: paginas reales pero fuera del indice. */
-  noindex?: boolean;
 }
 
 const {
@@ -62,7 +60,6 @@ const {
   wfSite,
   ogType = 'website',
   jsonLd,
-  noindex,
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
@@ -92,7 +89,6 @@ const alternativas = [
     {ogImage && <meta content={ogImage} property="og:image" />}
     {ogImage && <meta content={ogImage} name="twitter:image" />}
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonicalUrl} />
     {alternativas.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     <link rel="alternate" hreflang="x-default" href={alternativas[0].href} />

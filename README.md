@@ -50,17 +50,29 @@ ejecuta sobre `dist/` después de `npm run build` y comprueba las cuentas por
 categoría (9/6/3/2/1), que no queda ni un `opacity:0` en línea y que el RSS está
 bien escapado.
 
-Dos cosas quedan pendientes del cliente en el CMS:
+**Solo se generan rutas para las categorías con artículos** (5 de 9). Las tres
+vacías dan 404, y es deliberado: una categoría sin artículos no es una sección
+del sitio, es una fila del CMS. El caso claro es `service-areas` — el sitio ya
+tiene **29 páginas reales de zonas** (`/about-us/where-we-work`, 3 de condado y
+25 de ciudad), así que una página «Service Areas» sin contenido solo confunde,
+aunque lleve `noindex`. Es data-driven: en cuanto el cliente publique en una de
+las tres, su ruta aparece sola en el siguiente build.
+
+Efecto secundario buscado: **no hay estado vacío** porque no puede alcanzarse.
+Nadie llega nunca a un grid en blanco.
+
+Tres cosas quedan pendientes del cliente en el CMS:
 
 - **`Featured?` está en `true` en 10 de 21 posts**, así que no sirve para elegir
   destacado. El que manda es `Super Blog`, que marca uno solo. Convendría
   desmarcar los demás.
-- **`Categories.Description` está vacío en las 9 filas.** Las entradillas de
-  categoría son copy provisional dentro de `src/lib/blog.ts`; en la Fase 3 se
-  mueven a ese campo.
-
-Y `view-all` es un ítem de la colección `Categories` que en realidad es un
-control de interfaz. No genera ruta; debería salir del CMS.
+- **`Categories.Description` está vacío en las 9 filas.** Las entradillas de las
+  5 categorías con artículos son copy provisional dentro de `src/lib/blog.ts`;
+  en la Fase 3 se mueven a ese campo.
+- **Cuatro filas sobran en `Categories`.** `view-all` es un control de interfaz
+  metido en los datos, y `service-areas` pisa conceptualmente a las 29 páginas
+  de ubicación. `commercial-projects` y `patio-hardscape-services` sí son temas
+  de artículo plausibles, solo les falta contenido.
 
 ## Idiomas
 

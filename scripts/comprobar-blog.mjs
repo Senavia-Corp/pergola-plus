@@ -22,10 +22,21 @@ const ESPERADO = {
   'materials-engineering': 3,
   'pergolas-shade-systems': 2,
   'maintenance-care': 1,
-  'commercial-projects': 0,
-  'patio-hardscape-services': 0,
-  'service-areas': 0,
 };
+
+/**
+ * Categorias del CMS sin articulos: NO deben tener ruta.
+ *
+ * `view-all` no es una categoria, es un control de interfaz metido en la coleccion.
+ * Las otras tres estan creadas y vacias; service-areas ademas chocaria con las 29
+ * paginas reales de zonas de servicio del sitio.
+ */
+const SIN_RUTA = [
+  'commercial-projects',
+  'patio-hardscape-services',
+  'service-areas',
+  'view-all',
+];
 
 /** Cualquier <li> de tarjeta, sin depender del orden de los atributos. */
 const TARJETA = /<li [^>]*data-slug="[^"]*"[^>]*>/g;
@@ -52,6 +63,17 @@ for (const [ruta, n] of Object.entries(ESPERADO)) {
   );
 }
 
+console.log('\ncategorias vacias: sin ruta');
+for (const slug of SIN_RUTA) {
+  let existe = true;
+  try {
+    await fs.access(path.join(DIST, slug, 'index.html'));
+  } catch {
+    existe = false;
+  }
+  decir(!existe, `/resources/blog/${slug} no se genera`);
+}
+
 console.log('\nsin JavaScript');
 const indice = await leer('index');
 decir(!indice.includes('style="opacity:0"'), 'cero opacity:0 en linea');
@@ -64,12 +86,8 @@ console.log('\nSEO');
 decir(indice.includes('application/ld+json'), 'JSON-LD en el listado');
 decir(!indice.includes('website-files.com'), 'cero URLs del CDN de Webflow');
 decir(
-  (await leer('commercial-projects')).includes('noindex,follow'),
-  'las categorias vacias van con noindex',
-);
-decir(
-  !(await leer('buying-guides-cost')).includes('noindex,follow'),
-  'las categorias con posts NO van con noindex',
+  (await leer('buying-guides-cost')).includes('application/ld+json'),
+  'JSON-LD en las categorias',
 );
 
 const rss = await fs.readFile(path.join(DIST, 'rss.xml'), 'utf8');
