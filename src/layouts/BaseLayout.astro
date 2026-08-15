@@ -1,7 +1,8 @@
 ---
-// BaseLayout — version MINIMA de la Fase 0.
-// Solo el <head> y la carga de assets, en el MISMO orden que el HTML original.
-// Nav y Footer se anaden en el PROMPT 0 de la Fase 1.
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+// BaseLayout — el <head> y el chrome, en el MISMO orden que el HTML original.
 //
 // Reglas que NO se pueden romper (ver docs/fase0-hallazgos.md y el plan):
 //  - Los 3 CSS van en este orden exacto: normalize -> webflow -> sitio.
@@ -25,6 +26,13 @@ interface Props {
   canonical?: string;
   /** Bloque <style> anti-FOUC especifico de la pagina. Copiar literal del original. */
   pageStyles?: string;
+  /**
+   * data-wf-page de la pagina original. NO es un metadato decorativo: IX2 lo lee
+   * (es una constante suya dentro de webflow.js) para saber que interacciones
+   * cargar. Sin el, los elementos con opacity:0 nunca se revelan.
+   */
+  wfPage?: string;
+  wfSite?: string;
 }
 
 const {
@@ -33,13 +41,15 @@ const {
   ogImage,
   canonical,
   pageStyles,
+  wfPage,
+  wfSite,
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-wf-page={wfPage} data-wf-site={wfSite}>
   <head>
     <meta charset="utf-8" />
     <title>{title}</title>
@@ -72,10 +82,30 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
     <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="/images/webclip.png" rel="apple-touch-icon" />
+
+    {/* Elfsight. El sitio usa 4 apps: WhatsApp Chat y Click to Call viven aqui
+        (botones flotantes en las 34 paginas), y Website Translator (25 paginas)
+        y Google Reviews (8) van dentro del cuerpo de cada pagina.
+        El original cargaba platform.js una vez por app; con una basta.
+        TODO Fase 4: decidir con el cliente. WhatsApp y Click-to-Call se
+        sustituyen por botones propios sin problema, pero el Translator es
+        multi-idioma de verdad y Google Reviews es contenido: reemplazarlos
+        es trabajo, no un borrado. */}
+    <script src="https://elfsightcdn.com/platform.js" async is:inline></script>
+    <div class="elfsight-app-9475d8c6-23cc-48ec-a267-bb10f8175418" data-elfsight-app-lazy></div>
+    <div class="elfsight-app-0426344c-df60-46cb-beee-2c9390923a32" data-elfsight-app-lazy></div>
   </head>
 
   <body>
+    {/* Contenedor de codigo embebido de Webflow. Va vacio, pero ocupa sitio en
+        el layout: quitarlo cambiaria el flujo del documento. */}
+    <div class="body-code">
+      <div class="code-embed-3 w-embed"></div>
+    </div>
+
+    <Nav />
     <slot />
+    <Footer />
 
     {/* jQuery ANTES que webflow.js. El integrity y el crossorigin son los del
         original: no tocarlos. */}

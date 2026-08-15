@@ -1,0 +1,349 @@
+---
+// Nav — extraido de index.html (lineas 37-374) por scripts/generar-shell.mjs.
+// NO editar a mano: se regenera. Verificado identico en las 34 paginas del
+// export salvo el marcador de pagina activa.
+//
+// Los data-w-id se conservan tal cual: son la llave de las interacciones de
+// webflow.js (menu movil, los 2 dropdowns). Borrar uno mata su animacion en
+// silencio.
+const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href || ruta.startsWith(href + '/'));
+---
+  <nav data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df62" class="menu">
+    <div data-animation="over-right" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
+      <div class="wrapper-menu">
+        <a href="/" class:list={["brand w-nav-brand", { "w--current": esActiva("/") }]}  aria-current={esActiva("/") ? "page" : undefined}><img loading="lazy" src="/images/Logo-White.svg" alt="Pergola Plus Florida Logo" class="logo"></a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+          <div class="wrapper-nav-menu">
+            <a href="#" class="wrapper-box-call w-inline-block"><img loading="lazy" src="/images/phone.svg" alt="" class="icon-phone">
+              <div class="div-block-call">
+                <div class="heading-call">Call Us!</div>
+                <div class="phone-call">(561) 710-8363</div>
+              </div>
+            </a>
+            <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
+              <div class="nav-link dropdown-toggle w-dropdown-toggle">
+                <div>Our Products</div>
+                <div class="icon w-icon-dropdown-toggle"></div>
+              </div>
+              <nav class="dropdown-list-products w-dropdown-list">
+                <div class="wrapper-submenu">
+                  <div class="block-submenu">
+                    <div class="nav-submenu-title">Pérgolas &amp; Patio Coves</div>
+                    <ul role="list" class="list">
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df7e" href="/products/motorized-louvered-pergolas" class:list={["submenu-item is-1 w-inline-block", { "w--current": esActiva("/products/motorized-louvered-pergolas") }]}  aria-current={esActiva("/products/motorized-louvered-pergolas") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Motorized Louvered Pergolas</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df85" href="/products/solid-roof-pergolas" class:list={["submenu-item is-2 w-inline-block", { "w--current": esActiva("/products/solid-roof-pergolas") }]}  aria-current={esActiva("/products/solid-roof-pergolas") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Solid Roof Pergolas</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df8c" href="/products/polycarbonate-pergolas" class:list={["submenu-item is-3 w-inline-block", { "w--current": esActiva("/products/polycarbonate-pergolas") }]}  aria-current={esActiva("/products/polycarbonate-pergolas") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Polycarbonate Pergolas</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df93" href="/products/open-air-pergolas" class:list={["submenu-item is-4 w-inline-block", { "w--current": esActiva("/products/open-air-pergolas") }]}  aria-current={esActiva("/products/open-air-pergolas") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Open-Air Pergolas</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df9a" href="/products/cabanas" class:list={["submenu-item is-5 w-inline-block", { "w--current": esActiva("/products/cabanas") }]}  aria-current={esActiva("/products/cabanas") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Cabanas</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="block-submenu">
+                    <div class="nav-submenu-title">Outdoor Enclosures &amp; Systems</div>
+                    <ul role="list" class="list">
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfa5" href="/products/screen-enclosures" class:list={["submenu-item is-6 w-inline-block", { "w--current": esActiva("/products/screen-enclosures") }]}  aria-current={esActiva("/products/screen-enclosures") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Screen Enclosures</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfac" href="/products/motorized-screens" class:list={["submenu-item is-7 w-inline-block", { "w--current": esActiva("/products/motorized-screens") }]}  aria-current={esActiva("/products/motorized-screens") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Motorized Screens</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfb3" href="/products/carports" class:list={["submenu-item is-8 w-inline-block", { "w--current": esActiva("/products/carports") }]}  aria-current={esActiva("/products/carports") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Carports</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfba" href="/products/solar-pergolas" class:list={["submenu-item is-9 w-inline-block", { "w--current": esActiva("/products/solar-pergolas") }]}  aria-current={esActiva("/products/solar-pergolas") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Solar Pergolas</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfc1" href="/products/sukkha" class:list={["submenu-item is-10 w-inline-block", { "w--current": esActiva("/products/sukkha") }]}  aria-current={esActiva("/products/sukkha") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Sukkha</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="block-submenu-view-products">
+                    <div class="preview-wrapper-products"><img loading="lazy" src="/images/pergola-contractors-south-florida.avif" alt="South Florida pergola contractors specializing in custom aluminum pergolas and motorized louvered roof systems. Licensed, engineered, design-build solutions for luxury properties." class="preview-image-cover"><img loading="lazy" src="/images/louvered-roof-pergolas-south-florida.avif" alt="Custom louvered roof pergolas designed and installed in South Florida. Motorized, engineered systems built for luxury homes and commercial properties." class="preview-image is-1"><img loading="lazy" src="/images/insulated-roof-pergolas-south-florida.avif" alt="High-performance insulated roof pergolas for South Florida homes. Engineered aluminum systems designed for heat control, durability, and long-term value." class="preview-image is-2"><img loading="lazy" src="/images/polycarbonate-pergolas-south-florida.avif" alt="Custom polycarbonate pergola systems designed for natural light and weather protection. Professionally installed throughout South Florida." class="preview-image is-3"><img loading="lazy" src="/images/open-air-pergolas-south-florida.avif" alt="Modern open-air aluminum pergolas designed for outdoor living in South Florida. Custom-built structures for luxury residential properties." class="preview-image is-4"><img loading="lazy" src="/images/custom-cabanas-south-florida.avif" alt="Custom-designed cabanas built for pools and outdoor spaces in South Florida. Engineered structures tailored to high-end residential environments." class="preview-image is-5"><img loading="lazy" src="/images/screen-enclosures-south-florida.avif" alt="Professionally installed screen enclosures for patios and outdoor living areas in South Florida. Designed for comfort, durability, and seamless integration." class="preview-image is-6"><img loading="lazy" src="/images/motorized-screens-south-florida.avif" alt="Motorized screen systems designed for pergolas and outdoor spaces in South Florida. Automated comfort, privacy, and insect protection." class="preview-image is-7"><img loading="lazy" src="/images/aluminum-carports-south-florida.avif" alt="Custom aluminum carports designed and built in South Florida. Engineered structures for residential and select commercial applications." class="preview-image is-8"><img loading="lazy" src="/images/solar-roof-structures-south-florida.avif" alt="Engineered solar roof structures combining shade and energy solutions. Custom-designed aluminum systems for South Florida properties." class="preview-image is-9"><img loading="lazy" src="/images/sukkha-3000-louvered-pergola-system.avif" alt="Sukkha 3000 louvered pergola system professionally installed in South Florida. A premium motorized solution for modern outdoor living." class="preview-image is-10"></div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+            <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
+              <div class="nav-link dropdown-toggle w-dropdown-toggle">
+                <div>Our Services</div>
+                <div class="icon w-icon-dropdown-toggle"></div>
+              </div>
+              <nav class="dropdown-list-services w-dropdown-list">
+                <div class="wrapper-submenu">
+                  <div class="block-submenu">
+                    <div class="nav-submenu-title">Hardscape &amp; Construction</div>
+                    <ul role="list" class="list">
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfe0" href="/services/pergola-design-construction" class:list={["submenu-item is-1 w-inline-block", { "w--current": esActiva("/services/pergola-design-construction") }]}  aria-current={esActiva("/services/pergola-design-construction") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Custom Pergolas &amp; Patio Covers</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfe7" href="/services/pavers" class:list={["submenu-item is-2 w-inline-block", { "w--current": esActiva("/services/pavers") }]}  aria-current={esActiva("/services/pavers") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Pavers</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dfee" href="/services/driveways" class:list={["submenu-item is-3 w-inline-block", { "w--current": esActiva("/services/driveways") }]}  aria-current={esActiva("/services/driveways") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Driveways</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88dff5" href="/services/concrete" class:list={["submenu-item is-4 w-inline-block", { "w--current": esActiva("/services/concrete") }]}  aria-current={esActiva("/services/concrete") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Concrete</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="block-submenu">
+                    <div class="nav-submenu-title">Outdoor Enhancements</div>
+                    <ul role="list" class="list">
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88e000" href="/services/deck-builders" class:list={["submenu-item is-5 w-inline-block", { "w--current": esActiva("/services/deck-builders") }]}  aria-current={esActiva("/services/deck-builders") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Deck </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88e007" href="/services/fence-solutions" class:list={["submenu-item is-6 w-inline-block", { "w--current": esActiva("/services/fence-solutions") }]}  aria-current={esActiva("/services/fence-solutions") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Fence</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="2d27e00a-9abd-8e02-83db-6979dd88e00e" href="/services/patio-remodeling" class:list={["submenu-item is-7 w-inline-block", { "w--current": esActiva("/services/patio-remodeling") }]}  aria-current={esActiva("/services/patio-remodeling") ? "page" : undefined}>
+                          <div>
+                            <div class="heading-submenu">Full Outdoor Remodel</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a data-w-id="e3bb8397-af45-2730-f4b9-60600b55ee46" href="#" class="submenu-item is-7 w-inline-block">
+                          <div>
+                            <div class="heading-submenu">Landscaping</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="block-submenu-view">
+                    <div class="preview-wrapper"><img loading="lazy" src="/images/outdoor-living-services.avif" alt="outdoor living contractors, patio remodeling South Florida, outdoor patio renovation, custom outdoor spaces Florida" class="preview-image-cover"><img loading="lazy" src="/images/pergola-design-construction-custom-aluminum-south-florida.avif" alt="Custom-designed aluminum pergola installed in a South Florida backyard with precision construction and clean lines." class="preview-image is-1"><img loading="lazy" src="/images/paver-patio-installation-south-florida.avif" alt="Professional paver patio installation in South Florida featuring clean patterns and durable materials." class="preview-image is-2"><img loading="lazy" src="/images/driveway-installation-south-florida.avif" alt="Residential driveway installation in South Florida built for durability, clean edges, and curb appeal." class="preview-image is-3"><img loading="lazy" src="/images/concrete-patio-slab-installation-south-florida.avif" alt="Concrete patio and slab installation in South Florida with smooth finishes and precise craftsmanship." class="preview-image is-4"><img loading="lazy" src="/images/custom-outdoor-deck-builder-south-florida.avif" alt="Custom outdoor deck construction in South Florida designed for durability and outdoor living comfort." class="preview-image is-5"><img loading="lazy" src="/images/residential-fence-installation-south-florida.avif" alt="Professional residential fence installation in South Florida for privacy, safety, and clean design." class="preview-image is-6"><img loading="lazy" src="/images/patio-remodeling-project-south-florida.avif" alt="Patio remodeling project in South Florida transforming outdoor spaces with modern design and finishes." class="preview-image is-7"></div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+            <a href="/project-gallery" class:list={["nav-link w-nav-link", { "w--current": esActiva("/project-gallery") }]}  aria-current={esActiva("/project-gallery") ? "page" : undefined}>Project Gallery</a>
+            <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
+              <div class="nav-link dropdown-toggle w-dropdown-toggle">
+                <div>About Us</div>
+                <div class="icon w-icon-dropdown-toggle"></div>
+              </div>
+              <nav class="dropdown-list-mini w-dropdown-list">
+                <div class="wrapper-submenu-mini">
+                  <a href="/about-us" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us") }]}  aria-current={esActiva("/about-us") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/1_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">About Us</div>
+                        <div class="paragraph-link-submenu">Learn why we are the leading pergola contractors in South Florida for families.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/about-us/where-we-work" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us/where-we-work") }]}  aria-current={esActiva("/about-us/where-we-work") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/4.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Where We Work</div>
+                        <div class="paragraph-link-submenu">The service areas covered by expert pergola contractors in South Florida today.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/about-us/brands" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us/brands") }]}  aria-current={esActiva("/about-us/brands") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/2_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Our Brand Partners</div>
+                        <div class="paragraph-link-submenu">Premium brands trusting the best pergola contractors in South Florida for home.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/about-us/industries-we-serve" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us/industries-we-serve") }]}  aria-current={esActiva("/about-us/industries-we-serve") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/3_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Industries We Serve</div>
+                        <div class="paragraph-link-submenu">Key sectors served by professional pergola contractors in South Florida always.</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </nav>
+            </div>
+            <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
+              <div class="nav-link dropdown-toggle w-dropdown-toggle">
+                <div>Resources</div>
+                <div class="icon w-icon-dropdown-toggle"></div>
+              </div>
+              <nav class="dropdown-list-mini w-dropdown-list">
+                <div class="wrapper-submenu-mini">
+                  <a href="/resources/blog" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/resources/blog") }]}  aria-current={esActiva("/resources/blog") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/5.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Outdoor Living Blog</div>
+                        <div class="paragraph-link-submenu">Expert insights from leading pergola contractors in South Florida for your home.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/resources/faq" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/resources/faq") }]}  aria-current={esActiva("/resources/faq") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/6.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Help Center &amp; FAQs</div>
+                        <div class="paragraph-link-submenu">Detailed answers from the top pergola contractors in South Florida for projects.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/resources/warranties" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/resources/warranties") }]}  aria-current={esActiva("/resources/warranties") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/7.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Warranty &amp; Protection</div>
+                        <div class="paragraph-link-submenu">Solid protection from trusted pergola contractors in South Florida you can rely.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/about-us/testimonials" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us/testimonials") }]}  aria-current={esActiva("/about-us/testimonials") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/8.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Client Success Stories</div>
+                        <div class="paragraph-link-submenu">See why we are the top-rated pergola contractors in South Florida for luxury.</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </nav>
+            </div>
+            <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
+              <div class="nav-link dropdown-toggle w-dropdown-toggle">
+                <div>Contact Us</div>
+                <div class="icon w-icon-dropdown-toggle"></div>
+              </div>
+              <nav class="dropdown-list-mini w-dropdown-list">
+                <div class="wrapper-submenu-mini">
+                  <a href="/contact-us/schedule-a-visit" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/10.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Schedule an Expert Visit</div>
+                        <div class="paragraph-link-submenu">Book a consultation with expert pergola contractors in South Florida for homes.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/contact-us/get-a-quote" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/contact-us/get-a-quote") }]}  aria-current={esActiva("/contact-us/get-a-quote") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/9.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Request a Free Quote</div>
+                        <div class="paragraph-link-submenu">Get a free estimate from professional pergola contractors in South Florida now.</div>
+                      </div>
+                    </div>
+                  </a>
+                  <a href="/contact-us/get-in-touch" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/contact-us/get-in-touch") }]}  aria-current={esActiva("/contact-us/get-in-touch") ? "page" : undefined}>
+                    <div class="wrapper-submenu-link">
+                      <div class="block-icon-submenu"><img src="/images/12.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
+                      <div>
+                        <div class="heading-link-submenu">Contact Our Team</div>
+                        <div class="paragraph-link-submenu">Contact the leading pergola contractors in South Florida for custom designs.</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </nav>
+            </div>
+            <div class="nav-button">
+              <a href="/contact-us/get-a-quote" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/get-a-quote") }]}  aria-current={esActiva("/contact-us/get-a-quote") ? "page" : undefined}>Get a Quote</a>
+              <a href="/contact-us/schedule-a-visit" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>Schedule A Visit</a>
+              <a href="tel:+15617108363" class="block-call-menu w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewbox="0 0 32 32" app="ikonik" class="ikonik-icxtx">
+                  <rect fill="none" width="32" height="32" app="ikonik"></rect>
+                  <path d="M20.33,21.48l2.24-2.24a2.19,2.19,0,0,1,2.34-.48l2.73,1.09a2.18,2.18,0,0,1,1.36,2v5A2.17,2.17,0,0,1,26.72,29C7.59,27.81,3.73,11.61,3,5.41A2.17,2.17,0,0,1,5.17,3H10a2.16,2.16,0,0,1,2,1.36l1.09,2.73a2.16,2.16,0,0,1-.47,2.34l-2.24,2.24S11.67,20.4,20.33,21.48Z" app="ikonik"></path>
+                </svg></a>
+            </div>
+            <a href="tel:+15617108363" class="link-block-call-movil w-inline-block">
+              <div class="block-movil-call"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewbox="0 0 32 32" app="ikonik" class="ikonik-icxtx">
+                  <rect fill="none" width="32" height="32" app="ikonik"></rect>
+                  <path d="M20.33,21.48l2.24-2.24a2.19,2.19,0,0,1,2.34-.48l2.73,1.09a2.18,2.18,0,0,1,1.36,2v5A2.17,2.17,0,0,1,26.72,29C7.59,27.81,3.73,11.61,3,5.41A2.17,2.17,0,0,1,5.17,3H10a2.16,2.16,0,0,1,2,1.36l1.09,2.73a2.16,2.16,0,0,1-.47,2.34l-2.24,2.24S11.67,20.4,20.33,21.48Z" app="ikonik"></path>
+                </svg>
+                <div>(561) 710-8363</div>
+              </div>
+            </a>
+          </div>
+        </nav>
+        <div class="menu-button w-nav-button">
+          <div class="w-icon-nav-menu"></div>
+        </div>
+      </div>
+    </div>
+  </nav>

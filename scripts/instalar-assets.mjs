@@ -65,6 +65,29 @@ for (const f of await fs.readdir(path.join(STAGING, 'design'))) {
   }
 }
 
+// 2b. placeholders que el HTML pedia a CDNs externos --------------------------
+const { PLACEHOLDERS } = await import('./lib/transformar.mjs');
+let nPh = 0;
+for (const [remoto, local] of Object.entries(PLACEHOLDERS)) {
+  const dest = path.join(destImg, path.basename(local));
+  try {
+    const r = await fetch(remoto);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    await fs.writeFile(dest, Buffer.from(await r.arrayBuffer()));
+    nPh++;
+  } catch (e) {
+    console.error(`  !! no se pudo bajar el placeholder ${remoto}: ${e.message}`);
+    process.exitCode = 1;
+  }
+}
+
+// 2c. videos ------------------------------------------------------------------
+// 47 MB. NO van a git (.gitignore), pero el hero de la home los necesita para
+// renderizar. En la Fase 2 se deciden a Vercel Blob o assets de Sanity.
+const destVid = path.join(RAIZ, 'public/videos');
+await fs.rm(destVid, { recursive: true, force: true });
+const nVid = await copiarDir(path.join(EXPORT, 'videos'), destVid);
+
 // 3. imagenes del CMS, provisional hasta Sanity -------------------------------
 const destCms = path.join(RAIZ, 'public/cms-img');
 await fs.rm(destCms, { recursive: true, force: true });
@@ -103,7 +126,8 @@ for (const f of htmls) {
 const hay = new Set(await fs.readdir(destImg));
 const faltan = [...pide].filter((n) => !hay.has(n)).sort();
 
-console.log(`  public/images/    ${nImg + nExtra} archivos  (${nImg} del export + ${nExtra} del CDN)`);
+console.log(`  public/images/    ${nImg + nExtra + nPh} archivos  (${nImg} del export + ${nExtra + nPh} externos internalizados)`);
+console.log(`  public/videos/    ${nVid} archivos  (provisional: no van a git)`);
 console.log(`  public/cms-img/   ${nCms} archivos`);
 console.log(`  src/lib/img-map.json  ${Object.keys(mapa).length} urls mapeadas`);
 console.log(`\n  el HTML original pide ${pide.size} imagenes de images/  ->  faltan ${faltan.length}`);

@@ -35,3 +35,7 @@ assets-migracion/content/
 # Provisional: en la Fase 3 las sirve el CDN de Sanity y esta carpeta se borra.
 # Se regenera con: node scripts/instalar-assets.mjs
 public/cms-img/
+
+# Videos del hero (47 MB). Se regeneran con instalar-assets.mjs.
+# En la Fase 2 se mueven a Vercel Blob o a Sanity.
+public/videos/
