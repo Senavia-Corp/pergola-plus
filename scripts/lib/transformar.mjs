@@ -50,6 +50,21 @@ export const ENLACES_ROTOS = {
 };
 
 /**
+ * Botones que en el original salen con href="#": nunca se les puso destino.
+ * Los dos del bloque `call-to-action-footer` se repiten en ~100 paginas.
+ *
+ * No caben en ENLACES_ROTOS porque ahi la llave es el href, y aqui el href es el
+ * mismo ("#") para todos: lo unico que distingue un boton de otro es su TEXTO.
+ * Por eso la llave es el texto del enlace y no la clase — el mismo boton aparece
+ * como `button`, `button secundary` y `button tertiary` segun la seccion, y los
+ * tres tienen que ir al mismo sitio.
+ */
+export const BOTONES_MUERTOS = {
+  'Get A Quote': '/contact-us/get-a-quote',
+  'Schedule A Visit': '/contact-us/schedule-a-visit',
+};
+
+/**
  * Placeholders que el HTML pide a CDNs externos. Todos salen en estados vacios
  * del CMS (w-dyn-bind-empty) salvo la ilustracion del 404. Se descargan a
  * /images/ para no dejar NI UNA dependencia externa: el sitio tiene que
@@ -168,7 +183,23 @@ export function reescribirImagenes(html, mapa, locales) {
   return { html: s, sinResolver: [...sinResolver] };
 }
 
-export function transformar(html) {
+/**
+ * El embed de Google Reviews, tal cual sale del vivo. Literal y no regex a
+ * proposito: si Webflow cambiara una coma, mejor que deje de coincidir y salte la
+ * puerta de scripts/comprobar-cta.mjs a que se coma medio documento.
+ */
+const ELFSIGHT_RESENAS =
+  '<div class="code-embed-2 w-embed w-script"><!-- Elfsight Google Reviews | Pergola Plus -->\n' +
+  '<div class="elfsight-app-3da28fc2-41dc-4c2e-ab75-297b8e71f6eb" data-elfsight-app-lazy></div></div>';
+
+/** Destino del enlace que sustituye al embed. */
+const RESENAS = '/about-us/testimonials';
+
+/**
+ * `ruta` es opcional y solo la usa el paso 6b, para no dejar un enlace a si misma
+ * en la pagina de testimonios. Las paginas de detalle no la pasan: ninguna es esa.
+ */
+export function transformar(html, ruta) {
   let s = html;
 
   // 1. Assets a rutas absolutas desde la raiz.
@@ -204,6 +235,14 @@ export function transformar(html) {
     s = s.replaceAll(`href="${malo}"`, `href="${bueno}"`);
   }
 
+  // 3b. Botones sin destino. Se sustituye SOLO el href; la clase, el texto y
+  //     cualquier data-* se quedan igual. Los href="#" que no esten en el mapa
+  //     (Terms, Privacy Policy, More About Us...) no se tocan.
+  s = s.replace(/<a href="#"([^>]*)>([^<]*)<\/a>/g, (tal_cual, attrs, texto) => {
+    const ruta = BOTONES_MUERTOS[texto.trim()];
+    return ruta ? `<a href="${ruta}"${attrs}>${texto}</a>` : tal_cual;
+  });
+
   // 4. Atributos internos.
   s = s.replace(ATRIBUTOS_BASURA, '');
 
@@ -213,15 +252,29 @@ export function transformar(html) {
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');
 
-  // 6. Elfsight. El sitio usa CUATRO apps, no dos:
+  // 6. Elfsight. El sitio usaba CUATRO apps, no dos:
   //      WhatsApp Chat + Click to Call   -> en el <head>, las 34 paginas
   //      Website Translator              -> en el cuerpo, 25 paginas (multi-idioma)
-  //      Google Reviews                  -> en el cuerpo, 8 paginas
-  //    Los dos ultimos NO son botones flotantes: son contenido y funcionalidad.
-  //    En la Fase 1 se conservan tal cual, o la migracion dejaria de ser exacta.
-  //    El <div> contenedor se queda donde esta; el platform.js lo carga
-  //    BaseLayout una sola vez (Webflow lo repetia por cada app).
+  //      Google Reviews                  -> en el cuerpo, 40 fragmentos
+  //    Se retiraron las cuatro; el porque y la medicion estan en BaseLayout.astro.
+  //    Las dos del <head> y el traductor los quitan BaseLayout y Footer. Aqui se
+  //    quita el <script> del loader, que venia repetido por cada app.
   s = s.replace(/\s*<script[^>]*elfsightcdn[^>]*>\s*<\/script>/gi, '');
+
+  // 6b. Google Reviews NO era un boton flotante: era contenido, y retirarlo dejaba
+  //     un hueco en 40 paginas. Se sustituye por un enlace propio a la pagina de
+  //     testimonios, que es donde vive esa misma prueba social sin cargar a un
+  //     tercero. En la PROPIA pagina de testimonios el enlace apuntaria a si misma,
+  //     asi que ahi solo se quita: de ahi que haga falta `ruta`.
+  //
+  //     Esto vivia como edicion a mano sobre los fragmentos y un solo
+  //     `node scripts/generar-paginas.mjs` se lo llevaba por delante, en silencio.
+  s = s.replaceAll(
+    ELFSIGHT_RESENAS,
+    ruta === RESENAS
+      ? ''
+      : `<a href="${RESENAS}" class="button w-button">Read Client Reviews</a>`,
+  );
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las
