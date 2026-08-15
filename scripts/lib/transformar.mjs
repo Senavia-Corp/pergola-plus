@@ -50,19 +50,54 @@ export const ENLACES_ROTOS = {
 };
 
 /**
- * Botones que en el original salen con href="#": nunca se les puso destino.
- * Los dos del bloque `call-to-action-footer` se repiten en ~100 paginas.
+ * Enlaces que en el original salen con href="#": nunca se les puso destino.
  *
  * No caben en ENLACES_ROTOS porque ahi la llave es el href, y aqui el href es el
- * mismo ("#") para todos: lo unico que distingue un boton de otro es su TEXTO.
- * Por eso la llave es el texto del enlace y no la clase — el mismo boton aparece
- * como `button`, `button secundary` y `button tertiary` segun la seccion, y los
- * tres tienen que ir al mismo sitio.
+ * mismo ("#") para todos: lo unico que distingue un enlace de otro es su TEXTO.
+ * Por eso la llave es el texto y no la clase — el mismo boton aparece como
+ * `button`, `button secundary` y `button tertiary` segun la seccion, y los tres
+ * tienen que ir al mismo sitio.
+ *
+ * De donde sale cada destino:
+ *
+ *   Get A Quote / Schedule A Visit  los dos del bloque `call-to-action-footer`,
+ *                                   que se repite en ~100 paginas.
+ *   Explore Area Services           va en la seccion "Service Areas / Proudly
+ *   Where We Work / Where We Serve  Serving South Florida"; where-we-work es
+ *                                   justo ese indice (lista las 25 ciudades) y
+ *                                   repite ese mismo H2.
+ *   View Our Work                   /project-gallery = "Featured Projects".
+ *   View Product Gallery            ANCLA, no pagina: las 5 paginas de marca ya
+ *                                   traen <section id="Featured-Gallery">. El
+ *                                   id estaba puesto y el boton sin cablear.
+ *   Go to the main page             sale en el estado `w-form-done` del
+ *                                   formulario, tras enviarlo.
+ *   Terms / Privacy Policy          la nota al pie del formulario. Las dos
+ *                                   paginas existen como articulos del CMS.
  */
 export const BOTONES_MUERTOS = {
   'Get A Quote': '/contact-us/get-a-quote',
   'Schedule A Visit': '/contact-us/schedule-a-visit',
+  'More About Us': '/about-us/about-us',
+  'Where We Work': '/about-us/where-we-work',
+  'Where We Serve': '/about-us/where-we-work',
+  'Explore Area Services': '/about-us/where-we-work',
+  'View Our Work': '/project-gallery',
+  'View Product Gallery': '#Featured-Gallery',
+  'Go to the main page': '/',
+  'Terms': '/articles/terms-of-service',
+  'Privacy Policy': '/articles/privacy-policy',
 };
+
+/**
+ * Indice de busqueda. El texto del enlace llega del vivo con basura pegada
+ * ("Terms ", "Privacy Policy.", "Get a Quote" con la a en minuscula), asi que se
+ * normaliza en vez de meter una entrada por variante.
+ */
+const normalizar = (t) => t.trim().toLowerCase().replace(/[.\s]+$/, '');
+const POR_TEXTO = new Map(
+  Object.entries(BOTONES_MUERTOS).map(([t, r]) => [normalizar(t), r]),
+);
 
 /**
  * Placeholders que el HTML pide a CDNs externos. Todos salen en estados vacios
@@ -235,12 +270,16 @@ export function transformar(html, ruta) {
     s = s.replaceAll(`href="${malo}"`, `href="${bueno}"`);
   }
 
-  // 3b. Botones sin destino. Se sustituye SOLO el href; la clase, el texto y
-  //     cualquier data-* se quedan igual. Los href="#" que no esten en el mapa
-  //     (Terms, Privacy Policy, More About Us...) no se tocan.
+  // 3b. Enlaces sin destino. Se sustituye SOLO el href; la clase, el texto y
+  //     cualquier data-* se quedan igual. Lo que no este en el mapa no se toca.
   s = s.replace(/<a href="#"([^>]*)>([^<]*)<\/a>/g, (tal_cual, attrs, texto) => {
-    const ruta = BOTONES_MUERTOS[texto.trim()];
-    return ruta ? `<a href="${ruta}"${attrs}>${texto}</a>` : tal_cual;
+    const ruta = POR_TEXTO.get(normalizar(texto));
+    if (!ruta) return tal_cual;
+    // Un destino que es ancla solo vale si el ancla esta EN esta pagina. Si
+    // manana sale ese boton en una plantilla sin la seccion, mejor dejarlo muerto
+    // y que lo cace la puerta que inventar un salto a ninguna parte.
+    if (ruta.startsWith('#') && !s.includes(`id="${ruta.slice(1)}"`)) return tal_cual;
+    return `<a href="${ruta}"${attrs}>${texto}</a>`;
   });
 
   // 4. Atributos internos.

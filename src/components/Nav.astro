@@ -65,7 +65,10 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
         <a href="/" class:list={["brand w-nav-brand", { "w--current": esActiva("/") }]}  aria-current={esActiva("/") ? "page" : undefined}><img loading="lazy" src="/images/Logo-White.svg" alt="Pergola Plus Florida Logo" class="logo"></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
           <div class="wrapper-nav-menu">
-            <a href="#" class="wrapper-box-call w-inline-block"><img loading="lazy" src="/images/phone.svg" alt="" class="icon-phone">
+            {/* Venia con href="#" del export: el bloque enseñaba el telefono en
+                las 107 paginas y no llamaba. Mismo numero que ya usan el hero y
+                el boton flotante de BaseLayout. */}
+            <a href="tel:+15617108363" class="wrapper-box-call w-inline-block"><img loading="lazy" src="/images/phone.svg" alt="" class="icon-phone">
               <div class="div-block-call">
                 <div class="heading-call">{t('callUs')}</div>
                 <div class="phone-call">(561) 710-8363</div>
@@ -233,6 +236,12 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
                         </a>
                       </li>
                       <li>
+                        {/* UNICO href="#" que queda vivo en todo el sitio, y a
+                            proposito: no hay pagina de landscaping. Ya venia asi
+                            del export. Se queda hasta que exista /services/
+                            landscaping o se decida quitar la entrada del menu;
+                            scripts/comprobar-enlaces-muertos.mjs lo tiene en su
+                            lista de conocidos para que no ensucie la puerta. */}
                         <a data-w-id="e3bb8397-af45-2730-f4b9-60600b55ee46" href="#" class="submenu-item is-7 w-inline-block">
                           <div>
                             <div class="heading-submenu">{t('landscaping')}</div>
