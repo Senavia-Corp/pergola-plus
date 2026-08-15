@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import html from '../../contenido-migrado/estaticas/contact-us__schedule-a-visit.html?raw';
 
-// Migrado de contact-us/schedule-a-visit.html por scripts/generar-paginas.mjs — NO editar a mano.
-// El nav y el footer los pone BaseLayout: aqui va solo el cuerpo.
+// Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/schedule-a-visit.
+// NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
@@ -10,23 +11,5 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   wfPage="698a91adde00b79df8efdde0"
   wfSite="6903b7794d5df3d76a7a2488"
 >
-  <section class="appointment-section">
-    <div class="appointment-column-left"><img src="/images/pergola-design-consultation-florida.avif" loading="lazy" sizes="100vw" srcset="/images/appoiment--p-500.avif 500w,/images/appoiment--p-800.avif 800w,/images/pergola-design-consultation-florida.avif 1250w" alt="Professional aluminum pergola design consultation in Florida showcasing custom outdoor living planning and motorized louvered roof solutions." class="image-3"></div>
-    <div class="w-layout-blockcontainer container w-container">
-      <div class="appointment-column-right">
-        <div class="header-page-transparent">
-          <div class="wrapper-hero-page-transparent">
-            <h1>Book a Free Design Consultation</h1>
-            <div>Start your project with a personalized consultation to explore design options, system features, and the best aluminum pergola solution for your outdoor space.</div>
-          </div>
-          <div class="appointment_wrapper w-embed w-script"><!--  ScheduleOnce embed START  -->
-            <div id="SOIDIV_PergolaPlusFlorida" data-so-page="PergolaPlusFlorida" data-height="550" data-style="border: 1px solid #d8d8d8; min-width: 290px; max-width: 100%;" data-psz="00"></div>
-            <script is:inline type="text/javascript" src="https://cdn.oncehub.com/mergedjs/so.js"></script>
-            <!--  ScheduleOnce embed END  -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
+  <Fragment set:html={html} />
 </BaseLayout>

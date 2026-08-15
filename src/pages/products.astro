@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import html from '../contenido-migrado/estaticas/products.html?raw';
 
-// Migrado de products.html por scripts/generar-paginas.mjs — NO editar a mano.
-// El nav y el footer los pone BaseLayout: aqui va solo el cuerpo.
+// Generado por scripts/generar-paginas.mjs desde el HTML real de /products.
+// NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
@@ -11,49 +12,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   wfPage="698a8fb41ef38ddbc64c727c"
   wfSite="6903b7794d5df3d76a7a2488"
 >
-  <header class="header-page">
-    <div class="w-layout-blockcontainer container w-container">
-      <div data-w-id="15b709b4-f6d7-0064-6f7b-160d6783adab" class="wrapper-hero-page">
-        <h1>Luxury Pergolas &amp; Outdoor Shade Solutions</h1>
-        <div>Discover premium aluminum pergolas and custom outdoor shade solutions expertly designed and installed across South Florida, delivering durability, style, and elevated luxury outdoor living.<br></div>
-      </div>
-    </div>
-  </header>
-  <section class="body-page">
-    <div class="wrapper-cards">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="product-grid-wrapper w-dyn-list">
-          <div role="list" class="product-grid-list w-dyn-items">
-            <div role="listitem" class="product-grid-item w-dyn-item">
-              <div data-product="" class="product-card-page"><img src="/images/wf-placeholder.svg" loading="lazy" alt="" class="product-card-image w-dyn-bind-empty">
-                <div class="product-card-body-page">
-                  <h3 class="product-card-h3 w-dyn-bind-empty"></h3>
-                  <div class="product-card-text w-dyn-bind-empty"></div>
-                  <a href="#" class="product-card-link-page w-inline-block">
-                    <div>Explore More →</div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="w-dyn-empty">
-            <div>No items found.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="call-to-action-footer">
-    <div class="wrapper-call-to-action">
-      <div data-w-id="f00e2efe-9b56-1210-e497-b72104be4b25" class="box-call-to-action">
-        <h2>Request your free Estimate</h2>
-        <div>Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.</div>
-        <div class="process-cta">
-          <a href="#" class="button w-button">Get A Quote</a>
-          <a href="#" class="button secundary w-button">Schedule A Visit</a>
-        </div>
-      </div>
-    </div><img sizes="(max-width: 2000px) 100vw, 2000px" srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w,/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w,/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w,/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w" alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties." src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif" loading="lazy" class="image-call-to-action">
-  </section>
-  
+  <Fragment set:html={html} />
 </BaseLayout>

@@ -112,6 +112,19 @@ const EXT = 'jpg|jpeg|png|webp|avif|svg|gif';
  * Si una URL no se resuelve por ninguna via, se LANZA. Un fallo de build vale
  * mas que una imagen apuntando a Webflow en produccion.
  */
+/**
+ * Nombres de los archivos que hay en public/videos/. El hero los pide al CDN.
+ * Se leen una vez al cargar el modulo.
+ */
+const VIDEOS = new Set(
+  await (async () => {
+    const { readdir } = await import('node:fs/promises');
+    const { fileURLToPath } = await import('node:url');
+    const dir = fileURLToPath(new URL('../../public/videos/', import.meta.url));
+    try { return await readdir(dir); } catch { return []; }
+  })(),
+);
+
 export function reescribirImagenes(html, mapa, locales) {
   const sinResolver = new Set();
 
@@ -126,6 +139,18 @@ export function reescribirImagenes(html, mapa, locales) {
   // Pasada 1: URLs planas.
   const RX = new RegExp(`https://cdn\\.prod\\.website-files\\.com/[^"'\\s)\\\\]+?\\.(?:${EXT})(?:\\.(?:${EXT}))*`, 'gi');
   let s = html.replace(RX, (url) => resolver(url) ?? url);
+
+  // Pasada 1b: VIDEO. El hero de la home carga el mp4, el webm y el poster desde
+  // el CDN, y ademas con la barra codificada (%2F) dentro de la ruta. No entran
+  // por el patron de imagen, asi que se resuelven aparte contra public/videos/.
+  const RXV = /https:\/\/cdn\.prod\.website-files\.com\/[^"'\s)\\]+?\.(?:mp4|webm|mov|m4v|jpg|jpeg|png)/gi;
+  s = s.replace(RXV, (url) => {
+    const base = decodeURIComponent(url.split(/[/]|%2F/i).pop()).replace(/^[0-9a-f]{20,32}_/i, '');
+    if (VIDEOS.has(base)) return `/videos/${base}`;
+    if (locales.has(base)) return `/images/${base}`;
+    sinResolver.add(url);
+    return url;
+  });
 
   // Pasada 2: URLs URL-CODIFICADAS.
   // El lightbox de Webflow guarda su configuracion en un

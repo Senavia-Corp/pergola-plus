@@ -1,108 +1,162 @@
 #!/usr/bin/env node
 /**
- * Fase 1 — genera las paginas ESTATICAS a partir del export.
+ * Fase 1 — genera las 16 paginas ESTATICAS.
  *
- * Por que un script y no ir pagina por pagina a mano: la migracion tiene que ser
- * exacta. Un transformador determinista aplica la misma regla a las 17 paginas y
- * no se cansa en la numero 12. Ademas es reejecutable: si aparece un fallo en la
- * transformacion, se corrige aqui y se regeneran todas.
+ * POR QUE DESDE EL SITIO EN VIVO Y NO DESDE EL EXPORT
  *
- * De cada pagina se extrae el cuerpo (entre </nav> y <footer>), porque el nav y
- * el footer ya son componentes compartidos.
+ * La primera version leia el export. Compilaba, se veia bien... y la auditoria
+ * de paridad canto 9 paginas con entre un 35% y un 59% MENOS texto que el sitio
+ * real:
+ *
+ *   /  ·  /products  ·  /services  ·  /project-gallery  ·  /resources/blog
+ *   /about-us/brands  ·  /about-us/industries-we-serve
+ *   /about-us/where-we-work  ·  /contact-us/get-in-touch
+ *
+ * Son justo las que llevan listas de coleccion. El export de Webflow las trae
+ * VACIAS: en vez de los 10 productos, los 21 articulos o los 25 contratistas,
+ * deja el placeholder "No items found.". Era contenido que faltaba, no una
+ * diferencia de formato — y a simple vista pasaba por bueno.
+ *
+ * Asi que se hace igual que con las paginas de detalle: la fuente es el HTML
+ * renderizado del sitio en vivo. Mismo pipeline, misma garantia.
  *
  *   node scripts/generar-paginas.mjs
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { RUTAS, transformar, leerHead, decodificar } from './lib/transformar.mjs';
+import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS } from './lib/transformar.mjs';
+import { bajarFaltantes } from './lib/assets-cdn.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const EXPORT = '/Users/senavia/Downloads/Webflow Pergola Plus Florida';
+const VIVO = '/private/tmp/claude-501/-Users-senavia/c6c8d2e5-148e-47e5-b6cf-e7286ffbc547/scratchpad/vivo';
+const FRAG = path.join(RAIZ, 'src/contenido-migrado/estaticas');
 const PAGES = path.join(RAIZ, 'src/pages');
 
-/** Ruta del sitio -> archivo .astro que hay que crear. */
-function destino(ruta) {
-  if (ruta === '/') return 'index.astro';
-  if (ruta === '/404') return '404.astro';
-  return ruta.replace(/^\//, '') + '.astro';
-}
+const MAPA = JSON.parse(await fs.readFile(path.join(RAIZ, 'src/lib/img-map.json'), 'utf8'));
+const LOCALES = new Set(await fs.readdir(path.join(RAIZ, 'public/images')));
+
+/** Rutas estaticas del sitio. Confirmadas contra el sitio en vivo (Fase 0). */
+const RUTAS = [
+  '/', '/products', '/services', '/project-gallery', '/thank-you',
+  '/about-us/about-us', '/about-us/brands', '/about-us/industries-we-serve',
+  '/about-us/testimonials', '/about-us/where-we-work',
+  '/contact-us/get-a-quote', '/contact-us/get-in-touch', '/contact-us/schedule-a-visit',
+  '/resources/blog', '/resources/faq', '/resources/warranties',
+  '/404',   // no esta en urls-actuales.txt (no devuelve 200), pero hace falta
+];
+
+const archivoVivo = (r) =>
+  path.join(VIVO, (r === '/' ? 'index' : r.slice(1).replace(/\//g, '__')) + '.html');
+const destino = (r) => (r === '/' ? 'index.astro' : r.slice(1) + '.astro');   // /404 -> 404.astro
 
 /**
- * Cuerpo de la pagina: lo que hay entre el cierre del <nav> y el <footer>.
- * En el export las 404 no llevan nav, asi que se cae al <body>.
+ * El menu anida TRES niveles de <nav>: hay que contar profundidad.
+ * El 404 es la excepcion: no lleva nav ni footer, asi que se coge el <body>
+ * entero menos los scripts del final.
  */
-function extraerCuerpo(html, archivo) {
-  const finNav = html.indexOf('</nav>\n  <');
-  const iniFooter = html.lastIndexOf('<footer');
-  if (finNav > 0 && iniFooter > finNav) {
-    return html.slice(finNav + '</nav>'.length, iniFooter);
+function cuerpo(html) {
+  const i = html.indexOf('<nav');
+  if (i < 0) {
+    const b = html.indexOf('<body');
+    if (b < 0) throw new Error('sin body');
+    const desde = html.indexOf('>', b) + 1;
+    const scripts = html.indexOf('<script', desde);
+    return html.slice(desde, scripts > 0 ? scripts : html.lastIndexOf('</body>'));
   }
-  // Sin nav ni footer (404.html): se coge el <body> entero menos los scripts.
-  const b = html.indexOf('<body>');
-  const e = html.indexOf('<script', b);
-  if (b < 0) throw new Error(`no encuentro el cuerpo de ${archivo}`);
-  return html.slice(b + '<body>'.length, e > 0 ? e : html.indexOf('</body>'));
+  let prof = 0, fin = -1;
+  for (const m of html.slice(i).matchAll(/<nav\b|<\/nav>/g)) {
+    prof += m[0] === '</nav>' ? -1 : 1;
+    if (prof === 0) { fin = i + m.index + m[0].length; break; }
+  }
+  const b = html.lastIndexOf('<footer');
+  if (fin < 0 || b < 0) throw new Error('sin cierre de nav o footer');
+  return html.slice(fin, b);
 }
 
+function meta(html) {
+  const t = (re) => html.match(re)?.[1]?.trim() ?? null;
+  const head = html.slice(0, html.indexOf('</head>'));
+  // Bloque anti-FOUC: sin el, los elementos animados aparecen y luego saltan.
+  const estilos = [...head.matchAll(/<style>([\s\S]*?)<\/style>/g)]
+    .map((m) => m[1]).filter((c) => c.includes('w-mod-ix'));
+  return {
+    title: decodificar(t(/<title>([\s\S]*?)<\/title>/)),
+    description: decodificar(t(/<meta content="([^"]*)"\s+name="description"/)),
+    ogImage: t(/<meta content="([^"]*)"\s+property="og:image"/),
+    wfPage: t(/<html[^>]*\sdata-wf-page="([^"]*)"/),
+    wfSite: t(/<html[^>]*\sdata-wf-site="([^"]*)"/),
+    pageStyles: estilos.length ? estilos.join('\n') : null,
+  };
+}
+
+// Pre-pasada: bajar del CDN lo que no tenemos (ver lib/assets-cdn.mjs).
+{
+  const htmls = [];
+  for (const r of RUTAS) htmls.push(await fs.readFile(archivoVivo(r), 'utf8'));
+  const res = await bajarFaltantes({
+    htmls, cuerpo, mapa: MAPA, locales: LOCALES,
+    destino: path.join(RAIZ, 'public/images'),
+  });
+  if (res.bajadas) console.log(`  bajados ${res.bajadas} assets que el CDN sirve y no teniamos`);
+  for (const f of res.fallos) console.error(`  !! ${f.error}  ${f.url}`);
+}
+
+await fs.rm(FRAG, { recursive: true, force: true });
+await fs.mkdir(FRAG, { recursive: true });
+const sinResolver = new Set();
 const generadas = [];
-const avisos = [];
 
-for (const [archivo, ruta] of Object.entries(RUTAS)) {
-  const html = await fs.readFile(path.join(EXPORT, archivo), 'utf8');
-  const head = leerHead(html);
+for (const ruta of RUTAS) {
+  const html = await fs.readFile(archivoVivo(ruta), 'utf8');
+  const r = reescribirImagenes(cuerpo(html), MAPA, LOCALES);
+  for (const u of r.sinResolver) if (!PLACEHOLDERS[u]) sinResolver.add(u);
+  const frag = transformar(r.html);
 
-  let cuerpo = extraerCuerpo(html, archivo);
-  cuerpo = transformar(cuerpo);
+  const nombre = (ruta === '/' ? 'index' : ruta.slice(1).replace(/\//g, '__')) + '.html';
+  await fs.writeFile(path.join(FRAG, nombre), frag);
 
-  // Los data-w-id del cuerpo tienen que sobrevivir intactos: son las
-  // animaciones de entrada de esta pagina.
-  const idsOrig = new Set([...extraerCuerpo(html, archivo).matchAll(/data-w-id="([^"]+)"/g)].map((m) => m[1]));
-  const idsNew = new Set([...cuerpo.matchAll(/data-w-id="([^"]+)"/g)].map((m) => m[1]));
-  const perdidos = [...idsOrig].filter((x) => !idsNew.has(x));
-  if (perdidos.length) avisos.push(`${archivo}: ${perdidos.length} data-w-id perdidos`);
+  const m = meta(html);
+  const prof = ruta === '/' ? 0 : ruta.split('/').length - 2;
+  const rel = '../'.repeat(prof + 1);
 
   const props = [
-    `title=${JSON.stringify(decodificar(head.title) ?? 'Pergola Plus Florida')}`,
-    head.description ? `description=${JSON.stringify(decodificar(head.description))}` : null,
-    head.ogImage ? `ogImage=${JSON.stringify(head.ogImage)}` : null,
-    head.pageStyles ? `pageStyles={PAGE_STYLES}` : null,
-    // IX2 lo necesita para cargar las interacciones de ESTA pagina.
-    head.wfPage ? `wfPage=${JSON.stringify(head.wfPage)}` : null,
-    head.wfSite ? `wfSite=${JSON.stringify(head.wfSite)}` : null,
+    `title=${JSON.stringify(m.title ?? 'Pergola Plus Florida')}`,
+    m.description ? `description=${JSON.stringify(m.description)}` : null,
+    m.ogImage ? `ogImage=${JSON.stringify(m.ogImage)}` : null,
+    m.wfPage ? `wfPage=${JSON.stringify(m.wfPage)}` : null,
+    m.wfSite ? `wfSite=${JSON.stringify(m.wfSite)}` : null,
+    m.pageStyles ? 'pageStyles={PAGE_STYLES}' : null,
   ].filter(Boolean).join('\n  ');
 
-  // El bloque anti-FOUC va como constante para no pelearse con las comillas.
-  const estilos = head.pageStyles
-    ? `\nconst PAGE_STYLES = ${JSON.stringify(head.pageStyles)};\n`
-    : '';
-
-  // Profundidad de la pagina dentro de src/pages/, para el import relativo.
-  //   /about-us/brands  -> src/pages/about-us/brands.astro  -> ../../layouts/
-  const prof = ruta === '/' || ruta === '/404' ? 0 : ruta.split('/').length - 2;
-  const rel = '../'.repeat(prof + 1) + 'layouts/BaseLayout.astro';
-
   const salida = `---
-import BaseLayout from '${rel}';
-${estilos}
-// Migrado de ${archivo} por scripts/generar-paginas.mjs — NO editar a mano.
-// El nav y el footer los pone BaseLayout: aqui va solo el cuerpo.
+import BaseLayout from '${rel}layouts/BaseLayout.astro';
+import html from '${rel}contenido-migrado/estaticas/${nombre}?raw';
+${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''}
+// Generado por scripts/generar-paginas.mjs desde el HTML real de ${ruta}.
+// NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
   ${props}
 >
-${cuerpo.replace(/^\n+|\n+$/g, '')}
+  <Fragment set:html={html} />
 </BaseLayout>
 `;
 
   const dest = path.join(PAGES, destino(ruta));
   await fs.mkdir(path.dirname(dest), { recursive: true });
   await fs.writeFile(dest, salida);
-  generadas.push({ archivo, ruta, dest: path.relative(RAIZ, dest), lineas: salida.split('\n').length, ids: idsNew.size, fouc: !!head.pageStyles });
+  generadas.push({ ruta, ids: (frag.match(/data-w-id="/g) ?? []).length, fouc: !!m.pageStyles });
 }
 
-console.log('Fase 1 — paginas estaticas generadas\n');
+console.log('Fase 1 — paginas estaticas (desde el sitio en vivo)\n');
 for (const g of generadas)
-  console.log(`  ${g.ruta.padEnd(34)} ${String(g.lineas).padStart(4)} lineas  data-w-id ${String(g.ids).padStart(3)}${g.fouc ? '  [anti-FOUC]' : ''}`);
+  console.log(`  ${g.ruta.padEnd(34)} data-w-id ${String(g.ids).padStart(3)}${g.fouc ? '   [anti-FOUC]' : ''}`);
 console.log(`\n  ${generadas.length} paginas`);
-if (avisos.length) { console.error('\n  !! AVISOS:'); for (const a of avisos) console.error('     ' + a); process.exit(1); }
+
+if (sinResolver.size) {
+  console.error(`\n  !! ${sinResolver.size} URLs del CDN sin resolver:`);
+  for (const u of sinResolver) console.error(`     ${u}`);
+  process.exit(1);
+}
+console.log('  cero URLs apuntando al CDN de Webflow');

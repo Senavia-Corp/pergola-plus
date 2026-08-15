@@ -35,6 +35,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS } from './lib/transformar.mjs';
 import { parseCSV } from './lib/csv.mjs';
+import { bajarFaltantes } from './lib/assets-cdn.mjs';
 
 // Mapa de imagenes del CMS + inventario de lo que hay en public/images/.
 const MAPA = JSON.parse(await fs.readFile(path.resolve(import.meta.dirname, '../src/lib/img-map.json'), 'utf8'));
@@ -62,24 +63,25 @@ const COLECCIONES = [
 ];
 
 /**
- * ARREGLO OPCIONAL DE SEO — apagado por defecto.
+ * SEO desde el CMS — ACTIVO (decision del cliente, 14-ago-2026).
  *
- * El sitio actual sirve <title>Pergola Plus Florida</title> en las 83 paginas de
- * detalle, sin meta description. Pero el CMS SI tiene los datos: 64 de 81 items
- * llevan "Title SEO" y "Metadescription SEO" escritos por el cliente. La
- * plantilla de Webflow simplemente nunca los enlazo al <head>.
+ * El sitio de Webflow sirve <title>Pergola Plus Florida</title> en las 83
+ * paginas de detalle, sin meta description. Pero el CMS SI tiene los datos: 64
+ * de 81 items llevan "Title SEO" y "Metadescription SEO" escritos. La plantilla
+ * de Webflow simplemente nunca los enlazo al <head>.
  *
  * Afecta a lo que mas trafico organico deberia captar:
  *   25 paginas de contratista por ciudad ("Pergola Contractor in Aventura, FL")
  *   21 entradas de blog · 10 proyectos · 5 marcas · 3 condados
  *
- * Se queda APAGADO porque la Fase 1 tiene que ser una migracion exacta y esto
- * cambia el <head> respecto al original. Ponerlo a true es el arreglo, y los
- * datos ya estan cargados en _items.json listos para usarse.
+ * ES LA UNICA DESVIACION DELIBERADA respecto al sitio actual, y esta acotada al
+ * <head>: el cuerpo de las paginas sigue siendo identico. La auditoria de
+ * paridad la trata como diferencia ESPERADA, no como fallo.
  *
- *   SEO_DESDE_CMS=1 node scripts/generar-detalle.mjs
+ * Para volver al comportamiento del sitio actual:
+ *   SEO_DESDE_CMS=0 node scripts/generar-detalle.mjs
  */
-const SEO_DESDE_CMS = process.env.SEO_DESDE_CMS === '1';
+const SEO_DESDE_CMS = process.env.SEO_DESDE_CMS !== '0';
 
 /**
  * Cuerpo de la pagina. El menu anida TRES niveles de <nav>, asi que buscar el
@@ -116,44 +118,22 @@ function meta(html) {
   };
 }
 
-const ficheros = await fs.readdir(VIVO);
+// Solo los ficheros de las 8 colecciones. La carpeta vivo/ tambien tiene las
+// paginas estaticas y el 404, y el 404 no lleva <nav>: si se cuela aqui, revienta.
+const ficheros = (await fs.readdir(VIVO))
+  .filter((f) => COLECCIONES.some((c) => f.startsWith(`${c.dir}__`)));
 const resumen = [];
 
-// --- Pre-pasada: bajar lo que el CDN sirve y no tenemos ----------------------
-// El HTML en vivo pide cosas que el export no trae:
-//   - variantes -p-500/-p-800/-p-1080 de imagenes del CMS (el CDN las genera al
-//     vuelo; yo solo baje los masters)
-//   - archivos cuyo nombre en el CDN lleva caracteres codificados y no coincide
-//     con el del export ("Generated-Image-February-11%2C-2026...")
-//   - iconos subidos al CMS que no estan en ninguna columna de los CSV
-//
-// Intentar deducir la equivalencia seria adivinar. Se descargan y punto: son
-// pocas y pequenas, y asi el srcset queda identico al original.
+// Pre-pasada: bajar del CDN lo que no tenemos (ver lib/assets-cdn.mjs).
 {
-  const pendientes = new Set();
-  for (const f of ficheros) {
-    const html = await fs.readFile(path.join(VIVO, f), 'utf8');
-    for (const u of reescribirImagenes(cuerpo(html), MAPA, LOCALES).sinResolver)
-      if (!PLACEHOLDERS[u]) pendientes.add(u);   // los placeholders los resuelve transformar()
-  }
-  if (pendientes.size) {
-    console.log(`  bajando ${pendientes.size} assets que el CDN sirve y no teniamos...`);
-    const destino = path.join(RAIZ, 'public/images');
-    for (const url of pendientes) {
-      const nombre = decodeURIComponent(url.split('/').pop())
-        .replace(/^[0-9a-f]{20,32}_/i, '')
-        .replace(/[^\w.-]+/g, '-');            // el nombre del CDN puede traer comas y espacios
-      try {
-        const r = await fetch(url);
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        await fs.writeFile(path.join(destino, nombre), Buffer.from(await r.arrayBuffer()));
-        MAPA[url] = { src: `/images/${nombre}` };   // resolucion por URL exacta
-        LOCALES.add(nombre);
-      } catch (e) {
-        console.error(`     !! ${e.message}  ${url}`);
-      }
-    }
-  }
+  const htmls = [];
+  for (const f of ficheros) htmls.push(await fs.readFile(path.join(VIVO, f), 'utf8'));
+  const res = await bajarFaltantes({
+    htmls, cuerpo, mapa: MAPA, locales: LOCALES,
+    destino: path.join(RAIZ, 'public/images'),
+  });
+  if (res.bajadas) console.log(`  bajados ${res.bajadas} assets que el CDN sirve y no teniamos`);
+  for (const f of res.fallos) console.error(`  !! ${f.error}  ${f.url}`);
 }
 
 for (const col of COLECCIONES) {

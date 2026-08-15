@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import html from '../contenido-migrado/estaticas/project-gallery.html?raw';
 
-// Migrado de project-gallery.html por scripts/generar-paginas.mjs — NO editar a mano.
-// El nav y el footer los pone BaseLayout: aqui va solo el cuerpo.
+// Generado por scripts/generar-paginas.mjs desde el HTML real de /project-gallery.
+// NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
@@ -11,59 +12,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   wfPage="698a9093d3dff7de0facb533"
   wfSite="6903b7794d5df3d76a7a2488"
 >
-  <header class="header-page">
-    <div class="w-layout-blockcontainer container w-container">
-      <div data-w-id="15b709b4-f6d7-0064-6f7b-160d6783adab" class="wrapper-hero-page">
-        <h1>Featured Projects</h1>
-        <div>Explore our featured custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County—engineered to meet Florida building codes and built for luxury, durability, and coastal performance.</div>
-      </div>
-    </div>
-  </header>
-  <section class="body-page">
-    <div class="project-page">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="wrapper-projects-page">
-          <div class="projects-grid-wrapper w-dyn-list">
-            <div role="list" class="projects-grid-list w-dyn-items">
-              <div data-w-id="998fbe51-4b1e-9336-a738-d1d7ffb1592d" style="opacity:0" role="listitem" class="projects-grid-item w-dyn-item">
-                <a href="#" class="projects-card-page w-inline-block"><img src="/images/wf-placeholder.svg" loading="lazy" alt="" class="projects-card-image w-dyn-bind-empty">
-                  <div class="projects-card-body-page">
-                    <div class="box-card-body-projects">
-                      <div class="box-detail-projects">
-                        <div class="w-dyn-bind-empty"></div>
-                      </div>
-                      <div class="box-detail-projects">
-                        <div class="w-dyn-bind-empty"></div>
-                      </div>
-                    </div>
-                    <h3 class="projects-card-h3 w-dyn-bind-empty"></h3>
-                    <div class="projects-card-text w-dyn-bind-empty"></div>
-                    <div class="projects-card-link-page">
-                      <div>Explore More →</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-            <div class="w-dyn-empty">
-              <div>No items found.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="call-to-action-footer">
-    <div class="wrapper-call-to-action">
-      <div data-w-id="f00e2efe-9b56-1210-e497-b72104be4b25" class="box-call-to-action">
-        <h2>Request your free Estimate</h2>
-        <div>Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.</div>
-        <div class="process-cta">
-          <a href="#" class="button w-button">Get A Quote</a>
-          <a href="#" class="button secundary w-button">Schedule A Visit</a>
-        </div>
-      </div>
-    </div><img sizes="(max-width: 2000px) 100vw, 2000px" srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w,/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w,/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w,/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w" alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties." src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif" loading="lazy" class="image-call-to-action">
-  </section>
-  
+  <Fragment set:html={html} />
 </BaseLayout>
