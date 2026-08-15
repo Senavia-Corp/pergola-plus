@@ -4,9 +4,9 @@
  *
  * CODIGO DE AUTORIA PROPIA. No sale de scripts/generar-paginas.mjs.
  *
- * Las tres vistas (indice y las 8 categorias) renderizan en servidor LAS MISMAS 21
- * tarjetas, y las que no tocan salen con el atributo `hidden` puesto en build. Una
- * sola regla gobierna las tres, identica en servidor y en cliente:
+ * Las 6 vistas (el indice y las 5 categorias con articulos) renderizan en servidor
+ * LAS MISMAS 21 tarjetas, y las que no tocan salen con el atributo `hidden` puesto
+ * en build. Una sola regla las gobierna, identica en servidor y en cliente:
  *
  *   activa === 'todo'  ->  se oculta solo la tarjeta del destacado (ya esta arriba)
  *   activa === 'X'     ->  se oculta el destacado, y toda tarjeta con categoria != X
@@ -198,12 +198,12 @@ const chips = [
         Meet with our exterior designers for a free consultation. We'll assess your space
         and goals to plan the installation of pergolas, patio covers, or pool enclosures.
       </div>
-      {/* Los dos href="#" vienen asi del sitio original y estan igual en las otras 99
-          paginas. Arreglarlos solo aqui dejaria el sitio incoherente: es un cambio
-          global, no de esta pagina. */}
+      {/* Estos dos venian con href="#" del sitio original. El arreglo es global:
+          en las otras 99 paginas lo hace BOTONES_MUERTOS, en scripts/lib/transformar.mjs.
+          Esta pagina ya no se genera, asi que aqui va a mano — mismos destinos. */}
       <div class="process-cta">
-        <a href="#" class="button w-button">Get A Quote</a>
-        <a href="#" class="button secundary w-button">Schedule A Visit</a>
+        <a href="/contact-us/get-a-quote" class="button w-button">Get A Quote</a>
+        <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule A Visit</a>
       </div>
     </div>
   </div>

@@ -135,7 +135,7 @@ for (const ruta of RUTAS) {
   const html = await fs.readFile(archivoVivo(ruta), 'utf8');
   const r = reescribirImagenes(cuerpo(html), MAPA, LOCALES);
   for (const u of r.sinResolver) if (!PLACEHOLDERS[u]) sinResolver.add(u);
-  const frag = transformar(r.html);
+  const frag = transformar(r.html, ruta);
 
   const nombre = (ruta === '/' ? 'index' : ruta.slice(1).replace(/\//g, '__')) + '.html';
   await fs.writeFile(path.join(FRAG, nombre), frag);
