@@ -22,8 +22,19 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const VIVO = '/private/tmp/claude-501/-Users-senavia/c6c8d2e5-148e-47e5-b6cf-e7286ffbc547/scratchpad/vivo';
 const DIST = path.join(RAIZ, 'dist');
+
+/**
+ * Las 100 capturas del sitio en vivo, DENTRO del repo.
+ *
+ * Antes esto apuntaba al scratchpad de una sesion que ya no existe, en /tmp.
+ * Seguian ahi de milagro: son la referencia contra la que se mide TODA la
+ * paridad y no hay forma de regenerarlas —el sitio en vivo puede cambiar o
+ * caerse—, asi que un `/tmp` limpiandose se llevaba por delante la unica prueba
+ * de que la migracion cuadra. 5,6 MB en disco, 1,1 comprimidos en el packfile:
+ * barato para lo que protege.
+ */
+const VIVO = path.join(RAIZ, 'docs/vivo');
 
 /**
  * Rutas de AUTORIA PROPIA: ya no pretenden reproducir el markup del vivo, asi

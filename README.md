@@ -6,6 +6,27 @@ conservan **verbatim**: `webflow.js` lleva dentro las interacciones IX2 del
 sitio y los `data-w-id` del HTML son su llave. Borrar uno mata su animación sin
 dar ningún error.
 
+## La referencia de la auditoría vive en el repo
+
+`scripts/auditar-paridad.mjs` compara las 99 páginas construidas contra las **100
+capturas del sitio en vivo** que hay en `docs/vivo/`. Son irreemplazables: el
+sitio en vivo puede cambiar o caerse, y sin ellas no hay forma de demostrar que
+la migración cuadra.
+
+Estuvieron en `/tmp`, en el scratchpad de una sesión que ya no existía. Seguían
+ahí de milagro. Ahora están versionadas: 5,6 MB en disco, 1,1 comprimidos.
+
+**Regla que salió de un incidente real:** `src/contenido-migrado/` es SALIDA
+GENERADA de `scripts/lib/transformar.mjs`. Los fragmentos y el transformador
+tienen que viajar **siempre en el mismo commit**. Editar un fragmento a mano
+funciona hasta que alguien regenera y se lo lleva por delante — pasó con la
+retirada del widget de Google Reviews, que hubo que rehacer dentro del
+transformador (`ELFSIGHT_RESENAS`).
+
+Queda pendiente una puerta que compare fragmentos contra la salida de los
+generadores y falle si divergen: hoy la deriva solo se nota cuando alguien
+regenera y mira el diff.
+
 ## El shell (Nav y Footer) es código nuestro
 
 `src/components/Nav.astro` y `src/components/Footer.astro` los generó en su día
