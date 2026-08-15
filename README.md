@@ -1,10 +1,108 @@
+# Pergola Plus Florida
+
+Sitio migrado desde Webflow a Astro. El CSS y el JS de Webflow
+(`public/css/pergola-plus-florida.webflow.css`, `public/js/webflow.js`) se
+conservan **verbatim**: `webflow.js` lleva dentro las interacciones IX2 del
+sitio y los `data-w-id` del HTML son su llave. Borrar uno mata su animación sin
+dar ningún error.
+
+## El shell (Nav y Footer) es código nuestro
+
+`src/components/Nav.astro` y `src/components/Footer.astro` los generó en su día
+`scripts/generar-shell.mjs` a partir del export de Webflow. **Ya no.** Desde el
+rediseño del menú son de autoría propia y se editan a mano.
+
+El script sigue ahí por trazabilidad, pero exige `--regenerar-shell` y avisa de
+que sobrescribe: regenerar se llevaría por delante el rediseño, los enlaces
+«View all», «Project Estimator» y la retirada de Elfsight.
+
+El CSS del menú vive en `src/styles/menu.css`, importado desde `Nav.astro`.
+Nunca se toca el CSS migrado de Webflow.
+
+## El blog es código nuestro
+
+`/resources/blog`, `/resources/blog/<categoría>` y `/post/<slug>` tampoco salen
+de una captura del sitio en vivo. Leen los dos CSV del CMS en `src/data/` en
+tiempo de build a través de `src/lib/blog.ts`, y de ahí salen las tarjetas, los
+contadores por categoría, el RSS y el JSON-LD.
+
+Los CSV están **dentro del repo** a propósito. `scripts/generar-detalle.mjs` los
+lee de `~/Downloads`, y eso vale para un generador que se ejecuta a mano; como
+entrada de build rompería el despliegue en Vercel, donde esa ruta no existe.
+
+Los dos generadores siguen conociendo estas rutas y siguen escribiendo sus
+fragmentos —son la única copia en el repo del markup original, útil para
+diffear— pero **no sobrescriben las páginas**:
+
+| Generador | Guarda | Qué protege |
+|---|---|---|
+| `generar-paginas.mjs` | `Set` `MANUALES` | `src/pages/resources/blog.astro` |
+| `generar-detalle.mjs` | `paginaPropia: true` en `COLECCIONES` | `src/pages/post/[slug].astro` |
+
+Saltárselas exige `--regenerar-manuales` en cualquiera de los dos, y eso borra el
+rediseño. En `generar-detalle.mjs` la guarda es obligatoria por una razón
+concreta: su plantilla es **una sola cadena compartida por las 8 colecciones**,
+así que el JSON-LD y el anterior/siguiente del blog habrían caído también sobre
+products, services, project, brands, countries, pergolas-contractors y articles.
+
+El CSS vive en `src/styles/blog.css`. La puerta es `npm run check:blog`, que se
+ejecuta sobre `dist/` después de `npm run build` y comprueba las cuentas por
+categoría (9/6/3/2/1), que no queda ni un `opacity:0` en línea y que el RSS está
+bien escapado.
+
+Dos cosas quedan pendientes del cliente en el CMS:
+
+- **`Featured?` está en `true` en 10 de 21 posts**, así que no sirve para elegir
+  destacado. El que manda es `Super Blog`, que marca uno solo. Convendría
+  desmarcar los demás.
+- **`Categories.Description` está vacío en las 9 filas.** Las entradillas de
+  categoría son copy provisional dentro de `src/lib/blog.ts`; en la Fase 3 se
+  mueven a ese campo.
+
+Y `view-all` es un ítem de la colección `Categories` que en realidad es un
+control de interfaz. No genera ruta; debería salir del CMS.
+
+## Idiomas
+
+Las 4 apps de Elfsight (traductor, WhatsApp, Click-to-Call, Google Reviews) se
+retiraron: el traductor era de plan gratuito y su host perezoso vivía en el pie,
+así que la traducción no llegaba a aplicarse al navegar. En su lugar hay **i18n
+propio**, en `src/i18n/`:
+
+| Archivo | Qué |
+|---|---|
+| `index.ts` | `idiomaDeRuta()`, `rutaEnIdioma()` y `traducirHtml()` |
+| `shell.ts` | rótulos de nav y footer en los dos idiomas |
+| `home.es.ts` | las 145 cadenas de la home |
+
+**El HTML migrado no se duplica.** `traducirHtml()` reutiliza el markup del
+export y sustituye solo los nodos de texto —lo que hay entre `>` y `<`, nunca
+atributos—, así que `data-w-id`, anti-FOUC, clases e imágenes quedan intactos y
+las interacciones IX2 funcionan igual en español. Verificado: `/es/` sale con los
+mismos 41 `data-w-id` y los mismos 4 bloques anti-FOUC que `/`.
+
+Una cadena que no esté en el diccionario **se queda en inglés** (degradado
+visible, no roto) y el build la lista por consola.
+
+Estado: **solo `/es/` está traducida**. Las páginas interiores siguen en inglés
+—son ~88.000 palabras— y la home española lo dice de forma explícita en un aviso
+al pie. Cuando se traduzcan más páginas, `rutaEnIdioma()` es el único sitio que
+hay que tocar para que el selector apunte a la equivalente.
+
+El selector vive en el nav: escritorio a la derecha de los CTA, móvil en la
+barra superior junto a la hamburguesa (visible sin abrir el menú). Las banderas
+van **inline** en `Nav.astro`; `public/images/En.svg` y `Sp.svg` NO se usan
+porque no llevan `<style>` ni `fill` y se verían negras.
+
+---
+
+Andamiaje original del starter de Astro, más abajo.
+
 # Astro Starter Kit: Minimal
 
 ```sh
 npm create astro@latest -- --template minimal
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
 ## 🚀 Project Structure
 
