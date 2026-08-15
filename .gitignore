@@ -30,3 +30,8 @@ pnpm-debug.log*
 # y es lo que permite rehacer la importacion.
 assets-migracion/design/
 assets-migracion/content/
+
+# Imagenes del CMS servidas en local durante la Fase 1.
+# Provisional: en la Fase 3 las sirve el CDN de Sanity y esta carpeta se borra.
+# Se regenera con: node scripts/instalar-assets.mjs
+public/cms-img/
