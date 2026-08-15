@@ -34,9 +34,8 @@ const CONOCIDOS = [
   {
     texto: 'Read More →',
     porque:
-      'las 5 tarjetas de /resources/warranties ya enseñan el texto entero y no hay ' +
-      'pagina de detalle a la que ir. Si se decide que van a la marca, son 5 destinos ' +
-      'distintos con el MISMO texto, asi que no caben en BOTONES_MUERTOS',
+      'de las 5 tarjetas de /resources/warranties, 4 ya van a su marca (ver GARANTIAS ' +
+      'en transformar.mjs). La que queda es MaestroShield, la unica sin pagina de marca',
   },
   {
     texto: 'Back',
@@ -101,6 +100,21 @@ for (const [t, n] of tolerados) {
 }
 if (lightbox) console.log(`  ok     ${lightbox} disparadores de lightbox (su href="#" es correcto)`);
 if (vacios) console.log(`  ok     ${vacios} <a href="#"> sin texto ni imagen (invisibles)`);
+
+// Las tarjetas de garantia se cablean UNA A UNA (paso 3c del transformador), asi
+// que su fallo no es quedarse en "#" sino cruzarse: la tarjeta de Equinox
+// apuntando a Fenetex. Eso no lo ve el barrido de arriba, que solo mira href="#".
+const garantias = path.join(DIST, 'resources/warranties/index.html');
+for (const tarjeta of (await fs.readFile(garantias, 'utf8')).split('<div class="warranty_item">').slice(1)) {
+  const titulo = tarjeta.match(/<h3[^>]*>([^<]*)/)?.[1] ?? '';
+  const destino = tarjeta.match(/<a href="([^"]*)" class="warraty-card-link/)?.[1];
+  if (!destino || destino === '#') continue;         // MaestroShield: no tiene marca
+  // El slug de la marca tiene que salir del titulo de la tarjeta.
+  const marca = destino.split('/').pop().replace('pergola-plus-', '');
+  if (!titulo.toLowerCase().includes(marca.toLowerCase())) {
+    fallos.push({ rel: 'resources/warranties/index.html', t: `"${titulo.trim()}" -> ${destino} (cruzada)` });
+  }
+}
 
 if (fallos.length) {
   const porTexto = new Map();
