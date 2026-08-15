@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fase 1 — genera las 16 paginas ESTATICAS.
+ * Fase 1 — genera las 17 paginas ESTATICAS.
  *
  * POR QUE DESDE EL SITIO EN VIVO Y NO DESDE EL EXPORT
  *
@@ -21,6 +21,20 @@
  * renderizado del sitio en vivo. Mismo pipeline, misma garantia.
  *
  *   node scripts/generar-paginas.mjs
+ *
+ * PAGINAS DE AUTORIA PROPIA (ver el Set MANUALES, mas abajo)
+ *
+ * /resources/blog ya NO se genera. El listado se rediseno a mano: lee los CSV del
+ * CMS en tiempo de build, tiene rutas por categoria, RSS y JSON-LD. Nada de eso
+ * sale de una captura del vivo.
+ *
+ * El FRAGMENTO se sigue escribiendo —es la unica copia en el repo del markup
+ * original, y VIVO vive en un scratchpad que se borra— pero la PAGINA no se pisa.
+ * Sin esta guarda, un `node scripts/generar-paginas.mjs` se llevaria el rediseno
+ * por delante, en silencio y sin error.
+ *
+ * Para volver de verdad al markup migrado:
+ *   node scripts/generar-paginas.mjs --regenerar-manuales   # DESTRUCTIVO
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -44,6 +58,16 @@ const RUTAS = [
   '/resources/blog', '/resources/faq', '/resources/warranties',
   '/404',   // no esta en urls-actuales.txt (no devuelve 200), pero hace falta
 ];
+
+/**
+ * Rutas cuya PAGINA es de autoria propia.
+ *
+ * El fragmento se sigue escribiendo en src/contenido-migrado/estaticas/, pero
+ * src/pages/<ruta>.astro NO se toca. Misma guarda explicita y ruidosa que
+ * scripts/generar-shell.mjs usa para Nav.astro y Footer.astro.
+ */
+const MANUALES = new Set(['/resources/blog']);
+const FORZAR = process.argv.includes('--regenerar-manuales');
 
 const archivoVivo = (r) =>
   path.join(VIVO, (r === '/' ? 'index' : r.slice(1).replace(/\//g, '__')) + '.html');
@@ -105,6 +129,7 @@ await fs.rm(FRAG, { recursive: true, force: true });
 await fs.mkdir(FRAG, { recursive: true });
 const sinResolver = new Set();
 const generadas = [];
+const omitidas = [];
 
 for (const ruta of RUTAS) {
   const html = await fs.readFile(archivoVivo(ruta), 'utf8');
@@ -143,16 +168,36 @@ ${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''
 </BaseLayout>
 `;
 
-  const dest = path.join(PAGES, destino(ruta));
-  await fs.mkdir(path.dirname(dest), { recursive: true });
-  await fs.writeFile(dest, salida);
-  generadas.push({ ruta, ids: (frag.match(/data-w-id="/g) ?? []).length, fouc: !!m.pageStyles });
+  // El fragmento de arriba SI se ha escrito; lo que se salta es la pagina.
+  if (MANUALES.has(ruta) && !FORZAR) {
+    omitidas.push(ruta);
+  } else {
+    const dest = path.join(PAGES, destino(ruta));
+    await fs.mkdir(path.dirname(dest), { recursive: true });
+    await fs.writeFile(dest, salida);
+  }
+  generadas.push({
+    ruta,
+    ids: (frag.match(/data-w-id="/g) ?? []).length,
+    fouc: !!m.pageStyles,
+    manual: MANUALES.has(ruta) && !FORZAR,
+  });
 }
 
 console.log('Fase 1 — paginas estaticas (desde el sitio en vivo)\n');
 for (const g of generadas)
-  console.log(`  ${g.ruta.padEnd(34)} data-w-id ${String(g.ids).padStart(3)}${g.fouc ? '   [anti-FOUC]' : ''}`);
-console.log(`\n  ${generadas.length} paginas`);
+  console.log(
+    `  ${g.ruta.padEnd(34)} data-w-id ${String(g.ids).padStart(3)}` +
+      `${g.fouc ? '   [anti-FOUC]' : ''}${g.manual ? '   [manual: pagina NO sobrescrita]' : ''}`,
+  );
+console.log(`\n  ${generadas.length} fragmentos, ${generadas.length - omitidas.length} paginas`);
+
+if (omitidas.length) {
+  console.log(
+    `\n  ${omitidas.length} pagina(s) de autoria propia sin tocar: ${omitidas.join(', ')}` +
+      `\n  (para pisarlas de verdad: --regenerar-manuales, DESTRUCTIVO)`,
+  );
+}
 
 if (sinResolver.size) {
   console.error(`\n  !! ${sinResolver.size} URLs del CDN sin resolver:`);

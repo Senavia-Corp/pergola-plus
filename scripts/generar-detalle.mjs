@@ -50,11 +50,18 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
 /**
  * Colecciones con ruta propia. Prefijos CONFIRMADOS contra el sitio en vivo.
  * `csv` y las columnas SEO se usan para el arreglo opcional de abajo.
+ *
+ * `paginaPropia: true` = se siguen escribiendo los fragmentos y el _items.json,
+ * pero NO se sobrescribe src/pages/<ruta>/[slug].astro, porque esa plantilla es
+ * codigo nuestro. Ojo: la plantilla de mas abajo es UNA SOLA cadena compartida por
+ * las 8 colecciones, asi que meterle ahi lo especifico del blog (JSON-LD, enlace
+ * de vuelta, anterior/siguiente) se lo aplicaria tambien a products, services,
+ * project, brands, countries, pergolas-contractors y articles.
  */
 const COLECCIONES = [
   { dir: 'products', ruta: 'products', csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
   { dir: 'services', ruta: 'services', csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
-  { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
+  { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
   { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription' },
   { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
   { dir: 'countries', ruta: 'countries', csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
@@ -82,6 +89,14 @@ const COLECCIONES = [
  *   SEO_DESDE_CMS=0 node scripts/generar-detalle.mjs
  */
 const SEO_DESDE_CMS = process.env.SEO_DESDE_CMS !== '0';
+
+/**
+ * Pisa tambien las plantillas marcadas `paginaPropia`. DESTRUCTIVO: se lleva por
+ * delante src/pages/post/[slug].astro, que es codigo de autoria propia.
+ *
+ *   node scripts/generar-detalle.mjs --regenerar-manuales
+ */
+const FORZAR_PAGINAS = process.argv.includes('--regenerar-manuales');
 
 /**
  * Cuerpo de la pagina. El menu anida TRES niveles de <nav>, asi que buscar el
@@ -215,6 +230,13 @@ if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);
 </BaseLayout>
 `;
 
+  // Los fragmentos y el _items.json de arriba SI se han escrito; lo que se salta
+  // es la plantilla de la pagina. Ver `paginaPropia` en COLECCIONES.
+  if (col.paginaPropia && !FORZAR_PAGINAS) {
+    resumen.push({ col: col.dir, n: items.length, sinTitle: 0, manual: true });
+    continue;
+  }
+
   const dest = path.join(RAIZ, 'src/pages', col.ruta, '[slug].astro');
   await fs.mkdir(path.dirname(dest), { recursive: true });
   await fs.writeFile(dest, astro);
@@ -225,7 +247,11 @@ if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);
 console.log('Fase 1 — paginas de detalle\n');
 let total = 0;
 for (const r of resumen) {
-  console.log(`  /${r.col.padEnd(24)} ${String(r.n).padStart(3)} items${r.sinTitle ? `   !! ${r.sinTitle} sin <title>` : ''}`);
+  console.log(
+    `  /${r.col.padEnd(24)} ${String(r.n).padStart(3)} items` +
+      `${r.sinTitle ? `   !! ${r.sinTitle} sin <title>` : ''}` +
+      `${r.manual ? '   [manual: [slug].astro NO sobrescrito]' : ''}`,
+  );
   total += r.n;
 }
 console.log(`\n  ${total} paginas de detalle`);

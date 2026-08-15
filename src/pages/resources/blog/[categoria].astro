@@ -1,0 +1,69 @@
+---
+/**
+ * Una ruta indexable por categoria. CODIGO DE AUTORIA PROPIA.
+ *
+ * SOLO se generan las categorias CON articulos. Las 3 vacias del CMS
+ * (service-areas, commercial-projects, patio-hardscape-services) no tienen URL:
+ * dan 404.
+ *
+ * Por que 404 y no una pagina vacia con noindex, que fue el primer intento: el
+ * sitio ya tiene 29 paginas reales de zonas de servicio (/about-us/where-we-work,
+ * 3 de condado y 25 de ciudad). Una pagina titulada "Service Areas" sin contenido
+ * compitiendo con ellas confunde al visitante aunque este fuera del indice. Y una
+ * categoria sin articulos no es una seccion del sitio, es una fila del CMS.
+ *
+ * Efecto secundario deseado: el estado vacio deja de ser alcanzable, asi que no
+ * existe. Nadie llega nunca a un grid en blanco, que es lo que se pedia.
+ *
+ * Esto es data-driven: en cuanto el cliente publique un articulo en una de las
+ * tres, su ruta aparece sola en el siguiente build.
+ *
+ * `view-all` tampoco genera ruta: es un control de interfaz metido en la coleccion
+ * del CMS, no una categoria. Fase 3: borrarlo del CMS.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogListado from '../../../components/BlogListado.astro';
+import {
+  categoriasConPosts,
+  postsDe,
+  copyDe,
+  jsonLdBlog,
+  WF_PAGE,
+  WF_SITE,
+  type Categoria,
+} from '../../../lib/blog';
+
+export function getStaticPaths() {
+  return categoriasConPosts.map((categoria) => ({
+    params: { categoria: categoria.slug },
+    props: { categoria },
+  }));
+}
+
+interface Props {
+  categoria: Categoria;
+}
+
+const { categoria } = Astro.props;
+const copy = copyDe(categoria);
+const entradas = postsDe(categoria.slug);
+
+const site = Astro.site!;
+const url = new URL(`/resources/blog/${categoria.slug}`, site).href;
+---
+
+<BaseLayout
+  title={`${copy.titulo} | Pergola Plus Florida`}
+  description={copy.meta}
+  wfPage={WF_PAGE}
+  wfSite={WF_SITE}
+  jsonLd={jsonLdBlog({
+    url,
+    nombre: copy.titulo,
+    descripcion: copy.meta,
+    entradas,
+    site: site.href,
+  })}
+>
+  <BlogListado activa={categoria.slug} titulo={categoria.nombre} intro={copy.intro} />
+</BaseLayout>
