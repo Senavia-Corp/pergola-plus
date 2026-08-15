@@ -214,21 +214,12 @@ const COPY: Record<string, CopyCategoria> = {
     intro:
       'Salt air, humidity and UV are relentless here. What holds up over the years, and what it takes to keep it looking new.',
   },
-  'commercial-projects': {
-    titulo: 'Commercial Pergola Projects',
-    meta: 'Commercial pergola and shade structure projects across South Florida.',
-    intro: 'Pergolas and shade structures for restaurants, hotels and commercial properties.',
-  },
-  'patio-hardscape-services': {
-    titulo: 'Patio & Hardscape Services',
-    meta: 'Patio, paver and hardscape work that pairs with a pergola installation.',
-    intro: 'Patios, pavers and hardscape work that goes in alongside a pergola.',
-  },
-  'service-areas': {
-    titulo: 'Service Areas',
-    meta: 'Where Pergola Plus Florida builds: Broward, Palm Beach and Miami-Dade counties.',
-    intro: 'Where we build across Broward, Palm Beach and Miami-Dade counties.',
-  },
+  // Las 3 categorias vacias del CMS (commercial-projects, patio-hardscape-services,
+  // service-areas) no llevan copy porque no generan ruta. Si el cliente publica en
+  // alguna, `copyDe` tira del respaldo generico y aqui se le escribe el suyo.
+  //
+  // service-areas ademas NO deberia ser categoria de blog: el sitio ya tiene 29
+  // paginas reales de zonas (/about-us/where-we-work + 3 condados + 25 ciudades).
 };
 
 export function copyDe(cat: Categoria): CopyCategoria {
