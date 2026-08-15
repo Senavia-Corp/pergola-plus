@@ -1,0 +1,32 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+.vercel
+
+# Staging de la migracion de imagenes (Fase 0.5).
+# Los binarios NO van a git: viven en Sanity y pesan ~100 MB.
+# manifest.json SI se versiona: es el mapa URL-de-Webflow -> archivo -> _id de Sanity,
+# y es lo que permite rehacer la importacion.
+assets-migracion/design/
+assets-migracion/content/

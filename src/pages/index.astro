@@ -1,0 +1,38 @@
+---
+// SMOKE TEST de la Fase 0 — comprueba que el shell carga.
+// El PROMPT 2 de la Fase 1 sustituye este archivo por la home real
+// (migrada de index.html, 1006 lineas).
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Smoke test — Pergola Plus Florida">
+  <div class="section" style="padding: 4rem 2rem;">
+    <h1>South Florida&rsquo;s Pergola &amp; Patio Cover Contractors</h1>
+    <p>
+      Si este H1 se ve en Inter, 64px, peso 600 y con las mayusculas iniciales
+      forzadas, los 3 CSS de Webflow estan cargando en el orden correcto.
+    </p>
+    <a href="/" class="button w-button">Boton de prueba (.w-button)</a>
+
+    <hr style="margin: 3rem 0;" />
+
+    <h2>Comprobacion de webflow.js / IX2</h2>
+    <p id="ix2-check">Comprobando&hellip;</p>
+    <script is:inline>
+      // webflow.js expone window.Webflow y registra el modulo ix2.
+      // Es lo que mantiene vivas las 749 animaciones del sitio.
+      window.addEventListener('load', function () {
+        var el = document.getElementById('ix2-check');
+        var wf = !!window.Webflow;
+        var ix2 = false;
+        try { ix2 = !!(window.Webflow && window.Webflow.require('ix2')); } catch (e) {}
+        var mod = document.documentElement.className.indexOf('w-mod-js') !== -1;
+        el.textContent =
+          'window.Webflow: ' + wf +
+          '  |  ix2: ' + ix2 +
+          '  |  html.w-mod-js: ' + mod;
+        el.style.color = wf && ix2 && mod ? 'green' : 'red';
+      });
+    </script>
+  </div>
+</BaseLayout>
