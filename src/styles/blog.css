@@ -305,12 +305,29 @@
  * 2. Esto anima el <li>, NO la .pp-card de dentro. Una animacion con fill activo
  *    se impone a las declaraciones normales, asi que animar `transform` en la
  *    propia tarjeta anularia el translateY(-4px) del hover.
+ *
+ * 3. NO usar el atajo `animation` junto a `animation-timeline`. El minificador
+ *    del build los fusionaba en
+ *        animation: .5s ease-out both pp-entrada view();
+ *    y `animation-timeline` NO forma parte del atajo `animation` en la
+ *    especificacion —se quito por ambiguedad con `animation-name`—, asi que el
+ *    navegador descartaba la declaracion ENTERA y dejaba `animation-name: none`.
+ *    Medido en el build: las 22 entradas del listado no se ejecutaban. Y como el
+ *    estado base es opacity:1, no se veia roto: simplemente no habia animacion.
+ *    Con las propiedades largas y `animation-name` declarado APARTE, el
+ *    minificador ya no puede componer el atajo. Lo comprueba `check:blog`.
  */
 @media (prefers-reduced-motion: no-preference) {
   [data-pp-reveal] {
-    animation: pp-entrada 0.5s ease-out both;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
     animation-timeline: view();
     animation-range: entry 0% cover 20%;
+  }
+
+  [data-pp-reveal] {
+    animation-name: pp-entrada;
   }
 }
 
@@ -509,5 +526,528 @@
   .pp-card:hover .pp-card-media img,
   .pp-card:hover .pp-card-mas svg {
     transform: none;
+  }
+}
+
+/* ==========================================================================
+   ARTICULO  ·  /post/<slug>
+   ========================================================================== */
+
+/*
+ * Medidas de partida, medidas en el navegador sobre el diseno migrado:
+ *   cuerpo 14px / interlineado 21px (1.5) / 94 caracteres por linea
+ *   h2 de 40px con margin-top 0  ->  2,9x el cuerpo y sin aire arriba
+ *   text-transform: capitalize en todos los encabezados
+ *
+ * 14px es tamano de interfaz, no de lectura larga, y 94 caracteres por linea
+ * estan muy por encima del rango comodo (60-75): al volver de un renglon al
+ * siguiente el ojo pierde el sitio. Aqui se pasa a 18px, medida 68ch e
+ * interlineado 1.7.
+ */
+
+.pp-articulo {
+  margin-top: 85px; /* el nav es fixed; misma compensacion que .body-blog */
+}
+
+.pp-articulo-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+  padding: 0 2rem 4rem;
+}
+
+@media screen and (min-width: 992px) {
+  .pp-articulo-grid {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+/* ------------------------------------------------------------- cabecera -- */
+
+.pp-art-cabecera {
+  padding: 2rem 2rem 2.5rem;
+}
+
+/* Migas. Duplican la BreadcrumbList del JSON-LD, que es como debe ser: el dato
+   estructurado describe algo que el usuario tambien ve. */
+.pp-migas ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.pp-migas li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--terceary);
+}
+
+.pp-migas li + li::before {
+  content: '/';
+  color: var(--gray);
+}
+
+.pp-migas a {
+  color: var(--terceary);
+  text-decoration: none;
+}
+
+.pp-migas a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.pp-migas a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* La ultima miga es el titulo del articulo: puede ser largo y no debe empujar. */
+.pp-migas [aria-current='page'] {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 40ch;
+  color: var(--primary);
+}
+
+/* La etiqueta de categoria de la cabecera SI es un enlace, al contrario que la
+   de las tarjetas (alli la superficie entera va al articulo). */
+.pp-etiqueta-enlace {
+  display: inline-block;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.pp-etiqueta-enlace:hover {
+  background-color: var(--terceary);
+  color: var(--white);
+}
+
+.pp-etiqueta-enlace:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-art-cabecera h1 {
+  /* 26ch deja los titulares de 6-9 palabras en dos lineas. Con 20ch el mas
+     habitual se partia en tres y la cabecera perdia el golpe. */
+  max-width: 26ch;
+  margin: 0.75rem 0 0;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-transform: none; /* el h1 global fuerza capitalize */
+  text-wrap: balance;
+}
+
+/* Entradilla: es el gancho, no una linea de metadatos. */
+.pp-art-entradilla {
+  max-width: 58ch;
+  margin: 1.25rem 0 0;
+  color: var(--terceary);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+.pp-art-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--gray);
+}
+
+.pp-art-hero {
+  margin: 0 0 1rem;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--gray);
+}
+
+.pp-art-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------------------------------------------------------------- prosa -- */
+
+.pp-prosa {
+  max-width: 68ch;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.pp-prosa > :first-child {
+  margin-top: 0;
+}
+
+.pp-prosa p {
+  margin: 0 0 1.4em;
+}
+
+/* Los encabezados del sitio van en capitalize. En prosa larga eso convierte
+   cada titular en Title Case Forzado, que es justo lo que delata una plantilla. */
+.pp-prosa h2,
+.pp-prosa h3 {
+  color: var(--primary);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 110px; /* el nav fixed tapaba el destino de las anclas */
+}
+
+.pp-prosa h2 {
+  margin: 2.5em 0 0.6em;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.pp-prosa h3 {
+  margin: 1.9em 0 0.5em;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Ancla de seccion: aparece al pasar el raton sobre el encabezado. */
+.pp-ancla {
+  margin-left: 0.4em;
+  color: var(--terceary);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.pp-prosa h2:hover .pp-ancla,
+.pp-prosa h3:hover .pp-ancla,
+.pp-ancla:focus {
+  opacity: 1;
+}
+
+/* Las listas son el elemento dominante: 1.396 <li> en los 21 articulos, unos
+   66 por post. Pesan casi tanto como los parrafos. */
+.pp-prosa ul,
+.pp-prosa ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.35em;
+}
+
+.pp-prosa li {
+  margin-bottom: 0.6em;
+  padding-left: 0.25em;
+}
+
+.pp-prosa li::marker {
+  color: var(--terceary);
+}
+
+.pp-prosa ul li::marker {
+  font-size: 1.1em;
+}
+
+.pp-prosa strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.pp-prosa a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.pp-prosa a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.pp-prosa figure {
+  margin: 2.5em 0;
+}
+
+.pp-prosa figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.pp-prosa figcaption {
+  margin-top: 0.75rem;
+  color: var(--terceary);
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- indice -- */
+
+.pp-indice {
+  position: sticky;
+  top: 105px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.pp-indice-titulo {
+  margin: 0 0 0.75rem;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* En escritorio el indice no se pliega: la lista va siempre visible y el sumario
+   pasa a ser un rotulo.
+
+   Hacen falta LAS DOS reglas de abajo porque los navegadores ocultan el contenido
+   de un <details> cerrado de dos maneras distintas segun version:
+     - clasica: display:none sobre los hijos que no son el summary
+     - actual (Chrome 131+): content-visibility:hidden sobre ::details-content
+   Con solo el `display:block` la lista se maqueta —medido: 594px de alto y 13
+   items— pero no se pinta, porque quien la esconde es el pseudoelemento. */
+@media screen and (min-width: 992px) {
+  .pp-indice > details::details-content {
+    content-visibility: visible;
+  }
+
+  .pp-indice > details > ol {
+    display: block;
+  }
+
+  .pp-indice > details > summary {
+    cursor: default;
+    pointer-events: none;
+    list-style: none;
+  }
+
+  .pp-indice > details > summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.pp-indice ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 2px solid var(--gray);
+}
+
+.pp-indice li {
+  margin: 0;
+}
+
+.pp-indice a {
+  display: block;
+  margin-left: -2px;
+  padding: 0.45rem 0 0.45rem 1rem;
+  border-left: 2px solid transparent;
+  color: var(--terceary);
+  font-size: 14px;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.pp-indice a:hover {
+  color: var(--primary);
+}
+
+.pp-indice a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+/* Seccion actual. Marca por color Y por barra, nunca solo color. */
+.pp-indice a[aria-current='true'] {
+  border-left-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.pp-indice .pp-indice-h3 a {
+  padding-left: 1.9rem;
+  font-size: 13px;
+}
+
+/* En movil el indice no puede ser pegajoso: se pliega. */
+@media screen and (max-width: 991px) {
+  .pp-indice {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    background-color: var(--secundary);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+
+  .pp-indice > details > summary {
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    list-style: none;
+  }
+
+  .pp-indice > details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pp-indice > details > summary::after {
+    content: '▾';
+    float: right;
+    transition: transform 0.2s ease;
+  }
+
+  .pp-indice > details[open] > summary::after {
+    transform: rotate(180deg);
+  }
+
+  .pp-indice > details > ol {
+    margin-top: 0.75rem;
+  }
+}
+
+/* ------------------------------------------------- barra de progreso -- */
+
+.pp-progreso {
+  position: fixed;
+  top: 85px; /* justo debajo del nav fixed */
+  left: 0;
+  z-index: 6;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.pp-progreso span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: var(--primary);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/*
+ * El avance sale del scroll, sin JavaScript.
+ *
+ * DOS GUARDAS, las dos necesarias:
+ *
+ * 1. `@supports`. Sin el, un navegador sin animation-timeline (Safari, Firefox a
+ *    dia de hoy) ignora esa linea pero SI aplica el resto: la animacion correria
+ *    una vez al cargar, de 0 a 100% en un segundo, y `both` la dejaria fijada
+ *    LLENA. Una barra de progreso al 100% nada mas entrar es peor que no tenerla.
+ *    Con la guarda esos navegadores se quedan en el `scaleX(0)` de base, o sea
+ *    una barra invisible: es decoracion, no informacion.
+ *
+ *    Ojo a la diferencia con la entrada del listado, que tambien usa
+ *    animation-timeline pero SIN guarda: alli el fotograma final es el estado
+ *    correcto en reposo (visible), asi que correr la animacion de golpe es
+ *    justamente el degradado que se busca. Aqui el final es el estado equivocado.
+ *
+ * 2. Propiedades largas, nunca el atajo `animation`. El minificador fusiona el
+ *    atajo con animation-timeline y el navegador tira la declaracion entera (ya
+ *    paso en el listado; ver comprobar-blog.mjs).
+ */
+@supports (animation-timeline: scroll(root)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pp-progreso span {
+      animation-name: pp-avance;
+      animation-duration: 1s;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes pp-avance {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ----------------------------------------------------------- relacionados -- */
+
+.pp-relacionados {
+  border-top: 1px solid var(--gray);
+  padding: 3rem 2rem 0;
+}
+
+.pp-relacionados h2 {
+  margin: 0.5rem 0 1.5rem;
+  font-size: 28px;
+}
+
+.pp-relacionados .pp-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (max-width: 991px) {
+  .pp-articulo-grid {
+    padding: 0 1rem 3rem;
+  }
+
+  .pp-art-cabecera {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .pp-relacionados {
+    padding: 2rem 1rem 0;
+  }
+
+  .pp-relacionados .pp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pp-prosa {
+    font-size: 17px;
+  }
+
+  .pp-prosa h2 {
+    font-size: 24px;
+  }
+
+  .pp-prosa h3 {
+    font-size: 19px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .pp-relacionados .pp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-indice a,
+  .pp-ancla {
+    transition: none;
   }
 }

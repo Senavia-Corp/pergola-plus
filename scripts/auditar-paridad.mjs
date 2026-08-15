@@ -25,6 +25,52 @@ const RAIZ = path.resolve(import.meta.dirname, '..');
 const VIVO = '/private/tmp/claude-501/-Users-senavia/c6c8d2e5-148e-47e5-b6cf-e7286ffbc547/scratchpad/vivo';
 const DIST = path.join(RAIZ, 'dist');
 
+/**
+ * Rutas de AUTORIA PROPIA: ya no pretenden reproducir el markup del vivo, asi
+ * que sus `data-w-id` ausentes no son una perdida, son una consecuencia.
+ *
+ * No se excluye la ruta entera: se declaran UNO A UNO los ids que pueden faltar
+ * y por que. Si manana desaparece un cuarto, la auditoria lo sigue cazando. Lo
+ * que se pierde si esto no existe es peor: el contador global deja de valer
+ * cero y con el la unica cifra que de verdad avisa de una animacion muerta.
+ */
+const PROPIAS = {
+  '/resources/blog': {
+    razon: 'listado reconstruido desde el CSV del CMS; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2',
+    permitidos: {
+      '4e7e8d11-2645-58a6-0ad5-dc9ad3b4e493':
+        '.blog-featured_column -> ahora lleva data-pp-reveal',
+      'b2b763d4-d982-efe3-5f4c-bd7f20891915':
+        '.blog-grid-item -> data-pp-reveal en los 21 <li>',
+      '01ba1a7b-6777-db20-f823-b4019ddf70f5':
+        '.blog-filter-section -> ahora es .pp-filtros, position:sticky. NO lleva revelado a proposito: la animacion mueve transform y eso rompe sticky, y una barra fijada arriba no tiene sentido que entre con fade',
+    },
+  },
+};
+
+/**
+ * Los 21 /post/<slug> comparten exactamente el mismo conjunto de ausencias, asi
+ * que se declara una vez y se expande. La alternativa era pegar 21 entradas
+ * identicas y que nadie las volviera a leer.
+ */
+const POST_PROPIO = {
+  razon:
+    'del fragmento migrado se usa SOLO el texto: la cabecera traia opacity:0 en linea sin bloque anti-FOUC (sin JS el h1 y la imagen eran invisibles) y la barra lateral eran 10 tarjetas identicas en los 21 posts',
+  permitidos: {
+    'e3f363b3-599a-9941-9bc4-bf58cc9d3812':
+      '.blog_rich-text (h1 + entradilla) -> cabecera propia, sin opacity:0 en linea',
+    'de531817-b01a-06e3-4198-ce2865b2d07e':
+      '.blog_post-hero-img -> .pp-art-hero, con aspect-ratio fijo y sin opacity:0',
+    '45635bac-2fbe-6a6a-f3d5-758b0c33de53':
+      '.sidebar_block -> reemplazado por el indice y 3 relacionados de la misma categoria',
+  },
+};
+
+for (const linea of (await fs.readFile(path.join(RAIZ, 'docs/urls-actuales.txt'), 'utf8')).split('\n')) {
+  const r = linea.trim();
+  if (r.startsWith('/post/')) PROPIAS[r] = POST_PROPIO;
+}
+
 const ids = (s) => new Set([...s.matchAll(/data-w-id="([^"]+)"/g)].map((m) => m[1]));
 const foucIds = (s) => new Set(
   [...s.matchAll(/html\.w-mod-js:not\(\.w-mod-ix\)\s*\[data-w-id="([^"]+)"\]/g)].map((m) => m[1]));
@@ -77,7 +123,15 @@ for (const ruta of rutas) {
   catch { sinVivo.push(ruta); continue; }
 
   const iv = ids(viv), ig = ids(gen);
-  const faltan = [...iv].filter((x) => !ig.has(x));
+  const propia = PROPIAS[ruta];
+  const ausentes = [...iv].filter((x) => !ig.has(x));
+  // Los declarados se apartan; el resto sigue contando como perdida.
+  const faltan = ausentes.filter((x) => !propia?.permitidos[x]);
+  const declarados = ausentes.filter((x) => propia?.permitidos[x]);
+  // Un id declarado que YA NO falta significa que la declaracion sobra.
+  const declaracionesObsoletas = propia
+    ? Object.keys(propia.permitidos).filter((x) => !ausentes.includes(x))
+    : [];
   const sobran = [...ig].filter((x) => !iv.has(x));
 
   const fv = foucIds(viv), fg = foucIds(gen);
@@ -104,7 +158,7 @@ for (const ruta of rutas) {
 
   filas.push({
     ruta,
-    idsV: iv.size, idsG: ig.size, faltan, sobran,
+    idsV: iv.size, idsG: ig.size, faltan, sobran, declarados, declaracionesObsoletas,
     foucV: fv.size, foucG: fg.size, foucFaltan,
     tituloIgual: titulo(viv) === titulo(gen),
     tituloV: titulo(viv), tituloG: titulo(gen),
@@ -127,10 +181,27 @@ console.log(`  paginas comparadas: ${filas.length}   sin referencia en vivo: ${s
 const suma = (k) => filas.reduce((s, f) => s + (f[k]?.length ?? 0), 0);
 console.log(`  data-w-id faltantes ....... ${suma('faltan')}`);
 console.log(`  data-w-id sobrantes ....... ${suma('sobran')}`);
+console.log(`  data-w-id ausentes DECLARADOS ... ${suma('declarados')}  (paginas de autoria propia)`);
 console.log(`  anti-FOUC faltantes ....... ${suma('foucFaltan')}`);
 console.log(`  assets rotos .............. ${suma('rotos')}`);
 console.log(`  referencias a Webflow ..... ${filas.reduce((s, f) => s + (f.externos ?? 0), 0)}`);
 console.log(`  paginas con delta de texto > 2% ... ${filas.filter((f) => f.deltaTexto > 0.02).length}`);
+
+// Las desviaciones declaradas se IMPRIMEN, no se esconden: si estan aqui es
+// para que alguien pueda discutirlas, no para que dejen de verse.
+const conDeclarados = filas.filter((f) => f.declarados?.length);
+if (conDeclarados.length) {
+  console.log('\n--- DESVIACIONES DECLARADAS ---');
+  for (const f of conDeclarados) {
+    console.log(`\n  ${f.ruta}\n     ${PROPIAS[f.ruta].razon}`);
+    for (const id of f.declarados) console.log(`     · ${id.slice(0, 8)}…  ${PROPIAS[f.ruta].permitidos[id]}`);
+  }
+}
+const obsoletas = filas.filter((f) => f.declaracionesObsoletas?.length);
+if (obsoletas.length) {
+  console.log('\n  !! declaraciones que ya sobran (el id volvio a estar):');
+  for (const f of obsoletas) for (const id of f.declaracionesObsoletas) console.log(`     ${f.ruta} · ${id}`);
+}
 
 // El SEO desde el CMS es una desviacion DELIBERADA: se cuenta aparte.
 const seoCambiado = filas.filter((f) => !f.tituloIgual);

@@ -22,6 +22,8 @@
  * soltar el filtro instantaneo.
  */
 import { posts, categoriasConPosts, destacado, fechaLarga, fechaIso } from '../lib/blog';
+import TarjetaPost from './TarjetaPost.astro';
+import CtaFinal from './CtaFinal.astro';
 import '../styles/blog.css';
 
 interface Props {
@@ -144,41 +146,7 @@ const chips = [
               hidden={oculta(p.slug, p.categoria.slug)}
               data-pp-reveal
             >
-              <article class="pp-card">
-                <div class="pp-card-media">
-                  <img
-                    src={p.miniatura.src}
-                    alt={p.altMiniatura}
-                    width={p.miniatura.width ?? undefined}
-                    height={p.miniatura.height ?? undefined}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <div class="pp-card-cuerpo">
-                  <div class="pp-meta">
-                    <span class="pp-etiqueta">{p.categoria.nombre}</span>
-                    {/* Fecha y tiempo de lectura van en UN solo span: como items
-                        flex separados, al envolver en movil el "·" se quedaba
-                        huerfano al principio de la segunda linea. */}
-                    <span class="pp-dato">
-                      <time datetime={fechaIso(p.publicado)}>{fechaLarga(p.publicado)}</time>
-                      {` · ${p.minutos} min read`}
-                    </span>
-                  </div>
-                  <h3><a href={`/post/${p.slug}`}>{p.titulo}</a></h3>
-                  <p class="pp-card-resumen">{p.resumen}</p>
-                  {/* Decoracion: el enlace real es el titulo, y su ::after cubre la
-                      tarjeta entera. Antes esto era un <a>Read More</a> repetido 21
-                      veces con el mismo texto y 18px de alto tactil. */}
-                  <span class="pp-card-mas" aria-hidden="true">
-                    Read More
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                      <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                </div>
-              </article>
+              <TarjetaPost post={p} />
             </li>
           ))
         }
@@ -190,32 +158,7 @@ const chips = [
   </section>
 </section>
 
-<section class="call-to-action-footer">
-  <div class="wrapper-call-to-action">
-    <div data-w-id="f00e2efe-9b56-1210-e497-b72104be4b25" class="box-call-to-action">
-      <h2>Request your free Estimate</h2>
-      <div>
-        Meet with our exterior designers for a free consultation. We'll assess your space
-        and goals to plan the installation of pergolas, patio covers, or pool enclosures.
-      </div>
-      {/* Estos dos venian con href="#" del sitio original. El arreglo es global:
-          en las otras 99 paginas lo hace BOTONES_MUERTOS, en scripts/lib/transformar.mjs.
-          Esta pagina ya no se genera, asi que aqui va a mano — mismos destinos. */}
-      <div class="process-cta">
-        <a href="/contact-us/get-a-quote" class="button w-button">Get A Quote</a>
-        <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule A Visit</a>
-      </div>
-    </div>
-  </div>
-  <img
-    sizes="(max-width: 2000px) 100vw, 2000px"
-    srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
-    alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties."
-    src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
-    loading="lazy"
-    class="image-call-to-action"
-  />
-</section>
+<CtaFinal />
 
 <style is:global>
   /* Solo visible para lectores de pantalla. El resto del CSS vive en blog.css;

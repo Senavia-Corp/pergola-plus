@@ -47,8 +47,44 @@ products, services, project, brands, countries, pergolas-contractors y articles.
 
 El CSS vive en `src/styles/blog.css`. La puerta es `npm run check:blog`, que se
 ejecuta sobre `dist/` después de `npm run build` y comprueba las cuentas por
-categoría (9/6/3/2/1), que no queda ni un `opacity:0` en línea y que el RSS está
-bien escapado.
+categoría (9/6/3/2/1), que no queda ni un `opacity:0` en línea, que el RSS está
+bien escapado y que **la animación de entrada sobrevive a la minificación**.
+
+Esa última comprobación existe porque estuvo rota y en silencio. El minificador
+fusionaba el atajo `animation` con `animation-timeline` en
+`animation: .5s ease-out both pp-entrada view()`, y como `animation-timeline` no
+forma parte de ese atajo en la especificación, el navegador tiraba la declaración
+entera: `animation-name` quedaba en `none` y **las 22 entradas del listado no se
+ejecutaban**. No se veía roto —el estado base es `opacity: 1`—, así que solo salió
+midiendo el computed en el navegador. La regla usa ahora propiedades largas con
+`animation-name` declarado aparte. **No volver al atajo.**
+
+### La página del artículo
+
+De cada fragmento migrado de `/post/<slug>` se aprovecha **solo el texto**
+(`src/lib/articulo.ts`). La cabecera y la barra lateral se descartan a propósito:
+
+- La cabecera traía `opacity:0` **en línea** y los posts no llevan bloque
+  anti-FOUC — medido: 4 en línea, 0 bloques. Sin JavaScript, el `h1` y la imagen
+  principal eran invisibles en los 21 artículos.
+- La barra lateral eran 10 tarjetas **hardcodeadas e idénticas** en los 21 posts:
+  7,9 KB de los 17 KB del fragmento y 210 enlaces internos casi duplicados. La
+  sustituyen el índice y 3 relacionados de verdad, de la misma categoría.
+
+El módulo además degrada a `h2` los `<h1>` que vienen dentro del cuerpo (había 3
+en `aluminum-pergola-cost-boca-raton-vs-fort-lauderdale`, que con el de la página
+hacían 4 en un mismo documento) y pone un `id` slug a cada encabezado, que es lo
+que habilita el índice y los enlaces profundos.
+
+Medidas de lectura, antes y después:
+
+| | Antes | Ahora |
+|---|---|---|
+| Cuerpo | 14px | 18px |
+| Interlineado | 1,5 | 1,7 |
+| Caracteres por línea | 94 | 68 |
+| `h2` | 40px, `margin-top: 0` | 28px, 70px de aire |
+| Encabezados | `capitalize` forzado | tal cual se escribieron |
 
 **Solo se generan rutas para las categorías con artículos** (5 de 9). Las tres
 vacías dan 404, y es deliberado: una categoría sin artículos no es una sección
