@@ -21,7 +21,10 @@
     "check:formularios": "node scripts/comprobar-formularios.mjs",
     "check:i18n": "node scripts/comprobar-i18n.mjs",
     "check:seo": "node scripts/comprobar-seo.mjs",
-    "check:paginas": "node scripts/comprobar-paginas.mjs"
+    "check:paginas": "node scripts/comprobar-paginas.mjs",
+    "extraer": "node scripts/extraer-traducibles.mjs",
+    "fuentes": "node scripts/bajar-fuentes.mjs",
+    "imagenes:cliente": "node scripts/optimizar-imagenes-cliente.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",

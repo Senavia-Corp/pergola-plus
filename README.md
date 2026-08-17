@@ -184,80 +184,158 @@ Tres cosas quedan pendientes del cliente en el CMS:
   de ubicación. `commercial-projects` y `patio-hardscape-services` sí son temas
   de artículo plausibles, solo les falta contenido.
 
+## La puerta: `npm run check`
+
+Once comprobaciones encadenadas. Ninguna depende de que alguien se acuerde de
+ejecutarla, y ninguna pasa por casualidad: todas fallan con código ≠ 0 y dicen en una
+línea qué se rompió.
+
+```bash
+npm run check
+```
+
+| Puerta | Qué impide |
+|---|---|
+| `check:blog` | Que el minificador se coma `animation-timeline` y las entradas dejen de animarse |
+| `check:enlaces` | Que vuelva un `href="#"` sin destino |
+| `check:carruseles` | Que los slides 2..N vuelvan a ser inalcanzables |
+| `check:imagenes` | Que el sitio pida una imagen que no está en local |
+| `check:paridad` | Que se pierda un `data-w-id` y muera una animación en silencio |
+| `check:generadores` | Que alguien edite salida generada a mano y la siguiente regeneración se lo lleve |
+| `check:formularios` | Que un formulario deje de enviar, o que el endpoint acepte basura |
+| `check:i18n` | Que se publique español a medias o un `hreflang` que miente |
+| `check:seo` | Que vuelva un título duplicado, una canónica cruzada o un campo vacío del CMS |
+| `check:paginas` | Que salga un `undefined` en pantalla o un enlace interno a un 404 |
+
+**`dist/` cambia de forma en cuanto hay UNA ruta de servidor**: los HTML pasan de
+`dist/` a `dist/client/`. Bastó con añadir `/api/lead`. Las ocho puertas leían
+`dist/*.html` y ninguna habría fallado — se habrían quedado sin ficheros que mirar y
+habrían salido **en verde**. Por eso `scripts/lib/dist.mjs` lanza si no encuentra
+HTML en ningún sitio: una puerta vacía es peor que una puerta roja.
+
+## Formularios
+
+Los tres postean a `POST /api/lead` (`src/pages/api/lead.ts`). La validación es de
+**servidor** porque ahí está la frontera: la del navegador se la salta un `curl`.
+
+**Funciona sin JavaScript**: POST nativo → `303` → `/thank-you`. Con JS se
+intercepta, se reúnen todos los errores en un resumen enfocable y no recarga. Si esta
+capa no carga, no se pierde ni un lead.
+
+`entregarLead()` (`src/lib/lead.ts`) es la **única costura**: log NDJSON, archivo
+local y webhook opcional. El correo transaccional queda fuera de alcance, con su
+`TODO(correo)` en el sitio exacto. Si fallan los tres canales, `500` — al visitante
+que ya escribió sus datos no se le dice «gracias» cuando no han llegado.
+
+Dos trampas que costaron encontrarse y están documentadas en el código:
+
+- **`data-turnstile-sitekey` mataba las dos páginas de captación.** `webflow.js` lo
+  detecta, carga Turnstile y deja *todos* los formularios de la página en
+  `w-form-loading` con el submit `disabled`, esperando un widget que este sitio no
+  renderiza. El sitekey vive ahora en `.env.example`.
+- **Astro trae protección CSRF de serie.** Un POST sin `Origin` recibe 403 antes de
+  llegar al endpoint. Está fijado en `check:formularios` para que nadie lo apague sin
+  darse cuenta.
+
 ## Idiomas
 
-Las 4 apps de Elfsight (traductor, WhatsApp, Click-to-Call, Google Reviews) se
-retiraron: el traductor era de plan gratuito y su host perezoso vivía en el pie,
-así que la traducción no llegaba a aplicarse al navegar. En su lugar hay **i18n
-propio**, en `src/i18n/`:
+**El HTML migrado no se duplica.** `traducirHtml()` (`src/i18n/index.ts`) reutiliza el
+markup del export y sustituye solo los nodos de texto —lo que hay entre `>` y `<`,
+nunca atributos—, así que `data-w-id`, anti-FOUC, clases e imágenes quedan intactos y
+las interacciones IX2 funcionan igual en español.
 
 | Archivo | Qué |
 |---|---|
-| `index.ts` | `idiomaDeRuta()`, `rutaEnIdioma()` y `traducirHtml()` |
-| `shell.ts` | rótulos de nav y footer en los dos idiomas |
-| `home.es.ts` | las 145 cadenas de la home |
+| `rutas.mjs` | El mapa `TRADUCIDAS`. En `.mjs` porque lo leen el sitio **y** el build |
+| `index.ts` | `idiomaDeRuta()`, `rutaEnIdioma()`, `traducirHtml()`, `esInvariante()` |
+| `shell.ts` | rótulos de nav y pie en los dos idiomas |
+| `paginas.es.ts` | registro de páginas traducidas + sus diccionarios |
+| `comun.es.ts` | lo que se repite en ~100 páginas (CTA, formularios, sellos) |
 
-**El HTML migrado no se duplica.** `traducirHtml()` reutiliza el markup del
-export y sustituye solo los nodos de texto —lo que hay entre `>` y `<`, nunca
-atributos—, así que `data-w-id`, anti-FOUC, clases e imágenes quedan intactos y
-las interacciones IX2 funcionan igual en español. Verificado: `/es/` sale con los
-mismos 41 `data-w-id` y los mismos 4 bloques anti-FOUC que `/`.
+**Añadir una página traducida son dos líneas**: una entrada en `PAGINAS_ES` y su ruta
+en `TRADUCIDAS`. Los metadatos (`wfPage`, anti-FOUC) salen del mismo `_meta.json` que
+generó la versión inglesa, así que no pueden divergir.
 
-Una cadena que no esté en el diccionario **se queda en inglés** (degradado
-visible, no roto) y el build la lista por consola.
+Estado: **7 páginas de 113** — home, productos, servicios y las tres de contacto, o
+sea el camino completo hasta pedir presupuesto. Lo que no está traducido **no existe
+en `/es/`, no lleva `hreflang` y no entra en el sitemap**: media traducción publicada
+es peor que ninguna.
 
-Estado: **solo `/es/` está traducida**. Las páginas interiores siguen en inglés
-—son ~88.000 palabras— y la home española lo dice de forma explícita en un aviso
-al pie. Cuando se traduzcan más páginas, `rutaEnIdioma()` es el único sitio que
-hay que tocar para que el selector apunte a la equivalente.
+Para saber cuánto queda de una página antes de empezarla:
 
-El selector vive en el nav: escritorio a la derecha de los CTA, móvil en la
-barra superior junto a la hamburguesa (visible sin abrir el menú). Las banderas
-van **inline** en `Nav.astro`; `public/images/En.svg` y `Sp.svg` NO se usan
-porque no llevan `<style>` ni `fill` y se verían negras.
+```bash
+npm run extraer -- --resumen
+```
+
+Y para no transcribir claves a mano —que es donde se cuela el espacio fino de no
+separación que deja la línea en inglés—:
+
+```bash
+npm run extraer -- src/contenido-migrado/services/pavers.html --esqueleto
+```
+
+Una cadena que no esté en el diccionario **se queda en inglés** (degradado visible, no
+roto) y el build la lista por consola. Correos, teléfonos, direcciones y marcas no
+cuentan como ausencia: no es lo mismo un olvido que algo que no se traduce.
+
+El selector vive en el nav: escritorio a la derecha de los CTA, móvil en la barra
+superior junto a la hamburguesa. Las banderas van **inline** en `Nav.astro`;
+`public/images/En.svg` y `Sp.svg` NO se usan porque no llevan `<style>` ni `fill` y se
+verían negras.
+
+## Terceros
+
+Queda **uno**: jQuery, que `webflow.js` necesita para existir. Cero peticiones a
+Google para ver la página.
+
+- **Inter va autoalojada** (`npm run fuentes`). Antes se cargaba con `webfont.js` de
+  `ajax.googleapis.com`, en el `<head>` y sin `defer`: un tercero que bloquea el
+  render, ~20 KB de JS antes de pintar nada, y solo entonces la fuente desde otro
+  dominio.
+- **OnceHub va tras una fachada diferida** (`src/components/Agenda.astro`). Su
+  contenedor mide 0 px hasta que inyecta su iframe, así que la fachada reserva los
+  550 px: diferir sin reservar habría empeorado el salto, no arreglado.
+
+## Estado y pendientes
+
+`docs/estado-final.md` — qué quedó hecho, qué decisiones se tomaron y qué falta,
+con nombre y apellidos de quién depende cada cosa.
+`docs/decisiones.md` — el registro de decisiones automáticas, incluidas las que
+resultaron ser errores de medición propios.
 
 ---
 
-Andamiaje original del starter de Astro, más abajo.
+## Comandos
 
-# Astro Starter Kit: Minimal
+| Comando | Qué hace |
+| :--- | :--- |
+| `npm run dev` | Servidor de desarrollo. **Es singleton**: si ya hay uno, `astro dev` no levanta otro, informa de dónde está y termina |
+| `npm run build` | Construye a `dist/client/` + la función de `/api/lead` en `.vercel/output/` |
+| `npm run check` | **La puerta.** Build + las diez comprobaciones |
+| `npm run extraer -- --resumen` | Cuánto queda por traducir, por colección |
+| `npm run medir:imagenes` | Remide `public/` y actualiza `src/lib/img-dim.json` (tras añadir imágenes) |
+| `npm run fuentes` | Rebaja Inter de Google a `public/fonts/` |
+| `npm run imagenes:cliente` | Reprocesa las fotos del cliente desde `~/Downloads` |
 
-```sh
-npm create astro@latest -- --template minimal
+`npm run preview` **no funciona**: el adaptador de Vercel no trae servidor de
+preview y muere con *«Preview server process exited before becoming ready»*. Para
+ejecutar el endpoint en local se usa `npm run dev`, que corre el mismo
+`src/pages/api/lead.ts`.
+
+### Regenerar contenido migrado
+
+```bash
+node scripts/generar-paginas.mjs     # las 17 estáticas
+node scripts/generar-detalle.mjs     # las 83 de detalle
 ```
 
-## 🚀 Project Structure
+Las dos respetan las páginas de autoría propia (`/resources/blog`, `/thank-you`,
+`/post/[slug]`). Pisarlas de verdad exige `--regenerar-manuales`, que es
+**destructivo** y se lleva el rediseño por delante.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Documentación
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `docs/estado-final.md` — qué quedó hecho, qué falta y de quién depende
+- `docs/decisiones.md` — decisiones automáticas, con su motivo
+- `docs/fase0-hallazgos.md` — el pre-vuelo de la migración
+- `docs/redirects.md` — el mapa de 301
