@@ -27,7 +27,7 @@ npm run check
 | Flechas de carrusel sin función | ~250 | **0** |
 | Scripts de terceros | 3 | **1** (jQuery, que `webflow.js` necesita) |
 | Peticiones a Google para ver la página | sí | **0** |
-| Páginas en español | 1 | **7** |
+| Páginas en español | 1 | **10** |
 | Desbordamiento horizontal a 320 px | — | **0 en las 113** |
 | `sitemap.xml` / `robots.txt` | no existían | **111 urls + robots** |
 
@@ -60,8 +60,10 @@ Cuatro bugs que `method="get"` tapaba y que en un POST real sí rompen:
 
 ### 2. Español a medias → PARCIAL Y HONESTO
 
-De 1 página a 7: home, productos, servicios y las tres de contacto. Es decir, el
-camino completo desde que un visitante llega hasta que deja sus datos.
+De 1 página a 10: home, productos, servicios, las tres de contacto y tres páginas de
+detalle de servicio (adoquinado, pérgolas a medida y entradas de coche), con sus
+preguntas frecuentes. Es decir, el camino completo desde que un visitante llega hasta
+que deja sus datos, más los servicios que más se buscan.
 
 **Lo que no está traducido no existe en `/es/`, no lleva `hreflang` y no entra en el
 sitemap.** Media traducción publicada es peor que ninguna: el visitante llega en su
@@ -69,12 +71,14 @@ idioma y se topa con inglés al segundo clic. El aviso al pie de `/es/` dice
 exactamente qué está y qué no.
 
 Queda por traducir, en orden de valor: las 29 páginas de ubicación (24.088 palabras),
-las 10 fichas de producto (11.471), las 7 de servicio (8.071), el blog y sus 21
+las 10 fichas de producto (11.471), las 4 de servicio restantes, el blog y sus 21
 entradas (19.401), y el resto de estáticas. Total medido con
 `npm run extraer -- --resumen`: **8.841 cadenas, 79.169 palabras.**
 
-Añadir una página traducida son dos líneas: una entrada en `PAGINAS_ES` y su ruta en
-`TRADUCIDAS`.
+**Cada página traducida abarata la siguiente.** Una página de servicio tiene 90
+cadenas y solo ~28 son suyas: las otras 62 ya están en `comun.es.ts` (el bloque de
+proceso, las 10 tarjetas de proyecto, las zonas de servicio, las reseñas y el CTA
+final). Añadir una es una entrada en su registro + su ruta en `TRADUCIDAS`.
 
 ### 3. SEO técnico → CERRADO
 
@@ -111,15 +115,28 @@ ninguna parte.
 Importa porque esa página está enlazada desde el pie de las 113 y desde el texto de
 consentimiento de los dos formularios — justo donde se recogen datos personales.
 
-**No se ha inventado una.** Es contenido legal que depende de cómo trate el cliente
-los datos, y un texto plausible pero falso es peor que una página en blanco. Se ha
-puesto un aviso honesto con vía de contacto.
+**No se ha inventado una**, y no se va a publicar sin que el cliente la apruebe: una
+política de privacidad es un compromiso jurídico, y un texto plausible pero falso es
+peor que una página en blanco. En la página vive un aviso honesto con vía de contacto.
+
+Lo que sí hay es **`docs/politica-privacidad-borrador.md`**: el texto redactado sobre
+lo que el sitio hace de verdad —verificado leyendo el código y el HTML construido— con
+los cinco puntos que nadie puede contestar desde el código marcados `[PENDIENTE]`. Son
+la fecha, el CRM cuando se configure, confirmar por escrito que no se venden datos,
+cuánto tiempo se conservan y qué leyes estatales aplican. Los cuatro primeros los
+contesta el cliente; el quinto es para un abogado.
+
+Es decir: esto pasó de estar a cero a estar **a una revisión** de poder publicarse.
 
 ### BLOQUEANTE — Los leads solo quedan en el log
 
 `entregarLead()` tiene tres canales: log, archivo local y webhook. En producción, sin
 correo ni `LEAD_WEBHOOK_URL` configurados, **el único canal vivo es el log de
 Vercel**. Nadie mira los logs.
+
+**Cada build imprime ahora un aviso enmarcado** diciéndolo, y `check:formularios`
+comprueba que ese aviso sigue ahí — es el fallo que no da error, así que borrarlo
+«porque hace ruido» es justo como se pierde de vista.
 
 Hace falta una de estas dos, y basta con una:
 
