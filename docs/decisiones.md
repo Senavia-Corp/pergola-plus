@@ -279,3 +279,194 @@ el navegador en inglés. Con JavaScript, el endpoint devuelve el destino en el J
 `check:formularios` envía uno desde `/es/` y exige `/es/thank-you`. Sin esa
 comprobación, cualquier cambio en el endpoint devolvería a los leads en español a la
 página inglesa sin que saltara nada.
+
+---
+
+## Las reseñas de Google: Business Profile, no Places
+
+**Decidido sin preguntar dos veces porque la alternativa era inviable, no peor.**
+
+La Places API parecía el atajo. No sirve, por tres motivos que están en su propia
+documentación: devuelve **un máximo de 5 reseñas**, su política **prohíbe cachear o
+almacenar su contenido** (solo el `place_id` está exento) y `reviews` cae en el SKU
+Enterprise + Atmosphere. Un `src/data/reviews-google.json` comiteado y servido en
+SSG con datos de Places es *exactamente* el patrón que esa política prohíbe.
+
+Las reseñas del perfil propio, leídas por su dueño a través de Business Profile, son
+contenido del negocio: no arrastran esa restricción, salen todas, y además traen la
+respuesta del dueño (`reviewReply`), que Places no da.
+
+**El JSON arranca vacío y se queda vacío hasta que alguien ejecute el fetch.** No
+había ninguna reseña real de la que partir: el widget de Elfsight nunca metió texto
+en el HTML y su API lleva devolviendo `WIDGET_DISABLED` desde antes de la migración.
+Con la lista vacía el componente **no renderiza nada** —ni carrusel vacío, ni «aún no
+hay reseñas»— que es lo mismo que hace el listado del blog con las categorías sin
+artículos: no hay estado vacío porque no puede alcanzarse.
+
+**El enlace «leer esta reseña en Google» apunta a la lista, no a la reseña.** La API
+de GBP no devuelve un permalink por reseña: `review.name` es un identificador
+interno, no una URL pública. Inventarse un enlace que parezca funcionar sería peor
+que esto, porque el visitante hace clic justamente para comprobar que la reseña es
+real.
+
+## `check:i18n` contaba las reseñas en inglés como «sin traducir»
+
+Las reseñas **no se traducen**: un testimonio reescrito por el vendedor deja de ser
+un testimonio. Pero la puerta cuenta como pendiente todo nodo de prosa con palabras
+funcionales inglesas y exige ≥98% por página, así que las reseñas inglesas dentro de
+`/es/` la tumbaban **por hacer lo correcto**.
+
+El arreglo no es una exención: `nodos()` aparta los subárboles con un atributo `lang`
+**explícito y distinto** al de la página. Y declararlo no es un truco para esquivar
+la puerta — es lo que necesita un lector de pantalla para cambiar de voz. **Para
+librarse del recuento hay que hacer antes lo correcto.** Un párrafo que se quedó en
+inglés por olvido no lleva `lang` y sigue contando, que es lo que la puerta persigue.
+
+Se le pusieron dos guardas, porque el recorte busca el cierre equilibrado a mano y un
+fallo ahí haría que la puerta saliera en verde por no tener nada que medir —la misma
+familia de fallo que las capturas en `/tmp` y que los HTML mudándose a `dist/client/`:
+
+- La puerta **comprueba su propia maquinaria** con 10 casos antes de usarla. El que
+  importa es un `<div>` dentro de otro `<div>`: buscar el primer `</div>` es lo que
+  sale solo, y dejaría medio documento fuera.
+- Falla si la exención aparta más del 35% del texto de una página.
+
+Efecto secundario: salieron a la luz dos casos legítimos que ya existían y se colaban
+dentro del margen del 2% — los enlaces del selector de idioma
+(`<a href="/es/" lang="en">English</a>`).
+
+## Auditoría de nitidez: umbrales por percentil, y una marca que casi no aplica
+
+**Los umbrales de «blanda» y «sobrecomprimida» salen del percentil del propio
+corpus,** no de una constante. La varianza del Laplaciano depende del contenido: un
+cielo liso puntúa bajo aunque el archivo esté perfecto. Una constante habría marcado
+las fotos de cielo y dejado pasar las de textura mal escaladas.
+
+**La marca de bloques JPEG casi no aplica aquí y el informe lo dice.** De las 471
+imágenes rasterizadas que sirve el sitio, **solo 2 son JPEG**. AVIF no usa bloques
+8×8, así que buscarlos en un corpus 99% AVIF sería inflar la cobertura del informe
+sin medir nada.
+
+**El factor mínimo es 1,5× y no 2×.** El ideal en retina es 2×, pero con ese umbral
+fallarían casi todas las imágenes de 1250 px del CMS, y una lista donde falla todo no
+sirve para priorizar nada. El píxel *objetivo* que se pide a Higgsfield sí es 2×.
+
+**Playwright entra como devDependency pero NO en `npm run check`.** El tamaño de
+display es una propiedad del layout y no se puede deducir del HTML: hace falta un
+navegador. Pero la razón por la que `comprobar-carruseles.mjs` no lo trae —«~300 MB y
+un navegador más que mantener»— sigue siendo cierta para una *puerta*. La auditoría
+es una herramienta que se ejecuta a mano.
+
+**La auditoría aborta toda petición externa.** No es una optimización: sin eso no
+termina. Cada página carga jQuery desde `d3e54v103j8qbb.cloudfront.net` y el
+navegador se queda esperándolo. Medido: 26 minutos con los procesos de Chromium al
+**0% de CPU** —parados, no trabajando— y ni una página medida. Y no falsea nada,
+porque el tamaño de display sale del CSS, que es todo local; sin jQuery no arranca
+IX2 y los elementos anti-FOUC se quedan en `opacity:0`, pero la opacidad no cambia
+`getBoundingClientRect()`.
+
+## Las imágenes regeneradas necesitaban un registro, no solo un archivo nuevo
+
+`public/images/` tiene **dos fuentes en conflicto**: está versionada en git (165
+archivos) *y* `instalar-assets.mjs` copia el export de Webflow encima en cada
+ejecución. Sustituir ahí una foto regenerada y ya sería una regresión latente: la
+siguiente ejecución la revierte **en silencio**, sin error y sin ninguna diferencia
+visible salvo que se mire el píxel. Es la misma clase de fallo que el
+`rm -rf public/images` que se llevaba `En.svg`.
+
+Por eso hay `assets-migracion/regeneradas.json`: `instalar-assets.mjs` salta esas
+rutas y `check:imagenes` comprueba que lo que hay en disco sigue teniendo el `sha256`
+anotado. Se compara contra ese hash y no contra «es distinta del export», porque una
+tercera versión tampoco vale.
+
+**Del manifest solo se tocan cuatro campos**: `sha256`, `bytes`, `width` y `height`.
+El `alt` no se toca jamás — ese manifest ya tuvo el bug de no-determinismo que
+sorteaba a cara o cruz el `alt` de 42 imágenes y no se vio durante semanas porque no
+rompe nada visible.
+
+**Se sustituye en AVIF y con el mismo nombre.** El sitio sirve AVIF de archivo único
+con `<img src>` plano —cero `<picture>`, cero `srcset` propio—, así que añadir un
+WebP de respaldo obligaría a inyectar `<picture>` en markup migrado verbatim y a
+reescribir `check:paridad`. La recodificación apunta además al mismo bytes/px del
+archivo que sustituye: subir la resolución no es excusa para triplicar el peso.
+
+## La flecha «siguiente» no llegaba al último slide cuando el tramo final era corto
+
+Lo destapó el carrusel de reseñas y **estaba en el código compartido**, no en él.
+
+`Carrusel.astro` daba la vuelta al principio cuando el salto **se pasaría** del final:
+
+```js
+if (destino > maximo() + 1) return caja.scrollTo({ left: 0 });
+```
+
+Parece razonable y no lo es. Si el tramo que queda por recorrer es **más corto que un
+paso**, «se pasaría» es cierto desde el primer clic, así que la flecha volvía al
+principio una y otra vez y **los últimos slides no se alcanzaban nunca**. Es
+exactamente el fallo que este componente vino a arreglar, colándose por la puerta de
+atrás.
+
+Medido en la home, 4 reseñas con 3 a la vista: paso 419 px, recorrido total 411 px.
+La cuarta tarjeta era inalcanzable con las flechas.
+
+**Por qué no había saltado antes:** los 127 carruseles migrados tienen `maximo`
+múltiplo exacto de `paso` —medido: 8550/950 y 1824/304—, así que su último salto cae
+justo y nunca se pasa. Ninguno tenía tramo corto.
+
+Ahora se da la vuelta cuando **ya se está** en el extremo, y en cualquier otro caso se
+avanza recortando a los extremos: avanzar lo que queda es mejor que no avanzar. Para
+los 127 carruseles migrados el comportamiento es idéntico (con múltiplos exactos las
+dos condiciones coinciden).
+
+De paso se quitó el `padding` horizontal de la lista de reseñas, que era lo que metía
+esos 8 px de descuadre. La sombra de las tarjetas respira ahora con el padding
+**vertical**, que no toca el eje que se desplaza.
+
+## Verificar el carrusel en el panel oculto daba TODO roto estando bien
+
+El panel del navegador de la sesión estaba oculto. Medido dentro de la página:
+`visibilityState: "hidden"`, **0 callbacks de `requestAnimationFrame` y 0 de
+`ResizeObserver` en 600 ms**, e `innerWidth: 0`.
+
+Consecuencias, todas falsos negativos:
+
+- Los puntos del carrusel los pinta un `ResizeObserver` → nunca se pintaban. Salía
+  «1 punto para 4 slides» **en los carruseles migrados también**, que no se habían
+  tocado.
+- Con `innerWidth: 0` toda la maquetación colapsa: los slides medían 0 px de ancho y
+  el paso salía 24 px (solo el hueco entre tarjetas).
+- El scroll suave no anima en una página que no renderiza, así que un clic «no movía
+  nada».
+
+Es el gemelo del fallo ya documentado —la pestaña sin foco congela rAF y hace que el
+bug salga en **verde**—; aquí pasa al revés y hace que lo sano salga en **rojo**. Las
+dos versiones nacen de lo mismo: **medir en una página que no está renderizando**.
+
+La verificación real se hizo con Chromium headless, que sí ejecuta los pasos de
+renderizado, y con clics de verdad (`page.click`, no `dispatchEvent`): 4 rutas × 2
+viewports, comprobando que los puntos se repintan, que el punto activo sigue al
+scroll, que las flechas llegan al último píxel y que en los extremos dan la vuelta.
+
+## La métrica de nitidez daba 0,0 en toda imagen con canal alfa
+
+Un fallo mío, encontrado leyendo el informe: varias fotos reales salían con nitidez
+**exactamente 0,0**, que no es un valor plausible para una fotografía.
+
+Causa: `sharp().convolve()` devuelve el buffer **entero a cero** cuando la imagen
+lleva canal alfa. Medido: `motorized-louvered.avif` (4 canales) daba min 0, max 0,
+media 0; `screen-enclosure.avif`, la misma foto sin alfa, daba media 6,83.
+
+Es el peor tipo de fallo posible en una auditoría: **no da error, produce un número
+plausible, y ese número manda trabajo manual sobre imágenes que están bien**. Sin
+mirar el informe con desconfianza habría acabado en una lista de decenas de fotos
+«blandas» que no lo eran.
+
+El arreglo es `.removeAlpha()` antes de `convolve`, en las tres funciones que lo usan
+(`auditar-nitidez.mjs` y las dos de `integrar-higgsfield.mjs`). En el integrador el
+mismo fallo habría hecho que toda imagen con alfa suspendiera el «la nitidez no subió»
+pasara lo que pasara.
+
+De paso, la pasada de navegador se cachea en `auditoria-imagenes/display.json`: son
+~15 minutos y solo cambia si cambia el CSS o el markup, mientras que los umbrales se
+retocan a menudo. Con `--remedir` se rehace, y hay que usarlo después de tocar la
+maquetación: una caché silenciosa que se queda vieja mide el sitio de anteayer.
