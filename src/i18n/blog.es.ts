@@ -166,14 +166,14 @@ export const POSTS_ES: Record<string, PostEs> = {
   'pergola-permit-south-florida': {
     titulo: '¿Hace falta permiso para una pérgola en el sur de Florida?',
     resumen: 'Los permisos que necesita una pérgola en el sur de Florida, explicados.',
-    tituloLargo: '¿Hace falta permiso para una pérgola en el sur de Florida? Guía 2026',
+    tituloLargo: '¿Hace falta permiso para una pérgola en Florida? Guía 2026',
     descripcionSeo:
       'Cuándo lleva permiso una pérgola en el sur de Florida, qué documentación piden y qué pasa si se construye sin él.',
   },
   'hoa-rules-pergolas-south-florida': {
     titulo: 'Qué pide la comunidad de propietarios para una pérgola',
     resumen: 'Los requisitos de la comunidad para una pérgola, explicados.',
-    tituloLargo: 'Pérgolas y comunidades de propietarios en el sur de Florida | Guía 2026',
+    tituloLargo: 'Pérgolas y comunidades de propietarios | Guía 2026',
     descripcionSeo:
       'Qué revisa el comité arquitectónico de una urbanización antes de aprobar una pérgola, y cómo llevar el expediente para que salga a la primera.',
   },
@@ -201,7 +201,7 @@ export const POSTS_ES: Record<string, PostEs> = {
   'poolside-pergola-ideas-for-florida-homes': {
     titulo: 'Ideas de pérgola junto a la piscina',
     resumen: 'Ideas de pérgola para la zona de piscina en casas de Florida.',
-    tituloLargo: 'Ideas de pérgola junto a la piscina en Florida | Guía de diseño 2026',
+    tituloLargo: 'Ideas de pérgola junto a la piscina en Florida | 2026',
     descripcionSeo:
       'Ideas de pérgola para la zona de piscina en Florida: sombra donde hace falta, materiales que aguantan el cloro y el salitre, y zonas de estar.',
   },
@@ -243,7 +243,7 @@ export const POSTS_ES: Record<string, PostEs> = {
   'best-pergola-materials-coastal-florida': {
     titulo: 'Los mejores materiales para una pérgola en la costa',
     resumen: 'Los mejores materiales de pérgola para casas de costa en Florida.',
-    tituloLargo: 'Mejores materiales de pérgola para la costa de Florida | Guía 2026',
+    tituloLargo: 'Mejores materiales de pérgola para la costa | Guía 2026',
     descripcionSeo:
       'Qué materiales aguantan el salitre, la humedad y el sol en la costa de Florida, y cuáles se degradan por muy bien que se instalen.',
   },
@@ -257,14 +257,14 @@ export const POSTS_ES: Record<string, PostEs> = {
   'best-outdoor-structures-rain-sun-florida': {
     titulo: 'Las mejores estructuras exteriores para el sol y la lluvia',
     resumen: 'Las mejores estructuras exteriores para el sol y la lluvia de Florida.',
-    tituloLargo: 'Mejores estructuras para el sol y la lluvia en Florida | Guía 2026',
+    tituloLargo: 'Estructuras para el sol y la lluvia en Florida | Guía 2026',
     descripcionSeo:
       'Qué estructura exterior conviene en Florida según lo que le pida: sombra, lluvia, ventilación o poder cerrar el espacio del todo.',
   },
   'can-you-use-your-patio-year-round-in-south-florida': {
     titulo: '¿Se puede usar el patio todo el año en el sur de Florida?',
     resumen: 'Cómo hacer que su patio del sur de Florida se use los 365 días.',
-    tituloLargo: '¿Se puede usar el patio todo el año en el sur de Florida? Guía 2026',
+    tituloLargo: '¿Se puede usar el patio todo el año en Florida? Guía 2026',
     descripcionSeo:
       'Qué hace falta para usar el patio los doce meses en el sur de Florida: sombra, lluvia, insectos, calor y ventilación, uno por uno.',
   },
