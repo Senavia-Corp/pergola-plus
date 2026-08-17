@@ -142,4 +142,122 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Sí. Al ser estructuras permanentes que soportan carga, requieren permiso. Nosotros aportamos el cálculo estructural completo y gestionamos la aprobación.',
     },
   },
+
+  'open-air-pergolas': {
+    nombre: 'Pérgolas abiertas',
+    title: 'Pérgolas abiertas de aluminio | Sur de Florida',
+    description: 'Pérgolas de aluminio de estructura abierta que definen el patio sin cortar la brisa ni las vistas al cielo, sin mantenimiento.',
+    dic: {
+      'Open-Air Pergolas': 'Pérgolas abiertas',
+      'Timeless Elegance': 'Elegancia que no pasa de moda',
+      'Maximum Cooling Airflow': 'Máxima ventilación',
+      'Zero Maintenance': 'Cero mantenimiento',
+      'Open-Air Pergola Contractors in South Florida': 'Especialistas en pérgolas abiertas en el sur de Florida',
+      'Pergola Plus designs architectural open-air pergolas throughout South Florida. Crafted from premium aluminum, these custom structures define outdoor spaces while preserving airflow and open views. We serve Parkland, Plantation, Delray Beach, and surrounding communities, delivering durable, design-forward installations that enhance property value.':
+        'Pergola Plus diseña pérgolas abiertas con criterio arquitectónico por todo el sur de Florida. Hechas en aluminio de gama alta, definen el espacio exterior sin cortar la ventilación ni las vistas. Trabajamos en Parkland, Plantation, Delray Beach y alrededores, con instalaciones duraderas y de buen diseño que suman valor a la propiedad.',
+      'Open-Air Pergola Design Features': 'Qué trae una pérgola abierta',
+      'Define your patio with clean architectural lines that preserve the breeze and uninterrupted sky views. Explore the premium materials and customizable details that give our open-air structures their bold, modern presence.':
+        'Defina su patio con líneas limpias que dejan pasar la brisa y no tapan el cielo. Estos son los materiales y los detalles configurables que le dan presencia a nuestras estructuras abiertas.',
+      'Premium Extruded Aluminum Structure': 'Estructura de aluminio extruido',
+      'Built with high-grade powder-coated aluminum, these structures resist corrosion, fading, and structural fatigue — ideal for South Florida’s humid and coastal environments.':
+        'Fabricadas en aluminio de alta calidad con recubrimiento en polvo, resisten la corrosión, la decoloración y la fatiga estructural. Justo lo que pide un ambiente húmedo y costero.',
+      'Integrated Lighting Options': 'Iluminación integrada, si la quiere',
+      'Optional LED lighting can be seamlessly incorporated into beams and rafters, allowing your outdoor space to transition effortlessly from daytime relaxation to evening entertaining.':
+        'Se puede integrar iluminación LED en vigas y viguetas, para que el mismo espacio sirva de día para descansar y de noche para recibir.',
+      'Freestanding or Attached Installation': 'Exenta o adosada',
+      'Whether extending from your home or installed as a freestanding feature, each pergola is engineered for structural integrity and aesthetic cohesion.':
+        'Tanto si sale de la casa como si va suelta en el jardín, cada pérgola se calcula para ser sólida y para encajar visualmente.',
+      'Decorative Post Base &amp; Cap Options': 'Basas y remates decorativos',
+      'Customize the architectural look of your pergola with a selection of decorative post bases and caps, adding a refined finishing touch to the overall design.':
+        'Ajuste el aspecto de su pérgola con basas y remates de pilar decorativos, que dan ese acabado que se nota.',
+      'Custom Beam &amp; Rafter Configurations': 'Vigas y viguetas a medida',
+      'Select from modern minimalist profiles or more robust structural dimensions to complement your home’s architectural style and outdoor layout.':
+        'Elija entre perfiles minimalistas o secciones más robustas, según el estilo de su casa y cómo tenga distribuido el exterior.',
+      'Architectural Open-Frame Design': 'Estructura abierta con criterio',
+      'Create a visually striking outdoor area while preserving airflow and open sky views. Our open-air pergolas define patios and pool decks with clean architectural lines that enhance your home’s exterior design.':
+        'Consiga un exterior con carácter sin renunciar a la ventilación ni a las vistas. Nuestras pérgolas abiertas definen patios y bordes de piscina con líneas limpias que suman al conjunto.',
+      'Discover open-air pergola designs that define outdoor spaces with architectural elegance. See how clean aluminum structures elevate patios without blocking airflow or views.':
+        'Vea diseños de pérgolas abiertas que definen el exterior con elegancia, y cómo una estructura limpia de aluminio eleva un patio sin tapar el aire ni las vistas.',
+      'Available in sophisticated powder-coated colors and optional wood-look textures, each open-air pergola is tailored to match your home’s style and landscape.':
+        'Disponibles en colores con recubrimiento en polvo y, si quiere, texturas que imitan la madera. Cada pérgola abierta se ajusta al estilo de su casa y de su jardín.',
+      'Watch how open-air aluminum pergolas define space with clean architectural lines, preserving airflow and views while elevating your outdoor design.':
+        'Vea cómo una pérgola abierta de aluminio define el espacio con líneas limpias, sin cortar el aire ni las vistas.',
+      'Open Air Pergolas FAQs': 'Preguntas sobre pérgolas abiertas',
+      'Got questions? Learn about the benefits, durability, and custom aluminum pergola designs built for South Florida weather.':
+        '¿Dudas? Ventajas, durabilidad y diseños a medida en aluminio, pensados para el tiempo del sur de Florida.',
+      '1. Why choose an open-air pergola?': '1. ¿Por qué elegir una pérgola abierta?',
+      'Open-air pergolas define your luxury outdoor living area with stunning architectural lines while preserving uninterrupted sky views and natural cooling breezes.':
+        'Definen la zona de estar exterior con unas líneas que se ven, y a la vez dejan el cielo despejado y la brisa corriendo.',
+      '2. Are they made of wood or metal?': '2. ¿Son de madera o de metal?',
+      'We strictly use high-grade extruded aluminum. Unlike wood, our powder-coated metal pergolas will never rot, warp, or require staining in South Florida&#x27;s climate.':
+        'Solo usamos aluminio extruido de alta calidad. A diferencia de la madera, no se pudre, no se alabea y no hay que barnizarlo.',
+      '3. Can I add custom LED lighting?': '3. ¿Puedo añadir iluminación LED?',
+      'Yes. Our structural beams seamlessly hide electrical wiring, allowing for elegant integrated LED lighting to transform your open-air patio into an evening retreat.':
+        'Sí. Las vigas esconden el cableado, así que la iluminación LED queda integrada y el patio se puede usar también de noche.',
+      '4. Do they boost property value?': '4. ¿Revalorizan la casa?',
+      'Definitely. Permanent, high-end aluminum pergolas significantly elevate curb appeal, expand usable living space, and deliver a high ROI for luxury Florida homes.':
+        'Sí. Una pérgola de aluminio permanente y bien hecha mejora la imagen de la casa, amplía el espacio útil y suele rendir bien como inversión.',
+      '5. Are they built to Florida code?': '5. ¿Cumplen la normativa de Florida?',
+      'Yes. Every custom open-air pergola we design is fully engineered, permitted, and professionally installed to meet stringent South Florida hurricane wind-load codes.':
+        'Sí. Cada pérgola se calcula, se tramita y se instala para cumplir las exigentes cargas de viento por huracán del sur de Florida.',
+    },
+  },
+
+  cabanas: {
+    nombre: 'Cabañas',
+    title: 'Cabañas de aluminio a medida | Sur de Florida',
+    description: 'Cabañas de aluminio de inspiración resort, calculadas para resistir huracanes, con cortinas motorizadas y techo aislado opcionales.',
+    dic: {
+      Cabanas: 'Cabañas',
+      'Resort-Style Luxury': 'Lujo de resort',
+      'Hurricane-Resistant': 'Resistente a huracanes',
+      '100% Rust-Proof': '100% a prueba de óxido',
+      'Aluminum Cabana Builders in South Florida': 'Constructores de cabañas de aluminio en el sur de Florida',
+      'We design and construct custom aluminum cabanas across Miami-Dade, Broward, and Palm Beach County. These luxury outdoor retreats provide shaded comfort and privacy while elevating the overall aesthetic of your pool or backyard space. Serving Weston, Boca Raton, Lighthouse Point, and Jupiter, we create resort-style environments built for long-term performance.':
+        'Diseñamos y construimos cabañas de aluminio a medida en Miami-Dade, Broward y Palm Beach. Son refugios exteriores que dan sombra, comodidad y privacidad, y que elevan la estética de la zona de piscina o del jardín. Trabajamos en Weston, Boca Ratón, Lighthouse Point y Jupiter, creando ambientes de resort hechos para durar.',
+      'Luxury Cabana Features &amp; Enhancements': 'Qué trae una cabaña y qué se le puede añadir',
+      'Designed to redefine outdoor living, our luxury cabanas combine privacy, comfort, and architectural elegance. Discover the premium features that transform your backyard into a personal resort-style oasis.':
+        'Nuestras cabañas combinan privacidad, confort y buen diseño. Estas son las prestaciones que convierten un jardín en un oasis propio.',
+      'Resort-Style Structural Design': 'Diseño de inspiración resort',
+      'Transform your backyard into a luxury escape with a fully customized aluminum cabana designed for privacy, shade, and architectural elegance.':
+        'Convierta su jardín en un refugio con una cabaña de aluminio totalmente a medida, pensada para dar privacidad, sombra y buen aspecto.',
+      'Privacy Enhancements': 'Más privacidad',
+      'Add motorized screens, decorative panels, or partial walls to enhance privacy and climate control while maintaining a sleek modern aesthetic.':
+        'Añada cortinas motorizadas, paneles decorativos o muros parciales para ganar privacidad y control del ambiente sin perder una línea limpia.',
+      'Integrated Ceiling &amp; Lighting Systems': 'Techo e iluminación integrados',
+      'Finished ceilings with recessed lighting options create a polished, high-end look while supporting electrical customization for fans and entertainment systems.':
+        'Los techos acabados con luz empotrada dan un aspecto cuidado y dejan la instalación lista para ventiladores y equipos de audio y vídeo.',
+      'Fully Engineered Aluminum Frame': 'Estructura de aluminio calculada',
+      'Constructed from premium aluminum components, our cabanas are engineered to meet Florida building codes while resisting corrosion and weather damage.':
+        'Fabricadas con perfilería de aluminio de gama alta, se calculan para cumplir la normativa de Florida y para resistir la corrosión y el tiempo.',
+      'Custom Roofing Options': 'Opciones de cubierta',
+      'Choose from insulated panels or solid roofing systems to maximize shade, comfort, and year-round protection.':
+        'Elija entre paneles aislados o cubierta sólida para sacar el máximo de sombra, confort y protección todo el año.',
+      'Custom Privacy Curtains &amp; Drapery': 'Cortinas de exterior a medida',
+      'Incorporate outdoor-grade privacy curtains and drapery for a softer aesthetic and adjustable privacy, allowing you to create an intimate sanctuary on demand.':
+        'Incorpore cortinas de exterior para suavizar la estética y regular la privacidad, y tener un rincón recogido cuando le apetezca.',
+      'Explore luxury aluminum cabana projects that transform backyards into private resort-style retreats. See how structure, shade, and design come together seamlessly.':
+        'Vea cabañas de aluminio ya construidas que convierten jardines en refugios privados, y cómo encajan estructura, sombra y diseño.',
+      'Choose from high-end color palettes and textured finishes that create a seamless extension of your home while delivering a bold, resort-inspired presence.':
+        'Elija entre paletas de color de gama alta y acabados con textura, que prolongan la casa hacia fuera con una presencia de resort.',
+      'Aluminum Cabanas FAQs': 'Preguntas sobre cabañas de aluminio',
+      'Have questions about custom cabanas? Learn how our hurricane-rated structures elevate South Florida outdoor living.':
+        '¿Dudas sobre las cabañas a medida? Así elevan el exterior nuestras estructuras homologadas frente a huracanes.',
+      '1. Are aluminum cabanas permanent?': '1. ¿Las cabañas de aluminio son permanentes?',
+      'Yes, our custom aluminum cabanas are permanent structures engineered for Miami. We handle all permits to ensure a luxury, hurricane-resistant outdoor living space.':
+        'Sí. Son estructuras permanentes, calculadas para Miami. Nosotros gestionamos todos los permisos para que el resultado sea un espacio de lujo y resistente a huracanes.',
+      '2. Can I add motorized screens?': '2. ¿Puedo añadir cortinas motorizadas?',
+      'Absolutely. Enhance your South Florida cabana with motorized retractable screens and privacy panels for instant shade, weather control, and ultimate comfort.':
+        'Por supuesto. Con cortinas motorizadas retráctiles y paneles de privacidad tiene sombra al momento, control del tiempo y mucho más confort.',
+      '3. Are they hurricane-resistant?': '3. ¿Resisten un huracán?',
+      'Yes. Every cabana built by Pergola Plus Florida is engineered to meet strict coastal wind-load codes, ensuring your luxury outdoor retreat withstands severe storms.':
+        'Sí. Cada cabaña se calcula para cumplir las estrictas cargas de viento de la costa, de modo que aguante una tormenta seria.',
+      '4. What maintenance is required?': '4. ¿Qué mantenimiento necesitan?',
+      'Minimal. Our premium powder-coated extruded aluminum cabanas resist rust and corrosion, making them the perfect low-maintenance solution for humid coastal climates.':
+        'Muy poco. El aluminio extruido con recubrimiento en polvo resiste el óxido y la corrosión, así que es la solución de bajo mantenimiento para un clima húmedo y costero.',
+      '5. Can I add LED lights and fans?': '5. ¿Puedo poner luces LED y ventiladores?',
+      'Yes! Our structural aluminum cabanas seamlessly integrate LED lighting, ceiling fans, and AV systems, transforming your backyard into a luxury nighttime oasis.':
+        'Sí. La estructura integra sin problema iluminación LED, ventiladores de techo y equipos de audio y vídeo, para que el jardín funcione también de noche.',
+    },
+  },
 };

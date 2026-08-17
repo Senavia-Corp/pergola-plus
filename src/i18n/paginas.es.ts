@@ -48,12 +48,8 @@ const PRODUCTOS: Record<string, string> = {
   'Our polycarbonate pergolas blend durability with natural light, blocking UV rays while maintaining brightness. Engineered for weather resistance, they are perfect for elegant patios and pool decks. Get a modern design that offers protection and openness.':
     'Nuestras pérgolas de policarbonato combinan durabilidad y luz natural: bloquean los rayos UV sin quitar luminosidad. Calculadas para resistir la intemperie, son perfectas para patios y bordes de piscina de diseño cuidado. Un diseño moderno que protege sin cerrar el espacio.',
   'Custom Open-Air Aluminum Pergolas': 'Pérgolas abiertas de aluminio a medida',
-  'Define your outdoor living with our premium aluminum open-air pergolas. Custom-designed for luxury homes, these structures add architectural depth and property value while preserving airflow and sky views. The ultimate blend of style and open-air comfort.':
-    'Defina su espacio exterior con nuestras pérgolas abiertas de aluminio premium. Diseñadas a medida para viviendas de lujo, aportan profundidad arquitectónica y valor a la propiedad sin renunciar a la ventilación ni a las vistas al cielo. La mezcla perfecta de estilo y confort al aire libre.',
-  'Luxury Custom Outdoor Cabanas': 'Cabañas exteriores de lujo a medida',
-  'Our custom aluminum cabanas create refined outdoor retreats with resort-inspired design. Engineered for durability and privacy, these structures provide shaded comfort while elevating the overall aesthetic of your pool area or backyard entertainment space.':
-    'Nuestras cabañas de aluminio a medida crean refugios exteriores con un diseño de inspiración resort. Calculadas para durar y para dar privacidad, aportan sombra y confort a la vez que elevan la estética de su zona de piscina o de su jardín.',
-  'Custom Screen Enclosures for Outdoor Living':
+    'Luxury Custom Outdoor Cabanas': 'Cabañas exteriores de lujo a medida',
+    'Custom Screen Enclosures for Outdoor Living':
     'Cerramientos con mosquitero a medida',
   'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida, they preserve airflow and visibility, ensuring comfortable evenings while matching your home’s architectural integrity.':
     'Proteja su espacio exterior de insectos y suciedad con nuestros cerramientos con mosquitero a medida, con todos los permisos en regla. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes sean cómodas, sin romper la línea arquitectónica de su casa.',

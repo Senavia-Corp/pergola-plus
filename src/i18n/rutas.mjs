@@ -40,6 +40,8 @@ export const TRADUCIDAS = {
   // Fichas de producto. Solo las que tienen diccionario en src/i18n/productos.es.ts.
   '/products/motorized-louvered-pergolas': '/es/products/motorized-louvered-pergolas/',
   '/products/solid-roof-pergolas': '/es/products/solid-roof-pergolas/',
+  '/products/open-air-pergolas': '/es/products/open-air-pergolas/',
+  '/products/cabanas': '/es/products/cabanas/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
