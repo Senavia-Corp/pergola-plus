@@ -32,6 +32,11 @@ export const TRADUCIDAS = {
   // pasa por PAGINAS_ES: su gemela inglesa tampoco es contenido migrado.
   '/thank-you': '/es/thank-you/',
   '/project-gallery': '/es/project-gallery/',
+  '/about-us/about-us': '/es/about-us/about-us/',
+  '/about-us/testimonials': '/es/about-us/testimonials/',
+  '/about-us/industries-we-serve': '/es/about-us/industries-we-serve/',
+  '/resources/faq': '/es/resources/faq/',
+  '/resources/warranties': '/es/resources/warranties/',
   // Paginas de detalle de servicio. Solo las que tienen diccionario en
   // src/i18n/servicios.es.ts: el resto no existe en /es/.
   '/services/pavers': '/es/services/pavers/',

@@ -303,4 +303,20 @@ export const COMUN_ES: Record<string, string> = {
   'Residential': 'Residencial',
   'Commercial': 'Comercial',
   'Cabanas': 'Cabañas',
+  // Cierre compartido por /resources/faq y /resources/warranties.
+  'Need more information?': '¿Necesita más información?',
+  'Reach out to our team for specifics about your project':
+    'Hable con nuestro equipo y le contamos lo que aplique a su proyecto',
+  // Bloque de cifras, en /about-us y en /industries-we-serve.
+  'Our Impact': 'Nuestros números',
+  'KPIs / Quick Facts': 'Cifras rápidas',
+  'Projects completed': 'Proyectos terminados',
+  'Years in business': 'Años en el oficio',
+  'Customer satisfaction rate': 'Clientes satisfechos',
+  'Licensed &amp; Engineered in South Florida': 'Con licencia y cálculo en el sur de Florida',
+  'Contact Us': 'Contacto',
+  'Discover premium aluminum pergolas and custom outdoor shade solutions expertly designed and installed across South Florida, delivering durability, style, and elevated luxury outdoor living.':
+    'Pérgolas de aluminio de gama alta y soluciones de sombra a medida, diseñadas e instaladas por todo el sur de Florida: duran, se ven bien y elevan la vida al aire libre.',
+  'Pergola Plus Florida - Licensed &amp; Insured CGC1539940 in South Florida':
+    'Pergola Plus Florida — con licencia y seguro CGC1539940 en el sur de Florida',
 };

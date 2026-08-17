@@ -198,6 +198,162 @@ const GALERIA: Record<string, string> = {
     'Vea nuestros proyectos de pérgolas a medida, cubiertas de patio y espacios exteriores en Miami-Dade, Broward y Palm Beach: calculados para cumplir la normativa de Florida y construidos para durar en la costa.',
 };
 
+const SOBRE_NOSOTROS: Record<string, string> = {
+  'About Pergola Plus Florida': 'Sobre Pergola Plus Florida',
+  'Licensed Contractor In South Florida': 'Contratista con licencia en el sur de Florida',
+  // Titular partido en tres nodos por el diseño. En español el orden cambia, así que
+  // cada trozo lleva la parte que le toca para que la frase entera se lea bien.
+  'Florida’s': 'Los mejores',
+  'Leading Pergola &amp; Patio Cover': 'constructores de pérgolas y cubiertas de patio',
+  'Contractors': 'de Florida',
+  'At Pergola Plus Florida, we design and build premium aluminum pergolas, louvered roof systems, and patio covers engineered for the demands of South Florida weather. From custom design to expert installation, our team creates durable outdoor structures that add comfort, style, and long-term value to your home. Whether you want more shade, better airflow, or a modern upgrade to your backyard, we deliver outdoor living solutions built to last.':
+    'En Pergola Plus Florida diseñamos y construimos pérgolas de aluminio, techos de lamas y cubiertas de patio calculados para el clima del sur de Florida. Del diseño a medida a la instalación, levantamos estructuras que duran y que aportan confort, estilo y valor a la casa. Ya busque más sombra, más ventilación o darle una vuelta al jardín, le damos una solución hecha para aguantar.',
+  'Where We Serve': 'Dónde trabajamos',
+  'Why Us?': '¿Por qué nosotros?',
+  'Why': 'Por qué',
+  'Pergola Plus Florida': 'Pergola Plus Florida',
+  'is Your Best Patio Choice': 'es su mejor opción para el patio',
+  'We build outdoor spaces with integrity, precision, and materials proven to withstand Florida’s extreme climate. Customers choose us for reliability, craftsmanship, and long-term durability.':
+    'Construimos exteriores con seriedad, con precisión y con materiales que ya han demostrado aguantar el clima de Florida. Nos eligen por cumplir, por el oficio y porque lo que hacemos dura.',
+  'Your project is protected and handled by certified professionals with full licensing and insurance in South Florida.':
+    'Su obra la llevan profesionales certificados, con licencia y seguro en regla en el sur de Florida.',
+  'More than a decade designing and installing premium outdoor structures, including pergolas, enclosures, and louvered roofs.':
+    'Más de diez años diseñando e instalando estructuras exteriores: pérgolas, cerramientos y techos de lamas.',
+  'We use top-grade materials and expert craftsmanship to ensure long-lasting, durable, and visually stunning shade structures.':
+    'Usamos materiales de primera y buen oficio para que la estructura de sombra dure y se vea bien.',
+  'Every project is built from scratch—no templates. We measure, design, and craft a solution that fits your home perfectly.':
+    'Cada proyecto se hace desde cero, sin plantillas. Medimos, diseñamos y fabricamos una solución que encaja en su casa.',
+};
+
+const RESENAS: Record<string, string> = {
+  'Client Reviews': 'Opiniones de clientes',
+  'See what homeowners across Miami-Dade, Broward, and Palm Beach County say about their custom pergolas and patio cover projects. Real reviews. Real craftsmanship. Proven results.':
+    'Lea lo que cuentan los propietarios de Miami-Dade, Broward y Palm Beach sobre sus pérgolas y cubiertas de patio a medida. Opiniones reales, oficio real y resultados que se ven.',
+};
+
+const GARANTIAS_PAG: Record<string, string> = {
+  'Warranty Information': 'Información de garantía',
+  'At Pergola Plus Florida, we stand behind the structural integrity, performance, and craftsmanship of every system we install. Serving Miami-Dade, Broward, and Palm Beach counties, we provide comprehensive warranty coverage designed to protect your investment and ensure long-term durability in South Florida’s climate.':
+    'En Pergola Plus Florida respondemos de la solidez, del rendimiento y del acabado de cada sistema que instalamos. Trabajamos en Miami-Dade, Broward y Palm Beach con una cobertura de garantía pensada para proteger su inversión y para que lo instalado aguante el clima del sur de Florida.',
+  'FORTE &amp; FORTE Plus Warranty': 'Garantía FORTE y FORTE Plus',
+  'Our FORTE and FORTE Plus systems include comprehensive structural warranty coverage designed to ensure long-term durability and performance. This warranty protects against defects in materials and structural integrity, providing confidence that your aluminum pergola is engineered to withstand Florida’s demanding climate.':
+    'Los sistemas FORTE y FORTE Plus llevan una garantía estructural amplia, pensada para que duren y rindan. Cubre defectos de material y de solidez estructural, así que su pérgola de aluminio está calculada para el clima exigente de Florida.',
+  'Equinox Louvered System Warranty': 'Garantía del sistema de lamas Equinox',
+  'The Equinox motorized louvered roof system includes a manufacturer-backed warranty covering structural components, louvers, and operational mechanisms. This ensures dependable performance, weather protection, and long-term reliability when installed according to engineered specifications.':
+    'El techo de lamas motorizado Equinox lleva garantía del fabricante sobre estructura, lamas y mecanismos. Con ello el sistema responde, protege del tiempo y aguanta, siempre que se instale según lo calculado.',
+  'Renaissance Patio Warranty': 'Garantía Renaissance Patio',
+  'Renaissance patio structures are backed by a robust manufacturer warranty that covers defects in materials and workmanship. Designed for lasting performance, these aluminum systems provide dependable shade and structural strength in South Florida’s heat, humidity, and coastal conditions.':
+    'Las estructuras Renaissance llevan una garantía sólida del fabricante que cubre defectos de material y de fabricación. Son sistemas de aluminio pensados para durar, que dan sombra y resistencia con el calor, la humedad y la costa del sur de Florida.',
+  'Fenetex Screens Warranty': 'Garantía de las cortinas Fenetex',
+  'Fenetex hurricane-rated and insect screen systems include industry-leading warranty protection covering screen fabric, structural components, and mechanical elements. Built for durability and storm resistance, these systems are engineered to perform reliably in coastal environments.':
+    'Las cortinas Fenetex —homologadas para huracán y antiinsectos— llevan una de las mejores garantías del sector: cubre el tejido, la estructura y los mecanismos. Están hechas para durar y para aguantar tormentas en ambiente costero.',
+  'MaestroShield Screens Warranty': 'Garantía de las cortinas MaestroShield',
+  'MaestroShield retractable screens are protected by a strong warranty covering materials, hardware, and operational components. Designed for high-performance applications, these systems deliver long-term durability, smooth functionality, and weather resistance suited for Florida conditions.':
+    'Las cortinas retráctiles MaestroShield llevan una garantía amplia sobre materiales, herrajes y mecanismos. Son sistemas de altas prestaciones: duran, funcionan con suavidad y aguantan el tiempo que hace en Florida.',
+};
+
+const PREGUNTAS: Record<string, string> = {
+  'Pergola FAQs': 'Preguntas frecuentes sobre pérgolas',
+  'Get clear answers to common questions about aluminum pergolas and motorized louvered roof systems. Learn about permits, installation timelines, durability, and what to expect when investing in a custom shade solution in Florida.':
+    'Respuestas claras a las dudas habituales sobre pérgolas de aluminio y techos de lamas motorizados: permisos, plazos de instalación, durabilidad y qué esperar al encargar una solución de sombra a medida en Florida.',
+  'Do I need a permit to install a pergola in South Florida?':
+    '¿Hace falta permiso para instalar una pérgola en el sur de Florida?',
+  'Yes. In Palm Beach, Broward, and Miami-Dade counties, pergolas typically require permits, especially if they are attached to the home or include a motorized roof system. Structural calculations, wind-load engineering, and site plans are often required. In Miami-Dade, product approvals or NOA documentation may also apply. Working with a licensed contractor ensures your project meets local building codes and passes inspections properly.':
+    'Sí. En Palm Beach, Broward y Miami-Dade la pérgola normalmente lleva permiso, sobre todo si va anclada a la casa o si el techo es motorizado. Suelen pedir cálculo estructural, memoria de cargas de viento y plano de situación. En Miami-Dade puede hacer falta además la aprobación del producto o la NOA. Con un contratista con licencia, la obra cumple la normativa local y pasa las inspecciones.',
+  'Are aluminum pergolas hurricane-rated for Florida storms?':
+    '¿Están las pérgolas de aluminio homologadas para huracanes?',
+  'High-quality aluminum pergolas can be engineered to meet South Florida wind-load requirements. Properly designed systems are built to withstand high wind speeds when installed according to structural specifications. Motorized louvered roof systems can also be designed to meet code requirements, depending on engineering and anchoring methods. Structural integrity is critical in coastal environments.':
+    'Una pérgola de aluminio de calidad se puede calcular para cumplir las cargas de viento del sur de Florida. Bien diseñada y bien instalada, aguanta vientos fuertes. Los techos de lamas motorizados también pueden calcularse para cumplir, según la ingeniería y los anclajes. En la costa, la solidez estructural es lo que manda.',
+  'How much does a custom aluminum pergola cost in Palm Beach, Broward, or Miami-Dade?':
+    '¿Cuánto cuesta una pérgola de aluminio a medida en Palm Beach, Broward o Miami-Dade?',
+  'Custom aluminum pergolas in South Florida typically range from the mid five figures upward, depending on size, motorization, integration features, and structural requirements. Motorized louvered systems are a premium investment due to engineering, automation, and electrical integration. Every project is custom-designed, so pricing reflects materials, permitting, and installation complexity.':
+    'En el sur de Florida, una pérgola de aluminio a medida suele partir de una cifra media de cinco dígitos, según el tamaño, la motorización, los extras y lo que pida el cálculo. Los sistemas de lamas motorizados son la opción más cara por la ingeniería, la automatización y la parte eléctrica. Cada proyecto se diseña a medida, así que el precio recoge materiales, permisos y dificultad de montaje.',
+  'What is the difference between a standard pergola and a motorized louvered roof system?':
+    '¿En qué se diferencia una pérgola normal de un techo de lamas motorizado?',
+  'A standard pergola provides fixed shade through slats or beams. A motorized louvered roof system allows adjustable louvers that open and close electronically, offering full sun, partial shade, or complete rain protection. Louvered systems provide superior versatility, climate control, and functionality, making them ideal for high-end outdoor living spaces.':
+    'Una pérgola normal da una sombra fija, con listones o vigas. Un techo de lamas motorizado lleva lamas que se abren y se cierran con un motor, así que puede tener sol pleno, media sombra o protección total frente a la lluvia. Las lamas dan mucha más versatilidad y control del ambiente, y por eso encajan en exteriores de gama alta.',
+  'How long does the installation process take from design to completion?':
+    '¿Cuánto se tarda desde el diseño hasta terminar la instalación?',
+  'The full process typically includes consultation, design development, engineering, permitting, fabrication, and installation. In South Florida, permitting timelines vary by municipality, but most projects take several weeks from approval to completion. Installation itself is usually completed within a few days once materials are ready.':
+    'El proceso completo pasa por la consulta, el desarrollo del diseño, el cálculo, los permisos, la fabricación y el montaje. En el sur de Florida los plazos de permiso cambian según el municipio, pero la mayoría de proyectos tarda varias semanas desde la aprobación. El montaje en sí suele resolverse en pocos días cuando el material ya está.',
+  'Will a pergola increase my property value?': '¿Una pérgola revaloriza la casa?',
+  'Yes, when professionally designed and installed, a custom aluminum pergola enhances curb appeal, functionality, and overall outdoor living experience. In high-value markets like Palm Beach and waterfront Broward or Miami properties, well-integrated outdoor structures can increase perceived and resale value by expanding usable living space.':
+    'Sí. Bien diseñada y bien instalada, una pérgola de aluminio a medida mejora la fachada, el uso del espacio y la vida al aire libre. En mercados altos como Palm Beach o las propiedades frente al agua de Broward y Miami, una estructura bien integrada sube el valor percibido y el de reventa, porque amplía el espacio que se puede usar.',
+  'Can the pergola be integrated with lighting, fans, screens, or outdoor kitchens?':
+    '¿Se puede integrar con iluminación, ventiladores, cortinas o cocina exterior?',
+  'Absolutely. Modern pergola systems can integrate LED lighting, ceiling fans, retractable screens, heaters, drainage systems, and even smart-home controls. When planned correctly during the design phase, these integrations create a seamless and fully functional outdoor environment.':
+    'Sí. Una pérgola actual admite iluminación LED, ventiladores de techo, cortinas retráctiles, calefactores, drenaje e incluso control domótico. Si se planifica en la fase de diseño, todo queda integrado y el exterior funciona de verdad.',
+  'Are aluminum pergolas better than wood for South Florida’s climate?':
+    '¿Es mejor el aluminio que la madera en el clima del sur de Florida?',
+  'In humid and coastal environments, aluminum significantly outperforms wood in durability and maintenance. Wood structures require regular sealing, staining, and are vulnerable to rot, warping, and termites. Powder-coated aluminum offers corrosion resistance, structural strength, and minimal upkeep—ideal for South Florida conditions.':
+    'En ambiente húmedo y costero, el aluminio gana con claridad en durabilidad y en mantenimiento. La madera hay que sellarla y teñirla cada cierto tiempo, y se pudre, se comba y le entran termitas. El aluminio con recubrimiento en polvo no se corroe, aguanta y casi no da trabajo.',
+  'Do HOA approvals apply for pergolas in gated communities?':
+    '¿Hace falta la aprobación de la comunidad en una urbanización cerrada?',
+  'Yes, most gated communities and HOAs require architectural approval before construction begins. Requirements vary by community and may include design review, color selection, height limitations, and placement guidelines. A professional contractor can provide drawings and documentation to streamline HOA approval.':
+    'Sí. Casi todas las urbanizaciones cerradas y comunidades piden la aprobación de su comité antes de empezar. Los requisitos cambian según la comunidad: revisión del diseño, elección del color, límites de altura y dónde se puede colocar. Un contratista profesional aporta planos y documentación para que la aprobación salga rápido.',
+  'How do motorized louvered systems handle heavy rain and drainage?':
+    '¿Cómo se comporta un techo de lamas con lluvia fuerte?',
+  'High-end motorized louvered systems are designed with integrated gutter systems that channel water into concealed drainage pathways within the posts. When closed, the louvers create a watertight seal that directs rain away from the seating area, allowing the space to remain usable during storms.':
+    'Los sistemas de lamas de gama alta llevan canalón integrado que conduce el agua por dentro de los pilares. Al cerrarse, las lamas forman un sellado estanco que aparta la lluvia de la zona de estar, así que el espacio se sigue usando aunque llueva.',
+};
+
+const SECTORES: Record<string, string> = {
+  // Titular partido en tres nodos: cada trozo lleva la parte que le toca.
+  'Pergolas': 'Pérgolas',
+  'for Florida': 'para empresas',
+  'Businesses': 'de Florida',
+  'Premium outdoor shade structures engineered for durability, compliance, and high-traffic commercial environments.':
+    'Estructuras de sombra calculadas para durar, para cumplir la normativa y para aguantar el trasiego de un local comercial.',
+  'We Build For Every Kind of Commercial Space': 'Construimos para cualquier tipo de local',
+  'Pergola Plus Florida helps businesses, hospitality venues, and commercial properties create high-performance outdoor environments that boost revenue, improve guest comfort, and maximize usable space. Our structures are engineered for durability, Miami-Dade compliance, and year-round commercial use.':
+    'Pergola Plus Florida ayuda a negocios, hostelería y propiedades comerciales a crear exteriores que rinden: más facturación, clientes más cómodos y más metros aprovechados. Nuestras estructuras se calculan para durar, para cumplir en Miami-Dade y para un uso comercial todo el año.',
+  'General Contractors': 'Contratistas generales',
+  'We partner with licensed contractors to deliver engineered aluminum pergola systems that meet structural specs, timelines, and commercial project standards.':
+    'Trabajamos con contratistas con licencia para entregar pérgolas de aluminio calculadas, que cumplen la especificación estructural, los plazos y el estándar de una obra comercial.',
+  'Architects &amp; Designers': 'Arquitectos y diseñadores',
+  'We collaborate with architects and designers to integrate modern pergola systems that align with project vision, structural requirements, and aesthetic intent.':
+    'Colaboramos con arquitectos y diseñadores para integrar pérgolas actuales que respeten la idea del proyecto, lo que pide el cálculo y la intención estética.',
+  'Property Managers &amp; HOAs': 'Administradores de fincas y comunidades',
+  'We provide durable aluminum shade structures for multifamily and commercial properties, improving shared spaces while ensuring long-term performance.':
+    'Damos estructuras de sombra de aluminio para edificios de viviendas y propiedades comerciales: mejoran las zonas comunes y aguantan a largo plazo.',
+  'Developers &amp; Real Estate Investors': 'Promotores e inversores inmobiliarios',
+  'We support developers with high-performance pergola systems that elevate amenities, increase asset value, and enhance long-term ROI across commercial properties.':
+    'Acompañamos a los promotores con pérgolas de altas prestaciones que mejoran las zonas comunes, suben el valor del activo y mejoran el retorno a largo plazo.',
+  'Hospitality (Restaurants, Hotels &amp; Rooftop Venues)':
+    'Hostelería (restaurantes, hoteles y azoteas)',
+  'Restaurants, hotels, cafés, and rooftop venues rely on our commercial pergola systems to expand seating capacity and elevate guest experiences. Our engineered aluminum structures provide shaded, weather-protected environments that increase revenue potential while maintaining architectural consistency and long-term durability.':
+    'Restaurantes, hoteles, cafeterías y azoteas usan nuestras pérgolas comerciales para ganar mesas y mejorar la experiencia del cliente. Las estructuras de aluminio dan sombra y protegen del tiempo, así que se factura más sin romper la coherencia arquitectónica y sin renunciar a que dure.',
+  'Real Estate &amp; Property Management': 'Inmobiliario y administración de fincas',
+  'HOAs, multifamily communities, and commercial property managers partner with us to enhance shared spaces with durable outdoor shade systems. Our pergolas add measurable property value, improve resident satisfaction, and create functional amenities built for long-term performance.':
+    'Comunidades, edificios de viviendas y administradores de propiedades comerciales trabajan con nosotros para mejorar las zonas comunes con sombra que dura. Nuestras pérgolas añaden valor medible, mejoran la satisfacción de los residentes y crean zonas útiles pensadas para el largo plazo.',
+  'Retail &amp; Shopping Centers': 'Comercio y centros comerciales',
+  'Shopping centers, boutiques, and commercial plazas utilize our pergola systems to create shaded walkways, inviting storefronts, and weather-protected gathering areas. Our structures improve customer comfort, increase dwell time, and reinforce modern architectural appeal.':
+    'Centros comerciales, tiendas y plazas usan nuestras pérgolas para crear paseos con sombra, escaparates que invitan a entrar y zonas de encuentro protegidas. El cliente está más cómodo, se queda más tiempo y el conjunto se ve más actual.',
+  'Parks &amp; Public Spaces': 'Parques y espacios públicos',
+  'Municipal parks, recreation areas, and public gathering spaces benefit from our commercial-grade pergolas engineered for high-traffic environments. Our durable aluminum systems provide shade, safety, and long-term structural performance with minimal maintenance requirements.':
+    'Parques municipales, zonas de recreo y espacios públicos usan nuestras pérgolas de grado comercial, calculadas para mucho tránsito. Dan sombra, son seguras, aguantan y casi no dan mantenimiento.',
+  'Corporate &amp; Office Campuses': 'Sedes corporativas y oficinas',
+  'Corporate campuses and office complexes use our pergola systems to create refined outdoor break areas, collaboration zones, and employee gathering spaces. Our structures support workplace wellness initiatives while enhancing property aesthetics and long-term value.':
+    'Las sedes corporativas y los complejos de oficinas usan nuestras pérgolas para crear zonas de descanso, de trabajo en equipo y de encuentro al aire libre. Ayudan a los programas de bienestar y mejoran la estética y el valor del inmueble.',
+  'Multifamily &amp; Residential Communities': 'Edificios de viviendas y urbanizaciones',
+  'Developers and community planners install our pergolas in shared courtyards, pool decks, and amenity areas to increase property appeal. Our engineered shade systems improve usability, attract residents, and support long-term asset performance.':
+    'Promotores y planificadores instalan nuestras pérgolas en patios comunes, zonas de piscina y áreas comunes para que la propiedad guste más. La sombra calculada mejora el uso, atrae residentes y sostiene el valor del activo.',
+  'Educational Institutions': 'Centros educativos',
+  'Schools, universities, and private campuses rely on our aluminum pergolas to create shaded outdoor learning and gathering areas. Our commercial systems are designed for safety, durability, and consistent performance in demanding environments.':
+    'Colegios, universidades y campus privados usan nuestras pérgolas de aluminio para crear zonas de estudio y de reunión con sombra. Son sistemas comerciales pensados para la seguridad, la durabilidad y un uso exigente.',
+  'Healthcare &amp; Wellness Facilities': 'Centros sanitarios y de bienestar',
+  'Medical centers, clinics, and wellness campuses integrate our pergola systems to create comfortable outdoor waiting areas and therapeutic spaces. Our structures deliver shade, airflow, and durability while supporting a calm, professional environment.':
+    'Centros médicos, clínicas y espacios de bienestar integran nuestras pérgolas para crear salas de espera al aire libre y zonas terapéuticas. Dan sombra, ventilación y durabilidad, y ayudan a un ambiente tranquilo y profesional.',
+  'Sports &amp; Recreation Facilities': 'Instalaciones deportivas y de ocio',
+  'Athletic complexes, country clubs, and recreational facilities use our commercial pergolas to provide shaded seating and hospitality areas. Our engineered systems withstand heavy use while enhancing visitor experience and facility functionality.':
+    'Complejos deportivos, clubes y centros de ocio usan nuestras pérgolas comerciales para dar sombra en las gradas y en las zonas de hostelería. Aguantan un uso intenso y mejoran la experiencia del visitante.',
+  'Government &amp; Civic Buildings': 'Edificios públicos y administrativos',
+  'Government properties and civic facilities implement our pergola systems to enhance outdoor access areas and gathering spaces. Our aluminum structures are built for durability, compliance, and long-term structural integrity.':
+    'Los edificios públicos y las instalaciones municipales usan nuestras pérgolas para mejorar los accesos y las zonas de encuentro al aire libre. Las estructuras de aluminio están hechas para durar, para cumplir y para mantenerse sólidas.',
+  'Explore real installations of our motorized louvered roof pergolas across South Florida. See how homeowners and businesses elevate their outdoor spaces with modern design, premium materials, and all-weather comfort.':
+    'Vea instalaciones reales de nuestras pérgolas de lamas motorizadas por el sur de Florida, y cómo particulares y empresas mejoran su exterior con diseño actual, buenos materiales y confort con cualquier tiempo.',
+};
+
 const NO_ENCONTRADA: Record<string, string> = {
   'Page Not Found': 'Página no encontrada',
   'The page you are looking for doesn&#x27;t exist or has been moved':
@@ -243,6 +399,36 @@ export const PAGINAS_ES: PaginaEs[] = [
     title: 'Galería de proyectos | Pergola Plus Florida',
     description: 'Pérgolas a medida, cubiertas de patio y espacios exteriores ya construidos en Miami-Dade, Broward y Palm Beach.',
     dic: GALERIA,
+  },
+  {
+    en: '/about-us/about-us', es: '/es/about-us/about-us',
+    title: 'Sobre Pergola Plus Florida | Contratista con licencia',
+    description: 'Más de diez años diseñando e instalando pérgolas de aluminio, techos de lamas y cubiertas de patio en Miami-Dade, Broward y Palm Beach.',
+    dic: SOBRE_NOSOTROS,
+  },
+  {
+    en: '/about-us/testimonials', es: '/es/about-us/testimonials',
+    title: 'Opiniones de clientes | Pergola Plus Florida',
+    description: 'Lo que cuentan los propietarios del sur de Florida sobre sus pérgolas y cubiertas de patio a medida.',
+    dic: RESENAS,
+  },
+  {
+    en: '/about-us/industries-we-serve', es: '/es/about-us/industries-we-serve',
+    title: 'Sectores a los que servimos | Pergola Plus Florida',
+    description: 'Pérgolas comerciales para hostelería, comercio, promotoras, comunidades, centros educativos, sanitarios y espacios públicos.',
+    dic: SECTORES,
+  },
+  {
+    en: '/resources/faq', es: '/es/resources/faq',
+    title: 'Preguntas frecuentes | Permisos, viento y plazos',
+    description: 'Permisos, cargas de viento, precios, plazos y mantenimiento de una pérgola de aluminio en el sur de Florida, explicados sin rodeos.',
+    dic: PREGUNTAS,
+  },
+  {
+    en: '/resources/warranties', es: '/es/resources/warranties',
+    title: 'Información de garantía | Pergola Plus Florida',
+    description: 'Qué cubre la garantía de los sistemas FORTE, Equinox, Renaissance, Fenetex y MaestroShield que instalamos.',
+    dic: GARANTIAS_PAG,
   },
   {
     en: '/404', es: '/es/404',
