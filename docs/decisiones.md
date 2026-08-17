@@ -180,3 +180,86 @@ Mientras tanto la defensa es que sea imposible desplegar sin enterarse: cada bui
 imprime un aviso enmarcado y `check:formularios` comprueba que ese aviso sigue ahi.
 Un aviso que alguien borra «porque hace ruido» es exactamente como se pierde esto de
 vista.
+
+---
+
+## Español: dónde se paró, y por qué justo ahí
+
+**17-ago-2026.** El sitio pasó de 1 página en español a **77**. Está traducido todo
+menos tres cosas, y cada una se dejó fuera por un motivo distinto — ninguna por
+haberse quedado sin tiempo.
+
+Lo que SÍ está: la home, los índices de productos y servicios, **las 10 fichas de
+producto**, **las 7 de servicio**, **las 25 páginas de ubicación** con su índice, los
+**3 condados**, las **5 marcas** con su índice, las **10 fichas de proyecto**, la
+galería, las tres de contacto, la de gracias, sobre nosotros, opiniones, sectores,
+preguntas frecuentes, garantías, el aviso de privacidad y el 404.
+
+### 1. El blog no se traduce (índice + 21 artículos + 5 categorías)
+
+Son **19.401 palabras** de contenido editorial que afirma cosas concretas: precios en
+dólares, requisitos de permisos por municipio, cargas de viento, qué exige una
+comunidad de propietarios. Una traducción sin revisar de ese material no es un cambio
+de idioma, es **publicar afirmaciones nuevas** sobre normativa y dinero en nombre del
+cliente.
+
+La mecánica está montada y es barata: cada artículo son ~135 cadenas propias, y
+añadirlo es un diccionario + su ruta en `TRADUCIDAS`. Lo que falta no es código: es
+que alguien del negocio valide las cifras en español. Esa llamada es del cliente.
+
+**Consecuencia visible, y es deliberada:** las tarjetas del blog SÍ salen en español
+en las páginas traducidas (título y resumen), pero llevan al artículo en inglés. Se
+mantiene así porque un resumen en español ayuda al lector a decidir si le interesa;
+uno en inglés no ayuda a nadie. Cuando un artículo se traduzca, su tarjeta apuntará
+sola a `/es/post/...` — el reescritor de enlaces solo manda a `/es/` lo que existe.
+
+### 2. El contrato de obra (`/articles/terms-of-service`) no se traduce
+
+4.554 palabras de un contrato vinculante que empieza diciendo *these terms and
+conditions are not negotiable*. Publicar una versión en español sería publicar un
+**segundo texto legal** que el cliente no ha aprobado y que, ante cualquier
+discrepancia entre las dos versiones, habría que defender en un juzgado de Florida.
+Un contrato lo traduce un abogado o no se traduce. Está escrito en
+`src/i18n/articulos.es.ts`, junto al código, para que nadie lo «arregle» por
+descuido.
+
+El aviso de privacidad sí se tradujo, y no es incoherente: ese texto **no compromete
+a nada**. Dice que la política está pendiente y da una vía de contacto para ejercer
+derechos, y está enlazado desde el pie de todas las páginas y desde el consentimiento
+de los formularios — justo donde se recogen datos de alguien que lee en español.
+
+### 3. El calculador de presupuesto (`/project-estimator`) no se traduce todavía
+
+Es la única de las tres que es puramente trabajo pendiente. No es contenido migrado:
+son 634 líneas de `.astro` propias con el texto incrustado entre el marcado, la
+lógica de precios y 318 líneas de CSS. Traducirlo bien es extraer el cuerpo a un
+componente con un diccionario por idioma y dejar dos páginas finas — un refactor de
+una pieza que **hoy funciona**, y meterlo al final de una tanda larga es la mejor
+forma de entregar un bug. Son 39 cadenas propias: media hora cuando se aborde en
+frío.
+
+### Cómo se sabe que no miente
+
+`hreflang="es"` sale en **152 de 183** páginas. Las 31 que no lo llevan son
+exactamente esas tres cosas más los dos 404: el blog entero (27), el contrato, el
+estimador y `404`/`es/404`. No hay ni una página prometiendo una traducción que no
+exista, y `check:i18n` lo vuelve a comprobar en cada build.
+
+---
+
+## La página de gracias tenía que existir en los dos idiomas
+
+Un visitante que rellena un formulario **en español** y aterriza en una página de
+gracias **en inglés** se queda sin saber qué pasa después, en el único momento en que
+ya ha dado sus datos y no puede hacer nada más.
+
+`/es/thank-you` es una `.astro` escrita a mano, no contenido migrado — como su gemela
+inglesa. El destino lo decide el SERVIDOR a partir del campo `pagina` del envío, que
+es el único dato que dice de qué versión del sitio salió: ni la cabecera del
+navegador ni el idioma del sistema sirven, porque quien navega en `/es/` puede tener
+el navegador en inglés. Con JavaScript, el endpoint devuelve el destino en el JSON
+(`gracias`) y el cliente lo obedece; sin JavaScript, es el `303`.
+
+`check:formularios` envía uno desde `/es/` y exige `/es/thank-you`. Sin esa
+comprobación, cualquier cambio en el endpoint devolvería a los leads en español a la
+página inglesa sin que saltara nada.

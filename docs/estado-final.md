@@ -1,6 +1,6 @@
 # Estado final — Pergola Plus Florida
 
-Fecha: 17 de agosto de 2026 · Rama `main`, 9 commits, **sin desplegar**.
+Fecha: 17 de agosto de 2026 · Rama `main`, subida a GitHub, **sin desplegar**.
 
 La puerta única `npm run check` está en verde de punta a punta: build + blog +
 enlaces + carruseles + imágenes + paridad + generadores + formularios + i18n + seo +
@@ -20,16 +20,16 @@ npm run check
 | Referencias al staging de Webflow en el HTML servido | 761 | **0** |
 | Páginas mintiendo en `hreflang` | 106 | **0** |
 | `<img>` sin `width`/`height` (CLS) | 6.853 | **0** |
-| Páginas con JSON-LD | 27 | **111** |
+| Páginas con JSON-LD | 27 | **183** |
 | `<title>` duplicados | 19 | **0** |
 | `meta description` duplicadas | 12 | **0** |
 | Enlaces muertos tolerados | 5 | **0** |
 | Flechas de carrusel sin función | ~250 | **0** |
 | Scripts de terceros | 3 | **1** (jQuery, que `webflow.js` necesita) |
 | Peticiones a Google para ver la página | sí | **0** |
-| Páginas en español | 1 | **14** |
-| Desbordamiento horizontal a 320 px | — | **0 en las 113** |
-| `sitemap.xml` / `robots.txt` | no existían | **111 urls + robots** |
+| Páginas en español | 1 | **77** de 183 |
+| Desbordamiento horizontal a 320 px | — | **0** |
+| `sitemap.xml` / `robots.txt` | no existían | **181 urls + robots** |
 
 ---
 
@@ -58,27 +58,48 @@ Cuatro bugs que `method="get"` tapaba y que en un POST real sí rompen:
   `w-form-loading` con el submit `disabled`, esperando un widget que este sitio no
   renderiza. Sin un error en consola y con el botón de aspecto normal.
 
-### 2. Español a medias → PARCIAL Y HONESTO
+### 2. Español a medias → CERRADO SALVO EL BLOG
 
-De 1 página a 14: home, productos, servicios, las tres de contacto y **las 7 páginas
-de servicio completas**, con sus 5 preguntas frecuentes cada una. Es decir, el camino
-entero desde que un visitante llega hasta que deja sus datos, y toda la sección de
-servicios sin un hueco en inglés.
+De 1 página a **77**. Está en español todo el sitio menos tres cosas, y las tres se
+dejaron fuera a propósito, no por falta de tiempo:
+
+| Sección | Estado |
+|---|---|
+| Home, índices de producto y servicio | **traducido** |
+| Las 10 fichas de producto | **traducido** |
+| Las 7 páginas de servicio | **traducido** |
+| Las 25 páginas de ubicación + índice | **traducido** |
+| Los 3 condados | **traducido** |
+| Las 5 marcas + índice | **traducido** |
+| Las 10 fichas de proyecto + galería | **traducido** |
+| Las 3 de contacto + la de gracias | **traducido** |
+| Sobre nosotros, opiniones, sectores, FAQ, garantías | **traducido** |
+| Aviso de privacidad | **traducido** |
+| **Blog: índice + 21 artículos + 5 categorías** | en inglés, a propósito |
+| **Contrato de obra (`terms-of-service`)** | en inglés, a propósito |
+| **Calculador de presupuesto** | en inglés, pendiente |
+
+Los porqués están razonados en `docs/decisiones.md`, en corto:
+
+- **El blog** son 19.401 palabras que afirman precios, permisos por municipio y cargas
+  de viento. Traducirlo sin revisión no es cambiar de idioma: es publicar
+  afirmaciones nuevas sobre normativa y dinero en nombre del cliente. La mecánica
+  está montada (~135 cadenas por artículo); falta que el negocio valide las cifras.
+- **El contrato** empieza diciendo que sus condiciones no son negociables. Una segunda
+  versión en español sería un segundo texto legal sin aprobar, y ante una
+  discrepancia habría que defenderlo en un juzgado. Lo traduce un abogado o nadie.
+- **El estimador** es lo único que es trabajo pendiente de verdad: 634 líneas propias
+  con el texto incrustado. Son 39 cadenas y un refactor pequeño, pero es una pieza
+  que hoy funciona y no se toca al final de una tanda larga.
 
 **Lo que no está traducido no existe en `/es/`, no lleva `hreflang` y no entra en el
-sitemap.** Media traducción publicada es peor que ninguna: el visitante llega en su
-idioma y se topa con inglés al segundo clic. El aviso al pie de `/es/` dice
-exactamente qué está y qué no.
+sitemap.** Comprobado: `hreflang="es"` sale en **152 de 183** páginas, y las 31 que no
+lo llevan son exactamente esas tres cosas más los dos 404.
 
-Queda por traducir, en orden de valor: las 29 páginas de ubicación (24.088 palabras),
-las 10 fichas de producto (11.471), el blog y sus 21
-entradas (19.401), y el resto de estáticas. Total medido con
-`npm run extraer -- --resumen`: **8.841 cadenas, 79.169 palabras.**
-
-**Cada página traducida abarata la siguiente.** Una página de servicio tiene 90
-cadenas y solo ~28 son suyas: las otras 62 ya están en `comun.es.ts` (el bloque de
-proceso, las 10 tarjetas de proyecto, las zonas de servicio, las reseñas y el CTA
-final). Añadir una es una entrada en su registro + su ruta en `TRADUCIDAS`.
+**Cada página traducida abarató la siguiente.** Una de ubicación tiene 138 cadenas y
+solo **5** son suyas; una de servicio, 90 y solo ~28. El resto ya vive en
+`comun.es.ts`. Por eso las 25 ubicaciones costaron menos que las 7 páginas de
+servicio: añadir una es un diccionario + su ruta en `TRADUCIDAS`.
 
 ### 3. SEO técnico → CERRADO
 
@@ -207,6 +228,21 @@ páginas comparadas contra el sitio en vivo.
 Queda por hacer en un navegador visible: recorrer home, un producto, un servicio y un
 post comprobando que las animaciones se ven.
 
+Lo que sí se midió en el navegador, y es independiente de rAF porque es geometría, no
+animación: en `/es/` y en nueve páginas más —producto, servicio, ubicación, contacto,
+marcas, sectores, garantías, proyecto y gracias— a **320 px y a 390 px**,
+`scrollWidth === clientWidth` en todas (cero desbordamiento horizontal), **cero
+imágenes rotas** (`naturalWidth === 0`), `<html lang="es">` correcto y **cero textos
+recortados** por un contenedor con `overflow:hidden`. Esto último era el riesgo real
+de la traducción: el español ocupa ~20 % más que el inglés y es donde se parten los
+botones y los titulares. Los tres titulares que el diseño parte en varios nodos se
+revisaron uno a uno a 1440 px y se leen enteros.
+
+Los objetivos táctiles por debajo de 24×24 px que aparecen son enlaces **dentro de un
+párrafo**, que es la excepción explícita de WCAG 2.5.8. El único campo que medía 23 px
+es la trampa antispam del pie, que va oculta a la vista con `clip-path` y con
+`aria-hidden`: no la ve ni la pulsa nadie.
+
 ---
 
 ## Cómo se protege esto
@@ -222,7 +258,7 @@ alguien se acuerde de ejecutarla.
 | `check:imagenes` | Que el sitio pida una imagen que no está en local |
 | `check:paridad` | Que se pierda un `data-w-id` y muera una animación en silencio |
 | `check:generadores` | Que alguien edite salida generada a mano y la siguiente regeneración se lo lleve |
-| `check:formularios` | Que un formulario deje de enviar, o que el endpoint acepte basura |
+| `check:formularios` | Que un formulario deje de enviar, que el endpoint acepte basura, o que un lead en español acabe en la página de gracias inglesa |
 | `check:i18n` | Que se publique español a medias o un `hreflang` que miente |
 | `check:seo` | Que vuelva un título duplicado, una canónica cruzada o un campo vacío del CMS |
 | `check:paginas` | Que salga un `undefined` en pantalla o un enlace interno a un 404 |
@@ -242,6 +278,16 @@ Dos avisos que **no** tumban la puerta, a propósito:
    el log.
 3. Confirmar el dominio y definir `PUBLIC_SITE_URL`.
 4. Rellenar la política de privacidad en el CMS y quitar la regla provisional de
-   `scripts/lib/transformar.mjs` (lanza sola si el cliente ya la ha rellenado).
+   `scripts/lib/transformar.mjs` (lanza sola si el cliente ya la ha rellenado). Ojo:
+   hay que rellenarla **en los dos idiomas** — `/es/articles/privacy-policy` sirve la
+   misma pieza traducida por `src/i18n/articulos.es.ts`.
 5. Recorrer las animaciones en un navegador visible.
 6. Enviar el sitemap a Search Console cuando el dominio esté en pie.
+
+Y cuando el cliente decida sobre el español que falta (`docs/decisiones.md`):
+
+7. Validar las cifras de los 21 artículos del blog en español, o dejarlos en inglés.
+8. Encargar a un abogado la versión española del contrato de obra, o dejarla en
+   inglés. **No la traduzca nadie más.**
+9. Traducir el calculador de presupuesto: extraer el cuerpo de
+   `src/pages/project-estimator.astro` a un componente con diccionario por idioma.
