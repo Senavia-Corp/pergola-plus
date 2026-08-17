@@ -91,6 +91,21 @@ export const TRADUCIDAS = {
   '/products/polycarbonate-pergolas': '/es/products/polycarbonate-pergolas/',
   '/products/solar-pergolas': '/es/products/solar-pergolas/',
   '/products/sukkha': '/es/products/sukkha/',
+  // Las 10 fichas de proyecto. Diccionario en src/i18n/proyectos.es.ts.
+  '/project/attached-forte-pergola-in-west-palm-beach': '/es/project/attached-forte-pergola-in-west-palm-beach/',
+  '/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton': '/es/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton/',
+  '/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach': '/es/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach/',
+  '/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens': '/es/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens/',
+  '/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach': '/es/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach/',
+  '/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach': '/es/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach/',
+  '/project/forte-pergolas-in-greenacres-pool-patio': '/es/project/forte-pergolas-in-greenacres-pool-patio/',
+  '/project/forte-plus-aluminum-carport-installation-in-pompano-beach': '/es/project/forte-plus-aluminum-carport-installation-in-pompano-beach/',
+  '/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach': '/es/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach/',
+  '/project/forte-plus-pergolas-in-hillsboro-beach-estate': '/es/project/forte-plus-pergolas-in-hillsboro-beach-estate/',
+  // Los 3 condados. Diccionario en src/i18n/condados.es.ts.
+  '/countries/broward-county-pergola-contractor': '/es/countries/broward-county-pergola-contractor/',
+  '/countries/miami-dade-pergola-contractor': '/es/countries/miami-dade-pergola-contractor/',
+  '/countries/palm-beach-county-pergola-contractor': '/es/countries/palm-beach-county-pergola-contractor/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.

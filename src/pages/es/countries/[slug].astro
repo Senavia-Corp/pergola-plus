@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import items from '../../../contenido-migrado/countries/_items.json';
+import { traducirHtml } from '../../../i18n';
+import { CONDADOS_ES } from '../../../i18n/condados.es';
+import { COMUN_ES } from '../../../i18n/comun.es';
+import { grafo, breadcrumbs, areaDeServicio } from '../../../lib/jsonld';
+
+// Las páginas de condado en español. Misma estructura que /es/services/[slug].
+//
+// La carpeta se llama `countries` porque asi la nombro Webflow, aunque el contenido
+// sean CONDADOS. El slug se respeta: renombrarlo romperia las urls que ya existen.
+
+const fragmentos = import.meta.glob('../../../contenido-migrado/countries/*.html', {
+  query: '?raw', import: 'default', eager: true,
+});
+
+export function getStaticPaths() {
+  return items
+    .filter((item) => CONDADOS_ES[item.slug])
+    .map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const traduccion = CONDADOS_ES[item.slug]!;
+const original = fragmentos['../../../contenido-migrado/countries/' + item.slug + '.html'];
+if (!original) throw new Error(`[i18n] sin fragmento para countries/${item.slug}`);
+
+const { html, traducidas, faltan } = traducirHtml(original as string, {
+  ...COMUN_ES,
+  ...traduccion.dic,
+});
+
+if (faltan.length) {
+  console.warn(`\n  [i18n] /es/countries/${item.slug} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
+  for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
+}
+
+const site = Astro.site!.href;
+const ruta = `/es/countries/${item.slug}/`;
+const jsonLd = grafo(
+  areaDeServicio(site, {
+    nombre: `Pérgolas en el condado de ${traduccion.nombre}`,
+    descripcion: traduccion.description,
+    ruta,
+    area: traduccion.nombre,
+  }),
+  breadcrumbs(site, [['Dónde trabajamos', '/es/about-us/where-we-work/'], [traduccion.nombre, ruta]]),
+);
+---
+
+<BaseLayout
+  title={traduccion.title}
+  description={traduccion.description}
+  ogImage={item.ogImage ?? undefined}
+  pageStyles={item.pageStyles ?? undefined}
+  wfPage={item.wfPage ?? undefined}
+  wfSite={item.wfSite ?? undefined}
+  jsonLd={jsonLd}
+>
+  <Fragment set:html={html} />
+</BaseLayout>

@@ -374,4 +374,11 @@ export const COMUN_ES: Record<string, string> = {
   'Where We Work': 'Dónde trabajamos',
   'Explore real installations of our motorized louvered roof pergolas across South Florida. See how homeowners and businesses elevate their outdoor spaces with modern design, premium materials, and all-weather comfort.':
     'Vea instalaciones reales de nuestras pérgolas de lamas motorizadas por el sur de Florida, y cómo particulares y empresas mejoran su exterior con diseño actual, buenos materiales y confort con cualquier tiempo.',
+  // Los tres condados. Salen en /about-us/where-we-work y en cada pagina de condado.
+  'We build custom pergolas, patio covers, and outdoor structures across Miami-Dade, delivering weather-resistant designs engineered for Florida sun, humidity, and coastal conditions. Our team provides licensed, insured installations throughout the region.':
+    'Construimos pérgolas, cubiertas de patio y estructuras exteriores a medida por todo Miami-Dade, con diseños calculados para el sol, la humedad y la costa de Florida. Instalamos con licencia y seguro en toda la zona.',
+  'From Fort Lauderdale to Weston, we install premium aluminum pergolas, motorized louvered roofs, patio covers, and complete outdoor living systems throughout Broward County. Every project is built for durability, style, and long-term performance.':
+    'De Fort Lauderdale a Weston, instalamos pérgolas de aluminio, techos de lamas motorizados, cubiertas de patio y sistemas completos de exterior por todo el condado de Broward. Cada proyecto se hace para durar, para verse bien y para rendir.',
+  'We design and build pergolas, patio roofs, and outdoor shading systems throughout Palm Beach County, using high-grade materials that hold strong in Florida’s coastal environment.':
+    'Diseñamos y construimos pérgolas, techos de patio y sistemas de sombra por todo el condado de Palm Beach, con materiales de calidad que aguantan el ambiente costero de Florida.',
 };
