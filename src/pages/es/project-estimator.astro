@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Estimador from '../../components/Estimador.astro';
+import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { ESTIMADOR_ES } from '../../i18n/estimador';
 import { grafo, breadcrumbs } from '../../lib/jsonld';
 
@@ -19,4 +20,7 @@ const jsonLd = grafo(
   jsonLd={jsonLd}
 >
   <Estimador t={ESTIMADOR_ES} base="/es" />
+  {/* Las mismas reseñas que la gemela inglesa, con los rótulos en español y el
+      texto de cada cliente en su idioma original. */}
+  <ReseñasGoogle />
 </BaseLayout>

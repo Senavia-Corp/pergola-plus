@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import meta from '../../contenido-migrado/estaticas/_meta.json';
 import { traducirHtml } from '../../i18n';
 import { PAGINAS_ES, diccionarioDe, type PaginaEs } from '../../i18n/paginas.es';
+import { CON_RESENAS } from '../../lib/resenas-rutas.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 // Todas las páginas estáticas traducidas, con UNA ruta.
@@ -66,4 +68,9 @@ const jsonLd = grafo(
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
+  {/* Las resenas van en las MISMAS rutas que su gemela inglesa (la lista sale de
+      src/lib/resenas-rutas.mjs, que leen las dos). El texto de cada resena sale
+      en el idioma en que se escribio —no se traduce lo que dijo un cliente—; solo
+      se traducen los rotulos. */}
+  {CON_RESENAS.has(p.en) && <ReseñasGoogle />}
 </BaseLayout>

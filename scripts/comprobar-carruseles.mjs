@@ -136,6 +136,68 @@ for (const rel of conFlechas) {
 }
 decir(comoEnlace.length === 0, 'las flechas siguen siendo <button>, no <a href="#">', comoEnlace);
 
+// --- 4. El carrusel de resenas de Google ------------------------------------
+// Los 127 carruseles de arriba vienen del markup migrado: si desaparecen, se nota
+// porque desaparece contenido del cliente. El de resenas es CODIGO NUESTRO
+// montado desde tres sitios distintos —el generador de paginas inglesas,
+// [...ruta].astro para las espanolas y dos paginas de autoria propia— y por eso
+// se puede perder de una forma que las comprobaciones de arriba no ven: bastaria
+// con que uno de esos tres puntos dejara de montarlo para que la mitad de las
+// rutas se quedara sin el, sin error y sin hueco visible.
+//
+// Ademas es la tercera vez que este sitio se queda sin resenas: primero el widget
+// de Elfsight devolviendo WIDGET_DISABLED en 40 paginas, luego los 40 fragmentos
+// editados a mano que un regenerado deshizo. Un invariante escrito cuesta menos
+// que la tercera.
+//
+// SIN RESENAS EN EL SNAPSHOT NO SE EXIGE NADA: el componente no renderiza a
+// proposito cuando la lista esta vacia, y una puerta que exigiera markup
+// impediria justamente eso. Lo que se comprueba es la implicacion: si hay
+// resenas, tienen que estar en TODAS las rutas declaradas y con el contrato
+// entero.
+{
+  const { CON_RESENAS } = await import('../src/lib/resenas-rutas.mjs');
+  const { resenas } = JSON.parse(
+    await fs.readFile(path.join(RAIZ, 'src/data/reviews-google.json'), 'utf8'),
+  );
+
+  // Las inglesas de la lista + sus gemelas /es/ + las dos de autoria propia.
+  const esperadas = [
+    ...CON_RESENAS,
+    ...[...CON_RESENAS].map((r) => (r === '/' ? '/es' : `/es${r}`)),
+    '/project-estimator', '/es/project-estimator',
+  ].map((r) => (r === '/' ? 'index.html' : `${r.replace(/^\//, '')}/index.html`));
+
+  if (!resenas.length) {
+    console.log(`  aviso  el snapshot de resenas esta vacio: el carrusel no se renderiza`);
+    console.log(`         (se llena con \`node scripts/traer-resenas.mjs\`; ${esperadas.length} rutas lo esperan)`);
+  } else {
+    const sinCarrusel = [];
+    const incompletas = [];
+    for (const rel of esperadas) {
+      const html = await fs.readFile(path.join(DIST, rel), 'utf8').catch(() => null);
+      if (html === null) { sinCarrusel.push(`${rel}  (la pagina no existe en dist/)`); continue; }
+      if (!html.includes('fs-slider-instance="fs-slider-resenas"')) { sinCarrusel.push(rel); continue; }
+      // El contrato completo: sin cualquiera de estas piezas el carrusel se ve
+      // pero no se mueve, que es exactamente el fallo original de este sitio.
+      const piezas = ['list-wrapper', 'list', 'slide', 'previous', 'next', 'pagination', 'pagination-bullet'];
+      const faltan = piezas.filter((p) => !html.includes(`fs-slider-element="${p}"`));
+      if (faltan.length) incompletas.push(`${rel}: falta ${faltan.join(', ')}`);
+    }
+    decir(sinCarrusel.length === 0,
+      `el carrusel de resenas llega a las ${esperadas.length} rutas declaradas`, sinCarrusel);
+    decir(incompletas.length === 0,
+      'el carrusel de resenas trae el contrato de Finsweet entero', incompletas);
+
+    // Que el TEXTO este en el HTML servido es media razon de hacerlo en el
+    // servidor: si un dia alguien lo pasa a pintarse por JS, esto lo caza.
+    const primera = resenas[0].texto.slice(0, 40);
+    const home = await fs.readFile(path.join(DIST, 'index.html'), 'utf8').catch(() => '');
+    decir(home.includes(primera.replace(/&/g, '&amp;').replace(/</g, '&lt;')) || home.includes(primera),
+      'el texto de las resenas viaja en el HTML servido (indexable), no por JS');
+  }
+}
+
 if (fallos) {
   console.log(`\n${fallos} fallo(s).`);
   process.exit(1);

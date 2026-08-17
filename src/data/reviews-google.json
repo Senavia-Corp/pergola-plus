@@ -1,0 +1,28 @@
+{
+  "_comentario": [
+    "Snapshot de las resenas de Google Business Profile de Pergola Plus Florida.",
+    "",
+    "ESTA VACIO A PROPOSITO. No hay ni una resena inventada y no puede haberla:",
+    "el widget de Elfsight que las servia en Webflow lleva muerto desde antes de la",
+    "migracion (su API devuelve WIDGET_DISABLED) y nunca metio texto en el HTML, asi",
+    "que en este repo NO EXISTE ninguna resena real de la que partir.",
+    "",
+    "Se rellena ejecutando `node scripts/traer-resenas.mjs`, que lee la Google",
+    "Business Profile API del perfil propio y reescribe este fichero. Hasta entonces",
+    "el componente no renderiza nada: ni carrusel vacio, ni estado vacio, ni relleno.",
+    "",
+    "POR QUE GBP Y NO PLACES. La Places API devuelve un maximo de 5 resenas y su",
+    "politica prohibe expresamente cachear o almacenar su contenido (solo el place_id",
+    "esta exento), asi que este fichero comiteado y servido en SSG seria justo el",
+    "patron prohibido. Las resenas del perfil propio, leidas por su dueno a traves de",
+    "GBP, son contenido del negocio y no arrastran esa restriccion.",
+    "",
+    "Este bloque lo ignora src/lib/reviews.ts (las claves con _ se saltan)."
+  ],
+  "actualizado": null,
+  "perfil": {
+    "nombre": "Pergola Plus Florida",
+    "url": null
+  },
+  "resenas": []
+}

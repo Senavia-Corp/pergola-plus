@@ -13,8 +13,16 @@
  *
  * Lo que NO hay, y por que:
  *   geo / latitud    no lo tenemos medido y aproximarlo es peor que omitirlo.
- *   aggregateRating  no hay reseñas propias verificables en el sitio; el widget de
- *                    Google Reviews que habia estaba muerto (WIDGET_DISABLED).
+ *   aggregateRating  SIGUE SIN PONERSE, y ahora por un motivo mas fuerte que
+ *                    cuando se escribio esto. Antes era que no habia reseñas: el
+ *                    widget de Google Reviews estaba muerto (WIDGET_DISABLED).
+ *                    Desde el carrusel de reseñas SI las hay —ver
+ *                    src/components/ReseñasGoogle.astro— y aun asi no se declara:
+ *                    el markup de reseñas sobre UNO MISMO es INELEGIBLE para las
+ *                    estrellas del SERP segun la politica de Google y expone a
+ *                    accion manual. Las estrellas ya salen solas desde la ficha de
+ *                    Business Profile. Tener las reseñas en el sitio NO es permiso
+ *                    para marcarlas: es justo cuando da la tentacion.
  *   priceRange       el rango real depende del proyecto y no esta publicado.
  *   offers           las paginas de producto no publican precio.
  */

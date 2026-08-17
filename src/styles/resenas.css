@@ -1,0 +1,279 @@
+/* Carrusel de resenas de Google.
+ *
+ * Estilo PROPIO. El CSS migrado trae clases `fs-slider-<nombre>_*` por instancia
+ * (`fs-slider-projects_slide`, etc.) y esta instancia no existia en Webflow, asi
+ * que no hay nada heredado que reutilizar. Lo que si se hereda —y es lo que
+ * importa— es el COMPORTAMIENTO: `src/styles/carrusel.css` da scroll horizontal,
+ * snap y foco a cualquier `[fs-slider-element]`, y `Carrusel.astro` cablea las
+ * flechas y los puntos. Aqui solo va el aspecto.
+ *
+ * Se usan los tokens del sitio (--primary, --secundary, --terceary) para no
+ * introducir una paleta nueva.
+ */
+
+.resenas {
+  background-color: var(--secundary, #fffbf0);
+  padding: 5rem 0;
+}
+
+.resenas-cabecera {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.resenas-cabecera h2 {
+  margin: 0 0 0.5rem;
+}
+
+.resenas-entradilla {
+  color: var(--terceary, #61767c);
+  margin: 0 0 1rem;
+}
+
+.resenas-resumen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+}
+
+.resenas-total {
+  color: var(--terceary, #61767c);
+}
+
+/* Las estrellas son decoracion (aria-hidden en el markup): el dato lo lleva el
+   texto de al lado. Por eso pueden ser caracteres y no hace falta que sean
+   accesibles — lo que NO puede es ser lo unico que hay. */
+.resenas-estrellas {
+  color: #f5a623;
+  letter-spacing: 0.08em;
+  /* Sin `1` los emoji-fallback de algunas plataformas cambian de alto y mueven la
+     linea de base al lado del texto. */
+  line-height: 1;
+}
+
+.resenas-ficha {
+  display: inline-block;
+  color: var(--primary, #3a545b);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* --- El carrusel ---------------------------------------------------------- */
+
+.fs-slider-resenas_instance {
+  position: relative;
+}
+
+.fs-slider-resenas_list {
+  display: flex;
+  gap: 1.5rem;
+  /* SIN padding horizontal. Lo tuvo, para que la sombra de las tarjetas no se
+     recortara, y descuadraba el carrusel: el relleno entra en el scrollWidth y
+     deja el paso de la flecha (419px) por encima del recorrido total (411px),
+     asi que la ultima tarjeta no se alcanzaba. La sombra se respira con el
+     padding VERTICAL del wrapper, que no toca el eje que se desplaza. */
+  padding: 0.5rem 0;
+}
+
+.fs-slider-resenas_slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  /* El slide es flex para que la tarjeta pueda estirarse hasta el alto de la
+     fila. Con `height:100%` a secas dependeria de que el slide tuviera altura
+     resuelta, que en una fila flex no esta garantizado en todos los motores. */
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .fs-slider-resenas_slide { flex-basis: calc((100% - 1.5rem) / 2); }
+}
+
+@media (min-width: 1100px) {
+  .fs-slider-resenas_slide { flex-basis: calc((100% - 3rem) / 3); }
+}
+
+/* --- La tarjeta ----------------------------------------------------------- */
+
+.resena {
+  background-color: var(--white, #fff);
+  border-radius: 12px;
+  padding: 1.75rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  box-shadow: 0 2px 10px #0000000f;
+}
+
+.resena-autor {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.75rem;
+  align-items: center;
+}
+
+.resena-inicial {
+  grid-row: 1 / 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--primary, #3a545b);
+  color: var(--white, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.resena-nombre {
+  font-weight: 700;
+  color: var(--primary, #3a545b);
+}
+
+.resena-fecha {
+  color: var(--terceary, #61767c);
+  font-size: 0.875rem;
+}
+
+.resena-nota {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.resena-nota-texto {
+  font-size: 0.875rem;
+  color: var(--terceary, #61767c);
+}
+
+.resena-texto {
+  /* El navegador mete margen e indentado a blockquote por defecto; aqui la cita
+     es el cuerpo de la tarjeta, no una cita destacada dentro de un texto. */
+  margin: 0;
+  flex: 1;
+}
+
+.resena-texto p {
+  margin: 0;
+  line-height: 1.65;
+  /* Las resenas de Google no tienen limite de largo y una muy larga estiraria su
+     tarjeta hasta descuadrar la fila entera. Se recorta a 10 lineas; el texto
+     completo esta a un clic, en el enlace a Google que lleva debajo. */
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.resena-respuesta {
+  border-left: 3px solid var(--primary, #3a545b);
+  padding-left: 0.875rem;
+  font-size: 0.9375rem;
+  color: var(--terceary, #61767c);
+}
+
+.resena-respuesta p {
+  margin: 0;
+}
+
+.resena-respuesta-quien {
+  font-weight: 700;
+  color: var(--primary, #3a545b);
+  margin-bottom: 0.25rem !important;
+}
+
+.resena-enlace {
+  color: var(--primary, #3a545b);
+  font-weight: 600;
+  text-decoration: underline;
+  font-size: 0.875rem;
+  /* 24px de area tactil minima (WCAG 2.2 AA 2.5.8), como en accesibilidad.css. */
+  padding: 0.25rem 0;
+}
+
+/* --- Flechas y puntos ------------------------------------------------------ */
+
+.fs-slider-resenas_navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.fs-slider-resenas_previous,
+.fs-slider-resenas_next {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #3a545b33;
+  border-radius: 50%;
+  background-color: var(--white, #fff);
+  color: var(--primary, #3a545b);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .2s, color .2s;
+}
+
+.fs-slider-resenas_previous:hover,
+.fs-slider-resenas_next:hover {
+  background-color: var(--primary, #3a545b);
+  color: var(--white, #fff);
+}
+
+/* El CSS migrado no marca el foco en NINGUN control fuera del menu. Estos si. */
+.fs-slider-resenas_previous:focus-visible,
+.fs-slider-resenas_next:focus-visible {
+  outline: 3px solid var(--primary, #3a545b);
+  outline-offset: 2px;
+}
+
+.fs-slider-resenas_arrow {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.fs-slider-resenas_pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.fs-slider-resenas_bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3a545b40;
+  transition: background-color .2s, transform .2s;
+}
+
+/* La clase que pone Carrusel.astro al punto que toca. */
+.fs-slider-resenas_bullet.is-bullet-active {
+  background-color: var(--primary, #3a545b);
+  transform: scale(1.35);
+}
+
+.resenas-orden {
+  text-align: center;
+  color: var(--terceary, #61767c);
+  font-size: 0.8125rem;
+  margin: 1.5rem auto 0;
+  max-width: 620px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-slider-resenas_previous,
+  .fs-slider-resenas_next,
+  .fs-slider-resenas_bullet {
+    transition: none;
+  }
+}

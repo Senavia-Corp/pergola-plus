@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import html from '../contenido-migrado/estaticas/index.html?raw';
+import ReseñasGoogle from '../components/ReseñasGoogle.astro';
 import { grafo, localBusiness, breadcrumbs, faqPage } from '../lib/jsonld';
 
 const PAGE_STYLES = "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}";
@@ -21,4 +22,5 @@ const jsonLd = grafo(localBusiness(site));
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
+  <ReseñasGoogle />
 </BaseLayout>

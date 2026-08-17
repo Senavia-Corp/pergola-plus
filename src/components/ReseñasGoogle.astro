@@ -1,0 +1,182 @@
+---
+/**
+ * Carrusel de resenas de Google Business Profile.
+ *
+ * SE RENDERIZA EN EL SERVIDOR, no es un widget de terceros por JS. El sitio ya
+ * tuvo uno (Elfsight) y ese es justo el problema: cuando su API empezo a
+ * devolver WIDGET_DISABLED, las 40 paginas que lo incrustaban se quedaron sin una
+ * sola resena y NADIE se entero, porque un widget vacio no da error. Ademas el
+ * texto vivia dentro de un iframe de otro dominio, o sea invisible para los
+ * buscadores y para las respuestas de IA — que es el valor real de tener resenas
+ * en el sitio, mas que el adorno.
+ *
+ * REUTILIZA EL CONTRATO DE FINSWEET, no trae otro carrusel. Con poner los
+ * atributos `fs-slider-*` sale gratis:
+ *   - `src/components/Carrusel.astro` (ya montado en BaseLayout) cablea flechas,
+ *     puntos, teclado y etiquetas accesibles;
+ *   - `src/styles/carrusel.css` da el scroll horizontal, el snap y el foco por
+ *     selectores de atributo.
+ *
+ * NO hay manejador de drag y no debe haberlo: el pan tactil ya lo hace el
+ * navegador. Un drag propio por pointer events corriendo ENCIMA del pan nativo es
+ * exactamente de donde salen los saltos en movil.
+ *
+ * CON CERO RESENAS NO RENDERIZA NADA. Ni carrusel vacio ni «aun no hay resenas»:
+ * no hay estado vacio porque no puede alcanzarse, igual que en el listado del
+ * blog. Y no hay relleno inventado — una resena falsa en el sitio de un
+ * contratista no es un detalle de maquetacion, es un problema legal.
+ *
+ * NADA DE schema.org/Review ni AggregateRating. El markup de resenas sobre uno
+ * mismo es INELEGIBLE para las estrellas del SERP segun la politica de Google y
+ * expone a accion manual. Las estrellas ya salen solas desde la ficha de Business
+ * Profile. Ver la cabecera de src/lib/jsonld.ts, que documenta esa decision.
+ */
+import { getReviews, getPerfil, getResumen } from '../lib/reviews';
+import { idiomaDeRuta } from '../i18n';
+import { RESENAS } from '../i18n/resenas';
+import '../styles/resenas.css';
+
+const resenas = getReviews();
+const perfil = getPerfil();
+const resumen = getResumen();
+
+const idioma = idiomaDeRuta(Astro.url.pathname);
+const t = RESENAS[idioma];
+const locale = idioma === 'es' ? 'es-ES' : 'en-US';
+
+const fecha = (iso: string) =>
+  new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(new Date(iso));
+
+// Un numero decimal se escribe distinto en cada idioma: «4.9» en ingles, «4,9» en
+// espanol. Si se concatena a mano sale mal en uno de los dos.
+const numero = (n: number) => new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n);
+
+/** Solo iniciales: no se traen los avatares de googleusercontent (ver mas abajo). */
+const iniciales = (nombre: string) =>
+  nombre.trim().split(/\s+/).slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
+---
+
+{resenas.length > 0 && (
+  <section class="resenas" aria-labelledby="resenas-titulo">
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="resenas-cabecera">
+        {/* h2 y nunca h1: check:seo exige un unico h1 por pagina y esta seccion
+            se inserta en paginas que ya tienen el suyo. */}
+        <h2 id="resenas-titulo">{t.titulo}</h2>
+        <p class="resenas-entradilla">{t.entradilla}</p>
+
+        {resumen && (
+          <p class="resenas-resumen">
+            {/* Las estrellas son DECORACION; el dato es el texto que va al lado.
+                Un lector de pantalla que solo encuentra iconos no puede decir
+                cuanto se ha puntuado. */}
+            <span class="resenas-estrellas" aria-hidden="true">
+              {'★'.repeat(Math.round(resumen.media))}{'☆'.repeat(5 - Math.round(resumen.media))}
+            </span>
+            <strong>{numero(resumen.media)} {t.deCinco}</strong>
+            <span class="resenas-total">({resumen.total})</span>
+          </p>
+        )}
+
+        {perfil.url && (
+          <a class="resenas-ficha" href={perfil.url} target="_blank" rel="noopener nofollow">
+            {t.verFicha}
+          </a>
+        )}
+      </div>
+
+      {/* El contrato de Finsweet, atributo por atributo. Los nombres NO son
+          decorativos: Carrusel.astro busca exactamente estos. */}
+      <div fs-slider-instance="fs-slider-resenas" class="fs-slider-resenas_instance">
+        <div fs-slider-element="list-wrapper" class="fs-slider-resenas_list-wrapper">
+          <div fs-slider-element="list" role="list" class="fs-slider-resenas_list">
+            {resenas.map((r) => (
+              <div fs-slider-element="slide" role="listitem" class="fs-slider-resenas_slide">
+                <article class="resena">
+                  <div class="resena-autor">
+                    {/* Iniciales, no <img>. Dos razones: check:seo exige alt +
+                        width + height en TODA <img>, y tirar del avatar de
+                        googleusercontent reintroduce una peticion a Google en un
+                        sitio que esta en cero. (La regla de mostrar avatar es de
+                        la Places API; a las resenas del perfil propio leidas por
+                        GBP no le aplica.) */}
+                    <span class="resena-inicial" aria-hidden="true">{iniciales(r.autor)}</span>
+                    <span class="resena-nombre">{r.autor}</span>
+                    <time class="resena-fecha" datetime={r.fechaISO}>{fecha(r.fechaISO)}</time>
+                  </div>
+
+                  <p class="resena-nota">
+                    <span class="resenas-estrellas" aria-hidden="true">
+                      {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                    </span>
+                    <span class="resena-nota-texto">{numero(r.rating)} {t.deCinco}</span>
+                  </p>
+
+                  {/* `lang` con el idioma en que se escribio, que NO tiene por que
+                      ser el de la pagina. Sin el, un lector de pantalla lee una
+                      resena inglesa con voz espanola y no se entiende nada. Es
+                      ademas lo que hace que check:i18n no la cuente como «sin
+                      traducir»: declarar el idioma es la condicion para no
+                      contarla, no una exencion gratis. */}
+                  <blockquote class="resena-texto" lang={r.idioma} cite={r.urlOrigen}>
+                    <p>{r.texto}</p>
+                  </blockquote>
+
+                  {r['respuestaDueño'] && (
+                    <div class="resena-respuesta">
+                      <p class="resena-respuesta-quien">{t.respuestaDe}</p>
+                      {/* La respuesta la escribe el negocio, asi que va en el
+                          idioma en que se escribio — el mismo criterio que la
+                          resena: no se reescribe lo que ya se publico. */}
+                      <p lang={r.idioma}>{r['respuestaDueño']}</p>
+                    </div>
+                  )}
+
+                  {/* Solo si hay destino. Un `href=""` recarga la pagina y ademas
+                      lo caza check:paginas («ningun src ni href vacio»). */}
+                  {r.urlOrigen && (
+                    <a class="resena-enlace" href={r.urlOrigen} target="_blank" rel="noopener nofollow">
+                      {t.verEnGoogle}
+                    </a>
+                  )}
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div fs-slider-element="navigation" class="fs-slider-resenas_navigation">
+          {/* <button> y no <a href="#">: un ancla sin destino vuelve a salir en
+              check:enlaces y pierde el teclado. Carrusel.astro les pone el
+              aria-label en el idioma de la pagina. */}
+          <button type="button" fs-slider-element="previous" class="fs-slider-resenas_previous">
+            <span class="fs-slider-resenas_arrow">
+              <svg width="100%" height="100%" viewBox="0 0 24 25" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.0019 3.80378C16.5119 3.31378 15.7219 3.31378 15.2319 3.80378L6.92189 12.1138C6.53189 12.5038 6.53189 13.1338 6.92189 13.5238L15.2319 21.8338C15.7219 22.3238 16.5119 22.3238 17.0019 21.8338C17.4919 21.3438 17.4919 20.5538 17.0019 20.0638L9.76189 12.8138L17.0119 5.56378C17.4919 5.08378 17.4919 4.28378 17.0019 3.80378Z" fill="currentColor"/>
+              </svg>
+            </span>
+          </button>
+          <button type="button" fs-slider-element="next" class="fs-slider-resenas_next">
+            <span class="fs-slider-resenas_arrow">
+              <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.99811 21.0151C7.48811 21.5051 8.27811 21.5051 8.76811 21.0151L17.0781 12.7051C17.4681 12.3151 17.4681 11.6851 17.0781 11.2951L8.7681 2.98507C8.2781 2.49507 7.4881 2.49507 6.9981 2.98507C6.5081 3.47507 6.5081 4.26507 6.9981 4.75507L14.2381 12.0051L6.98811 19.2551C6.50811 19.7351 6.5081 20.5351 6.99811 21.0151Z" fill="currentColor"/>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        {/* Finsweet dejaba una PLANTILLA de puntos que su script clonaba hasta N.
+            Carrusel.astro hace lo mismo: necesita encontrar exactamente un
+            `pagination-bullet` del que sacar el molde. */}
+        <div fs-slider-element="pagination" class="fs-slider-resenas_pagination">
+          <div fs-slider-element="pagination-bullet" class="fs-slider-resenas_bullet"></div>
+        </div>
+      </div>
+
+      {/* La politica de Google pide decir como se ordenan y filtran las resenas.
+          Va visible y no en un comentario: es informacion para quien lee, no para
+          quien mantiene. */}
+      <p class="resenas-orden">{t.orden}</p>
+    </div>
+  </section>
+)}

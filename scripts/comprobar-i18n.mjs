@@ -58,9 +58,74 @@ function cuerpo(html) {
   return i >= 0 && j > i ? html.slice(i, j) : html;
 }
 
+/** Elementos sin subarbol: no hay nada que saltar dentro de ellos. */
+const VACIOS = new Set([
+  'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
+  'link', 'meta', 'param', 'source', 'track', 'wbr',
+]);
+
+/** Fin del cierre equilibrado de `tag` a partir de `desde`. */
+function cierreDe(html, tag, desde) {
+  const re = new RegExp(`<(/?)${tag}\\b[^>]*>`, 'gi');
+  re.lastIndex = desde;
+  let profundidad = 1;
+  let m;
+  while ((m = re.exec(html))) {
+    profundidad += m[1] ? -1 : 1;
+    if (profundidad === 0) return re.lastIndex;
+  }
+  return html.length;   // sin cierre: se descarta hasta el final, que es lo conservador
+}
+
+/**
+ * Quita los subarboles que DECLARAN otro idioma.
+ *
+ * POR QUE EXISTE ESTO. El sitio publica las resenas de Google en el idioma en que
+ * las escribio cada cliente, tambien en /es/: traducir un testimonio lo convierte
+ * en algo que esa persona no dijo. Sin esta funcion, la heuristica de abajo
+ * contaria cada resena inglesa como «sin traducir» y tumbaria la cobertura de la
+ * home espanola por hacer lo correcto.
+ *
+ * NO ES UNA EXENCION GENERAL, y la diferencia importa. Solo se libra el contenido
+ * que declara su idioma con un atributo `lang` EXPLICITO y distinto al de la
+ * pagina. Declararlo no es un truco para esquivar la puerta: es lo que necesita un
+ * lector de pantalla para cambiar de voz — sin `lang` lee una resena inglesa con
+ * fonetica espanola y no se entiende. Es decir, para saltarse el recuento hay que
+ * hacer antes lo correcto.
+ *
+ * Un parrafo que se quedo en ingles por olvido no lleva `lang` y sigue contando,
+ * que es justo lo que esta puerta persigue.
+ *
+ * Ya habia dos casos legitimos antes de las resenas: los enlaces del selector de
+ * idioma (`<a href="/es/" lang="en">English</a>`), que estaban colandose dentro
+ * del margen del 2%.
+ */
+function quitarOtroIdioma(html, idioma) {
+  const cortes = [];
+  const re = /<([a-z][\w-]*)\b([^>]*)>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    const [todo, tag, atributos] = m;
+    const lang = atributos.match(/\blang\s*=\s*["']?([\w-]+)/i)?.[1];
+    // `es-ES` y `es` son el mismo idioma: se compara solo la subetiqueta primaria.
+    if (!lang || lang.split('-')[0].toLowerCase() === idioma) continue;
+    if (todo.endsWith('/>') || VACIOS.has(tag.toLowerCase())) continue;
+    const fin = cierreDe(html, tag, re.lastIndex);
+    cortes.push([m.index, fin]);
+    re.lastIndex = fin;   // el subarbol entero queda fuera, anidados incluidos
+  }
+  let salida = '';
+  let anterior = 0;
+  for (const [a, b] of cortes) {
+    salida += html.slice(anterior, a);
+    anterior = b;
+  }
+  return salida + html.slice(anterior);
+}
+
 /** Nodos de texto que parecen prosa, con el mismo criterio que traducirHtml. */
-function nodos(html) {
-  const sinBloques = html
+function nodos(html, idioma) {
+  const sinBloques = quitarOtroIdioma(html, idioma)
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ');
   const out = [];
@@ -69,6 +134,45 @@ function nodos(html) {
     if (t.length > 2 && /[a-zA-Z]{3}/.test(t)) out.push(t);
   }
   return out;
+}
+
+/**
+ * La puerta comprueba su propia maquinaria ANTES de usarla.
+ *
+ * `quitarOtroIdioma` recorta subarboles buscando el cierre equilibrado a mano. Si
+ * ese recorte se descontrolara y se comiera de mas, la cobertura de abajo saldria
+ * perfecta midiendo cuatro nodos — es decir, la puerta saldria en VERDE por no
+ * tener nada que comprobar. Este repo ya se comio esa clase de fallo dos veces
+ * (las capturas en /tmp, los HTML mudandose a dist/client), y la leccion fue
+ * siempre la misma: afirmar antes de comparar.
+ *
+ * Diez lineas y microsegundos. El caso 5 es el que de verdad importa: un <div>
+ * dentro de otro <div> exige contar profundidad, y buscar el primer </div> —que es
+ * lo que sale solo— dejaria medio documento fuera.
+ */
+{
+  const casos = [
+    ['sin lang', '<p>hola mundo</p>', ['hola mundo']],
+    ['aparta lang=en con sus hijos', '<p>hola mundo</p><div lang="en"><p>hello there</p><span>bye now</span></div>', ['hola mundo']],
+    ['conserva lang=es', '<div lang="es"><p>hola mundo</p></div>', ['hola mundo']],
+    ['es-ES cuenta como es', '<div lang="es-ES"><p>hola mundo</p></div>', ['hola mundo']],
+    ['cierre equilibrado con el mismo tag anidado', '<div lang="en"><div>hello there</div></div><p>sigo aqui</p>', ['sigo aqui']],
+    ['solo se va el hermano marcado', '<p lang="en">hello there</p><p>hola mundo</p>', ['hola mundo']],
+    ['dos bloques marcados', '<p lang="en">hello aa</p><p>medio texto</p><p lang="en">bye bbb</p>', ['medio texto']],
+    ['un <img lang> no se come lo que sigue', '<img lang="en" alt="x"><p>hola mundo</p>', ['hola mundo']],
+    ['self-closing tampoco', '<br lang="en"/><p>hola mundo</p>', ['hola mundo']],
+    ['selector de idioma', '<a href="/es/" lang="en">English</a><a href="/es/" lang="es">Espanol</a><p>texto normal</p>', ['Espanol', 'texto normal']],
+  ];
+  const malos = casos.filter(([, html, esperado]) =>
+    JSON.stringify(nodos(html, 'es')) !== JSON.stringify(esperado));
+  if (malos.length) {
+    console.log('  FALLO la exencion por `lang` esta rota: no se puede confiar en la cobertura');
+    for (const [nombre, html] of malos) {
+      console.log(`         ${nombre}: ${JSON.stringify(nodos(html, 'es'))}`);
+    }
+    process.exit(1);
+  }
+  console.log(`  ok    la exencion por \`lang\` pasa sus ${casos.length} casos`);
 }
 
 /**
@@ -89,6 +193,21 @@ const idsPerdidos = [];
 const foucPerdido = [];
 const langMal = [];
 const tituloIgual = [];
+const excluyeDemasiado = [];
+
+/**
+ * Cuanto texto puede apartar `quitarOtroIdioma` antes de que la medida deje de
+ * significar nada.
+ *
+ * Esta lo mismo que el 98% de cobertura: una puerta que no encuentra nada que
+ * comprobar sale en VERDE, y eso es peor que salir en rojo. Si un fallo del
+ * recorte equilibrado se comiera medio documento, la cobertura saldria del 100%
+ * midiendo cuatro nodos. Con el sitio como esta, lo unico que se aparta son las
+ * resenas y los dos enlaces del selector de idioma; el 35% deja sitio de sobra
+ * para que crezcan las resenas sin dar un falso positivo, y sigue muy por debajo
+ * de "se comio la pagina".
+ */
+const MAX_EXCLUIDO = 0.35;
 
 for (const rel of es) {
   const html = await fs.readFile(path.join(DIST, rel), 'utf8');
@@ -98,7 +217,20 @@ for (const rel of es) {
   if (!/<html[^>]*\blang="es"/.test(html)) langMal.push(r);
 
   // --- cobertura ---
-  const textos = nodos(cuerpo(html));
+  const textos = nodos(cuerpo(html), 'es');
+
+  // Cuanto se ha apartado por declarar otro idioma. Se mide comparando contra el
+  // recuento SIN apartar nada: si el recorte se descontrolara, la cobertura de
+  // arriba saldria perfecta por no tener nada que medir.
+  const todos = nodos(cuerpo(html), ' ');   // ningun lang coincide con esto
+  const apartados = todos.length - textos.length;
+  if (todos.length && apartados / todos.length > MAX_EXCLUIDO) {
+    excluyeDemasiado.push(
+      `${r}  ${apartados} de ${todos.length} nodos (${((apartados / todos.length) * 100).toFixed(0)}%)`
+      + ` apartados por lang≠es, maximo ${MAX_EXCLUIDO * 100}%`,
+    );
+  }
+
   const enIngles = textos.filter(esIngles);
   const cobertura = textos.length ? 1 - enIngles.length / textos.length : 1;
   if (cobertura < COBERTURA) {
@@ -135,6 +267,9 @@ for (const rel of es) {
 
 decir(langMal.length === 0, 'toda pagina /es/ declara <html lang="es">', langMal);
 decir(sinCobertura.length === 0, `${COBERTURA * 100}% de los nodos de texto traducidos`, sinCobertura);
+decir(excluyeDemasiado.length === 0,
+  `la exencion por lang aparta menos del ${MAX_EXCLUIDO * 100}% del texto (si no, la medida no vale)`,
+  excluyeDemasiado);
 decir(idsPerdidos.length === 0, 'ninguna pagina /es/ pierde un data-w-id de su gemela', idsPerdidos);
 decir(foucPerdido.length === 0, 'ninguna pagina /es/ pierde un bloque anti-FOUC', foucPerdido);
 decir(tituloIgual.length === 0, 'ningun <title> de /es/ es identico al ingles', tituloIgual);

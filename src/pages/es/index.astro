@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import htmlOriginal from '../../contenido-migrado/estaticas/index.html?raw';
 import { traducirHtml } from '../../i18n';
 import { HOME_ES } from '../../i18n/home.es';
@@ -46,6 +47,14 @@ const PAGE_STYLES =
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
+
+  {/* Las mismas reseñas que la home inglesa. Esta página no pasa por
+      [...ruta].astro —es de autoría propia— así que lo monta ella.
+
+      Las reseñas salen en el idioma en que las escribió cada cliente, también
+      aquí: traducir un testimonio lo convierte en algo que esa persona no dijo.
+      Solo se traducen los rótulos (src/i18n/resenas.ts). */}
+  <ReseñasGoogle />
 
   {/* Aviso honesto: parte del sitio sigue en inglés. Vale más decirlo que dejar
       que el visitante lo descubra al segundo clic.

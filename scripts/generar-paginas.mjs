@@ -40,6 +40,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_ESTATICAS } from './lib/transformar.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
+// La lista de rutas con carrusel de resenas. Vive fuera porque la leen tambien
+// las paginas espanolas: ver la cabecera de ese fichero.
+import { CON_RESENAS } from '../src/lib/resenas-rutas.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const VIVO = path.join(RAIZ, 'docs/vivo');
@@ -237,10 +240,18 @@ for (const ruta of RUTAS) {
     nodos.length ? 'jsonLd={jsonLd}' : null,
   ].filter(Boolean).join('\n  ');
 
+  // Carrusel de resenas: va DESPUES del fragmento migrado, nunca dentro. El
+  // fragmento es markup verbatim de Webflow y meterle nada por medio arriesga los
+  // data-w-id de los que dependen las 749 interacciones IX2.
+  const conResenas = CON_RESENAS.has(ruta);
+  const importaResenas = conResenas
+    ? `import ReseñasGoogle from '${rel}components/ReseñasGoogle.astro';\n`
+    : '';
+
   const salida = `---
 import BaseLayout from '${rel}layouts/BaseLayout.astro';
 import html from '${rel}contenido-migrado/estaticas/${nombre}?raw';
-${importaLd}${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''}${
+${importaResenas}${importaLd}${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''}${
   nodos.length
     ? `\nconst site = Astro.site!.href;\nconst jsonLd = grafo(${nodos.join(', ')});\n`
     : ''}
@@ -252,7 +263,7 @@ ${importaLd}${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyle
   ${props}
 >
   <Fragment set:html={html} />
-</BaseLayout>
+${conResenas ? '  <ReseñasGoogle />\n' : ''}</BaseLayout>
 `;
 
   // El fragmento de arriba SI se ha escrito; lo que se salta es la pagina.
