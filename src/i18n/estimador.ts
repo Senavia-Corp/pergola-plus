@@ -44,7 +44,7 @@ export interface TextosEstimador {
   estructuras: Record<string, { nombre: string; nota: string }>;
   extras: Record<string, { nombre: string; nota: string }>;
   /** Lo que pinta el navegador. `{ancho}`, `{largo}`, `{min}` y `{max}` se sustituyen. */
-  cliente: { pideMedidas: string; recorte: string; pies2: string; instalados: string };
+  cliente: { pideMedidas: string; recorte: string; pies: string; pies2: string; instalados: string };
 }
 
 const ALT_CIERRE =
@@ -131,6 +131,7 @@ export const ESTIMADOR_EN: TextosEstimador = {
     recorte:
       'Estimating for {ancho} × {largo} ft. This tool covers {min}–{max} ft per side;'
       + ' larger spans need engineering input.',
+    pies: 'ft',
     pies2: 'sq ft',
     instalados: 'sq ft installed',
   },
@@ -227,6 +228,7 @@ export const ESTIMADOR_ES: TextosEstimador = {
     recorte:
       'Estimando para {ancho} × {largo} pies. Esta herramienta cubre de {min} a {max}'
       + ' pies por lado; por encima de ahí hace falta cálculo estructural.',
+    pies: 'pies',
     pies2: 'pies²',
     instalados: 'pies² instalados',
   },

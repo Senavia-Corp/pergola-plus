@@ -297,7 +297,7 @@ const datos = JSON.stringify({
     }
 
     elTotal.textContent = `${dinero(aTramo(min, false))} – ${dinero(aTramo(max, true))}${abierto ? '+' : ''}`;
-    elSub.textContent = `${elegida.nombre} · ${ancho} × ${largo} ft · ${area} ${textos.instalados}`;
+    elSub.textContent = `${elegida.nombre} · ${ancho} × ${largo} ${textos.pies} · ${area} ${textos.instalados}`;
 
     elDesglose.replaceChildren(...filas.map((f) => {
       const li = document.createElement('li');
