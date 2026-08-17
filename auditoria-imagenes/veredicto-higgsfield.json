@@ -1,0 +1,28 @@
+{
+  "umbrales": {
+    "AR_MAX": 0.01,
+    "FACTOR_MIN": 1.8,
+    "SSIM_MIN": 0.75
+  },
+  "aprobadas": [],
+  "rechazadas": [
+    {
+      "archivo": "cover-miami-dade-hurricane-rated-pergola-outdoor-living-contractor.png",
+      "ruta": "/cms-img/locations/miami-dade-pergola-contractor/cover-miami-dade-hurricane-rated-pergola-outdoor-living-contractor.avif",
+      "clase": "content",
+      "de": "1024x1024",
+      "a": "2048x2048",
+      "factor": 2,
+      "nitidez": {
+        "antes": 3558,
+        "despues": 2713
+      },
+      "ssim": 0.961,
+      "deltaAr": 0,
+      "motivos": [
+        "la nitidez no sube lo suficiente: 3558.0 -> 2713.0 (-23.7%, hace falta +10%)"
+      ]
+    }
+  ],
+  "huerfanos": []
+}
