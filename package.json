@@ -24,13 +24,18 @@
     "check:paginas": "node scripts/comprobar-paginas.mjs",
     "extraer": "node scripts/extraer-traducibles.mjs",
     "fuentes": "node scripts/bajar-fuentes.mjs",
-    "imagenes:cliente": "node scripts/optimizar-imagenes-cliente.mjs"
+    "imagenes:cliente": "node scripts/optimizar-imagenes-cliente.mjs",
+    "resenas": "node scripts/traer-resenas.mjs",
+    "auditar:nitidez": "node scripts/auditar-nitidez.mjs",
+    "preparar:higgsfield": "node scripts/preparar-higgsfield.mjs",
+    "integrar:higgsfield": "node scripts/integrar-higgsfield.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",
     "astro": "^7.2.2"
   },
   "devDependencies": {
+    "playwright": "^1.62.1",
     "sharp": "^0.35.3"
   }
 }

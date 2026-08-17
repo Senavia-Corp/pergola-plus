@@ -43,3 +43,16 @@ public/videos/
 # Leads recibidos en local por /api/lead. Datos personales reales: NO van a git.
 # Se regenera solo, enviando cualquiera de los 3 formularios.
 .leads/
+
+# Auditoria de nitidez.
+#
+# El informe y la cola SI se versionan: son el resultado del trabajo (que imagenes
+# hay que regenerar y por que), y la cola es ademas el mapa nombre->ruta con el que
+# vuelven los ficheros de Higgsfield. Sin ella en el repo, integrar-higgsfield.mjs
+# no sabe a donde va cada archivo.
+#
+# display.json NO: es la cache de la pasada de navegador (~15 min de Playwright).
+# Se regenera sola y no dice nada que no diga el informe.
+auditoria-imagenes/display.json
+# Los montajes antes/despues son imagenes y se rehacen en cada integracion.
+auditoria-imagenes/comparativas/

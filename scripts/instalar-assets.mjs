@@ -37,14 +37,37 @@ const RAIZ = path.resolve(import.meta.dirname, '..');
 const EXPORT = '/Users/senavia/Downloads/Webflow Pergola Plus Florida';
 const STAGING = path.join(RAIZ, 'assets-migracion');
 
+/**
+ * Rutas publicas que NO se sobrescriben con el export.
+ *
+ * Son las imagenes regeneradas con IA a partir de la foto original
+ * (scripts/integrar-higgsfield.mjs). El export de Webflow sigue teniendo la
+ * version vieja y este script lo copia encima de public/images/, asi que sin esta
+ * lista cada ejecucion revertiria la mejora EN SILENCIO: sin error, sin hueco, y
+ * sin diferencia visible salvo que se mire el pixel. Exactamente la misma clase de
+ * fallo que el `rm -rf public/images` que se llevaba En.svg y compania.
+ *
+ * check:imagenes comprueba ademas que lo que queda en disco sigue teniendo el
+ * sha256 anotado, para que pisarlas por otra via tambien falle a gritos.
+ */
+const REGENERADAS = new Set(
+  JSON.parse(await fs.readFile(path.join(STAGING, 'regeneradas.json'), 'utf8').catch(() => '{"regeneradas":[]}'))
+    .regeneradas.map((r) => r.ruta),
+);
+let saltadas = 0;
+
 async function copiarDir(desde, hasta) {
   await fs.mkdir(hasta, { recursive: true });
   let n = 0;
   for (const e of await fs.readdir(desde, { withFileTypes: true })) {
     if (e.name.startsWith('.')) continue;
     const a = path.join(desde, e.name), b = path.join(hasta, e.name);
-    if (e.isDirectory()) n += await copiarDir(a, b);
-    else { await fs.copyFile(a, b); n++; }
+    if (e.isDirectory()) { n += await copiarDir(a, b); continue; }
+    // La ruta publica es la del fichero bajo public/: /images/foo.avif
+    const publica = '/' + path.relative(path.join(RAIZ, 'public'), b).split(path.sep).join('/');
+    if (REGENERADAS.has(publica)) { saltadas++; continue; }
+    await fs.copyFile(a, b);
+    n++;
   }
   return n;
 }
@@ -137,6 +160,9 @@ const hay = new Set(await fs.readdir(destImg));
 const faltan = [...pide].filter((n) => !hay.has(n)).sort();
 
 console.log(`  public/images/    ${nImg + nExtra + nPh} archivos  (${nImg} del export + ${nExtra + nPh} externos internalizados)`);
+if (saltadas) {
+  console.log(`  ${' '.repeat(18)}${saltadas} NO sobrescritas: regeneradas con IA (assets-migracion/regeneradas.json)`);
+}
 console.log(`  public/videos/    ${nVid} archivos  (provisional: no van a git)`);
 console.log(`  public/cms-img/   ${nCms} archivos`);
 console.log(`  src/lib/img-map.json  ${Object.keys(mapa).length} urls mapeadas`);

@@ -169,6 +169,41 @@ const mapa = JSON.parse(await fs.readFile(path.join(RAIZ, 'src/lib/img-map.json'
   decir(!faltan.length, `los ${enGit.length} archivos versionados de public/images/ siguen en disco`, faltan);
 }
 
+// --- 6c. Las imagenes regeneradas con IA siguen siendo las regeneradas -------
+// public/images/ tiene DOS fuentes en conflicto: git (esta versionada) y el export
+// de Webflow (instalar-assets.mjs lo copia encima). Cuando una foto se regenera
+// con IA, el export sigue teniendo la vieja, asi que cualquier ejecucion de
+// instalar-assets la revertiria. Ese script ya salta estas rutas; esto comprueba
+// el RESULTADO, que es lo que importa: si alguien las pisa por otra via —un
+// checkout parcial, una copia a mano, una version del script sin la guarda— la
+// puerta falla en vez de que la mejora se pierda en silencio.
+//
+// Se compara contra el sha256 anotado, no contra "es distinta del export": una
+// tercera version tampoco vale.
+{
+  const reg = JSON.parse(
+    await fs.readFile(path.join(STAGING, 'regeneradas.json'), 'utf8').catch(() => '{"regeneradas":[]}'),
+  );
+  if (!reg.regeneradas.length) {
+    console.log('  ---   no hay imagenes regeneradas con IA todavia');
+  } else {
+    const revertidas = [], ausentes = [];
+    for (const r of reg.regeneradas) {
+      const buf = await fs.readFile(path.join(PUBLIC, r.ruta.slice(1))).catch(() => null);
+      if (!buf) { ausentes.push(r.ruta); continue; }
+      const sha = createHash('sha256').update(buf).digest('hex');
+      if (sha === r.sha256) continue;
+      revertidas.push(
+        `${r.ruta}  ${sha === r.sha256Export
+          ? 'REVERTIDA al original del export (instalar-assets sin la guarda?)'
+          : 'es una tercera version, ni la regenerada ni la del export'}`,
+      );
+    }
+    decir(!ausentes.length, `las ${reg.regeneradas.length} imagenes regeneradas siguen en disco`, ausentes);
+    decir(!revertidas.length, 'ninguna imagen regenerada ha sido pisada', revertidas);
+  }
+}
+
 // --- 7. Huerfanos: instalado pero que nadie pide -----------------------------
 // No falla la puerta. Son bytes que se van a subir a Sanity sin que nadie los
 // use, y en la Fase 3 eso es dinero y ruido en el dataset.
