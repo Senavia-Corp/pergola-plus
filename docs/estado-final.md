@@ -20,16 +20,16 @@ npm run check
 | Referencias al staging de Webflow en el HTML servido | 761 | **0** |
 | Páginas mintiendo en `hreflang` | 106 | **0** |
 | `<img>` sin `width`/`height` (CLS) | 6.853 | **0** |
-| Páginas con JSON-LD | 27 | **183** |
+| Páginas con JSON-LD | 27 | **184** |
 | `<title>` duplicados | 19 | **0** |
 | `meta description` duplicadas | 12 | **0** |
 | Enlaces muertos tolerados | 5 | **0** |
 | Flechas de carrusel sin función | ~250 | **0** |
 | Scripts de terceros | 3 | **1** (jQuery, que `webflow.js` necesita) |
 | Peticiones a Google para ver la página | sí | **0** |
-| Páginas en español | 1 | **77** de 183 |
+| Páginas en español | 1 | **78** de 184 |
 | Desbordamiento horizontal a 320 px | — | **0** |
-| `sitemap.xml` / `robots.txt` | no existían | **181 urls + robots** |
+| `sitemap.xml` / `robots.txt` | no existían | **182 urls + robots** |
 
 ---
 
@@ -77,7 +77,7 @@ dejaron fuera a propósito, no por falta de tiempo:
 | Aviso de privacidad | **traducido** |
 | **Blog: índice + 21 artículos + 5 categorías** | en inglés, a propósito |
 | **Contrato de obra (`terms-of-service`)** | en inglés, a propósito |
-| **Calculador de presupuesto** | en inglés, pendiente |
+| Calculador de presupuesto | **traducido** |
 
 Los porqués están razonados en `docs/decisiones.md`, en corto:
 
@@ -88,13 +88,15 @@ Los porqués están razonados en `docs/decisiones.md`, en corto:
 - **El contrato** empieza diciendo que sus condiciones no son negociables. Una segunda
   versión en español sería un segundo texto legal sin aprobar, y ante una
   discrepancia habría que defenderlo en un juzgado. Lo traduce un abogado o nadie.
-- **El estimador** es lo único que es trabajo pendiente de verdad: 634 líneas propias
-  con el texto incrustado. Son 39 cadenas y un refactor pequeño, pero es una pieza
-  que hoy funciona y no se toca al final de una tanda larga.
+El calculador sí se cerró, y no copiando la página: el cuerpo y **las ocho tarifas**
+viven ahora en un único `src/components/Estimador.astro` que sirven las dos rutas, con
+los rótulos en `src/i18n/estimador.ts`. Un precio duplicado por idioma es un precio
+que un día dice dos cosas. Comprobado en el navegador: la misma configuración da
+**$71,000 – $105,000+** en inglés y en español.
 
 **Lo que no está traducido no existe en `/es/`, no lleva `hreflang` y no entra en el
-sitemap.** Comprobado: `hreflang="es"` sale en **152 de 183** páginas, y las 31 que no
-lo llevan son exactamente esas tres cosas más los dos 404.
+sitemap.** Comprobado: `hreflang="es"` sale en **154 de 184** páginas, y las 30 que no
+lo llevan son exactamente el blog entero, el contrato y los dos 404.
 
 **Cada página traducida abarató la siguiente.** Una de ubicación tiene 138 cadenas y
 solo **5** son suyas; una de servicio, 90 y solo ~28. El resto ya vive en
@@ -289,5 +291,3 @@ Y cuando el cliente decida sobre el español que falta (`docs/decisiones.md`):
 7. Validar las cifras de los 21 artículos del blog en español, o dejarlos en inglés.
 8. Encargar a un abogado la versión española del contrato de obra, o dejarla en
    inglés. **No la traduzca nadie más.**
-9. Traducir el calculador de presupuesto: extraer el cuerpo de
-   `src/pages/project-estimator.astro` a un componente con diccionario por idioma.

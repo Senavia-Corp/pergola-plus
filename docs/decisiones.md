@@ -186,14 +186,15 @@ vista.
 ## Español: dónde se paró, y por qué justo ahí
 
 **17-ago-2026.** El sitio pasó de 1 página en español a **77**. Está traducido todo
-menos tres cosas, y cada una se dejó fuera por un motivo distinto — ninguna por
-haberse quedado sin tiempo.
+menos el blog y el contrato de obra, y las dos exclusiones son deliberadas — ninguna
+por haberse quedado sin tiempo.
 
 Lo que SÍ está: la home, los índices de productos y servicios, **las 10 fichas de
 producto**, **las 7 de servicio**, **las 25 páginas de ubicación** con su índice, los
 **3 condados**, las **5 marcas** con su índice, las **10 fichas de proyecto**, la
 galería, las tres de contacto, la de gracias, sobre nosotros, opiniones, sectores,
-preguntas frecuentes, garantías, el aviso de privacidad y el 404.
+preguntas frecuentes, garantías, el aviso de privacidad, **el calculador de
+presupuesto** y el 404.
 
 ### 1. El blog no se traduce (índice + 21 artículos + 5 categorías)
 
@@ -228,22 +229,37 @@ a nada**. Dice que la política está pendiente y da una vía de contacto para e
 derechos, y está enlazado desde el pie de todas las páginas y desde el consentimiento
 de los formularios — justo donde se recogen datos de alguien que lee en español.
 
-### 3. El calculador de presupuesto (`/project-estimator`) no se traduce todavía
+### 3. El calculador de presupuesto (`/project-estimator`) → HECHO
 
-Es la única de las tres que es puramente trabajo pendiente. No es contenido migrado:
-son 634 líneas de `.astro` propias con el texto incrustado entre el marcado, la
-lógica de precios y 318 líneas de CSS. Traducirlo bien es extraer el cuerpo a un
-componente con un diccionario por idioma y dejar dos páginas finas — un refactor de
-una pieza que **hoy funciona**, y meterlo al final de una tanda larga es la mejor
-forma de entregar un bug. Son 39 cadenas propias: media hora cuando se aborde en
-frío.
+Era la única de las tres que era trabajo pendiente de verdad, y está cerrada. Se hizo
+como tocaba y no duplicando la página: el cuerpo, la lógica y **las tarifas** viven
+ahora en `src/components/Estimador.astro`, los rótulos en `src/i18n/estimador.ts`, y
+las dos páginas son quince líneas cada una.
+
+**Por qué así y no copiando el `.astro`.** Duplicar 634 líneas habría duplicado
+también las ocho tarifas, y un precio en dos sitios es un precio que un día dirá dos
+cosas distintas. La regla queda escrita en el propio componente: si el cliente sube
+las tarifas, se tocan ahí y las dos páginas cambian a la vez.
+
+Dos detalles que no son obvios y están comentados en el código:
+
+- **El dinero se formatea en `en-US` también en español.** Son dólares en Florida:
+  `$34,000` es como los escribe y los lee ahí todo el mundo. Con `es-ES` saldría
+  `$34.000`, que a un vecino de Hialeah le parece otra cifra.
+- **Las medidas se quedan en pies, no en metros.** Es la unidad con la que se
+  contrata obra en Florida y la que aparece en el permiso.
+
+Verificado en el navegador con los dos idiomas cargados: la misma configuración
+—techo de lamas, 20 × 30 pies, cálculo estructural y zapatas— da **$71,000 – $105,000+
+en las dos**, el recorte a 60 pies salta igual y avisa en el idioma que toca, y sin
+JavaScript las dos sirven la tabla de tarifas.
 
 ### Cómo se sabe que no miente
 
-`hreflang="es"` sale en **152 de 183** páginas. Las 31 que no lo llevan son
-exactamente esas tres cosas más los dos 404: el blog entero (27), el contrato, el
-estimador y `404`/`es/404`. No hay ni una página prometiendo una traducción que no
-exista, y `check:i18n` lo vuelve a comprobar en cada build.
+`hreflang="es"` sale en **154 de 184** páginas. Las 30 que no lo llevan son
+exactamente el blog entero (índice + 21 artículos + 5 categorías = 27), el contrato de
+obra y los dos 404. No hay ni una página prometiendo una traducción que no exista, y
+`check:i18n` lo vuelve a comprobar en cada build.
 
 ---
 

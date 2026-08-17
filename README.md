@@ -263,12 +263,11 @@ solo **5** son suyas; el resto ya está en `comun.es.ts`. Cuando una cadena apar
 más de una página, se mueve ahí — el build avisa por consola de cada cadena sin
 traducir y `check:i18n` exige ≥98 % por página.
 
-Estado: **77 páginas de 183.** Todo menos el blog (índice + 21 artículos + 5
-categorías), el contrato de obra y el calculador de presupuesto; los tres motivos
-están en `docs/decisiones.md`. Lo que no está traducido **no existe en `/es/`, no
+Estado: **78 páginas de 184.** Todo menos el blog (índice + 21 artículos + 5
+categorías) y el contrato de obra; los dos motivos están en `docs/decisiones.md`. Lo que no está traducido **no existe en `/es/`, no
 lleva `hreflang` y no entra en el sitemap**: media traducción publicada es peor que
-ninguna. Medido: `hreflang="es"` en 152 de 183, y las 31 restantes son exactamente
-esas tres cosas más los dos 404.
+ninguna. Medido: `hreflang="es"` en 154 de 184, y las 30 restantes son exactamente
+esas dos cosas más los dos 404.
 
 **La página de gracias existe en los dos idiomas** y el destino lo decide el servidor
 a partir del campo `pagina` del envío, no del navegador. `check:formularios` envía uno
