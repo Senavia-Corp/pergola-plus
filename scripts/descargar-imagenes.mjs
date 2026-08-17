@@ -144,10 +144,23 @@ const slugify = (s) =>
   s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item';
 
-/** {cdn}/{siteId}/{hash24}_{slug-seo}.ext  ->  slug-seo.ext */
+/**
+ * {cdn}/{siteId}/{hash24}_{slug-seo}.ext  ->  slug-seo.ext
+ *
+ * Dos trampas de Webflow, las dos vistas en las 23 portadas de folleto:
+ *
+ *  - Al RE-SUBIR un asset encadena hashes: "{nuevo}_{viejo}_Nombre.jpg". Quitar
+ *    solo el primero dejaba el viejo pegado al slug.
+ *  - Y re-codifica el nombre, asi que "%2520" es un espacio codificado DOS
+ *    veces. Con un solo decode queda un "%20" literal que slugify convierte en
+ *    "-20-": de ahi salia "brochure-20cover".
+ */
 function nombreDesdeUrl(url) {
-  const base = decodeURIComponent(url.split('/').pop().split('?')[0]);
-  return base.replace(/^[0-9a-f]{20,32}_/i, '');
+  let base = url.split('/').pop().split('?')[0];
+  for (let i = 0; i < 3 && /%[0-9a-f]{2}/i.test(base); i++) {
+    try { base = decodeURIComponent(base); } catch { break; }
+  }
+  return base.replace(/^(?:[0-9a-f]{20,32}_)+/i, '');
 }
 
 /** Comprueba los magic bytes. Un HTML de error con extension .avif es un fallo. */
@@ -230,6 +243,17 @@ function derivarAlt(rol, subject, orden) {
   }
 }
 
+/**
+ * Desempate entre las referencias a una MISMA imagen. Menor gana.
+ *
+ * Manda el alt: una columna que lo trae describe la imagen, y `Gallery` nunca lo
+ * trae. A igualdad, el rol mas especifico. Lo que NO decide es el orden de
+ * llegada — esa era justamente la moneda al aire.
+ */
+const ORDEN_ROL = ['hero', 'cover', 'intro', 'feature', 'swatch', 'thumbnail',
+                   'brand-logo', 'site', 'inline', 'gallery'];
+const rango = (r) => (r.alt ? 0 : 100) + (ORDEN_ROL.indexOf(r.rol) + 1 || 99);
+
 // --- estado -----------------------------------------------------------------
 const porSha = new Map();   // sha256 -> entrada del manifest
 const porUrl = new Map();   // url    -> sha256
@@ -261,14 +285,17 @@ async function bajar(url) {
   throw ultimo;
 }
 
-/** Registra una imagen. `origen` = local (Buffer ya leido) o remota (url). */
-async function registrar({ url, buf, dir, rol, alt, subject, usedIn }) {
+/**
+ * Registra una imagen. `origen` = local (Buffer ya leido) o remota (url).
+ * `usedIn` es una LISTA: las referencias a una misma URL ya vienen fusionadas.
+ */
+async function registrar({ url, buf, dir, rol, alt, subject, usedIn = [] }) {
   if (RX_VARIANTE.test(nombreDesdeUrl(url))) { variantesDescartadas++; return null; }
 
   const yaSha = porUrl.get(url);
   if (yaSha) {                                   // misma URL vista antes
     const e = porSha.get(yaSha);
-    if (usedIn) e.usedIn.push(usedIn);
+    e.usedIn.push(...usedIn);
     if (!e.alt && alt) e.alt = alt;
     return e;
   }
@@ -301,7 +328,7 @@ async function registrar({ url, buf, dir, rol, alt, subject, usedIn }) {
   if (porSha.has(sha)) {                         // mismo archivo, otra URL
     const e = porSha.get(sha);
     e.sourceUrls.push(url);
-    if (usedIn) e.usedIn.push(usedIn);
+    e.usedIn.push(...usedIn);
     if (!e.alt && alt) e.alt = alt;
     porUrl.set(url, sha);
     return e;
@@ -329,7 +356,7 @@ async function registrar({ url, buf, dir, rol, alt, subject, usedIn }) {
   const e = {
     file: relFinal, sha256: sha, bytes: buf.length, format: fmt, width, height,
     role: rol, subject, alt: alt || null,
-    sourceUrls: [url], usedIn: usedIn ? [usedIn] : [],
+    sourceUrls: [url], usedIn: [...usedIn],
   };
   porSha.set(sha, e); porUrl.set(url, sha);
   return e;
@@ -380,8 +407,22 @@ async function main() {
   console.log(`  alt recuperados del HTML: ${altDesdeHtml.size}`);
 
   // ---- 1. Imagenes del CMS -------------------------------------------------
+  // Se recogen TODAS las referencias antes de tocar la red, y una misma URL se
+  // funde en una sola tarea. Antes se encolaba una tarea por referencia y ganaba
+  // la que llegaba primero: como 55 URLs estan referenciadas dos o mas veces y en
+  // 42 de ellas una columna trae alt y la otra no, el alt de esas 42 salia a cara
+  // o cruz en cada ejecucion. Dos ejecuciones identicas daban manifests
+  // distintos, y el manifest es lo que llevara el alt a Sanity.
   const ficheros = await fs.readdir(path.join(EXPORT, 'CMS'));
-  const tareas = [];
+  const refs = new Map();
+
+  const anotar = (r) => {
+    const prev = refs.get(r.url);
+    if (!prev) { refs.set(r.url, { ...r, usedIn: r.usedIn ? [r.usedIn] : [] }); return; }
+    if (r.usedIn) prev.usedIn.push(r.usedIn);
+    if (rango(r) < rango(prev))
+      Object.assign(prev, { dir: r.dir, rol: r.rol, alt: r.alt, subject: r.subject });
+  };
 
   for (const col of COLECCIONES) {
     const f = ficheros.find((x) => x.includes(col.csv));
@@ -404,28 +445,35 @@ async function main() {
             const src = tag.match(/src\s*=\s*["']([^"']+)["']/i)?.[1];
             if (!src || !/^https?:/.test(src)) return;
             const alt = tag.match(/alt\s*=\s*["']([^"']*)["']/i)?.[1] || null;
-            tareas.push(() => registrar({
+            anotar({
               url: src, dir, rol: campo.rol, alt, subject,
               usedIn: col.ruta ? { route: `${col.ruta}/${slug}`, field: campo.col, order: i } : null,
-            }));
+            });
           });
           continue;
         }
 
         const urls = raw.match(RX_URL) || [];
         urls.forEach((url, i) => {
-          tareas.push(() => registrar({
+          anotar({
             url, dir, rol: campo.rol,
             alt: campo.alt ? fila[campo.alt] || null : null,
             subject,
             usedIn: col.ruta ? { route: `${col.ruta}/${slug}`, field: campo.col, order: i } : null,
-          }));
+          });
         });
       }
     }
   }
 
-  console.log(`  ${tareas.length} referencias de imagen en el CMS -> descargando...`);
+  // Orden fijo por URL: si mas adelante dos URLs distintas resultan tener los
+  // MISMOS bytes, la que se queda con el nombre del archivo deja de depender de
+  // cual respondio antes.
+  const tareas = [...refs.values()]
+    .sort((a, b) => (a.url < b.url ? -1 : a.url > b.url ? 1 : 0))
+    .map((r) => () => registrar(r));
+
+  console.log(`  ${refs.size} imagenes unicas referenciadas en el CMS -> descargando...`);
   await enCola(tareas);
 
   // ---- 1b. Imagenes que referencia el CSS ----------------------------------
@@ -494,7 +542,7 @@ async function main() {
       rol: 'site',
       alt: altDesdeHtml.get(nombre) || null,   // alt largo del HTML original
       subject: { type: 'site', slug: 'site', name: 'Pergola Plus Florida' },
-      usedIn: null,
+      usedIn: [],
     });
   }
 

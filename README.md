@@ -38,6 +38,48 @@ puerta afirma de dónde ha leído antes de comparar nada, y por eso falla en vez
 de pasar cuando no puede regenerar: una puerta que pasa porque no pudo
 ejecutarse es peor que no tenerla.
 
+## Las imágenes: el manifest tenía que ser reproducible y no lo era
+
+`npm run check:imagenes` (sobre `dist/`, después de `npm run build`) demuestra que
+todo lo que el sitio pinta está en local: las 560 del manifest presentes y con su
+sha256, instaladas en `public/`, las 555 rutas que pide `dist/` resueltas en
+disco y **cero referencias al CDN de Webflow**.
+
+Salió de buscar una cosa y encontrar otra. `descargar-imagenes.mjs` encolaba
+**una tarea por referencia** y la que llegaba primero se quedaba con el nombre,
+el rol y el `alt`. Como 55 URLs están referenciadas dos o más veces y en **42 de
+ellas una columna trae `alt` y la otra no** (`Img Feature 3` y `Gallery` apuntan
+al mismo archivo; `Gallery` nunca trae `alt`), el `alt` de esas 42 salía a cara o
+cruz. Medido: dos ejecuciones **idénticas**, sin tocar nada, daban 15 archivos
+renombrados y 15 `alt` distintos. `altOriginal` bailaba entre 259 y 267.
+
+Y era peor que un simple baile, porque se realimentaba: la caché de reanudación
+lee del manifest anterior, así que el nombre que salía en una ejecución decidía
+qué ruta era rápida en la siguiente. El resultado se estabilizaba solo hasta que
+cualquier descarga nueva volvía a barajarlo, y entonces el cambio persistía.
+
+No se vio antes porque **no rompe nada visible**: el sitio renderiza igual con
+`alt=""`. Solo se nota en el manifest, que es justo lo que llevará el `alt` a
+Sanity — es decir, se habría descubierto ya subido.
+
+El arreglo es que la resolución no dependa del orden: las referencias a una misma
+URL se funden **antes** de tocar la red y gana la que trae `alt` (a igualdad, el
+rol más específico). Ahora tres ejecuciones seguidas dan `assets` idénticos byte
+a byte, y `altOriginal` se queda fijo en **270** — tres más de los que había
+comiteados, porque ya no se pierde ninguno en el sorteo.
+
+De paso, dos cosas más que estaban rotas en silencio:
+
+| | Qué pasaba |
+|---|---|
+| **Nombres de folleto** | Webflow encadena hashes al re-subir (`{nuevo}_{viejo}_...`) y codifica el nombre **dos veces** (`%2520`). Las 23 portadas se llamaban `cover-6942c032...-brochure-20cover.jpg` |
+| **`rm -rf public/images`** | `instalar-assets.mjs` borraba el destino antes de copiar, y esa carpeta **sí está en git**: se llevaba por delante 20 archivos que no salen del export (`En.svg`, `Sp.svg`, `project-estimator.svg`, `Icon-*.svg`, variantes `-p-NNN`). Solo se salvaban por estar versionados |
+
+El placeholder `plugins/Basic/assets/placeholder.60f9b1840c.svg` **ya devuelve 403
+permanente**. Está internalizado en git, así que el sitio va; `instalar-assets.mjs`
+ya no lo vuelve a pedir si el archivo está en disco. Es el aviso de que la
+ventana para depender del CDN de Webflow está cerrándose de verdad.
+
 ## El shell (Nav y Footer) es código nuestro
 
 `src/components/Nav.astro` y `src/components/Footer.astro` los generó en su día

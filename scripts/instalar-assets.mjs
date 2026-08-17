@@ -52,8 +52,13 @@ async function copiarDir(desde, hasta) {
 console.log('Fase 0.5 — instalacion de assets en local\n');
 
 // 1. images/ del export, completo y verbatim ---------------------------------
+// NO se borra el destino antes de copiar. public/images/ SI esta en git y tiene
+// 20 archivos que no salen del export ni de este script —En.svg, Sp.svg,
+// project-estimator.svg, Icon-*.svg, variantes -p-NNN...—: un `rm -rf` aqui se
+// los llevaba por delante en cada ejecucion. Solo se salvaban porque estaban
+// versionados. Se sobrescribe lo del export y se deja en paz lo demas; si alguna
+// vez sobra algo, `git status` lo canta.
 const destImg = path.join(RAIZ, 'public/images');
-await fs.rm(destImg, { recursive: true, force: true });
 const nImg = await copiarDir(path.join(EXPORT, 'images'), destImg);
 
 // 2. el checkmark que el CSS pedia al CDN de Webflow --------------------------
@@ -68,15 +73,20 @@ for (const f of await fs.readdir(path.join(STAGING, 'design'))) {
 // 2b. placeholders que el HTML pedia a CDNs externos --------------------------
 const { PLACEHOLDERS } = await import('./lib/transformar.mjs');
 let nPh = 0;
+// Si ya esta en disco NO se vuelve a pedir: los tres estan versionados, y el de
+// plugins/Basic/assets/ ya devuelve 403 permanente. Internalizarlos era justo
+// para esto, asi que volver a depender de la red —y fallar— seria absurdo.
 for (const [remoto, local] of Object.entries(PLACEHOLDERS)) {
   const dest = path.join(destImg, path.basename(local));
+  if (await fs.stat(dest).then(() => true, () => false)) continue;
   try {
     const r = await fetch(remoto);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     await fs.writeFile(dest, Buffer.from(await r.arrayBuffer()));
     nPh++;
   } catch (e) {
-    console.error(`  !! no se pudo bajar el placeholder ${remoto}: ${e.message}`);
+    console.error(`  !! falta el placeholder ${path.basename(local)} y su origen ya no responde (${e.message})`);
+    console.error(`     recupera el archivo de git: git checkout -- public/images/${path.basename(local)}`);
     process.exitCode = 1;
   }
 }
