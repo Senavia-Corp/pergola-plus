@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__brands.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Our Brands","/about-us/brands"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/brands.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Our Brands Partners"
+  title="Our Brand Partners | Pergola Plus Florida"
+  description="The manufacturers behind our systems — FORTE, Equinox, Renaissance, Fenetex and Apollo — and what each one is engineered for."
   wfPage="698a90fa997040e29348d8fe"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

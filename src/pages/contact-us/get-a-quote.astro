@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/contact-us__get-a-quote.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Get a Quote","/contact-us/get-a-quote"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/get-a-quote.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Get A Quote"
+  title="Request a Custom Pergola Quote | South Florida"
+  description="Tell us about your patio or backyard and get a tailored proposal for an engineered aluminum pergola or patio cover system."
   wfPage="698a919be15311be0722dbc3"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

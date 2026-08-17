@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import htmlOriginal from '../../contenido-migrado/estaticas/index.html?raw';
 import { traducirHtml } from '../../i18n';
 import { HOME_ES } from '../../i18n/home.es';
+import { grafo, localBusiness } from '../../lib/jsonld';
 
 // Home en español.
 //
@@ -18,6 +19,10 @@ import { HOME_ES } from '../../i18n/home.es';
 
 const { html, traducidas, faltan } = traducirHtml(htmlOriginal, HOME_ES);
 
+// El MISMO nodo de negocio que la home inglesa, con el mismo @id: es el mismo
+// negocio, no dos. Lo que cambia es el idioma de la pagina, no el telefono.
+const jsonLd = grafo(localBusiness(Astro.site!.href));
+
 // El build avisa de lo que se quedó sin traducir en vez de dejarlo pasar en
 // silencio. No rompe la build: una cadena sin traducir sale en inglés, que es
 // degradado aceptable; una build rota, no.
@@ -32,10 +37,13 @@ const PAGE_STYLES =
 
 <BaseLayout
   title="Pergola Plus Florida | Pérgolas a medida y vida al aire libre"
-  description="Contratista de pérgolas con licencia en el sur de Florida. Pérgolas de lamas motorizadas, cubiertas de patio y estructuras exteriores a medida. Más de 10 años de experiencia. Presupuesto gratis."
+  {/* 158 caracteres. Estaba en 194 y Google corta alrededor de 160: la frase que
+      cerraba —"Presupuesto gratis"— no llegaba a leerse. */}
+  description="Contratista de pérgolas con licencia en el sur de Florida. Pérgolas de lamas motorizadas, cubiertas de patio y cerramientos a medida, con presupuesto gratis."
   wfPage="6903b77b4d5df3d76a7a25a2"
   wfSite="6903b7794d5df3d76a7a2488"
   pageStyles={PAGE_STYLES}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 

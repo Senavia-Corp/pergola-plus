@@ -264,6 +264,171 @@ export const rutaCliente = (origen) =>
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.avif';
 
 /**
+ * Title y description de las 11 paginas estaticas.
+ *
+ * Webflow les dejo un <title> que era el nombre del menu —"FAQ", "About Us",
+ * "Warranties"— y NINGUNA description, asi que las 11 heredaban la del sitio y
+ * quedaban 12 paginas compartiendo exactamente el mismo texto. Un title de 3
+ * caracteres no dice nada en un resultado de busqueda, y doce descripciones iguales
+ * le piden a Google que elija cual indexa.
+ *
+ * Estas paginas SI son responsabilidad nuestra: no son contenido del CMS, no hay
+ * campo `Title SEO` para ellas en ningun sitio. El contenido de cada una sale de su
+ * propio <h1> y de su cuerpo, no de la nada.
+ *
+ * (Distinto es el copy que el cliente SI escribio en el CMS —los 50 `Title SEO` de
+ * posts, ubicaciones y marcas—: ese no se toca, ver el comentario de check:seo.)
+ */
+export const SEO_ESTATICAS = {
+  '/about-us/about-us': {
+    title: 'About Pergola Plus Florida | Licensed Contractor',
+    description: 'Who we are: a licensed and insured South Florida contractor building custom pergolas and outdoor structures for over ten years.',
+  },
+  '/about-us/brands': {
+    title: 'Our Brand Partners | Pergola Plus Florida',
+    description: 'The manufacturers behind our systems — FORTE, Equinox, Renaissance, Fenetex and Apollo — and what each one is engineered for.',
+  },
+  '/about-us/industries-we-serve': {
+    title: 'Industries We Serve | Pergola Plus Florida',
+    description: 'Residential, hospitality, commercial and property management projects across Miami-Dade, Broward and Palm Beach counties.',
+  },
+  '/about-us/testimonials': {
+    title: 'Client Reviews & Testimonials | Pergola Plus',
+    description: 'What South Florida homeowners and businesses say about working with us, from the first design meeting to the finished installation.',
+  },
+  '/about-us/where-we-work': {
+    title: 'Where We Work | South Florida Service Areas',
+    description: 'The cities and counties we build in across Miami-Dade, Broward and Palm Beach, with a dedicated page for each service area.',
+  },
+  '/contact-us/get-a-quote': {
+    title: 'Request a Custom Pergola Quote | South Florida',
+    description: 'Tell us about your patio or backyard and get a tailored proposal for an engineered aluminum pergola or patio cover system.',
+  },
+  '/contact-us/get-in-touch': {
+    title: 'Contact Pergola Plus Florida | Boca Raton, FL',
+    description: 'Call, email or write to our Boca Raton team about pergolas, patio covers and screen enclosures anywhere in South Florida.',
+  },
+  '/contact-us/schedule-a-visit': {
+    title: 'Book a Free Design Consultation | Pergola Plus',
+    description: 'Schedule a consultation to review design options, system features and the right shade structure for your outdoor space.',
+  },
+  '/resources/faq': {
+    title: 'Pergola FAQ | Permits, Wind Load & Timelines',
+    description: 'Answers to what we get asked most: permits, HOA approval, wind load, materials, maintenance and how long installation takes.',
+  },
+  '/resources/warranties': {
+    title: 'Warranty Information | Pergola Plus Florida',
+    description: 'Warranty coverage on our FORTE, Equinox, Renaissance, Fenetex and MaestroShield systems, and what each one actually protects.',
+  },
+  '/404': {
+    title: 'Page Not Found | Pergola Plus Florida',
+    description: 'That page does not exist. Browse our pergola systems, services and project gallery, or get in touch with our South Florida team.',
+  },
+};
+
+/**
+ * Title y description de las 19 paginas que el CMS dejo sin `Title SEO`.
+ *
+ * Las 19 salian del build con el MISMO <title>Pergola Plus Florida</title>: los 10
+ * productos, los 7 servicios y las 2 legales. Duplicar el title en 19 paginas es
+ * competir contra uno mismo, y ademas es lo unico que un usuario lee en la pestana y
+ * en el resultado de busqueda.
+ *
+ * NO se han inventado: cada uno sale del <h1> y de la entradilla que el cliente ya
+ * escribio en esa pagina. Lo que se anade es el encuadre geografico, que es real —el
+ * negocio opera en Miami-Dade, Broward y Palm Beach— y lo que la gente busca.
+ *
+ * Rangos que exige check:seo: title 30-65 y description 70-160 caracteres, unicos en
+ * todo el sitio. La puerta los mide, asi que no hay que confiar en el ojo.
+ *
+ * Fase 3 del proyecto (Sanity): esto se muda al campo `Title SEO` de cada item y esta
+ * tabla desaparece.
+ */
+export const SEO_FALTANTE = {
+  // --- Productos ---
+  'products/cabanas': {
+    title: 'Custom Aluminum Cabanas | South Florida',
+    description: 'Poolside and freestanding aluminum cabanas engineered for South Florida wind loads, built for shade, privacy and year-round outdoor use.',
+  },
+  'products/carports': {
+    title: 'Aluminum Carports for South Florida Homes',
+    description: 'Engineered aluminum carports that shield vehicles from sun, rain and salt air, permitted and installed across Miami-Dade, Broward and Palm Beach.',
+  },
+  'products/motorized-louvered-pergolas': {
+    title: 'Motorized Louvered Pergolas | South Florida',
+    description: 'Adjustable louvered roof pergolas that open for sun and close against rain, engineered and installed for South Florida homes and patios.',
+  },
+  'products/motorized-screens': {
+    title: 'Motorized Screens for Patios & Pergolas',
+    description: 'Retractable motorized screens that turn a patio or pergola into shaded, insect-free living space at the touch of a button.',
+  },
+  'products/open-air-pergolas': {
+    title: 'Open-Air Aluminum Pergolas | South Florida',
+    description: 'Classic open-slat aluminum pergolas that frame a patio and filter the Florida sun, built to local code and finished to last in coastal air.',
+  },
+  'products/polycarbonate-pergolas': {
+    title: 'Polycarbonate Roof Pergolas in Florida',
+    description: 'Translucent polycarbonate pergola roofs that keep out rain and UV while leaving the patio bright, engineered for coastal Florida conditions.',
+  },
+  'products/screen-enclosures': {
+    title: 'Pool & Patio Screen Enclosures | Florida',
+    description: 'Screen enclosures for pools and patios, engineered for Florida wind loads and built to keep insects and debris out all year round.',
+  },
+  'products/solar-pergolas': {
+    title: 'Solar Roof Pergolas for Florida Homes',
+    description: 'Pergolas with integrated solar roof panels that shade the patio and generate power, engineered for South Florida installations and permitting.',
+  },
+  'products/solid-roof-pergolas': {
+    title: 'Insulated Solid Roof Pergolas | Florida',
+    description: 'Insulated solid-roof pergolas and patio covers that cut heat and block rain, engineered for South Florida homes and county permitting.',
+  },
+  'products/sukkha': {
+    title: 'Sukkha 3000 Pergola System | Pergola Plus',
+    description: 'The Sukkha 3000 system: a purpose-built aluminum structure for sukkah use, engineered and installed across South Florida properties.',
+  },
+
+  // --- Servicios ---
+  'services/concrete': {
+    title: 'Structural Concrete Services | South Florida',
+    description: 'Reinforced footings, slabs and structural concrete that form the foundation of high-end outdoor projects across South Florida.',
+  },
+  'services/deck-builders': {
+    title: 'Custom Deck Builders in South Florida',
+    description: 'Composite and aluminum decks designed and built for upscale Florida homes, engineered for durability in heat, rain and salt air.',
+  },
+  'services/driveways': {
+    title: 'Paver Driveway Design & Installation | FL',
+    description: 'High-end paver driveways designed and installed with engineered bases and proper drainage for South Florida properties.',
+  },
+  'services/fence-solutions': {
+    title: 'Custom Fence Installation | South Florida',
+    description: 'Custom fencing for privacy, security and architectural cohesion on luxury residential properties across South Florida.',
+  },
+  'services/patio-remodeling': {
+    title: 'Patio Remodeling in South Florida',
+    description: 'We turn outdated patios into refined outdoor living spaces, from surfaces and shade to lighting, drainage and finishes.',
+  },
+  'services/pavers': {
+    title: 'Luxury Paver Installation | South Florida',
+    description: 'Premium paver patios, pool decks and driveways installed on engineered bases, with drainage built for Florida heavy rain.',
+  },
+  'services/pergola-design-construction': {
+    title: 'Custom Pergola Design & Construction | FL',
+    description: 'Fully engineered custom pergolas designed and built for high-end homes across Palm Beach, Broward and Miami-Dade counties.',
+  },
+
+  // --- Legales ---
+  'articles/privacy-policy': {
+    title: 'Privacy Policy | Pergola Plus Florida',
+    description: 'How Pergola Plus Florida collects, uses and protects the personal information you share through this site and our contact forms.',
+  },
+  'articles/terms-of-service': {
+    title: 'Terms & Conditions | Pergola Plus Florida',
+    description: 'The terms that govern use of the Pergola Plus Florida website and the services we provide to homeowners and businesses.',
+  },
+};
+
+/**
  * Los 3 formularios del sitio y su etiqueta de origen.
  *
  * El del pie vive en src/components/Footer.astro (codigo propio) y se cablea alli.
@@ -567,6 +732,52 @@ const VIDEOS = new Set(
   })(),
 );
 
+/**
+ * Ancho y alto real de cada imagen de public/, medidos por
+ * scripts/medir-imagenes.mjs.
+ *
+ * El markup de Webflow no traia width ni height en NINGUNA imagen: 6853 <img> en las
+ * 107 paginas. Sin ellos el navegador no sabe cuanto hueco reservar hasta descargar el
+ * archivo, asi que el contenido salta mientras carga — eso es CLS, una de las tres
+ * Core Web Vitals, y no lo caza ninguna otra puerta porque el sitio se ve "bien" una
+ * vez cargado.
+ */
+const DIMENSIONES = await (async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const f = fileURLToPath(new URL('../../src/lib/img-dim.json', import.meta.url));
+  try { return JSON.parse(await readFile(f, 'utf8')); } catch { return {}; }
+})();
+
+/**
+ * Inyecta width/height en cada <img> cuya ruta este medida.
+ *
+ * NO se llama desde transformar(): se aplica UNA vez sobre dist/ al terminar el build
+ * (ver la integracion en astro.config.mjs). El motivo es cobertura: por el
+ * transformador solo pasa el HTML migrado, y las imagenes estan tambien en el Nav, en
+ * el Footer —o sea en las 107 paginas— y en el blog, que son codigo propio. Aplicarlo
+ * en los dos sitios serian dos implementaciones de lo mismo; aplicarlo solo en el
+ * transformador dejaba 4201 <img> de 7147 sin dimensiones.
+ *
+ * Reglas:
+ *   - No toca las que ya los traen (las fotos del cliente los llevan puestos).
+ *   - Solo rutas locales que existan en el mapa. Una ruta que no este no se inventa.
+ *   - `srcset` da igual: el navegador usa width/height del `src` solo para la
+ *     RELACION de aspecto, y todas las variantes -p-500/-p-800 comparten relacion.
+ *   - El CSS sigue mandando (`width:100%`, `object-fit:cover`): estos atributos no
+ *     cambian como se ve nada, solo reservan el hueco antes de tiempo.
+ */
+export function dimensionarImagenes(html) {
+  return html.replace(/<img\s([^>]*?)(\/?)>/g, (tal_cual, attrs, cierre) => {
+    if (/\bwidth=|\bheight=/.test(attrs)) return tal_cual;
+    const src = attrs.match(/\bsrc="([^"]+)"/)?.[1];
+    if (!src) return tal_cual;
+    const dim = DIMENSIONES[decodeURIComponent(src)];
+    if (!dim) return tal_cual;
+    return `<img ${attrs.trim()} width="${dim[0]}" height="${dim[1]}"${cierre}>`;
+  });
+}
+
 export function reescribirImagenes(html, mapa, locales) {
   const sinResolver = new Set();
 
@@ -711,6 +922,57 @@ export function transformar(html, ruta) {
   // 4e. Formularios: destino real, campos ocultos y colisiones de name/id. Va antes
   //     del paso 7 (is:inline) para que los <input> nuevos no lleven sorpresas.
   s = cablearFormularios(s, ruta);
+
+  // 4g. Encabezado principal donde no habia.
+  //
+  //     El 404 traia su titulo en un <h2> y ningun <h1>: la pagina no tenia
+  //     encabezado principal. Es el mismo texto, subido de nivel.
+  if (ruta === '/404') {
+    s = s.replace('<h2>Page Not Found</h2>', '<h1>Page Not Found</h1>');
+  }
+
+  // 4h. /articles/privacy-policy llega VACIA. No es un fallo de la migracion:
+  //     tambien esta vacia en produccion. El campo de texto enriquecido del CMS
+  //     renderiza `w-dyn-bind-empty` —cero palabras de cuerpo, medido: 372 palabras
+  //     en toda la pagina, que son el nav, el pie y el CTA compartido— mientras
+  //     /articles/terms-of-service trae 4.554.
+  //
+  //     Y el export del CMS enrarece mas la cosa: el item "Privacy Policy" SI tiene
+  //     ~19.400 caracteres en su campo Content, pero empiezan por
+  //     "<h1>Terms &amp; Conditions</h1>" y son el MISMO contrato de obra que el otro
+  //     item. O sea que no hay politica de privacidad en ninguna parte.
+  //
+  //     Importa porque esa pagina esta enlazada desde el pie de las 107 paginas y
+  //     desde el texto de consentimiento de los dos formularios ("you agree to our
+  //     Terms & Privacy Policy") — justo donde se recogen datos personales.
+  //
+  //     NO se inventa una politica de privacidad: eso es contenido legal que depende
+  //     de como trata el cliente los datos, y un texto plausible pero falso es peor
+  //     que una pagina vacia. Se pone un aviso honesto con una via de contacto, y
+  //     queda anotado como bloqueante en docs/estado-final.md.
+  if (ruta === '/articles/privacy-policy') {
+    const antes = s;
+    s = s.replace(
+      '<div class="w-dyn-bind-empty w-richtext"></div>',
+      '<div class="w-richtext">'
+      + '<h1>Privacy Policy</h1>'
+      + '<p>Our full privacy policy is being finalized and will be published here.</p>'
+      + '<p>In the meantime, if you want to know what personal information we hold about'
+      + ' you, how we use it, or you want it corrected or deleted, write to'
+      + ' <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>'
+      + ' or call <a href="tel:+15617108363">(561) 710-8363</a> and we will answer you'
+      + ' directly.</p>'
+      + '<p>The terms that govern our construction work are published in full under'
+      + ' <a href="/articles/terms-of-service">Terms &amp; Conditions</a>.</p>'
+      + '</div>',
+    );
+    if (s === antes) {
+      throw new Error(
+        '/articles/privacy-policy ya no trae el bloque vacio del CMS: si el cliente ha '
+        + 'rellenado el campo, quita esta regla de scripts/lib/transformar.mjs',
+      );
+    }
+  }
 
   // 4d. Fotos nuevas del cliente. Se sustituye la RUTA, asi que alcanza al src y
   //     tambien al srcset y al JSON del lightbox si algun dia esa imagen sale ahi.

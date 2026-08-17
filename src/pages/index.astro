@@ -1,8 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import html from '../contenido-migrado/estaticas/index.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../lib/jsonld';
 
 const PAGE_STYLES = "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}";
+
+const site = Astro.site!.href;
+const jsonLd = grafo(localBusiness(site));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
@@ -14,6 +18,7 @@ const PAGE_STYLES = "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [dat
   wfPage="6903b77b4d5df3d76a7a25a2"
   wfSite="6903b7794d5df3d76a7a2488"
   pageStyles={PAGE_STYLES}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo",
+    "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
     "check:carruseles": "node scripts/comprobar-carruseles.mjs",

@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__testimonials.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Testimonials","/about-us/testimonials"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/testimonials.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Testimonials"
+  title="Client Reviews & Testimonials | Pergola Plus"
+  description="What South Florida homeowners and businesses say about working with us, from the first design meeting to the finished installation."
   wfPage="698a910743aff94e612ec74f"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

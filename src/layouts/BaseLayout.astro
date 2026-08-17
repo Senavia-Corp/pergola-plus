@@ -70,10 +70,33 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 // <html lang="en"> mentiria en la version española, y lang es lo que usan los
 // lectores de pantalla para elegir voz y los buscadores para segmentar.
 const idiomaPagina = idiomaDeRuta(Astro.url.pathname);
-const alternativas = [
-  { hreflang: 'en', href: new URL(rutaEnIdioma(Astro.url.pathname, 'en'), Astro.site).href },
-  { hreflang: 'es', href: new URL(rutaEnIdioma(Astro.url.pathname, 'es'), Astro.site).href },
-];
+
+// Solo se declara el `hreflang` de las traducciones que EXISTEN. `rutaEnIdioma`
+// devuelve null cuando no hay gemela y aquí se filtra.
+//
+// Antes esto emitía siempre las dos, y como la función mandaba cualquier ruta a
+// `/es/`, 106 páginas declaraban una traducción inexistente y todas apuntaban a la
+// misma. El `x-default` también se emitía a ciegas.
+//
+// Un par de hreflang tiene que ser RECÍPROCO para que Google se lo crea: si /a
+// declara /es/a, /es/a tiene que declarar /a. Al salir las dos del mismo mapa
+// (TRADUCIDAS, en src/i18n/index.ts), la reciprocidad es automática.
+const encontradas = (['en', 'es'] as const)
+  .map((hreflang) => ({ hreflang, ruta: rutaEnIdioma(Astro.url.pathname, hreflang) }))
+  .filter((a): a is { hreflang: 'en' | 'es'; ruta: string } => a.ruta !== null);
+
+// Con UNA sola versión no se emite nada. Un `hreflang` solitario que apunta a la
+// propia página no le dice nada a Google —no hay alternativa que elegir— y encima
+// insinúa que existe un grupo de traducciones incompleto. O el par entero, o nada.
+const alternativas = encontradas.length > 1
+  ? encontradas.map((a) => ({ hreflang: a.hreflang, href: new URL(a.ruta, Astro.site).href }))
+  : [];
+
+// x-default apunta a la versión que se sirve a quien no encaja en ningún idioma
+// declarado: aquí, la inglesa.
+const xDefault = alternativas.length > 1
+  ? alternativas.find((a) => a.hreflang === 'en')?.href ?? null
+  : null;
 ---
 
 <!DOCTYPE html>
@@ -93,7 +116,7 @@ const alternativas = [
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link rel="canonical" href={canonicalUrl} />
     {alternativas.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={alternativas[0].href} />
+    {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
     <link
       rel="alternate"
       type="application/rss+xml"

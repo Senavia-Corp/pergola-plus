@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/resources__warranties.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Warranties","/resources/warranties"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /resources/warranties.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Warranties"
+  title="Warranty Information | Pergola Plus Florida"
+  description="Warranty coverage on our FORTE, Equinox, Renaissance, Fenetex and MaestroShield systems, and what each one actually protects."
   wfPage="698a915bda9312a06c6bca60"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

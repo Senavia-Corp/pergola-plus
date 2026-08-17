@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__where-we-work.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Where We Work","/about-us/where-we-work"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/where-we-work.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Where We Work"
+  title="Where We Work | South Florida Service Areas"
+  description="The cities and counties we build in across Miami-Dade, Broward and Palm Beach, with a dedicated page for each service area."
   wfPage="698a911489df930bc0cb8dee"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

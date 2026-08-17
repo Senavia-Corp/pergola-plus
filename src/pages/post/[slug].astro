@@ -20,7 +20,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/post/_items.json';
 import TarjetaPost from '../../components/TarjetaPost.astro';
 import CtaFinal from '../../components/CtaFinal.astro';
-import { posts, postsDe, fechaLarga, fechaIso, ORGANIZACION } from '../../lib/blog';
+import { posts, postsDe, fechaLarga, fechaIso, organizacion } from '../../lib/blog';
 import { prepararArticulo } from '../../lib/articulo';
 import '../../styles/blog.css';
 
@@ -87,8 +87,8 @@ const jsonLd = [
     inLanguage: 'en-US',
     // No hay campo de autor en ninguno de los 14 CSV del export. La organizacion
     // es un autor valido y honesto; inventarse una persona no lo seria.
-    author: ORGANIZACION,
-    publisher: ORGANIZACION,
+    author: organizacion(site),
+    publisher: organizacion(site),
     isPartOf: { '@type': 'Blog', '@id': `${urlBlog}#blog` },
   },
   {

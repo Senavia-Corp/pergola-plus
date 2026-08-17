@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/contact-us__get-in-touch.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
 
 const PAGE_STYLES = "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}";
+
+const site = Astro.site!.href;
+const jsonLd = grafo(localBusiness(site), breadcrumbs(site, [["Contact Us","/contact-us/get-in-touch"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/get-in-touch.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Contact Us"
+  title="Contact Pergola Plus Florida | Boca Raton, FL"
+  description="Call, email or write to our Boca Raton team about pergolas, patio covers and screen enclosures anywhere in South Florida."
   wfPage="698a91c07b51ec699ca6f4f8"
   wfSite="6903b7794d5df3d76a7a2488"
   pageStyles={PAGE_STYLES}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

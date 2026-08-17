@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { grafo, breadcrumbs } from '../lib/jsonld';
 
 // Project Estimator — PAGINA DE AUTORIA PROPIA.
 //
@@ -52,11 +53,15 @@ const ANCHO_POR_DEFECTO = 16;
 const LARGO_POR_DEFECTO = 20;
 
 const datos = JSON.stringify({ estructuras: ESTRUCTURAS, extras: EXTRAS });
+
+// Migas. Es una pagina de primer nivel, asi que el rastro es Home > Project Estimator.
+const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/project-estimator']]));
 ---
 
 <BaseLayout
   title="Pergola Cost Estimator | Pergola Plus Florida"
   description="Estimate your custom pergola or patio cover investment in South Florida using our published 2026 installed price ranges. No contact details required."
+  jsonLd={jsonLd}
 >
   <header class="header-page">
     <div class="w-layout-blockcontainer container w-container">

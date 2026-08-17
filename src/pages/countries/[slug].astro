@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/countries/_items.json';
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -19,6 +20,25 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/countries/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para countries/' + item.slug);
+
+// JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
+// paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
+// src/lib/jsonld.ts y todos estan publicados en el propio sitio.
+//
+// El nombre sale del <h1> de la pagina, no de un campo aparte: asi no puede
+// contradecir lo que el visitante lee.
+const site = Astro.site!.href;
+const ruta = '/countries/' + item.slug;
+// Las barras van dobladas porque esto se escribe DENTRO de una plantilla de cadena:
+// con una sola, \s llega al fichero como "s" y la expresion deja de coincidir — que
+// es lo que paso en el primer intento y dejo el nombre cayendo al title.
+const nombre = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? item.title)
+  .replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
+const migas = breadcrumbs(site, [
+  ["Where We Work","/about-us/where-we-work"],
+  [nombre, ruta],
+] as [string, string][]);
+const jsonLd = grafo(areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre }), migas);
 ---
 
 <BaseLayout
@@ -28,6 +48,7 @@ if (!html) throw new Error('sin fragmento para countries/' + item.slug);
   pageStyles={item.pageStyles ?? undefined}
   wfPage={item.wfPage ?? undefined}
   wfSite={item.wfSite ?? undefined}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

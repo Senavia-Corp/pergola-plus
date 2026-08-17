@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__industries-we-serve.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
 
 const PAGE_STYLES = "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"d1a9be1f-b69f-a2f0-ecba-d86f44713a94\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"3a5b213a-e551-9220-6b99-5febdf20190a\"] {opacity:0;}}";
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Industries We Serve","/about-us/industries-we-serve"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/industries-we-serve.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Industries We Serve"
+  title="Industries We Serve | Pergola Plus Florida"
+  description="Residential, hospitality, commercial and property management projects across Miami-Dade, Broward and Palm Beach counties."
   wfPage="698a9121e6b67d5933c8f6e1"
   wfSite="6903b7794d5df3d76a7a2488"
   pageStyles={PAGE_STYLES}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

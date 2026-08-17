@@ -261,11 +261,22 @@ export function fechaIso(d: Date): string {
 export const WF_PAGE = '698a9130a69620b147bce65e';
 export const WF_SITE = '6903b7794d5df3d76a7a2488';
 
-export const ORGANIZACION = {
+/**
+ * El editor del JSON-LD. Es una FUNCION y no un objeto constante a proposito.
+ *
+ * Cuando era constante llevaba el dominio escrito a mano, y eso lo dejaba fuera del
+ * alcance de `site`: al cambiar el dominio en astro.config.mjs se arreglaron 713 de
+ * las 761 referencias al staging de Webflow y estas 48 —una por post— se quedaron
+ * apuntando a webflow.io dentro del `publisher` de cada BlogPosting. Justo el tipo
+ * de resto que sobrevive a un "buscar y reemplazar" y que no rompe nada visible.
+ *
+ * Ahora el dominio entra por parametro, igual que en el resto de este archivo.
+ */
+export const organizacion = (site: string) => ({
   '@type': 'Organization',
   name: 'Pergola Plus Florida',
-  url: 'https://pergola-plus-florida.webflow.io/',
-} as const;
+  url: new URL('/', site).href,
+});
 
 /** JSON-LD del listado y de cada categoria. */
 export function jsonLdBlog(opciones: {
@@ -284,7 +295,7 @@ export function jsonLdBlog(opciones: {
     name: nombre,
     description: descripcion,
     inLanguage: 'en-US',
-    publisher: ORGANIZACION,
+    publisher: organizacion(site),
     blogPost: entradas.map((p) => ({
       '@type': 'BlogPosting',
       headline: p.titulo,

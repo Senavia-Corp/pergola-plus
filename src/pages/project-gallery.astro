@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import html from '../contenido-migrado/estaticas/project-gallery.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Project Gallery","/project-gallery"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /project-gallery.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
@@ -11,6 +15,7 @@ import html from '../contenido-migrado/estaticas/project-gallery.html?raw';
   description="Browse custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County. Engineered for Florida codes."
   wfPage="698a9093d3dff7de0facb533"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

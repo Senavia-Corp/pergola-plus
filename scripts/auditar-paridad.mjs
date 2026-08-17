@@ -217,6 +217,21 @@ console.log(`  anti-FOUC faltantes ....... ${suma('foucFaltan')}`);
 console.log(`  assets rotos .............. ${suma('rotos')}`);
 console.log(`  referencias a Webflow ..... ${filas.reduce((s, f) => s + (f.externos ?? 0), 0)}`);
 console.log(`  paginas con delta de texto > 2% ... ${filas.filter((f) => f.deltaTexto > 0.02).length}`);
+// El delta de texto es un INFORME, no un fallo, y hay una parte que es constante en
+// todas las paginas: el shell propio anade texto que el vivo no tiene. Se deja dicho
+// aqui para que nadie vuelva a investigarlo desde cero.
+//
+//   nav          "View all products", "View all services", "Project Estimator"
+//   selector     "EN / English / Español"
+//   estimador    el CTA con "Price... cover... minutes... contact... details needed"
+//   pie          la etiqueta oculta del campo de correo (accesibilidad)
+//
+// Son ~23 palabras. En una pagina de ~460 eso ya pasa del 2%, asi que el numero de
+// paginas marcadas sube de golpe cuando se anade una sola palabra al shell. Lo que
+// hay que mirar en este informe es un delta NEGATIVO o grande: eso si seria contenido
+// perdido.
+console.log('     (el shell propio anade ~23 palabras a todas: nav, selector de idioma,');
+console.log('      CTA del estimador y la etiqueta oculta del pie. Ver el comentario.)');
 
 // Las desviaciones declaradas se IMPRIMEN, no se esconden: si estan aqui es
 // para que alguien pueda discutirlas, no para que dejen de verse.

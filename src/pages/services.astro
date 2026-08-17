@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import html from '../contenido-migrado/estaticas/services.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Our Services","/services"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /services.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
@@ -11,6 +15,7 @@ import html from '../contenido-migrado/estaticas/services.html?raw';
   description="Custom pergolas, pavers, driveways, decks, fencing & patio remodeling in Miami-Dade, Broward & Palm Beach. Engineered for Florida's climate."
   wfPage="698a8fc978576084feac5d10"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

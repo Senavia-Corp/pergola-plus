@@ -53,7 +53,12 @@ const url = new URL(`/resources/blog/${categoria.slug}`, site).href;
 ---
 
 <BaseLayout
-  title={`${copy.titulo} | Pergola Plus Florida`}
+  {/* El sufijo de marca solo si CABE. Los títulos de categoría ya son descriptivos
+      ("Pergola Materials & Engineering for Florida's Climate") y al añadirle
+      " | Pergola Plus Florida" se iban a 68-76 caracteres, donde Google los corta —
+      y lo que corta es justo la marca, así que el sufijo no llegaba a verse. Los
+      cuatro se quedan entre 45 y 55 sin él. */}
+  title={copy.titulo.length <= 42 ? `${copy.titulo} | Pergola Plus Florida` : copy.titulo}
   description={copy.meta}
   wfPage={WF_PAGE}
   wfSite={WF_SITE}

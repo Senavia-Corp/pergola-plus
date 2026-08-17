@@ -38,7 +38,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS } from './lib/transformar.mjs';
+import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_ESTATICAS } from './lib/transformar.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
@@ -70,6 +70,59 @@ const RUTAS = [
 // lead y el fragmento migrado no decia que pasa despues, ni traia <h1> — solo un
 // <h2> suelto, asi que la unica pagina del embudo que ve un cliente que acaba de
 // dejar sus datos se quedaba sin encabezado principal.
+
+/**
+ * JSON-LD de las paginas estaticas.
+ *
+ * Antes de la Fase 4 ninguna de las 17 declaraba nada, la home incluida: para Google
+ * este sitio no tenia negocio detras, ni telefono, ni direccion, ni area de servicio.
+ *
+ * `negocio` define el nodo completo con `@id` estable; las demas paginas —y las 29 de
+ * ubicacion— lo REFERENCIAN por ese id en vez de repetirlo. Se define en la home y en
+ * la pagina de contacto, que es donde el NAP esta publicado y visible: declarar datos
+ * de contacto en una pagina que no los muestra es justo lo que Google trata como
+ * markup no respaldado por el contenido.
+ *
+ * `miga` es el tramo intermedio de las migas, cuando lo hay.
+ */
+const LD_ESTATICAS = {
+  '/':                             { negocio: true },
+  '/contact-us/get-in-touch':      { negocio: true, miga: ['Contact Us', '/contact-us/get-in-touch'] },
+  '/contact-us/get-a-quote':       { miga: ['Get a Quote', '/contact-us/get-a-quote'] },
+  '/contact-us/schedule-a-visit':  { miga: ['Schedule a Visit', '/contact-us/schedule-a-visit'] },
+  '/resources/faq':                { faq: true, miga: ['FAQ', '/resources/faq'] },
+  '/resources/warranties':         { miga: ['Warranties', '/resources/warranties'] },
+  '/products':                     { miga: ['Our Products', '/products'] },
+  '/services':                     { miga: ['Our Services', '/services'] },
+  '/project-gallery':              { miga: ['Project Gallery', '/project-gallery'] },
+  '/about-us/about-us':            { miga: ['About Us', '/about-us/about-us'] },
+  '/about-us/brands':              { miga: ['Our Brands', '/about-us/brands'] },
+  '/about-us/industries-we-serve': { miga: ['Industries We Serve', '/about-us/industries-we-serve'] },
+  '/about-us/testimonials':        { miga: ['Testimonials', '/about-us/testimonials'] },
+  '/about-us/where-we-work':       { miga: ['Where We Work', '/about-us/where-we-work'] },
+};
+
+/**
+ * Las 10 preguntas de /resources/faq, sacadas del PROPIO fragmento.
+ *
+ * Google exige que el markup de FAQPage coincida con lo que se ve en la pagina; una
+ * copia a mano se desincroniza y entonces el markup pasa a ser spam a sus ojos. Por
+ * eso se extraen aqui en vez de mantener una lista.
+ */
+function preguntasFaq(frag) {
+  const pares = [];
+  for (const bloque of frag.split('<div class="faq_item">').slice(1)) {
+    const q = bloque.match(/faq_question[^>]*>([\s\S]*?)</)?.[1];
+    const a = bloque.match(/faq_answer[^>]*>([\s\S]*?)<\/div>/)?.[1];
+    if (!q || !a) continue;
+    pares.push({
+      pregunta: decodificar(q.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()),
+      respuesta: decodificar(a.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()),
+    });
+  }
+  return pares;
+}
+
 const MANUALES = new Set(['/resources/blog', '/thank-you']);
 const FORZAR = process.argv.includes('--regenerar-manuales');
 
@@ -148,19 +201,39 @@ for (const ruta of RUTAS) {
   const prof = ruta === '/' ? 0 : ruta.split('/').length - 2;
   const rel = '../'.repeat(prof + 1);
 
+  // Webflow dejo estas paginas con el nombre del menu por <title> ("FAQ",
+  // "Warranties") y sin description, asi que 12 paginas compartian la del sitio.
+  // SEO_ESTATICAS manda sobre lo que traia el vivo.
+  const propio = SEO_ESTATICAS[ruta] ?? {};
+
+  // JSON-LD de esta ruta, si le toca.
+  const ld = LD_ESTATICAS[ruta];
+  const nodos = [];
+  if (ld?.negocio) nodos.push('localBusiness(site)');
+  if (ld?.faq) nodos.push(`faqPage(${JSON.stringify(preguntasFaq(frag))})`);
+  if (ld?.miga) nodos.push(`breadcrumbs(site, [${JSON.stringify(ld.miga)}])`);
+  const importaLd = nodos.length
+    ? `import { grafo, localBusiness, breadcrumbs, faqPage } from '${rel}lib/jsonld';\n`
+    : '';
+
   const props = [
-    `title=${JSON.stringify(m.title ?? 'Pergola Plus Florida')}`,
-    m.description ? `description=${JSON.stringify(m.description)}` : null,
+    `title=${JSON.stringify(propio.title ?? m.title ?? 'Pergola Plus Florida')}`,
+    (propio.description ?? m.description)
+      ? `description=${JSON.stringify(propio.description ?? m.description)}` : null,
     m.ogImage ? `ogImage=${JSON.stringify(m.ogImage)}` : null,
     m.wfPage ? `wfPage=${JSON.stringify(m.wfPage)}` : null,
     m.wfSite ? `wfSite=${JSON.stringify(m.wfSite)}` : null,
     m.pageStyles ? 'pageStyles={PAGE_STYLES}' : null,
+    nodos.length ? 'jsonLd={jsonLd}' : null,
   ].filter(Boolean).join('\n  ');
 
   const salida = `---
 import BaseLayout from '${rel}layouts/BaseLayout.astro';
 import html from '${rel}contenido-migrado/estaticas/${nombre}?raw';
-${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''}
+${importaLd}${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''}${
+  nodos.length
+    ? `\nconst site = Astro.site!.href;\nconst jsonLd = grafo(${nodos.join(', ')});\n`
+    : ''}
 // Generado por scripts/generar-paginas.mjs desde el HTML real de ${ruta}.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---

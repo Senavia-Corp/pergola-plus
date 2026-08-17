@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/contact-us__schedule-a-visit.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["Schedule a Visit","/contact-us/schedule-a-visit"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/schedule-a-visit.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Schedule A Visit"
+  title="Book a Free Design Consultation | Pergola Plus"
+  description="Schedule a consultation to review design options, system features and the right shade structure for your outdoor space."
   wfPage="698a91adde00b79df8efdde0"
   wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

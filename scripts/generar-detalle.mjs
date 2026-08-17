@@ -33,7 +33,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS } from './lib/transformar.mjs';
+import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_FALTANTE } from './lib/transformar.mjs';
 import { parseCSV } from './lib/csv.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 
@@ -59,14 +59,14 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
  * project, brands, countries, pergolas-contractors y articles.
  */
 const COLECCIONES = [
-  { dir: 'products', ruta: 'products', csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
-  { dir: 'services', ruta: 'services', csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
+  { dir: 'products', ruta: 'products', csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products' },
+  { dir: 'services', ruta: 'services', csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services' },
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
-  { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription' },
-  { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
-  { dir: 'countries', ruta: 'countries', csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO' },
-  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO' },
-  { dir: 'articles', ruta: 'articles', csv: 'Articles', tSeo: null, dSeo: null },
+  { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery' },
+  { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands' },
+  { dir: 'countries', ruta: 'countries', csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work' },
+  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work' },
+  { dir: 'articles', ruta: 'articles', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
 ];
 
 /**
@@ -176,18 +176,27 @@ for (const col of COLECCIONES) {
     const html = await fs.readFile(path.join(VIVO, f), 'utf8');
     const r = reescribirImagenes(cuerpo(html), MAPA, LOCALES);
     for (const u of r.sinResolver) if (!PLACEHOLDERS[u]) sinResolverGlobal.add(u);
-    const frag = transformar(r.html);
+    // La ruta importa: el transformador tiene reglas por pagina (el bloque vacio del
+    // CMS en /articles/privacy-policy, el widget de resenas en /about-us/testimonials).
+    // Antes se llamaba sin ella y esas reglas no se aplicaban nunca a las paginas de
+    // detalle, en silencio.
+    const frag = transformar(r.html, `/${col.ruta}/${slug}`);
 
     const dir = path.join(FRAG, col.dir);
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(path.join(dir, `${slug}.html`), frag);
     const m = meta(html);
     const s = seo[slug] ?? {};
+    // Orden de preferencia para el <head>:
+    //   1. el CMS, si el item trae Title SEO;
+    //   2. SEO_FALTANTE, para las 19 que el CMS dejo vacias y que por eso salian
+    //      todas con el mismo <title>Pergola Plus Florida</title>;
+    //   3. lo que traia la pagina en vivo.
+    const propio = SEO_FALTANTE[`${col.dir}/${slug}`] ?? {};
     items.push({
       slug, ...m, ...s,
-      // Lo que acaba en el <head>: por defecto lo del sitio actual.
-      title: SEO_DESDE_CMS && s.tituloSeo ? s.tituloSeo : m.title,
-      description: SEO_DESDE_CMS && s.descripcionSeo ? s.descripcionSeo : m.description,
+      title: (SEO_DESDE_CMS && s.tituloSeo) || propio.title || m.title,
+      description: (SEO_DESDE_CMS && s.descripcionSeo) || propio.description || m.description,
     });
   }
 
@@ -198,6 +207,7 @@ for (const col of COLECCIONES) {
   const astro = `---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -216,6 +226,29 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);
+
+// JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
+// paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
+// src/lib/jsonld.ts y todos estan publicados en el propio sitio.
+//
+// El nombre sale del <h1> de la pagina, no de un campo aparte: asi no puede
+// contradecir lo que el visitante lee.
+const site = Astro.site!.href;
+const ruta = '/${col.ruta}/' + item.slug;
+// Las barras van dobladas porque esto se escribe DENTRO de una plantilla de cadena:
+// con una sola, \\s llega al fichero como "s" y la expresion deja de coincidir — que
+// es lo que paso en el primer intento y dejo el nombre cayendo al title.
+const nombre = (html.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/)?.[1] ?? item.title)
+  .replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
+const migas = breadcrumbs(site, [
+${col.miga ? `  ${JSON.stringify([col.miga, col.migaRuta])},\n` : ''}  [nombre, ruta],
+] as [string, string][]);
+const jsonLd = grafo(${{
+    producto: "producto(site, { nombre, descripcion: item.description ?? '', ruta, imagen: item.ogImage ?? null })",
+    servicio: "servicio(site, { nombre, descripcion: item.description ?? '', ruta })",
+    area: "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre })",
+    ninguno: 'null',
+  }[col.ld ?? 'ninguno']}, migas);
 ---
 
 <BaseLayout
@@ -225,6 +258,7 @@ if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);
   pageStyles={item.pageStyles ?? undefined}
   wfPage={item.wfPage ?? undefined}
   wfSite={item.wfSite ?? undefined}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>

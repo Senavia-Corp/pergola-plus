@@ -51,10 +51,15 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
               <input type="hidden" name="pagina" value={Astro.url.pathname} />
               <input type="hidden" name="t" value="" />
               <input type="hidden" name="js" value="" />
+              {/* La trampa no lleva <label>: el contenedor es aria-hidden, asi que
+                  ningun lector de pantalla llega al campo y la etiqueta solo anadiria
+                  texto a las 107 paginas. */}
               <div class="pp-trampa" aria-hidden="true">
-                <label for="pp-website-footer">Website</label>
                 <input type="text" id="pp-website-footer" name="website" tabindex="-1" autocomplete="off" />
               </div>
+              {/* <label> de verdad, oculto a la vista. No lleva ademas aria-label: con
+                  los dos puestos gana el aria-label y el <label> se ignora, asi que
+                  seria texto duplicado en las 107 paginas para nada. */}
               <label class="pp-trampa" for="footer-email">{t('footerEmail')}</label>
               <input
                 class="text-field w-input"
@@ -62,7 +67,6 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
                 name="email"
                 data-name="Email"
                 placeholder={t('footerEmail')}
-                aria-label={t('footerEmail')}
                 type="email"
                 id="footer-email"
                 autocomplete="email"

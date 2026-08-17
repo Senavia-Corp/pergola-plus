@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__about-us.html?raw';
+import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
 
 const PAGE_STYLES = "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}";
+
+const site = Astro.site!.href;
+const jsonLd = grafo(breadcrumbs(site, [["About Us","/about-us/about-us"]]));
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/about-us.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="About Us"
+  title="About Pergola Plus Florida | Licensed Contractor"
+  description="Who we are: a licensed and insured South Florida contractor building custom pergolas and outdoor structures for over ten years."
   wfPage="698a90bb670f759b2b5b60f1"
   wfSite="6903b7794d5df3d76a7a2488"
   pageStyles={PAGE_STYLES}
+  jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
 </BaseLayout>
