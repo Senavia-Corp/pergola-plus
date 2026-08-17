@@ -377,4 +377,236 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Sí. Medimos a medida e instalamos cortinas motorizadas en pérgolas, porches y patios cubiertos que ya existen.',
     },
   },
+
+  carports: {
+    nombre: 'Cocheras de aluminio',
+    title: 'Cocheras de aluminio | Sur de Florida',
+    description: 'Cocheras de aluminio calculadas para las cargas de viento de Florida, con drenaje oculto y acabados que se integran con la casa.',
+    dic: {
+      'Premium Sun Protection': 'Protección solar de verdad',
+      'Custom Home Integration': 'Integrada con su casa',
+      'Wind-Code Compliant': 'Cumple la normativa de viento',
+      'Aluminum Carport Contractors in South Florida': 'Especialistas en cocheras de aluminio en el sur de Florida',
+      'Pergola Plus designs and installs custom aluminum carports throughout South Florida. Engineered to protect vehicles from intense sun exposure and heavy rain, our structures combine durability with architectural refinement. We serve Boynton Beach, Jupiter, Davie, and Plantation with fully customized, professionally installed solutions.':
+        'Pergola Plus diseña e instala cocheras de aluminio a medida por todo el sur de Florida. Están calculadas para proteger los coches del sol fuerte y de la lluvia, y son tan duraderas como cuidadas de diseño. Trabajamos en Boynton Beach, Jupiter, Davie y Plantation, con soluciones a medida e instalación profesional.',
+      'Engineered Aluminum Carport Features': 'Qué trae una cochera de aluminio',
+      'Delivering superior vehicle protection without sacrificing curb appeal. Explore the structural integrity, premium materials, and custom design elements that make our carports the ideal choice for Florida homes.':
+        'Protege el coche sin afear la casa. Esta es la solidez, los materiales y el diseño a medida que hacen de nuestras cocheras la opción adecuada en Florida.',
+      'Integrated Gutter &amp; Drainage System': 'Canalón y drenaje integrados',
+      'Concealed internal drainage systems efficiently route rainwater away from your vehicles and driveway, preventing pooling and maintaining a clean, dry parking area.':
+        'El drenaje va oculto por dentro y saca el agua de lluvia lejos de los coches y de la entrada, así que no se encharca y la zona queda limpia y seca.',
+      'High-Performance Roofing Systems': 'Techos de altas prestaciones',
+      'Choose from insulated, solid, or polycarbonate roofing options to protect vehicles from intense UV exposure, heavy rain, and environmental debris while maintaining a refined architectural appearance.':
+        'Elija techo aislado, macizo o de policarbonato para proteger los coches del sol fuerte, de la lluvia y de la suciedad, sin renunciar a un buen acabado.',
+      'Engineered Structural Aluminum Frame': 'Estructura de aluminio calculada',
+      'Our aluminum carports are fully engineered to meet strict Florida building codes, including wind-load requirements for coastal environments. Designed for structural integrity and long-term durability, they provide reliable protection year after year.':
+        'Nuestras cocheras se calculan para cumplir la normativa de Florida, incluidas las cargas de viento de la costa. Sólidas y duraderas, protegen año tras año.',
+      'Each carport is custom-designed to align with your home’s architecture, rooflines, and exterior finishes, ensuring it enhances — not detracts from — property value.':
+        'Cada cochera se diseña a medida para seguir la arquitectura de su casa, sus cubiertas y sus acabados, de modo que sume valor a la propiedad en vez de restarlo.',
+      'Corrosion-Resistant Construction': 'Construcción que no se corroe',
+      'Premium powder-coated aluminum resists rust, oxidation, and deterioration — making it ideal for South Florida’s humidity and salt-air exposure.':
+        'El aluminio con recubrimiento en polvo no se oxida ni se degrada, así que va bien con la humedad y el aire salino del sur de Florida.',
+      'Attached or Freestanding Options': 'Adosada o exenta',
+      'Whether integrated into your home’s structure or installed as a freestanding solution, every system is engineered for stability and seamless visual cohesion.':
+        'Se integre en la estructura de la casa o se monte exenta, cada cochera se calcula para ser estable y para verse como parte del conjunto.',
+      'Browse custom aluminum carport installations designed to protect vehicles while complementing residential architecture with strength and style.':
+        'Vea cocheras de aluminio ya instaladas: protegen los coches y acompañan a la arquitectura de la casa con solidez y estilo.',
+      'Select from premium exterior finishes and contemporary tones that complement your home’s façade while ensuring long-lasting durability in Florida’s climate.':
+        'Elija entre acabados exteriores de calidad y tonos actuales que acompañen a la fachada y aguanten el clima de Florida.',
+      'Discover how custom aluminum carports protect vehicles from sun and rain while enhancing your home’s architectural presence.':
+        'Vea cómo una cochera de aluminio a medida protege los coches del sol y de la lluvia mientras mejora la presencia de la casa.',
+      'Aluminum Carports FAQs': 'Preguntas sobre cocheras de aluminio',
+      'Find answers on our durable aluminum carports. We protect South Florida vehicles from harsh sun and severe tropical weather.':
+        'Respuestas sobre nuestras cocheras de aluminio, que protegen los coches del sur de Florida del sol fuerte y del mal tiempo.',
+      '1. Do carports block UV sun rays?': '1. ¿Frenan los rayos UV?',
+      'Yes, our premium aluminum carports block harmful UV rays and intense South Florida heat, protecting your vehicle&#x27;s paint and interior from severe sun damage.':
+        'Sí. Frenan los rayos UV y el calor fuerte del sur de Florida, así que la pintura y el interior del coche no se estropean con el sol.',
+      '2. Are they built for high winds?': '2. ¿Aguantan viento fuerte?',
+      'Every custom carport is structurally engineered to surpass Florida wind-load codes, guaranteeing top-tier hurricane protection and durability for your vehicles.':
+        'Cada cochera se calcula para superar las cargas de viento que exige Florida, con la protección que hace falta frente a un huracán.',
+      '3. Can the design match my home?': '3. ¿Puede ir a juego con mi casa?',
+      'Absolutely. We offer fully custom modern carports with premium powder-coating to perfectly complement your home&#x27;s exterior, roofline, and luxury curb appeal.':
+        'Sí. Las hacemos a medida y con recubrimiento en polvo, para que acompañen al exterior de su casa, a la cubierta y a la fachada.',
+      '4. Will the aluminum carport rust?': '4. ¿Se oxida el aluminio?',
+      'No. Our high-quality powder-coated aluminum resists rust, corrosion, and fading, ensuring a maintenance-free, durable parking structure for coastal environments.':
+        'No. El aluminio con recubrimiento en polvo no se oxida, no se corroe y no pierde color: es una estructura duradera y sin mantenimiento, también en la costa.',
+      '5. Do I need a building permit?': '5. ¿Hace falta permiso de obra?',
+      'Yes, permanent carports require permits. Pergola Plus Florida handles the entire engineering and permitting process for a hassle-free, code-compliant installation.':
+        'Sí, una cochera permanente lleva permiso. Nos ocupamos del cálculo y de toda la tramitación para que la instalación sea legal y sin complicaciones.',
+    },
+  },
+
+  'polycarbonate-pergolas': {
+    nombre: 'Pérgolas de policarbonato',
+    title: 'Pérgolas con techo de policarbonato | Sur de Florida',
+    description: 'Paneles translúcidos que bloquean el 99% de los UV, resisten impactos y dejan pasar la luz, sobre estructura de aluminio reforzada.',
+    dic: {
+      '100% Waterproof Patio': 'Patio 100% estanco',
+      'Advanced UV Protection': 'Protección UV avanzada',
+      'Impact-Resistant Roofing': 'Techo resistente a impactos',
+      'Polycarbonate Pergola Contractors in South Florida': 'Especialistas en pérgolas de policarbonato en el sur de Florida',
+      'We install custom polycarbonate pergolas across Miami-Dade, Broward, and Palm Beach County. Featuring UV-blocking translucent panels and reinforced aluminum framing, these systems provide protection while maintaining natural light. Ideal for patios and pool areas in Boca Raton, Boynton Beach, and Fort Lauderdale, they combine performance, brightness, and modern design.':
+        'Instalamos pérgolas de policarbonato a medida en Miami-Dade, Broward y Palm Beach. Llevan paneles translúcidos que frenan los UV sobre estructura de aluminio reforzada: protegen sin quitar la luz natural. Van muy bien en patios y zonas de piscina de Boca Ratón, Boynton Beach y Fort Lauderdale, con prestaciones, luminosidad y un diseño actual.',
+      'Polycarbonate Pergola Features': 'Qué trae una pérgola de policarbonato',
+      'Bathe your patio in natural light while staying protected from harsh UV rays and rain. Discover the benefits of pairing heavy-duty aluminum framing with advanced, impact-resistant translucent roofing.':
+        'Luz natural en el patio y, a la vez, protección frente a los UV y la lluvia. Esto es lo que aporta unir una estructura de aluminio robusta a un techo translúcido resistente a impactos.',
+      'UV-Blocking Translucent Panels': 'Paneles translúcidos que frenan los UV',
+      'Advanced polycarbonate panels block harmful UV rays while allowing natural daylight to filter through, maintaining brightness without excessive heat exposure.':
+        'Los paneles de policarbonato frenan los rayos dañinos y dejan pasar la luz del día, así que el espacio se queda luminoso sin acumular calor.',
+      'Thermal Reflective Coating Options': 'Capa térmica reflectante opcional',
+      'Upgrade your polycarbonate panels with specialized thermal reflective coatings that further reduce heat transmission, keeping your outdoor area exceptionally cool.':
+        'Puede añadir a los paneles una capa térmica reflectante que reduce todavía más el paso del calor y mantiene el exterior mucho más fresco.',
+      'Lightweight Structural System': 'Estructura ligera',
+      'Engineered for strength without excessive bulk, these pergolas maintain clean lines and modern elegance.':
+        'Calculadas para ser resistentes sin resultar pesadas, mantienen unas líneas limpias y actuales.',
+      'High-strength panels resist cracking and damage from debris or storms, offering durability without sacrificing visual openness.':
+        'Los paneles de alta resistencia no se agrietan ni se dañan con la suciedad ni con las tormentas, y aun así el espacio sigue viéndose abierto.',
+      'Custom Tint &amp; Finish Options': 'Tintes y acabados a elegir',
+      'Choose from various panel tints and frame colors to match your home’s architecture and outdoor aesthetic.':
+        'Elija entre varios tintes de panel y colores de estructura para que todo vaya con su casa y con su exterior.',
+      'Aluminum Reinforced Frame': 'Estructura de aluminio reforzada',
+      'Powder-coated aluminum framing ensures long-term structural integrity in humid and coastal environments.':
+        'La estructura de aluminio con recubrimiento en polvo aguanta a largo plazo en ambiente húmedo y costero.',
+      'Browse custom polycarbonate pergola installations that balance natural light with UV protection. See how modern translucent roofing enhances outdoor areas with brightness and durability.':
+        'Vea pérgolas de policarbonato ya instaladas, con ese equilibrio entre luz natural y protección UV, y cómo un techo translúcido mejora el exterior en luminosidad y en durabilidad.',
+      'Customize your pergola with elegant frame colors and panel tint options that balance brightness, UV protection, and architectural cohesion with your outdoor design.':
+        'Configure su pérgola con colores de estructura y tintes de panel que equilibren luz, protección UV y coherencia con el resto del exterior.',
+      'Discover how translucent polycarbonate panels provide UV protection while maintaining natural light, combining durability and brightness in one sleek structure.':
+        'Vea cómo los paneles translúcidos de policarbonato protegen de los UV sin quitar luz natural, uniendo durabilidad y luminosidad en una estructura de líneas limpias.',
+      'Polycarbonate Pergolas FAQs': 'Preguntas sobre pérgolas de policarbonato',
+      'Read our FAQs to see how our polycarbonate pergolas block UV rays and provide waterproof protection for South Florida homes.':
+        'Así frenan los UV y dejan el patio seco nuestras pérgolas de policarbonato en el sur de Florida.',
+      '1. Do polycarbonate roofs block UV?': '1. ¿El policarbonato frena los UV?',
+      'Yes. Our advanced polycarbonate roofing panels are UV-treated to block 99% of harmful rays, protecting your skin and outdoor furniture while letting sunlight in.':
+        'Sí. Los paneles llevan tratamiento UV y frenan el 99% de los rayos dañinos, protegiendo la piel y los muebles sin dejar el espacio a oscuras.',
+      '2. Will the panels turn yellow?': '2. ¿Se ponen amarillos con el tiempo?',
+      'No. We use architectural-grade polycarbonate with built-in UV stabilizers, specifically engineered to resist yellowing or clouding under the intense Florida sun.':
+        'No. Usamos policarbonato de calidad arquitectónica con estabilizadores UV, formulado para no amarillear ni volverse opaco con el sol de Florida.',
+      '3. Can they survive severe storms?': '3. ¿Aguantan una tormenta fuerte?',
+      'Yes. Framed with heavy-duty aluminum, these impact-resistant translucent panels are engineered to exceed local wind-load requirements for ultimate storm durability.':
+        'Sí. Sobre estructura de aluminio robusta, estos paneles resistentes a impactos se calculan para superar las cargas de viento que exige la normativa local.',
+      '4. Do they keep the patio dry?': '4. ¿Dejan el patio seco?',
+      'Absolutely. A polycarbonate pergola features a solid, watertight roof and integrated drainage to keep your outdoor lounge completely dry during heavy summer rain.':
+        'Sí. El techo es estanco y lleva drenaje integrado, así que la zona de estar se queda seca aunque caiga una tromba de verano.',
+      '5. Are the panel tints custom?': '5. ¿El tinte del panel se elige?',
+      'Yes! We tailor every polycarbonate pergola to your home, offering custom frame colors and panel tint levels to perfectly match your outdoor aesthetic and shading needs.':
+        'Sí. Adaptamos cada pérgola a su casa: color de estructura y nivel de tinte del panel a elegir según la estética y la sombra que necesite.',
+    },
+  },
+
+  'solar-pergolas': {
+    nombre: 'Pérgolas solares',
+    title: 'Pérgolas solares | Sur de Florida',
+    description: 'Estructuras preparadas para fotovoltaica: refuerzo de carga, cableado oculto y drenaje integrado, con orientación estudiada.',
+    dic: {
+      'Shade That Pays Back': 'Sombra que se paga sola',
+      'Concealed Wiring': 'Cableado oculto',
+      'Eco-Friendly Luxury': 'Lujo sostenible',
+      'Solar Roof Structure Builders in South Florida': 'Constructores de estructuras solares en el sur de Florida',
+      'We build solar-ready roof structures designed to integrate photovoltaic systems without compromising strength or aesthetics. Serving Miami-Dade, Broward, and Palm Beach County—including Boca Raton and Palm Beach Gardens—these engineered systems provide shade, weather protection, and long-term energy value.':
+        'Construimos estructuras preparadas para llevar fotovoltaica sin perder resistencia ni estética. Trabajamos en Miami-Dade, Broward y Palm Beach —Boca Ratón y Palm Beach Gardens incluidas— con sistemas calculados que dan sombra, protegen del tiempo y aportan valor energético a largo plazo.',
+      'Solar Pergola Integration &amp; Features': 'Qué trae una pérgola solar',
+      'Shade your outdoor space while generating clean energy for your home. Discover the robust structural engineering and dual-purpose design that makes our solar pergolas a smart, sustainable, and stylish investment.':
+        'Sombra en el exterior y energía limpia para la casa. Esta es la ingeniería y el diseño de doble función que convierten a nuestras pérgolas solares en una inversión sensata.',
+      'Solar-Ready Structural Engineering': 'Cálculo preparado para solar',
+      'Our roof structures are specifically engineered to support photovoltaic solar systems without compromising strength, alignment, or aesthetics. Structural integrity is prioritized from the foundation up.':
+        'Nuestras estructuras se calculan para soportar sistemas fotovoltaicos sin ceder en resistencia, en alineación ni en estética. La solidez manda desde la cimentación.',
+      'Reinforced Load Capacity': 'Capacidad de carga reforzada',
+      'Built with reinforced aluminum framing, these systems are engineered to handle additional panel weight and wind resistance in high-exposure environments.':
+        'Con estructura de aluminio reforzada, aguantan el peso extra de los paneles y el viento en zonas muy expuestas.',
+      'Integrated Drainage &amp; Roofing Systems': 'Drenaje y cubierta integrados',
+      'Advanced drainage channels and precision roofing integration protect your outdoor space from rain intrusion while maintaining a clean architectural finish.':
+        'Los canales de drenaje y una cubierta bien resuelta impiden que entre el agua, y el acabado se mantiene limpio.',
+      'Integrated Battery Storage Compatibility': 'Compatible con baterías',
+      'Designed to seamlessly connect with home battery storage systems, allowing you to store the solar energy generated during the day for evening use or power outages.':
+        'Se conecta con los sistemas de baterías domésticos, así que la energía que se genera de día queda guardada para la noche o para un apagón.',
+      'Dual-Purpose Design': 'Diseño de doble función',
+      'These structures provide shaded outdoor living space while simultaneously supporting renewable energy systems — combining lifestyle enhancement with long-term energy efficiency.':
+        'Dan sombra para vivir el exterior y a la vez sostienen la instalación renovable: se gana en confort y en eficiencia a largo plazo.',
+      'Custom Design &amp; Orientation': 'Diseño y orientación a medida',
+      'Each structure is strategically positioned for both structural efficiency and ideal solar exposure, ensuring maximum performance and visual harmony.':
+        'Cada estructura se sitúa buscando a la vez eficiencia estructural y la mejor exposición solar, para que rinda y para que se vea bien.',
+      'Explore solar-ready roof structures that combine shaded outdoor living with structural support for integrated energy systems.':
+        'Vea estructuras preparadas para solar que dan sombra al exterior y a la vez sostienen la instalación de energía.',
+      'Choose structural finishes that align with your home’s design, combining clean modern colors with performance-driven materials built to last.':
+        'Elija acabados que vayan con el diseño de su casa, con colores actuales y materiales pensados para durar.',
+      'See how solar-ready roof structures combine shaded outdoor living with structural support for integrated energy systems.':
+        'Vea cómo una estructura preparada para solar da sombra al exterior y a la vez sostiene la instalación de energía.',
+      'Solar Pergolas FAQs': 'Preguntas sobre pérgolas solares',
+      'Learn how our solar pergolas combine luxury shade with clean energy in South Florida. Read FAQs on permits and durability.':
+        'Así unen sombra y energía limpia nuestras pérgolas solares en el sur de Florida, con lo que hay que saber de permisos y durabilidad.',
+      '1. Can a pergola hold solar panels?': '1. ¿Una pérgola puede llevar paneles solares?',
+      'Yes. Our dual-purpose solar pergolas create a luxurious shaded patio while structurally supporting a full array of solar panels to generate clean home energy.':
+        'Sí. Nuestras pérgolas solares dan un patio con sombra y a la vez sostienen un campo entero de paneles para generar energía limpia.',
+      '2. Is the frame strong enough?': '2. ¿La estructura aguanta?',
+      'Definitely. We engineer these specific structures with reinforced load-bearing aluminum beams to safely support heavy photovoltaic panels and extreme wind uplift.':
+        'Sí. Estas estructuras se calculan con vigas de aluminio reforzadas para soportar el peso de los paneles y la succión del viento.',
+      '3. Is the lounge area waterproof?': '3. ¿La zona de estar queda seca?',
+      'Yes. Our integrated sub-roofing and concealed drainage systems block rain effectively, ensuring the outdoor living space beneath your solar pergola stays fully dry.':
+        'Sí. La subcubierta y el drenaje oculto frenan la lluvia, así que debajo de la pérgola no se moja nada.',
+      '4. Do you orient it for max sun?': '4. ¿La orientáis para captar más sol?',
+      'Yes. During the custom design phase, we optimize the height, pitch, and placement of your solar pergola to capture maximum south-facing sun exposure for energy gain.':
+        'Sí. En el diseño ajustamos altura, inclinación y sitio para captar el máximo de sol hacia el sur.',
+      '5. Do you handle all the permits?': '5. ¿Os encargáis de los permisos?',
+      'Yes. Building a solar pergola requires structural and electrical permits. Our team manages the entire documentation process for a seamless, code-compliant project.':
+        'Sí. Una pérgola solar lleva permiso de estructura y de electricidad. Nos ocupamos de toda la documentación para que el proyecto cumpla y avance sin trabas.',
+    },
+  },
+
+  sukkha: {
+    nombre: 'Sukkha 3000',
+    title: 'Sukkha 3000 | Estructuras exteriores de lujo',
+    description: 'El sistema Sukkha 3000: ingeniería modular, aluminio de alto rendimiento, diseño minimalista y automatización integrada.',
+    dic: {
+      'Bespoke Luxury Design': 'Diseño de lujo a medida',
+      'Category 5 Reinforced': 'Reforzada para categoría 5',
+      'Smart-Home Automated': 'Automatizada con domótica',
+      'Sukkha System Installers in South Florida': 'Instaladores del sistema Sukkha en el sur de Florida',
+      'Pergola Plus installs the advanced Sukkha 3000 system across South Florida. This next-generation architectural structure combines modern design, automation, and superior engineering to create high-performance outdoor environments. Serving Fort Lauderdale, Delray Beach, Weston, and surrounding areas, we deliver premium solutions tailored to luxury residential properties.':
+        'Pergola Plus instala el sistema Sukkha 3000 por todo el sur de Florida. Es una estructura de nueva generación que une diseño actual, automatización e ingeniería para crear exteriores de altas prestaciones. Trabajamos en Fort Lauderdale, Delray Beach, Weston y alrededores, con soluciones a medida para viviendas de alto nivel.',
+      'Sukkha System Features': 'Qué trae el sistema Sukkha',
+      'The absolute pinnacle of luxury outdoor architecture. Explore the advanced modular engineering, minimalist design, and smart automation capabilities that define the exclusive Sukkha 3000 structure.':
+        'Lo más alto en arquitectura exterior de lujo. Esta es la ingeniería modular, el diseño minimalista y la automatización que definen al Sukkha 3000.',
+      'Integrated Automation Technology': 'Automatización integrada',
+      'Designed for seamless automation integration, this system supports motorized features, lighting systems, and advanced controls for a fully customized outdoor experience.':
+        'Preparado para integrarse con la domótica, admite elementos motorizados, iluminación y controles avanzados para una experiencia hecha a su medida.',
+      'High-Performance Aluminum Construction': 'Aluminio de altas prestaciones',
+      'Constructed from premium-grade aluminum, the Sukkha 3000 is engineered to resist corrosion, structural fatigue, and environmental stress common in South Florida climates.':
+        'Fabricado en aluminio de primera calidad, el Sukkha 3000 está calculado para resistir la corrosión, la fatiga estructural y el desgaste propio del clima del sur de Florida.',
+      'Custom Configuration Capabilities': 'Configuración a medida',
+      'Fully customizable in layout, size, finish, and integrated features, the Sukkha 3000 adapts to complex outdoor designs with precision.':
+        'Distribución, tamaño, acabado y prestaciones se configuran por completo, así que el Sukkha 3000 se adapta con precisión a diseños exigentes.',
+      'Architectural Minimalist Design': 'Diseño minimalista',
+      'Its sleek structural profiles and refined finishes create a bold, modern statement that enhances high-end residential properties.':
+        'Sus perfiles esbeltos y sus acabados cuidados marcan carácter y elevan las viviendas de alto nivel.',
+      'Architectural Fascia Enhancements': 'Frentes arquitectónicos',
+      'Enhance the visual impact of your structure with premium, customizable fascia wrap options that conceal hardware and elevate the modern, minimalist profile.':
+        'Los frentes envolventes, configurables, esconden los herrajes y refuerzan el perfil minimalista de la estructura.',
+      'Advanced Modular Engineering': 'Ingeniería modular avanzada',
+      'The Sukkha 3000 is engineered with precision modular components that deliver superior strength, stability, and architectural flexibility — redefining modern outdoor structures.':
+        'El Sukkha 3000 se construye con módulos de precisión que aportan resistencia, estabilidad y libertad arquitectónica, y redefinen lo que puede ser una estructura exterior.',
+      'View Sukkha 3000 installations showcasing advanced engineering, minimalist design, and next-generation outdoor living performance.':
+        'Vea instalaciones del Sukkha 3000, con su ingeniería, su diseño minimalista y sus prestaciones de nueva generación.',
+      'The Sukkha 3000 offers a refined selection of architectural colors and textures, allowing complete customization while preserving its minimalist, high-end aesthetic.':
+        'El Sukkha 3000 ofrece una selección cuidada de colores y texturas para personalizarlo por completo sin perder su estética minimalista.',
+      'Sukkha Luxury Outdoor Structures - FAQ': 'Preguntas sobre el Sukkha 3000',
+      'Discover the Sukkha 3000. Read FAQs on Pergola Plus Florida&#x27;s ultimate luxury, hurricane-proof architectural outdoor structure.':
+        'Todo sobre el Sukkha 3000, la estructura exterior más alta de gama de Pergola Plus Florida, preparada para huracanes.',
+      '1. What makes Sukkha 3000 unique?': '1. ¿Qué tiene de distinto el Sukkha 3000?',
+      'The Sukkha 3000 is the pinnacle of luxury outdoor architecture, featuring proprietary modular engineering and minimalist design built specifically for high-end estates.':
+        'Es lo más alto en arquitectura exterior de lujo: ingeniería modular propia y diseño minimalista, pensados para propiedades de alto nivel.',
+      '2. Is the design customizable?': '2. ¿Se puede personalizar?',
+      'Yes. Completely bespoke, the Sukkha 3000 offers custom dimensions, premium architectural finishes, and specialized fascia to complement your luxury property perfectly.':
+        'Sí, por completo: dimensiones a medida, acabados de calidad y frentes específicos para que encaje con su propiedad.',
+      '3. Can it withstand hurricanes?': '3. ¿Aguanta un huracán?',
+      'Absolutely. Crafted from hyper-reinforced, marine-grade aluminum, the Sukkha 3000 is heavily engineered to surpass coastal building codes and endure extreme weather.':
+        'Sí. En aluminio de grado marino muy reforzado, está calculado para superar la normativa de costa y aguantar tiempo extremo.',
+      '4. Does it support smart home tech?': '4. ¿Admite domótica?',
+      'Yes. The structure seamlessly hides motorized screen mechanisms, weather sensors, LED arrays, and AV equipment, delivering the ultimate automated luxury experience.':
+        'Sí. La estructura esconde los mecanismos de las cortinas motorizadas, los sensores de clima, las tiras LED y el equipo audiovisual.',
+      '5. Is it a permanent structure?': '5. ¿Es una estructura permanente?',
+      'Yes. The Sukkha 3000 is a permanent, professionally engineered architectural addition that drastically increases real estate value and functional luxury for your home.':
+        'Sí. El Sukkha 3000 es una ampliación arquitectónica permanente y calculada, que aumenta mucho el valor de la vivienda.',
+    },
+  },
 };

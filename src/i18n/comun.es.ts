@@ -279,8 +279,20 @@ export const COMUN_ES: Record<string, string> = {
   'Our custom aluminum cabanas create refined outdoor retreats with resort-inspired design. Engineered for durability and privacy, these structures provide shaded comfort while elevating the overall aesthetic of your pool area or backyard entertainment space.':
     'Nuestras cabañas de aluminio a medida crean refugios exteriores con un diseño de inspiración resort. Calculadas para durar y para dar privacidad, aportan sombra y confort a la vez que elevan la estética de su zona de piscina o de su jardín.',
   'Motorized Screens': 'Cortinas motorizadas',
-  'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas and covered patios, they offer instant comfort at the touch of a button while maintaining a clean architectural appearance.':
-    'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted quiere, con una automatización que no se nota. Se integran en pérgolas y porches y dan confort al instante con un botón, sin romper la línea arquitectónica.',
-  'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida conditions, they extend usable outdoor living while maintaining airflow, visibility, and long-term structural performance.':
-    'Proteja su exterior de insectos y suciedad con nuestros cerramientos a medida y con todos los permisos. Están pensados para el clima del sur de Florida: amplían el espacio que se puede usar sin quitar ventilación ni vistas, y aguantan a largo plazo.',
+  'Aluminum Carports': 'Cocheras de aluminio',
+  'Polycarbonate Pergolas': 'Pérgolas de policarbonato',
+  'Solar Pergolas': 'Pérgolas solares',
+  'Custom Architectural Integration': 'Integración con la arquitectura',
+  'Our aluminum carports protect luxury vehicles from harsh sun and rain while elevating your home’s architecture. Built for structural integrity and long-term durability, they offer premium, stylish protection. The perfect blend of strength and design.':
+    'Nuestras cocheras de aluminio protegen los coches del sol fuerte y de la lluvia, y de paso elevan la arquitectura de la casa. Calculadas para ser sólidas y durar, dan una protección de calidad y con buen aspecto: la mezcla justa de resistencia y diseño.',
+  'Our polycarbonate pergolas blend durability with natural light, blocking UV rays while maintaining brightness. Engineered for weather resistance, they are perfect for elegant patios and pool decks. Get a modern design that offers protection and openness.':
+    'Nuestras pérgolas de policarbonato unen durabilidad y luz natural: frenan los rayos UV sin dejar el espacio a oscuras. Calculadas para aguantar el tiempo, van muy bien en patios y zonas de piscina. Un diseño actual que protege sin cerrar.',
+  'Solar roof structures combine architectural strength with energy innovation. Engineered to support solar panel integration, these systems provide shade and weather protection while allowing homeowners to invest in sustainable, high-performance outdoor infrastructure.':
+    'Las estructuras solares unen solidez arquitectónica e innovación energética. Están calculadas para llevar paneles fotovoltaicos, así que dan sombra y protegen del tiempo a la vez que convierten el exterior en una inversión sostenible.',
+  'The Sukkha 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
+    'El Sukkha 3000 es una estructura exterior de alta gama que une ingeniería de vanguardia y diseño contemporáneo. Pensada para quien busca lo máximo en prestaciones, durabilidad y personalización, redefine hasta dónde puede llegar un exterior de lujo.',
+  'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida, they preserve airflow and visibility, ensuring comfortable evenings while matching your home’s architectural integrity.':
+    'Proteja su exterior de insectos y suciedad con nuestros cerramientos a medida y con todos los permisos. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes se disfruten, y respetan la arquitectura de la casa.',
+  'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas, patios, and covered outdoor spaces, these premium systems enhance comfort while maintaining a sleek, modern appearance.':
+    'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted quiere, con una automatización que no se nota. Se integran en pérgolas, patios y porches, y aportan confort sin romper una línea limpia y actual.',
 };
