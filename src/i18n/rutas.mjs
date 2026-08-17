@@ -139,6 +139,8 @@ export const TRADUCIDAS = {
   '/post/aluminum-vs-wood-pergolas-humid-climate': '/es/post/aluminum-vs-wood-pergolas-humid-climate/',
   '/post/best-pergola-materials-coastal-florida': '/es/post/best-pergola-materials-coastal-florida/',
   '/post/hurricane-resistant-pergolas-south-florida': '/es/post/hurricane-resistant-pergolas-south-florida/',
+  '/post/best-outdoor-structures-rain-sun-florida': '/es/post/best-outdoor-structures-rain-sun-florida/',
+  '/post/can-you-use-your-patio-year-round-in-south-florida': '/es/post/can-you-use-your-patio-year-round-in-south-florida/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
