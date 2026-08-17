@@ -31,6 +31,7 @@ export const TRADUCIDAS = {
   // Donde aterriza todo lead. La escribe a mano src/pages/es/thank-you.astro, no
   // pasa por PAGINAS_ES: su gemela inglesa tampoco es contenido migrado.
   '/thank-you': '/es/thank-you/',
+  '/project-gallery': '/es/project-gallery/',
   // Paginas de detalle de servicio. Solo las que tienen diccionario en
   // src/i18n/servicios.es.ts: el resto no existe en /es/.
   '/services/pavers': '/es/services/pavers/',

@@ -192,6 +192,12 @@ const VISITA: Record<string, string> = {
     'Empiece su proyecto con una consulta personalizada para ver opciones de diseño, prestaciones de cada sistema y qué pérgola de aluminio encaja mejor en su espacio.',
 };
 
+const GALERIA: Record<string, string> = {
+  'Featured Projects': 'Proyectos destacados',
+  'Explore our featured custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County—engineered to meet Florida building codes and built for luxury, durability, and coastal performance.':
+    'Vea nuestros proyectos de pérgolas a medida, cubiertas de patio y espacios exteriores en Miami-Dade, Broward y Palm Beach: calculados para cumplir la normativa de Florida y construidos para durar en la costa.',
+};
+
 const NO_ENCONTRADA: Record<string, string> = {
   'Page Not Found': 'Página no encontrada',
   'The page you are looking for doesn&#x27;t exist or has been moved':
@@ -231,6 +237,12 @@ export const PAGINAS_ES: PaginaEs[] = [
     title: 'Reserve una consulta de diseño gratuita | Pergola Plus',
     description: 'Agende una consulta para ver opciones de diseño, prestaciones de cada sistema y qué estructura de sombra encaja en su espacio exterior.',
     dic: VISITA,
+  },
+  {
+    en: '/project-gallery', es: '/es/project-gallery',
+    title: 'Galería de proyectos | Pergola Plus Florida',
+    description: 'Pérgolas a medida, cubiertas de patio y espacios exteriores ya construidos en Miami-Dade, Broward y Palm Beach.',
+    dic: GALERIA,
   },
   {
     en: '/404', es: '/es/404',

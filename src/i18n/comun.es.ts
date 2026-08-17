@@ -295,4 +295,12 @@ export const COMUN_ES: Record<string, string> = {
     'Proteja su exterior de insectos y suciedad con nuestros cerramientos a medida y con todos los permisos. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes se disfruten, y respetan la arquitectura de la casa.',
   'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas, patios, and covered outdoor spaces, these premium systems enhance comfort while maintaining a sleek, modern appearance.':
     'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted quiere, con una automatización que no se nota. Se integran en pérgolas, patios y porches, y aportan confort sin romper una línea limpia y actual.',
+  // Nombres de producto: salen en la galeria (filtros), en el menu y en las fichas.
+  'Motorized Louvered Pergolas': 'Pérgolas de lamas motorizadas',
+  'Solid Roof Pergolas': 'Pérgolas de techo macizo',
+  'Open-Air Pergolas': 'Pérgolas abiertas',
+  'Screen Enclosures': 'Cerramientos con mosquitero',
+  'Residential': 'Residencial',
+  'Commercial': 'Comercial',
+  'Cabanas': 'Cabañas',
 };
