@@ -18,8 +18,7 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/post/_items.json';
-import TarjetaPost from '../../components/TarjetaPost.astro';
-import CtaFinal from '../../components/CtaFinal.astro';
+import Articulo from '../../components/Articulo.astro';
 import { posts, postsDe, fechaLarga, fechaIso, organizacion } from '../../lib/blog';
 import { prepararArticulo } from '../../lib/articulo';
 import '../../styles/blog.css';
@@ -113,164 +112,13 @@ const jsonLd = [
   ogType="article"
   jsonLd={jsonLd}
 >
-  {/* Decoracion pura: el avance sale del scroll en CSS, sin JS. */}
-  <div class="pp-progreso" aria-hidden="true"><span></span></div>
-
-  <article class="pp-articulo">
-    <div class="pp-wrap pp-art-cabecera">
-      <nav class="pp-migas" aria-label="Breadcrumb">
-        <ol>
-          {
-            migas.map((m) => (
-              <li>
-                {m.href ? <a href={m.href}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}
-              </li>
-            ))
-          }
-        </ol>
-      </nav>
-
-      <a href={`/resources/blog/${post.categoria.slug}`} class="pp-etiqueta pp-etiqueta-enlace">
-        {post.categoria.nombre}
-      </a>
-
-      <h1>{post.titulo}</h1>
-      <p class="pp-art-entradilla">{post.resumen}</p>
-
-      <div class="pp-art-meta">
-        <span class="pp-dato">
-          <time datetime={fechaIso(post.publicado)}>{fechaLarga(post.publicado)}</time>
-        </span>
-        <span class="pp-dato">{post.minutos} min read</span>
-        <span class="pp-dato">{post.palabras.toLocaleString('en-US')} words</span>
-      </div>
-    </div>
-
-    <div class="pp-wrap pp-art-cabecera" style="padding-top:0">
-      <figure class="pp-art-hero">
-        <img
-          src={post.principal.src}
-          alt={post.altPrincipal}
-          width={post.principal.width ?? undefined}
-          height={post.principal.height ?? undefined}
-          fetchpriority="high"
-        />
-      </figure>
-    </div>
-
-    <div class="pp-wrap pp-articulo-grid">
-      {
-        indice.length > 2 && (
-          <aside class="pp-indice" id="pp-indice">
-            {/* <details> SIN `open`: en movil arranca plegado, que si no son 15
-                enlaces por delante del articulo. En escritorio el CSS fuerza la
-                lista visible y desactiva el plegado, asi que se comporta como un
-                indice fijo normal. Todo sin JavaScript. */}
-            <details>
-              <summary class="pp-indice-titulo">On this page</summary>
-              <ol>
-                {indice.map((e) => (
-                  <li class={e.nivel === 3 ? 'pp-indice-h3' : undefined}>
-                    <a href={`#${e.id}`}>{e.texto}</a>
-                  </li>
-                ))}
-              </ol>
-            </details>
-          </aside>
-        )
-      }
-
-      <div class="pp-prosa" set:html={cuerpo} />
-    </div>
-
-    {
-      relacionados.length > 0 && (
-        <section class="pp-wrap pp-relacionados" aria-labelledby="pp-relacionados-t">
-          <div class="title-deco">Keep reading</div>
-          <h2 id="pp-relacionados-t">More on {post.categoria.nombre}</h2>
-          <ul class="pp-grid">
-            {relacionados.map((p) => (
-              <li>
-                <TarjetaPost post={p} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      (anterior || siguiente) && (
-        <nav class="pp-wrap pp-post-nav" aria-label="More articles">
-          {anterior ? (
-            <a href={`/post/${anterior.slug}`} rel="prev">
-              <span class="pp-dato">Previous</span>
-              <span class="pp-post-nav-titulo">{anterior.titulo}</span>
-            </a>
-          ) : (
-            <span />
-          )}
-          {siguiente ? (
-            <a href={`/post/${siguiente.slug}`} rel="next" class="pp-post-nav-sig">
-              <span class="pp-dato">Next</span>
-              <span class="pp-post-nav-titulo">{siguiente.titulo}</span>
-            </a>
-          ) : (
-            <span />
-          )}
-        </nav>
-      )
-    }
-  </article>
-
-  {/* El fragmento migrado traia este bloque y al quedarme solo con el texto los 21
-      articulos se quedaron sin cierre de conversion. Vuelve, y con los destinos
-      ya arreglados. */}
-  <CtaFinal />
+  <Articulo
+    post={post}
+    cuerpo={cuerpo}
+    indice={indice}
+    relacionados={relacionados}
+    anterior={anterior}
+    siguiente={siguiente}
+    migas={migas.map((m) => ({ nombre: m.nombre, href: m.href }))}
+  />
 </BaseLayout>
-
-<script>
-  // Scroll-spy del indice: marca la seccion que se esta leyendo.
-  //
-  // Es MEJORA, no requisito: sin este script el indice sigue siendo una lista de
-  // enlaces de ancla que funciona perfectamente. Por eso no hay ningun estado
-  // inicial que dependa de JS.
-  const indice = document.getElementById('pp-indice');
-  if (indice) {
-    const enlaces = new Map<string, HTMLAnchorElement>();
-    for (const a of indice.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')) {
-      enlaces.set(decodeURIComponent(a.hash.slice(1)), a);
-    }
-
-    const secciones = [...enlaces.keys()]
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-
-    let actual: HTMLAnchorElement | null = null;
-    const marcar = (id: string) => {
-      const a = enlaces.get(id);
-      if (!a || a === actual) return;
-      actual?.removeAttribute('aria-current');
-      a.setAttribute('aria-current', 'true');
-      actual = a;
-      // Mantener visible la entrada activa cuando el indice tiene scroll propio.
-      if (indice.scrollHeight > indice.clientHeight) {
-        a.scrollIntoView({ block: 'nearest' });
-      }
-    };
-
-    // El margen superior descarta la franja tapada por el nav fijo; el inferior
-    // deja "activa" la ultima seccion visible en vez de la que asoma abajo.
-    const io = new IntersectionObserver(
-      (entradas) => {
-        const visibles = entradas.filter((e) => e.isIntersecting);
-        if (visibles.length === 0) return;
-        visibles.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        marcar(visibles[0]!.target.id);
-      },
-      { rootMargin: '-110px 0px -65% 0px', threshold: 0 },
-    );
-
-    for (const s of secciones) io.observe(s);
-  }
-</script>

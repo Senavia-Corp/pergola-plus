@@ -21,7 +21,11 @@
  * posts eso deja de salir gratis y hay que elegir entre paginar en servidor o
  * soltar el filtro instantaneo.
  */
-import { posts, categoriasConPosts, destacado, fechaLarga, fechaIso } from '../lib/blog';
+import { posts, categoriasConPosts, destacado, fechaIso } from '../lib/blog';
+import {
+  TEXTOS, CATEGORIAS_ES, COPY_CATEGORIAS_ES, traducirPost, traducirCategoria,
+  fechaLargaEn, rutaPost, rutaBlog, rutaCategoria, traducidos, type Idioma,
+} from '../i18n/blog.es';
 import TarjetaPost from './TarjetaPost.astro';
 import CtaFinal from './CtaFinal.astro';
 import '../styles/blog.css';
@@ -31,22 +35,39 @@ interface Props {
   activa: string;
   titulo: string;
   intro: string;
+  idioma?: Idioma;
 }
 
-const { activa, titulo, intro } = Astro.props;
+const { activa, titulo, intro, idioma = 'en' } = Astro.props;
+const t = TEXTOS[idioma];
+const es = idioma === 'es';
+
+// Las tarjetas y el destacado se traducen aqui, no en cada plantilla: son los mismos
+// 21 posts en las 6 vistas. Un articulo sin traduccion sale en ingles y su enlace
+// apunta al ingles — media traduccion en la tarjeta seria prometer lo que no hay.
+const entradas = posts.map((p) => traducirPost(p, idioma));
+const heroe = traducirPost(destacado, idioma);
+const cats = categoriasConPosts.map((c) => traducirCategoria(c, idioma));
+const artic = (n: number) => (es ? (n === 1 ? 'artículo' : 'artículos') : n === 1 ? 'article' : 'articles');
 
 const esTodo = activa === 'todo';
 const oculta = (slugPost: string, slugCat: string) =>
   esTodo ? slugPost === destacado.slug : slugCat !== activa;
 
 const chips = [
-  { slug: 'todo', nombre: 'All', total: posts.length, href: '/resources/blog', titulo: 'Blog & Tips | Pergola Plus Florida' },
-  ...categoriasConPosts.map((c) => ({
+  {
+    slug: 'todo',
+    nombre: t.todo,
+    total: posts.length,
+    href: rutaBlog(idioma),
+    titulo: es ? 'Blog y consejos | Pergola Plus Florida' : 'Blog & Tips | Pergola Plus Florida',
+  },
+  ...cats.map((c) => ({
     slug: c.slug,
     nombre: c.nombre,
     total: c.total,
-    href: `/resources/blog/${c.slug}`,
-    titulo: `${c.nombre} | Pergola Plus Florida Blog`,
+    href: rutaCategoria(c.slug, idioma),
+    titulo: es ? `${c.nombre} | Blog de Pergola Plus Florida` : `${c.nombre} | Pergola Plus Florida Blog`,
   })),
 ];
 ---
@@ -79,18 +100,18 @@ const chips = [
           </div>
           <div class="blog-featured_column" data-pp-reveal>
             <div class="blog-featured_category">
-              <div>{destacado.categoria.nombre}</div>
+              <div>{heroe.categoria.nombre}</div>
             </div>
-            <h2>{destacado.tituloLargo}</h2>
+            <h2>{heroe.tituloLargo}</h2>
             <div class="pp-meta">
               <span class="pp-dato">
-                <time datetime={fechaIso(destacado.publicado)}>{fechaLarga(destacado.publicado)}</time>
+                <time datetime={fechaIso(heroe.publicado)}>{fechaLargaEn(heroe.publicado, idioma)}</time>
               </span>
-              <span class="pp-dato">{destacado.minutos} min read</span>
+              <span class="pp-dato">{heroe.minutos} {t.minLectura}</span>
             </div>
-            <div>{destacado.resumen}</div>
+            <div>{heroe.resumen}</div>
             <div class="wrapper-buttons">
-              <a href={`/post/${destacado.slug}`} class="button feature-blog w-button">Read More</a>
+              <a href={rutaPost(heroe.slug, idioma)} class="button feature-blog w-button">{t.leerMas}</a>
             </div>
           </div>
         </div>
@@ -98,9 +119,11 @@ const chips = [
     </div>
   </div>
 
-  <nav class="pp-filtros" id="pp-filtros" aria-label="Blog categories">
+  <nav class="pp-filtros" id="pp-filtros" aria-label={es ? 'Categorías del blog' : 'Blog categories'}
+    data-articulo={artic(1)} data-articulos={artic(2)} data-todo={t.todo}
+    data-en={es ? 'en' : 'in'}>
     <div class="pp-wrap">
-      <div class="title-deco">Filter by category</div>
+      <div class="title-deco">{es ? 'Filtrar por categoría' : 'Filter by category'}</div>
       <div class="pp-chips-scroll">
         <ul class="pp-chips">
           {
@@ -116,7 +139,7 @@ const chips = [
                   data-cat={c.slug}
                   data-nombre={c.nombre}
                   data-titulo={c.titulo}
-                  aria-label={`${c.nombre}, ${c.total} ${c.total === 1 ? 'article' : 'articles'}`}
+                  aria-label={`${c.nombre}, ${c.total} ${artic(c.total)}`}
                   aria-current={c.slug === activa ? 'page' : undefined}
                 >
                   {c.nombre}
@@ -139,14 +162,14 @@ const chips = [
             activo gana a las declaraciones normales, asi que animar transform en la
             tarjeta anularia el translateY(-4px) del hover. */}
         {
-          posts.map((p) => (
+          entradas.map((p) => (
             <li
               data-cat={p.categoria.slug}
               data-slug={p.slug}
               hidden={oculta(p.slug, p.categoria.slug)}
               data-pp-reveal
             >
-              <TarjetaPost post={p} />
+              <TarjetaPost post={p} idioma={idioma} />
             </li>
           ))
         }
@@ -202,7 +225,7 @@ const chips = [
       }
       if (destacadoBloque) destacadoBloque.hidden = activa !== 'todo';
 
-      let nombre = 'All';
+      let nombre = filtros.dataset.todo ?? 'All';
       for (const a of chips) {
         const esActiva = a.dataset.cat === activa;
         if (esActiva) {
@@ -216,12 +239,14 @@ const chips = [
 
       if (anunciar && anuncio) {
         const n = tarjetas.filter((li) => !li.hidden).length;
-        anuncio.textContent = `${n} ${n === 1 ? 'article' : 'articles'} in ${nombre}`;
+        const palabra = n === 1 ? filtros.dataset.articulo : filtros.dataset.articulos;
+        anuncio.textContent = `${n} ${palabra} ${filtros.dataset.en} ${nombre}`;
       }
     };
 
     const deLaUrl = () => {
-      const m = location.pathname.match(/^\/resources\/blog\/([^/]+)\/?$/);
+      // Acepta las dos versiones: /resources/blog/x y /es/resources/blog/x.
+      const m = location.pathname.match(/^(?:\/es)?\/resources\/blog\/([^/]+)\/?$/);
       return m ? m[1]! : 'todo';
     };
 
