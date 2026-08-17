@@ -5,6 +5,7 @@ import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
 import { dimensionarImagenes } from './scripts/lib/transformar.mjs';
+import { haciaEspanol } from './src/i18n/rutas.mjs';
 
 const SITIO = process.env.PUBLIC_SITE_URL ?? 'https://www.pergolaplusflorida.com';
 
@@ -19,6 +20,36 @@ const SITIO = process.env.PUBLIC_SITE_URL ?? 'https://www.pergolaplusflorida.com
  * Las medidas salen de src/lib/img-dim.json (scripts/medir-imagenes.mjs), que mide
  * los archivos de public/ con sharp. No se inventa ninguna.
  */
+/**
+ * Reescribe los enlaces internos de una pagina ESPANOLA a su version espanola,
+ * cuando existe.
+ *
+ * Sin esto, el sitio en espanol saca al visitante de su idioma al primer clic:
+ * medido en /es/ y en /es/products, 12 enlaces por pagina apuntaban a la version
+ * inglesa de paginas que SI estan traducidas — «Pedir presupuesto» llevaba al
+ * formulario en ingles.
+ *
+ * Se hace aqui, sobre dist/, y no en `traducirHtml`, por dos razones:
+ *   - traducirHtml solo toca nodos de texto, NUNCA atributos, y esa regla es lo que
+ *     garantiza que no puede romper un href ni un data-w-id. No es sitio para esto.
+ *   - los enlaces no estan solo en el fragmento migrado: estan tambien en el Nav y
+ *     en el Footer, que son componentes con hrefs ingleses escritos a mano.
+ *
+ * Solo se reescribe lo que TIENE traduccion publicada. Un enlace a una ficha de
+ * producto sigue llevando a la inglesa, que es la verdad: esa pagina no existe en
+ * espanol, y el aviso de /es/ lo dice.
+ */
+function enlazarEnEspanol(html) {
+  let cambiados = 0;
+  const salida = html.replace(/href="(\/[^"#?]*)"/g, (todo, ruta) => {
+    const es = haciaEspanol(ruta);
+    if (!es || es === ruta) return todo;
+    cambiados++;
+    return `href="${es}"`;
+  });
+  return { html: salida, cambiados };
+}
+
 function dimensionarHtml() {
   return {
     name: 'pergola-dimensionar-imagenes',
@@ -27,6 +58,8 @@ function dimensionarHtml() {
         const raiz = new URL(dir).pathname;
         let tocadas = 0;
         let pendientes = 0;
+        let enlaces = 0;
+        let paginasEs = 0;
 
         const recorrer = async (d) => {
           for (const e of await fs.readdir(d, { withFileTypes: true })) {
@@ -34,7 +67,18 @@ function dimensionarHtml() {
             if (e.isDirectory()) { await recorrer(p); continue; }
             if (!e.name.endsWith('.html')) continue;
             const antes = await fs.readFile(p, 'utf8');
-            const despues = dimensionarImagenes(antes);
+            let despues = dimensionarImagenes(antes);
+
+            // Solo las paginas espanolas: el resto del sitio enlaza en ingles, que es
+            // lo correcto.
+            const rel = path.relative(raiz, p);
+            if (rel === 'es/index.html' || rel.startsWith('es/')) {
+              const r = enlazarEnEspanol(despues);
+              despues = r.html;
+              enlaces += r.cambiados;
+              paginasEs++;
+            }
+
             if (despues !== antes) { await fs.writeFile(p, despues, 'utf8'); tocadas++; }
             pendientes += [...despues.matchAll(/<img\s[^>]*>/g)]
               .filter((m) => !/\bwidth=/.test(m[0]) || !/\bheight=/.test(m[0])).length;
@@ -43,6 +87,7 @@ function dimensionarHtml() {
         await recorrer(raiz);
 
         logger.info(`width/height inyectados en ${tocadas} paginas`);
+        logger.info(`${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`);
         // Se avisa en vez de callar: una imagen sin medida es una imagen que sigue
         // provocando salto de layout, y quien lea el log tiene que saberlo.
         if (pendientes) {

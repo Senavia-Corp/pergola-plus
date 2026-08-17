@@ -51,4 +51,11 @@ export const COMUN_ES: Record<string, string> = {
   'I consent to receive SMS communications from Pergola Plus Florida regarding project updates, design consultations, scheduling, and promotional information. I understand I may opt out at any time by replying STOP. Message and data rates may apply.':
     'Doy mi consentimiento para recibir comunicaciones por SMS de Pergola Plus Florida sobre actualizaciones del proyecto, consultas de diseño, citas e información promocional. Entiendo que puedo darme de baja en cualquier momento respondiendo STOP. Pueden aplicarse tarifas de mensajes y datos.',
   'Select one...': 'Seleccione una opción...',
+
+  // --- Fachada del calendario de OnceHub (/contact-us/schedule-a-visit) ---
+  // El texto lo inyecta el transformador en inglés y se traduce aquí como cualquier
+  // otro nodo. El enlace lo reapunta al español la integración de astro.config.mjs.
+  'Loading the booking calendar…': 'Cargando el calendario de citas…',
+  'Prefer not to wait? Call': '¿Prefiere no esperar? Llame al',
+  'send us a message': 'escríbanos un mensaje',
 };
