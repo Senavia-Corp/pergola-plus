@@ -222,6 +222,34 @@ if (!process.env.TURNSTILE_SECRET_KEY) {
   );
 }
 
+// El aviso que de verdad importa antes de un despliegue.
+//
+// entregarLead() tiene tres canales: log, archivo local y webhook. En Vercel el disco
+// es de solo lectura, asi que el archivo NO existe; y sin webhook ni correo el UNICO
+// canal vivo es el log de la funcion. Un lead que solo queda en un log es un lead
+// perdido: nadie mira los logs.
+//
+// Se avisa en CADA build, con nombre y apellidos de lo que hay que hacer, porque este
+// es el fallo que no da error: los formularios responden 303, el visitante ve
+// "gracias", y el negocio no se entera de que no le llega nada.
+if (!process.env.LEAD_WEBHOOK_URL) {
+  console.warn(
+    '\n  ============================================================\n'
+    + '  [leads] LEAD_WEBHOOK_URL sin definir.\n'
+    + '\n'
+    + '  En produccion los leads quedaran SOLO en el log de la funcion\n'
+    + '  de Vercel. Nadie mira los logs: en la practica se pierden.\n'
+    + '\n'
+    + '  Hace falta UNA de estas dos, y basta con una:\n'
+    + '    - definir LEAD_WEBHOOK_URL con la URL del CRM, o\n'
+    + '    - cablear el correo transaccional en el TODO(correo) de\n'
+    + '      src/lib/lead.ts.\n'
+    + '\n'
+    + '  Detalle en docs/estado-final.md.\n'
+    + '  ============================================================\n',
+  );
+}
+
 // https://astro.build/config
 export default defineConfig({
   // `site` alimenta las canonicas del BaseLayout, el sitemap, el robots, el JSON-LD

@@ -162,6 +162,15 @@ decir(
 // 2 · El circuito, de verdad
 // ---------------------------------------------------------------------------
 
+// El aviso de entrega tiene que seguir estando. Es lo unico que separa «los leads
+// llegan» de «los leads se pierden en un log que nadie mira», y ese fallo no da
+// error: los formularios responden 303 y el visitante ve "gracias" igual.
+const config = await fs.readFile(path.join(RAIZ, 'astro.config.mjs'), 'utf8');
+decir(
+  /LEAD_WEBHOOK_URL/.test(config) && /\[leads\]/.test(config),
+  'el build avisa si no hay a donde entregar los leads',
+);
+
 const antes = await fs.readFile(LEADS, 'utf8').then((s) => s.split('\n').filter(Boolean).length).catch(() => 0);
 
 // `astro dev` y no `astro preview` por dos razones, las dos medidas:
