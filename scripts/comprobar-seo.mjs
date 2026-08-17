@@ -154,7 +154,8 @@ for (const rel of htmls) {
   // Un post es un article. Declararlo "website" le quita a Google la senal de que
   // hay fecha, autor y cuerpo.
   const og = html.match(/<meta property="og:type" content="([^"]*)"/)?.[1];
-  const esperado = r.startsWith('/post/') ? 'article' : 'website';
+  // Los articulos son `article` en los DOS idiomas: /post/... y /es/post/...
+  const esperado = /^(?:\/es)?\/post\//.test(r) ? 'article' : 'website';
   if (og !== esperado) ogTypeMal.push(`${r}  es "${og}" y deberia ser "${esperado}"`);
 
   // --- imagenes ---

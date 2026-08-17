@@ -138,7 +138,7 @@ export const POSTS_ES: Record<string, PostEs> = {
   'pergola-cost-south-florida': {
     titulo: '¿Cuánto cuesta una pérgola en el sur de Florida?',
     resumen: 'Desglose de lo que cuesta una pérgola en el sur de Florida en 2026.',
-    tituloLargo: '¿Cuánto cuesta una pérgola en el sur de Florida? Guía de precios 2026',
+    tituloLargo: '¿Cuánto cuesta una pérgola en el sur de Florida? 2026',
     descripcionSeo:
       'Lo que cuesta una pérgola de aluminio en el sur de Florida en 2026: tarifas por pie cuadrado, qué entra en el precio y qué lo dispara.',
   },
@@ -302,9 +302,16 @@ export const CUERPOS_ES: Record<string, Record<string, string>> = Object.fromEnt
 /** Un articulo existe en /es/ solo si tiene metadatos Y cuerpo. */
 export const traducidos = (slug: string) => Boolean(POSTS_ES[slug] && CUERPOS_ES[slug]);
 
-/** Ruta del articulo en el idioma pedido. El slug NO cambia. */
+/**
+ * Ruta del articulo en el idioma pedido. El slug NO cambia.
+ *
+ * Si el articulo no esta traducido, la tarjeta española enlaza al INGLES. Es lo
+ * honesto —el articulo existe, pero en ingles— y ademas lo unico que no da un 404:
+ * apuntar a /es/post/<slug> de algo que no se genera es prometer una pagina que no
+ * hay. `check:paginas` lo pilla, que es como salio esto.
+ */
 export const rutaPost = (slug: string, idioma: Idioma) =>
-  idioma === 'es' ? `/es/post/${slug}` : `/post/${slug}`;
+  idioma === 'es' && traducidos(slug) ? `/es/post/${slug}` : `/post/${slug}`;
 
 export const rutaBlog = (idioma: Idioma) =>
   idioma === 'es' ? '/es/resources/blog' : '/resources/blog';
