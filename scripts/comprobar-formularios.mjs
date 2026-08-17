@@ -247,6 +247,18 @@ decir(
   `redirige a /thank-you (dio "${r1.headers.get('location')}")`,
 );
 
+// a2) El mismo envio desde /es/ aterriza en /es/thank-you.
+//
+// Quien rellena un formulario en español y cae en una pagina de gracias en ingles se
+// queda sin saber que pasa despues, justo despues de dar sus datos. Lo decide
+// `pagina`, no una cabecera del navegador: es el unico dato que dice de que version
+// del sitio salio el envio.
+const r1es = await enviar({ ...VALIDO, pagina: '/es/contact-us/get-in-touch', Email: 'puerta.es@example.com' });
+decir(
+  (r1es.headers.get('location') ?? '').startsWith('/es/thank-you'),
+  `un envio desde /es/ redirige a /es/thank-you (dio "${r1es.headers.get('location')}")`,
+);
+
 // b) ...y deja el lead escrito
 const despues = await fs.readFile(LEADS, 'utf8').then((s) => s.split('\n').filter(Boolean).length).catch(() => 0);
 decir(despues === antes + 1, `el lead queda registrado (${antes} -> ${despues})`);
