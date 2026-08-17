@@ -106,6 +106,9 @@ export const TRADUCIDAS = {
   '/countries/broward-county-pergola-contractor': '/es/countries/broward-county-pergola-contractor/',
   '/countries/miami-dade-pergola-contractor': '/es/countries/miami-dade-pergola-contractor/',
   '/countries/palm-beach-county-pergola-contractor': '/es/countries/palm-beach-county-pergola-contractor/',
+  // Solo el aviso de privacidad: el contrato de obra NO se traduce (ver
+  // src/i18n/articulos.es.ts).
+  '/articles/privacy-policy': '/es/articles/privacy-policy/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
