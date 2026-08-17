@@ -154,13 +154,12 @@ import '../styles/formulario.css';
     const enviar = form.querySelector('#msf-submit');
     if (!contenedor || pasos.length < 2 || !atras || !siguiente) return;
 
-    // Los Back/Next llegaron como <a href="#"> de Finsweet. Como enlaces son
-    // enlaces muertos y encima mienten sobre lo que hacen: se convierten en botones.
-    for (const [a, texto] of [[atras, t.atras], [siguiente, t.siguiente]]) {
-      a.removeAttribute('href');
-      a.setAttribute('role', 'button');
-      a.setAttribute('tabindex', '0');
-      a.setAttribute('aria-label', texto);
+    // Ya son <button type="button"> en el markup (lo hace el transformador), asi que
+    // aqui solo hace falta el nombre accesible: el texto visible es "Back"/"Next" en
+    // el fragmento migrado tambien en la version espanola, porque `traducirHtml` lo
+    // traduce pero el aria-label lo ponemos nosotros en el idioma de la pagina.
+    for (const [boton, texto] of [[atras, t.atras], [siguiente, t.siguiente]]) {
+      boton.setAttribute('aria-label', texto);
     }
 
     const progreso = document.createElement('p');

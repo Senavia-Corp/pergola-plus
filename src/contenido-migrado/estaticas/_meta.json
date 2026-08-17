@@ -1,0 +1,138 @@
+{
+  "/": {
+    "fragmento": "index.html",
+    "wfPage": "6903b77b4d5df3d76a7a25a2",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"9e6cd8cc-1a46-44d5-b687-f5405cbfa2df\"] {opacity:0;}}",
+    "titleEn": "Pergola Plus Florida | Custom Pergolas & Outdoor Living",
+    "descriptionEn": "Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote."
+  },
+  "/products": {
+    "fragmento": "products.html",
+    "wfPage": "698a8fb41ef38ddbc64c727c",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Luxury Pergolas & Outdoor Shade | Pergola Plus Florida",
+    "descriptionEn": "Custom motorized louvered pergolas, insulated roof systems, cabanas & outdoor structures. Engineered for South Florida. Licensed CGC1539940."
+  },
+  "/services": {
+    "fragmento": "services.html",
+    "wfPage": "698a8fc978576084feac5d10",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Outdoor Construction & Patio Services | South Florida",
+    "descriptionEn": "Custom pergolas, pavers, driveways, decks, fencing & patio remodeling in Miami-Dade, Broward & Palm Beach. Engineered for Florida's climate."
+  },
+  "/project-gallery": {
+    "fragmento": "project-gallery.html",
+    "wfPage": "698a9093d3dff7de0facb533",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Project Gallery | Pergola Plus Florida",
+    "descriptionEn": "Browse custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County. Engineered for Florida codes."
+  },
+  "/thank-you": {
+    "fragmento": "thank-you.html",
+    "wfPage": "69912a4897ff2b5abc998884",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Thank You",
+    "descriptionEn": null
+  },
+  "/about-us/about-us": {
+    "fragmento": "about-us__about-us.html",
+    "wfPage": "698a90bb670f759b2b5b60f1",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"de620e7c-00c6-9295-215a-c63c3d0264e4\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"75ab0aed-f458-0f6c-c3e3-46c239fb009f\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"dc99a523-ff98-25c5-a796-1da9e193eb98\"] {opacity:0;}}",
+    "titleEn": "About Pergola Plus Florida | Licensed Contractor",
+    "descriptionEn": "Who we are: a licensed and insured South Florida contractor building custom pergolas and outdoor structures for over ten years."
+  },
+  "/about-us/brands": {
+    "fragmento": "about-us__brands.html",
+    "wfPage": "698a90fa997040e29348d8fe",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Our Brand Partners | Pergola Plus Florida",
+    "descriptionEn": "The manufacturers behind our systems — FORTE, Equinox, Renaissance, Fenetex and Apollo — and what each one is engineered for."
+  },
+  "/about-us/industries-we-serve": {
+    "fragmento": "about-us__industries-we-serve.html",
+    "wfPage": "698a9121e6b67d5933c8f6e1",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"d1a9be1f-b69f-a2f0-ecba-d86f44713a94\"] {opacity:0;}html.w-mod-js:not(.w-mod-ix) [data-w-id=\"3a5b213a-e551-9220-6b99-5febdf20190a\"] {opacity:0;}}",
+    "titleEn": "Industries We Serve | Pergola Plus Florida",
+    "descriptionEn": "Residential, hospitality, commercial and property management projects across Miami-Dade, Broward and Palm Beach counties."
+  },
+  "/about-us/testimonials": {
+    "fragmento": "about-us__testimonials.html",
+    "wfPage": "698a910743aff94e612ec74f",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Client Reviews & Testimonials | Pergola Plus",
+    "descriptionEn": "What South Florida homeowners and businesses say about working with us, from the first design meeting to the finished installation."
+  },
+  "/about-us/where-we-work": {
+    "fragmento": "about-us__where-we-work.html",
+    "wfPage": "698a911489df930bc0cb8dee",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Where We Work | South Florida Service Areas",
+    "descriptionEn": "The cities and counties we build in across Miami-Dade, Broward and Palm Beach, with a dedicated page for each service area."
+  },
+  "/contact-us/get-a-quote": {
+    "fragmento": "contact-us__get-a-quote.html",
+    "wfPage": "698a919be15311be0722dbc3",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Request a Custom Pergola Quote | South Florida",
+    "descriptionEn": "Tell us about your patio or backyard and get a tailored proposal for an engineered aluminum pergola or patio cover system."
+  },
+  "/contact-us/get-in-touch": {
+    "fragmento": "contact-us__get-in-touch.html",
+    "wfPage": "698a91c07b51ec699ca6f4f8",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": "@media (min-width:992px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}@media (max-width:991px) and (min-width:768px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}@media (max-width:767px) and (min-width:480px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}@media (max-width:479px) {html.w-mod-js:not(.w-mod-ix) [data-w-id=\"e2f2465a-47b0-b46c-8bcb-683e8ff0f22b\"] {opacity:0;}}",
+    "titleEn": "Contact Pergola Plus Florida | Boca Raton, FL",
+    "descriptionEn": "Call, email or write to our Boca Raton team about pergolas, patio covers and screen enclosures anywhere in South Florida."
+  },
+  "/contact-us/schedule-a-visit": {
+    "fragmento": "contact-us__schedule-a-visit.html",
+    "wfPage": "698a91adde00b79df8efdde0",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Book a Free Design Consultation | Pergola Plus",
+    "descriptionEn": "Schedule a consultation to review design options, system features and the right shade structure for your outdoor space."
+  },
+  "/resources/blog": {
+    "fragmento": "resources__blog.html",
+    "wfPage": "698a9130a69620b147bce65e",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Blog",
+    "descriptionEn": null
+  },
+  "/resources/faq": {
+    "fragmento": "resources__faq.html",
+    "wfPage": "698a9142e6163442c33e9532",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Pergola FAQ | Permits, Wind Load & Timelines",
+    "descriptionEn": "Answers to what we get asked most: permits, HOA approval, wind load, materials, maintenance and how long installation takes."
+  },
+  "/resources/warranties": {
+    "fragmento": "resources__warranties.html",
+    "wfPage": "698a915bda9312a06c6bca60",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Warranty Information | Pergola Plus Florida",
+    "descriptionEn": "Warranty coverage on our FORTE, Equinox, Renaissance, Fenetex and MaestroShield systems, and what each one actually protects."
+  },
+  "/404": {
+    "fragmento": "404.html",
+    "wfPage": "69912beb24408a48fd1f8a37",
+    "wfSite": "6903b7794d5df3d76a7a2488",
+    "pageStyles": null,
+    "titleEn": "Page Not Found | Pergola Plus Florida",
+    "descriptionEn": "That page does not exist. Browse our pergola systems, services and project gallery, or get in touch with our South Florida team."
+  }
+}

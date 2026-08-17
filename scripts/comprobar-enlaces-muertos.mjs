@@ -29,21 +29,23 @@ const DIST = await raizHtml();
  * aqui es un fallo; que uno de estos desaparezca, no (si alguien crea la pagina
  * de landscaping y la cablea, esta lista sobra y se quita a mano).
  */
-const CONOCIDOS = [
-  // Fase 1 cerro tres que estaban aqui:
-  //   Landscaping / Paisajismo  el item del menu se retiro: no habia pagina ni
-  //                             contenido para crearla (ver Nav.astro).
-  //   Read More →               la tarjeta de MaestroShield ya va al fabricante
-  //                             (GARANTIAS en transformar.mjs).
-  {
-    texto: 'Back',
-    porque:
-      'controles del formulario multi-paso (msf-*) de /contact-us/get-a-quote. La libreria ' +
-      'de Finsweet que los movia no se migro (paso 5 del transformador), pero ningun CSS ' +
-      'oculta los 3 pasos: el formulario se ve entero y se envia. Son botones vestigiales',
-  },
-  { texto: 'Next', porque: 'el par del anterior' },
-];
+/**
+ * Enlaces muertos tolerados a proposito. Un href="#" que NO este aqui es un fallo.
+ *
+ * A dia de hoy la lista esta VACIA, y eso es la noticia: al empezar la Fase 1 habia
+ * cinco entradas —Landscaping, Paisajismo, el "Read More" de MaestroShield y los
+ * Back/Next del multipaso—. Se han cerrado todas, cada una por su via:
+ *
+ *   Landscaping / Paisajismo  retirados del menu: no existia la pagina ni el
+ *                             contenido con el que crearla.
+ *   Read More →               la tarjeta de MaestroShield va al fabricante.
+ *   Back / Next               eran <a href="#"> de Finsweet; ahora son <button>,
+ *                             que es el elemento que de verdad les corresponde.
+ *
+ * Si algun dia hay que volver a tolerar uno, va aqui CON su motivo escrito.
+ */
+const CONOCIDOS = [];
+
 
 /** El bloque del CTA compartido, para contarlo aparte: es el grueso del arreglo. */
 const CTA = /class="call-to-action-footer"[\s\S]*?<\/section>/g;

@@ -18,10 +18,13 @@ export const HOME_ES: Record<string, string> = {
   'Licensed &amp; Insured': 'Con licencia y seguro',
   '+10 Years of Experience': '+10 años de experiencia',
   'Financing Available': 'Financiación disponible',
-  'South Florida’s Pergola &amp; Patio Cover Contractors':
-    'Contratistas de pérgolas y cubiertas de patio del sur de Florida',
-  'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
-    'Pergola Plus Florida, sus contratistas de referencia en pérgolas y estructuras de sombra a medida para patios de lujo en el sur de Florida. Enamórese del aire libre bajo una pérgola de aluminio, un techo de lamas, una cubierta de patio o un cerramiento hechos a su medida, en su propio jardín.',
+  // Hero nuevo del cliente (handoff §6). Las claves son el texto YA sustituido por
+  // TEXTOS_CLIENTE en scripts/lib/transformar.mjs, no el del export original: si se
+  // cambia el copy inglés allí y no aquí, la home española se queda con el hero en
+  // inglés. Pasó al aplicar este mismo cambio, y lo cazó el aviso del build.
+  'Live Outdoors. Beautifully.': 'Viva el exterior. Con estilo.',
+  'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.':
+    'Los especialistas de confianza del sur de Florida en reformas de exterior, hardscape y estructuras de sombra a medida. Demos a su jardín la altura que merece para vivir Florida de verdad.',
   'See Our Work': 'Ver nuestro trabajo',
   'Schedule A Visit': 'Agendar una visita',
 

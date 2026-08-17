@@ -186,6 +186,10 @@ await fs.rm(FRAG, { recursive: true, force: true });
 await fs.mkdir(FRAG, { recursive: true });
 const sinResolver = new Set();
 const generadas = [];
+// Metadatos por ruta, para que la version ESPANOLA pueda reutilizarlos. Sin esto,
+// /es/<ruta> tendria que repetir a mano el wfPage y el bloque anti-FOUC de cada
+// pagina, y un anti-FOUC que no coincide deja elementos invisibles para siempre.
+const META_POR_RUTA = {};
 const omitidas = [];
 
 for (const ruta of RUTAS) {
@@ -205,6 +209,12 @@ for (const ruta of RUTAS) {
   // "Warranties") y sin description, asi que 12 paginas compartian la del sitio.
   // SEO_ESTATICAS manda sobre lo que traia el vivo.
   const propio = SEO_ESTATICAS[ruta] ?? {};
+
+  META_POR_RUTA[ruta] = {
+    fragmento: nombre,
+    wfPage: m.wfPage, wfSite: m.wfSite, pageStyles: m.pageStyles,
+    titleEn: propio.title ?? m.title, descriptionEn: propio.description ?? m.description,
+  };
 
   // JSON-LD de esta ruta, si le toca.
   const ld = LD_ESTATICAS[ruta];
@@ -281,4 +291,9 @@ if (sinResolver.size) {
   for (const u of sinResolver) console.error(`     ${u}`);
   process.exit(1);
 }
+await fs.writeFile(
+  path.join(FRAG, '_meta.json'),
+  JSON.stringify(META_POR_RUTA, null, 2) + '\n',
+);
+
 console.log('  cero URLs apuntando al CDN de Webflow');

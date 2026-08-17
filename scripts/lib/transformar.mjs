@@ -635,6 +635,26 @@ function cablearFormulario(form, origen, ruta) {
       );
   }
 
+  // 6b. Los Back/Next del multipaso pasan a ser <button>.
+  //
+  //     Llegaron del export como <a href="#">: controles de Finsweet que nunca
+  //     tuvieron destino. Como enlaces son enlaces muertos —los caza check:enlaces— y
+  //     ademas mienten sobre lo que hacen: un enlace navega, y estos no.
+  //
+  //     El elemento correcto es <button type="button">: sin href que no lleva a
+  //     ningun sitio, con semantica de control y con teclado nativo (Espacio y Enter
+  //     lo activan, cosa que un <a> sin href no hace). `type="button"` es
+  //     obligatorio: sin el, un <button> dentro de un <form> ENVIA el formulario, y
+  //     "Siguiente" mandaria el paso 1 a medio rellenar.
+  //
+  //     Las clases se conservan, asi que se ven igual; src/styles/formulario.css
+  //     compensa lo unico que cambia (un <button> no hereda la tipografia).
+  s = s.replace(
+    /<a id="msf-(back|next)" href="#" class="([^"]*)"([^>]*)>([\s\S]*?)<\/a>/g,
+    (_todo, cual, clases, resto, dentro) =>
+      `<button type="button" id="msf-${cual}" class="${clases}"${resto}>${dentro}</button>`,
+  );
+
   // 7. Campos ocultos. Van justo despues de la etiqueta de apertura.
   //
   //    formulario  que formulario es, para el endpoint y para el lead.
@@ -653,8 +673,10 @@ function cablearFormulario(form, origen, ruta) {
     + `<input type="hidden" name="pagina" value="${ruta}"/>`
     + '<input type="hidden" name="t" value=""/>'
     + '<input type="hidden" name="js" value=""/>'
+    // La trampa no lleva <label>: el contenedor es aria-hidden, asi que ningun
+    // lector de pantalla llega al campo y la etiqueta solo anadiria una cadena mas
+    // que traducir en /es/.
     + '<div class="pp-trampa" aria-hidden="true">'
-    + `<label for="pp-website-${origen}">Website</label>`
     + `<input type="text" id="pp-website-${origen}" name="website" tabindex="-1" autocomplete="off"/>`
     + '</div>';
   s = s.replace(abre, abre + ocultos);

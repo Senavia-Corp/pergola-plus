@@ -47,14 +47,20 @@ const PAGE_STYLES =
 >
   <Fragment set:html={html} />
 
-  {/* Aviso honesto: el resto del sitio sigue en inglés. Vale más decirlo que
-      dejar que el visitante lo descubra al segundo clic. Se retira en cuanto
-      estén traducidas las páginas interiores. */}
+  {/* Aviso honesto: parte del sitio sigue en inglés. Vale más decirlo que dejar
+      que el visitante lo descubra al segundo clic.
+
+      Se actualiza cuando cambia lo que está traducido, y se retira del todo cuando
+      no quede nada en inglés. Ahora mismo están en español la home, los productos,
+      los servicios y las tres páginas de contacto — o sea, todo el camino hasta
+      pedir presupuesto. Lo que falta son las páginas de detalle y el blog. */}
   <section class="aviso-idioma">
     <div class="w-layout-blockcontainer container w-container">
       <p>
-        Por ahora solo esta página está en español; el resto del sitio está en inglés.
-        Si prefiere que le atendamos en español, escríbanos por
+        Están en español esta página, <a href="/es/products/">nuestros productos</a>,
+        <a href="/es/services/">nuestros servicios</a> y las páginas de contacto.
+        Las fichas de cada producto, las zonas de servicio y el blog siguen en inglés
+        por ahora. Si prefiere que le atendamos en español, escríbanos por
         <a href="https://wa.me/15617108363" target="_blank" rel="noopener">WhatsApp</a>
         o llámenos al <a href="tel:+15617108363">(561) 710-8363</a>.
       </p>

@@ -107,6 +107,16 @@ label.text-block-6 {
   display: flex;
 }
 
+/* Los Back/Next pasaron de <a> a <button> (ver transformar.mjs). La clase .w-button
+   del CSS migrado esta pensada para <a> y <input>, que heredan la tipografia; un
+   <button> no la hereda, asi que sin esto salen con la fuente del sistema. */
+.msf-back,
+.msf-next {
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+}
+
 .pp-progreso {
   color: var(--terceary, #3a545b);
   font-size: 15px;

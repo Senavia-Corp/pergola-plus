@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import meta from '../../contenido-migrado/estaticas/_meta.json';
+import { traducirHtml } from '../../i18n';
+import { PAGINAS_ES, diccionarioDe, type PaginaEs } from '../../i18n/paginas.es';
+import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
+
+// Todas las páginas estáticas traducidas, con UNA ruta.
+//
+// La alternativa era un .astro por página repitiendo las mismas quince líneas, y
+// con ellas el `wfPage` y el bloque anti-FOUC copiados a mano en cada una. Un
+// anti-FOUC que no coincide con el de su gemela inglesa deja elementos en
+// `opacity:0` para siempre, sin error: exactamente el fallo que esta estructura
+// hace imposible, porque los metadatos salen del MISMO _meta.json que generó la
+// versión inglesa.
+//
+// Añadir una página traducida = una entrada en PAGINAS_ES + su ruta en TRADUCIDAS.
+
+const fragmentos = import.meta.glob('../../contenido-migrado/estaticas/*.html', {
+  query: '?raw', import: 'default', eager: true,
+});
+
+export function getStaticPaths() {
+  return PAGINAS_ES.map((p) => ({
+    // `/es/products` -> ruta "products". El prefijo /es/ lo pone la carpeta.
+    params: { ruta: p.es.replace(/^\/es\//, '') },
+    props: { p },
+  }));
+}
+
+const { p } = Astro.props as { p: PaginaEs };
+const m = (meta as Record<string, {
+  fragmento: string; wfPage: string | null; wfSite: string | null; pageStyles: string | null;
+}>)[p.en];
+if (!m) throw new Error(`[i18n] no hay metadatos para ${p.en}: ¿está en RUTAS de generar-paginas.mjs?`);
+
+const original = fragmentos['../../contenido-migrado/estaticas/' + m.fragmento];
+if (!original) throw new Error(`[i18n] no hay fragmento ${m.fragmento} para ${p.en}`);
+
+const { html, traducidas, faltan } = traducirHtml(original as string, diccionarioDe(p));
+
+// El build AVISA de lo que se quedó en inglés en vez de dejarlo pasar. No rompe: una
+// cadena sin traducir sale en inglés, que es un degradado aceptable; una build rota,
+// no. Lo que sí lo convierte en fallo es check:i18n, que exige ≥98% por página.
+if (faltan.length) {
+  console.warn(`\n  [i18n] ${p.es} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
+  for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
+}
+
+// Mismo JSON-LD que la gemela inglesa, en español. El negocio es el MISMO nodo
+// (mismo @id): no son dos empresas, es una con dos idiomas.
+const site = Astro.site!.href;
+const esContacto = p.en.startsWith('/contact-us/');
+const jsonLd = grafo(
+  esContacto && p.en === '/contact-us/get-in-touch' ? localBusiness(site) : null,
+  breadcrumbs(site, [[p.title.split('|')[0]!.trim(), p.es]]),
+);
+---
+
+<BaseLayout
+  title={p.title}
+  description={p.description}
+  wfPage={m.wfPage ?? undefined}
+  wfSite={m.wfSite ?? undefined}
+  pageStyles={m.pageStyles ?? undefined}
+  jsonLd={jsonLd}
+>
+  <Fragment set:html={html} />
+</BaseLayout>
