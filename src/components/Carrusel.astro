@@ -1,0 +1,130 @@
+---
+// Carrusel — cablea las flechas y los puntos de los 127 carruseles del sitio.
+//
+// El sitio en vivo los movia con el script de Finsweet que sirve Webflow. La
+// migracion no se lo lleva, asi que los botones quedaron con cursor:pointer y sin
+// nada detras, y los slides 2..N inalcanzables (ver src/styles/carrusel.css, que
+// es donde esta la medicion).
+//
+// Se escribe a mano en vez de traer una libreria: el scroll y el snap los hace el
+// navegador con CSS, asi que lo unico que falta es traducir "clic en la flecha" a
+// scrollBy(). Eso son 40 lineas y ninguna dependencia.
+//
+// NO hay manejador de drag: el pan tactil ya lo hace el navegador. Un drag propio
+// por pointer events corriendo ENCIMA del pan nativo es de donde salen los saltos
+// en movil.
+import '../styles/carrusel.css';
+---
+
+<script>
+  // ponytail: sin autoplay ni bucle infinito de verdad; las flechas dan la vuelta
+  // al llegar al extremo. Si algun dia se pide autoplay, hace falta ademas pausa
+  // al hover/foco y respetar prefers-reduced-motion.
+  const ETIQUETAS = {
+    en: { anterior: 'Previous slide', siguiente: 'Next slide', carrusel: 'Carousel, scrollable' },
+    es: { anterior: 'Diapositiva anterior', siguiente: 'Diapositiva siguiente', carrusel: 'Carrusel, se puede desplazar' },
+  };
+
+  function montar() {
+    const t = ETIQUETAS[document.documentElement.lang === 'es' ? 'es' : 'en'];
+    const suave = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+    for (const inst of document.querySelectorAll('[fs-slider-instance]')) {
+      const caja = inst.querySelector('[fs-slider-element="list-wrapper"]');
+      const slides = inst.querySelectorAll('[fs-slider-element="slide"]');
+      if (!caja || slides.length < 2) continue;
+
+      // El paso se MIDE, no se calcula: offsetLeft ya incluye el gap y cualquier
+      // margen, asi que sirve igual para los carruseles de 1 slide por vista y
+      // para los de 4.
+      const paso = () => slides[1].offsetLeft - slides[0].offsetLeft || caja.clientWidth;
+      const maximo = () => caja.scrollWidth - caja.clientWidth;
+
+      caja.tabIndex = 0;
+      caja.setAttribute('role', 'group');
+      caja.setAttribute('aria-label', t.carrusel);
+
+      const ir = (delta) => {
+        const destino = caja.scrollLeft + delta;
+        // Dar la vuelta en los extremos, en vez de dejar la flecha muerta ahi: el
+        // CSS migrado no trae ningun estilo :disabled, asi que un boton
+        // deshabilitado se veria identico y seguiria sin responder — el mismo
+        // problema que veniamos a arreglar.
+        if (destino > maximo() + 1) return caja.scrollTo({ left: 0, behavior: 'auto' });
+        if (destino < -1) return caja.scrollTo({ left: maximo(), behavior: 'auto' });
+        caja.scrollBy({ left: delta, behavior: suave });
+      };
+
+      for (const [attr, signo, etiqueta] of [
+        ['previous', -1, t.anterior],
+        ['next', 1, t.siguiente],
+      ]) {
+        const boton = inst.querySelector(`[fs-slider-element="${attr}"]`);
+        if (!boton) continue;
+        // Los botones solo llevan un <svg> dentro: sin nombre accesible, un lector
+        // de pantalla los anuncia como "boton" y ya.
+        boton.setAttribute('aria-label', etiqueta);
+        boton.addEventListener('click', () => ir(signo * paso()));
+      }
+
+      // Finsweet dejaba una PLANTILLA de dos puntos (uno normal y uno activo) que
+      // su script clonaba hasta N. Sin el script quedaban literalmente 2 puntos
+      // para 10 slides, mintiendo sobre cuanto contenido hay.
+      const paginacion = inst.querySelector('[fs-slider-element="pagination"]');
+      // El molde se CLONA y se guarda aparte antes de tocar nada: si se deja
+      // dentro del DOM, el replaceChildren de abajo se lo lleva y ya no hay con
+      // que repintar cuando cambie el ancho.
+      const molde = paginacion
+        ?.querySelector('[fs-slider-element="pagination-bullet"]')
+        ?.cloneNode(true);
+      let puntos = [];
+
+      const activo = () => {
+        const p = paso();
+        if (!p || !puntos.length) return;
+        const i = Math.round(caja.scrollLeft / p);
+        puntos.forEach((punto, n) => punto.classList.toggle('is-bullet-active', n === i));
+      };
+
+      const pintarPuntos = () => {
+        if (!paginacion || !molde) return;
+        const p = paso();
+        // Sin layout todavia (contenedor a 0 de ancho, ancestro en display:none,
+        // ventana sin dimensionar) paso() es 0 y la cuenta sale NaN. Salir ANTES
+        // de replaceChildren es lo que importa: con el orden al reves la
+        // paginacion se borraba y el bucle no creaba nada, asi que los puntos
+        // desaparecian para siempre y sin error. Pasó de verdad al medir con el
+        // panel del navegador sin dimensionar.
+        if (!p) return;
+        const porVista = Math.max(1, Math.round(caja.clientWidth / p));
+        const total = Math.max(1, slides.length - porVista + 1);
+        if (total === puntos.length) return;
+        paginacion.replaceChildren();
+        puntos = Array.from({ length: total }, () => {
+          const punto = molde.cloneNode(true);
+          punto.setAttribute('aria-hidden', 'true');
+          paginacion.append(punto);
+          return punto;
+        });
+        activo();
+      };
+
+      // ResizeObserver y no un listener de window: dispara tambien en la primera
+      // medicion real —asi cubre el caso de "el layout llega tarde" sin una
+      // llamada suelta al cargar— y ademas ve los cambios del contenedor, no solo
+      // los de la ventana. Cuantos slides caben depende del ancho, asi que el
+      // numero de puntos hay que recalcularlo, no fijarlo al cargar.
+      new ResizeObserver(pintarPuntos).observe(caja);
+
+      let pendiente = false;
+      caja.addEventListener('scroll', () => {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(() => { pendiente = false; activo(); });
+      }, { passive: true });
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', montar);
+  else montar();
+</script>

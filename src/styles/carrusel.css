@@ -1,0 +1,67 @@
+/* Carruseles: recupera los slides que el CSS migrado dejaba inalcanzables.
+ *
+ * El sitio en vivo montaba estos carruseles con finsweetcomponentsconfig-1.0.21.js,
+ * un script de la plataforma Webflow que la migracion no se lleva (ni debe: es
+ * codigo de Webflow, no del sitio). Al quitarlo quedo esto:
+ *
+ *   .fs-slider-*_list-wrapper { overflow: clip }   <- recorta
+ *   .fs-slider-*_list         { display: flex }    <- todos los slides en fila
+ *   .fs-slider-*_slide        { width: 100% }      <- cada uno ocupa el hueco
+ *
+ * Es decir: SOLO se veia el primer slide y no habia forma humana de llegar a los
+ * demas. Medido en la home antes del arreglo: la lista de "Recent Projects" mide
+ * 9500px dentro de un hueco de 950px con overflow:clip — 9 de los 10 proyectos
+ * del cliente, invisibles. Y las flechas seguian ahi, con cursor:pointer,
+ * sin hacer nada.
+ *
+ * El arreglo es scroll nativo, no un slider por transform:
+ *   - en tactil funciona SIN JavaScript, con el gesto que el usuario ya conoce;
+ *   - el navegador da inercia, teclado y trackpad gratis;
+ *   - y no hay un manejador de drag propio corriendo ENCIMA del pan nativo, que
+ *     es de donde salen los saltos en movil.
+ *
+ * Las flechas las cablea src/components/Carrusel.astro con scrollBy().
+ */
+
+[fs-slider-element='list-wrapper'] {
+  /* `auto hidden` y no `auto`: el atajo `overflow` del CSS migrado ponia clip en
+     los DOS ejes, y hace falta dejar el vertical cerrado para que un slide alto
+     no abra una barra de scroll vertical dentro del carrusel. */
+  overflow: auto hidden;
+  scroll-snap-type: x mandatory;
+  /* La barra de scroll se oculta porque las flechas y los puntos ya dicen que
+     esto se mueve. El contenido sigue siendo alcanzable por gesto y por teclado:
+     ocultar la barra no es quitar el scroll. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Sin esto, en iOS el snap se pelea con el rebote del scroll de la pagina. */
+  overscroll-behavior-x: contain;
+}
+
+[fs-slider-element='list-wrapper']::-webkit-scrollbar {
+  display: none;
+}
+
+[fs-slider-element='slide'] {
+  scroll-snap-align: start;
+}
+
+/* El wrapper es un contenedor con scroll, asi que tiene que poder recibir foco:
+   sin tabindex el teclado no puede moverlo y el carrusel solo existe para quien
+   usa raton o dedo. El foco se marca, que el CSS migrado no marca ninguno. */
+[fs-slider-element='list-wrapper']:focus-visible {
+  outline: 3px solid var(--primary, #3a545b);
+  outline-offset: 2px;
+}
+
+/* Los puntos son INDICADORES, no controles: los pinta el script a partir de la
+   plantilla de 2 que dejo Finsweet y se sincronizan con el scroll. */
+[fs-slider-element='pagination'] {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [fs-slider-element='list-wrapper'] {
+    scroll-behavior: auto;
+  }
+}

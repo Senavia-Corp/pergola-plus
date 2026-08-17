@@ -1,6 +1,7 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Carrusel from '../components/Carrusel.astro';
 import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 import '../styles/i18n.css';
 
@@ -141,6 +142,11 @@ const alternativas = [
     <Nav />
     <slot />
     <Footer />
+
+    {/* Cablea las flechas de los carruseles, que la migracion dejo muertas al no
+        traerse el script de Finsweet. Va aqui y no en el <head> porque necesita el
+        DOM y porque el CSS que lo acompana es el que devuelve el scroll. */}
+    <Carrusel />
 
     {/* Sustitutos propios de los 2 botones flotantes de Elfsight. Dos enlaces:
         sin JS, sin platform.js, sin cuota de terceros. Numeros tomados de la
