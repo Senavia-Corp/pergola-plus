@@ -45,14 +45,29 @@ import '../styles/carrusel.css';
       caja.setAttribute('aria-label', t.carrusel);
 
       const ir = (delta) => {
-        const destino = caja.scrollLeft + delta;
+        const max = maximo();
+        const aqui = caja.scrollLeft;
         // Dar la vuelta en los extremos, en vez de dejar la flecha muerta ahi: el
         // CSS migrado no trae ningun estilo :disabled, asi que un boton
         // deshabilitado se veria identico y seguiria sin responder — el mismo
         // problema que veniamos a arreglar.
-        if (destino > maximo() + 1) return caja.scrollTo({ left: 0, behavior: 'auto' });
-        if (destino < -1) return caja.scrollTo({ left: maximo(), behavior: 'auto' });
-        caja.scrollBy({ left: delta, behavior: suave });
+        //
+        // Se da la vuelta cuando YA SE ESTA en el extremo, no cuando el salto se
+        // pasaria de largo. La diferencia parece de matiz y no lo es: si el tramo
+        // que queda es MAS CORTO que un paso, "se pasaria" es cierto desde el
+        // primer clic, asi que la flecha volvia al principio una y otra vez y los
+        // ultimos slides no se alcanzaban NUNCA. Es exactamente el fallo que este
+        // componente vino a arreglar, colandose por la puerta de atras.
+        //
+        // No salto antes porque los 127 carruseles migrados tienen `maximo`
+        // multiplo exacto de `paso` (medido: 8550/950, 1824/304), asi que el
+        // ultimo salto cae justo y nunca se pasa. El primero en dar con ello fue
+        // el carrusel de resenas: 4 tarjetas con 3 a la vista dejan un tramo de
+        // 411px para un paso de 419.
+        if (delta > 0 && aqui >= max - 1) return caja.scrollTo({ left: 0, behavior: 'auto' });
+        if (delta < 0 && aqui <= 1) return caja.scrollTo({ left: max, behavior: 'auto' });
+        // Recortado a los extremos: avanzar lo que queda es mejor que no avanzar.
+        caja.scrollTo({ left: Math.min(max, Math.max(0, aqui + delta)), behavior: suave });
       };
 
       for (const [attr, signo, etiqueta] of [
