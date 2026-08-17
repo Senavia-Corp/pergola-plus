@@ -10,9 +10,11 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { raizHtml } from './lib/dist.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const DIST = path.join(RAIZ, 'dist/resources/blog');
+const HTML = await raizHtml();
+const DIST = path.join(HTML, 'resources/blog');
 
 /** Las cuentas salen del CSV del CMS. Si el cliente publica mas, hay que subirlas. */
 const ESPERADO = {
@@ -99,9 +101,9 @@ decir(
 console.log('\nanimacion de entrada');
 const cssBuild = (
   await Promise.all(
-    (await fs.readdir(path.join(RAIZ, 'dist/_astro')))
+    (await fs.readdir(path.join(HTML, '_astro')))
       .filter((f) => f.endsWith('.css'))
-      .map((f) => fs.readFile(path.join(RAIZ, 'dist/_astro', f), 'utf8')),
+      .map((f) => fs.readFile(path.join(HTML, '_astro', f), 'utf8')),
   )
 ).join('\n');
 
@@ -138,7 +140,7 @@ decir(!/&(?!amp;|lt;|gt;|quot;|apos;|#)/.test(rss), 'el RSS no tiene ampersands 
 
 console.log('\narticulo /post/<slug>');
 
-const rutasPost = (await fs.readdir(path.join(RAIZ, 'dist/post'), { withFileTypes: true }))
+const rutasPost = (await fs.readdir(path.join(HTML, 'post'), { withFileTypes: true }))
   .filter((d) => d.isDirectory())
   .map((d) => d.name);
 
@@ -149,7 +151,7 @@ let conOpacidad = 0;
 let sinIndice = 0;
 let sinMigas = 0;
 for (const slug of rutasPost) {
-  const h = await fs.readFile(path.join(RAIZ, 'dist/post', slug, 'index.html'), 'utf8');
+  const h = await fs.readFile(path.join(HTML, 'post', slug, 'index.html'), 'utf8');
   if ((h.match(/<h1[\s>]/g) ?? []).length !== 1) conH1Malo++;
   if (h.includes('style="opacity:0"')) conOpacidad++;
   if (!h.includes('"@type":"BreadcrumbList"')) sinMigas++;
@@ -167,7 +169,7 @@ decir(sinIndice === 0, `indice en los ${rutasPost.length} posts (${sinIndice} si
 
 // Las entradas del indice tienen que apuntar a encabezados que existan.
 const uno = await fs.readFile(
-  path.join(RAIZ, 'dist/post/design-build-pergola-process-south-florida/index.html'),
+  path.join(HTML, 'post/design-build-pergola-process-south-florida/index.html'),
   'utf8',
 );
 const anclas = [...uno.matchAll(/<a href="#([^"]+)"/g)].map((m) => m[1]);

@@ -35,9 +35,10 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { raizHtml } from './lib/dist.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const DIST = path.join(RAIZ, 'dist');
+const DIST = await raizHtml();
 
 let fallos = 0;
 const decir = (ok, msg, detalle = []) => {

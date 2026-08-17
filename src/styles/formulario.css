@@ -1,0 +1,118 @@
+/* Formularios: lo que el markup migrado no traia.
+ *
+ * El CSS de Webflow no se toca. Esto son las piezas que no existian porque los
+ * formularios no enviaban a ningun sitio: la trampa para bots, los mensajes de
+ * error, el estado de envio y el indicador del multipaso.
+ */
+
+/* -----------------------------------------------------------------------------
+   1 · Trampa para bots
+   -------------------------------------------------------------------------- */
+
+/* Fuera de pantalla y fuera del orden de tabulacion, pero NO display:none: hay
+   bots que ignoran los campos con display:none precisamente porque saben que son
+   trampas. Asi sigue siendo un campo normal para quien solo lee el HTML.
+   El `aria-hidden` y el `tabindex="-1"` del markup lo sacan del alcance de un
+   lector de pantalla y del teclado, que es lo que importa para una persona. */
+.pp-trampa {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   2 · Etiquetas
+   -------------------------------------------------------------------------- */
+
+/* Los rotulos de los selects pasaron de <div> a <label for>. La clase es la misma,
+   asi que se ve igual, pero <label> es inline por defecto. */
+label.text-block-6 {
+  display: block;
+}
+
+/* -----------------------------------------------------------------------------
+   3 · Errores
+   -------------------------------------------------------------------------- */
+
+.pp-error {
+  color: #b3261e;
+  font-size: 15px;
+  line-height: 1.35;
+  margin-top: 6px;
+}
+
+/* El resumen se anuncia por aria-live y ademas recibe el foco, porque un mensaje
+   que solo se lee no sirve a quien navega con teclado: hay que llevarlo hasta el. */
+.pp-resumen {
+  background-color: #fdecea;
+  border-left: 4px solid #b3261e;
+  border-radius: 4px;
+  color: #7f1d1a;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.pp-resumen:focus-visible {
+  outline: 3px solid #b3261e;
+  outline-offset: 2px;
+}
+
+.pp-resumen ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+}
+
+/* Campo en error. Solo borde y no fondo: los inputs migrados ya llevan opacity y un
+   fondo aqui los volveria ilegibles. */
+[aria-invalid='true'] {
+  border: 2px solid #b3261e !important;
+}
+
+/* -----------------------------------------------------------------------------
+   4 · Estado de envio
+   -------------------------------------------------------------------------- */
+
+.pp-enviando {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+/* -----------------------------------------------------------------------------
+   5 · Multipaso
+   -------------------------------------------------------------------------- */
+
+/* SIN JavaScript no existe ninguna de estas reglas aplicada: los tres pasos se ven
+   seguidos y el formulario se envia de una vez. El JS es el que pone
+   `data-pp-multipaso` en el contenedor, y solo entonces se oculta lo que no toca.
+   Es deliberado: la version sin JS tiene que funcionar. */
+[data-pp-multipaso] .msf-step[hidden] {
+  display: none;
+}
+
+/* Los Back/Next llegaron del export como vestigios de Finsweet, sin nada detras.
+   Mientras no haya JS siguen sin hacer nada, asi que no se muestran. */
+.msf-buttons {
+  display: none;
+}
+
+[data-pp-multipaso] .msf-buttons {
+  display: flex;
+}
+
+.pp-progreso {
+  color: var(--terceary, #3a545b);
+  font-size: 15px;
+  margin-bottom: 0.75rem;
+}
+
+.pp-progreso[hidden] {
+  display: none;
+}

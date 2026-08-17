@@ -20,9 +20,10 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { raizHtml } from './lib/dist.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const DIST = path.join(RAIZ, 'dist');
+const DIST = await raizHtml();
 
 /**
  * Las 100 capturas del sitio en vivo, DENTRO del repo.

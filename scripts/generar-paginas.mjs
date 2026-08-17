@@ -66,7 +66,11 @@ const RUTAS = [
  * src/pages/<ruta>.astro NO se toca. Misma guarda explicita y ruidosa que
  * scripts/generar-shell.mjs usa para Nav.astro y Footer.astro.
  */
-const MANUALES = new Set(['/resources/blog']);
+// /thank-you se escribio a mano en la Fase 2: es la pagina a la que aterriza TODO
+// lead y el fragmento migrado no decia que pasa despues, ni traia <h1> — solo un
+// <h2> suelto, asi que la unica pagina del embudo que ve un cliente que acaba de
+// dejar sus datos se quedaba sin encabezado principal.
+const MANUALES = new Set(['/resources/blog', '/thank-you']);
 const FORZAR = process.argv.includes('--regenerar-manuales');
 
 const archivoVivo = (r) =>

@@ -264,6 +264,254 @@ export const rutaCliente = (origen) =>
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.avif';
 
 /**
+ * Los 3 formularios del sitio y su etiqueta de origen.
+ *
+ * El del pie vive en src/components/Footer.astro (codigo propio) y se cablea alli.
+ * Los otros dos son markup migrado y los cablea cablearFormularios(), abajo.
+ */
+export const FORMULARIOS = {
+  'email-form': 'quote',
+  'wf-form-Contact-Page-Form': 'contact',
+};
+
+/**
+ * Colisiones de `name`/`id` que traia el formulario de presupuesto.
+ *
+ * TRES campos distintos —que producto quiere, cuanto se quiere gastar y para
+ * cuando— salieron del editor de Webflow con el MISMO name e id,
+ * `Estimated-Project-Budget`. Y la casilla de consentimiento SMS comparte
+ * `Paver-Extension` con la casilla de mejora del mismo nombre.
+ *
+ * Con `method="get"` y sin destino daba igual: nadie leia el resultado. En un POST
+ * de verdad los valores se pisan entre si, y lo que llega es un lead con el
+ * presupuesto donde deberia ir el producto. Los `id` duplicados ademas rompen
+ * cualquier `<label for>` y la navegacion por teclado.
+ *
+ * Se distinguen por POSICION y por un atributo, no por su texto, porque el texto es
+ * lo unico que un cambio de copy puede mover:
+ *
+ *   selects  el 1o es el producto, el 2o el presupuesto, el 3o el plazo. El
+ *            fragmento es salida generada y determinista, asi que el orden es
+ *            estable; si algun dia deja de serlo, check:formularios lo caza.
+ *   casillas la de consentimiento es la unica con `required=""`.
+ */
+const RENOMBRAR_QUOTE = {
+  colision: 'Estimated-Project-Budget',
+  // Ocurrencia del CAMPO (no del atributo) -> nombre nuevo. La 2 se queda como
+  // esta: es la que de verdad pregunta por el presupuesto.
+  //
+  // Se resuelve en UNA pasada a proposito. La primera version aplicaba una regla
+  // por nombre, y como cada pasada trabajaba sobre el resultado de la anterior, al
+  // llegar a la tercera solo quedaban dos campos con el nombre colisionado y el
+  // indice 3 no se alcanzaba nunca: el plazo se quedaba sin renombrar y seguia
+  // pisando al presupuesto.
+  porOcurrencia: { 1: 'Shade-Structure', 3: 'Project-Timeline' },
+};
+
+/** Nombre accesible para los campos que solo traen placeholder. */
+const ETIQUETA_POR_PLACEHOLDER = true;
+
+/**
+ * Cablea un formulario migrado: destino real, campos ocultos, colisiones de nombre,
+ * autocompletado y nombres accesibles.
+ *
+ * Opera SOLO dentro del `<form>`, para no poder tocar nada de la pagina por error.
+ */
+function cablearFormulario(form, origen, ruta) {
+  let s = form;
+
+  // 1. Destino real. Lo primero y lo unico imprescindible: sin esto el formulario
+  //    recarga la pagina con los datos en la URL, que es lo que hacia.
+  s = s.replace(' method="get"', ' method="post" action="/api/lead"');
+
+  // 2. Los atributos de Webflow que ya no significan nada fuera de su backend. Se
+  //    quitan para que nadie los lea como si todavia hicieran algo: el redirect lo
+  //    decide el endpoint con un 303.
+  s = s.replace(/ redirect="[^"]*"/g, '').replace(/ data-redirect="[^"]*"/g, '');
+
+  // 2b. data-wf-no-turnstile: APAGA el manejador de Turnstile de webflow.js.
+  //
+  //     Este era un bug de verdad y silencioso. El modulo `forms` de webflow.js
+  //     hace, literalmente:
+  //
+  //       v && !i.is("[data-wf-no-turnstile]") && (
+  //          t.prop("disabled", !0), t.addClass("w-form-loading"),
+  //          f.on(typeof turnstile !== "undefined" ? "ready" : o, ...) )
+  //
+  //     Es decir: si el formulario trae `data-turnstile-sitekey` —y los dos
+  //     migrados lo traen— al enviar DESHABILITA el boton, le pone
+  //     `w-form-loading` y se queda esperando el script de Turnstile. Ese script lo
+  //     servia la plataforma Webflow y aqui NO se carga, asi que la espera no
+  //     termina nunca: el boton se queda deshabilitado para siempre y el visitante
+  //     no puede reintentar sin recargar la pagina.
+  //
+  //     Medido en /contact-us/get-in-touch: tras un primer envio el submit quedaba
+  //     con `disabled: true` y los clics siguientes no disparaban ni el evento
+  //     submit. Sin error en consola.
+  //
+  //     Y el sitekey SE VA del markup. Medido en /contact-us/get-a-quote recien
+  //     cargada, sin haber enviado nada:
+  //
+  //       window.turnstile              -> "object"   (lo carga webflow.js)
+  //       #email-form submit.disabled   -> true
+  //       #wf-form-Footer-Form          -> disabled + clase w-form-loading
+  //
+  //     Es decir: el atributo hace que webflow.js cargue Turnstile y deje TODOS los
+  //     formularios de la pagina en estado "enviando" esperando un widget que aqui
+  //     no se renderiza nunca. Con el submit deshabilitado desde el primer instante,
+  //     en las DOS paginas cuyo unico trabajo es captar leads, y arrastrando tambien
+  //     al formulario del pie. Sin error en consola y sin nada visible: el boton se
+  //     ve normal, con su cursor:pointer, y no responde.
+  //
+  //     Poner `data-wf-no-turnstile` en el <form> NO basta: webflow.js lo busca en
+  //     otro sitio. Se comprobo y el boton seguia deshabilitado.
+  //
+  //     El sitekey no se pierde: vive en .env.example y en docs/estado-final.md, que
+  //     es donde va una clave de configuracion. Cuando se monte el widget de verdad
+  //     se anade el script de Cloudflare y su contenedor, y el token llega al
+  //     endpoint como `cf-turnstile-response` — que ya lo espera.
+  s = s.replace(/^<form /, '<form data-wf-no-turnstile ');
+  s = s.replace(/ data-turnstile-sitekey="[^"]*"/g, '');
+
+  // 3. Colisiones de name/id (solo el de presupuesto).
+  if (origen === 'quote') {
+    const { colision, porOcurrencia } = RENOMBRAR_QUOTE;
+    let campo = 0;
+    s = s.replace(new RegExp(`(id|name)="${colision}"`, 'g'), (tal_cual, attr) => {
+      // Cada campo aporta un `id` y un `name` en ese orden, asi que el `id` marca el
+      // comienzo de un campo nuevo.
+      if (attr === 'id') campo++;
+      const nuevo = porOcurrencia[campo];
+      return nuevo ? `${attr}="${nuevo}"` : tal_cual;
+    });
+    if (campo !== 3) {
+      throw new Error(
+        `el formulario de presupuesto tiene ${campo} campos "${colision}" y esperaba 3: `
+        + 'revisa RENOMBRAR_QUOTE en scripts/lib/transformar.mjs',
+      );
+    }
+    // La casilla de consentimiento: la unica Paver-Extension con required. Los
+    // atributos de en medio se capturan y se devuelven tal cual — el markup trae
+    // `data-name` y `class` entre el id y el required, asi que exigir que vayan
+    // pegados no encaja con nada.
+    const antesConsent = s;
+    s = s.replace(
+      /<input type="checkbox" name="Paver-Extension" id="Paver-Extension"([^>]*\brequired=""[^>]*)\/>/,
+      '<input type="checkbox" name="SMS-Consent" id="SMS-Consent"$1/>',
+    );
+    if (s === antesConsent) {
+      throw new Error(
+        'la casilla de consentimiento SMS no se pudo renombrar: seguiria compartiendo '
+        + 'name/id con la casilla de mejora "Paver-Extension"',
+      );
+    }
+    s = s.replace(
+      /<span class="text-mini-form w-form-label" for="Paver-Extension">/,
+      '<span class="text-mini-form w-form-label" for="SMS-Consent">',
+    );
+  }
+  if (origen === 'contact') {
+    // Aqui la casilla de consentimiento se llamaba "Checkbox", que no dice nada en
+    // un lead ni en un CRM.
+    s = s.replace(/name="Checkbox" id="Checkbox"/, 'name="SMS-Consent" id="SMS-Consent"')
+         .replace(/for="Checkbox"/g, 'for="SMS-Consent"');
+  }
+
+  // 4. Autocompletado. Ahorra teclear y en movil es la diferencia entre que rellenen
+  //    el formulario y que lo abandonen.
+  const AUTO = {
+    'Full-Name': 'name', 'First-Name': 'given-name', 'Last-Name': 'family-name',
+    email: 'email', Email: 'email',
+    Phone: 'tel', 'Phone-Number': 'tel',
+    'Street-Address': 'street-address', City: 'address-level2', 'ZIP-Code': 'postal-code',
+  };
+  for (const [campo, valor] of Object.entries(AUTO)) {
+    s = s.replace(
+      new RegExp(`(<(?:input|select)[^>]*\\bname="${campo}")`, 'g'),
+      `$1 autocomplete="${valor}"`,
+    );
+  }
+
+  // 5. Nombre accesible. Los <label for> que ya existen se respetan; lo que solo
+  //    trae placeholder se etiqueta con aria-label.
+  //
+  //    ponytail: aria-label y no convertir los <div class="text-block-6"> en
+  //    <label> para TODO. Los tres selects si se convierten (abajo) porque tienen un
+  //    rotulo visible al lado; los campos de texto no tienen ninguno, solo
+  //    placeholder, y un placeholder desaparece al escribir: aria-label es el
+  //    nombre accesible correcto sin inventar texto visible que el cliente no pidio.
+  if (ETIQUETA_POR_PLACEHOLDER) {
+    s = s.replace(/<input\s([^>]*?)\/>/g, (tal_cual, attrs) => {
+      if (/\baria-label=|\btype="(?:hidden|submit|checkbox|radio)"/.test(attrs)) return tal_cual;
+      const ph = attrs.match(/placeholder="([^"]+)"/)?.[1];
+      if (!ph) return tal_cual;
+      return `<input ${attrs.trim()} aria-label="${ph}"/>`;
+    });
+  }
+
+  // 6. Los rotulos de los selects pasan a ser <label for> de verdad. El texto y la
+  //    clase no cambian, asi que se ve igual; `label.text-block-6{display:block}` en
+  //    src/styles/formulario.css compensa que <label> sea inline.
+  const rotulos = [
+    ['Which Shade Structure Are You Interested In?', 'Shade-Structure'],
+    ['Estimated Project Budget:', 'Estimated-Project-Budget'],
+    ['When Would You Like To Start?', 'Project-Timeline'],
+    ['Select your project type:', 'Project-Type'],
+  ];
+  for (const [texto, id] of rotulos) {
+    s = s
+      .replace(
+        `<div class="text-block-6"><strong>${texto}</strong></div>`,
+        `<label class="text-block-6" for="${id}"><strong>${texto}</strong></label>`,
+      )
+      .replace(
+        `<div class="text-block-6">${texto}</div>`,
+        `<label class="text-block-6" for="${id}">${texto}</label>`,
+      );
+  }
+
+  // 7. Campos ocultos. Van justo despues de la etiqueta de apertura.
+  //
+  //    formulario  que formulario es, para el endpoint y para el lead.
+  //    pagina      donde se envio. Se pone en SERVIDOR, asi que llega tambien sin
+  //                JavaScript; el endpoint no puede deducirla (su propia URL es
+  //                /api/lead).
+  //    t           milisegundos del render. Lo rellena el JS: un formulario enviado
+  //                en menos de 2s no lo ha rellenado una persona. Vacio sin JS, y
+  //                entonces la comprobacion no se aplica — no se penaliza a quien
+  //                navega sin JavaScript.
+  //    js          "1" solo si hay JavaScript. Decide si la respuesta es JSON o 303.
+  //    website     trampa. Un campo que pide algo plausible y que ninguna persona ve.
+  const abre = s.match(/^<form[^>]*>/)[0];
+  const ocultos =
+    `<input type="hidden" name="formulario" value="${origen}"/>`
+    + `<input type="hidden" name="pagina" value="${ruta}"/>`
+    + '<input type="hidden" name="t" value=""/>'
+    + '<input type="hidden" name="js" value=""/>'
+    + '<div class="pp-trampa" aria-hidden="true">'
+    + `<label for="pp-website-${origen}">Website</label>`
+    + `<input type="text" id="pp-website-${origen}" name="website" tabindex="-1" autocomplete="off"/>`
+    + '</div>';
+  s = s.replace(abre, abre + ocultos);
+
+  return s;
+}
+
+/** Aplica cablearFormulario a los formularios migrados que haya en la pagina. */
+export function cablearFormularios(html, ruta) {
+  let s = html;
+  for (const [id, origen] of Object.entries(FORMULARIOS)) {
+    const i = s.indexOf(`<form id="${id}"`);
+    if (i < 0) continue;
+    const j = s.indexOf('</form>', i);
+    if (j < 0) throw new Error(`<form id="${id}"> sin cerrar en ${ruta}`);
+    const form = s.slice(i, j + 7);
+    s = s.slice(0, i) + cablearFormulario(form, origen, ruta) + s.slice(j + 7);
+  }
+  return s;
+}
+
+/**
  * Atributos internos de Webflow que se quitan del CUERPO.
  *
  * data-wf-page-id y data-wf-element-id son metadatos de los formularios de
@@ -459,6 +707,10 @@ export function transformar(html, ruta) {
   // 4c. Copy nuevo del cliente. Va DESPUES de los enlaces a proposito: los textos
   //     de BOTONES_MUERTOS son llaves de enlace y estos son prosa, no se cruzan.
   for (const [viejo, nuevo] of Object.entries(TEXTOS_CLIENTE)) s = s.replaceAll(viejo, nuevo);
+
+  // 4e. Formularios: destino real, campos ocultos y colisiones de name/id. Va antes
+  //     del paso 7 (is:inline) para que los <input> nuevos no lleven sorpresas.
+  s = cablearFormularios(s, ruta);
 
   // 4d. Fotos nuevas del cliente. Se sustituye la RUTA, asi que alcanza al src y
   //     tambien al srcset y al JSON del lightbox si algun dia esa imagen sale ahi.

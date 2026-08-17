@@ -39,3 +39,7 @@ public/cms-img/
 # Videos del hero (47 MB). Se regeneran con instalar-assets.mjs.
 # En la Fase 2 se mueven a Vercel Blob o a Sanity.
 public/videos/
+
+# Leads recibidos en local por /api/lead. Datos personales reales: NO van a git.
+# Se regenera solo, enviando cualquiera de los 3 formularios.
+.leads/

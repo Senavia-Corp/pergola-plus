@@ -18,8 +18,9 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { raizHtml } from './lib/dist.mjs';
 
-const DIST = path.join(path.resolve(import.meta.dirname, '..'), 'dist');
+const DIST = await raizHtml();
 
 const htmls = (await fs.readdir(DIST, { recursive: true })).filter((p) => p.endsWith('.html'));
 if (!htmls.length) {

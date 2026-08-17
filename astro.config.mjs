@@ -3,6 +3,21 @@ import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
 
+// Aviso en CADA build, no una nota en un README que nadie abre: sin
+// TURNSTILE_SECRET_KEY el endpoint acepta los leads marcandolos verificado:false.
+// Es lo correcto en local —si no, no se podria probar el circuito— y es un agujero
+// en produccion. Que salga en el log del deploy es lo que hace que se note.
+//
+// Lo que NO puede pasar, y por eso esta escrito asi en src/pages/api/lead.ts: que
+// con el secreto PUESTO un token ausente signifique "pasa". Ese fallo abierto ya se
+// colo en otro sitio de la casa.
+if (!process.env.TURNSTILE_SECRET_KEY) {
+  console.warn(
+    '\n  [turnstile] TURNSTILE_SECRET_KEY sin definir: /api/lead acepta los leads\n'
+    + '              marcandolos verificado:false. En produccion hay que definirla.\n',
+  );
+}
+
 // https://astro.build/config
 export default defineConfig({
   // TODO Fase 2: cambiar al dominio de produccion real cuando se confirme.

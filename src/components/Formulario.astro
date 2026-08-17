@@ -1,0 +1,285 @@
+---
+// Formulario — el JavaScript de los 3 formularios del sitio.
+//
+// TODO lo de aqui es MEJORA sobre algo que ya funciona. Sin JavaScript los 3
+// formularios hacen un POST nativo a /api/lead y el endpoint responde 303 a
+// /thank-you. Esto solo evita la recarga, pinta los errores junto al campo y
+// convierte el multipaso en multipaso de verdad.
+//
+// Si este script no carga, no se pierde ni un lead.
+import '../styles/formulario.css';
+---
+
+<script>
+  const T = {
+    en: {
+      enviando: 'Sending…',
+      fallo: 'We could not send your request. Please call (561) 710-8363.',
+      resumen: 'Please review these fields:',
+      requerido: 'This field is required.',
+      email: 'Enter a valid email address.',
+      tel: 'Enter a valid phone number.',
+      atras: 'Back', siguiente: 'Next',
+      paso: (n, t) => `Step ${n} of ${t}`,
+    },
+    es: {
+      enviando: 'Enviando…',
+      fallo: 'No pudimos enviar tu solicitud. Llámanos al (561) 710-8363.',
+      resumen: 'Revisa estos campos:',
+      requerido: 'Este campo es obligatorio.',
+      email: 'Escribe un correo válido.',
+      tel: 'Escribe un teléfono válido.',
+      atras: 'Atrás', siguiente: 'Siguiente',
+      paso: (n, t) => `Paso ${n} de ${t}`,
+    },
+  };
+
+  const t = T[document.documentElement.lang === 'es' ? 'es' : 'en'];
+
+  for (const form of document.querySelectorAll('form[action="/api/lead"]')) {
+    // Marcas que solo puede poner el navegador. `t` es el instante del render: el
+    // endpoint descarta lo que llegue en menos de 2s. Se rellenan aqui y no en el
+    // HTML para que sin JavaScript lleguen vacias y la comprobacion no se aplique —
+    // no se castiga a quien navega sin JS.
+    form.querySelector('input[name="js"]')?.setAttribute('value', '1');
+    form.querySelector('input[name="t"]')?.setAttribute('value', String(Date.now()));
+
+    // `novalidate` se pone AQUI, desde JavaScript, y nunca en el HTML. Con eso:
+    //
+    //   sin JS  manda la validacion nativa del navegador, que es lo unico que hay.
+    //   con JS  manda la nuestra, que reune TODOS los errores de una vez en un
+    //           resumen enfocable y traducido, en vez de parar en el primero.
+    //
+    // Sin esta linea la validacion nativa se dispara antes que el manejador de
+    // submit y esta capa entera no llega a ejecutarse nunca: medido en
+    // /contact-us/get-in-touch con un email invalido, no aparecia ni el resumen ni
+    // el mensaje junto al campo.
+    form.noValidate = true;
+
+    montarErrores(form);
+    montarMultipaso(form);
+    montarEnvio(form);
+  }
+
+  // --- Errores --------------------------------------------------------------
+
+  function montarErrores(form) {
+    form._ppLimpiar = () => {
+      form.querySelectorAll('.pp-error').forEach((e) => e.remove());
+      form.querySelectorAll('[aria-invalid="true"]').forEach((c) => {
+        c.removeAttribute('aria-invalid');
+        c.removeAttribute('aria-describedby');
+      });
+      form.querySelector('.pp-resumen')?.remove();
+    };
+
+    form._ppPintar = (errores) => {
+      form._ppLimpiar();
+      const entradas = Object.entries(errores);
+      if (!entradas.length) return;
+
+      // Resumen arriba, enfocable y con aria-live: para quien usa lector de pantalla
+      // el fallo tiene que ANUNCIARSE, no solo aparecer.
+      const resumen = document.createElement('div');
+      resumen.className = 'pp-resumen';
+      resumen.setAttribute('role', 'alert');
+      resumen.setAttribute('tabindex', '-1');
+
+      // La clave "_" es un fallo general, no de un campo: lleva su propio mensaje y
+      // no encabeza una lista de campos que revisar.
+      if (entradas.length === 1 && entradas[0][0] === '_') {
+        resumen.textContent = entradas[0][1];
+        form.prepend(resumen);
+        resumen.focus();
+        return;
+      }
+
+      const lista = entradas
+        .map(([campo]) => `<li>${rotulo(form, campo) || campo}</li>`)
+        .join('');
+      resumen.innerHTML = `${t.resumen}<ul>${lista}</ul>`;
+      form.prepend(resumen);
+
+      for (const [campo, mensaje] of entradas) {
+        const control = form.elements[campo];
+        const el = control instanceof RadioNodeList ? control[0] : control;
+        if (!el) continue;
+        el.setAttribute('aria-invalid', 'true');
+        const id = `pp-err-${campo}`;
+        el.setAttribute('aria-describedby', id);
+        const p = document.createElement('p');
+        p.className = 'pp-error';
+        p.id = id;
+        p.textContent = mensaje;
+        (el.closest('.form-div, .div-block-2, .bugget-form, label, .product-form') || el)
+          .after(p);
+      }
+
+      // Si el primer campo con error esta en otro paso, hay que ir a ese paso: si no,
+      // el mensaje habla de un campo que no se ve.
+      const primero = form.elements[entradas[0][0]];
+      const el = primero instanceof RadioNodeList ? primero[0] : primero;
+      form._ppIrAlPasoDe?.(el);
+      resumen.focus();
+    };
+  }
+
+  /** Texto con el que llamar a un campo en el resumen de errores. */
+  function rotulo(form, campo) {
+    const control = form.elements[campo];
+    const el = control instanceof RadioNodeList ? control[0] : control;
+    if (!el) return null;
+    if (el.id) {
+      const lab = form.querySelector(`label[for="${el.id}"]`);
+      if (lab) return lab.textContent.trim();
+    }
+    return el.getAttribute('aria-label') || el.getAttribute('placeholder') || null;
+  }
+
+  /** Mensaje en el idioma de la pagina para un control invalido segun el navegador. */
+  function mensajeNativo(el) {
+    if (el.validity.valueMissing) return t.requerido;
+    if (el.type === 'email') return t.email;
+    if (el.type === 'tel') return t.tel;
+    return el.validationMessage || t.requerido;
+  }
+
+  // --- Multipaso ------------------------------------------------------------
+
+  function montarMultipaso(form) {
+    const contenedor = form.querySelector('#msf');
+    const pasos = [...form.querySelectorAll('.msf-step')];
+    const atras = form.querySelector('#msf-back');
+    const siguiente = form.querySelector('#msf-next');
+    const enviar = form.querySelector('#msf-submit');
+    if (!contenedor || pasos.length < 2 || !atras || !siguiente) return;
+
+    // Los Back/Next llegaron como <a href="#"> de Finsweet. Como enlaces son
+    // enlaces muertos y encima mienten sobre lo que hacen: se convierten en botones.
+    for (const [a, texto] of [[atras, t.atras], [siguiente, t.siguiente]]) {
+      a.removeAttribute('href');
+      a.setAttribute('role', 'button');
+      a.setAttribute('tabindex', '0');
+      a.setAttribute('aria-label', texto);
+    }
+
+    const progreso = document.createElement('p');
+    progreso.className = 'pp-progreso';
+    progreso.setAttribute('aria-live', 'polite');
+    contenedor.prepend(progreso);
+
+    let actual = 0;
+    // Marca el contenedor: el CSS que oculta pasos y muestra los botones cuelga de
+    // este atributo, asi que sin JavaScript nada se oculta.
+    contenedor.setAttribute('data-pp-multipaso', '');
+
+    const pintar = () => {
+      pasos.forEach((p, i) => (i === actual ? p.removeAttribute('hidden') : p.setAttribute('hidden', '')));
+      atras.hidden = actual === 0;
+      siguiente.hidden = actual === pasos.length - 1;
+      if (enviar) enviar.hidden = actual !== pasos.length - 1;
+      progreso.textContent = t.paso(actual + 1, pasos.length);
+    };
+
+    /** Valida solo los controles del paso visible. */
+    const pasoValido = () => {
+      const errores = {};
+      for (const el of pasos[actual].querySelectorAll('input, select, textarea')) {
+        if (el.type === 'hidden' || el.disabled) continue;
+        if (!el.checkValidity()) errores[el.name] = mensajeNativo(el);
+      }
+      if (Object.keys(errores).length) { form._ppPintar(errores); return false; }
+      form._ppLimpiar();
+      return true;
+    };
+
+    const ir = (delta) => {
+      if (delta > 0 && !pasoValido()) return;
+      actual = Math.min(pasos.length - 1, Math.max(0, actual + delta));
+      pintar();
+      // El foco al primer control del paso nuevo: sin esto, con teclado te quedas
+      // donde estabas y parece que no ha pasado nada.
+      pasos[actual].querySelector('input:not([type="hidden"]), select, textarea')?.focus();
+      pasos[actual].scrollIntoView({ block: 'nearest' });
+    };
+
+    const activar = (el, fn) => {
+      el.addEventListener('click', (e) => { e.preventDefault(); fn(); });
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
+      });
+    };
+    activar(siguiente, () => ir(1));
+    activar(atras, () => ir(-1));
+
+    // Enter en un campo avanza de paso en vez de enviar a medias.
+    form.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const el = e.target;
+      if (el.tagName === 'TEXTAREA' || el === enviar) return;
+      if (actual < pasos.length - 1) { e.preventDefault(); ir(1); }
+    });
+
+    // Lo usa el pintor de errores para no dejar un mensaje apuntando a un campo que
+    // esta en un paso oculto.
+    form._ppIrAlPasoDe = (el) => {
+      const i = pasos.findIndex((p) => p.contains(el));
+      if (i >= 0 && i !== actual) { actual = i; pintar(); }
+    };
+
+    pintar();
+  }
+
+  // --- Envio ----------------------------------------------------------------
+
+  function montarEnvio(form) {
+    const boton = form.querySelector('input[type="submit"], button[type="submit"]');
+    const etiquetaOriginal = boton?.value ?? boton?.textContent ?? '';
+
+    form.addEventListener('submit', async (e) => {
+      // Validacion completa antes de mandar nada: si algo falla en un paso que no
+      // se ve, se salta a ese paso en vez de dejar al navegador quejarse de un
+      // campo que no puede enfocar.
+      const errores = {};
+      for (const el of form.querySelectorAll('input, select, textarea')) {
+        if (el.type === 'hidden' || el.disabled) continue;
+        if (!el.checkValidity()) errores[el.name] = mensajeNativo(el);
+      }
+      if (Object.keys(errores).length) {
+        e.preventDefault();
+        form._ppPintar(errores);
+        return;
+      }
+
+      e.preventDefault();
+      form._ppLimpiar();
+      if (boton) {
+        boton.disabled = true;
+        boton.classList.add('pp-enviando');
+        if ('value' in boton) boton.value = t.enviando; else boton.textContent = t.enviando;
+      }
+
+      try {
+        const r = await fetch(form.action, {
+          method: 'POST',
+          headers: { accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (r.ok) { window.location.assign('/thank-you?de=' + encodeURIComponent(origen(form))); return; }
+        const j = await r.json().catch(() => null);
+        if (j?.errores) form._ppPintar(j.errores);
+        else form._ppPintar({ _: j?.error || t.fallo });
+      } catch {
+        form._ppPintar({ _: t.fallo });
+      } finally {
+        if (boton) {
+          boton.disabled = false;
+          boton.classList.remove('pp-enviando');
+          if ('value' in boton) boton.value = etiquetaOriginal; else boton.textContent = etiquetaOriginal;
+        }
+      }
+    });
+  }
+
+  const origen = (form) => form.querySelector('input[name="formulario"]')?.value ?? '';
+</script>

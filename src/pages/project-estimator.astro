@@ -214,6 +214,13 @@ const datos = JSON.stringify({ estructuras: ESTRUCTURAS, extras: EXTRAS });
 
   const $ = (id: string) => document.getElementById(id)!;
   const form = $('est-form') as HTMLFormElement;
+
+  // Este <form> no envia nada: es una calculadora y el resultado se pinta al
+  // vuelo. Pero sigue siendo un <form> con dos <input type="number">, y sin action
+  // un Enter en cualquiera de los dos hace un GET a la propia pagina: recarga y se
+  // pierde lo que el visitante habia metido. Se corta aqui en vez de quitar el
+  // <form>, porque el <form> es lo que agrupa los controles y da la validacion.
+  form.addEventListener('submit', (e) => e.preventDefault());
   const inAncho = $('est-ancho') as HTMLInputElement;
   const inLargo = $('est-largo') as HTMLInputElement;
   const elArea = $('est-area');

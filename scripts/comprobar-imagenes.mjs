@@ -16,11 +16,12 @@
 import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { raizHtml } from './lib/dist.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const STAGING = path.join(RAIZ, 'assets-migracion');
 const PUBLIC = path.join(RAIZ, 'public');
-const DIST = path.join(RAIZ, 'dist');
+const DIST = await raizHtml();
 const EXPORT = '/Users/senavia/Downloads/Webflow Pergola Plus Florida';
 
 let fallos = 0;

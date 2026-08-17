@@ -19,9 +19,10 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { raizHtml } from './lib/dist.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
-const DIST = path.join(RAIZ, 'dist');
+const DIST = await raizHtml();
 
 /**
  * Enlaces muertos que se quedan muertos, a proposito. Un href="#" que NO este

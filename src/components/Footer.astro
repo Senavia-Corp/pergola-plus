@@ -21,7 +21,59 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
         <div data-w-id="e5de5a0c-53a0-ec9b-3b42-737243767a7e" class="column-left-footer"><img loading="lazy" src="/images/Logo-White.svg" alt="Pergola Plus Florida Logo" class="logo-footer">
           <div>{t('footerSuscribete')}</div>
           <div class="form-block w-form">
-            <form id="wf-form-Footer-Form" name="wf-form-Footer-Form" data-name="Footer Form" method="get" class="form"><input class="text-field w-input" maxlength="256" name="email" data-name="Email" placeholder={t('footerEmail')} type="email" id="email" required=""><input type="submit" data-wait={t('footerEspera')} class="submit-button w-button" value={t('footerBoton')}></form>
+            {/* El formulario del pie va en las 107 paginas, asi que es el que mas
+                trafico ve. Llego de Webflow con method="get" y sin action: se
+                enviaba y no lo recibia nadie.
+
+                `pagina` se rellena en SERVIDOR para que llegue tambien sin
+                JavaScript; `t` y `js` los pone Formulario.astro y van vacios si no
+                hay JS, con lo que la comprobacion de los 2 segundos no se aplica.
+
+                El id del campo es "footer-email" y no "email": el formulario de
+                presupuesto ya usa id="email", y dos elementos con el mismo id en la
+                misma pagina rompen el <label for> y la navegacion por teclado. */}
+            {/* data-wf-no-turnstile: el modulo `forms` de webflow.js, en cuanto ve
+                un `data-turnstile-sitekey` en la pagina, carga Turnstile y deja
+                todos los formularios en estado "enviando" con el submit
+                deshabilitado, esperando un widget que este sitio no renderiza.
+                Arrastraba tambien a este, que va en las 107 paginas. Medido en
+                /contact-us/get-a-quote: este boton salia con `disabled` y clase
+                `w-form-loading` sin haber enviado nada. */}
+            <form
+              id="wf-form-Footer-Form"
+              name="wf-form-Footer-Form"
+              data-name="Footer Form"
+              data-wf-no-turnstile
+              method="post"
+              action="/api/lead"
+              class="form">
+              <input type="hidden" name="formulario" value="footer" />
+              <input type="hidden" name="pagina" value={Astro.url.pathname} />
+              <input type="hidden" name="t" value="" />
+              <input type="hidden" name="js" value="" />
+              <div class="pp-trampa" aria-hidden="true">
+                <label for="pp-website-footer">Website</label>
+                <input type="text" id="pp-website-footer" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+              <label class="pp-trampa" for="footer-email">{t('footerEmail')}</label>
+              <input
+                class="text-field w-input"
+                maxlength="256"
+                name="email"
+                data-name="Email"
+                placeholder={t('footerEmail')}
+                aria-label={t('footerEmail')}
+                type="email"
+                id="footer-email"
+                autocomplete="email"
+                required
+              />
+              <input type="submit" data-wait={t('footerEspera')} class="submit-button w-button" value={t('footerBoton')} />
+            </form>
+            {/* Los dos estados de Webflow se quedan: el CSS migrado los oculta hasta
+                que se les pone la clase, y ya no los usa nadie —el exito es un 303 a
+                /thank-you y los errores los pinta .pp-resumen— pero quitarlos
+                cambiaria el flujo del layout en las 107 paginas. */}
             <div class="w-form-done">
               <div>{t('footerFormOk')}</div>
             </div>
