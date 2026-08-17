@@ -247,6 +247,16 @@ decir(
   `redirige a /thank-you (dio "${r1.headers.get('location')}")`,
 );
 
+// b) ...y deja el lead escrito
+const despues = await fs.readFile(LEADS, 'utf8').then((s) => s.split('\n').filter(Boolean).length).catch(() => 0);
+decir(despues === antes + 1, `el lead queda registrado (${antes} -> ${despues})`);
+if (despues > antes) {
+  const ultimo = JSON.parse((await fs.readFile(LEADS, 'utf8')).trim().split('\n').pop());
+  decir(ultimo.campos.Email === VALIDO.Email, 'el lead guarda el email que se envio');
+  decir(ultimo.formulario === 'contact', 'el lead guarda su formulario de origen');
+  decir(ultimo.verificado === false, 'sin TURNSTILE_SECRET_KEY el lead va marcado verificado:false');
+}
+
 // a2) El mismo envio desde /es/ aterriza en /es/thank-you.
 //
 // Quien rellena un formulario en español y cae en una pagina de gracias en ingles se
@@ -258,16 +268,6 @@ decir(
   (r1es.headers.get('location') ?? '').startsWith('/es/thank-you'),
   `un envio desde /es/ redirige a /es/thank-you (dio "${r1es.headers.get('location')}")`,
 );
-
-// b) ...y deja el lead escrito
-const despues = await fs.readFile(LEADS, 'utf8').then((s) => s.split('\n').filter(Boolean).length).catch(() => 0);
-decir(despues === antes + 1, `el lead queda registrado (${antes} -> ${despues})`);
-if (despues > antes) {
-  const ultimo = JSON.parse((await fs.readFile(LEADS, 'utf8')).trim().split('\n').pop());
-  decir(ultimo.campos.Email === VALIDO.Email, 'el lead guarda el email que se envio');
-  decir(ultimo.formulario === 'contact', 'el lead guarda su formulario de origen');
-  decir(ultimo.verificado === false, 'sin TURNSTILE_SECRET_KEY el lead va marcado verificado:false');
-}
 
 // c) Con JavaScript -> 200 y JSON
 const r2 = await enviar({ ...VALIDO, js: '1', Email: 'puerta2@example.com' });
