@@ -118,7 +118,7 @@ export const PROYECTOS_ES: Record<string, ProyectoEs> = {
     nombre: 'Pérgola FORTE Plus con cocina exterior en Delray Beach',
     title: 'Pérgola FORTE Plus en Delray Beach | Cocina exterior',
     description:
-      'Pérgola FORTE Plus con cocina exterior integrada en Delray Beach.',
+      'Pérgola FORTE Plus con cocina exterior totalmente integrada en Delray Beach, calculada para el clima costero.',
     dic: {
       'FORTE Plus Pergola in Delray Beach | Outdoor Kitchen':
         'Pérgola FORTE Plus en Delray Beach | Cocina exterior',
