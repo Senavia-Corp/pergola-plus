@@ -102,7 +102,10 @@ que nadie había visto: `/about-us` daba 404 y lo enlazaban el menú y el pie de
 
 Nada de esto se puede cerrar sin el cliente. Está ordenado por lo que bloquea.
 
-### BLOQUEANTE — La política de privacidad no existe
+Los dos primeros se preguntaron y están **decididos** (17-ago-2026): no son trabajo
+pendiente por hacer, son decisiones tomadas esperando un dato de terceros.
+
+### DECIDIDO Y A LA ESPERA — La política de privacidad no existe
 
 `/articles/privacy-policy` llega **vacía**, y no es la migración: también está vacía
 en producción. Cero palabras de cuerpo, frente a las 4.554 de `terms-of-service`.
@@ -128,7 +131,10 @@ contesta el cliente; el quinto es para un abogado.
 
 Es decir: esto pasó de estar a cero a estar **a una revisión** de poder publicarse.
 
-### BLOQUEANTE — Los leads solo quedan en el log
+**Decidido:** no se publica hasta que Daniel conteste los cinco puntos. La página se
+queda con el aviso honesto.
+
+### DECIDIDO Y A LA ESPERA — Los leads solo quedan en el log
 
 `entregarLead()` tiene tres canales: log, archivo local y webhook. En producción, sin
 correo ni `LEAD_WEBHOOK_URL` configurados, **el único canal vivo es el log de
@@ -143,6 +149,9 @@ Hace falta una de estas dos, y basta con una:
 - acceso a un correo transaccional (el handoff propone `digitalpergolaplus@gmail.com`
   para desarrollo e `info@pergolaplusflorida.com` para producción), o
 - una URL de CRM para `LEAD_WEBHOOK_URL`.
+
+**Decidido:** hoy no hay URL disponible, así que se queda como está. En cuanto exista,
+basta con definir la variable — no hay que tocar código ni hacen falta credenciales.
 
 El enganche está marcado con `TODO(correo)` en `src/lib/lead.ts`. El envío de correo
 y su copy quedaron **fuera de alcance por decisión del proyecto**.

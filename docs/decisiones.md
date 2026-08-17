@@ -151,3 +151,32 @@ en `/products/motorized-louvered-pergolas`, IX2 conoce los **32 de 32** `data-w-
 de la pagina, con 200 eventos cargados, `data-wf-page` correcto, `w-mod-ix` puesto y
 el disparador `SCROLL_INTO_VIEW` con su configuracion. La reproduccion visual queda
 pendiente de comprobar en un navegador visible.
+
+---
+
+## Fase 7 — Cierre: dos decisiones del cliente, tomadas
+
+Las dos se preguntaron explicitamente y estan contestadas. No son trabajo pendiente:
+son decisiones tomadas, a la espera de un dato de terceros.
+
+**La politica de privacidad NO se publica hasta que Daniel conteste.** Decision de
+Sebastian, 17-ago-2026. La pagina se queda con el aviso honesto y la via de contacto
+para ejercer derechos. El borrador completo espera en
+`docs/politica-privacidad-borrador.md` con sus cinco `[PENDIENTE]`.
+
+El motivo, para quien lea esto dentro de seis meses: una politica de privacidad es un
+compromiso juridico con el visitante y con el regulador. El texto que hay descripe lo
+que el sitio hace de verdad —eso se puede verificar leyendo el codigo— pero cuanto
+tiempo se conservan los datos o si se comparten con terceros son hechos del NEGOCIO, y
+publicarlos rellenados a ojo seria afirmar por escrito cosas que quiza no son ciertas.
+Una pagina en blanco es un problema; una pagina que miente es otro peor.
+
+**Los leads se quedan yendo solo al log hasta que haya URL de CRM o correo.** No hay
+webhook disponible a dia de hoy. El endpoint ya hace POST del lead en JSON a
+`LEAD_WEBHOOK_URL` en cuanto exista esa variable: no hace falta tocar codigo, ni
+credenciales, solo la URL.
+
+Mientras tanto la defensa es que sea imposible desplegar sin enterarse: cada build
+imprime un aviso enmarcado y `check:formularios` comprueba que ese aviso sigue ahi.
+Un aviso que alguien borra «porque hace ruido» es exactamente como se pierde esto de
+vista.
