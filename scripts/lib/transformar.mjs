@@ -860,6 +860,86 @@ const ELFSIGHT_RESENAS =
 const RESENAS = '/about-us/testimonials';
 
 /**
+ * Juegos de logos que lleva la pista del marquee. PAR, obligatoriamente: la
+ * animacion desplaza -50% (media pista) y solo cae en frontera de juego si las dos
+ * mitades tienen el mismo numero.
+ *
+ * 8 juegos = 4 por mitad = 2820 px de mitad, medido a 705 px el juego de 5 logos.
+ */
+export const MARQUEE_JUEGOS = 8;
+
+/** La apertura de la lista es IDENTICA en los dos ficheros; es el ancla estable. */
+const MARQUEE_LISTA =
+  '<div fs-marquee-element="list" role="list" class="fs-marquee-logos_list w-dyn-items">';
+
+/**
+ * Un item del marquee de logos. `<img>` autocerrado, asi que el `</div>` no goloso
+ * cierra siempre el item y no puede comerse el resto de la lista.
+ *
+ * OJO: `fs-marquee-element="item"` a secas NO sirve como ancla. En
+ * about-us__industries-we-serve lo llevan tambien los 20 items de los DOS marquees
+ * de fotos (fs-marquee-picture-right / -left), que estan igual de muertos pero
+ * quedan fuera de este arreglo. Por eso se exige la clase del logo.
+ */
+const MARQUEE_ITEM =
+  /^<div fs-marquee-element="item" role="listitem" class="fs-marquee-logos_item w-dyn-item"><img\b[^>]*class="fs-marquee-logos_logo"[^>]*\/><\/div>/;
+
+/**
+ * Duplica los logos del marquee hasta MARQUEE_JUEGOS y marca las copias.
+ *
+ * Se para si el ancla no aparece, si no hay items, o si el reparto no cuadra. El
+ * fallo que se evita es el que no se ve: si el ancla dejara de casar —porque cambie
+ * el orden de un atributo en el export— el generador escribiria la pagina sin
+ * duplicar y el marquee seguiria muerto, sin romper el build ni ninguna puerta.
+ */
+function duplicarMarquee(html) {
+  if (!html.includes(MARQUEE_LISTA)) return html;
+
+  const trozos = html.split(MARQUEE_LISTA);
+  if (trozos.length !== 2) {
+    throw new Error(`[marquee] se esperaba UNA lista de logos y hay ${trozos.length - 1}`);
+  }
+
+  // Se consumen los items uno a uno desde el principio del resto: asi se sabe
+  // exactamente donde acaba la lista sin parsear HTML.
+  let resto = trozos[1];
+  const items = [];
+  for (;;) {
+    const m = resto.match(MARQUEE_ITEM);
+    if (!m) break;
+    items.push(m[0]);
+    resto = resto.slice(m[0].length);
+  }
+
+  if (items.length === 0) {
+    throw new Error('[marquee] la lista de logos no trae ningun item: cambio el markup del export?');
+  }
+  if (MARQUEE_JUEGOS % 2 !== 0) {
+    throw new Error(`[marquee] MARQUEE_JUEGOS tiene que ser PAR y es ${MARQUEE_JUEGOS}`);
+  }
+
+  // Las copias salen del arbol de accesibilidad: alt vacio en la imagen (la saca a
+  // ella) y aria-hidden en el item (quita ademas el role="listitem" duplicado, que
+  // si no anunciaria una lista de 40 elementos).
+  const copias = items
+    .map((it) =>
+      it
+        .replace(/\salt="[^"]*"/, ' alt=""')
+        .replace('<div fs-marquee-element="item"', '<div aria-hidden="true" fs-marquee-element="item"'),
+    )
+    .join('');
+
+  const pista = items.join('') + copias.repeat(MARQUEE_JUEGOS - 1);
+
+  return (
+    trozos[0]
+    + MARQUEE_LISTA.replace('<div fs-marquee-element="list"', '<div data-pp-marquee fs-marquee-element="list"')
+    + pista
+    + resto
+  );
+}
+
+/**
  * `ruta` es opcional y solo la usa el paso 6b, para no dejar un enlace a si misma
  * en la pagina de testimonios. Las paginas de detalle no la pasan: ninguna es esa.
  */
@@ -1050,6 +1130,38 @@ export function transformar(html, ruta) {
     + '</p>'
     + '</div>',
   );
+
+  // 4j. La barra de logos de marca: de marquee MUERTO a carrusel infinito.
+  //
+  //     Llego del export como un componente de Finsweet (`fs-marquee-*`) y el script
+  //     que lo movia es de la plataforma Webflow, asi que la migracion no se lo lleva
+  //     — igual que paso con los 127 carruseles. Lo que quedo no da ningun error:
+  //
+  //       .fs-marquee-logos_list { justify-content: center }   los 5 logos, quietos
+  //       .fs-marquee-logos_list-wrapper { overflow: clip }    y recortados
+  //
+  //     Medido en el navegador: UN juego de 5 logos ocupa 705 px. A 1440 no llega ni
+  //     a la mitad del ancho, y a 2560 es un cuarto. Por eso no basta con duplicar
+  //     una vez: la animacion desplaza media pista, y si esa mitad es mas estrecha
+  //     que la pantalla se ve el hueco al final de cada vuelta.
+  //
+  //     La pista lleva JUEGOS copias planas. La animacion la mueve exactamente
+  //     -50% —o sea, media pista, JUEGOS/2 juegos— y como el contenido se repite con
+  //     periodo de un juego, al terminar cae sobre una configuracion identica: no hay
+  //     costura. Que JUEGOS sea PAR es lo que hace que -50% caiga en frontera.
+  //
+  //     ponytail: techo conocido — media pista son 4 x 705 = 2820 px. Por encima de
+  //     ese ancho de viewport se veria hueco; se sube JUEGOS y ya. No se envuelven
+  //     los juegos en <div> a proposito: la lista es role="list" y un hijo que no sea
+  //     role="listitem" rompe la relacion lista/elemento.
+  //
+  //     Las copias van con alt="" y aria-hidden="true": sin eso un lector de pantalla
+  //     anunciaria una lista de 40 elementos y los 5 logos ocho veces cada uno.
+  //
+  //     El atributo `data-pp-marquee` NO es decorativo: le da al CSS propio
+  //     especificidad (0,2,0) para ganarle al (0,1,0) de Webflow sin depender del
+  //     orden en que salgan las hojas del build, y es el ancla de check:marquee.
+  s = duplicarMarquee(s);
 
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');

@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas",
+    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas",
     "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
@@ -28,7 +28,8 @@
     "resenas": "node scripts/traer-resenas.mjs",
     "auditar:nitidez": "node scripts/auditar-nitidez.mjs",
     "preparar:higgsfield": "node scripts/preparar-higgsfield.mjs",
-    "integrar:higgsfield": "node scripts/integrar-higgsfield.mjs"
+    "integrar:higgsfield": "node scripts/integrar-higgsfield.mjs",
+    "check:marquee": "node scripts/comprobar-marquee.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",

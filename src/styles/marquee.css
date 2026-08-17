@@ -1,0 +1,101 @@
+/*
+ * La barra de logos de marca, como carrusel infinito.
+ *
+ * QUE ESTABA ROTO
+ *
+ * El export traia un componente marquee de Finsweet (`fs-marquee-*`) y el script que
+ * lo movia lo sirve la plataforma Webflow, asi que la migracion no se lo lleva. Lo
+ * que quedo no da ningun error y por eso sobrevivio: cinco logos quietos, centrados
+ * y recortados.
+ *
+ *   .fs-marquee-logos_list        { justify-content: center }   quietos y centrados
+ *   .fs-marquee-logos_list-wrapper{ overflow: clip }            y recortados
+ *
+ * POR QUE SE ANIMA EL NIETO Y NO LA SECCION
+ *
+ * `.section-marquee-logos` lleva `data-w-id="9e6cd8cc-…"` y IX2 le tiene enganchadas
+ * DOS interacciones vivas: un desplazamiento de entrada en escritorio y un escalado
+ * en movil. Ademas arranca en `opacity:0` por el bloque anti-FOUC de los cuatro
+ * breakpoints.
+ *
+ * Una animacion CSS con `fill` activo se resuelve POR ENCIMA del `element.style` que
+ * escribe IX2, asi que animar la seccion anularia sus dos efectos sin dar un solo
+ * error. Se anima `.fs-marquee-logos_list`, que es NIETO: los `transform` anidados se
+ * componen en vez de competir, y cada uno hace lo suyo.
+ *
+ * OJO, RIESGO HEREDADO: la seccion nace en `opacity:0` y es IX2 quien la enciende. Si
+ * webflow.js no llegara a poner `w-mod-ix`, el marquee giraria perfectamente
+ * invisible. No es de este arreglo —ya era asi— pero conviene saberlo antes de colgar
+ * nada mas de esa seccion.
+ *
+ * POR QUE ESTAS PROPIEDADES Y NO EL ATAJO
+ *
+ * `animation: X 60s linear infinite` es un atajo, y el minificador fusiona atajos: si
+ * en la fusion se cuela un valor que no entiende, el navegador descarta la
+ * declaracion ENTERA y queda `animation-name: none`. Sin animacion y sin nada roto a
+ * la vista. Es el mismo fallo que vigila check:blog con `animation-timeline`, y por
+ * eso aqui va todo en propiedades largas y `check:marquee` lo comprueba.
+ *
+ * El `to` del @keyframes es EXPLICITO: con solo `from`, el `to` implicito toma el
+ * estilo calculado, y el dia que ese estilo cambie se interpolaria de X a X.
+ */
+
+/*
+ * ESTADO POR DEFECTO = el de hoy.
+ *
+ * Sin animacion se ocultan las copias y quedan los 5 logos centrados, exactamente
+ * como se ve ahora. Asi el camino seguro es el que no depende de nada: si el
+ * navegador no entiende la media query, o el usuario pide menos movimiento, no ve una
+ * pista de 40 logos cortada, ve la barra de siempre.
+ */
+.fs-marquee-logos_item[aria-hidden='true'] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /*
+   * El atributo `data-pp-marquee` sube la especificidad a (0,2,0). Todas las reglas
+   * del marquee que trae Webflow son (0,1,0) y sin `!important`: con un empate
+   * ganaria la ultima hoja en salir del build, que NO es un contrato. Un dia la pista
+   * volveria a quedar centrada, el bucle daria un salto, y no fallaria nada.
+   */
+  .fs-marquee-logos_list[data-pp-marquee] {
+    /* Sin esto la pista arranca centrada y la primera copia queda cortada por la
+       izquierda: el mismo bug que dejo inalcanzables los slides 2..N. */
+    justify-content: flex-start;
+    width: max-content;
+    flex-wrap: nowrap;
+    will-change: transform;
+
+    animation-name: pp-marquee-logos;
+    animation-duration: 60s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .fs-marquee-logos_item[aria-hidden='true'] {
+    display: flex;
+  }
+
+  /* Que se pueda parar para leer un logo, y que el teclado tambien lo pare. */
+  .fs-marquee-logos_list[data-pp-marquee]:hover,
+  .fs-marquee-logos_list[data-pp-marquee]:focus-within {
+    animation-play-state: paused;
+  }
+}
+
+/*
+ * -50% es media pista. La pista lleva 8 juegos identicos de 5 logos, asi que media
+ * pista son 4 juegos exactos: al terminar la vuelta el contenido queda en una
+ * configuracion identica a la de partida y no hay costura. Que el numero de juegos
+ * sea PAR es justo lo que hace que -50% caiga en frontera de juego.
+ */
+@keyframes pp-marquee-logos {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}

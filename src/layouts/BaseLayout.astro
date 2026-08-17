@@ -9,6 +9,10 @@ import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 import '../styles/fuentes.css';
 import '../styles/i18n.css';
 import '../styles/accesibilidad.css';
+// El marquee de logos vive DENTRO del fragmento migrado, no en un componente
+// propio, asi que no hay donde colgarle el CSS mas que aqui. Son ~30 lineas para
+// 2 rutas (x2 idiomas); el coste esta medido y asumido.
+import '../styles/marquee.css';
 
 // BaseLayout — el <head> y el chrome, en el MISMO orden que el HTML original.
 //
