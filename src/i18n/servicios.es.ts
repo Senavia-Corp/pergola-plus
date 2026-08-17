@@ -172,4 +172,204 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
         'Una buena entrada mejora la primera impresión y la coherencia del conjunto. Bien instalada, suele mejorar el valor de reventa y lo fácil que resulta vender la casa.',
     },
   },
+
+  concrete: {
+    nombre: 'Hormigón estructural',
+    title: 'Hormigón estructural | Sur de Florida',
+    description: 'Losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y adoquinado, con permisos en regla.',
+    dic: {
+      'Structural Concrete Services': 'Servicios de hormigón estructural',
+      'Structural Concrete Services in South Florida': 'Hormigón estructural en el sur de Florida',
+      'Pergola Plus Florida provides structural concrete services for high-end residential outdoor projects across Palm Beach and Broward County. From reinforced pergola slabs and patio foundations to custom drive surfaces, every installation is engineered for strength, longevity, and code compliance. If you need professional concrete contractors in South Florida for a fully permitted project, our team ensures proper reinforcement, grading, and curing to support long-term structural performance. We build foundations that protect and enhance your outdoor investment.':
+        'Pergola Plus Florida hace hormigón estructural para proyectos exteriores de alto nivel en Palm Beach y Broward. Desde losas armadas para pérgolas y cimentaciones de patio hasta pavimentos de acceso, cada trabajo se calcula para resistir, durar y cumplir normativa. Si necesita profesionales del hormigón en el sur de Florida para un proyecto con todos los permisos, cuidamos el armado, las pendientes y el curado para que aguante. Hacemos las bases que protegen su inversión.',
+      'Our structural concrete services provide the engineered foundation behind luxury outdoor living projects across Palm Beach and Broward County. From reinforced pergola slabs to patio foundations and custom flatwork, every installation is designed for strength, longevity, and full code compliance.':
+        'Nuestro hormigón estructural es la base calculada que hay debajo de los proyectos exteriores de lujo en Palm Beach y Broward. Desde losas armadas para pérgolas hasta cimentaciones de patio y soleras a medida, todo se diseña para resistir, durar y cumplir normativa.',
+      'Reinforced Structural Slabs': 'Losas armadas',
+      'Engineered for Load &amp; Longevity': 'Calculadas para el peso y para el tiempo',
+      'Before pouring, we properly grade and compact the soil to ensure even support and long-term stability. Correct preparation prevents settlement issues and drainage problems — two of the most common failures in Florida concrete installations. Structural integrity begins beneath the surface.':
+        'Antes de hormigonar, nivelamos y compactamos el terreno para que el apoyo sea uniforme y estable. Prepararlo bien evita asentamientos y problemas de drenaje, que son los dos fallos más habituales del hormigón en Florida. La solidez empieza debajo.',
+      'Precision Grading &amp; Site Preparation': 'Nivelación y preparación del terreno',
+      'Foundation Stability Starts Below': 'La estabilidad empieza abajo',
+      'Code-Compliant &amp; Fully Permitted Work': 'Conforme a normativa y con permisos',
+      'Built to Meet Florida Standards': 'Hecho según lo que pide Florida',
+      'Our concrete projects meet local building codes and wind-load requirements across Palm Beach and Broward County. We manage inspections, permitting, and compliance to ensure your project is professionally executed from start to finish. This protects both safety and long-term property value.':
+        'Nuestros trabajos de hormigón cumplen la normativa local y los requisitos de carga de viento de Palm Beach y Broward. Nos ocupamos de inspecciones, permisos y cumplimiento para que el proyecto salga bien de principio a fin. Eso protege la seguridad y el valor de la propiedad.',
+      'Moisture &amp; Drainage Control Design': 'Control de humedad y drenaje',
+      'South Florida’s heavy rainfall demands proper drainage planning. We incorporate slope control and moisture management strategies into every concrete installation to prevent water pooling, erosion, and foundation damage. Our approach ensures durability in high-humidity environments.':
+        'Las lluvias del sur de Florida obligan a planificar el drenaje. Incorporamos control de pendientes y gestión de la humedad en cada trabajo para evitar encharcamientos, erosión y daños en la cimentación. Así aguanta en un ambiente húmedo.',
+      'Integrated Outdoor Construction Support': 'La base del resto del proyecto',
+      'The Structural Base for Luxury Additions': 'Lo que sostiene todo lo demás',
+      'Our concrete services support pergolas, decks, paver systems, and complete patio remodels. By engineering the foundation in-house, we ensure seamless integration between structural elements and surface finishes. This unified approach guarantees stability, alignment, and long-term performance across your entire outdoor project.':
+        'Nuestro hormigón sostiene pérgolas, decks, adoquinado y reformas completas de patio. Al calcular la base nosotros mismos, la estructura y los acabados encajan sin sorpresas. Ese enfoque unificado garantiza estabilidad, alineación y rendimiento en todo el proyecto.',
+      'Discover our structural concrete projects engineered to support pergolas, patios, and driveways with long-term stability.':
+        'Vea nuestros trabajos de hormigón estructural, calculados para sostener pérgolas, patios y entradas de coche con estabilidad a largo plazo.',
+      'Answers about structural concrete services for outdoor projects.':
+        'Respuestas sobre el hormigón estructural en proyectos exteriores.',
+      'Why is reinforced concrete important for outdoor projects?': '¿Por qué es importante el hormigón armado en un proyecto exterior?',
+      'Reinforced concrete provides structural support for pergolas, decks, patios, and driveways. Proper steel reinforcement and grading prevent cracking and settlement in South Florida soil conditions.':
+        'El hormigón armado es lo que sostiene pérgolas, decks, patios y entradas de coche. Un buen armado y una buena nivelación evitan grietas y asentamientos en los suelos del sur de Florida.',
+      'How long does concrete take to fully cure?': '¿Cuánto tarda el hormigón en curar del todo?',
+      'Concrete gains initial strength within days but continues curing for several weeks. Proper curing ensures long-term durability and climate resistance for South Florida construction projects.':
+        'El hormigón coge resistencia inicial en días, pero sigue curando durante varias semanas. Curarlo bien es lo que le da durabilidad y aguante frente al clima.',
+      'Do structural concrete projects require permits?': '¿Hace falta permiso para un trabajo de hormigón estructural?',
+      'Many structural concrete installations require permits in Palm Beach and Broward County. Professional concrete contractors manage documentation, inspections, and code compliance.':
+        'Muchos trabajos de hormigón estructural requieren permiso en Palm Beach y Broward. Nosotros gestionamos la documentación, las inspecciones y el cumplimiento normativo.',
+      'Can concrete slabs support pergolas and decks?': '¿Una losa de hormigón puede sostener una pérgola o un deck?',
+      'Yes. Engineered concrete slabs provide the structural foundation required for aluminum pergolas, composite decks, and outdoor kitchens in South Florida residential properties.':
+        'Sí. Una losa calculada es la base que necesitan las pérgolas de aluminio, los decks de composite y las cocinas exteriores en las viviendas del sur de Florida.',
+      'How long does structural concrete last?': '¿Cuánto dura el hormigón estructural?',
+      'When properly reinforced and professionally installed, structural concrete in South Florida can last decades, supporting luxury outdoor living structures.':
+        'Bien armado y bien ejecutado, el hormigón estructural en el sur de Florida dura décadas sosteniendo las estructuras de exterior.',
+    },
+  },
+
+  'deck-builders': {
+    nombre: 'Decks',
+    title: 'Constructores de decks a medida | Sur de Florida',
+    description: 'Decks de composite y aluminio calculados para el ambiente costero, con permisos e instalación profesional.',
+    dic: {
+      'Deck Builders': 'Constructores de decks',
+      'Custom Deck Builders in South Florida': 'Decks a medida en el sur de Florida',
+      'Pergola Plus Florida designs and builds custom composite and aluminum decks for luxury homes throughout Palm Beach and Broward County. Our deck systems are engineered for coastal durability, structural stability, and seamless architectural integration. If you&#x27;re searching for deck builders near you or experienced deck contractors in South Florida, we deliver fully permitted, professionally installed outdoor decks built for Florida living. Each project is tailored to enhance pool areas, outdoor kitchens, and pergola systems while increasing long-term property value.':
+        'Pergola Plus Florida diseña y construye decks a medida de composite y aluminio para viviendas de lujo en Palm Beach y Broward. Se calculan para aguantar la costa, mantenerse estables e integrarse en la arquitectura. Si busca quién le monte un deck en el sur de Florida, entregamos decks con todos los permisos e instalación profesional, hechos para vivir en Florida. Cada proyecto se ajusta para mejorar la zona de piscina, la cocina exterior y las pérgolas, y para sumar valor.',
+      'We design and build custom composite and aluminum deck systems for high-end residential properties across Palm Beach and Broward County. Our decks are engineered for structural stability, coastal durability, and seamless architectural integration.':
+        'Diseñamos y construimos decks a medida de composite y aluminio para viviendas de alto nivel en Palm Beach y Broward, calculados para mantenerse estables, aguantar la costa e integrarse en la arquitectura.',
+      'Reinforced Structural Framing': 'Estructura reforzada',
+      'Built for Stability &amp; Load Performance': 'Estable y preparado para el peso',
+      'We specialize in composite and aluminum decking systems engineered for fade resistance, moisture protection, and minimal maintenance. Designed to outperform traditional wood decks, these materials withstand Florida’s sun, humidity, and rain while maintaining their refined appearance year after year.':
+        'Trabajamos con decks de composite y aluminio pensados para no decolorarse, resistir la humedad y pedir poco mantenimiento. Rinden mucho más que una tarima de madera: aguantan el sol, la humedad y la lluvia de Florida manteniendo el buen aspecto año tras año.',
+      'Premium Composite &amp; Aluminum Decking': 'Composite y aluminio de gama alta',
+      'Low Maintenance. High Performance.': 'Poco mantenimiento. Mucho rendimiento.',
+      'Custom Layout &amp; Elevation Design': 'Trazado y niveles a medida',
+      'Architecturally Integrated Outdoor Living': 'Integrado en la arquitectura',
+      'Every deck is custom designed to complement your home’s elevation, outdoor flow, and entertainment areas. From multi-level platforms to seamless poolside transitions, we create layouts that enhance usability while preserving architectural harmony.':
+        'Cada deck se diseña a medida para encajar con los niveles de su casa, con cómo se mueve uno por el exterior y con las zonas de estar. Desde plataformas a varias alturas hasta transiciones limpias hacia la piscina, buscamos que se use mejor sin romper la armonía del conjunto.',
+      'Our deck systems are designed to resist heat expansion, moisture absorption, and heavy rainfall exposure. With corrosion-resistant fasteners and reinforced substructures, we ensure long-term durability even in coastal environments.':
+        'Nuestros decks se diseñan para aguantar la dilatación por calor, la absorción de humedad y las lluvias fuertes. Con fijaciones resistentes a la corrosión y subestructura reforzada, duran incluso en primera línea de costa.',
+      'Fully Permitted &amp; Professionally Installed': 'Con permisos e instalación profesional',
+      'Code-Compliant Construction': 'Construcción conforme a normativa',
+      'We manage permitting, inspections, and compliance with local building codes throughout Palm Beach and Broward County. Our professional installation process ensures structural integrity and long-term reliability. This is a permanent, value-enhancing addition — not a temporary backyard upgrade.':
+        'Nos ocupamos de permisos, inspecciones y cumplimiento de la normativa local en Palm Beach y Broward. Nuestro proceso garantiza solidez estructural y fiabilidad a largo plazo. Esto es una mejora permanente que suma valor, no un apaño de jardín.',
+      'Explore our custom composite and aluminum decks designed for coastal durability and seamless outdoor integration.':
+        'Vea nuestros decks a medida de composite y aluminio, hechos para aguantar la costa e integrarse en el exterior.',
+      'Common questions about custom deck construction in South Florida.':
+        'Preguntas frecuentes sobre decks a medida en el sur de Florida.',
+      'What is the best decking material for Florida homes?': '¿Qué material es mejor para un deck en Florida?',
+      'Composite and aluminum decking systems are ideal for South Florida because they resist moisture, UV exposure, and warping. They outperform traditional wood decks in humid coastal climates.':
+        'El composite y el aluminio son lo ideal en el sur de Florida porque resisten la humedad, los rayos UV y no se alabean. Rinden mucho más que la madera en un clima costero y húmedo.',
+      'Do custom decks require permits?': '¿Hace falta permiso para un deck a medida?',
+      'Yes. Most elevated deck installations require permits. Our deck builders manage engineering, inspections, and building code compliance across Palm Beach and Broward County.':
+        'Sí. Casi todos los decks elevados requieren permiso. Nos ocupamos del cálculo, las inspecciones y el cumplimiento normativo en Palm Beach y Broward.',
+      'How long does a composite deck last?': '¿Cuánto dura un deck de composite?',
+      'Composite decks in South Florida can last 25 years or more with minimal maintenance, making them a durable investment for luxury outdoor living environments.':
+        'Un deck de composite en el sur de Florida puede durar 25 años o más con muy poco mantenimiento, así que es una inversión que sale a cuenta.',
+      'Can decks integrate with pergolas?': '¿Se puede integrar un deck con una pérgola?',
+      'Custom deck builders design composite and aluminum decks that integrate seamlessly with pergolas, paver patios, and pool areas for cohesive outdoor living design.':
+        'Sí. Diseñamos decks de composite y aluminio que se integran con pérgolas, patios adoquinados y zonas de piscina para que el exterior sea un conjunto.',
+      'Does installing a deck increase property value?': '¿Instalar un deck revaloriza la casa?',
+      'A professionally installed deck enhances usability and curb appeal. High-end deck construction in South Florida can positively impact resale value.':
+        'Un deck bien instalado hace el exterior más útil y mejora la imagen de la casa. En el sur de Florida suele influir de forma positiva en el valor de reventa.',
+    },
+  },
+
+  'fence-solutions': {
+    nombre: 'Vallado',
+    title: 'Instalación de vallado | Sur de Florida',
+    description: 'Vallado de aluminio y cerramientos de privacidad calculados para resistir el viento y la corrosión de la costa, con permisos y visto bueno de la HOA.',
+    dic: {
+      'Fence Solutions': 'Soluciones de vallado',
+      'Premium Fence Installation in South Florida': 'Vallado de gama alta en el sur de Florida',
+      'Pergola Plus Florida provides premium fence installation services throughout Palm Beach and Broward County for upscale residential properties. Our aluminum and modern privacy fencing systems are engineered for wind resistance, corrosion protection, and long-term structural performance in South Florida’s climate. If you&#x27;re searching for fence contractors in South Florida, our team delivers fully compliant, professionally installed solutions that enhance security and architectural cohesion. We focus on durable, low-maintenance fencing that complements your home while providing lasting privacy and protection.':
+        'Pergola Plus Florida instala vallado de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestros sistemas de aluminio y de privacidad se calculan para resistir el viento, la corrosión y el paso del tiempo en el clima del sur de Florida. Si busca profesionales del vallado en el sur de Florida, entregamos soluciones que cumplen normativa y están bien instaladas, que dan seguridad y encajan con la arquitectura. Buscamos vallado duradero y de poco mantenimiento, que acompañe a su casa y dé privacidad y protección de verdad.',
+      'We design and install high-quality fencing systems for luxury residential properties across Palm Beach and Broward County. Our aluminum and modern privacy fences are engineered for durability, wind resistance, and long-term performance in South Florida’s coastal climate.':
+        'Diseñamos e instalamos vallado de calidad para viviendas de lujo en Palm Beach y Broward. Nuestras vallas de aluminio y de privacidad se calculan para durar, resistir el viento y rendir en el clima costero del sur de Florida.',
+      'High-Performance Aluminum Systems': 'Aluminio de alto rendimiento',
+      'Engineered for Coastal Durability': 'Calculado para aguantar la costa',
+      'We install fencing systems with reinforced posts and secure anchoring methods designed to withstand high wind conditions. Our installations meet local building standards and provide structural reliability during storm seasons — protecting both safety and investment value.':
+        'Instalamos vallado con postes reforzados y anclajes seguros, pensados para aguantar rachas fuertes. Cumplen la normativa local y responden en temporada de tormentas, protegiendo tanto la seguridad como la inversión.',
+      'Wind-Resistant Structural Installation': 'Instalación que resiste el viento',
+      'Built to Meet Florida Wind Loads': 'Según las cargas de viento de Florida',
+      'Custom Privacy &amp; Security Solutions': 'Privacidad y seguridad a medida',
+      'Designed Around Your Property Layout': 'Diseñado sobre su parcela',
+      'From full-privacy perimeter fencing to decorative security enclosures, every project is custom designed to fit your property’s layout and lifestyle needs. We balance visibility, airflow, and protection while maintaining architectural consistency with your home.':
+        'Desde un cerramiento perimetral opaco hasta un vallado decorativo de seguridad, cada proyecto se diseña a medida de su parcela y de cómo vive usted la casa. Equilibramos visibilidad, ventilación y protección sin romper la coherencia con la vivienda.',
+      'Architectural Design Integration': 'Integración con el diseño',
+      'Enhancing Curb Appeal &amp; Cohesion': 'Que sume a la fachada, no que la rompa',
+      'We carefully select fence styles, colors, and layouts that complement your home’s exterior finishes and landscape design. The result is a cohesive look that enhances curb appeal rather than appearing as an afterthought.':
+        'Elegimos el estilo, el color y el trazado del vallado para que acompañen a los acabados exteriores y al jardín. El resultado es un conjunto coherente que mejora la fachada, en vez de parecer algo añadido después.',
+      'HOA &amp; Code-Compliant Installation': 'Conforme a normativa y a la HOA',
+      'Professional Management from Start to Finish': 'Gestión profesional de principio a fin',
+      'We manage permitting requirements and ensure compliance with local building codes and HOA guidelines throughout Palm Beach and Broward County. Our structured installation process guarantees proper inspections, alignment, and long-term structural stability.':
+        'Nos ocupamos de los permisos y de que todo cumpla la normativa local y las normas de la comunidad en Palm Beach y Broward. Nuestro proceso garantiza las inspecciones en regla, la alineación correcta y la estabilidad a largo plazo.',
+      'Browse our modern aluminum and privacy fencing systems built for wind resistance, security, and architectural cohesion.':
+        'Vea nuestros vallados de aluminio y de privacidad, hechos para resistir el viento, dar seguridad y encajar con la casa.',
+      'Important questions about fence installation in South Florida.':
+        'Las preguntas importantes sobre instalación de vallado en el sur de Florida.',
+      'What is the best fence material for South Florida properties?': '¿Qué material es mejor para vallar en el sur de Florida?',
+      'Aluminum fencing is ideal for South Florida due to corrosion resistance and wind durability. It performs better than wood fencing in humid and coastal environments.':
+        'El aluminio es lo ideal en el sur de Florida por su resistencia a la corrosión y al viento. Rinde mucho mejor que la madera en ambientes húmedos y costeros.',
+      'Do fence installations require permits?': '¿Hace falta permiso para instalar un vallado?',
+      'Permit requirements vary by city and HOA guidelines. Professional fence contractors manage compliance and ensure code-approved installation across Palm Beach and Broward County.':
+        'Depende del municipio y de las normas de la comunidad. Nosotros gestionamos el cumplimiento y nos aseguramos de que la instalación esté aprobada en Palm Beach y Broward.',
+      'How long does aluminum fencing last in Florida?': '¿Cuánto dura un vallado de aluminio en Florida?',
+      'Powder-coated aluminum fences can last decades in South Florida with minimal maintenance, even in high-humidity and salt-exposed environments.':
+        'Un vallado de aluminio con recubrimiento en polvo puede durar décadas en el sur de Florida con muy poco mantenimiento, incluso con mucha humedad y salitre.',
+      'Are aluminum fences wind resistant?': '¿El vallado de aluminio resiste el viento?',
+      'Yes. Professionally installed aluminum fences are engineered with reinforced posts and secure anchoring systems designed to withstand Florida wind loads.':
+        'Sí. Un vallado de aluminio bien instalado lleva postes reforzados y anclajes calculados para las cargas de viento de Florida.',
+      'Does installing a fence increase home value?': '¿Vallar revaloriza la casa?',
+      'High-quality fencing enhances privacy, security, and curb appeal, contributing to increased property value in South Florida residential markets.':
+        'Un buen vallado aporta privacidad, seguridad y mejor imagen, y eso suele traducirse en más valor en el mercado residencial del sur de Florida.',
+    },
+  },
+
+  'patio-remodeling': {
+    nombre: 'Reforma de patio',
+    title: 'Reforma integral de patio | Sur de Florida',
+    description: 'Convertimos patios anticuados en espacios exteriores cuidados: refuerzo estructural, adoquinado, pérgolas integradas y cortinas motorizadas.',
+    dic: {
+      'Patio Remodeling': 'Reforma de patio',
+      'Luxury Patio Remodeling in South Florida': 'Reforma de patio de lujo en el sur de Florida',
+      'Pergola Plus Florida transforms outdated patios into refined outdoor living spaces across Palm Beach and Broward County. Our remodeling services include structural upgrades, premium pavers, integrated pergolas, and motorized screen systems designed for comfort and longevity. If you&#x27;re searching for patio remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.':
+        'Pergola Plus Florida convierte patios anticuados en espacios exteriores cuidados por todo Palm Beach y Broward. Nuestras reformas incluyen refuerzo estructural, adoquinado de gama alta, pérgolas integradas y cortinas motorizadas, pensadas para el confort y para durar. Si busca quién le reforme el patio en el sur de Florida, entregamos reformas a medida y con todos los permisos, que mejoran el uso del espacio y suman valor. Cada proyecto se aborda con precisión arquitectónica y mirando al largo plazo.',
+      'We transform outdated patios into refined, fully integrated outdoor living environments across Palm Beach and Broward County. Our patio remodeling services combine structural upgrades, premium pavers, pergola integration, and modern enhancements designed for long-term durability in South Florida’s climate.':
+        'Convertimos patios anticuados en espacios exteriores cuidados y bien integrados en Palm Beach y Broward. Nuestras reformas combinan refuerzo estructural, adoquinado de gama alta, pérgolas integradas y mejoras actuales, pensadas para durar en el clima del sur de Florida.',
+      'Complete Structural Upgrades': 'Refuerzo estructural completo',
+      'Beyond Cosmetic Renovation': 'Más que un lavado de cara',
+      'We install high-performance pavers and refined surface materials selected for durability, color retention, and architectural elegance. Designed to withstand Florida’s sun and heavy rain, our materials enhance aesthetics while maintaining long-term performance.':
+        'Instalamos adoquines de alto rendimiento y pavimentos elegidos por su durabilidad, por cómo mantienen el color y por cómo quedan. Pensados para aguantar el sol y las lluvias de Florida, mejoran la estética sin renunciar al rendimiento.',
+      'Premium Paver &amp; Surface Finishes': 'Adoquinado y acabados de gama alta',
+      'Elevated Materials for Lasting Beauty': 'Materiales que envejecen bien',
+      'Integrated Pergolas &amp; Shade Systems': 'Pérgolas y sombra integradas',
+      'Expanding Comfort &amp; Functionality': 'Más confort y más uso',
+      'We seamlessly integrate pergolas, insulated roof systems, and motorized screens into patio remodels. This creates shaded, climate-controlled outdoor environments that extend usability year-round while maintaining architectural cohesion.':
+        'Integramos pérgolas, techos aislados y cortinas motorizadas en la reforma. Así queda un exterior con sombra y temperatura controlada que se puede usar todo el año, y todo sigue encajando con la casa.',
+      'Custom Outdoor Living Design': 'Diseño exterior a medida',
+      'Architecturally Cohesive Layouts': 'Distribuciones que van con la casa',
+      'Every patio remodel is custom designed to improve flow between indoor and outdoor spaces. We consider elevation, traffic patterns, entertainment areas, and surrounding landscaping to create a seamless extension of your home’s architecture.':
+        'Cada reforma se diseña a medida para que se pase mejor del interior al exterior. Tenemos en cuenta los desniveles, por dónde se camina, las zonas de estar y el jardín, para que el patio sea una continuación natural de la casa.',
+      'Professional Project Management': 'Gestión profesional del proyecto',
+      'We manage permitting, inspections, and compliance with local regulations across Palm Beach and Broward County. Our structured installation process ensures long-term durability, structural integrity, and peace of mind. Every patio remodel is treated as a permanent investment in your property.':
+        'Nos ocupamos de permisos, inspecciones y cumplimiento de la normativa local en Palm Beach y Broward. Nuestro proceso asegura durabilidad, solidez estructural y tranquilidad. Tratamos cada reforma como una inversión permanente en su propiedad.',
+      'View our patio transformations featuring structural upgrades, premium finishes, and integrated outdoor living design.':
+        'Vea nuestras reformas de patio, con refuerzo estructural, acabados de gama alta y diseño exterior integrado.',
+      'Common questions about patio remodeling in South Florida.':
+        'Preguntas frecuentes sobre reformas de patio en el sur de Florida.',
+      'Do patio remodels require permits in South Florida?': '¿Hace falta permiso para reformar un patio en el sur de Florida?',
+      'Structural patio remodeling projects often require permits. Professional patio contractors manage engineering documentation and building inspections in Palm Beach and Broward County.':
+        'Las reformas que tocan estructura suelen requerir permiso. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
+      'How long does patio remodeling take?': '¿Cuánto se tarda en reformar un patio?',
+      'Patio remodeling timelines vary based on scope and materials. Most South Florida patio renovation projects take several weeks including demolition, preparation, and installation.':
+        'Depende del alcance y de los materiales. La mayoría de reformas en el sur de Florida llevan varias semanas, contando demolición, preparación e instalación.',
+      'Can pergolas be added during patio remodeling?': '¿Se puede añadir una pérgola durante la reforma?',
+      'Yes. Patio remodeling contractors integrate aluminum pergolas, motorized screens, and premium paver systems to create cohesive outdoor living environments.':
+        'Sí. Integramos pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta para que el exterior quede como un conjunto.',
+      'Will remodeling my patio increase property value?': '¿Reformar el patio revaloriza la casa?',
+      'A professionally remodeled patio enhances usability and curb appeal. Luxury patio remodeling in South Florida can improve resale value.':
+        'Un patio bien reformado se usa más y mejora la imagen de la casa. En el sur de Florida suele mejorar el valor de reventa.',
+      'What materials are best for patio renovations?': '¿Qué materiales son mejores para reformar un patio?',
+      'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable patio remodeling in South Florida’s climate.':
+        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una reforma aguante el clima del sur de Florida.',
+    },
+  },
 };

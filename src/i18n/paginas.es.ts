@@ -87,18 +87,10 @@ const SERVICIOS: Record<string, string> = {
     Pavers: 'Adoquinado',
   Driveways: 'Entradas de coche',
     Concrete: 'Hormigón',
-  'Our structural concrete services provide the foundation for high-end outdoor projects. From reinforced pergola slabs to patio foundations and custom drive surfaces, every installation is engineered for strength, precision, and code compliance. We prioritize proper reinforcement, drainage, and curing to ensure long-term structural integrity. These are permanent solutions designed to support premium outdoor living investments.':
-    'Nuestros servicios de hormigón estructural son la base de los proyectos exteriores de alto nivel. Desde losas armadas para pérgolas hasta cimentaciones de patio y pavimentos de acceso, cada trabajo se calcula para resistir, ser preciso y cumplir normativa. Cuidamos el armado, el drenaje y el curado para garantizar la integridad estructural a largo plazo. Son soluciones permanentes, pensadas para sostener una inversión exterior premium.',
-  Deck: 'Decks',
-  'We design and build custom composite and aluminum decks tailored to upscale Florida homes. Engineered for durability and coastal performance, our decks are fully permitted and professionally installed. Ideal for poolside environments and integrated pergola systems, each project enhances outdoor functionality while increasing property value. We focus on long-term architectural solutions — not temporary wood installations.':
-    'Diseñamos y construimos decks a medida en composite y aluminio para viviendas de alto nivel en Florida. Calculados para durar y rendir en ambiente costero, se instalan con todos los permisos y por profesionales. Ideales junto a la piscina y para integrarse con pérgolas, cada proyecto suma funcionalidad al exterior y valor a la propiedad. Buscamos soluciones arquitectónicas duraderas, no una tarima de madera provisional.',
-  Fence: 'Vallado',
-  'Our custom fence installations enhance privacy, security, and architectural cohesion for luxury residential properties. We install high-quality aluminum and modern fencing systems engineered for wind resistance and coastal durability. Every project is professionally installed and compliant with local regulations. Designed to complement upscale homes, our fencing solutions balance aesthetics with long-term performance.':
-    'Nuestro vallado a medida aporta privacidad, seguridad y coherencia arquitectónica a viviendas de lujo. Instalamos sistemas de aluminio de alta calidad y vallados modernos, calculados para resistir el viento y durar en ambiente costero. Cada proyecto lo instalan profesionales y cumple la normativa local. Pensadas para acompañar a casas de alto nivel, nuestras soluciones equilibran estética y rendimiento a largo plazo.',
-  'Full Outdoor Remodel': 'Reforma integral del exterior',
-  'We transform outdated patios into refined outdoor living environments designed for comfort and longevity. From upgraded pavers and structural enhancements to integrated pergolas and motorized screens, every remodel is custom designed and fully permitted. Our approach focuses on architectural integration, durability, and long-term value — creating a seamless extension of your home’s interior space.':
-    'Convertimos patios anticuados en espacios exteriores cuidados, pensados para el confort y para durar. Desde renovar el adoquinado y reforzar la estructura hasta integrar pérgolas y cortinas motorizadas, cada reforma se diseña a medida y se tramita al completo. Nos centramos en la integración arquitectónica, la durabilidad y el valor a largo plazo: que el exterior sea una continuación natural del interior de su casa.',
-};
+    Deck: 'Decks',
+    Fence: 'Vallado',
+    'Full Outdoor Remodel': 'Reforma integral del exterior',
+  };
 
 // ---------------------------------------------------------------------------
 // /contact-us/*

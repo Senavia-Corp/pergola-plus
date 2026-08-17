@@ -27,7 +27,7 @@ npm run check
 | Flechas de carrusel sin función | ~250 | **0** |
 | Scripts de terceros | 3 | **1** (jQuery, que `webflow.js` necesita) |
 | Peticiones a Google para ver la página | sí | **0** |
-| Páginas en español | 1 | **10** |
+| Páginas en español | 1 | **14** |
 | Desbordamiento horizontal a 320 px | — | **0 en las 113** |
 | `sitemap.xml` / `robots.txt` | no existían | **111 urls + robots** |
 
@@ -60,10 +60,10 @@ Cuatro bugs que `method="get"` tapaba y que en un POST real sí rompen:
 
 ### 2. Español a medias → PARCIAL Y HONESTO
 
-De 1 página a 10: home, productos, servicios, las tres de contacto y tres páginas de
-detalle de servicio (adoquinado, pérgolas a medida y entradas de coche), con sus
-preguntas frecuentes. Es decir, el camino completo desde que un visitante llega hasta
-que deja sus datos, más los servicios que más se buscan.
+De 1 página a 14: home, productos, servicios, las tres de contacto y **las 7 páginas
+de servicio completas**, con sus 5 preguntas frecuentes cada una. Es decir, el camino
+entero desde que un visitante llega hasta que deja sus datos, y toda la sección de
+servicios sin un hueco en inglés.
 
 **Lo que no está traducido no existe en `/es/`, no lleva `hreflang` y no entra en el
 sitemap.** Media traducción publicada es peor que ninguna: el visitante llega en su
@@ -71,7 +71,7 @@ idioma y se topa con inglés al segundo clic. El aviso al pie de `/es/` dice
 exactamente qué está y qué no.
 
 Queda por traducir, en orden de valor: las 29 páginas de ubicación (24.088 palabras),
-las 10 fichas de producto (11.471), las 4 de servicio restantes, el blog y sus 21
+las 10 fichas de producto (11.471), el blog y sus 21
 entradas (19.401), y el resto de estáticas. Total medido con
 `npm run extraer -- --resumen`: **8.841 cadenas, 79.169 palabras.**
 

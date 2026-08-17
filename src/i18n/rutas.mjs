@@ -33,6 +33,10 @@ export const TRADUCIDAS = {
   '/services/pavers': '/es/services/pavers/',
   '/services/pergola-design-construction': '/es/services/pergola-design-construction/',
   '/services/driveways': '/es/services/driveways/',
+  '/services/concrete': '/es/services/concrete/',
+  '/services/deck-builders': '/es/services/deck-builders/',
+  '/services/fence-solutions': '/es/services/fence-solutions/',
+  '/services/patio-remodeling': '/es/services/patio-remodeling/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
