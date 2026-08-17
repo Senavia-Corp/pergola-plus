@@ -188,6 +188,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   };
 
   const r = await entregarLead(lead);
+  const enEspanol = lead.idioma === 'es';
   if (!r.ok) {
     // El visitante ya escribio sus datos: decirle "gracias" cuando el lead no ha
     // llegado a ningun sitio es mentirle.
@@ -198,7 +199,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     );
   }
 
-  return exito(conJs, formulario, url);
+  return exito(conJs, formulario, url, enEspanol);
 
   // ponytail: sin limite por IP; el honeypot + el timestamp + Turnstile son la
   // defensa real. Un contador en memoria no frena nada en serverless — cada
@@ -229,11 +230,14 @@ function rechazo(errores: Record<string, string>, conJs: boolean) {
   return json({ ok: false, errores }, 400, false);
 }
 
-function exito(conJs: boolean, formulario: string, url: URL) {
-  if (conJs) return json({ ok: true }, 200, true);
+function exito(conJs: boolean, formulario: string, url: URL, enEspanol = false) {
+  if (conJs) return json({ ok: true, gracias: enEspanol ? '/es/thank-you' : '/thank-you' }, 200, true);
   // 303: fuerza a que el navegador siga el redirect con GET. Con 302 algunos
   // clientes repiten el POST y el lead entra dos veces.
-  const destino = new URL('/thank-you', url);
+  //
+  // Quien envia desde /es/ aterriza en /es/thank-you: la pagina donde se le explica
+  // que pasa despues es justo donde peor sienta cambiar de idioma.
+  const destino = new URL(enEspanol ? '/es/thank-you' : '/thank-you', url);
   destino.searchParams.set('de', formulario);
   return new Response(null, { status: 303, headers: { location: destino.pathname + destino.search } });
 }

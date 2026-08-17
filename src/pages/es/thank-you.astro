@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// /es/thank-you — gemela de /thank-you. CODIGO DE AUTORIA PROPIA, se edita a mano.
+//
+// No pasa por traducirHtml() porque su gemela inglesa tampoco pasa por el
+// transformador: las dos son .astro escritas a mano. Duplicar el marcado es aqui lo
+// correcto y no lo que se hace en las paginas migradas — son 40 lineas, y el
+// diccionario de una pagina que no existe en el CMS seria mas fragil que el marcado.
+//
+// El slug se queda en ingles, como en el resto del sitio.
+//
+// Importa mas de lo que parece: es donde aterriza TODO lead. Un visitante que
+// rellena un formulario en espanol y cae en una pagina en ingles se queda sin saber
+// que pasa despues, justo en el momento en que ya ha dado sus datos.
+const ESCUDO_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" fill="none" viewBox="0 0 18 20" aria-hidden="true" focusable="false" class="ikonik-t882o">'
+  + '<path fill="currentColor" d="m17.351 3.063-8-3a1.009 1.009 0 0 0-.7 0l-8 3A1 1 0 0 0 0 4a19.394 19.394 0 0 0 8.47 15.848 1 1 0 0 0 1.06 0A19.394 19.394 0 0 0 18 4a1 1 0 0 0-.649-.937Zm-3.644 4.644-5 5A1 1 0 0 1 8 13c-.033 0-.065 0-.1-.005a1.001 1.001 0 0 1-.733-.44l-2-3a1 1 0 0 1 1.664-1.11l1.323 1.986 4.138-4.138a1 1 0 0 1 1.414 1.414h.001Z" class="path-m3hdu"></path>'
+  + '</svg>';
+---
+
+<BaseLayout
+  title="Gracias — hemos recibido su solicitud | Pergola Plus Florida"
+  description="Su solicitud ha llegado a nuestro equipo. Esto es lo que pasa a continuación, en cuánto le respondemos y cómo localizarnos si corre prisa."
+  wfPage="69912a4897ff2b5abc998884"
+  wfSite="6903b7794d5df3d76a7a2488"
+>
+  <div class="utility-page-wrap-copy">
+    <div class="utility-page-content">
+      <div set:html={ESCUDO_SVG} />
+
+      <h1>Gracias — ya tenemos su solicitud.</h1>
+
+      <p id="ty-intro" class="ty-intro">
+        Alguien de nuestro equipo de diseño está revisando lo que nos ha enviado.
+      </p>
+
+      <h2 class="ty-subtitulo">Qué pasa a continuación</h2>
+      <ol class="ty-pasos">
+        <li>
+          <strong>En un día laborable</strong> le respondemos por correo para
+          confirmarle que hemos recibido su solicitud y para preguntarle lo que nos
+          falte.
+        </li>
+        <li>
+          <strong>Comprobamos su dirección</strong> con los condados en los que
+          trabajamos —Miami-Dade, Broward y Palm Beach— y con los permisos y las
+          cargas de viento que exija su municipio.
+        </li>
+        <li>
+          <strong>Le proponemos una visita</strong> para medir, ver la estructura a
+          la que iría anclada y hablar de opciones en persona.
+        </li>
+        <li>
+          <strong>Recibe una propuesta por escrito</strong> con el sistema, el
+          alcance y el precio. Sin compromiso.
+        </li>
+      </ol>
+
+      <p class="ty-prisa">
+        ¿Le corre prisa o prefiere hablarlo ahora? Llame al
+        <a href="tel:+15617108363">(561) 710-8363</a> en horario de oficina
+        (lunes a viernes, de 8:00 a 17:00) o escriba a
+        <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>.
+      </p>
+
+      <div class="wrapper-buttons-center-form">
+        <a href="/es/project-gallery" class="button w-button">Vea nuestro trabajo</a>
+        <a href="/es/" class="button secundary w-button">Volver a la página principal</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Mismo mecanismo que la gemela inglesa: el `?de=` lo pone el endpoint (303) y
+  // tambien el envio por fetch. Sin JavaScript se queda la frase por defecto, que es
+  // cierta para los tres formularios.
+  const POR_FORMULARIO = {
+    quote: 'Alguien de nuestro equipo de diseño está revisando los detalles de su proyecto.',
+    contact: 'Alguien de nuestro equipo está leyendo su mensaje.',
+    footer: 'Ya está en la lista: le enviaremos nuestras novedades de vida al aire libre.',
+  };
+  const de = new URLSearchParams(location.search).get('de');
+  const intro = document.getElementById('ty-intro');
+  if (intro && de && POR_FORMULARIO[de]) intro.textContent = POR_FORMULARIO[de];
+</script>
+
+<style>
+  /* Copia de los estilos de /thank-you: las dos paginas son la misma plantilla. */
+  .ty-intro {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 62ch;
+    margin: 0 auto 2.5rem;
+  }
+
+  .ty-subtitulo {
+    font-size: 22px;
+    margin-bottom: 1rem;
+  }
+
+  .ty-pasos {
+    text-align: left;
+    max-width: 62ch;
+    margin: 0 auto 2rem;
+    padding-left: 1.4rem;
+    line-height: 1.6;
+  }
+
+  .ty-pasos li {
+    margin-bottom: 0.85rem;
+  }
+
+  .ty-prisa {
+    max-width: 62ch;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .ty-prisa a {
+    color: var(--primary, #3a545b);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>

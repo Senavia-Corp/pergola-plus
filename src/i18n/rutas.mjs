@@ -28,6 +28,9 @@ export const TRADUCIDAS = {
   '/contact-us/get-a-quote': '/es/contact-us/get-a-quote/',
   '/contact-us/get-in-touch': '/es/contact-us/get-in-touch/',
   '/contact-us/schedule-a-visit': '/es/contact-us/schedule-a-visit/',
+  // Donde aterriza todo lead. La escribe a mano src/pages/es/thank-you.astro, no
+  // pasa por PAGINAS_ES: su gemela inglesa tampoco es contenido migrado.
+  '/thank-you': '/es/thank-you/',
   // Paginas de detalle de servicio. Solo las que tienen diccionario en
   // src/i18n/servicios.es.ts: el resto no existe en /es/.
   '/services/pavers': '/es/services/pavers/',

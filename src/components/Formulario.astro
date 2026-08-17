@@ -264,8 +264,14 @@ import '../styles/formulario.css';
           headers: { accept: 'application/json' },
           body: new FormData(form),
         });
-        if (r.ok) { window.location.assign('/thank-you?de=' + encodeURIComponent(origen(form))); return; }
         const j = await r.json().catch(() => null);
+        // El destino lo decide el servidor (`gracias`), que sabe de que idioma venia
+        // el formulario. El fallback cubre una respuesta sin cuerpo.
+        if (r.ok) {
+          const gracias = j?.gracias || (location.pathname.startsWith('/es/') ? '/es/thank-you' : '/thank-you');
+          window.location.assign(gracias + '?de=' + encodeURIComponent(origen(form)));
+          return;
+        }
         if (j?.errores) form._ppPintar(j.errores);
         else form._ppPintar({ _: j?.error || t.fallo });
       } catch {
