@@ -1,0 +1,143 @@
+---
+/**
+ * Detalle de un articulo del blog, en español.
+ *
+ * Gemela de /post/[slug]: la plantilla es EL MISMO componente (Articulo.astro), asi
+ * que el indice, el scroll-spy, los relacionados y el anterior/siguiente no pueden
+ * divergir. Aqui solo se prepara el dato.
+ *
+ * Solo se generan los articulos con metadatos Y cuerpo traducidos. Uno a medias
+ * saldria con el titular en español y el articulo en ingles, que es peor que no
+ * tenerlo.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import items from '../../../contenido-migrado/post/_items.json';
+import Articulo from '../../../components/Articulo.astro';
+import { posts, postsDe, organizacion } from '../../../lib/blog';
+import { prepararArticulo } from '../../../lib/articulo';
+import { traducirHtml } from '../../../i18n';
+import {
+  POSTS_ES, CUERPOS_ES, TEXTOS, traducirPost, traducidos, rutaPost, rutaBlog, rutaCategoria,
+} from '../../../i18n/blog.es';
+import { COMUN_ES } from '../../../i18n/comun.es';
+import '../../../styles/blog.css';
+
+const fragmentos = import.meta.glob('../../../contenido-migrado/post/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+export function getStaticPaths() {
+  return items
+    .filter((item) => traducidos(item.slug))
+    .map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const bruto = fragmentos['../../../contenido-migrado/post/' + item.slug + '.html'] as string | undefined;
+if (!bruto) throw new Error('sin fragmento para post/' + item.slug);
+
+const i = posts.findIndex((p) => p.slug === item.slug);
+if (i === -1) throw new Error(`[post] ${item.slug} no esta en el CSV del CMS`);
+const post = traducirPost(posts[i]!, 'es');
+const meta = POSTS_ES[item.slug]!;
+
+// El fragmento se traduce ANTES de prepararlo: asi el indice y los anclajes salen
+// del texto español. Al reves, el indice diria "Permits and inspections" y el
+// encabezado "Permisos e inspecciones", y el enlace no llevaria a ninguna parte.
+// COMUN_ES cubre lo que el fragmento comparte con el resto del sitio: las tarjetas
+// del bloque de destacados y el CTA del pie. El diccionario del articulo solo trae
+// SU texto, y manda sobre lo comun si coinciden.
+const { html, traducidas, faltan } = traducirHtml(bruto, { ...COMUN_ES, ...CUERPOS_ES[item.slug]! });
+if (faltan.length) {
+  console.warn(`\n  [i18n] /es/post/${item.slug} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
+  for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
+}
+
+const { cuerpo, indice } = prepararArticulo(html);
+
+// Anterior/siguiente y relacionados solo entre los que EXISTEN en español: mandar al
+// lector a un articulo en ingles desde una pagina en español es el salto que este
+// proyecto no hace.
+const enEs = posts.filter((p) => traducidos(p.slug)).map((p) => traducirPost(p, 'es'));
+const j = enEs.findIndex((p) => p.slug === item.slug);
+const anterior = enEs[j - 1];
+const siguiente = enEs[j + 1];
+
+const relacionados = [
+  ...postsDe(post.categoria.slug).filter((p) => p.slug !== post.slug && traducidos(p.slug)),
+  ...posts.filter((p) => p.slug !== post.slug && p.categoria.slug !== post.categoria.slug && traducidos(p.slug)),
+]
+  .map((p) => traducirPost(p, 'es'))
+  .slice(0, 3);
+
+const t = TEXTOS.es;
+const site = Astro.site!;
+const url = new URL(rutaPost(post.slug, 'es'), site).href;
+const urlBlog = new URL(rutaBlog('es'), site).href;
+const urlCategoria = new URL(rutaCategoria(post.categoria.slug, 'es'), site).href;
+
+const migas = [
+  { nombre: t.migaHome, url: new URL('/es/', site).href, href: '/es/' },
+  { nombre: t.migaBlog, url: urlBlog, href: rutaBlog('es') },
+  { nombre: post.categoria.nombre, url: urlCategoria, href: rutaCategoria(post.categoria.slug, 'es') },
+  { nombre: post.titulo, url, href: null },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${url}#post`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    url,
+    headline: post.titulo,
+    description: post.descripcionSeo || post.resumen,
+    image: new URL(post.principal.src, site).href,
+    articleSection: post.categoria.nombre,
+    datePublished: post.publicado.toISOString(),
+    dateModified: post.actualizado.toISOString(),
+    // `wordCount` es el del original: el recuento del CSV lo genero el CMS sobre el
+    // texto ingles y aqui no se recalcula. Poner el mismo numero es honesto —el
+    // articulo es el mismo— e inventar otro seria peor.
+    wordCount: post.palabras,
+    timeRequired: `PT${post.minutos}M`,
+    inLanguage: 'es-US',
+    author: organizacion(site),
+    publisher: organizacion(site),
+    isPartOf: { '@type': 'Blog', '@id': `${urlBlog}#blog` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: migas.map((m, n) => ({
+      '@type': 'ListItem',
+      position: n + 1,
+      name: m.nombre,
+      item: m.url,
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={meta.tituloLargo}
+  description={meta.descripcionSeo}
+  ogImage={item.ogImage ?? undefined}
+  wfPage={item.wfPage ?? undefined}
+  wfSite={item.wfSite ?? undefined}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <Articulo
+    post={post}
+    cuerpo={cuerpo}
+    indice={indice}
+    relacionados={relacionados}
+    anterior={anterior}
+    siguiente={siguiente}
+    migas={migas.map((m) => ({ nombre: m.nombre, href: m.href }))}
+    idioma="es"
+  />
+</BaseLayout>

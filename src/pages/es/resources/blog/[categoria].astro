@@ -1,0 +1,54 @@
+---
+/**
+ * Una categoria del blog en español. Gemela de /resources/blog/[categoria].
+ *
+ * Mismas reglas que la inglesa: SOLO las categorias con articulos. Las 3 vacias del
+ * CMS y el `view-all` no generan ruta.
+ */
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import BlogListado from '../../../../components/BlogListado.astro';
+import {
+  categoriasConPosts, postsDe, jsonLdBlog, WF_PAGE, WF_SITE, type Categoria,
+} from '../../../../lib/blog';
+import { COPY_CATEGORIAS_ES, traducirCategoria, traducirPost } from '../../../../i18n/blog.es';
+
+export function getStaticPaths() {
+  return categoriasConPosts.map((categoria) => ({
+    params: { categoria: categoria.slug },
+    props: { categoria },
+  }));
+}
+
+interface Props {
+  categoria: Categoria;
+}
+
+const { categoria } = Astro.props;
+const cat = traducirCategoria(categoria, 'es');
+const copy = COPY_CATEGORIAS_ES[categoria.slug] ?? {
+  titulo: cat.nombre,
+  meta: `Artículos de ${cat.nombre} de Pergola Plus Florida.`,
+  intro: `Artículos publicados en ${cat.nombre}.`,
+};
+const entradas = postsDe(categoria.slug).map((p) => traducirPost(p, 'es'));
+
+const site = Astro.site!;
+const url = new URL(`/es/resources/blog/${categoria.slug}`, site).href;
+---
+
+<BaseLayout
+  {/* Mismo criterio que la inglesa: el sufijo de marca solo si el título cabe. */}
+  title={copy.titulo.length <= 42 ? `${copy.titulo} | Pergola Plus Florida` : copy.titulo}
+  description={copy.meta}
+  wfPage={WF_PAGE}
+  wfSite={WF_SITE}
+  jsonLd={jsonLdBlog({
+    url,
+    nombre: copy.titulo,
+    descripcion: copy.meta,
+    entradas,
+    site: site.href,
+  })}
+>
+  <BlogListado activa={categoria.slug} titulo={cat.nombre} intro={copy.intro} idioma="es" />
+</BaseLayout>

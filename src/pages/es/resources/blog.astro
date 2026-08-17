@@ -1,0 +1,40 @@
+---
+/**
+ * Listado del blog en español. Gemela de /resources/blog.
+ *
+ * El cuerpo es EL MISMO componente que el ingles (BlogListado.astro): las 21
+ * tarjetas, el destacado, los filtros y el CTA no pueden divergir.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogListado from '../../../components/BlogListado.astro';
+import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../../lib/blog';
+import { traducirPost } from '../../../i18n/blog.es';
+
+const TITULO = 'Blog de vida al aire libre | Pergola Plus Florida';
+const DESCRIPCION =
+  'Lo que hay que saber sobre pérgolas de aluminio, techos de lamas motorizados y sistemas de sombra calculados para las casas del sur de Florida.';
+
+const site = Astro.site!;
+const url = new URL('/es/resources/blog', site).href;
+---
+
+<BaseLayout
+  title={TITULO}
+  description={DESCRIPCION}
+  wfPage={WF_PAGE}
+  wfSite={WF_SITE}
+  jsonLd={jsonLdBlog({
+    url,
+    nombre: 'Blog de Pergola Plus Florida',
+    descripcion: DESCRIPCION,
+    entradas: posts.map((p) => traducirPost(p, 'es')),
+    site: site.href,
+  })}
+>
+  <BlogListado
+    activa="todo"
+    titulo="blog y consejos"
+    intro="Todo lo que conviene saber sobre pérgolas de aluminio, techos de lamas motorizados y sistemas de sombra pensados para el clima de Florida, para que duren y para vivir mejor el exterior."
+    idioma="es"
+  />
+</BaseLayout>

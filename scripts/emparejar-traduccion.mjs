@@ -28,14 +28,30 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { traducibles } from './lib/traducibles.mjs';
 
-const [fragmento, traducciones, salida] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const [fragmento, traducciones, salida] = args.filter((a) => !a.startsWith('--'));
 if (!fragmento || !traducciones || !salida) {
-  console.error('uso: node scripts/emparejar-traduccion.mjs <fragmento.html> <traducciones.txt> <salida.ts>');
+  console.error('uso: node scripts/emparejar-traduccion.mjs <fragmento.html> <traducciones.txt> <salida.ts> [--conocidas=<lista.txt>]');
   process.exit(1);
 }
 
 const html = await fs.readFile(fragmento, 'utf8');
-const claves = traducibles(html);
+let claves = traducibles(html);
+
+// Las cadenas que YA viven en comun.es.ts (las tarjetas del blog, el CTA del pie)
+// no se repiten aqui: el diccionario efectivo de la pagina es {...COMUN_ES, ...este}.
+// Traducirlas otra vez en los 21 articulos serian ~650 entradas duplicadas, y una
+// duplicada es una que un dia dice algo distinto que su original.
+const conocidasArg = args.find((a) => a.startsWith('--conocidas='));
+if (conocidasArg) {
+  const lista = new Set(
+    (await fs.readFile(conocidasArg.slice('--conocidas='.length), 'utf8'))
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean),
+  );
+  claves = claves.filter((c) => !lista.has(c));
+}
 
 const crudo = await fs.readFile(traducciones, 'utf8');
 // Se respetan las lineas vacias intencionadas? No: una cadena vacia dejaria el nodo

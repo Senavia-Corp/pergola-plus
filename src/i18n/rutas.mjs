@@ -112,6 +112,17 @@ export const TRADUCIDAS = {
   // Solo el aviso de privacidad: el contrato de obra NO se traduce (ver
   // src/i18n/articulos.es.ts).
   '/articles/privacy-policy': '/es/articles/privacy-policy/',
+  // El blog. El indice y las 5 categorias con articulos.
+  '/resources/blog': '/es/resources/blog/',
+  '/resources/blog/buying-guides-cost': '/es/resources/blog/buying-guides-cost/',
+  '/resources/blog/materials-engineering': '/es/resources/blog/materials-engineering/',
+  '/resources/blog/outdoor-living-design': '/es/resources/blog/outdoor-living-design/',
+  '/resources/blog/pergolas-shade-systems': '/es/resources/blog/pergolas-shade-systems/',
+  '/resources/blog/maintenance-care': '/es/resources/blog/maintenance-care/',
+  // Los articulos traducidos. Un articulo solo entra aqui cuando tiene su
+  // diccionario en src/i18n/posts/: sin el, /es/post/<slug> no se genera y este
+  // hreflang apuntaria a un 404.
+  '/post/pergola-cost-south-florida': '/es/post/pergola-cost-south-florida/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
