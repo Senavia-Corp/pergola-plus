@@ -32,6 +32,9 @@ export const TRADUCIDAS = {
   // pasa por PAGINAS_ES: su gemela inglesa tampoco es contenido migrado.
   '/thank-you': '/es/thank-you/',
   '/project-gallery': '/es/project-gallery/',
+  // El calculador. El cuerpo y los precios salen de src/components/Estimador.astro;
+  // los rotulos, de src/i18n/estimador.ts.
+  '/project-estimator': '/es/project-estimator/',
   '/about-us/about-us': '/es/about-us/about-us/',
   '/about-us/testimonials': '/es/about-us/testimonials/',
   '/about-us/industries-we-serve': '/es/about-us/industries-we-serve/',

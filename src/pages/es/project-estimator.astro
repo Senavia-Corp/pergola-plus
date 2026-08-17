@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Estimador from '../../components/Estimador.astro';
+import { ESTIMADOR_ES } from '../../i18n/estimador';
+import { grafo, breadcrumbs } from '../../lib/jsonld';
+
+// /es/project-estimator — gemela de /project-estimator. El cuerpo y los PRECIOS
+// salen del mismo componente: aqui no hay ni una tarifa, para que no puedan
+// divergir. El slug se queda en ingles, como en el resto del sitio.
+
+const jsonLd = grafo(
+  breadcrumbs(Astro.site!.href, [['Calculador de presupuesto', '/es/project-estimator']]),
+);
+---
+
+<BaseLayout
+  title="Calculador de presupuesto de pérgola | Pergola Plus Florida"
+  description="Calcule lo que cuesta su pérgola o cubierta de patio en el sur de Florida con nuestras tarifas instaladas de 2026. No hace falta dejar sus datos."
+  jsonLd={jsonLd}
+>
+  <Estimador t={ESTIMADOR_ES} base="/es" />
+</BaseLayout>
