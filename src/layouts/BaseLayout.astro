@@ -3,7 +3,10 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Carrusel from '../components/Carrusel.astro';
 import Formulario from '../components/Formulario.astro';
+import Agenda from '../components/Agenda.astro';
 import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
+// Va PRIMERO: define los @font-face, y el CSS migrado que viene después ya usa Inter.
+import '../styles/fuentes.css';
 import '../styles/i18n.css';
 
 // BaseLayout — el <head> y el chrome, en el MISMO orden que el HTML original.
@@ -131,10 +134,31 @@ const xDefault = alternativas.length > 1
 
     {pageStyles && <style set:html={pageStyles} />}
 
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript" is:inline></script>
-    <script type="text/javascript" is:inline>WebFont.load({  google: {    families: ["Inter:300,400,500,600,700"]  }});</script>
+    {/* Inter AUTOALOJADA. Aquí vivían cuatro líneas que costaban caro en las 113
+        páginas: dos `preconnect` a Google y `webfont.js` de ajax.googleapis.com en
+        el <head> y SIN defer — es decir, una petición a un tercero que bloquea el
+        render, ~20 KB de JavaScript ejecutándose antes de pintar nada, y solo
+        entonces la petición real de la fuente a un TERCER dominio.
+
+        Ahora es una petición, a nuestro dominio, sin JavaScript y con
+        `font-display: swap`, así que el texto se lee desde el primer frame.
+
+        Los .woff2 se versionan y los baja scripts/bajar-fuentes.mjs a mano: el
+        despliegue no debería depender de que Google conteste. */}
+    <link
+      rel="preload"
+      href="/fonts/inter-latin-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/inter-latin-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
 
     {/* Pone w-mod-js / w-mod-touch en <html>. El selector anti-FOUC depende de
         w-mod-js, asi que este script tiene que ir en el <head> y sin defer. */}
@@ -176,6 +200,10 @@ const xDefault = alternativas.length > 1
         y convierte el multipaso en multipaso. Si no carga, no se pierde ni un lead:
         sin JavaScript el POST es nativo y el endpoint responde 303. */}
     <Formulario />
+
+    {/* Difiere el calendario de OnceHub hasta que se acerca a pantalla. No hace nada
+        en las 105 páginas que no lo llevan. */}
+    <Agenda />
 
     {/* Sustitutos propios de los 2 botones flotantes de Elfsight. Dos enlaces:
         sin JS, sin platform.js, sin cuota de terceros. Numeros tomados de la

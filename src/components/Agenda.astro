@@ -1,0 +1,124 @@
+---
+// Agenda — carga el calendario de OnceHub SOLO cuando hace falta.
+//
+// El markup migrado traía el <script> de cdn.oncehub.com en medio del cuerpo de
+// /contact-us/schedule-a-visit, así que se descargaba y ejecutaba en cuanto abría la
+// página, con sus cookies y su rastreo, aunque el visitante no llegara nunca a bajar
+// hasta el calendario.
+//
+// El transformador lo sustituye por un marcador `[data-pp-oncehub]` y esto lo carga
+// cuando el widget está a punto de entrar en pantalla. El contenedor y sus `data-*`
+// no se tocan: son lo que el script de OnceHub busca cuando por fin arranca.
+//
+// El componente va en TODAS las páginas (lo incluye BaseLayout) pero no hace nada
+// donde no hay marcador, que son 105 de 107.
+---
+
+<style is:global>
+  /* Reserva el hueco del calendario desde el primer frame.
+     Medido antes de esto: el contenedor de OnceHub mide 0px de alto hasta que su
+     script inyecta el iframe, así que la página daba un salto de 550px al cargarlo
+     — y diferir la carga por sí solo lo empeora, porque el salto llega más tarde,
+     con el visitante ya leyendo. `data-height="550"` es el valor que el propio
+     markup declara. */
+  .appointment_wrapper {
+    min-height: 550px;
+    position: relative;
+  }
+
+  .pp-agenda-fachada {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    background-color: #fafafa;
+  }
+
+  /* Cuando OnceHub ya ha montado su iframe, la fachada estorba. */
+  .appointment_wrapper[data-pp-listo] .pp-agenda-fachada {
+    display: none;
+  }
+
+  .pp-agenda-cargando {
+    color: var(--terceary, #3a545b);
+    font-size: 16px;
+    margin: 0;
+  }
+
+  /* Sin JavaScript el widget NO aparece —nunca apareció, es un widget de JS— así que
+     esta alternativa es lo único que ve ese visitante. Antes no había nada: la
+     página se quedaba con un hueco en blanco y sin forma de agendar. */
+  .pp-agenda-alterna {
+    color: var(--terceary, #3a545b);
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 42ch;
+  }
+
+  .pp-agenda-alterna a {
+    color: var(--primary, #3a545b);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  const marcadores = document.querySelectorAll('[data-pp-oncehub]');
+  if (marcadores.length) {
+    let cargado = false;
+
+    const cargar = (src, caja) => {
+      if (cargado) return;
+      cargado = true;
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      document.body.append(s);
+
+      // La fachada se retira cuando OnceHub ha montado DE VERDAD su iframe, no
+      // cuando el script termina de descargarse: entre una cosa y otra hay un rato
+      // en el que el hueco quedaría en blanco.
+      const observador = new MutationObserver(() => {
+        if (!caja.querySelector('iframe')) return;
+        caja.setAttribute('data-pp-listo', '');
+        observador.disconnect();
+      });
+      observador.observe(caja, { childList: true, subtree: true });
+    };
+
+    for (const marcador of marcadores) {
+      const src = marcador.getAttribute('data-pp-oncehub');
+      if (!src) continue;
+
+      // Se observa el CONTENEDOR del widget, no el marcador: el marcador es un div
+      // vacío de 0px y un IntersectionObserver sobre algo sin alto se dispara de
+      // formas raras según el navegador.
+      const caja = marcador.closest('.appointment_wrapper')
+        ?? marcador.parentElement
+        ?? marcador;
+
+      // 400px de margen: se empieza a cargar ANTES de que el widget se vea, para que
+      // llegue montado cuando el visitante termina de bajar. Diferir no debe
+      // significar hacerle esperar.
+      const observador = new IntersectionObserver((entradas) => {
+        if (!entradas.some((e) => e.isIntersecting)) return;
+        observador.disconnect();
+        cargar(src, caja);
+      }, { rootMargin: '400px' });
+
+      observador.observe(caja);
+
+      // Red de seguridad: si alguien hace clic o pulsa una tecla sobre la zona antes
+      // de que el observador dispare, se carga igual.
+      caja.addEventListener("pointerdown", () => cargar(src, caja), { once: true });
+    }
+  }
+</script>

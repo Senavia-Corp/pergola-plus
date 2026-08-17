@@ -1015,6 +1015,38 @@ export function transformar(html, ruta) {
     return `<img ${attrs.trim()} width="${CLIENTE_ANCHO}" height="${CLIENTE_ALTO}"/>`;
   });
 
+  // 4i. OnceHub: fachada diferida en vez de carga inmediata.
+  //
+  //     /contact-us/schedule-a-visit incrusta el calendario de OnceHub con un
+  //     <script src="https://cdn.oncehub.com/mergedjs/so.js"> en medio del cuerpo. Se
+  //     descarga y ejecuta SIEMPRE, aunque el visitante no llegue a bajar hasta el
+  //     widget — y trae consigo las cookies y el rastreo de un tercero desde el
+  //     primer instante.
+  //
+  //     El contenedor (#SOIDIV_...) y sus data-* se conservan intactos: el script de
+  //     OnceHub los busca por ahi cuando por fin se carga. Lo unico que cambia es
+  //     CUANDO se carga, y de eso se encarga src/components/Agenda.astro con un
+  //     IntersectionObserver.
+  //
+  //     Sin JavaScript el widget no aparece —tampoco aparecia antes, es un widget de
+  //     JavaScript— asi que la fachada deja ademas un enlace a la pagina de contacto,
+  //     que antes no habia: sin JS la pagina se quedaba en blanco.
+  //     La fachada RESERVA el hueco. Medido antes de ponerla: el contenedor del
+  //     widget mide 0px de alto hasta que OnceHub inyecta su iframe, asi que al
+  //     cargar la pagina daba un salto de 550px — y diferir la carga solo lo habria
+  //     empeorado, porque el salto llega mas tarde y con el visitante ya leyendo.
+  //     Con `min-height` el hueco esta desde el primer frame.
+  s = s.replace(
+    /<script[^>]*src="https:\/\/cdn\.oncehub\.com\/[^"]*"[^>]*><\/script>/g,
+    '<div class="pp-agenda-fachada" data-pp-oncehub="https://cdn.oncehub.com/mergedjs/so.js">'
+    + '<p class="pp-agenda-cargando">Loading the booking calendar…</p>'
+    + '<p class="pp-agenda-alterna">'
+    + 'Prefer not to wait? Call <a href="tel:+15617108363">(561) 710-8363</a>'
+    + ' or <a href="/contact-us/get-in-touch">send us a message</a>.'
+    + '</p>'
+    + '</div>',
+  );
+
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');
 
