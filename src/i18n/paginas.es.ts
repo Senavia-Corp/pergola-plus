@@ -43,12 +43,8 @@ const PRODUCTOS: Record<string, string> = {
     'Descubra nuestras pérgolas de aluminio premium y nuestras soluciones de sombra a medida, diseñadas e instaladas en todo el sur de Florida con durabilidad, estilo y una forma más elevada de vivir el exterior.',
   'Custom Motorized Louvered Pergola Systems':
     'Pérgolas de lamas motorizadas a medida',
-  'Take full control of your outdoor space with our custom louvered pergolas. Engineered for South Florida, the adjustable aluminum louvers regulate sun and rain at the touch of a button. A sophisticated, all-season solution for luxury outdoor living.':
-    'Tome el control total de su espacio exterior con nuestras pérgolas de lamas a medida. Diseñadas para el sur de Florida, las lamas de aluminio orientables regulan el sol y la lluvia con solo pulsar un botón. Una solución sofisticada para disfrutar del exterior todo el año.',
-  'Modern Insulated Roof Pergolas': 'Pérgolas modernas de techo aislado',
-  'Our insulated roof pergolas offer maximum thermal performance, reducing heat while providing full shade and rain protection. These engineered aluminum systems create a cooler, comfortable outdoor space—perfect for year-round use and architectural beauty.':
-    'Nuestras pérgolas de techo aislado ofrecen el máximo rendimiento térmico: reducen el calor y dan sombra total y protección frente a la lluvia. Estos sistemas de aluminio calculados crean un espacio exterior más fresco y confortable, perfecto para usar todo el año y con una estética cuidada.',
-  'Modern Polycarbonate Pergola Systems': 'Pérgolas modernas de policarbonato',
+    'Modern Insulated Roof Pergolas': 'Pérgolas modernas de techo aislado',
+    'Modern Polycarbonate Pergola Systems': 'Pérgolas modernas de policarbonato',
   'Our polycarbonate pergolas blend durability with natural light, blocking UV rays while maintaining brightness. Engineered for weather resistance, they are perfect for elegant patios and pool decks. Get a modern design that offers protection and openness.':
     'Nuestras pérgolas de policarbonato combinan durabilidad y luz natural: bloquean los rayos UV sin quitar luminosidad. Calculadas para resistir la intemperie, son perfectas para patios y bordes de piscina de diseño cuidado. Un diseño moderno que protege sin cerrar el espacio.',
   'Custom Open-Air Aluminum Pergolas': 'Pérgolas abiertas de aluminio a medida',
@@ -84,10 +80,7 @@ const SERVICIOS: Record<string, string> = {
   'We design and build custom pergolas, pavers, driveways, decks, fencing, and full patio remodeling projects across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.':
     'Diseñamos y construimos pérgolas a medida, adoquinado, entradas de coche, decks, vallado y reformas integrales de patio en Miami-Dade, Broward y Palm Beach, calculados para el clima de Florida y para vivir el exterior con calidad.',
   'Custom Pergolas &amp; Patio Covers': 'Pérgolas y cubiertas de patio a medida',
-    Pavers: 'Adoquinado',
-  Driveways: 'Entradas de coche',
-    Concrete: 'Hormigón',
-    Deck: 'Decks',
+        Deck: 'Decks',
     Fence: 'Vallado',
     'Full Outdoor Remodel': 'Reforma integral del exterior',
   };

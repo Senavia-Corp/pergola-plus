@@ -164,4 +164,113 @@ export const COMUN_ES: Record<string, string> = {
     'Nuestro vallado a medida aporta privacidad, seguridad y coherencia arquitectónica a viviendas de lujo. Instalamos sistemas de aluminio de alta calidad y vallados modernos, calculados para resistir el viento y durar en ambiente costero. Cada proyecto lo instalan profesionales y cumple la normativa local. Pensadas para acompañar a casas de alto nivel, nuestras soluciones equilibran estética y rendimiento a largo plazo.',
   'We transform outdated patios into refined outdoor living environments designed for comfort and longevity. From upgraded pavers and structural enhancements to integrated pergolas and motorized screens, every remodel is custom designed and fully permitted. Our approach focuses on architectural integration, durability, and long-term value — creating a seamless extension of your home’s interior space.':
     'Convertimos patios anticuados en espacios exteriores cuidados, pensados para el confort y para durar. Desde renovar el adoquinado y reforzar la estructura hasta integrar pérgolas y cortinas motorizadas, cada reforma se diseña a medida y se tramita al completo. Nos centramos en la integración arquitectónica, la durabilidad y el valor a largo plazo: que el exterior sea una continuación natural del interior de su casa.',
+
+  // --- Paleta de acabados, en las 10 fichas de producto ---
+  // Los nombres de color SÍ se traducen: son etiquetas descriptivas de una carta de
+  // colores para que el cliente elija, no referencias de pedido. Un hispanohablante
+  // leyendo «desert sand» pierde información que el inglés sí da.
+  'Design That Matches Your Style': 'Un diseño que va con su estilo',
+  'Choose from premium colors &amp; textures for your structure.':
+    'Elija entre colores y texturas de gama alta para su estructura.',
+  white: 'blanco',
+  'desert sand': 'arena del desierto',
+  'almond sand': 'arena almendra',
+  'adobe clay': 'barro adobe',
+  'spanish brown': 'marrón español',
+  'bronze cedar': 'cedro bronce',
+  'Modern Color Palette Options': 'Paleta de colores actual',
+  'Choose from a selection of elegant, weather-resistant colors designed to enhance your outdoor space and match your home’s architectural style.':
+    'Elija entre una selección de colores elegantes y resistentes a la intemperie, pensados para mejorar su espacio exterior y acompañar al estilo de su casa.',
+  'Textured Wood-Like Finishes': 'Acabados con textura de madera',
+  'Enjoy realistic wood-inspired textures that offer the warmth of natural materials with the durability and low maintenance of high-grade aluminum.':
+    'Texturas de inspiración natural que dan la calidez de la madera con la durabilidad y el poco mantenimiento del aluminio de alta calidad.',
+
+  // --- Bloque de servicios, en las 10 fichas y en varias páginas más ---
+  'Our Services': 'Nuestros servicios',
+  'Everything Your Patio Needs, All In One Place': 'Todo lo que su patio necesita, en un solo sitio',
+  'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full patio remodeling—designed to enhance both beauty and functionality.':
+    'Transforme su espacio exterior con una gama completa de servicios: desde pérgolas a medida hasta hormigón, adoquinado, decks, vallado y reformas integrales de patio, pensados para que gane en belleza y en uso.',
+  'Custom aluminum pergolas built for shade, style, and durability.':
+    'Pérgolas de aluminio a medida, hechas para dar sombra, estilo y durar.',
+  'Premium paver installations for patios, walkways, and driveways.':
+    'Adoquinado de gama alta para patios, caminos y entradas de coche.',
+  'Custom driveways engineered for strength and curb appeal.':
+    'Entradas de coche a medida, calculadas para resistir y para lucir.',
+  'Architectural concrete patios built for lasting performance.':
+    'Patios de hormigón con diseño, construidos para durar.',
+  'Custom decks designed for durability &amp; seamless integration.':
+    'Decks a medida, pensados para durar e integrarse sin costuras.',
+  'Residential fencing for privacy, security, and clean design.':
+    'Vallado residencial para privacidad, seguridad y una línea limpia.',
+  'Complete patio renovations for modern outdoor living spaces.':
+    'Reformas integrales de patio para espacios exteriores actuales.',
+  'Contractors Proudly Serving South Florida': 'Damos servicio en todo el sur de Florida',
+
+  // --- Teasers del blog, en las 10 fichas ---
+  // Los títulos coinciden con los de las entradas reales. Cuando se traduzca el blog,
+  // estas traducciones son las que hay que reutilizar para que no se contradigan.
+  'Blog &amp; Tips': 'Blog y consejos',
+  'Latest Outdoor Living Insights': 'Lo último sobre vida al aire libre',
+  'Expert tips, ideas, and guides to help you upgrade your patio, enhance your home, and get inspired with premium outdoor design.':
+    'Consejos, ideas y guías para mejorar su patio, revalorizar su casa e inspirarse con diseño exterior de gama alta.',
+  'Buying Guides &amp; Cost': 'Guías de compra y precios',
+  'Outdoor Living Design': 'Diseño de exteriores',
+  'February 23, 2026': '23 de febrero de 2026',
+  'February 27, 2026': '27 de febrero de 2026',
+  'Do You Need a Permit for a Pergola in South Florida?':
+    '¿Hace falta permiso para una pérgola en el sur de Florida?',
+  'Permit requirements for pergolas in South Florida explained.':
+    'Qué permisos piden las pérgolas en el sur de Florida, explicado.',
+  'Design-Build Pergola Process for South Florida Homes':
+    'Cómo es el proceso de diseño y construcción de una pérgola',
+  'How the design-build pergola process works in South Florida.':
+    'Cómo funciona el proceso de diseño y construcción en el sur de Florida.',
+  'How to Plan a Pergola for Your South Florida Backyard':
+    'Cómo planificar la pérgola de su jardín en el sur de Florida',
+  'Step-by-step guide to planning a pergola in South Florida.':
+    'Guía paso a paso para planificar una pérgola en el sur de Florida.',
+  'Luxury Pergola Ideas for South Florida Backyards':
+    'Ideas de pérgolas de lujo para jardines del sur de Florida',
+  'High-end pergola design ideas for South Florida luxury homes.':
+    'Ideas de diseño de pérgolas de gama alta para viviendas de lujo.',
+  'Poolside Pergola Ideas for Florida Homes':
+    'Ideas de pérgolas junto a la piscina para casas de Florida',
+  'Luxury poolside pergola ideas for Florida backyards.':
+    'Ideas de pérgolas de lujo junto a la piscina para jardines de Florida.',
+  'Step-by-Step: Building a Custom Pergola in South Florida':
+    'Paso a paso: construir una pérgola a medida en el sur de Florida',
+  'Step-by-step guide to building a pergola in South Florida.':
+    'Guía paso a paso para construir una pérgola en el sur de Florida.',
+  'How Much Does a Pergola Cost in South Florida?':
+    '¿Cuánto cuesta una pérgola en el sur de Florida?',
+  '2026 pergola cost breakdown for South Florida homes.':
+    'Desglose de precios de pérgolas en 2026 para casas del sur de Florida.',
+  'HOA Rules for Pergolas in South Florida Communities':
+    'Normas de la HOA para pérgolas en comunidades del sur de Florida',
+  'HOA requirements for pergolas in South Florida explained.':
+    'Qué exigen las comunidades de propietarios para una pérgola, explicado.',
+  'Modern Outdoor Living Trends in South Florida':
+    'Tendencias actuales de vida al aire libre en el sur de Florida',
+  '2026 luxury outdoor living trends shaping South Florida homes.':
+    'Las tendencias de 2026 que están marcando las casas del sur de Florida.',
+  'Pergola Building Codes in Broward &amp; Palm Beach County':
+    'Normativa de pérgolas en los condados de Broward y Palm Beach',
+  'Understanding pergola codes in Broward &amp; Palm Beach County.':
+    'Entender la normativa de pérgolas en Broward y Palm Beach.',
+
+  // Nombres de servicio del bloque «Our Services», que sale en las 10 fichas de
+  // producto y en el índice. Estaban en diccionarios de página; aquí no pueden
+  // contradecirse entre sí.
+  'Pergola Design &amp; Construction': 'Diseño y construcción de pérgolas',
+  'Deck Builders': 'Decks',
+  'Fence Solutions': 'Vallado',
+  'Patio Remodeling': 'Reforma de patio',
+  'Take full control of your outdoor space with our custom louvered pergolas. Engineered for South Florida, the adjustable aluminum louvers regulate sun and rain at the touch of a button. A sophisticated, all-season solution for luxury outdoor living.':
+    'Tome el control total de su espacio exterior con nuestras pérgolas de lamas a medida. Diseñadas para el sur de Florida, las lamas de aluminio orientables regulan el sol y la lluvia con solo pulsar un botón. Una solución sofisticada para disfrutar del exterior todo el año.',
+
+  Pavers: 'Adoquinado',
+  Driveways: 'Entradas de coche',
+  Concrete: 'Hormigón',
+  'Our insulated roof pergolas offer maximum thermal performance, reducing heat while providing full shade and rain protection. These engineered aluminum systems create a cooler, comfortable outdoor space—perfect for year-round use and architectural beauty.':
+    'Nuestras pérgolas de techo aislado ofrecen el máximo rendimiento térmico: reducen el calor y dan sombra total y protección frente a la lluvia. Estos sistemas de aluminio calculados crean un espacio exterior más fresco y confortable, perfecto para usar todo el año y con una estética cuidada.',
 };
