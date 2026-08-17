@@ -215,14 +215,6 @@ const SOBRE_NOSOTROS: Record<string, string> = {
   'is Your Best Patio Choice': 'es su mejor opción para el patio',
   'We build outdoor spaces with integrity, precision, and materials proven to withstand Florida’s extreme climate. Customers choose us for reliability, craftsmanship, and long-term durability.':
     'Construimos exteriores con seriedad, con precisión y con materiales que ya han demostrado aguantar el clima de Florida. Nos eligen por cumplir, por el oficio y porque lo que hacemos dura.',
-  'Your project is protected and handled by certified professionals with full licensing and insurance in South Florida.':
-    'Su obra la llevan profesionales certificados, con licencia y seguro en regla en el sur de Florida.',
-  'More than a decade designing and installing premium outdoor structures, including pergolas, enclosures, and louvered roofs.':
-    'Más de diez años diseñando e instalando estructuras exteriores: pérgolas, cerramientos y techos de lamas.',
-  'We use top-grade materials and expert craftsmanship to ensure long-lasting, durable, and visually stunning shade structures.':
-    'Usamos materiales de primera y buen oficio para que la estructura de sombra dure y se vea bien.',
-  'Every project is built from scratch—no templates. We measure, design, and craft a solution that fits your home perfectly.':
-    'Cada proyecto se hace desde cero, sin plantillas. Medimos, diseñamos y fabricamos una solución que encaja en su casa.',
 };
 
 const RESENAS: Record<string, string> = {
@@ -350,14 +342,51 @@ const SECTORES: Record<string, string> = {
   'Government &amp; Civic Buildings': 'Edificios públicos y administrativos',
   'Government properties and civic facilities implement our pergola systems to enhance outdoor access areas and gathering spaces. Our aluminum structures are built for durability, compliance, and long-term structural integrity.':
     'Los edificios públicos y las instalaciones municipales usan nuestras pérgolas para mejorar los accesos y las zonas de encuentro al aire libre. Las estructuras de aluminio están hechas para durar, para cumplir y para mantenerse sólidas.',
-  'Explore real installations of our motorized louvered roof pergolas across South Florida. See how homeowners and businesses elevate their outdoor spaces with modern design, premium materials, and all-weather comfort.':
-    'Vea instalaciones reales de nuestras pérgolas de lamas motorizadas por el sur de Florida, y cómo particulares y empresas mejoran su exterior con diseño actual, buenos materiales y confort con cualquier tiempo.',
 };
 
 const MARCAS: Record<string, string> = {
   'Patio Cover Models Brands': 'Marcas y modelos de cubierta',
   'At Pergola Plus, we partner with industry-leading manufacturers to deliver high-quality pergola systems, louvered roofs, and outdoor solutions built to last. Each brand we work with is selected for its innovation, durability, and proven performance—ensuring your outdoor space is built with the very best.':
     'En Pergola Plus trabajamos con fabricantes de referencia para dar pérgolas, techos de lamas y soluciones exteriores que duran. Cada marca está elegida por su innovación, su resistencia y por lo que ya ha demostrado, para que su exterior se construya con lo mejor.',
+};
+
+const DONDE: Record<string, string> = {
+  'South Florida’s Leading Pergola Contractor': 'El especialista en pérgolas del sur de Florida',
+  'Premium pergolas, patio covers, and outdoor structures installed across South Florida. We proudly serve homeowners and businesses throughout Miami-Dade, Broward, and Palm Beach County with high-quality pergolas, louvered roofs, decks, and outdoor living solutions built to last.':
+    'Pérgolas, cubiertas de patio y estructuras exteriores instaladas por todo el sur de Florida. Trabajamos con particulares y con empresas en Miami-Dade, Broward y Palm Beach: pérgolas, techos de lamas, decks y soluciones de exterior hechas para durar.',
+  'Coverage': 'Cobertura',
+  'We build custom pergolas, patio covers, and outdoor structures across Miami-Dade, delivering weather-resistant designs engineered for Florida sun, humidity, and coastal conditions. Our team provides licensed, insured installations throughout the region.':
+    'Construimos pérgolas, cubiertas de patio y estructuras exteriores a medida por todo Miami-Dade, con diseños calculados para el sol, la humedad y la costa de Florida. Instalamos con licencia y seguro en toda la zona.',
+  'From Fort Lauderdale to Weston, we install premium aluminum pergolas, motorized louvered roofs, patio covers, and complete outdoor living systems throughout Broward County. Every project is built for durability, style, and long-term performance.':
+    'De Fort Lauderdale a Weston, instalamos pérgolas de aluminio, techos de lamas motorizados, cubiertas de patio y sistemas completos de exterior por todo el condado de Broward. Cada proyecto se hace para durar, para verse bien y para rendir.',
+  'We design and build pergolas, patio roofs, and outdoor shading systems throughout Palm Beach County, using high-grade materials that hold strong in Florida’s coastal environment.':
+    'Diseñamos y construimos pérgolas, techos de patio y sistemas de sombra por todo el condado de Palm Beach, con materiales de calidad que aguantan el ambiente costero de Florida.',
+  // Titulares de las 25 tarjetas. El nombre de la ciudad no se traduce.
+  'Sunny Isles Beach Pergola Builders': 'Pérgolas en Sunny Isles Beach',
+  'Miami Beach Pergola Builders': 'Pérgolas en Miami Beach',
+  'Miami Pergola Builders': 'Pérgolas en Miami',
+  'Key Biscayne Pergola Builders': 'Pérgolas en Key Biscayne',
+  'Doral Pergola Builders': 'Pérgolas en Doral',
+  'Coral Gables Pergola Builders': 'Pérgolas en Coral Gables',
+  'Aventura Pergola Builders': 'Pérgolas en Aventura',
+  'Weston Pergola Installation': 'Pérgolas en Weston',
+  'Pembroke Pines Pergola Installation': 'Pérgolas en Pembroke Pines',
+  'Parkland Pergola Installation': 'Pérgolas en Parkland',
+  'Miramar Pergola Installation': 'Pérgolas en Miramar',
+  'Hollywood Pergola Installation': 'Pérgolas en Hollywood',
+  'Fort Lauderdale Pergola Installation': 'Pérgolas en Fort Lauderdale',
+  'Coral Springs Pergola Installation': 'Pérgolas en Coral Springs',
+  'Davie Pergola Installation': 'Pérgolas en Davie',
+  'Cooper City Pergola Installation': 'Pérgolas en Cooper City',
+  'Wellington Pergola Contractors': 'Pérgolas en Wellington',
+  'West Palm Beach Pergola Contractors': 'Pérgolas en West Palm Beach',
+  'Royal Palm Beach Pergola Contractors': 'Pérgolas en Royal Palm Beach',
+  'Palm Beach Gardens Pergola Contractors': 'Pérgolas en Palm Beach Gardens',
+  'Palm Beach Pergola Contractors': 'Pérgolas en Palm Beach',
+  'Jupiter Pergola Contractors': 'Pérgolas en Jupiter',
+  'Delray Beach Pergola Contractors': 'Pérgolas en Delray Beach',
+  'Boca Raton Pergola Contractor': 'Pérgolas en Boca Raton',
+  'Boynton Beach Pergola Contractors': 'Pérgolas en Boynton Beach',
 };
 
 const NO_ENCONTRADA: Record<string, string> = {
@@ -441,6 +470,12 @@ export const PAGINAS_ES: PaginaEs[] = [
     title: 'Marcas y modelos de cubierta | Pergola Plus Florida',
     description: 'Los fabricantes con los que trabajamos: FORTE, Equinox, Apollo, Renaissance y Fenetex, elegidos por resistencia y por prestaciones.',
     dic: MARCAS,
+  },
+  {
+    en: '/about-us/where-we-work', es: '/es/about-us/where-we-work',
+    title: 'Dónde trabajamos | Zonas del sur de Florida',
+    description: 'Las 25 ciudades de Miami-Dade, Broward y Palm Beach donde instalamos pérgolas, techos de lamas y estructuras exteriores.',
+    dic: DONDE,
   },
   {
     en: '/404', es: '/es/404',

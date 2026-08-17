@@ -352,4 +352,26 @@ export const COMUN_ES: Record<string, string> = {
   // marque como olvido. Un nombre de marca sin entrada y un texto sin traducir se
   // leen igual en el informe del build.
   'Pergola Plus | Forte': 'Pergola Plus | Forte',
+  // Bloque comun a las 25 paginas de ubicacion.
+  'Licensed &amp; Insured': 'Con licencia y seguro',
+  '+10 Years of Experience': 'Más de 10 años de experiencia',
+  'Financing Available': 'Financiación disponible',
+  'Why choose us?': '¿Por qué nosotros?',
+  'Why Pergola Plus Leads Outdoor Living in South Florida':
+    'Por qué Pergola Plus marca el paso en el sur de Florida',
+  'Work with licensed professionals delivering engineered pergolas, patio covers, and motorized systems built for South Florida homes and designed for long-term durability and performance.':
+    'Trabaje con profesionales con licencia que entregan pérgolas, cubiertas de patio y sistemas motorizados calculados para las casas del sur de Florida y pensados para durar y rendir.',
+  // Las cuatro razones. Salen en /about-us y en las 25 paginas de ubicacion.
+  'Your project is protected and handled by certified professionals with full licensing and insurance in South Florida.':
+    'Su obra la llevan profesionales certificados, con licencia y seguro en regla en el sur de Florida.',
+  'More than a decade designing and installing premium outdoor structures, including pergolas, enclosures, and louvered roofs.':
+    'Más de diez años diseñando e instalando estructuras exteriores: pérgolas, cerramientos y techos de lamas.',
+  'We use top-grade materials and expert craftsmanship to ensure long-lasting, durable, and visually stunning shade structures.':
+    'Usamos materiales de primera y buen oficio para que la estructura de sombra dure y se vea bien.',
+  'Every project is built from scratch—no templates. We measure, design, and craft a solution that fits your home perfectly.':
+    'Cada proyecto se hace desde cero, sin plantillas. Medimos, diseñamos y fabricamos una solución que encaja en su casa.',
+  'About Us': 'Quiénes somos',
+  'Where We Work': 'Dónde trabajamos',
+  'Explore real installations of our motorized louvered roof pergolas across South Florida. See how homeowners and businesses elevate their outdoor spaces with modern design, premium materials, and all-weather comfort.':
+    'Vea instalaciones reales de nuestras pérgolas de lamas motorizadas por el sur de Florida, y cómo particulares y empresas mejoran su exterior con diseño actual, buenos materiales y confort con cualquier tiempo.',
 };
