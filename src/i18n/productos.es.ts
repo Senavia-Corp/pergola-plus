@@ -260,4 +260,121 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Sí. La estructura integra sin problema iluminación LED, ventiladores de techo y equipos de audio y vídeo, para que el jardín funcione también de noche.',
     },
   },
+
+  'screen-enclosures': {
+    nombre: 'Cerramientos con mosquitero',
+    title: 'Cerramientos con mosquitero | Sur de Florida',
+    description: 'Cerramientos calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción resistente a mascotas.',
+    dic: {
+      'Screen Enclosures': 'Cerramientos con mosquitero',
+      'Expands Living Space': 'Amplía el espacio habitable',
+      'High-Visibility Mesh': 'Malla de alta visibilidad',
+      'Extreme Weather Rated': 'Homologado para tiempo extremo',
+      'Screen Enclosure Contractors in South Florida': 'Especialistas en cerramientos con mosquitero en el sur de Florida',
+      'Pergola Plus installs professionally engineered screen enclosures throughout South Florida. Our custom-built systems protect outdoor spaces from insects and debris while preserving airflow and visibility. We serve Davie, Coral Springs, Palm Beach Gardens, and surrounding cities with fully permitted, structurally sound enclosures designed for year-round usability.':
+        'Pergola Plus instala cerramientos con mosquitero calculados por todo el sur de Florida. Protegen el exterior de insectos y suciedad sin cortar la ventilación ni las vistas. Trabajamos en Davie, Coral Springs, Palm Beach Gardens y alrededores, con cerramientos sólidos, con todos los permisos y pensados para usarse todo el año.',
+      'Screen Enclosure Features &amp; Durability': 'Qué trae un cerramiento y cuánto aguanta',
+      'Enjoy your pool and patio year-round, completely free from insects and debris. Explore the high-strength engineering, premium mesh options, and panoramic views provided by our custom-built enclosures.':
+        'Disfrute de la piscina y del patio todo el año, sin insectos ni suciedad. Esta es la ingeniería, las mallas y las vistas panorámicas de nuestros cerramientos a medida.',
+      'Pet-Resistant Screen Upgrades': 'Malla resistente a mascotas',
+      'Opt for ultra-durable, pet-resistant mesh materials that withstand scratching and pawing, ensuring long-lasting protection and peace of mind for pet owners.':
+        'Elija una malla ultrarresistente que aguanta arañazos y empujones, para que dure y usted no esté pendiente.',
+      'Panoramic Screen Visibility': 'Vistas panorámicas',
+      'High-clarity mesh materials maintain wide outdoor views while reducing glare and enhancing comfort.':
+        'Las mallas de alta claridad mantienen las vistas abiertas, reducen los reflejos y se está más cómodo.',
+      'Integrated Door Systems': 'Puertas integradas',
+      'Professionally installed screen doors provide smooth access while maintaining structural durability and clean aesthetics.':
+        'Puertas mosquiteras bien instaladas: se pasa con suavidad, aguantan y no rompen la estética.',
+      'High-Strength Screen Systems': 'Mallas de alta resistencia',
+      'Enjoy uninterrupted outdoor living without pests or debris. Our durable screening materials provide protection while preserving airflow and outdoor visibility.':
+        'Vida al aire libre sin bichos ni hojas. Nuestras mallas protegen sin quitar ventilación ni vistas.',
+      'Engineered Aluminum Framing': 'Estructura de aluminio calculada',
+      'Fully engineered structural frames meet local wind-load requirements, ensuring long-term safety and performance in coastal conditions.':
+        'Las estructuras se calculan para cumplir las cargas de viento locales, con la seguridad que pide la costa.',
+      'Custom Configurations': 'Configuraciones a medida',
+      'Each enclosure is custom-designed to fit patios, pools, and lanais with precision, ensuring seamless integration with your existing structure.':
+        'Cada cerramiento se diseña a medida para encajar con precisión en patios, piscinas y porches, integrándose con lo que ya hay.',
+      'View professionally installed screen enclosures that extend outdoor living while maintaining airflow and visibility. Discover clean integrations that enhance comfort year-round.':
+        'Vea cerramientos ya instalados que amplían el exterior sin quitar aire ni vistas, integrados de forma limpia y cómodos todo el año.',
+      'Frame finishes are available in modern, weather-resistant colors designed to integrate effortlessly with your patio, pool area, and existing architecture.':
+        'Los acabados de la estructura están en colores actuales y resistentes a la intemperie, pensados para integrarse con el patio, la piscina y la casa.',
+      'Screen Enclosures FAQs': 'Preguntas sobre cerramientos con mosquitero',
+      'Have questions? Learn how our wind-rated screen enclosures keep South Florida bugs out while letting coastal breezes flow.':
+        '¿Dudas? Así dejan fuera a los insectos nuestros cerramientos homologados sin cortar la brisa de la costa.',
+      '1. Do enclosures block the breeze?': '1. ¿Un cerramiento corta la brisa?',
+      'Not at all. Our premium pool screen enclosures feature high-visibility mesh that stops insects and debris while maximizing refreshing natural airflow on your patio.':
+        'No. La malla de alta visibilidad frena insectos y suciedad, pero deja pasar el aire, que es justo lo que refresca el patio.',
+      '2. Do they meet hurricane codes?': '2. ¿Cumplen la normativa antihuracán?',
+      'Yes. Pergola Plus Florida builds every aluminum screen enclosure to strict structural engineering standards to withstand hurricane-force winds and coastal weather.':
+        'Sí. Cada cerramiento se construye con criterios estrictos de cálculo estructural para aguantar vientos de huracán y el clima costero.',
+      '3. Will the screen mesh sag easily?': '3. ¿La malla se descuelga con el tiempo?',
+      'No. We install ultra-durable, high-tensile, and pet-resistant screening materials using precision tensioning to prevent sagging or tearing over years of heavy use.':
+        'No. Instalamos mallas de alta tensión, muy resistentes y aptas para mascotas, con un tensado preciso que evita que se descuelguen o se rasguen.',
+      '4. Are building permits required?': '4. ¿Hace falta permiso de obra?',
+      'Yes, municipal permits are required. Our team expertly handles site surveys, engineering, and the full permitting process to ensure a legal, hassle-free installation.':
+        'Sí, hace falta permiso municipal. Nos ocupamos del levantamiento, el cálculo y toda la tramitación para que la instalación sea legal y sin complicaciones.',
+      '5. Can you fit my complex pool?': '5. ¿Podéis adaptaros a mi piscina, que es complicada?',
+      'Absolutely. We custom-fabricate every aluminum frame to flawlessly integrate with your home&#x27;s unique architecture, multi-level decks, and custom pool layouts.':
+        'Sí. Fabricamos cada estructura a medida para que encaje con la arquitectura de su casa, con decks a varios niveles y con piscinas de forma libre.',
+    },
+  },
+
+  'motorized-screens': {
+    nombre: 'Cortinas motorizadas',
+    title: 'Cortinas motorizadas para patios | Sur de Florida',
+    description: 'Cortinas retráctiles con mando o app, detección de obstáculos y carcasa oculta, integradas en pérgolas y porches.',
+    dic: {
+      'Instant Bug Protection': 'Protección inmediata frente a insectos',
+      'Retracts Invisibly': 'Se recoge y desaparece',
+      'Coastal Wind Rated': 'Homologada para viento de costa',
+      'Motorized Screen Installers in South Florida': 'Instaladores de cortinas motorizadas en el sur de Florida',
+      'We provide premium motorized screen systems across Miami-Dade, Broward, and Palm Beach County. These retractable solutions offer on-demand shade, privacy, and wind control while seamlessly integrating into pergolas and covered patios. Serving Fort Lauderdale, Weston, Boca Raton, and Wellington, we bring automation and comfort to high-end outdoor spaces.':
+        'Instalamos cortinas motorizadas de gama alta en Miami-Dade, Broward y Palm Beach. Son soluciones retráctiles que dan sombra, privacidad y control del viento cuando usted quiere, integradas en pérgolas y porches. Trabajamos en Fort Lauderdale, Weston, Boca Ratón y Wellington, llevando automatización y confort al exterior.',
+      'Motorized Retractable Screen Features': 'Qué trae una cortina motorizada',
+      'Instant shade, privacy, and climate control at the touch of a button. Learn how our seamlessly integrated motorized screens elevate your outdoor comfort while keeping insects and harsh weather at bay.':
+        'Sombra, privacidad y control del ambiente al pulsar un botón. Así mejoran el confort nuestras cortinas motorizadas, dejando fuera insectos y mal tiempo.',
+      'Weather-Resistant Mesh Options': 'Mallas resistentes a la intemperie',
+      'Specialized screen fabrics reduce heat gain and glare while maintaining outward visibility and airflow.':
+        'Tejidos técnicos que reducen el calor y los reflejos sin quitar la vista hacia fuera ni la ventilación.',
+      'Smart Home Compatibility': 'Compatible con la domótica',
+      'Compatible with modern smart systems, allowing control via mobile app or voice command for ultimate convenience.':
+        'Compatible con los sistemas domóticos actuales, para manejarla desde el móvil o por voz.',
+      'Retractable Automation System': 'Automatización del recogido',
+      'Deploy or retract your screens instantly with remote or smart control, allowing flexible protection from sun, wind, and insects.':
+        'Baje o suba las cortinas al momento con el mando o desde el móvil, y protéjase del sol, del viento o de los insectos según convenga.',
+      'Obstacle Detection Technology': 'Detección de obstáculos',
+      'Advanced built-in sensors automatically halt the screen&#x27;s descent if an obstacle is detected, ensuring the safety of children, pets, and outdoor furniture.':
+        'Unos sensores detienen la bajada si detectan un obstáculo, por la seguridad de los niños, las mascotas y los muebles.',
+      'Custom Sizing &amp; Configurations': 'Medidas y configuración a medida',
+      'Each system is custom-measured to ensure smooth operation and complete coverage of your outdoor openings.':
+        'Cada equipo se mide a medida para que funcione con suavidad y cubra el hueco por completo.',
+      'Concealed Housing Design': 'Carcasa oculta',
+      'Screens retract into discreet housings that preserve the clean lines of your pergola or patio structure.':
+        'Las cortinas se recogen en carcasas discretas que no rompen las líneas de la pérgola ni del porche.',
+      'See motorized screen systems in action, providing retractable shade, privacy, and wind control. Explore seamless integrations within high-end pergolas and patio spaces.':
+        'Vea las cortinas motorizadas en funcionamiento, dando sombra, privacidad y control del viento, integradas en pérgolas y patios de gama alta.',
+      'Customize housing and track colors to blend discreetly with your pergola or patio structure, maintaining clean lines and a cohesive architectural look.':
+        'Elija el color de la carcasa y de las guías para que se integren con la pérgola o el porche y todo mantenga una línea limpia.',
+      'Watch motorized screens deploy instantly for shade, privacy, and wind control — seamlessly integrated into high-end pergolas and patio systems.':
+        'Vea cómo bajan las cortinas al momento para dar sombra, privacidad y control del viento, integradas en pérgolas y patios de gama alta.',
+      'Motorized Screens FAQs': 'Preguntas sobre cortinas motorizadas',
+      'Discover how our motorized screens provide privacy and bug protection for South Florida patios. Read FAQs to upgrade your space.':
+        'Así dan privacidad y protección frente a insectos nuestras cortinas motorizadas en los patios del sur de Florida.',
+      '1. How are screens controlled?': '1. ¿Cómo se manejan?',
+      'Our motorized retractable screens operate smoothly via remote, wall switch, or smart home app, giving you instant outdoor climate control at the touch of a button.':
+        'Con mando, con un pulsador de pared o desde la app de su sistema domótico. Control del ambiente exterior al momento.',
+      '2. Can they withstand strong winds?': '2. ¿Aguantan viento fuerte?',
+      'Yes. Featuring advanced edge-retention tracks, our heavy-duty screen systems stay securely locked in place, providing exceptional stability during Florida storms.':
+        'Sí. Las guías de retención lateral mantienen la cortina sujeta en su sitio, con muy buena estabilidad durante las tormentas de Florida.',
+      '3. Do they reduce patio heat?': '3. ¿Bajan la temperatura del patio?',
+      'Absolutely. Our premium solar mesh fabrics block up to 95% of UV rays, drastically lowering patio temperatures and sun glare while maintaining comfortable airflow.':
+        'Sí. Los tejidos solares bloquean hasta el 95% de los rayos UV, así que baja mucho la temperatura y el deslumbramiento, sin cortar la ventilación.',
+      '4. Are they hidden when not in use?': '4. ¿Se ven cuando están recogidas?',
+      'Yes! When retracted, the screens roll seamlessly into a sleek, concealed aluminum housing, preserving the clean architectural lines of your luxury outdoor space.':
+        'No. Al recogerse se enrollan dentro de una carcasa de aluminio discreta, y las líneas del exterior quedan igual de limpias.',
+      '5. Can you add them to my pergola?': '5. ¿Se pueden poner en mi pérgola actual?',
+      'Yes, Pergola Plus Florida custom-measures and retrofits motorized retractable screens onto existing pergolas, lanais, or covered patios for enhanced bug protection.':
+        'Sí. Medimos a medida e instalamos cortinas motorizadas en pérgolas, porches y patios cubiertos que ya existen.',
+    },
+  },
 };

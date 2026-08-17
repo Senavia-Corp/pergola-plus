@@ -278,4 +278,9 @@ export const COMUN_ES: Record<string, string> = {
     'Defina su espacio exterior con nuestras pérgolas abiertas de aluminio premium. Diseñadas a medida para viviendas de lujo, aportan profundidad arquitectónica y valor a la propiedad sin renunciar a la ventilación ni a las vistas al cielo. La mezcla perfecta de estilo y confort al aire libre.',
   'Our custom aluminum cabanas create refined outdoor retreats with resort-inspired design. Engineered for durability and privacy, these structures provide shaded comfort while elevating the overall aesthetic of your pool area or backyard entertainment space.':
     'Nuestras cabañas de aluminio a medida crean refugios exteriores con un diseño de inspiración resort. Calculadas para durar y para dar privacidad, aportan sombra y confort a la vez que elevan la estética de su zona de piscina o de su jardín.',
+  'Motorized Screens': 'Cortinas motorizadas',
+  'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas and covered patios, they offer instant comfort at the touch of a button while maintaining a clean architectural appearance.':
+    'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted quiere, con una automatización que no se nota. Se integran en pérgolas y porches y dan confort al instante con un botón, sin romper la línea arquitectónica.',
+  'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida conditions, they extend usable outdoor living while maintaining airflow, visibility, and long-term structural performance.':
+    'Proteja su exterior de insectos y suciedad con nuestros cerramientos a medida y con todos los permisos. Están pensados para el clima del sur de Florida: amplían el espacio que se puede usar sin quitar ventilación ni vistas, y aguantan a largo plazo.',
 };
