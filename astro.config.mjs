@@ -255,6 +255,11 @@ export default defineConfig({
     // (ENLACES_ROTOS), pero quien lo tenga guardado o enlazado desde fuera sigue
     // llegando aqui.
     '/deck-builders': { status: 301, destination: '/services/deck-builders' },
+    // /about-us tampoco existe: la pagina es /about-us/about-us. Lo enlazaban el
+    // menu y el pie de las 113 paginas, asi que cualquiera que lo tenga guardado o
+    // enlazado desde fuera esta llegando a un 404. Los enlaces ya estan corregidos;
+    // esto salva a quien tenga el enlace viejo.
+    '/about-us': { status: 301, destination: '/about-us/about-us' },
   },
 
   // NO anadir View Transitions / ClientRouter: las 749 interacciones IX2 de

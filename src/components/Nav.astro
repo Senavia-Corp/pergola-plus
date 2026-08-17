@@ -266,7 +266,12 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
               </div>
               <nav class="dropdown-list-mini w-dropdown-list">
                 <div class="wrapper-submenu-mini">
-                  <a href="/about-us" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us") }]}  aria-current={esActiva("/about-us") ? "page" : undefined}>
+                  {/* /about-us NO existe: la página es /about-us/about-us. Este
+                      enlace, y su gemelo del pie, llevaban a un 404 desde las 113
+                      páginas. No lo veía ninguna puerta porque check:enlaces solo
+                      busca href="#", y este tenía un destino — solo que a ninguna
+                      parte. Lo caza check:paginas. */}
+                  <a href="/about-us/about-us" class:list={["item-submenu w-inline-block", { "w--current": esActiva("/about-us/about-us") }]}  aria-current={esActiva("/about-us/about-us") ? "page" : undefined}>
                     <div class="wrapper-submenu-link">
                       <div class="block-icon-submenu"><img src="/images/1_1.svg" loading="lazy" alt="" class="icon-submenu-mini"></div>
                       <div>

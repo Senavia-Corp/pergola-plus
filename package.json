@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo",
+    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas",
     "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
@@ -20,7 +20,8 @@
     "check:paridad": "node scripts/auditar-paridad.mjs",
     "check:formularios": "node scripts/comprobar-formularios.mjs",
     "check:i18n": "node scripts/comprobar-i18n.mjs",
-    "check:seo": "node scripts/comprobar-seo.mjs"
+    "check:seo": "node scripts/comprobar-seo.mjs",
+    "check:paginas": "node scripts/comprobar-paginas.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",

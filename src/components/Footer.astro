@@ -118,7 +118,7 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
             <div class="heading-footer">{t('footerCompany')}</div>
             <ul role="list" class="list-footer">
               <li>
-                <a href="/about-us" class="link-footer">{t('footerAbout')}</a>
+                <a href="/about-us/about-us" class="link-footer">{t('footerAbout')}</a>
               </li>
               <li>
                 <a href="/about-us/brands" class="link-footer">{t('footerBrands')}</a>
@@ -165,7 +165,18 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
       <div data-w-id="9e3abbef-7c3b-f086-0635-e97421a15e4b" class="div-block-7">
         <div>
           <div class="div-block-6">
-            <a href="https://www.bbb.org/us/fl/boca-raton/profile/pool-enclosures/pergola-plus-corp-0633-92032287" target="_blank" class="w-inline-block"><img loading="lazy" src="/images/bbb.svg" alt="" class="bbb"></a>
+            {/* El <img> es lo ÚNICO que hay dentro del enlace y venía con alt="", así
+                que el enlace no tenía nombre accesible: un lector de pantalla lo
+                anunciaba como «enlace» y ya, en las 113 páginas. El alt se queda
+                vacío —el logo es decorativo, la información la da el enlace— y el
+                nombre lo pone el aria-label, que además avisa de que abre fuera.
+                `rel="noopener"` faltaba, con target="_blank". */}
+            <a
+              href="https://www.bbb.org/us/fl/boca-raton/profile/pool-enclosures/pergola-plus-corp-0633-92032287"
+              target="_blank"
+              rel="noopener"
+              aria-label="Pergola Plus Corp. on the Better Business Bureau (opens in a new tab)"
+              class="w-inline-block pp-bbb"><img loading="lazy" src="/images/bbb.svg" alt="" class="bbb"></a>
             <div>{t('footerLicencia')}</div>
           </div>
         </div>

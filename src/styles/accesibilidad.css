@@ -1,0 +1,101 @@
+/* Accesibilidad: lo que el CSS migrado no traía.
+ *
+ * No toca el CSS de Webflow. Son reglas propias, cargadas después, y ninguna cambia
+ * cómo se ve el sitio: solo cómo se usa.
+ */
+
+/* -----------------------------------------------------------------------------
+   1 · Área táctil mínima
+   --------------------------------------------------------------------------
+   WCAG 2.2 AA (2.5.8, «Target Size (Minimum)») pide 24×24 px CSS. Medido a 320px:
+   142 enlaces del sitio quedaban en 17-18 px de alto — los de las tarjetas de blog,
+   producto, ubicación y garantía, y los 84 del pie. En un móvil eso es fallar el
+   toque y acabar en el enlace de al lado.
+
+   Se agranda el área CON UN PSEUDOELEMENTO, no con padding: el padding movería el
+   texto y cambiaría la maquetación de tarjetas que ya están bien. Así el enlace se
+   ve exactamente igual y la zona sensible crece hasta los 24 px.
+
+   Medido antes de elegir el método: el hueco vertical mínimo entre dos de estos
+   enlaces es de 8 px, y crecer de 18 a 24 son 3 px por lado. Quedan 2 px de
+   separación, así que ninguno se come el toque del vecino.
+
+   NO se aplica a `.link`, que sí es un enlace DENTRO de un párrafo («Developed by
+   Senavia Corp.»): para esos la norma tiene excepción explícita, y agrandarlo
+   solaparía con el texto que lo rodea.
+
+   `.link-2` sí entra, aunque al principio lo excluí por el mismo motivo: al medir
+   /about-us/where-we-work resultó que son los 24 enlaces del listado de ciudades —
+   navegación en lista, no prosa. */
+.blog-card-link,
+.link-2,
+.link-footer,
+.location-card-link,
+.pp-bbb,
+.product-card-link-page,
+.warraty-card-link {
+  position: relative;
+}
+
+.blog-card-link::after,
+.link-2::after,
+.link-footer::after,
+.location-card-link::after,
+.pp-bbb::after,
+.product-card-link-page::after,
+.warraty-card-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  min-height: 24px;
+}
+
+/* -----------------------------------------------------------------------------
+   2 · Foco visible
+   --------------------------------------------------------------------------
+   El CSS migrado no marca el foco en NINGÚN control fuera del menú (menu.css sí lo
+   hace desde el rediseño). Sin indicador, quien navega con teclado no sabe dónde
+   está.
+
+   `:focus-visible` y no `:focus`: el navegador solo lo activa cuando el foco viene
+   del teclado, así que no aparece un recuadro al hacer clic con el ratón. */
+main a:focus-visible,
+.body-page a:focus-visible,
+.footer a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--primary, #3a545b);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Sobre fondo oscuro el azul del outline se pierde. */
+.footer a:focus-visible,
+.hero-video-main a:focus-visible {
+  outline-color: var(--secundary, #fffbf0);
+}
+
+/* -----------------------------------------------------------------------------
+   3 · Movimiento reducido
+   --------------------------------------------------------------------------
+   Solo afecta a las animaciones PROPIAS. Las 749 interacciones IX2 de webflow.js se
+   dejan en paz a propósito: son transformaciones en línea que aplica JavaScript, así
+   que desde CSS no se pueden desactivar sin romperlas a medias — quedarían elementos
+   con opacity:0 para siempre, que es peor que la animación. */
+@media (prefers-reduced-motion: reduce) {
+  [data-pp-reveal],
+  .pp-agenda-fachada,
+  [fs-slider-element='list-wrapper'] {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

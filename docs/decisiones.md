@@ -100,3 +100,54 @@ fuerza. Toda la verificacion visual se hace con sondas JS sobre geometria real y
 hojas de contactos generadas con sharp. El viewport 0x0 destapo de paso un bug
 propio en el carrusel (paso 0 -> cuenta de puntos NaN -> paginacion borrada), asi
 que el estorbo salio a cuenta.
+
+---
+
+## Fase 6 — QA de las 113 paginas
+
+**`/about-us` era un 404 enlazado desde las 113 paginas.** El menu y el pie
+apuntaban a `/about-us`, pero la pagina es `/about-us/about-us`. No lo veia ninguna
+puerta: `check:enlaces` solo busca `href="#"`, y este enlace SI tenia destino — solo
+que a ninguna parte. Corregidos los dos enlaces y anadido un 301 para quien lo tenga
+guardado. La puerta que lo caza ahora es `check:paginas`.
+
+**«No items found.» en 27 paginas era un falso positivo MIO.** Ese bloque va dentro
+de `.w-dyn-hide`, que `webflow.css` marca `display:none !important`: es el
+placeholder de coleccion vacia que Webflow deja siempre en el markup. La sonda leia
+texto que nadie ve. Se arreglo la sonda, no el sitio. (Distinto es
+`w-dyn-bind-empty`, que SI se ve y lo caza `check:seo` — eso era real y era la
+politica de privacidad.)
+
+**El area tactil se agranda con un pseudoelemento, no con padding.** WCAG 2.2 AA
+(2.5.8) pide 24x24 px y a 320px habia 142 enlaces en 17-18 px de alto. El padding
+habria movido el texto y cambiado la maquetacion de tarjetas que estan bien; el
+pseudoelemento crece la zona sensible sin mover un pixel. Medido antes de elegir: el
+hueco vertical minimo entre esos enlaces es 8 px y la ampliacion son 3 px por lado,
+asi que quedan 2 px y ninguno se come el toque del vecino. Verificado despues: 0
+solapes reales.
+
+**`.link` queda fuera y `.link-2` dentro.** `.link` es un enlace dentro de una frase
+(«Developed by Senavia Corp.») y la norma tiene excepcion explicita para esos.
+`.link-2` lo excluí al principio por el mismo motivo y estaba equivocado: al medir
+`/about-us/where-we-work` resulto que son los 24 enlaces del listado de ciudades,
+que son navegacion en lista, no prosa.
+
+**El logo de BBB dejaba un enlace SIN NOMBRE accesible.** El `<img>` es lo unico
+dentro del enlace y venia con `alt=""`, asi que un lector de pantalla lo anunciaba
+como «enlace» y ya, en las 113 paginas. El `alt` se queda vacio —el logo es
+decorativo— y el nombre lo pone un `aria-label`. Le faltaba tambien `rel="noopener"`
+teniendo `target="_blank"`.
+
+**`document.hasFocus()` NO basta para verificar animaciones.** Medido en este
+entorno: `hasFocus() === true` mientras `document.hidden === true` y
+`visibilityState === 'hidden'`, con **0 frames de requestAnimationFrame en un
+segundo entero**. Con rAF estrangulado, las animaciones de IX2 disparadas por scroll
+no avanzan nunca y 14 elementos quedan en `opacity:0`, que se lee exactamente igual
+que un fallo real.
+
+La sonda fiable es contar frames de rAF, no preguntar por el foco. Y la verificacion
+que SI se puede hacer con la pagina oculta es la del CABLEADO, que es deterministica:
+en `/products/motorized-louvered-pergolas`, IX2 conoce los **32 de 32** `data-w-id`
+de la pagina, con 200 eventos cargados, `data-wf-page` correcto, `w-mod-ix` puesto y
+el disparador `SCROLL_INTO_VIEW` con su configuracion. La reproduccion visual queda
+pendiente de comprobar en un navegador visible.
