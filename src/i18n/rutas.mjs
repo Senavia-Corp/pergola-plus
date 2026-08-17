@@ -123,6 +123,8 @@ export const TRADUCIDAS = {
   // diccionario en src/i18n/posts/: sin el, /es/post/<slug> no se genera y este
   // hreflang apuntaria a un 404.
   '/post/pergola-cost-south-florida': '/es/post/pergola-cost-south-florida/',
+  '/post/pergola-building-codes-broward-palm-beach': '/es/post/pergola-building-codes-broward-palm-beach/',
+  '/post/design-build-pergola-process-south-florida': '/es/post/design-build-pergola-process-south-florida/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
