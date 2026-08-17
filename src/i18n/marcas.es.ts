@@ -23,7 +23,7 @@ export interface MarcaEs {
 export const MARCAS_ES: Record<string, MarcaEs> = {
   appolo: {
     nombre: 'Appolo',
-    title: 'Techos de lamas Apollo | Pérgolas motorizadas en el sur de Florida',
+    title: 'Techos de lamas Apollo | Pérgolas motorizadas',
     description:
       'Pérgolas Apollo de lamas motorizadas: control del sol, de la sombra y del aire con mando, app o voz, compatibles con domótica.',
     dic: {
@@ -45,7 +45,7 @@ export const MARCAS_ES: Record<string, MarcaEs> = {
 
   fenetex: {
     nombre: 'Fenetex',
-    title: 'Cortinas motorizadas Fenetex | Sombra y protección en el sur de Florida',
+    title: 'Cortinas motorizadas Fenetex | Sombra y protección',
     description:
       'Cortinas motorizadas Fenetex: mosquiteras, transparentes, de sombra y homologadas para huracán, para exteriores residenciales y comerciales.',
     dic: {
@@ -67,7 +67,7 @@ export const MARCAS_ES: Record<string, MarcaEs> = {
 
   renaissance: {
     nombre: 'Renaissance',
-    title: 'Cubiertas y pérgolas Renaissance | Sistemas de aluminio calculados',
+    title: 'Cubiertas y pérgolas Renaissance | Aluminio calculado',
     description:
       'Pérgolas, cubiertas de patio y salas con mosquitera Renaissance: aluminio resistente, personalizable y de poco mantenimiento.',
     dic: {
