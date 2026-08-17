@@ -130,4 +130,20 @@ export const COMUN_ES: Record<string, string> = {
   'Weather-Resistant Construction': 'Construcción resistente a la intemperie',
   'Designed to Complement Your Home': 'Diseñado para acompañar a su casa',
   'Fully Permitted &amp; Code Compliant': 'Con todos los permisos y conforme a normativa',
+
+  // --- Bloques que salen en ~100 paginas: zonas de servicio y reseñas ---
+  'Proudly Serving South Florida': 'Damos servicio en todo el sur de Florida',
+  'We provide professional pergola construction across Miami-Dade, Broward, and Palm Beach. Our team builds custom pergolas designed for Florida’s heat, humidity, and coastal conditions—delivering durable, beautiful outdoor spaces for homes and businesses throughout the region.':
+    'Construimos pérgolas de forma profesional en Miami-Dade, Broward y Palm Beach. Nuestro equipo levanta pérgolas a medida pensadas para el calor, la humedad y las condiciones costeras de Florida, con espacios exteriores duraderos y bonitos para viviendas y negocios de toda la región.',
+  'Reviews &amp; testimonials': 'Opiniones y testimonios',
+  'What Clients Say About Our Work': 'Lo que dicen nuestros clientes',
+  'Discover how our pergola contractors transform outdoor spaces with expert installation of pergolas, patio covers, pool screen enclosures, and louvered roof systems across South Florida.':
+    'Vea cómo transformamos espacios exteriores instalando pérgolas, cubiertas de patio, cerramientos de piscina y techos de lamas por todo el sur de Florida.',
+  'Miami-Dade County': 'Condado de Miami-Dade',
+  'Broward County': 'Condado de Broward',
+  'Palm Beach County': 'Condado de Palm Beach',
+
+  // Las entradillas de servicio salen IGUAL en /services y en /services/<slug>.
+  'Our premium paver installations enhance driveways, patios, and pool decks with structural precision and refined finishes. Each system is engineered for proper drainage, long-term stability, and full code compliance. Designed for upscale properties, our pavers withstand South Florida’s heavy rain and heat while elevating curb appeal. We focus on permanent, professionally installed solutions — not temporary surface upgrades.':
+    'Nuestro adoquinado premium mejora entradas de coche, patios y bordes de piscina con precisión estructural y buenos acabados. Cada sistema se calcula para drenar bien, mantenerse estable en el tiempo y cumplir la normativa. Pensado para propiedades de alto nivel, aguanta las lluvias fuertes y el calor del sur de Florida a la vez que mejora la fachada. Buscamos soluciones permanentes y bien instaladas, no un apaño de superficie.',
 };

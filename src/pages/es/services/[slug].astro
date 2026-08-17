@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import items from '../../../contenido-migrado/services/_items.json';
+import { traducirHtml } from '../../../i18n';
+import { SERVICIOS_ES } from '../../../i18n/servicios.es';
+import { COMUN_ES } from '../../../i18n/comun.es';
+import { grafo, breadcrumbs, servicio } from '../../../lib/jsonld';
+
+// Las páginas de servicio en español.
+//
+// Misma idea que /es/[...ruta] pero sobre una COLECCIÓN: el fragmento y los
+// metadatos (wfPage, anti-FOUC) salen de los mismos ficheros que la versión inglesa,
+// así que no pueden divergir. Lo único propio es el diccionario y el <head>.
+//
+// Solo se generan las que tienen diccionario. Un servicio sin traducir no existe en
+// /es/, no lleva hreflang y no entra en el sitemap.
+
+const fragmentos = import.meta.glob('../../../contenido-migrado/services/*.html', {
+  query: '?raw', import: 'default', eager: true,
+});
+
+export function getStaticPaths() {
+  return items
+    .filter((item) => SERVICIOS_ES[item.slug])
+    .map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const traduccion = SERVICIOS_ES[item.slug]!;
+const original = fragmentos['../../../contenido-migrado/services/' + item.slug + '.html'];
+if (!original) throw new Error(`[i18n] sin fragmento para services/${item.slug}`);
+
+const { html, traducidas, faltan } = traducirHtml(original as string, {
+  ...COMUN_ES,
+  ...traduccion.dic,
+});
+
+if (faltan.length) {
+  console.warn(`\n  [i18n] /es/services/${item.slug} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
+  for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
+}
+
+const site = Astro.site!.href;
+const ruta = `/es/services/${item.slug}/`;
+const jsonLd = grafo(
+  servicio(site, { nombre: traduccion.nombre, descripcion: traduccion.description, ruta }),
+  breadcrumbs(site, [['Nuestros servicios', '/es/services/'], [traduccion.nombre, ruta]]),
+);
+---
+
+<BaseLayout
+  title={traduccion.title}
+  description={traduccion.description}
+  ogImage={item.ogImage ?? undefined}
+  pageStyles={item.pageStyles ?? undefined}
+  wfPage={item.wfPage ?? undefined}
+  wfSite={item.wfSite ?? undefined}
+  jsonLd={jsonLd}
+>
+  <Fragment set:html={html} />
+</BaseLayout>

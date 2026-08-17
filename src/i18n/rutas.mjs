@@ -28,6 +28,9 @@ export const TRADUCIDAS = {
   '/contact-us/get-a-quote': '/es/contact-us/get-a-quote/',
   '/contact-us/get-in-touch': '/es/contact-us/get-in-touch/',
   '/contact-us/schedule-a-visit': '/es/contact-us/schedule-a-visit/',
+  // Paginas de detalle de servicio. Solo las que tienen diccionario en
+  // src/i18n/servicios.es.ts: el resto no existe en /es/.
+  '/services/pavers': '/es/services/pavers/',
   // El 404 NO esta aqui aunque exista /es/404: una pagina de error no se indexa, asi
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.

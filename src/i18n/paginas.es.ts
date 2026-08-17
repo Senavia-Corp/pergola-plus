@@ -87,8 +87,6 @@ const SERVICIOS: Record<string, string> = {
   'We design and build fully engineered custom pergolas for high-end residential properties across Palm Beach and Broward County. Every structure is professionally designed, permitted, and installed to withstand Florida’s heat, humidity, and coastal exposure. From modern aluminum pergolas to advanced louvered roof systems, our projects are architecturally integrated and built for long-term durability. This is not a kit installation — it’s a custom investment designed to elevate outdoor comfort and increase property value.':
     'Diseñamos y construimos pérgolas a medida, con cálculo estructural completo, para viviendas de alto nivel en Palm Beach y Broward. Cada estructura se proyecta, se tramita y se instala para aguantar el calor, la humedad y la exposición costera de Florida. Desde pérgolas de aluminio modernas hasta sistemas avanzados de techo de lamas, nuestros proyectos se integran en la arquitectura y se construyen para durar. Esto no es montar un kit: es una inversión a medida para vivir mejor el exterior y revalorizar la propiedad.',
   Pavers: 'Adoquinado',
-  'Our premium paver installations enhance driveways, patios, and pool decks with structural precision and refined finishes. Each system is engineered for proper drainage, long-term stability, and full code compliance. Designed for upscale properties, our pavers withstand South Florida’s heavy rain and heat while elevating curb appeal. We focus on permanent, professionally installed solutions — not temporary surface upgrades.':
-    'Nuestro adoquinado premium mejora entradas de coche, patios y bordes de piscina con precisión estructural y buenos acabados. Cada sistema se calcula para drenar bien, mantenerse estable en el tiempo y cumplir la normativa. Pensado para propiedades de alto nivel, aguanta las lluvias fuertes y el calor del sur de Florida a la vez que mejora la fachada. Buscamos soluciones permanentes y bien instaladas, no un apaño de superficie.',
   Driveways: 'Entradas de coche',
   'A custom driveway defines your property’s first impression. We design and install high-end paver driveways with reinforced foundations engineered for durability and structural performance. Built for luxury homes, our driveway systems combine architectural elegance with long-term resilience against Florida’s climate conditions. Every project is permitted, professionally executed, and tailored to complement your home’s exterior design.':
     'La entrada de coche es la primera impresión de una propiedad. Diseñamos e instalamos entradas adoquinadas de gama alta sobre bases reforzadas, calculadas para durar y para aguantar el uso. Pensadas para viviendas de lujo, combinan elegancia arquitectónica con resistencia a largo plazo frente al clima de Florida. Cada proyecto se tramita, se ejecuta con profesionales y se ajusta al diseño exterior de su casa.',
@@ -202,17 +200,7 @@ const CONTACTO: Record<string, string> = {
   'Message:': 'Mensaje:',
   'Tell us more about what you need': 'Cuéntenos qué necesita',
   'Submit Inquiry': 'Enviar consulta',
-  'Proudly Serving South Florida': 'Damos servicio en todo el sur de Florida',
-  'We provide professional pergola construction across Miami-Dade, Broward, and Palm Beach. Our team builds custom pergolas designed for Florida’s heat, humidity, and coastal conditions—delivering durable, beautiful outdoor spaces for homes and businesses throughout the region.':
-    'Construimos pérgolas de forma profesional en Miami-Dade, Broward y Palm Beach. Nuestro equipo levanta pérgolas a medida pensadas para el calor, la humedad y las condiciones costeras de Florida, con espacios exteriores duraderos y bonitos para viviendas y negocios de toda la región.',
-  'Miami-Dade County': 'Condado de Miami-Dade',
-  'Broward County': 'Condado de Broward',
-  'Palm Beach County': 'Condado de Palm Beach',
   'Read More →': 'Leer más →',
-  'Reviews &amp; testimonials': 'Opiniones y testimonios',
-  'What Clients Say About Our Work': 'Lo que dicen nuestros clientes',
-  'Discover how our pergola contractors transform outdoor spaces with expert installation of pergolas, patio covers, pool screen enclosures, and louvered roof systems across South Florida.':
-    'Vea cómo transformamos espacios exteriores instalando pérgolas, cubiertas de patio, cerramientos de piscina y techos de lamas por todo el sur de Florida.',
   'We build custom pergolas, patio covers, and outdoor structures across Miami-Dade, delivering weather-resistant designs engineered for Florida sun, humidity, and coastal conditions. Our team provides licensed, insured installations throughout the region.':
     'Construimos pérgolas, cubiertas de patio y estructuras exteriores a medida por todo Miami-Dade, con diseños resistentes calculados para el sol, la humedad y el ambiente costero de Florida. Instalamos con licencia y seguro en toda la región.',
   'From Fort Lauderdale to Weston, we install premium aluminum pergolas, motorized louvered roofs, patio covers, and complete outdoor living systems throughout Broward County. Every project is built for durability, style, and long-term performance.':
