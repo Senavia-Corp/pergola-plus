@@ -319,4 +319,37 @@ export const COMUN_ES: Record<string, string> = {
     'Pérgolas de aluminio de gama alta y soluciones de sombra a medida, diseñadas e instaladas por todo el sur de Florida: duran, se ven bien y elevan la vida al aire libre.',
   'Pergola Plus Florida - Licensed &amp; Insured CGC1539940 in South Florida':
     'Pergola Plus Florida — con licencia y seguro CGC1539940 en el sur de Florida',
+  // Marcas: los nombres NO se traducen, pero sí lo que las describe. Estas cadenas
+  // salen a la vez en /about-us/brands y en cada ficha de marca.
+  'Visit Our Partners&#x27; Websites': 'Visite las webs de nuestros socios',
+  'View Product Gallery': 'Ver galería del producto',
+  'Pergola Plus Florida specializes in custom aluminum pergolas, louvered roofs, and patio covers, combining quality materials with expert craftsmanship. With over 10 years of experience, they serve South Florida with licensed, insured, and reliable service.':
+    'Pergola Plus Florida se dedica a las pérgolas de aluminio a medida, los techos de lamas y las cubiertas de patio, con buenos materiales y buen oficio. Con más de diez años de experiencia, trabajan en el sur de Florida con licencia, seguro y seriedad.',
+  'Equinox offers motorized louvered roof systems that provide customizable shade and ventilation, allowing control of light and weather protection with a button. Their durable, modern designs ensure long-lasting outdoor comfort.':
+    'Equinox fabrica techos de lamas motorizados que dan sombra y ventilación a medida: la luz y la protección frente al tiempo se controlan con un botón. Diseños actuales y resistentes, para un confort que dura.',
+  'Apollo Opening Roof offers motorized louvered pergolas that let you control sunlight, shade, and airflow with remote, app, or voice commands. Seamlessly smart-home compatible and built to last, they elevate any outdoor space in style.':
+    'Apollo Opening Roof fabrica pérgolas de lamas motorizadas que dejan controlar el sol, la sombra y el aire con mando, con la app o por voz. Compatibles con domótica y hechas para durar, elevan cualquier exterior.',
+  'Renaissance specializes in creating durable, customizable outdoor solutions like pergolas, patio covers, and screen rooms. Their designs combine strength with style, enhancing any outdoor space. Explore their innovative, weather-resistant products to elevate your backyard.':
+    'Renaissance se dedica a soluciones exteriores duraderas y personalizables: pérgolas, cubiertas de patio y salas con mosquitera. Sus diseños unen resistencia y estilo, y mejoran cualquier exterior. Vea sus productos resistentes a la intemperie.',
+  '\u200bFenetex specializes in premium motorized screens and shades for residential and commercial outdoor spaces. Their product lineup includes insect screens, clear weather screens, shade screens, and hurricane screens, all designed for durability and ease of use. Established in 2007, Fenetex focuses on innovation and quality to enhance outdoor living areas. \u200b':
+    'Fenetex se dedica a las cortinas y estores motorizados de gama alta para exteriores residenciales y comerciales. Su catálogo incluye mosquiteras, cortinas transparentes, cortinas de sombra y cortinas para huracán, todas pensadas para durar y para usarse con facilidad. Fundada en 2007, apuesta por la innovación y la calidad.',
+  'Custom Luxury Pergolas': 'Pérgolas de lujo a medida',
+  'Florida Code Compliant': 'Conforme a la normativa de Florida',
+  'Design-Build Specialists': 'Especialistas en diseño y obra',
+  'Adjustable Roof Pergolas': 'Pérgolas de techo orientable',
+  'High-Performance Louvers': 'Lamas de altas prestaciones',
+  'All-Weather Shade Control': 'Sombra con cualquier tiempo',
+  'Motorized Louvered Roofs': 'Techos de lamas motorizados',
+  'Smart Shade Technology': 'Sombra con tecnología',
+  'Remote-Control Pergolas': 'Pérgolas con mando a distancia',
+  'Insulated Patio Covers': 'Cubiertas de patio aisladas',
+  'Structural Aluminum Systems': 'Sistemas estructurales de aluminio',
+  'Engineered Outdoor Covers': 'Cubiertas exteriores calculadas',
+  'Motorized Screen Systems': 'Cortinas motorizadas',
+  'Hurricane-Rated Screens': 'Cortinas homologadas para huracán',
+  'Weather Protection Solutions': 'Protección frente al tiempo',
+  // Identidad: se declara igual a si misma para que el contador de traducidas no la
+  // marque como olvido. Un nombre de marca sin entrada y un texto sin traducir se
+  // leen igual en el informe del build.
+  'Pergola Plus | Forte': 'Pergola Plus | Forte',
 };

@@ -354,6 +354,12 @@ const SECTORES: Record<string, string> = {
     'Vea instalaciones reales de nuestras pérgolas de lamas motorizadas por el sur de Florida, y cómo particulares y empresas mejoran su exterior con diseño actual, buenos materiales y confort con cualquier tiempo.',
 };
 
+const MARCAS: Record<string, string> = {
+  'Patio Cover Models Brands': 'Marcas y modelos de cubierta',
+  'At Pergola Plus, we partner with industry-leading manufacturers to deliver high-quality pergola systems, louvered roofs, and outdoor solutions built to last. Each brand we work with is selected for its innovation, durability, and proven performance—ensuring your outdoor space is built with the very best.':
+    'En Pergola Plus trabajamos con fabricantes de referencia para dar pérgolas, techos de lamas y soluciones exteriores que duran. Cada marca está elegida por su innovación, su resistencia y por lo que ya ha demostrado, para que su exterior se construya con lo mejor.',
+};
+
 const NO_ENCONTRADA: Record<string, string> = {
   'Page Not Found': 'Página no encontrada',
   'The page you are looking for doesn&#x27;t exist or has been moved':
@@ -429,6 +435,12 @@ export const PAGINAS_ES: PaginaEs[] = [
     title: 'Información de garantía | Pergola Plus Florida',
     description: 'Qué cubre la garantía de los sistemas FORTE, Equinox, Renaissance, Fenetex y MaestroShield que instalamos.',
     dic: GARANTIAS_PAG,
+  },
+  {
+    en: '/about-us/brands', es: '/es/about-us/brands',
+    title: 'Marcas y modelos de cubierta | Pergola Plus Florida',
+    description: 'Los fabricantes con los que trabajamos: FORTE, Equinox, Apollo, Renaissance y Fenetex, elegidos por resistencia y por prestaciones.',
+    dic: MARCAS,
   },
   {
     en: '/404', es: '/es/404',

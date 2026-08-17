@@ -37,6 +37,13 @@ export const TRADUCIDAS = {
   '/about-us/industries-we-serve': '/es/about-us/industries-we-serve/',
   '/resources/faq': '/es/resources/faq/',
   '/resources/warranties': '/es/resources/warranties/',
+  '/about-us/brands': '/es/about-us/brands/',
+  // Fichas de marca. Solo las que tienen diccionario en src/i18n/marcas.es.ts.
+  '/brands/appolo': '/es/brands/appolo/',
+  '/brands/equinox': '/es/brands/equinox/',
+  '/brands/fenetex': '/es/brands/fenetex/',
+  '/brands/pergola-plus-forte': '/es/brands/pergola-plus-forte/',
+  '/brands/renaissance': '/es/brands/renaissance/',
   // Paginas de detalle de servicio. Solo las que tienen diccionario en
   // src/i18n/servicios.es.ts: el resto no existe en /es/.
   '/services/pavers': '/es/services/pavers/',

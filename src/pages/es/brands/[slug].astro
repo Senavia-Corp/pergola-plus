@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import items from '../../../contenido-migrado/brands/_items.json';
+import { traducirHtml } from '../../../i18n';
+import { MARCAS_ES } from '../../../i18n/marcas.es';
+import { COMUN_ES } from '../../../i18n/comun.es';
+import { grafo, breadcrumbs } from '../../../lib/jsonld';
+
+// Las páginas de marca en español. Misma estructura que /es/services/[slug]: el
+// fragmento y los metadatos salen de los MISMOS ficheros que la versión inglesa, así
+// que el `wfPage` y el bloque anti-FOUC no pueden divergir.
+//
+// Solo se generan las que tienen diccionario en MARCAS_ES.
+
+const fragmentos = import.meta.glob('../../../contenido-migrado/brands/*.html', {
+  query: '?raw', import: 'default', eager: true,
+});
+
+export function getStaticPaths() {
+  return items
+    .filter((item) => MARCAS_ES[item.slug])
+    .map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const traduccion = MARCAS_ES[item.slug]!;
+const original = fragmentos['../../../contenido-migrado/brands/' + item.slug + '.html'];
+if (!original) throw new Error(`[i18n] sin fragmento para brands/${item.slug}`);
+
+const { html, traducidas, faltan } = traducirHtml(original as string, {
+  ...COMUN_ES,
+  ...traduccion.dic,
+});
+
+if (faltan.length) {
+  console.warn(`\n  [i18n] /es/brands/${item.slug} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
+  for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
+}
+
+const site = Astro.site!.href;
+const ruta = `/es/brands/${item.slug}/`;
+const jsonLd = grafo(
+  null,
+  breadcrumbs(site, [['Nuestras marcas', '/es/about-us/brands/'], [traduccion.nombre, ruta]]),
+);
+---
+
+<BaseLayout
+  title={traduccion.title}
+  description={traduccion.description}
+  ogImage={item.ogImage ?? undefined}
+  pageStyles={item.pageStyles ?? undefined}
+  wfPage={item.wfPage ?? undefined}
+  wfSite={item.wfSite ?? undefined}
+  jsonLd={jsonLd}
+>
+  <Fragment set:html={html} />
+</BaseLayout>
