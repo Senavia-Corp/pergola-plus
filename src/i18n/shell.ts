@@ -15,7 +15,7 @@ type Claves =
   | 'motorizedLouvered' | 'solidRoof' | 'polycarbonate' | 'openAir' | 'cabanas'
   | 'screenEnclosures' | 'motorizedScreens' | 'carports' | 'solar' | 'sukkha'
   | 'customPergolas' | 'pavers' | 'driveways' | 'concrete' | 'deck' | 'fence'
-  | 'fullRemodel' | 'landscaping'
+  | 'fullRemodel'
   | 'aboutUsTitulo' | 'aboutUsTexto' | 'whereWeWorkTitulo' | 'whereWeWorkTexto'
   | 'brandsTitulo' | 'brandsTexto' | 'industriesTitulo' | 'industriesTexto'
   | 'blogTitulo' | 'blogTexto' | 'faqTitulo' | 'faqTexto'
@@ -69,7 +69,6 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     deck: 'Deck',
     fence: 'Fence',
     fullRemodel: 'Full Outdoor Remodel',
-    landscaping: 'Landscaping',
 
     aboutUsTitulo: 'About Us',
     aboutUsTexto: 'Learn why we are the leading pergola contractors in South Florida for families.',
@@ -165,7 +164,6 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     deck: 'Terraza de madera',
     fence: 'Vallado',
     fullRemodel: 'Reforma integral del exterior',
-    landscaping: 'Paisajismo',
 
     aboutUsTitulo: 'Sobre nosotros',
     aboutUsTexto: 'Por qué somos los contratistas de pérgolas de referencia en el sur de Florida.',

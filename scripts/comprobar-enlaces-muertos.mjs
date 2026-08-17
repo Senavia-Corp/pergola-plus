@@ -29,14 +29,11 @@ const DIST = path.join(RAIZ, 'dist');
  * de landscaping y la cablea, esta lista sobra y se quita a mano).
  */
 const CONOCIDOS = [
-  { texto: 'Landscaping', porque: 'no existe /services/landscaping; ver Nav.astro' },
-  { texto: 'Paisajismo', porque: 'el mismo item del menu en /es/' },
-  {
-    texto: 'Read More →',
-    porque:
-      'de las 5 tarjetas de /resources/warranties, 4 ya van a su marca (ver GARANTIAS ' +
-      'en transformar.mjs). La que queda es MaestroShield, la unica sin pagina de marca',
-  },
+  // Fase 1 cerro tres que estaban aqui:
+  //   Landscaping / Paisajismo  el item del menu se retiro: no habia pagina ni
+  //                             contenido para crearla (ver Nav.astro).
+  //   Read More →               la tarjeta de MaestroShield ya va al fabricante
+  //                             (GARANTIAS en transformar.mjs).
   {
     texto: 'Back',
     porque:
@@ -105,16 +102,38 @@ if (vacios) console.log(`  ok     ${vacios} <a href="#"> sin texto ni imagen (in
 // que su fallo no es quedarse en "#" sino cruzarse: la tarjeta de Equinox
 // apuntando a Fenetex. Eso no lo ve el barrido de arriba, que solo mira href="#".
 const garantias = path.join(DIST, 'resources/warranties/index.html');
+let tarjetas = 0;
 for (const tarjeta of (await fs.readFile(garantias, 'utf8')).split('<div class="warranty_item">').slice(1)) {
   const titulo = tarjeta.match(/<h3[^>]*>([^<]*)/)?.[1] ?? '';
-  const destino = tarjeta.match(/<a href="([^"]*)" class="warraty-card-link/)?.[1];
-  if (!destino || destino === '#') continue;         // MaestroShield: no tiene marca
-  // El slug de la marca tiene que salir del titulo de la tarjeta.
-  const marca = destino.split('/').pop().replace('pergola-plus-', '');
-  if (!titulo.toLowerCase().includes(marca.toLowerCase())) {
+  // El href ya no es siempre lo primero: la de MaestroShield lleva target+rel
+  // entre el href y la clase, asi que no se puede exigir que vayan pegados.
+  const destino = tarjeta.match(/<a href="([^"]*)"[^>]*class="warraty-card-link/)?.[1];
+  tarjetas++;
+  if (!destino || destino === '#') {
+    fallos.push({ rel: 'resources/warranties/index.html', t: `"${titulo.trim()}" sigue en href="#"` });
+    continue;
+  }
+  // El slug de la marca tiene que salir del titulo de la tarjeta. En las externas
+  // la marca esta en el dominio, no en la ultima porcion de la ruta: con
+  // split('/').pop() sobre "https://maestroshield.com/" salia cadena vacia y la
+  // comprobacion pasaba SIEMPRE, que es peor que no tenerla.
+  const marca = destino.startsWith('http')
+    ? new URL(destino).hostname.replace(/^www\./, '').split('.')[0]
+    : destino.split('/').filter(Boolean).pop().replace('pergola-plus-', '');
+  if (!titulo.toLowerCase().replace(/\s+/g, '').includes(marca.toLowerCase())) {
     fallos.push({ rel: 'resources/warranties/index.html', t: `"${titulo.trim()}" -> ${destino} (cruzada)` });
   }
+  // Un enlace que sale del sitio sin rel="noopener" le entrega window.opener a
+  // la pagina destino, que puede reescribir la nuestra.
+  if (destino.startsWith('http') && !/rel="[^"]*noopener/.test(tarjeta.slice(0, tarjeta.indexOf('warraty-card-link')))) {
+    fallos.push({ rel: 'resources/warranties/index.html', t: `"${titulo.trim()}" es externo y no lleva rel="noopener"` });
+  }
 }
+if (tarjetas !== 5) {
+  console.log(`  FALLO  /resources/warranties tiene ${tarjetas} tarjetas y esperaba 5: el selector ya no vale`);
+  process.exit(1);
+}
+console.log(`  ok     las ${tarjetas} tarjetas de garantia van a su marca (4 al CMS, MaestroShield al fabricante)`);
 
 if (fallos.length) {
   const porTexto = new Map();

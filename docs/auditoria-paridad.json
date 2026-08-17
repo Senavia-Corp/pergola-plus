@@ -3,10 +3,13 @@
     {
       "ruta": "/",
       "idsV": 37,
-      "idsG": 37,
+      "idsG": 36,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 1,
       "foucG": 1,
@@ -18,16 +21,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1993,
-      "palabrasG": 2021,
-      "deltaTexto": 0.014049172102358254
+      "palabrasG": 1997,
+      "deltaTexto": 0.002007024586051179
     },
     {
       "ruta": "/about-us/about-us",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 3,
       "foucG": 3,
@@ -39,16 +45,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 859,
-      "palabrasG": 887,
-      "deltaTexto": 0.03259604190919674
+      "palabrasG": 886,
+      "deltaTexto": 0.03143189755529686
     },
     {
       "ruta": "/about-us/brands",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -60,16 +69,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 669,
-      "palabrasG": 694,
-      "deltaTexto": 0.03736920777279522
+      "palabrasG": 693,
+      "deltaTexto": 0.03587443946188341
     },
     {
       "ruta": "/about-us/industries-we-serve",
       "idsV": 39,
-      "idsG": 39,
+      "idsG": 38,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -81,16 +93,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1507,
-      "palabrasG": 1535,
-      "deltaTexto": 0.0185799601857996
+      "palabrasG": 1534,
+      "deltaTexto": 0.017916390179163903
     },
     {
       "ruta": "/about-us/testimonials",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -102,16 +117,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 399,
-      "palabrasG": 424,
-      "deltaTexto": 0.06265664160401002
+      "palabrasG": 423,
+      "deltaTexto": 0.06015037593984962
     },
     {
       "ruta": "/about-us/where-we-work",
       "idsV": 27,
-      "idsG": 27,
+      "idsG": 26,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -123,16 +141,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 769,
-      "palabrasG": 794,
-      "deltaTexto": 0.032509752925877766
+      "palabrasG": 793,
+      "deltaTexto": 0.031209362808842653
     },
     {
       "ruta": "/articles/privacy-policy",
       "idsV": 24,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -144,16 +165,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 372,
-      "palabrasG": 397,
-      "deltaTexto": 0.06720430107526881
+      "palabrasG": 396,
+      "deltaTexto": 0.06451612903225806
     },
     {
       "ruta": "/articles/terms-of-service",
       "idsV": 24,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -165,16 +189,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 4554,
-      "palabrasG": 4579,
-      "deltaTexto": 0.005489679402722881
+      "palabrasG": 4578,
+      "deltaTexto": 0.005270092226613966
     },
     {
       "ruta": "/brands/appolo",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -186,16 +213,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 463,
-      "palabrasG": 488,
-      "deltaTexto": 0.05399568034557235
+      "palabrasG": 487,
+      "deltaTexto": 0.05183585313174946
     },
     {
       "ruta": "/brands/equinox",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -207,16 +237,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 455,
-      "palabrasG": 480,
-      "deltaTexto": 0.054945054945054944
+      "palabrasG": 479,
+      "deltaTexto": 0.05274725274725275
     },
     {
       "ruta": "/brands/fenetex",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -228,16 +261,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 475,
-      "palabrasG": 500,
-      "deltaTexto": 0.05263157894736842
+      "palabrasG": 499,
+      "deltaTexto": 0.05052631578947368
     },
     {
       "ruta": "/brands/pergola-plus-forte",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -249,16 +285,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 464,
-      "palabrasG": 489,
-      "deltaTexto": 0.05387931034482758
+      "palabrasG": 488,
+      "deltaTexto": 0.05172413793103448
     },
     {
       "ruta": "/brands/renaissance",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -270,16 +309,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 455,
-      "palabrasG": 480,
-      "deltaTexto": 0.054945054945054944
+      "palabrasG": 479,
+      "deltaTexto": 0.05274725274725275
     },
     {
       "ruta": "/contact-us/get-a-quote",
       "idsV": 24,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -291,16 +333,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 652,
-      "palabrasG": 677,
-      "deltaTexto": 0.03834355828220859
+      "palabrasG": 676,
+      "deltaTexto": 0.03680981595092025
     },
     {
       "ruta": "/contact-us/get-in-touch",
       "idsV": 31,
-      "idsG": 31,
+      "idsG": 30,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 1,
       "foucG": 1,
@@ -312,16 +357,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 738,
-      "palabrasG": 766,
-      "deltaTexto": 0.037940379403794036
+      "palabrasG": 765,
+      "deltaTexto": 0.036585365853658534
     },
     {
       "ruta": "/contact-us/schedule-a-visit",
       "idsV": 23,
-      "idsG": 23,
+      "idsG": 22,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -333,16 +381,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 364,
-      "palabrasG": 389,
-      "deltaTexto": 0.06868131868131869
+      "palabrasG": 388,
+      "deltaTexto": 0.06593406593406594
     },
     {
       "ruta": "/countries/broward-county-pergola-contractor",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -354,16 +405,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1155,
-      "palabrasG": 1183,
-      "deltaTexto": 0.024242424242424242
+      "palabrasG": 1182,
+      "deltaTexto": 0.023376623376623377
     },
     {
       "ruta": "/countries/miami-dade-pergola-contractor",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -375,16 +429,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1151,
-      "palabrasG": 1179,
-      "deltaTexto": 0.02432667245873154
+      "palabrasG": 1178,
+      "deltaTexto": 0.023457862728062554
     },
     {
       "ruta": "/countries/palm-beach-county-pergola-contractor",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -396,16 +453,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1143,
-      "palabrasG": 1171,
-      "deltaTexto": 0.024496937882764653
+      "palabrasG": 1170,
+      "deltaTexto": 0.023622047244094488
     },
     {
       "ruta": "/pergolas-contractors/aventura-pergola-builders",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -417,16 +477,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1445,
-      "palabrasG": 1473,
-      "deltaTexto": 0.019377162629757784
+      "palabrasG": 1472,
+      "deltaTexto": 0.018685121107266434
     },
     {
       "ruta": "/pergolas-contractors/boca-raton-pergola-contractor",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -438,16 +501,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1440,
-      "palabrasG": 1468,
-      "deltaTexto": 0.019444444444444445
+      "palabrasG": 1467,
+      "deltaTexto": 0.01875
     },
     {
       "ruta": "/pergolas-contractors/boynton-beach-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -459,16 +525,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1438,
-      "palabrasG": 1466,
-      "deltaTexto": 0.019471488178025034
+      "palabrasG": 1465,
+      "deltaTexto": 0.018776077885952713
     },
     {
       "ruta": "/pergolas-contractors/cooper-city-pergola-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -480,16 +549,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1436,
-      "palabrasG": 1464,
-      "deltaTexto": 0.019498607242339833
+      "palabrasG": 1463,
+      "deltaTexto": 0.018802228412256268
     },
     {
       "ruta": "/pergolas-contractors/coral-gables",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -501,16 +573,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1434,
-      "palabrasG": 1462,
-      "deltaTexto": 0.019525801952580194
+      "palabrasG": 1461,
+      "deltaTexto": 0.01882845188284519
     },
     {
       "ruta": "/pergolas-contractors/coral-springs-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -522,16 +597,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1435,
-      "palabrasG": 1463,
-      "deltaTexto": 0.01951219512195122
+      "palabrasG": 1462,
+      "deltaTexto": 0.018815331010452963
     },
     {
       "ruta": "/pergolas-contractors/davie-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -543,16 +621,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1431,
-      "palabrasG": 1459,
-      "deltaTexto": 0.019566736547868623
+      "palabrasG": 1458,
+      "deltaTexto": 0.018867924528301886
     },
     {
       "ruta": "/pergolas-contractors/delray-beach-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -564,16 +645,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1437,
-      "palabrasG": 1465,
-      "deltaTexto": 0.019485038274182326
+      "palabrasG": 1464,
+      "deltaTexto": 0.018789144050104383
     },
     {
       "ruta": "/pergolas-contractors/doral-pergola-builders",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -585,16 +669,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1458,
-      "deltaTexto": 0.019580419580419582
+      "palabrasG": 1457,
+      "deltaTexto": 0.01888111888111888
     },
     {
       "ruta": "/pergolas-contractors/fort-lauderdale-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -606,16 +693,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1432,
-      "palabrasG": 1460,
-      "deltaTexto": 0.019553072625698324
+      "palabrasG": 1459,
+      "deltaTexto": 0.018854748603351956
     },
     {
       "ruta": "/pergolas-contractors/hollywood-pergola-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -627,16 +717,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1458,
-      "deltaTexto": 0.019580419580419582
+      "palabrasG": 1457,
+      "deltaTexto": 0.01888111888111888
     },
     {
       "ruta": "/pergolas-contractors/jupiter-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -648,16 +741,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1431,
-      "palabrasG": 1459,
-      "deltaTexto": 0.019566736547868623
+      "palabrasG": 1458,
+      "deltaTexto": 0.018867924528301886
     },
     {
       "ruta": "/pergolas-contractors/key-biscayne-pergola-builders",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -669,16 +765,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1458,
-      "deltaTexto": 0.019580419580419582
+      "palabrasG": 1457,
+      "deltaTexto": 0.01888111888111888
     },
     {
       "ruta": "/pergolas-contractors/miami-beach-pergola-design",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -690,16 +789,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1435,
-      "palabrasG": 1463,
-      "deltaTexto": 0.01951219512195122
+      "palabrasG": 1462,
+      "deltaTexto": 0.018815331010452963
     },
     {
       "ruta": "/pergolas-contractors/miami-pergola-experts",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -711,16 +813,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1431,
-      "palabrasG": 1459,
-      "deltaTexto": 0.019566736547868623
+      "palabrasG": 1458,
+      "deltaTexto": 0.018867924528301886
     },
     {
       "ruta": "/pergolas-contractors/miramar-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -732,16 +837,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1426,
-      "palabrasG": 1454,
-      "deltaTexto": 0.019635343618513323
+      "palabrasG": 1453,
+      "deltaTexto": 0.018934081346423562
     },
     {
       "ruta": "/pergolas-contractors/palm-beach-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -753,16 +861,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1427,
-      "palabrasG": 1455,
-      "deltaTexto": 0.019621583742116328
+      "palabrasG": 1454,
+      "deltaTexto": 0.0189208128941836
     },
     {
       "ruta": "/pergolas-contractors/palm-beach-gardens",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -774,16 +885,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1428,
-      "palabrasG": 1456,
-      "deltaTexto": 0.0196078431372549
+      "palabrasG": 1455,
+      "deltaTexto": 0.018907563025210083
     },
     {
       "ruta": "/pergolas-contractors/parkland-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -795,16 +909,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1425,
-      "palabrasG": 1453,
-      "deltaTexto": 0.019649122807017545
+      "palabrasG": 1452,
+      "deltaTexto": 0.018947368421052633
     },
     {
       "ruta": "/pergolas-contractors/pembroke-pines-pergola-installation",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -816,16 +933,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1428,
-      "palabrasG": 1456,
-      "deltaTexto": 0.0196078431372549
+      "palabrasG": 1455,
+      "deltaTexto": 0.018907563025210083
     },
     {
       "ruta": "/pergolas-contractors/royal-palm-beach-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -837,16 +957,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1458,
-      "deltaTexto": 0.019580419580419582
+      "palabrasG": 1457,
+      "deltaTexto": 0.01888111888111888
     },
     {
       "ruta": "/pergolas-contractors/sunny-isles-beach-pergola-builders",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -858,16 +981,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1429,
-      "palabrasG": 1457,
-      "deltaTexto": 0.01959412176347096
+      "palabrasG": 1456,
+      "deltaTexto": 0.018894331700489854
     },
     {
       "ruta": "/pergolas-contractors/wellington-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -879,16 +1005,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1426,
-      "palabrasG": 1454,
-      "deltaTexto": 0.019635343618513323
+      "palabrasG": 1453,
+      "deltaTexto": 0.018934081346423562
     },
     {
       "ruta": "/pergolas-contractors/west-palm-beach-contractors",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -900,16 +1029,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1428,
-      "palabrasG": 1456,
-      "deltaTexto": 0.0196078431372549
+      "palabrasG": 1455,
+      "deltaTexto": 0.018907563025210083
     },
     {
       "ruta": "/pergolas-contractors/weston-pergola-solutions",
       "idsV": 35,
-      "idsG": 35,
+      "idsG": 34,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -921,19 +1053,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1426,
-      "palabrasG": 1454,
-      "deltaTexto": 0.019635343618513323
+      "palabrasG": 1453,
+      "deltaTexto": 0.018934081346423562
     },
     {
       "ruta": "/post/add-shade-backyard-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -946,19 +1081,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1354,
-      "palabrasG": 1336,
-      "deltaTexto": 0.013293943870014771
+      "palabrasG": 1335,
+      "deltaTexto": 0.014032496307237814
     },
     {
       "ruta": "/post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -971,19 +1109,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1350,
-      "palabrasG": 1389,
-      "deltaTexto": 0.028888888888888888
+      "palabrasG": 1388,
+      "deltaTexto": 0.028148148148148148
     },
     {
       "ruta": "/post/aluminum-vs-wood-pergolas-humid-climate",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -996,19 +1137,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1274,
-      "palabrasG": 1256,
-      "deltaTexto": 0.0141287284144427
+      "palabrasG": 1255,
+      "deltaTexto": 0.014913657770800628
     },
     {
       "ruta": "/post/best-outdoor-structures-rain-sun-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1021,19 +1165,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1351,
-      "palabrasG": 1341,
-      "deltaTexto": 0.007401924500370096
+      "palabrasG": 1340,
+      "deltaTexto": 0.008142116950407105
     },
     {
       "ruta": "/post/best-pergola-materials-coastal-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1046,19 +1193,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1401,
-      "palabrasG": 1396,
-      "deltaTexto": 0.0035688793718772305
+      "palabrasG": 1395,
+      "deltaTexto": 0.004282655246252677
     },
     {
       "ruta": "/post/building-custom-pergola-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1071,19 +1221,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1369,
-      "palabrasG": 1352,
-      "deltaTexto": 0.01241782322863404
+      "palabrasG": 1351,
+      "deltaTexto": 0.013148283418553688
     },
     {
       "ruta": "/post/can-you-use-your-patio-year-round-in-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1096,19 +1249,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1338,
-      "palabrasG": 1325,
-      "deltaTexto": 0.009715994020926755
+      "palabrasG": 1324,
+      "deltaTexto": 0.01046337817638266
     },
     {
       "ruta": "/post/design-build-pergola-process-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1121,19 +1277,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1394,
-      "palabrasG": 1380,
-      "deltaTexto": 0.010043041606886656
+      "palabrasG": 1379,
+      "deltaTexto": 0.010760401721664276
     },
     {
       "ruta": "/post/hoa-rules-pergolas-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1146,19 +1305,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1350,
-      "palabrasG": 1345,
-      "deltaTexto": 0.003703703703703704
+      "palabrasG": 1344,
+      "deltaTexto": 0.0044444444444444444
     },
     {
       "ruta": "/post/how-long-pergola-installation-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1171,19 +1333,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1335,
-      "palabrasG": 1331,
-      "deltaTexto": 0.00299625468164794
+      "palabrasG": 1330,
+      "deltaTexto": 0.003745318352059925
     },
     {
       "ruta": "/post/hurricane-resistant-pergolas-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1196,19 +1361,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1384,
-      "palabrasG": 1367,
-      "deltaTexto": 0.012283236994219654
+      "palabrasG": 1366,
+      "deltaTexto": 0.01300578034682081
     },
     {
       "ruta": "/post/is-a-louvered-roof-pergola-worth-it-in-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1221,19 +1389,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1321,
-      "palabrasG": 1292,
-      "deltaTexto": 0.02195306585919758
+      "palabrasG": 1291,
+      "deltaTexto": 0.022710068130204392
     },
     {
       "ruta": "/post/luxury-pergola-ideas-for-south-florida-backyards",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1246,19 +1417,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1455,
-      "palabrasG": 1442,
-      "deltaTexto": 0.008934707903780068
+      "palabrasG": 1441,
+      "deltaTexto": 0.009621993127147767
     },
     {
       "ruta": "/post/modern-outdoor-living-trends-in-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1271,19 +1445,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1434,
-      "palabrasG": 1419,
-      "deltaTexto": 0.010460251046025104
+      "palabrasG": 1418,
+      "deltaTexto": 0.011157601115760111
     },
     {
       "ruta": "/post/pergola-building-codes-broward-palm-beach",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1296,19 +1473,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1344,
-      "palabrasG": 1339,
-      "deltaTexto": 0.003720238095238095
+      "palabrasG": 1338,
+      "deltaTexto": 0.004464285714285714
     },
     {
       "ruta": "/post/pergola-cost-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1321,19 +1501,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1300,
-      "palabrasG": 1309,
-      "deltaTexto": 0.006923076923076923
+      "palabrasG": 1308,
+      "deltaTexto": 0.006153846153846154
     },
     {
       "ruta": "/post/pergola-design-ideas-waterfront-properties",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1346,19 +1529,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1297,
-      "palabrasG": 1291,
-      "deltaTexto": 0.004626060138781804
+      "palabrasG": 1290,
+      "deltaTexto": 0.005397070161912105
     },
     {
       "ruta": "/post/pergola-permit-south-florida",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1371,19 +1557,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1360,
-      "palabrasG": 1374,
-      "deltaTexto": 0.010294117647058823
+      "palabrasG": 1373,
+      "deltaTexto": 0.009558823529411765
     },
     {
       "ruta": "/post/plan-pergola-south-florida-backyard",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1396,19 +1585,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1292,
-      "palabrasG": 1284,
-      "deltaTexto": 0.006191950464396285
+      "palabrasG": 1283,
+      "deltaTexto": 0.00696594427244582
     },
     {
       "ruta": "/post/poolside-pergola-ideas-for-florida-homes",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1421,19 +1613,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1368,
-      "palabrasG": 1353,
-      "deltaTexto": 0.010964912280701754
+      "palabrasG": 1352,
+      "deltaTexto": 0.011695906432748537
     },
     {
       "ruta": "/post/resort-style-backyard-boca-raton",
       "idsV": 27,
-      "idsG": 24,
+      "idsG": 23,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "e3f363b3-599a-9941-9bc4-bf58cc9d3812",
         "de531817-b01a-06e3-4198-ce2865b2d07e",
         "45635bac-2fbe-6a6a-f3d5-758b0c33de53"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1446,16 +1641,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1462,
-      "palabrasG": 1454,
-      "deltaTexto": 0.005471956224350205
+      "palabrasG": 1453,
+      "deltaTexto": 0.006155950752393981
     },
     {
       "ruta": "/products",
       "idsV": 25,
-      "idsG": 25,
+      "idsG": 24,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1467,16 +1665,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 822,
-      "palabrasG": 847,
-      "deltaTexto": 0.030413625304136254
+      "palabrasG": 846,
+      "deltaTexto": 0.029197080291970802
     },
     {
       "ruta": "/products/cabanas",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1488,16 +1689,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1595,
-      "palabrasG": 1620,
-      "deltaTexto": 0.01567398119122257
+      "palabrasG": 1619,
+      "deltaTexto": 0.015047021943573668
     },
     {
       "ruta": "/products/carports",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1509,16 +1713,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 1670,
-      "deltaTexto": 0.015197568389057751
+      "palabrasG": 1669,
+      "deltaTexto": 0.01458966565349544
     },
     {
       "ruta": "/products/motorized-louvered-pergolas",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1530,16 +1737,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 1752,
-      "deltaTexto": 0.01447596988998263
+      "palabrasG": 1751,
+      "deltaTexto": 0.013896931094383324
     },
     {
       "ruta": "/products/motorized-screens",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1551,16 +1761,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1626,
-      "palabrasG": 1651,
-      "deltaTexto": 0.015375153751537515
+      "palabrasG": 1650,
+      "deltaTexto": 0.014760147601476014
     },
     {
       "ruta": "/products/open-air-pergolas",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1572,16 +1785,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1664,
-      "palabrasG": 1689,
-      "deltaTexto": 0.015024038461538462
+      "palabrasG": 1688,
+      "deltaTexto": 0.014423076923076924
     },
     {
       "ruta": "/products/polycarbonate-pergolas",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1593,16 +1809,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1624,
-      "palabrasG": 1649,
-      "deltaTexto": 0.01539408866995074
+      "palabrasG": 1648,
+      "deltaTexto": 0.014778325123152709
     },
     {
       "ruta": "/products/screen-enclosures",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1614,16 +1833,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1578,
-      "palabrasG": 1603,
-      "deltaTexto": 0.015842839036755388
+      "palabrasG": 1602,
+      "deltaTexto": 0.015209125475285171
     },
     {
       "ruta": "/products/solar-pergolas",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1635,16 +1857,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1637,
-      "palabrasG": 1662,
-      "deltaTexto": 0.015271838729383017
+      "palabrasG": 1661,
+      "deltaTexto": 0.014660965180207697
     },
     {
       "ruta": "/products/solid-roof-pergolas",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1656,16 +1881,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1651,
-      "palabrasG": 1676,
-      "deltaTexto": 0.015142337976983646
+      "palabrasG": 1675,
+      "deltaTexto": 0.014536644457904301
     },
     {
       "ruta": "/products/sukkha",
       "idsV": 32,
-      "idsG": 32,
+      "idsG": 31,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -1677,16 +1905,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1588,
-      "palabrasG": 1613,
-      "deltaTexto": 0.015743073047858942
+      "palabrasG": 1612,
+      "deltaTexto": 0.015113350125944584
     },
     {
       "ruta": "/project-gallery",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1698,16 +1929,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 745,
-      "palabrasG": 770,
-      "deltaTexto": 0.03355704697986577
+      "palabrasG": 769,
+      "deltaTexto": 0.032214765100671144
     },
     {
       "ruta": "/project/attached-forte-pergola-in-west-palm-beach",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1719,16 +1953,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 497,
-      "palabrasG": 522,
-      "deltaTexto": 0.05030181086519115
+      "palabrasG": 521,
+      "deltaTexto": 0.0482897384305835
     },
     {
       "ruta": "/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1740,16 +1977,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 509,
-      "palabrasG": 534,
-      "deltaTexto": 0.04911591355599214
+      "palabrasG": 533,
+      "deltaTexto": 0.047151277013752456
     },
     {
       "ruta": "/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1761,16 +2001,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 517,
-      "palabrasG": 542,
-      "deltaTexto": 0.048355899419729204
+      "palabrasG": 541,
+      "deltaTexto": 0.04642166344294004
     },
     {
       "ruta": "/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1782,16 +2025,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 600,
-      "palabrasG": 625,
-      "deltaTexto": 0.041666666666666664
+      "palabrasG": 624,
+      "deltaTexto": 0.04
     },
     {
       "ruta": "/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1803,16 +2049,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 507,
-      "palabrasG": 532,
-      "deltaTexto": 0.04930966469428008
+      "palabrasG": 531,
+      "deltaTexto": 0.047337278106508875
     },
     {
       "ruta": "/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1824,16 +2073,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 516,
-      "palabrasG": 541,
-      "deltaTexto": 0.04844961240310078
+      "palabrasG": 540,
+      "deltaTexto": 0.046511627906976744
     },
     {
       "ruta": "/project/forte-pergolas-in-greenacres-pool-patio",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1845,16 +2097,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 503,
-      "palabrasG": 528,
-      "deltaTexto": 0.04970178926441352
+      "palabrasG": 527,
+      "deltaTexto": 0.04771371769383698
     },
     {
       "ruta": "/project/forte-plus-aluminum-carport-installation-in-pompano-beach",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1866,16 +2121,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 508,
-      "palabrasG": 533,
-      "deltaTexto": 0.04921259842519685
+      "palabrasG": 532,
+      "deltaTexto": 0.047244094488188976
     },
     {
       "ruta": "/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1887,16 +2145,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 507,
-      "palabrasG": 532,
-      "deltaTexto": 0.04930966469428008
+      "palabrasG": 531,
+      "deltaTexto": 0.047337278106508875
     },
     {
       "ruta": "/project/forte-plus-pergolas-in-hillsboro-beach-estate",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1908,19 +2169,22 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 509,
-      "palabrasG": 534,
-      "deltaTexto": 0.04911591355599214
+      "palabrasG": 533,
+      "deltaTexto": 0.047151277013752456
     },
     {
       "ruta": "/resources/blog",
       "idsV": 28,
-      "idsG": 25,
+      "idsG": 24,
       "faltan": [],
       "sobran": [],
       "declarados": [
         "4e7e8d11-2645-58a6-0ad5-dc9ad3b4e493",
         "01ba1a7b-6777-db20-f823-b4019ddf70f5",
         "b2b763d4-d982-efe3-5f4c-bd7f20891915"
+      ],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
       "foucV": 0,
@@ -1933,16 +2197,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1006,
-      "palabrasG": 1097,
-      "deltaTexto": 0.09045725646123261
+      "palabrasG": 1096,
+      "deltaTexto": 0.08946322067594434
     },
     {
       "ruta": "/resources/faq",
       "idsV": 26,
-      "idsG": 26,
+      "idsG": 25,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1954,16 +2221,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 991,
-      "palabrasG": 1016,
-      "deltaTexto": 0.025227043390514632
+      "palabrasG": 1015,
+      "deltaTexto": 0.024217961654894045
     },
     {
       "ruta": "/resources/warranties",
       "idsV": 25,
-      "idsG": 25,
+      "idsG": 24,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1975,16 +2245,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 643,
-      "palabrasG": 668,
-      "deltaTexto": 0.038880248833592534
+      "palabrasG": 667,
+      "deltaTexto": 0.03732503888024884
     },
     {
       "ruta": "/services",
       "idsV": 25,
-      "idsG": 25,
+      "idsG": 24,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -1996,16 +2269,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 847,
-      "palabrasG": 872,
-      "deltaTexto": 0.0295159386068477
+      "palabrasG": 871,
+      "deltaTexto": 0.02833530106257379
     },
     {
       "ruta": "/services/concrete",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2017,16 +2293,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1548,
-      "palabrasG": 1576,
-      "deltaTexto": 0.01808785529715762
+      "palabrasG": 1575,
+      "deltaTexto": 0.01744186046511628
     },
     {
       "ruta": "/services/deck-builders",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2038,16 +2317,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1520,
-      "palabrasG": 1548,
-      "deltaTexto": 0.018421052631578946
+      "palabrasG": 1547,
+      "deltaTexto": 0.017763157894736842
     },
     {
       "ruta": "/services/driveways",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2059,16 +2341,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1630,
-      "palabrasG": 1658,
-      "deltaTexto": 0.01717791411042945
+      "palabrasG": 1657,
+      "deltaTexto": 0.016564417177914112
     },
     {
       "ruta": "/services/fence-solutions",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2080,16 +2365,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1509,
-      "palabrasG": 1537,
-      "deltaTexto": 0.01855533465871438
+      "palabrasG": 1536,
+      "deltaTexto": 0.017892644135188866
     },
     {
       "ruta": "/services/patio-remodeling",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2101,16 +2389,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1489,
-      "palabrasG": 1517,
-      "deltaTexto": 0.01880456682337139
+      "palabrasG": 1516,
+      "deltaTexto": 0.018132975151108125
     },
     {
       "ruta": "/services/pavers",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2122,16 +2413,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1590,
-      "palabrasG": 1618,
-      "deltaTexto": 0.01761006289308176
+      "palabrasG": 1617,
+      "deltaTexto": 0.016981132075471698
     },
     {
       "ruta": "/services/pergola-design-construction",
       "idsV": 33,
-      "idsG": 33,
+      "idsG": 32,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 2,
       "foucG": 2,
@@ -2143,16 +2437,19 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 1673,
-      "deltaTexto": 0.01702127659574468
+      "palabrasG": 1672,
+      "deltaTexto": 0.01641337386018237
     },
     {
       "ruta": "/thank-you",
       "idsV": 23,
-      "idsG": 23,
+      "idsG": 22,
       "faltan": [],
       "sobran": [],
       "declarados": [],
+      "delShell": [
+        "e3bb8397-af45-2730-f4b9-60600b55ee46"
+      ],
       "declaracionesObsoletas": [],
       "foucV": 0,
       "foucG": 0,
@@ -2164,8 +2461,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 366,
-      "palabrasG": 391,
-      "deltaTexto": 0.06830601092896176
+      "palabrasG": 390,
+      "deltaTexto": 0.06557377049180328
     }
   ],
   "sinVivo": []

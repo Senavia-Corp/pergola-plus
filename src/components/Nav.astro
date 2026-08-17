@@ -235,19 +235,17 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
                           </div>
                         </a>
                       </li>
-                      <li>
-                        {/* UNICO href="#" que queda vivo en todo el sitio, y a
-                            proposito: no hay pagina de landscaping. Ya venia asi
-                            del export. Se queda hasta que exista /services/
-                            landscaping o se decida quitar la entrada del menu;
-                            scripts/comprobar-enlaces-muertos.mjs lo tiene en su
-                            lista de conocidos para que no ensucie la puerta. */}
-                        <a data-w-id="e3bb8397-af45-2730-f4b9-60600b55ee46" href="#" class="submenu-item is-7 w-inline-block">
-                          <div>
-                            <div class="heading-submenu">{t('landscaping')}</div>
-                          </div>
-                        </a>
-                      </li>
+                      {/* Aqui vivia el item "Landscaping": un href="#" que venia
+                          asi del export y era el ULTIMO enlace sin destino del
+                          sitio. No existe /services/landscaping ni en el export ni
+                          en el vivo, y no hay contenido con el que crearla, asi
+                          que se retira en vez de dejar en el menu una promesa que
+                          no se cumple. Su data-w-id (e3bb8397…) esta declarado en
+                          PROPIAS_SHELL de scripts/auditar-paridad.mjs.
+
+                          Compartia la imagen de vista previa (is-7) con "Full
+                          Outdoor Remodel", asi que al quitarlo no queda ninguna
+                          preview huerfana. */}
                     </ul>
                   </div>
                   <div class="block-submenu-view">
@@ -507,6 +505,33 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
     disparador?.addEventListener('pointerenter', precalentar, { once: true });
     disparador?.addEventListener('focus', precalentar, { once: true });
   }
+
+  // --- Teclado de los desplegables: NO hace falta añadir nada ---------------
+  //
+  // Se auditó porque Daniel se quejó de los dropdowns, y aquí llegó a haber un
+  // manejador de Escape propio. Se quitó: el módulo `dropdown` de webflow.js ya
+  // lo trae todo, enlazado como `keydown.w-dropdown` sobre el elemento
+  // `.w-dropdown` —no sobre document—:
+  //
+  //   ESCAPE                cierra y devuelve el foco al disparador
+  //   ARROW_UP/DOWN/L/R     mueve el foco por los enlaces del panel
+  //   HOME / END            primer y último enlace
+  //   SPACE / ENTER         abre, desde el disparador
+  //   focusout              cierra al salir el foco del desplegable
+  //
+  // La trampa que costó el rato: al estar enlazado en `.w-dropdown`, Escape solo
+  // llega si el evento BURBUJEA desde dentro (foco en el disparador o en un
+  // enlace del panel). Una sonda que hace
+  // `document.dispatchEvent(new KeyboardEvent('keydown', {key:'Escape'}))`
+  // no baja a los descendientes, así que informa de que Escape no cierra cuando
+  // sí cierra. Si vuelves a medir esto, despacha sobre un elemento de dentro.
+  //
+  // Y el manejador de Escape del panel MÓVIL de más abajo no cubre el caso de
+  // escritorio —está detrás de un `if (!estaAbierto())` que pregunta por la
+  // hamburguesa—, pero no importa: no hay nada que cubrir.
+  //
+  // El `focusout` de Webflow además está bien guardado contra el
+  // `relatedTarget: null` de iOS, porque comprueba también `target`.
 
   // --- Panel móvil ----------------------------------------------------------
   // El módulo `navbar` de Webflow abre y cierra el panel, pero no hace nada más:

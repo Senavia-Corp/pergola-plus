@@ -106,7 +106,15 @@ const GARANTIAS = {
   Equinox: '/brands/equinox',
   Renaissance: '/brands/renaissance',
   Fenetex: '/brands/fenetex',
+  // La quinta no tiene pagina de marca en el CMS, asi que su "Read More →"
+  // llevaba meses en href="#". Se manda al fabricante en vez de dejarla muerta:
+  // la garantia de MaestroShield la da MaestroShield, y su sitio es la fuente
+  // real. Lleva target/rel porque sale del sitio (ver EXTERNAS abajo).
+  MaestroShield: 'https://maestroshield.com/',
 };
+
+/** Las de GARANTIAS que salen del sitio. Se les pone target+rel al cablearlas. */
+const GARANTIAS_EXTERNAS = new Set(['MaestroShield']);
 
 /**
  * Indice de busqueda. El texto del enlace llega del vivo con basura pegada
@@ -137,6 +145,123 @@ export const PLACEHOLDERS = {
   'https://cdn.prod.website-files.com/68236ade63ce8f10f54939cb/68375d0ede677a2f502a999b_Image.svg': '/images/wf-marquee-image.svg',
   'https://cdn.prod.website-files.com/68236ade63ce8f10f54939cb/6841efa48def69660e6eb254_Black.svg': '/images/wf-marquee-black.svg',
 };
+
+/**
+ * Cambios de copy pedidos por el cliente (handoff §6, agosto 2026).
+ *
+ * La llave es el texto EXACTO del export, entidades incluidas. Los dos son
+ * unicos en todo el sitio —solo salen en index.html— asi que la sustitucion
+ * literal no puede alcanzar a otra pagina por accidente. Si el original cambiara
+ * una coma, la clave deja de coincidir y el texto viejo se queda: visible en la
+ * home, no roto, y lo caza la comparacion con la captura del vivo.
+ *
+ * El hero de la home es un VIDEO de fondo, no una imagen: aqui solo cambia el
+ * texto que va encima. El video no se toca.
+ *
+ * Las traducciones viven en src/i18n/home.es.ts y sus claves son estos MISMOS
+ * textos nuevos. Cambiar uno aqui sin cambiarlo alli deja esa cadena en ingles
+ * en /es/, y eso lo mide check:i18n.
+ */
+export const TEXTOS_CLIENTE = {
+  'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
+  'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
+    'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.',
+};
+
+/**
+ * Fotos nuevas del cliente (handoff §6). Ruta que se sustituye -> archivo origen.
+ *
+ * POR QUE la llave es la ruta del CMS y no la pagina: cada una de estas imagenes
+ * sale en VARIOS sitios —el hero de /products/<slug>, su tarjeta en la home y su
+ * tarjeta en /products— y las tres piden el mismo archivo. Sustituyendo la ruta
+ * se cambian las tres de golpe y no se pueden desincronizar.
+ *
+ * POR QUE el destino es /images/cliente/ y NO /cms-img/: cms-img esta en
+ * .gitignore y la REGENERA instalar-assets.mjs desde assets-migracion/. Un
+ * archivo nuevo ahi desaparece en la siguiente regeneracion, en silencio.
+ * public/images/ si esta en git y instalar-assets.mjs nunca borra.
+ *
+ * Las tres rutas de producto que no aparecen (cabanas, carports, solar-pergolas)
+ * y las tres de servicio (concrete, deck-builders, fence-solutions) conservan su
+ * imagen: el cliente no mando foto nueva de esas.
+ */
+export const IMAGENES_CLIENTE = {
+  // --- Productos (Our Products Thumbnails/) ---
+  '/cms-img/products/motorized-louvered-pergolas/hero-louvered-roof-pergola-south-florida.avif':
+    'Our Products Thumbnails/MOTORIZED LOUVERED .png',
+  '/cms-img/products/motorized-screens/hero-motorized-screens-pergola-south-florida.avif':
+    'Our Products Thumbnails/Motorized Screens.png',
+  '/cms-img/products/open-air-pergolas/hero-open-air-aluminum-pergola-south-florida.avif':
+    'Our Products Thumbnails/Open-Air Pergolas.png',
+  '/cms-img/products/polycarbonate-pergolas/hero-polycarbonate-pergola-south-florida.avif':
+    'Our Products Thumbnails/Polycarbonate Pergola.jpg',
+  '/cms-img/products/screen-enclosures/hero-screen-enclosure-south-florida-installation.avif':
+    'Our Products Thumbnails/Screen Enclosure.jpg',
+  '/cms-img/products/sukkha/hero-lakewood-sukkah-pergola-succos-1920.avif':
+    'Our Products Thumbnails/Sukkah.jpeg',
+  // Del pergola de techo solido mandaron DOS: "Our Products Thumbnails/Solid Roof
+  // Pergola.jpg" (1080x1350, vertical) y esta (1888x1166, horizontal). Esta ruta
+  // la consumen tres cajas horizontales —tarjeta de 250px de alto en la home y en
+  // /products, y el hero de la pagina— asi que gana la horizontal: es la que menos
+  // recorte pierde. La vertical queda sin usar, anotada en docs/decisiones.md.
+  '/cms-img/products/solid-roof-pergolas/hero-insulated-roof-pergola-south-florida.avif':
+    'Home Page/Solid Roof Pergolas.png',
+
+  // --- Servicios (Our Services Thumbnails/) ---
+  '/cms-img/services/pergola-design-construction/cover-polycarbonate-pergola-contractors-south-florida-06.avif':
+    'Our Services Thumbnails/Custom Pergolas and Patio Covers.png',
+  '/cms-img/services/patio-remodeling/cover-luxury-patio-remodel-south-florida-project.avif':
+    'Our Services Thumbnails/Full Outdoor Remodel.JPEG',
+  '/cms-img/services/driveways/cover-modern-paver-driveway-south-florida-project.avif':
+    'Our Services Thumbnails/Meith_Driveway 2.jpg',
+  '/cms-img/services/pavers/cover-luxury-paver-patio-south-florida-project.avif':
+    'Our Services Thumbnails/Pavers.jpg',
+
+  // --- Proyecto destacado (Home Page/) ---
+  // Sale en las tarjetas de "Recent Projects" de la home y en /project-gallery.
+  '/cms-img/projects/forte-plus-pergolas-in-hillsboro-beach-estate/hero-forte-plus-pergolas-hillsboro-beach-estate-oceanfront.avif':
+    'Home Page/Forte Plus Hillsboro Estate.jpeg',
+};
+
+/**
+ * Excepciones al recorte automatico. La llave es el archivo de origen.
+ *
+ * Por defecto se recorta con `position:'attention'` de sharp, que elige la region
+ * con mas entropia. Funciona en 10 de las 12, pero premia cielo y pared blanca
+ * sobre la estructura, y en estas dos se llevaba por delante el producto:
+ *
+ *   Sukkah.jpeg          1024x1034 -> 1.78:1 es un recorte grande. `attention`
+ *                        se quedaba con la fachada del edificio y dejaba fuera
+ *                        el sukkah iluminado, que es LO QUE SE VENDE. Con `south`
+ *                        entra entero, con las mesas.
+ *   Forte Plus Hillsboro  la pergola esta en el centro y las palmeras arriba;
+ *                        `attention` subia hacia las palmeras y el cielo.
+ *
+ * Comprobado a ojo sobre las 12 recortadas, no supuesto: ver docs/decisiones.md.
+ */
+export const RECORTE = {
+  'Our Products Thumbnails/Sukkah.jpeg': 'south',
+  'Home Page/Forte Plus Hillsboro Estate.jpeg': 'centre',
+};
+
+/**
+ * Ruta publica de una foto del cliente. Un solo ancho y una sola relacion para
+ * las 12, porque las 12 caen en cajas con `object-fit:cover` y altura fija en el
+ * CSS migrado: la relacion intrinseca no la ve nadie.
+ *
+ * 1250x703 es exactamente lo que miden los heroes del CMS que sustituyen, asi
+ * que ningun slot cambia de comportamiento.
+ *
+ * ponytail: un ancho y una relacion para todas. Si algun dia una caja pide otra
+ * cosa, aqui se mete un mapa por ruta.
+ */
+export const CLIENTE_ANCHO = 1250;
+export const CLIENTE_ALTO = 703;
+export const rutaCliente = (origen) =>
+  '/images/cliente/' +
+  origen.split('/').pop().replace(/\.[^.]+$/, '')
+    .toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.avif';
 
 /**
  * Atributos internos de Webflow que se quitan del CUERPO.
@@ -312,12 +437,16 @@ export function transformar(html, ruta) {
       if (i === 0) return trozo;
       const titulo = trozo.match(/<h3[^>]*>([^<]*)/)?.[1] ?? '';
       const marca = Object.keys(GARANTIAS).find((m) => titulo.includes(m));
-      return marca
-        ? trozo.replace(
-            '<a href="#" class="warraty-card-link',
-            `<a href="${GARANTIAS[marca]}" class="warraty-card-link`,
-          )
-        : trozo;
+      if (!marca) return trozo;
+      // Las externas abren en pestana nueva y con rel="noopener": sin el, la
+      // pagina destino recibe window.opener y puede reescribir la nuestra.
+      const extra = GARANTIAS_EXTERNAS.has(marca)
+        ? ' target="_blank" rel="noopener"'
+        : '';
+      return trozo.replace(
+        '<a href="#" class="warraty-card-link',
+        `<a href="${GARANTIAS[marca]}"${extra} class="warraty-card-link`,
+      );
     })
     .join(TARJETA_GARANTIA);
 
@@ -326,6 +455,29 @@ export function transformar(html, ruta) {
 
   // 4b. Placeholders de CDN externo -> copia local.
   for (const [remoto, local] of Object.entries(PLACEHOLDERS)) s = s.replaceAll(remoto, local);
+
+  // 4c. Copy nuevo del cliente. Va DESPUES de los enlaces a proposito: los textos
+  //     de BOTONES_MUERTOS son llaves de enlace y estos son prosa, no se cruzan.
+  for (const [viejo, nuevo] of Object.entries(TEXTOS_CLIENTE)) s = s.replaceAll(viejo, nuevo);
+
+  // 4d. Fotos nuevas del cliente. Se sustituye la RUTA, asi que alcanza al src y
+  //     tambien al srcset y al JSON del lightbox si algun dia esa imagen sale ahi.
+  //
+  //     Y se inyecta width/height, que el markup de Webflow no traia en ninguna
+  //     imagen: sin ellos el navegador no sabe la relacion de aspecto hasta que
+  //     descarga el archivo, y eso es CLS. El CSS manda igual (`object-fit:cover`
+  //     con altura fija), asi que los atributos solo sirven para reservar el hueco.
+  for (const [ruta, origen] of Object.entries(IMAGENES_CLIENTE)) {
+    if (!s.includes(ruta)) continue;
+    s = s.replaceAll(ruta, rutaCliente(origen));
+  }
+  // El width/height se pone sobre la ruta YA sustituida, en un solo barrido: un
+  // <img> puede llevar la ruta en src y en srcset y no queremos duplicar atributos.
+  s = s.replace(/<img\s([^>]*?)\/?>/g, (tal_cual, attrs) => {
+    if (!attrs.includes('/images/cliente/')) return tal_cual;
+    if (/\swidth=/.test(attrs)) return tal_cual;
+    return `<img ${attrs.trim()} width="${CLIENTE_ANCHO}" height="${CLIENTE_ALTO}"/>`;
+  });
 
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');

@@ -82,6 +82,20 @@ for (const linea of (await fs.readFile(path.join(RAIZ, 'docs/urls-actuales.txt')
   if (r.startsWith('/post/')) PROPIAS[r] = POST_PROPIO;
 }
 
+/**
+ * data-w-id retirados del SHELL (Nav/Footer) a proposito. Pueden faltar en TODAS
+ * las paginas, asi que PROPIAS no sirve: es por ruta y habria que declarar lo
+ * mismo 99 veces, con lo que la lista dejaria de leerse.
+ *
+ * Se declaran UNO A UNO con su motivo, igual que en PROPIAS: la alternativa —
+ * excluir el shell del recuento— convertiria el contador global en un numero que
+ * ya no avisa de nada.
+ */
+const PROPIAS_SHELL = {
+  'e3bb8397-af45-2730-f4b9-60600b55ee46':
+    'item "Landscaping" del submenu de servicios. Apuntaba a /services/landscaping, que no existe ni en el export ni en el vivo: era el unico href="#" vivo del sitio. Retirado en los dos idiomas (Fase 1)',
+};
+
 const ids = (s) => new Set([...s.matchAll(/data-w-id="([^"]+)"/g)].map((m) => m[1]));
 const foucIds = (s) => new Set(
   [...s.matchAll(/html\.w-mod-js:not\(\.w-mod-ix\)\s*\[data-w-id="([^"]+)"\]/g)].map((m) => m[1]));
@@ -137,8 +151,9 @@ for (const ruta of rutas) {
   const propia = PROPIAS[ruta];
   const ausentes = [...iv].filter((x) => !ig.has(x));
   // Los declarados se apartan; el resto sigue contando como perdida.
-  const faltan = ausentes.filter((x) => !propia?.permitidos[x]);
+  const faltan = ausentes.filter((x) => !propia?.permitidos[x] && !PROPIAS_SHELL[x]);
   const declarados = ausentes.filter((x) => propia?.permitidos[x]);
+  const delShell = ausentes.filter((x) => PROPIAS_SHELL[x]);
   // Un id declarado que YA NO falta significa que la declaracion sobra.
   const declaracionesObsoletas = propia
     ? Object.keys(propia.permitidos).filter((x) => !ausentes.includes(x))
@@ -169,7 +184,7 @@ for (const ruta of rutas) {
 
   filas.push({
     ruta,
-    idsV: iv.size, idsG: ig.size, faltan, sobran, declarados, declaracionesObsoletas,
+    idsV: iv.size, idsG: ig.size, faltan, sobran, declarados, delShell, declaracionesObsoletas,
     foucV: fv.size, foucG: fg.size, foucFaltan,
     tituloIgual: titulo(viv) === titulo(gen),
     tituloV: titulo(viv), tituloG: titulo(gen),
@@ -193,6 +208,10 @@ const suma = (k) => filas.reduce((s, f) => s + (f[k]?.length ?? 0), 0);
 console.log(`  data-w-id faltantes ....... ${suma('faltan')}`);
 console.log(`  data-w-id sobrantes ....... ${suma('sobran')}`);
 console.log(`  data-w-id ausentes DECLARADOS ... ${suma('declarados')}  (paginas de autoria propia)`);
+for (const [id, razon] of Object.entries(PROPIAS_SHELL)) {
+  const n = filas.filter((f) => f.delShell?.includes(id)).length;
+  console.log(`  retirados del shell ....... ${n} paginas · ${id.slice(0, 8)}…  ${razon}`);
+}
 console.log(`  anti-FOUC faltantes ....... ${suma('foucFaltan')}`);
 console.log(`  assets rotos .............. ${suma('rotos')}`);
 console.log(`  referencias a Webflow ..... ${filas.reduce((s, f) => s + (f.externos ?? 0), 0)}`);
