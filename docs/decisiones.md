@@ -185,9 +185,8 @@ vista.
 
 ## Español: dónde se paró, y por qué justo ahí
 
-**17-ago-2026.** El sitio pasó de 1 página en español a **77**. Está traducido todo
-menos el blog y el contrato de obra, y las dos exclusiones son deliberadas — ninguna
-por haberse quedado sin tiempo.
+**17-ago-2026.** El sitio pasó de 1 página en español a **105**. Hoy está traducido **todo el sitio salvo el
+contrato de obra**, que es la única exclusión que queda y es deliberada.
 
 Lo que SÍ está: la home, los índices de productos y servicios, **las 10 fichas de
 producto**, **las 7 de servicio**, **las 25 páginas de ubicación** con su índice, los
@@ -196,23 +195,43 @@ galería, las tres de contacto, la de gracias, sobre nosotros, opiniones, sector
 preguntas frecuentes, garantías, el aviso de privacidad, **el calculador de
 presupuesto** y el 404.
 
-### 1. El blog no se traduce (índice + 21 artículos + 5 categorías)
+### 1. El blog → TRADUCIDO (21 artículos), con una herramienta de por medio
 
-Son **19.401 palabras** de contenido editorial que afirma cosas concretas: precios en
-dólares, requisitos de permisos por municipio, cargas de viento, qué exige una
-comunidad de propietarios. Una traducción sin revisar de ese material no es un cambio
-de idioma, es **publicar afirmaciones nuevas** sobre normativa y dinero en nombre del
-cliente.
+Se planteó primero como riesgo y no como trabajo pendiente: son **19.401 palabras**
+que afirman precios en dólares, requisitos de permiso por municipio y cargas de
+viento. Sebastian lo pidió igualmente, y está hecho: **los 21 artículos, el índice y
+las 5 categorías**.
 
-La mecánica está montada y es barata: cada artículo son ~135 cadenas propias, y
-añadirlo es un diccionario + su ruta en `TRADUCIDAS`. Lo que falta no es código: es
-que alguien del negocio valide las cifras en español. Esa llamada es del cliente.
+**Sigue siendo cierto lo que motivaba la reserva**, y por eso queda escrito: nadie del
+negocio ha validado todavía las cifras en español. Las horquillas de precio, los
+plazos de permiso y las velocidades de viento se han traspasado **literales** —no se
+ha convertido ni redondeado ni un número, ni se ha pasado a metros lo que el original
+da en pies— precisamente para que revisarlas sea comparar dos columnas.
 
-**Consecuencia visible, y es deliberada:** las tarjetas del blog SÍ salen en español
-en las páginas traducidas (título y resumen), pero llevan al artículo en inglés. Se
-mantiene así porque un resumen en español ayuda al lector a decidir si le interesa;
-uno en inglés no ayuda a nadie. Cuando un artículo se traduzca, su tarjeta apuntará
-sola a `/es/post/...` — el reescritor de enlaces solo manda a `/es/` lo que existe.
+**Cómo se hizo, y por qué importa el cómo.** `traducirHtml()` indexa por la cadena
+inglesa EXACTA. Transcribir a mano 2.700 claves es donde se cuela el error que no da
+error: el espacio fino de no separación, una comilla tipográfica que parece recta, un
+`&amp;` escrito `&`. La entrada no casa, la frase sale en inglés y no lo avisa nadie.
+
+Así que las claves **no se escriben**: las extrae `scripts/emparejar-traduccion.mjs`
+del propio fragmento y las empareja con un `.txt` de traducciones, una por línea y en
+orden. Si los dos lados no tienen el mismo número de líneas, **se para** y dice dónde
+—un desfase de una línea traduciría el resto del artículo con el texto de otra frase,
+y eso sí pasaría las puertas: son cadenas válidas, solo que en el sitio que no es—.
+
+Para cambiar una traducción se edita `src/i18n/posts/<slug>.txt` y se regenera. El
+`.ts` es salida generada y lleva el aviso arriba.
+
+Dos decisiones más dentro del blog:
+
+- **Las tarjetas de un artículo sin traducir enlazan al inglés.** Mientras se traducía
+  de dos en dos, `rutaPost()` mandaba al inglés lo que aún no existía en `/es/`.
+  `check:paginas` fue quien lo pilló, apuntando a un `/es/post/...` que no se
+  generaba. Hoy ya no aplica —están los 21— pero la regla se queda: es lo que hace
+  que cada paso intermedio sea publicable.
+- **`wordCount` del JSON-LD es el del original.** Lo contó el CMS sobre el texto
+  inglés y aquí no se recalcula: es el mismo artículo, y poner otro número inventado
+  sería peor.
 
 ### 2. El contrato de obra (`/articles/terms-of-service`) no se traduce
 
@@ -256,9 +275,8 @@ JavaScript las dos sirven la tabla de tarifas.
 
 ### Cómo se sabe que no miente
 
-`hreflang="es"` sale en **154 de 184** páginas. Las 30 que no lo llevan son
-exactamente el blog entero (índice + 21 artículos + 5 categorías = 27), el contrato de
-obra y los dos 404. No hay ni una página prometiendo una traducción que no exista, y
+`hreflang="es"` sale en **208 de 211** páginas. Las 3 que no lo llevan son el contrato
+de obra y los dos 404. No hay ni una página prometiendo una traducción que no exista, y
 `check:i18n` lo vuelve a comprobar en cada build.
 
 ---

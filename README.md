@@ -251,7 +251,8 @@ las interacciones IX2 funcionan igual en español.
 | `shell.ts` | rótulos de nav y pie en los dos idiomas |
 | `paginas.es.ts` | registro de páginas ESTÁTICAS traducidas + sus diccionarios |
 | `comun.es.ts` | lo que se repite en ~150 páginas (CTA, formularios, sellos) |
-| `servicios.es.ts` · `productos.es.ts` · `ubicaciones.es.ts` · `marcas.es.ts` · `proyectos.es.ts` · `condados.es.ts` · `articulos.es.ts` | un registro por colección |
+| `servicios.es.ts` · `productos.es.ts` · `ubicaciones.es.ts` · `marcas.es.ts` · `proyectos.es.ts` · `condados.es.ts` · `articulos.es.ts` · `blog.es.ts` | un registro por colección |
+| `posts/<slug>.txt` → `posts/<slug>.ts` | el cuerpo de cada artículo del blog. El `.ts` es GENERADO, se edita el `.txt` |
 
 **Añadir una página traducida son dos líneas**: una entrada en el registro de su
 colección y su ruta en `TRADUCIDAS`. Los metadatos (`wfPage`, anti-FOUC) salen del
@@ -263,11 +264,24 @@ solo **5** son suyas; el resto ya está en `comun.es.ts`. Cuando una cadena apar
 más de una página, se mueve ahí — el build avisa por consola de cada cadena sin
 traducir y `check:i18n` exige ≥98 % por página.
 
-Estado: **78 páginas de 184.** Todo menos el blog (índice + 21 artículos + 5
-categorías) y el contrato de obra; los dos motivos están en `docs/decisiones.md`. Lo que no está traducido **no existe en `/es/`, no
+Estado: **105 páginas de 211.** Todo el sitio menos el contrato de obra, que traduce
+un abogado o nadie (el motivo está en `docs/decisiones.md`). Lo que no está traducido **no existe en `/es/`, no
 lleva `hreflang` y no entra en el sitemap**: media traducción publicada es peor que
-ninguna. Medido: `hreflang="es"` en 154 de 184, y las 30 restantes son exactamente
-esas dos cosas más los dos 404.
+ninguna. Medido: `hreflang="es"` en 208 de 211, y las 3 restantes son el contrato
+y los dos 404.
+
+**Los cuerpos del blog no se transcriben.** `traducirHtml()` indexa por la cadena
+inglesa exacta, y copiar 2.700 claves a mano es donde se cuela el espacio fino que
+deja una frase en inglés sin que salte nada. Las claves las extrae el generador del
+propio fragmento:
+
+```bash
+node scripts/emparejar-traduccion.mjs <fragmento.html> <traducciones.txt> <salida.ts>
+```
+
+Se para si los dos lados no tienen el mismo número de líneas. Un desfase de una línea
+traduciría el resto del artículo con el texto de otra frase, y eso sí pasaría las
+puertas: son cadenas válidas, solo que en el sitio que no es.
 
 **La página de gracias existe en los dos idiomas** y el destino lo decide el servidor
 a partir del campo `pagina` del envío, no del navegador. `check:formularios` envía uno

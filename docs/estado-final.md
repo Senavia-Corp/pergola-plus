@@ -20,16 +20,16 @@ npm run check
 | Referencias al staging de Webflow en el HTML servido | 761 | **0** |
 | Páginas mintiendo en `hreflang` | 106 | **0** |
 | `<img>` sin `width`/`height` (CLS) | 6.853 | **0** |
-| Páginas con JSON-LD | 27 | **184** |
+| Páginas con JSON-LD | 27 | **211** |
 | `<title>` duplicados | 19 | **0** |
 | `meta description` duplicadas | 12 | **0** |
 | Enlaces muertos tolerados | 5 | **0** |
 | Flechas de carrusel sin función | ~250 | **0** |
 | Scripts de terceros | 3 | **1** (jQuery, que `webflow.js` necesita) |
 | Peticiones a Google para ver la página | sí | **0** |
-| Páginas en español | 1 | **78** de 184 |
+| Páginas en español | 1 | **105** de 211 |
 | Desbordamiento horizontal a 320 px | — | **0** |
-| `sitemap.xml` / `robots.txt` | no existían | **182 urls + robots** |
+| `sitemap.xml` / `robots.txt` | no existían | **209 urls + robots** |
 
 ---
 
@@ -58,7 +58,7 @@ Cuatro bugs que `method="get"` tapaba y que en un POST real sí rompen:
   `w-form-loading` con el submit `disabled`, esperando un widget que este sitio no
   renderiza. Sin un error en consola y con el botón de aspecto normal.
 
-### 2. Español a medias → CERRADO SALVO EL BLOG
+### 2. Español a medias → CERRADO
 
 De 1 página a **77**. Está en español todo el sitio menos tres cosas, y las tres se
 dejaron fuera a propósito, no por falta de tiempo:
@@ -75,28 +75,31 @@ dejaron fuera a propósito, no por falta de tiempo:
 | Las 3 de contacto + la de gracias | **traducido** |
 | Sobre nosotros, opiniones, sectores, FAQ, garantías | **traducido** |
 | Aviso de privacidad | **traducido** |
-| **Blog: índice + 21 artículos + 5 categorías** | en inglés, a propósito |
+| Blog: índice + 21 artículos + 5 categorías | **traducido** |
 | **Contrato de obra (`terms-of-service`)** | en inglés, a propósito |
 | Calculador de presupuesto | **traducido** |
 
-Los porqués están razonados en `docs/decisiones.md`, en corto:
+Queda fuera una sola cosa, y es deliberada: **el contrato de obra**
+(`/articles/terms-of-service`), 4.554 palabras que empiezan diciendo que sus
+condiciones no son negociables. Una versión en español sería un segundo texto legal
+sin aprobar, y ante una discrepancia habría que defenderlo en un juzgado de Florida.
+Lo traduce un abogado o nadie.
 
-- **El blog** son 19.401 palabras que afirman precios, permisos por municipio y cargas
-  de viento. Traducirlo sin revisión no es cambiar de idioma: es publicar
-  afirmaciones nuevas sobre normativa y dinero en nombre del cliente. La mecánica
-  está montada (~135 cadenas por artículo); falta que el negocio valide las cifras.
-- **El contrato** empieza diciendo que sus condiciones no son negociables. Una segunda
-  versión en español sería un segundo texto legal sin aprobar, y ante una
-  discrepancia habría que defenderlo en un juzgado. Lo traduce un abogado o nadie.
-El calculador sí se cerró, y no copiando la página: el cuerpo y **las ocho tarifas**
-viven ahora en un único `src/components/Estimador.astro` que sirven las dos rutas, con
-los rótulos en `src/i18n/estimador.ts`. Un precio duplicado por idioma es un precio
-que un día dice dos cosas. Comprobado en el navegador: la misma configuración da
-**$71,000 – $105,000+** en inglés y en español.
+**El blog sí se tradujo** —los 21 artículos, el índice y las 5 categorías— y con una
+herramienta de por medio, no a mano: `scripts/emparejar-traduccion.mjs` extrae las
+claves inglesas del propio fragmento y las empareja con un `.txt` de traducciones, y
+**se para** si los dos lados no tienen el mismo número de líneas. Transcribir 2.700
+claves a mano es donde se cuela el espacio fino que deja una frase en inglés sin que
+salte nada.
+
+Lo que sí sigue pendiente del cliente: **nadie del negocio ha validado las cifras en
+español**. Los precios, los plazos de permiso y las velocidades de viento están
+traspasados literales —ni convertidos ni redondeados, y los pies siguen siendo pies—
+para que revisarlos sea comparar dos columnas.
 
 **Lo que no está traducido no existe en `/es/`, no lleva `hreflang` y no entra en el
-sitemap.** Comprobado: `hreflang="es"` sale en **154 de 184** páginas, y las 30 que no
-lo llevan son exactamente el blog entero, el contrato y los dos 404.
+sitemap.** Comprobado: `hreflang="es"` sale en **208 de 211** páginas, y las 3 que no
+lo llevan son el contrato de obra y los dos 404.
 
 **Cada página traducida abarató la siguiente.** Una de ubicación tiene 138 cadenas y
 solo **5** son suyas; una de servicio, 90 y solo ~28. El resto ya vive en
@@ -262,6 +265,7 @@ alguien se acuerde de ejecutarla.
 | `check:generadores` | Que alguien edite salida generada a mano y la siguiente regeneración se lo lleve |
 | `check:formularios` | Que un formulario deje de enviar, que el endpoint acepte basura, o que un lead en español acabe en la página de gracias inglesa |
 | `check:i18n` | Que se publique español a medias o un `hreflang` que miente |
+| `emparejar-traduccion` | Que una traducción se desalinee y el artículo salga con el texto de otra frase |
 | `check:seo` | Que vuelva un título duplicado, una canónica cruzada o un campo vacío del CMS |
 | `check:paginas` | Que salga un `undefined` en pantalla o un enlace interno a un 404 |
 
@@ -288,6 +292,8 @@ Dos avisos que **no** tumban la puerta, a propósito:
 
 Y cuando el cliente decida sobre el español que falta (`docs/decisiones.md`):
 
-7. Validar las cifras de los 21 artículos del blog en español, o dejarlos en inglés.
+7. Validar las cifras de los 21 artículos del blog en español. Están traducidos y
+   publicados; lo que falta es que alguien del negocio confirme precios, plazos y
+   cargas de viento.
 8. Encargar a un abogado la versión española del contrato de obra, o dejarla en
    inglés. **No la traduzca nadie más.**
