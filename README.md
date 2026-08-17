@@ -249,17 +249,30 @@ las interacciones IX2 funcionan igual en español.
 | `rutas.mjs` | El mapa `TRADUCIDAS`. En `.mjs` porque lo leen el sitio **y** el build |
 | `index.ts` | `idiomaDeRuta()`, `rutaEnIdioma()`, `traducirHtml()`, `esInvariante()` |
 | `shell.ts` | rótulos de nav y pie en los dos idiomas |
-| `paginas.es.ts` | registro de páginas traducidas + sus diccionarios |
-| `comun.es.ts` | lo que se repite en ~100 páginas (CTA, formularios, sellos) |
+| `paginas.es.ts` | registro de páginas ESTÁTICAS traducidas + sus diccionarios |
+| `comun.es.ts` | lo que se repite en ~150 páginas (CTA, formularios, sellos) |
+| `servicios.es.ts` · `productos.es.ts` · `ubicaciones.es.ts` · `marcas.es.ts` · `proyectos.es.ts` · `condados.es.ts` · `articulos.es.ts` | un registro por colección |
 
-**Añadir una página traducida son dos líneas**: una entrada en `PAGINAS_ES` y su ruta
-en `TRADUCIDAS`. Los metadatos (`wfPage`, anti-FOUC) salen del mismo `_meta.json` que
-generó la versión inglesa, así que no pueden divergir.
+**Añadir una página traducida son dos líneas**: una entrada en el registro de su
+colección y su ruta en `TRADUCIDAS`. Los metadatos (`wfPage`, anti-FOUC) salen del
+mismo `_meta.json` / `_items.json` que generó la versión inglesa, así que no pueden
+divergir. Una entrada sin ruta no rompe nada: la página simplemente no se genera.
 
-Estado: **7 páginas de 113** — home, productos, servicios y las tres de contacto, o
-sea el camino completo hasta pedir presupuesto. Lo que no está traducido **no existe
-en `/es/`, no lleva `hreflang` y no entra en el sitemap**: media traducción publicada
-es peor que ninguna.
+**Lo compartido abarata lo siguiente.** Una página de ubicación tiene 138 cadenas y
+solo **5** son suyas; el resto ya está en `comun.es.ts`. Cuando una cadena aparece en
+más de una página, se mueve ahí — el build avisa por consola de cada cadena sin
+traducir y `check:i18n` exige ≥98 % por página.
+
+Estado: **77 páginas de 183.** Todo menos el blog (índice + 21 artículos + 5
+categorías), el contrato de obra y el calculador de presupuesto; los tres motivos
+están en `docs/decisiones.md`. Lo que no está traducido **no existe en `/es/`, no
+lleva `hreflang` y no entra en el sitemap**: media traducción publicada es peor que
+ninguna. Medido: `hreflang="es"` en 152 de 183, y las 31 restantes son exactamente
+esas tres cosas más los dos 404.
+
+**La página de gracias existe en los dos idiomas** y el destino lo decide el servidor
+a partir del campo `pagina` del envío, no del navegador. `check:formularios` envía uno
+desde `/es/` y exige `/es/thank-you`.
 
 Para saber cuánto queda de una página antes de empezarla:
 
