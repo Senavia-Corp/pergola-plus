@@ -163,6 +163,10 @@ export const PLACEHOLDERS = {
  * en /es/, y eso lo mide check:i18n.
  */
 export const TEXTOS_CLIENTE = {
+  // Errata del contenido original: la frase acaba en "living.z". Sale en
+  // /services/pergola-design-construction, en la entradilla de la galeria.
+  'Explore our custom aluminum and louvered pergolas built across South Florida, engineered for durability, architectural integration, and elevated outdoor living.z':
+    'Explore our custom aluminum and louvered pergolas built across South Florida, engineered for durability, architectural integration, and elevated outdoor living.',
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
     'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.',
