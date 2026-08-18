@@ -78,13 +78,50 @@ const SITIO = process.env.PUBLIC_SITE_URL
  */
 function enlazarEnEspanol(html) {
   let cambiados = 0;
-  const salida = html.replace(/href="(\/[^"#?]*)"/g, (todo, ruta) => {
+
+  // EL SELECTOR DE IDIOMA SE APARTA ANTES DE TOCAR NADA.
+  //
+  // Esta reescritura es un regex CIEGO: ve `href="/algo"` y no sabe en que elemento
+  // esta ni para que sirve. Para 7.094 enlaces eso es justo lo que se quiere — que
+  // el sitio en español no saque al visitante de su idioma al primer clic.
+  //
+  // Para UNO es exactamente al reves. El selector de idioma es el unico control del
+  // sitio cuyo proposito es SALIR del idioma actual, asi que apuntarlo al español
+  // es romperlo: en las 105 paginas de /es/, la opcion «English» quedaba apuntando
+  // a la pagina española. Se entraba al español y no se salia. Medido en
+  // dist/client/es/products/index.html:
+  //
+  //     <a href="/es/products/" lang="en" hreflang="en" class="idioma-opcion">
+  //
+  // El `hreflang` del <head> se salvo por casualidad —sus href son absolutos y este
+  // patron solo captura los que empiezan por «/»—, y por eso el sintoma era solo
+  // visual y ninguna puerta lo vio.
+  //
+  // Se aparta el bloque entero con un centinela, como ya hace traducirHtml() con
+  // <style> y <script>, en vez de intentar reconocerlo dentro del replace: el
+  // regex no tiene contexto de elemento, y darselo seria escribir un parser.
+  const apartados = [];
+  const conCentinela = html.replace(
+    /<ul class="idioma-lista"[\s\S]*?<\/ul>/g,
+    (bloque) => {
+      apartados.push(bloque);
+      return `\u0000IDIOMA${apartados.length - 1}\u0000`;
+    },
+  );
+
+  const salida = conCentinela.replace(/href="(\/[^"#?]*)"/g, (todo, ruta) => {
     const es = haciaEspanol(ruta);
     if (!es || es === ruta) return todo;
     cambiados++;
     return `href="${es}"`;
   });
-  return { html: salida, cambiados };
+
+  const restaurado = salida.replace(
+    /\u0000IDIOMA(\d+)\u0000/g,
+    (_m, i) => apartados[Number(i)],
+  );
+
+  return { html: restaurado, cambiados, selectoresApartados: apartados.length };
 }
 
 function dimensionarHtml() {
@@ -97,6 +134,7 @@ function dimensionarHtml() {
         let pendientes = 0;
         let enlaces = 0;
         let paginasEs = 0;
+        const sinProteger = [];
 
         const recorrer = async (d) => {
           for (const e of await fs.readdir(d, { withFileTypes: true })) {
@@ -114,6 +152,12 @@ function dimensionarHtml() {
               despues = r.html;
               enlaces += r.cambiados;
               paginasEs++;
+              // Cada pagina lleva UN selector de idioma, asi que apartar cero
+              // significa que el markup cambio y la proteccion ya no engancha. Sin
+              // este conteo, ese dia la reescritura volveria a apuntar la opcion
+              // «English» al español y el sintoma seria otra vez invisible: el menu
+              // abre, se ve bien, y no lleva a ninguna parte.
+              if (r.selectoresApartados !== 1) sinProteger.push(`${rel} (${r.selectoresApartados})`);
             }
 
             if (despues !== antes) { await fs.writeFile(p, despues, 'utf8'); tocadas++; }
@@ -124,7 +168,17 @@ function dimensionarHtml() {
         await recorrer(raiz);
 
         logger.info(`width/height inyectados en ${tocadas} paginas`);
-        logger.info(`${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`);
+        logger.info(
+          `${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`
+          + ` (selector de idioma respetado en ${paginasEs - sinProteger.length})`,
+        );
+        if (sinProteger.length) {
+          logger.warn(
+            `[idioma] ${sinProteger.length} pagina(s) sin selector que apartar: `
+            + `${sinProteger.slice(0, 5).join(', ')}. La opcion «English» puede haber `
+            + 'quedado apuntando al espanol. Revisa el markup de .idioma-lista en Nav.astro.',
+          );
+        }
         // Se avisa en vez de callar: una imagen sin medida es una imagen que sigue
         // provocando salto de layout, y quien lea el log tiene que saberlo.
         if (pendientes) {

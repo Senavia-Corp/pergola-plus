@@ -322,6 +322,77 @@ for (const rel of htmls) {
 decir(rotos.length === 0, 'ningun hreflang apunta a una pagina que no existe', rotos);
 decir(noReciprocos.length === 0, 'todo par de hreflang es reciproco', noReciprocos);
 
+// --- el selector de idioma lleva de verdad al otro idioma -------------------
+//
+// EL FALLO QUE ESTO IMPIDE. `enlazarEnEspanol()` (astro.config.mjs) reescribe todos
+// los href="/..." de las paginas /es/ a su version espanola, para que el sitio en
+// español no saque al visitante de su idioma al primer clic. Son ~7.000 enlaces y
+// para todos es lo correcto — menos para UNO. El selector de idioma es el unico
+// control del sitio cuyo proposito es SALIR del idioma actual, y la reescritura lo
+// apuntaba al español: en las 105 paginas de /es/, la opcion «English» llevaba a la
+// pagina española. Se entraba al español y no se salia.
+//
+// POR QUE NINGUNA PUERTA LO VIO, y por eso esta comprobacion mira el DESTINO y no la
+// forma: check:enlaces solo exige que el href apunte a una pagina que existe, y
+// /es/products/ existe. El enlace estaba sano; lo que estaba mal era a donde iba.
+// Y el hreflang del <head> se salvo de casualidad, porque sus href son absolutos y
+// aquel regex solo captura los que empiezan por «/».
+const selectorMal = [];
+const sinOpcionViva = [];
+for (const rel of htmls) {
+  const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  const bloque = html.match(/<ul class="idioma-lista"[\s\S]*?<\/ul>/)?.[0];
+  if (!bloque) continue; // los 404 y alguna suelta no montan nav
+
+  const esPaginaEs = ruta(rel).startsWith('/es/') || ruta(rel) === '/es/';
+  const opciones = [...bloque.matchAll(/<a href="([^"]+)"[^>]*lang="(en|es)"/g)]
+    .map((m) => ({ href: m[1], lang: m[2] }));
+
+  for (const o of opciones) {
+    const destinoEsEspanol = o.href === '/es/' || o.href.startsWith('/es/');
+    // La regla, en una linea: la opcion de un idioma tiene que llevar a una URL DE
+    // ese idioma. Da igual en que pagina estemos.
+    if (o.lang === 'es' && !destinoEsEspanol) {
+      selectorMal.push(`${rel}: la opcion «Español» va a ${o.href}`);
+    }
+    if (o.lang === 'en' && destinoEsEspanol) {
+      selectorMal.push(`${rel}: la opcion «English» va a ${o.href}`);
+    }
+  }
+
+  // Y que quede al menos una salida viva: si las dos opciones son <span> no
+  // disponible, el selector es un adorno.
+  const otroIdioma = esPaginaEs ? 'en' : 'es';
+  const hayEnlaceAlOtro = opciones.some((o) => o.lang === otroIdioma);
+  const hayAvisoDelOtro = new RegExp(`no-disponible" lang="${otroIdioma}"`).test(bloque);
+  if (!hayEnlaceAlOtro && !hayAvisoDelOtro) {
+    sinOpcionViva.push(`${rel}: ni enlace ni aviso para «${otroIdioma}»`);
+  }
+}
+decir(
+  selectorMal.length === 0,
+  'cada opcion del selector lleva a una URL de SU idioma',
+  selectorMal,
+);
+decir(
+  sinOpcionViva.length === 0,
+  'el selector siempre ofrece el otro idioma: enlace, o aviso de no disponible',
+  sinOpcionViva,
+);
+
+// Un <a> sin href es un control muerto: parece pulsable, no lleva a ningun sitio y
+// sale del orden de tabulacion, asi que las flechas del selector se saltan una
+// opcion sin explicar por que.
+const anclasMuertas = [];
+for (const rel of htmls) {
+  const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  const bloque = html.match(/<ul class="idioma-lista"[\s\S]*?<\/ul>/)?.[0];
+  if (bloque && /<a(?![^>]*\shref=)[^>]*class="[^"]*idioma-opcion/.test(bloque)) {
+    anclasMuertas.push(rel);
+  }
+}
+decir(anclasMuertas.length === 0, 'ninguna opcion es un <a> sin href', anclasMuertas);
+
 // --- texto visible que NO vive en un nodo de texto --------------------------
 //
 // `traducirHtml` sustituia solo nodos de texto, asi que todo lo visible que vive en

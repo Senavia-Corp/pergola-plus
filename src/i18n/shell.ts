@@ -23,6 +23,7 @@ type Claves =
   | 'estimatorTitulo' | 'estimatorTexto' | 'quoteTitulo' | 'quoteTexto'
   | 'visitTitulo' | 'visitTexto' | 'touchTitulo' | 'touchTexto'
   | 'cambiarIdioma'
+  | 'idiomaNoDisponible'
   | 'footerSuscribete' | 'footerEmail' | 'footerBoton' | 'footerLegal'
   | 'footerHelp' | 'footerCompany' | 'footerFollow'
   | 'footerProductos' | 'footerServicios' | 'footerGaleria' | 'footerEstimador'
@@ -98,6 +99,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     touchTexto: 'Contact the leading pergola contractors in South Florida for custom designs.',
 
     cambiarIdioma: 'Change language. Current language:',
+    idiomaNoDisponible: 'Not available',
 
     footerSuscribete: 'Get updates on new pergolas and outdoor solutions.',
     footerEmail: 'Enter your email address',
@@ -193,6 +195,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     touchTexto: 'Contacte con nosotros para diseños a medida.',
 
     cambiarIdioma: 'Cambiar idioma. Idioma actual:',
+    idiomaNoDisponible: 'No disponible',
 
     footerSuscribete: 'Reciba novedades sobre pérgolas y soluciones para exteriores.',
     footerEmail: 'Escriba su correo electrónico',

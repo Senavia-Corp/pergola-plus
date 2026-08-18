@@ -456,20 +456,35 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
           <ul class="idioma-lista" id="idioma-lista" hidden>
             {IDIOMAS.map((i) => (
               <li>
-                <a
-                  href={i.href}
-                  lang={i.lang}
-                  hreflang={i.lang}
-                  class:list={['idioma-opcion', { 'es-actual': i.activo }]}
-                  aria-current={i.activo ? 'true' : undefined}>
-                  <span class="idioma-bandera" set:html={i.bandera} />
-                  <span class="idioma-nombre">{i.nombre}</span>
-                  {i.activo && (
-                    <svg class="idioma-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                      <path d="M3 8.5l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                  )}
-                </a>
+                {/* Sin traduccion publicada no hay `href`, y un <a> sin href es un
+                    control MUERTO: parece pulsable, no lleva a ningun sitio y encima
+                    sale del orden de tabulacion, asi que las flechas del selector se
+                    saltan una opcion sin explicar por que. Pasa en 3 paginas —el
+                    contrato de obra, que se deja en ingles a proposito, y los dos
+                    404—. Se pinta como no disponible, que es la verdad: esta pagina
+                    no existe en ese idioma. */}
+                {i.href ? (
+                  <a
+                    href={i.href}
+                    lang={i.lang}
+                    hreflang={i.lang}
+                    class:list={['idioma-opcion', { 'es-actual': i.activo }]}
+                    aria-current={i.activo ? 'true' : undefined}>
+                    <span class="idioma-bandera" set:html={i.bandera} />
+                    <span class="idioma-nombre">{i.nombre}</span>
+                    {i.activo && (
+                      <svg class="idioma-check" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <path d="M3 8.5l3.5 3.5L13 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    )}
+                  </a>
+                ) : (
+                  <span class="idioma-opcion no-disponible" lang={i.lang} aria-disabled="true">
+                    <span class="idioma-bandera" set:html={i.bandera} />
+                    <span class="idioma-nombre">{i.nombre}</span>
+                    <span class="idioma-aviso">{t('idiomaNoDisponible')}</span>
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -623,7 +638,11 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
   if (selector) {
     const boton = selector.querySelector<HTMLButtonElement>('.idioma-boton')!;
     const lista = selector.querySelector<HTMLElement>('.idioma-lista')!;
-    const opciones = [...lista.querySelectorAll<HTMLAnchorElement>('.idioma-opcion')];
+    // `a.idioma-opcion`, no `.idioma-opcion` a secas: un idioma sin traduccion para
+    // esta pagina se pinta como <span> no disponible, y un <span> no es enfocable.
+    // Metido en esta lista, las flechas «pasarian» por el sin que se vea nada y
+    // Home/End caerian en la nada.
+    const opciones = [...lista.querySelectorAll<HTMLAnchorElement>('a.idioma-opcion')];
 
     const abrir = (abierto: boolean) => {
       boton.setAttribute('aria-expanded', String(abierto));

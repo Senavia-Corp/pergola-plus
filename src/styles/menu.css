@@ -388,6 +388,24 @@
   flex: 1;
 }
 
+/* Idioma sin traduccion publicada para ESTA pagina. Es un <span>, no un <a>: no
+   hay destino al que llevar, y fingir uno seria peor. Se lee apagado y dice por
+   que, en vez de ser una opcion que no responde. */
+.menu .idioma-opcion.no-disponible {
+  color: var(--menu-apagado, #8a8a8a);
+  cursor: default;
+}
+
+.menu .idioma-opcion.no-disponible:hover {
+  background-color: transparent;
+}
+
+.menu .idioma-aviso {
+  flex: none;
+  font-size: 12px;
+  opacity: .75;
+}
+
 /* El idioma activo se marca con aria-current; esto es su reflejo visual, y no
    depende solo del color: lleva peso y palomita. */
 .menu .idioma-opcion.es-actual {
