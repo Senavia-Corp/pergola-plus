@@ -26,6 +26,22 @@ import { raizHtml } from './lib/dist.mjs';
 
 const DIST = await raizHtml();
 
+/**
+ * Todas las traducciones ES, leidas de los diccionarios como TEXTO.
+ *
+ * No se importan los modulos: son .ts con tipos y este script corre con node a
+ * pelo. Lo que se necesita aqui no es el diccionario tipado, es la pregunta
+ * «¿existe traduccion para esta cadena?» — y para eso basta con las claves.
+ */
+const DIC = {};
+for (const f of await fs.readdir(path.resolve(import.meta.dirname, '../src/i18n'))) {
+  if (!f.endsWith('.es.ts')) continue;
+  const fuente = await fs.readFile(path.resolve(import.meta.dirname, '../src/i18n', f), 'utf8');
+  for (const m of fuente.matchAll(/'((?:[^'\\]|\\.)+)':\s*'((?:[^'\\]|\\.)+)'/g)) {
+    if (DIC[m[1]] === undefined && m[1] !== m[2]) DIC[m[1]] = m[2];
+  }
+}
+
 /** Cobertura minima de nodos de texto traducidos, por pagina. */
 const COBERTURA = 0.98;
 
@@ -305,6 +321,57 @@ for (const rel of htmls) {
 
 decir(rotos.length === 0, 'ningun hreflang apunta a una pagina que no existe', rotos);
 decir(noReciprocos.length === 0, 'todo par de hreflang es reciproco', noReciprocos);
+
+// --- texto visible que NO vive en un nodo de texto --------------------------
+//
+// `traducirHtml` sustituia solo nodos de texto, asi que todo lo visible que vive en
+// un ATRIBUTO se quedaba en ingles. Medido antes del arreglo, en /es/: el boton de
+// las dos paginas de captacion decia «Request Estimate» y «Submit Inquiry», mas 7
+// placeholders, 6 aria-label y el «Please wait...» del envio. Las traducciones ya
+// estaban escritas en los diccionarios; no se aplicaban.
+//
+// Es un fallo que no rompe nada y por eso duraba: la pagina carga, el formulario
+// funciona, y solo lo ve quien lee español.
+const VISIBLES = ['placeholder', 'aria-label', 'data-wait'];
+const enIngles = [];
+for (const rel of es) {
+  const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  for (const attr of VISIBLES) {
+    for (const [, v] of html.matchAll(new RegExp(`${attr}="([^"]+)"`, 'g'))) {
+      if (DIC[v.trim()]) enIngles.push(`${rel}: ${attr}="${v}"`);
+    }
+  }
+  // El value de un submit es la ETIQUETA del boton, no un dato.
+  for (const [, attrs] of html.matchAll(/<input\s([^>]*type="submit"[^>]*)>/g)) {
+    const v = attrs.match(/value="([^"]+)"/)?.[1];
+    if (v && DIC[v.trim()]) enIngles.push(`${rel}: boton value="${v}"`);
+  }
+}
+decir(enIngles.length === 0, 'ningun atributo visible se queda en ingles en /es/', enIngles);
+
+// Y LA MITAD QUE PROTEGE LOS DATOS. El `value` de un <option> es lo que se ENVIA y
+// lo que acaba en el correo al despacho: tiene que ser identico al de la pagina
+// inglesa. Si se tradujera, los leads en español llegarian con el producto en
+// español y los ingleses en ingles — dos vocabularios para la misma cosa en la
+// bandeja de quien tiene que llamar, y ningun informe cuadraria nunca.
+const valoresDivergentes = [];
+for (const rel of es) {
+  const relEn = rel.replace(/^es\//, '');
+  const [hEs, hEn] = await Promise.all([
+    fs.readFile(path.join(DIST, rel), 'utf8'),
+    fs.readFile(path.join(DIST, relEn), 'utf8').catch(() => null),
+  ]);
+  if (!hEn) continue;
+  const opciones = (h) => [...h.matchAll(/<option value="([^"]*)"/g)].map((m) => m[1]).join('|');
+  if (opciones(hEs) !== opciones(hEn)) {
+    valoresDivergentes.push(`${rel}\n           es: ${opciones(hEs).slice(0, 90)}\n           en: ${opciones(hEn).slice(0, 90)}`);
+  }
+}
+decir(
+  valoresDivergentes.length === 0,
+  'los value de los <option> son identicos en EN y ES (es el dato que se envia)',
+  valoresDivergentes,
+);
 
 // --- cuanto queda ----------------------------------------------------------
 // El informe importa tanto como la puerta: sin este numero, «el sitio esta en
