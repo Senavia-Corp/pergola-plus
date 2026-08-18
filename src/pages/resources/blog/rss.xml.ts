@@ -7,9 +7,14 @@
  * escapado XML —y son cinco caracteres—. El repo ya tomo esta misma decision con
  * scripts/lib/csv.mjs en vez de csv-parse.
  *
- * OJO: los <guid> se construyen sobre `site`, que en astro.config.mjs sigue
- * apuntando al staging de Webflow (TODO Fase 2). Los guid son permanentes para
- * quien se suscriba, asi que NO difundas este feed hasta cambiar esa linea.
+ * OJO CON LOS <guid>: se construyen sobre `site` y son PERMANENTES para quien se
+ * suscriba. En un deploy provisional `site` es la URL *.vercel.app, asi que un feed
+ * difundido desde ahi deja a sus suscriptores apuntando a una URL que va a morir.
+ *
+ * Por eso el feed NO se publica fuera de produccion: astro.config.mjs lo BORRA de la
+ * salida, igual que el sitemap. Es la unica pieza del sitio que un visitante se lleva
+ * a otro programa, y por tanto la unica donde el <meta noindex> no protege nada — un
+ * lector de RSS no lee <meta>.
  */
 import type { APIRoute } from 'astro';
 import { posts } from '../../../lib/blog';

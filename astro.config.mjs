@@ -7,7 +7,44 @@ import vercel from '@astrojs/vercel';
 import { dimensionarImagenes } from './scripts/lib/transformar.mjs';
 import { haciaEspanol } from './src/i18n/rutas.mjs';
 
-const SITIO = process.env.PUBLIC_SITE_URL ?? 'https://www.pergolaplusflorida.com';
+/**
+ * Si este build se puede indexar. FALLA CERRADO: hay que declararlo, y quien no lo
+ * declara sale invisible.
+ *
+ * Es al reves de lo natural a proposito. El dominio real sigue sirviendo el Webflow
+ * en vivo, asi que un deploy provisional indexable no es un detalle de SEO: es una
+ * copia del sitio entero compitiendo en buscadores contra el sitio del cliente, con
+ * su sitemap apuntando al dominio bueno. El olvido tiene que producir el deploy
+ * mudo, nunca el ruidoso.
+ *
+ * Cuando es false, cinco cosas a la vez y ninguna sobra:
+ *   robots.txt   Disallow: / y SIN linea Sitemap (ver sitemapYRobots)
+ *   sitemap.xml  se borra de la salida
+ *   rss.xml      se borra de la salida, y el <link> que lo anuncia desaparece
+ *   <meta>       noindex,nofollow en las 211 paginas (ver BaseLayout)
+ *   SITIO        cae en localhost, no en el dominio del cliente (ver abajo)
+ *
+ * NO se usa una cabecera X-Robots-Tag por vercel.json. Seria la unica capa que
+ * alcanza a lo que no es HTML, pero vercel.json es un fichero ESTATICO: no puede
+ * leer esta variable, asi que o lo lleva tambien produccion —y entonces el sitio
+ * bueno nace invisible— o hay que acordarse de quitarlo a mano en el deploy que mas
+ * caro sale olvidar. Borrar el RSS y el sitemap cierra el mismo hueco sin dejar esa
+ * trampa puesta.
+ */
+const ES_PRODUCCION = process.env.PUBLIC_ES_PRODUCCION === '1';
+
+/**
+ * El dominio que alimenta canonicas, hreflang, sitemap, JSON-LD y los <guid> del RSS.
+ *
+ * EL FALLBACK TAMBIEN FALLA CERRADO, y es la mitad que faltaba. Antes caia en el
+ * dominio real, asi que un preview que olvidara PUBLIC_SITE_URL construia las 211
+ * canonicas apuntando al sitio del cliente — o sea, la copia provisional pidiendole
+ * a Google que consolidara su autoridad contra el Webflow en vivo. Medido: 211 de
+ * 211. Ahora un build no declarado como produccion que ademas no diga su dominio
+ * cae en localhost, que no le hace dano a nadie.
+ */
+const SITIO = process.env.PUBLIC_SITE_URL
+  ?? (ES_PRODUCCION ? 'https://www.pergolaplusflorida.com' : 'http://localhost:4321');
 
 /**
  * width/height en TODAS las imagenes del HTML construido.
@@ -132,6 +169,40 @@ function sitemapYRobots() {
     hooks: {
       'astro:build:done': async ({ dir, pages, logger }) => {
         const raiz = new URL(dir);
+
+        // Build no declarado como produccion: se cierra la puerta y se sale. Nada de
+        // sitemap — decir "no me indexes" y a la vez entregar el mapa de las 209
+        // paginas es pedirle al buscador que elija, y elige mal.
+        if (!ES_PRODUCCION) {
+          await fs.writeFile(
+            path.join(raiz.pathname, 'robots.txt'),
+            [
+              'User-agent: *',
+              'Disallow: /',
+              '',
+              '# Build sin PUBLIC_ES_PRODUCCION=1: copia provisional, no es el sitio.',
+              '# El sitio en vivo es https://www.pergolaplusflorida.com',
+              '',
+            ].join('\n'),
+            'utf8',
+          );
+          // Se BORRAN, no se dejan de escribir: un build anterior pudo dejarlos ahi y
+          // el fichero viejo sobrevive al cambio de modo y se seguiria sirviendo.
+          //
+          // El RSS va en la misma lista y por una razon distinta al sitemap: sus <guid>
+          // son permanentes para quien se suscriba, asi que un feed servido desde la URL
+          // provisional deja a sus lectores apuntando a una URL que va a morir. Es
+          // ademas lo unico que el visitante se lleva a otro programa, donde el <meta
+          // noindex> no le protege — un lector de RSS no lee <meta>.
+          for (const muerto of ['sitemap.xml', 'resources/blog/rss.xml']) {
+            await fs.rm(path.join(raiz.pathname, muerto), { force: true });
+          }
+          logger.info(
+            'sin PUBLIC_ES_PRODUCCION=1: robots.txt con Disallow: /, sin sitemap y sin RSS',
+          );
+          return;
+        }
+
         const entradas = [];
 
         for (const { pathname } of pages) {

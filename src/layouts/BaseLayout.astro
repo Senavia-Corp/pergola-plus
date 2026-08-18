@@ -72,6 +72,12 @@ const {
   jsonLd,
 } = Astro.props;
 
+// Falla CERRADO: se indexa solo si el deploy se declara produccion. Un preview que
+// olvide la variable sale noindex, que es el fallo barato; al reves seria publicar
+// una copia del sitio compitiendo con el que el cliente tiene en vivo.
+// La regla completa y las otras tres capas, en astro.config.mjs (ES_PRODUCCION).
+const indexable = import.meta.env.PUBLIC_ES_PRODUCCION === '1';
+
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
 // El idioma sale de la ruta: todo lo que cuelgue de /es/ es español. Sin esto el
@@ -122,15 +128,20 @@ const xDefault = alternativas.length > 1
     {ogImage && <meta content={ogImage} property="og:image" />}
     {ogImage && <meta content={ogImage} name="twitter:image" />}
     <meta content="width=device-width, initial-scale=1" name="viewport" />
+    {!indexable && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     {alternativas.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Pergola Plus Florida — Blog"
-      href="/resources/blog/rss.xml"
-    />
+    {/* Fuera de produccion el feed no se publica (astro.config.mjs lo borra de la
+        salida), asi que anunciarlo aqui seria un enlace a un 404 en las 211 paginas. */}
+    {indexable && (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title="Pergola Plus Florida — Blog"
+        href="/resources/blog/rss.xml"
+      />
+    )}
     {jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
 
     <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
