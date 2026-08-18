@@ -1,14 +1,22 @@
 # Estado final — Pergola Plus Florida
 
-Fecha: 17 de agosto de 2026 · Rama `main`, subida a GitHub, **sin desplegar**.
+Fecha: 18 de agosto de 2026 · Rama `link-provisional-y-leads`.
 
-La puerta única `npm run check` está en verde de punta a punta: build + blog +
-enlaces + carruseles + imágenes + paridad + generadores + formularios + i18n + seo +
-páginas.
+**DESPLEGADO en un link provisional:** https://pergola-plus-preview.vercel.app
+(proyecto `pergola-plus-preview` del equipo `senaviacorp`, subido por CLI). El
+dominio real **sigue sirviendo Webflow y no se ha tocado**: `www` → `cdn.webflow.com`
+vía Cloudflare, HTTP 200, verificado después del deploy.
+
+La puerta única `npm run check` está en verde de punta a punta, y ahora en **dos
+modos**, porque hay dos formas del sitio que proteger:
 
 ```bash
-npm run check
+npm run check                        # forma PROVISIONAL: no se puede indexar
+PUBLIC_ES_PRODUCCION=1 npm run check # forma PRODUCCIÓN: sitemap, RSS, indexable
 ```
+
+Los dos salen con exit 0. Son 12 puertas: las 10 de siempre más `check:noindex` y
+`check:correo`.
 
 ---
 
@@ -30,6 +38,9 @@ npm run check
 | Páginas en español | 1 | **105** de 211 |
 | Desbordamiento horizontal a 320 px | — | **0** |
 | `sitemap.xml` / `robots.txt` | no existían | **209 urls + robots** |
+| Canónicas apuntando al dominio del cliente desde un preview | 211 | **0** |
+| Canales que entregan un lead de verdad | 0 en producción | **correo + webhook** |
+| Formularios con antibot real | 0 | **2 de 2** (los de captación) |
 
 ---
 
@@ -160,11 +171,26 @@ Es decir: esto pasó de estar a cero a estar **a una revisión** de poder public
 **Decidido:** no se publica hasta que Daniel conteste los cinco puntos. La página se
 queda con el aviso honesto.
 
-### DECIDIDO Y A LA ESPERA — Los leads solo quedan en el log
+### CERRADO — Los leads llegan por correo
 
-`entregarLead()` tiene tres canales: log, archivo local y webhook. En producción, sin
-correo ni `LEAD_WEBHOOK_URL` configurados, **el único canal vivo es el log de
-Vercel**. Nadie mira los logs.
+**Antes, y era peor de lo documentado:** `ok = canales.log || ...`, y `console.log` no
+falla nunca. En producción `ok` era **siempre** true, el 500 de `/api/lead` era código
+inalcanzable y el visitante veía «gracias» pasara lo que pasara con su lead.
+
+Ahora el log es rastro, no entrega. Hay un cuarto canal —SMTP genérico— que manda dos
+correos: aviso al despacho (con Reply-To al lead y el idioma en que escribió) y acuse
+al visitante en su idioma. Solo el aviso cuenta como entrega.
+
+Probado de punta a punta con un servidor SMTP de usar y tirar: los 3 formularios
+enviados, 6 correos recibidos, sus dos partes (texto plano y HTML), y el lead en
+español aterrizando en `/es/thank-you` con su acuse en español.
+
+**Lo único que falta son las credenciales** (`SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`,
+`LEAD_NOTIFY_TO`). Hasta que estén, en el deploy provisional el endpoint devuelve
+**500 con el teléfono** en vez de la página de gracias — que es lo correcto, pero
+significa que el formulario del demo no capta todavía.
+
+Lo que había antes, para constancia:
 
 **Cada build imprime ahora un aviso enmarcado** diciéndolo, y `check:formularios`
 comprueba que ese aviso sigue ahí — es el fallo que no da error, así que borrarlo
@@ -182,21 +208,56 @@ basta con definir la variable — no hay que tocar código ni hacen falta creden
 El enganche está marcado con `TODO(correo)` en `src/lib/lead.ts`. El envío de correo
 y su copy quedaron **fuera de alcance por decisión del proyecto**.
 
-### Turnstile sin secreto
+### CERRADO salvo el secreto — Turnstile montado
 
-El sitekey del cliente (`0x4AAAAAAAQTptj2So4dx43e`) está en `.env.example`. Sin
-`TURNSTILE_SECRET_KEY`, `/api/lead` acepta los leads marcándolos `verificado:false` y
-**cada build avisa por consola**. Con el secreto puesto se verifica siempre y se falla
-cerrado.
+El widget está puesto en las **2 páginas de captación** (EN y ES), y en ninguna otra:
+el formulario del pie va en las 211 páginas y montarlo ahí metería un script de
+terceros y sus cookies en todo el sitio para proteger un campo de boletín. El pie se
+queda con la trampa y el temporizador.
 
-Para montar el widget de verdad faltan tres cosas: el `<script>` de Cloudflare, un
-contenedor `.cf-turnstile` en cada formulario y la variable en Vercel. El endpoint ya
-espera el token en `cf-turnstile-response`.
+El atributo es `data-sitekey`. **Nunca `data-turnstile-sitekey`**: con ese nombre,
+`webflow.js` carga su propio Turnstile y deja todos los formularios de la página en
+`w-form-loading` con el submit deshabilitado, sin un error en consola. Ya mató las dos
+páginas de captación una vez.
 
-### Dominio sin confirmar
+Falla cerrado también sin JavaScript, y es deliberado: exigir el token solo cuando el
+envío dice que traía JS lo esquiva cualquier bot mandando `js=0`. Quien navegue sin JS
+ve un error en su idioma con el teléfono.
 
-`PUBLIC_SITE_URL` cae en `https://www.pergolaplusflorida.com`. **No difundir el RSS**
-hasta confirmarlo: los `<guid>` son permanentes para quien se suscriba.
+Verificado vivo con los secretos de prueba de Cloudflare: con `2x…AA` (siempre falla),
+`quote` sin token → 400, con token cualquiera → 400, y el pie → 303. Con `1x…AA`
+(siempre aprueba), `quote` con token → 303.
+
+**Falta solo `TURNSTILE_SECRET_KEY` en el proyecto de Vercel.** Sin ella los leads
+entran marcados `verificado:false` y el aviso al despacho lo dice en su cabecera.
+
+### CERRADO — El link provisional no se puede indexar
+
+Era el riesgo grande del deploy: `robots.txt` salía con `Allow: /`, el `Sitemap:`
+apuntaba al dominio del cliente y las **211 canónicas** también, porque el fallback de
+`PUBLIC_SITE_URL` era el dominio real. O sea, una copia del sitio entero pidiéndole a
+Google que la consolidara contra el Webflow en vivo.
+
+La regla ahora es **se indexa SOLO con `PUBLIC_ES_PRODUCCION=1`**, y falla cerrado:
+olvidarla en producción da un sitio invisible que se arregla con un redeploy; al revés
+daba una copia duplicada que tarda semanas en salir del índice.
+
+Sin ella, cinco cosas a la vez, **verificadas en el deploy**:
+
+| | Comprobado en https://pergola-plus-preview.vercel.app |
+|---|---|
+| `robots.txt` | `Disallow: /`, sin línea `Sitemap:` |
+| `sitemap.xml` | 404 |
+| RSS | 404, y ninguna página lo anuncia |
+| `<meta robots>` | `noindex,nofollow` en las 211 |
+| canónicas | apuntan al link provisional, **no** al dominio del cliente |
+
+No se usa `X-Robots-Tag` por `vercel.json`: es un fichero estático que no puede leer la
+variable, así que o lo hereda producción —y el sitio bueno nace invisible— o hay que
+acordarse de quitarlo justo en el deploy que más caro sale olvidar.
+
+**No difundir el RSS** cuando se publique de verdad hasta confirmar el dominio: los
+`<guid>` son permanentes para quien se suscriba.
 
 ### Copy de los 3 proyectos nuevos
 
@@ -212,9 +273,12 @@ se ha publicado.** Decisión del cliente.
 
 ### Fuera de alcance por decisión del proyecto
 
-Dominio, DNS y SSL · deploy y variables en Vercel · GA4, GTM, Search Console, Google
-Ads y Google Business Profile · migración a Sanity · chat con IA · widget de Google
-Reviews.
+Dominio, DNS y SSL · GA4, GTM, Search Console, Google Ads y Google Business Profile ·
+chat con IA · widget de Google Reviews.
+
+Ya **no** están fuera de alcance, y están hechos: el deploy provisional y sus variables
+en Vercel, y el correo transaccional. La migración a Sanity sigue pendiente y es la
+pieza grande que queda.
 
 ### Lo que no se pudo verificar aquí
 
@@ -268,6 +332,8 @@ alguien se acuerde de ejecutarla.
 | `emparejar-traduccion` | Que una traducción se desalinee y el artículo salga con el texto de otra frase |
 | `check:seo` | Que vuelva un título duplicado, una canónica cruzada o un campo vacío del CMS |
 | `check:paginas` | Que salga un `undefined` en pantalla o un enlace interno a un 404 |
+| `check:noindex` | Que un deploy provisional se pueda indexar, o que el candado se quede puesto en producción. Comprueba **los dos modos** |
+| `check:correo` | Que los dos correos salgan rotos, sin texto plano o colando HTML del lead; y que `entregarLead()` devuelva `ok:false` cuando no queda ni un canal |
 
 Dos avisos que **no** tumban la puerta, a propósito:
 
@@ -277,23 +343,30 @@ Dos avisos que **no** tumban la puerta, a propósito:
 
 ---
 
-## Antes de subir
+## Antes de enseñarle el link a Daniel
 
-1. Definir `TURNSTILE_SECRET_KEY` en Vercel. Sin ella el antibot acepta todo.
-2. Definir `LEAD_WEBHOOK_URL` **o** cablear el correo. Si no, los leads solo quedan en
-   el log.
-3. Confirmar el dominio y definir `PUBLIC_SITE_URL`.
-4. Rellenar la política de privacidad en el CMS y quitar la regla provisional de
+1. **`SMTP_HOST` / `SMTP_USER` / `SMTP_PASS` / `LEAD_NOTIFY_TO` en Vercel.** Es lo
+   único que separa el demo de captar de verdad: hoy el endpoint devuelve 500 con el
+   teléfono, que es honesto pero no capta. Con Gmail: `smtp.gmail.com`, puerto 587, y
+   una App Password (necesita 2FA en la cuenta).
+2. **`TURNSTILE_SECRET_KEY` en Vercel.** Sin ella el antibot acepta todo marcando
+   `verificado:false`. El widget ya está puesto.
+
+## Antes de publicar en el dominio real
+
+1. `PUBLIC_ES_PRODUCCION=1`. Sin ella el sitio nace invisible — a propósito.
+2. Confirmar el dominio y definir `PUBLIC_SITE_URL`.
+3. Rellenar la política de privacidad en el CMS y quitar la regla provisional de
    `scripts/lib/transformar.mjs` (lanza sola si el cliente ya la ha rellenado). Ojo:
    hay que rellenarla **en los dos idiomas** — `/es/articles/privacy-policy` sirve la
    misma pieza traducida por `src/i18n/articulos.es.ts`.
-5. Recorrer las animaciones en un navegador visible.
-6. Enviar el sitemap a Search Console cuando el dominio esté en pie.
+4. Recorrer las animaciones en un navegador visible.
+5. Enviar el sitemap a Search Console cuando el dominio esté en pie.
 
 Y cuando el cliente decida sobre el español que falta (`docs/decisiones.md`):
 
-7. Validar las cifras de los 21 artículos del blog en español. Están traducidos y
+6. Validar las cifras de los 21 artículos del blog en español. Están traducidos y
    publicados; lo que falta es que alguien del negocio confirme precios, plazos y
    cargas de viento.
-8. Encargar a un abogado la versión española del contrato de obra, o dejarla en
+7. Encargar a un abogado la versión española del contrato de obra, o dejarla en
    inglés. **No la traduzca nadie más.**

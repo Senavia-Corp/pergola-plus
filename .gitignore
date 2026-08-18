@@ -56,3 +56,8 @@ public/videos/
 auditoria-imagenes/display.json
 # Los montajes antes/despues son imagenes y se rehacen en cada integracion.
 auditoria-imagenes/comparativas/
+
+# Lo crea `vercel link` con el VERCEL_OIDC_TOKEN del proyecto.
+# El CLI escribe aqui `.env*` a secas, y eso taparia .env.example — que SI se
+# versiona a proposito: es la documentacion de todas las variables del sitio.
+.env.local
