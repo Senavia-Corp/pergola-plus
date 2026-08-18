@@ -222,11 +222,25 @@ for (const rel of htmls) {
 decir(conWebflow.length === 0, 'ninguna referencia a webflow.io en el HTML final', conWebflow);
 
 // --- sitemap y robots ------------------------------------------------------
+// El sitemap solo existe en produccion: un build provisional lo borra a proposito,
+// porque anunciar las 209 URLs y a la vez pedir noindex es pedirle al buscador que
+// elija. La regla completa y su porque, en astro.config.mjs (ES_PRODUCCION); quien
+// la vigila de verdad es check:noindex, que comprueba los dos modos.
+const ES_PRODUCCION = process.env.PUBLIC_ES_PRODUCCION === '1';
+
 const sitemap = await fs.readFile(path.join(DIST, 'sitemap.xml'), 'utf8').catch(() => '');
-decir(sitemap !== '', 'existe sitemap.xml');
 const robots = await fs.readFile(path.join(DIST, 'robots.txt'), 'utf8').catch(() => '');
 decir(robots !== '', 'existe robots.txt');
-decir(/^Sitemap:\s*https?:\/\/\S+\/sitemap\.xml$/m.test(robots), 'robots.txt apunta al sitemap');
+
+if (ES_PRODUCCION) {
+  decir(sitemap !== '', 'existe sitemap.xml');
+  decir(/^Sitemap:\s*https?:\/\/\S+\/sitemap\.xml$/m.test(robots), 'robots.txt apunta al sitemap');
+} else {
+  // Se AFIRMA que no estan, en vez de saltarse el bloque: un `if` que no comprueba
+  // nada es una puerta que se apaga sola sin que nadie se entere.
+  decir(sitemap === '', 'sin PUBLIC_ES_PRODUCCION=1 no se publica sitemap.xml');
+  decir(!/^Sitemap:/m.test(robots), 'sin PUBLIC_ES_PRODUCCION=1 robots.txt no anuncia sitemap');
+}
 
 if (sitemap) {
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);

@@ -131,10 +131,21 @@ decir(
   'JSON-LD en las categorias',
 );
 
-const rss = await fs.readFile(path.join(DIST, 'rss.xml'), 'utf8');
-const items = (rss.match(/<item>/g) ?? []).length;
-decir(items === 21, `el RSS trae los 21 items (trae ${items})`);
-decir(!/&(?!amp;|lt;|gt;|quot;|apos;|#)/.test(rss), 'el RSS no tiene ampersands sin escapar');
+// El RSS solo se publica en produccion: fuera de ahi astro.config.mjs lo BORRA de
+// la salida, porque sus <guid> son permanentes para quien se suscriba y los de un
+// deploy provisional nacen apuntando a una URL que va a morir.
+//
+// Se comprueba que NO esta, en vez de saltarse el bloque en silencio: un `if` que
+// no afirma nada es una puerta que se apaga sola y nadie se entera.
+if (process.env.PUBLIC_ES_PRODUCCION === '1') {
+  const rss = await fs.readFile(path.join(DIST, 'rss.xml'), 'utf8');
+  const items = (rss.match(/<item>/g) ?? []).length;
+  decir(items === 21, `el RSS trae los 21 items (trae ${items})`);
+  decir(!/&(?!amp;|lt;|gt;|quot;|apos;|#)/.test(rss), 'el RSS no tiene ampersands sin escapar');
+} else {
+  const hay = await fs.access(path.join(DIST, 'rss.xml')).then(() => true, () => false);
+  decir(!hay, 'sin PUBLIC_ES_PRODUCCION=1 el RSS no se publica');
+}
 
 /* ------------------------------------------------------------- articulo -- */
 
