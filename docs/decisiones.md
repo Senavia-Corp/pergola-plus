@@ -590,3 +590,29 @@ umbral habría afectado a las 12 y a las ~106 de la cola del CMS; esto afecta a 
 `auditoria-imagenes/comparativas/`: mismo número de postes y de lamas, mismos muebles,
 ningún rótulo inventado. El SSIM (0,859-0,953) caza un recorte cambiado; no caza un
 poste de más. Ese filtro sigue siendo el ojo.
+
+## El hero de louvered se sustituyó por una imagen generada, decisión del cliente
+
+`MOTORIZED LOUVERED .png` era **796x548**, la más pequeña de las doce, y ni con Topaz
+x4 pasaba de una nitidez de **328** cuando la mediana del sitio es 3002. Se veía blanda
+en un hero que se pinta a 1440 px (2880 en retina), y no había forma de arreglarlo:
+redimensionar no inventa detalle, y el detalle no estaba en el origen.
+
+El cliente aportó una imagen **generada** del mismo montaje (17-ago-2026). Pasada por
+Topaz x2 y al pipeline normal: **328 -> 1707** al mismo tamaño, 5,2x.
+
+**Va por la rama de «original», no por la de upscale, y es a propósito.** La reja de
+SSIM existe para cazar que una IA le cambie la casa a una *restauración*; aquí la
+sustitución es deliberada, así que la suspendería con razón. Tratarla como fuente
+nueva es lo que describe lo que de verdad pasó.
+
+**Queda dicho porque importa:** esto es la web de un contratista y esa foto ocupa un
+hueco de obra propia. No es una restauración de la foto de Daniel, es una imagen
+nueva. La original y su Topaz siguen en `~/Downloads/hf-topaz/descartados/` y volver
+atrás es cambiar una línea de `IMAGENES_CLIENTE`.
+
+**El basename se conserva exacto.** `rutaCliente()` saca la ruta pública del nombre del
+fichero: llamarlo «(regenerada por el cliente).png» produjo
+`/images/cliente/motorized-louvered-regenerada-por-el-cliente.avif`, que dejaba el AVIF
+viejo huérfano y cambiaba el markup de cuatro ficheros generados por nada. La
+procedencia va en la carpeta (`regeneradas/`), no en el nombre.

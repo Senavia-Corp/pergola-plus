@@ -191,8 +191,24 @@ export const TEXTOS_CLIENTE = {
  */
 export const IMAGENES_CLIENTE = {
   // --- Productos (Our Products Thumbnails/) ---
+  // OJO: esta NO es una foto de obra, es una imagen GENERADA que aporto el cliente
+  // (17-ago-2026) para sustituir la suya. Su original —'MOTORIZED LOUVERED .png'—
+  // era de 796x548, la mas pequena de las doce, y ni con Topaz x4 pasaba de una
+  // nitidez de 328 cuando la mediana del sitio es 3002: se veia blanda en un hero
+  // que se pinta a 1440 px (2880 en retina). La generada mide 2102 al mismo tamano.
+  //
+  // Va por la rama de «original», no por la de upscale, y eso es a proposito: la
+  // reja de SSIM de optimizar-imagenes-cliente.mjs existe para cazar que una IA le
+  // cambie la casa a una RESTAURACION, y aqui la sustitucion es deliberada, asi que
+  // la suspenderia con razon. La foto original y su Topaz siguen en
+  // ~/Downloads/hf-topaz/descartados/ por si se quiere volver atras.
+  //
+  // El BASENAME se conserva exacto ('MOTORIZED LOUVERED.png') porque `rutaCliente`
+  // saca de el la ruta publica: renombrarlo cambiaria /images/cliente/*.avif y con
+  // ello el markup de los cuatro ficheros generados que la piden. La procedencia va
+  // en la carpeta ('regeneradas/'), no en el nombre.
   '/cms-img/products/motorized-louvered-pergolas/hero-louvered-roof-pergola-south-florida.avif':
-    'Our Products Thumbnails/MOTORIZED LOUVERED .png',
+    'Our Products Thumbnails/regeneradas/MOTORIZED LOUVERED.png',
   '/cms-img/products/motorized-screens/hero-motorized-screens-pergola-south-florida.avif':
     'Our Products Thumbnails/Motorized Screens.png',
   '/cms-img/products/open-air-pergolas/hero-open-air-aluminum-pergola-south-florida.avif':
