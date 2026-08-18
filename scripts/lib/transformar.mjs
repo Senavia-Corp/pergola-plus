@@ -715,11 +715,61 @@ function cablearFormulario(form, origen, ruta) {
     // que traducir en /es/.
     + '<div class="pp-trampa" aria-hidden="true">'
     + `<input type="text" id="pp-website-${origen}" name="website" tabindex="-1" autocomplete="off"/>`
-    + '</div>';
+    + '</div>'
+    + (CON_TURNSTILE.has(origen) ? widgetTurnstile() : '');
   s = s.replace(abre, abre + ocultos);
 
   return s;
 }
+
+/**
+ * Los formularios que llevan Turnstile: los DOS de captacion.
+ *
+ * El del pie NO, y es deliberado: va en las 211 paginas, asi que montarlo ahi
+ * mete un script de terceros —y sus cookies— en todo el sitio para proteger un
+ * campo de correo de boletin. Es el objetivo de spam de menor valor que hay aqui,
+ * y se queda con la trampa y el temporizador.
+ *
+ * ponytail: el techo de esta decision, dicho en voz alta — un bot puede mandar
+ * `formulario=footer` y esquivar Turnstile. Lo que consigue con eso es meter
+ * basura en el boletin, NO fabricar una solicitud de presupuesto: la lista blanca
+ * OBLIGATORIOS de /api/lead solo le pide `email` a ese formulario y no acepta los
+ * campos del otro. Si algun dia el pie capta algo que importe, este Set es el
+ * unico sitio que hay que tocar.
+ */
+const CON_TURNSTILE = new Set(['quote', 'contact']);
+
+/**
+ * El sitekey va AQUI, como constante, y no por variable de entorno.
+ *
+ * Es publico por definicion —viaja en el HTML servido— y esto es salida generada
+ * que se comitea: si saliera de process.env, el HTML generado dependeria de quien
+ * ejecuta el generador y `check:generadores` fallaria para todo el que no tuviera
+ * la variable. El SECRETO si es variable de entorno, y solo de servidor.
+ *
+ * OJO CON EL NOMBRE DEL ATRIBUTO. Es `data-sitekey`, que es lo que espera
+ * Cloudflare. NUNCA `data-turnstile-sitekey`: en cuanto el modulo `forms` de
+ * webflow.js ve ese segundo nombre en la pagina, carga su propio Turnstile y deja
+ * TODOS los formularios de la pagina en `w-form-loading` con el submit
+ * deshabilitado, esperando un widget que no llega — sin un error en consola y con
+ * el boton de aspecto normal. Ya paso una vez y mato las dos paginas de captacion.
+ * Por eso los <form> conservan ademas `data-wf-no-turnstile`.
+ */
+const TURNSTILE_SITEKEY = '0x4AAAAAAAQTptj2So4dx43e';
+
+/**
+ * El widget + su script. El script va junto al widget y no en el <head> del
+ * BaseLayout porque solo lo necesitan estas dos paginas, y el <head> es comun a
+ * las 211.
+ *
+ * Renderizado implicito: el script busca los `.cf-turnstile` del DOM al cargar y
+ * deja un <input name="cf-turnstile-response"> DENTRO del formulario. Como el
+ * envio con JS hace `new FormData(form)`, el token viaja solo — no hay que tocar
+ * Formulario.astro.
+ */
+const widgetTurnstile = () =>
+  `<div class="cf-turnstile" data-sitekey="${TURNSTILE_SITEKEY}"></div>`
+  + '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
 
 /** Aplica cablearFormulario a los formularios migrados que haya en la pagina. */
 export function cablearFormularios(html, ruta) {

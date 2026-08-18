@@ -63,8 +63,11 @@ const ESPERADOS = [
 
 const conGet = [];
 const sinAction = [];
+/** Los HTML se recorren varias veces mas abajo: se leen una sola vez. */
+const htmlsCache = new Map();
 for (const rel of htmls) {
   const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  htmlsCache.set(rel, html);
   for (const [, attrs] of html.matchAll(/<form\s([^>]*)>/g)) {
     if (/\bmethod="get"/i.test(attrs)) conGet.push(`${rel}: ${attrs.slice(0, 70)}`);
     if (!/\baction="/.test(attrs)) sinAction.push(`${rel}: ${attrs.slice(0, 70)}`);
@@ -86,6 +89,92 @@ decir(
   conSitekey.length === 0,
   'ninguna pagina lleva data-turnstile-sitekey en el markup',
   conSitekey,
+);
+
+// --- Turnstile: donde esta y donde NO ---------------------------------------
+//
+// El widget va SOLO en los dos formularios de captacion. El del pie queda fuera a
+// proposito: va en las 211 paginas, asi que montarlo ahi meteria un script de
+// terceros y sus cookies en todo el sitio para proteger un campo de boletin.
+//
+// Las dos mitades importan por igual: un formulario que EXIGE token sin llevar
+// widget queda muerto, y uno que lleva widget sin exigirlo es decoracion.
+const CON_WIDGET = [
+  'contact-us/get-a-quote/index.html',
+  'contact-us/get-in-touch/index.html',
+];
+
+const conWidget = htmls.filter((rel) => {
+  const i = htmlsCache.get(rel);
+  return /class="cf-turnstile"[^>]*data-sitekey="[^"]+"/.test(i);
+});
+const esperados = CON_WIDGET.flatMap((r) => [r, `es/${r}`]);
+decir(
+  esperados.every((r) => conWidget.includes(r)),
+  `las ${esperados.length} paginas de captacion (EN + ES) llevan el widget`,
+  esperados.filter((r) => !conWidget.includes(r)),
+);
+decir(
+  conWidget.every((r) => esperados.includes(r)),
+  'el widget NO se ha colado en ninguna otra pagina',
+  conWidget.filter((r) => !esperados.includes(r)),
+);
+
+// El script de Cloudflare solo donde hay widget. Si aparece en las 211 es que
+// alguien lo ha subido al <head> del BaseLayout.
+const conScriptCf = htmls.filter((rel) => htmlsCache.get(rel).includes('challenges.cloudflare.com'));
+decir(
+  conScriptCf.length === esperados.length,
+  `el script de Cloudflare solo en esas ${esperados.length} (esta en ${conScriptCf.length})`,
+  conScriptCf.filter((r) => !esperados.includes(r)),
+);
+
+// Las dos listas TIENEN que decir lo mismo. Viven separadas porque una pinta el
+// widget y la otra exige el token, y si divergen el sintoma es un formulario que
+// rechaza todo o un widget que no sirve de nada — ninguno de los dos da error.
+const listaDe = (fuente) =>
+  (fuente.match(/const CON_TURNSTILE = new Set\(\[([^\]]*)\]\)/)?.[1] ?? '')
+    .split(',').map((x) => x.trim().replace(/['"]/g, '')).filter(Boolean).sort().join(',');
+const listaGen = listaDe(await fs.readFile(path.join(RAIZ, 'scripts/lib/transformar.mjs'), 'utf8'));
+const listaApi = listaDe(await fs.readFile(path.join(RAIZ, 'src/pages/api/lead.ts'), 'utf8'));
+decir(
+  listaGen !== '' && listaGen === listaApi,
+  `los CON_TURNSTILE del generador y del endpoint coinciden (${listaGen || 'vacio'})`,
+  [`transformar.mjs: [${listaGen}]`, `api/lead.ts:    [${listaApi}]`],
+);
+
+// --- que siga fallando CERRADO ----------------------------------------------
+//
+// La regresion que hay que impedir tiene forma concreta: "arreglar" el caso sin
+// JavaScript condicionando el rechazo, del estilo `if (!token && conJs)`. Eso
+// convierte Turnstile en fail-open —un bot manda js=0 y se lo salta entero— y es
+// exactamente el bug que se colo en otro sitio de la casa. No da error, no da
+// aviso: el captcha sigue ahi, con su widget, sin proteger nada.
+//
+// Esto se comprueba sobre el CODIGO y no con una peticion viva a proposito: para
+// ejercitar la rama haria falta arrancar un segundo servidor con un secreto de
+// prueba en cada `npm run check`, y las otras comprobaciones de esta puerta
+// necesitan justamente que NO haya secreto (afirman `verificado:false`). El
+// comportamiento vivo —400 sin token, 400 con token invalido, 303 en el pie— se
+// verifica contra el deploy, y esta en la lista de comprobacion de la entrega.
+const fuenteApi = await fs.readFile(path.join(RAIZ, 'src/pages/api/lead.ts'), 'utf8');
+const guarda = fuenteApi.match(/if \(!token\)[^\n]*/)?.[0] ?? '';
+decir(
+  guarda !== '' && /return rechazo\(/.test(guarda),
+  'token ausente es un RECHAZO, no un aviso',
+  [guarda || '(no se encontro `if (!token)` en api/lead.ts)'],
+);
+decir(
+  guarda !== '' && !/conJs|js\b/.test(guarda.replace(/, ?conJs\)/, ')')),
+  'el rechazo por token ausente NO depende de si el envio traia JavaScript',
+  [guarda],
+);
+// Y que Cloudflare inalcanzable siga siendo un NO. Un catch que devuelva true es
+// la otra forma de abrir la puerta sin que se note.
+const catchTurnstile = fuenteApi.match(/async function turnstileValido[\s\S]*?\n}/)?.[0] ?? '';
+decir(
+  /catch \{[\s\S]*?return false;/.test(catchTurnstile),
+  'si Cloudflare no contesta, se falla cerrado (return false)',
 );
 // El estimador es una calculadora: su <form> no envia nada y su submit lo corta un
 // preventDefault. Sin `action` un Enter haria un GET a la propia pagina y se

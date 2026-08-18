@@ -37,6 +37,28 @@ const OBLIGATORIOS: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Formularios protegidos por Turnstile. TIENE que coincidir con el CON_TURNSTILE de
+ * scripts/lib/transformar.mjs, que es quien pinta el widget: un formulario que
+ * exija token sin llevar widget queda muerto, y uno que lleve widget sin exigirlo
+ * es decoracion. check:formularios compara las dos listas.
+ *
+ * El pie queda fuera a proposito (va en las 211 paginas; ver transformar.mjs).
+ */
+const CON_TURNSTILE = new Set(['quote', 'contact']);
+
+/** El captcha lo lee el visitante: va en su idioma, como el resto de la pagina. */
+const MSG_CAPTCHA = {
+  en: {
+    falta: 'Please complete the verification. It requires JavaScript — if it is disabled, call us at (561) 710-8363.',
+    fallo: 'Verification failed. Please try again, or call us at (561) 710-8363.',
+  },
+  es: {
+    falta: 'Completa la verificación. Necesita JavaScript — si lo tienes desactivado, llámanos al (561) 710-8363.',
+    fallo: 'La verificación no salió bien. Inténtalo otra vez o llámanos al (561) 710-8363.',
+  },
+} as const;
+
 /** Campos que son email y hay que validar como tal, en cualquier formulario. */
 const CAMPOS_EMAIL = new Set(['email', 'Email']);
 /** Campos de telefono. */
@@ -129,11 +151,19 @@ export const POST: APIRoute = async ({ request, url }) => {
   //                       avisa por consola en cada ejecucion.
   const secreto = import.meta.env.TURNSTILE_SECRET_KEY ?? process.env.TURNSTILE_SECRET_KEY;
   let verificado = false;
-  if (secreto) {
+  if (secreto && CON_TURNSTILE.has(formulario)) {
     const token = String(crudo['cf-turnstile-response'] ?? '');
-    if (!token) return rechazo({ captcha: 'Please complete the verification.' }, conJs);
+    // Token ausente es RECHAZO, no "pasa". Y no se hace excepcion con quien envia
+    // sin JavaScript aunque el widget necesite JS: la alternativa —exigirlo solo si
+    // el envio dice que tenia JS— la esquiva cualquier bot mandando js=0, y una
+    // proteccion que se apaga sola pidiendoselo es peor que ninguna, porque parece
+    // que esta. Quien navegue sin JS ve un error claro con el telefono, que es
+    // perder el lead RUIDOSAMENTE en vez de en silencio.
+    if (!token) return rechazo({ captcha: MSG_CAPTCHA[ES_ES(String(crudo.pagina ?? '')) ? 'es' : 'en'].falta }, conJs);
     verificado = await turnstileValido(secreto, token);
-    if (!verificado) return rechazo({ captcha: 'Verification failed. Please try again.' }, conJs);
+    if (!verificado) {
+      return rechazo({ captcha: MSG_CAPTCHA[ES_ES(String(crudo.pagina ?? '')) ? 'es' : 'en'].fallo }, conJs);
+    }
   }
 
   // --- Validacion -----------------------------------------------------------
