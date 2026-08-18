@@ -616,3 +616,40 @@ fichero: llamarlo «(regenerada por el cliente).png» produjo
 `/images/cliente/motorized-louvered-regenerada-por-el-cliente.avif`, que dejaba el AVIF
 viejo huérfano y cambiaba el markup de cuatro ficheros generados por nada. La
 procedencia va en la carpeta (`regeneradas/`), no en el nombre.
+
+## La tarjeta de producto recorta otro 28%, y eso decide el encuadre
+
+El sukkah salía con el remate superior de la pérgola cortado. La causa no era solo
+nuestro recorte: **son dos recortes encadenados**.
+
+1. El original es 1024x1034, casi cuadrado. Llevarlo a 1.778 tira **458 de 1034
+   filas** (44%), y la ventana estaba en `south` (top=458).
+2. La tarjeta de producto tiene una caja de **617x250 (2.47:1)** con
+   `object-fit:cover`. Contra una imagen de 1.778 eso se come **otro 28% del alto**,
+   14% arriba y 14% abajo. El visitante solo ve la banda central del 72%.
+
+Sumadas, la estructura quedaba fuera. **La lección es que el encuadre hay que
+elegirlo mirando la banda que la tarjeta enseña, no el archivo entero**: se
+recortaron cuatro candidatas (top=458/424/400/370) ya reducidas a esa banda y se
+eligió a ojo. Gana **top=400**: entra el remate completo y siguen dentro las mesas,
+los faroles y el suelo. `370` ya mete demasiada fachada.
+
+**Se subió a Topaz el original ENTERO (4096x4136), no el recorte.** Cuesta lo mismo
+—2 créditos— y deja el reencuadre como un `extract` local: el siguiente ajuste no
+gasta otro upscale. El recorte publicado sale de `hf-topaz/sukkah-completa.png` en
+`top=1600, alto=2304`.
+
+**El SSIM lo suspendió, y tenía razón en lo que medía.** Da 0,356 porque compara
+contra el AVIF ya publicado, y al mover la ventana lo que mide es un
+**desplazamiento**, no una invención. Esa referencia deja de valer en cuanto cambia
+el encuadre. La que sí vale es el original, y ahí los números son claros:
+
+| | contra su ventana del original |
+|---|---|
+| publicado viejo (top=458) | SSIM **0,851** |
+| nuevo (top=400) | SSIM **0,844** |
+
+Misma fidelidad a la fuente. Va en `REENCUADRADAS` con esa verificación escrita, y la
+regla de esa lista es explícita: **si no puedes escribir el número contra el original,
+no metas la imagen ahí**. El script avisa en cada ejecución de que ese encuadre se
+saltó la reja.

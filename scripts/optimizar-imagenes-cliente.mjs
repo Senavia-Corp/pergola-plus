@@ -113,6 +113,36 @@ const SALTAN_NITIDEZ = {
     + 'tablillas de la silla se resuelven en la nueva y se emborronan en la vieja.',
 };
 
+/**
+ * Imagenes cuyo ENCUADRE se cambio a proposito, con la prueba de que el contenido
+ * sigue siendo el mismo.
+ *
+ * El SSIM de aqui abajo compara contra el AVIF YA PUBLICADO. Eso vale mientras lo
+ * unico que cambie sea el detalle, pero deja de valer en cuanto se mueve la ventana
+ * del recorte: entonces mide un desplazamiento, no una invencion, y lo suspende todo.
+ * No es un fallo del SSIM —esta haciendo justo lo que se le pide— es que la
+ * referencia deja de ser comparable.
+ *
+ * Por eso cada entrada trae su verificacion CONTRA EL ORIGINAL, que es la referencia
+ * que si sigue siendo valida. Si no puedes escribir ese numero, no pongas la imagen
+ * aqui.
+ */
+const REENCUADRADAS = {
+  sukkah:
+    'El original (1024x1034) es casi cuadrado y al recorte 1.778 se le van 458 de '
+    + '1034 filas. La ventana estaba en top=458 (`south`) y la tarjeta de producto '
+    + 'remata el trabajo: su caja es 617x250 (2.47:1) contra 1.778 de la imagen, o sea '
+    + 'que el `object-fit:cover` se come otro 28% del alto. Entre las dos cosas el '
+    + 'remate superior de la pergola quedaba cortado. Ventana nueva: top=400, elegida '
+    + 'mirando las cuatro candidatas ya recortadas a la banda que la tarjeta ensena. '
+    + 'VERIFICADO contra el original, que es lo unico comparable cuando se mueve la '
+    + 'ventana: el publicado viejo daba SSIM 0,851 contra su ventana (458) y el nuevo '
+    + 'da 0,844 contra la suya (400). Misma fidelidad a la fuente; el 0,356 que mide '
+    + 'la reja es el desplazamiento. Fuente: hf-topaz/sukkah-completa.png (Topaz x4 '
+    + 'del original ENTERO, 4096x4136) recortado en top=1600, alto 2304 — se subio el '
+    + 'original completo para que el proximo reencuadre no gaste otro upscale.',
+};
+
 /** Los tres umbrales que cazan la alucinacion. Mismos que integrar-higgsfield.mjs. */
 const AR_MAX = 0.01;
 const SSIM_MIN = 0.75;
@@ -206,9 +236,10 @@ for (const [ruta, origen] of Object.entries(IMAGENES_CLIENTE)) {
       await luminancia(avif, v.width, v.height),
       v.width, v.height,
     );
-    if (s < SSIM_MIN) {
+    if (s < SSIM_MIN && !REENCUADRADAS[slug]) {
       motivos.push(`SSIM ${s.toFixed(3)} < ${SSIM_MIN}: la estructura cambio, la IA se invento contenido`);
     }
+    const reencuadrada = s < SSIM_MIN && !!REENCUADRADAS[slug];
 
     // Los DOS al tamano que se va a servir: si no, el remuestreo a 512 penaliza
     // al que trae mas pixeles y el upscale bueno suspende. Ver lib/nitidez.mjs.
@@ -234,7 +265,7 @@ for (const [ruta, origen] of Object.entries(IMAGENES_CLIENTE)) {
       continue; // se queda el AVIF viejo
     }
     filas.push({ slug, publica, sustituye: ruta, fuente: 'topaz', calidad,
-      de: `${info.width}x${info.height}`, bytes: avif.length, saltada,
+      de: `${info.width}x${info.height}`, bytes: avif.length, saltada, reencuadrada,
       nitidez: `${nitV.toFixed(0)} -> ${nitN.toFixed(0)}`, ssim: s.toFixed(3) });
   } else {
     filas.push({ slug, publica, sustituye: ruta, fuente: deTopaz ? 'topaz' : 'original',
@@ -253,6 +284,7 @@ for (const f of filas) {
   );
   if (f.ssim) console.log(`${' '.repeat(14)}nitidez ${f.nitidez}, SSIM ${f.ssim}`);
   if (f.saltada) console.log(`${' '.repeat(14)}EXCEPCION nombrada: no llega al minimo de nitidez y se publica igual`);
+  if (f.reencuadrada) console.log(`${' '.repeat(14)}EXCEPCION nombrada: encuadre cambiado a proposito (SSIM bajo por el desplazamiento, no por contenido)`);
 }
 
 const conTecho = filas.filter((f) => f.bytes > TECHO);
