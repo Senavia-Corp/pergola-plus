@@ -877,11 +877,12 @@ const ELFSIGHT_RESENAS =
 const RESENAS = '/about-us/testimonials';
 
 /**
- * Juegos de logos que lleva la pista del marquee. PAR, obligatoriamente: la
- * animacion desplaza -50% (media pista) y solo cae en frontera de juego si las dos
- * mitades tienen el mismo numero.
+ * Juegos de logos que lleva la pista del marquee. Minimo 2: la animacion salta UN
+ * juego por vuelta y hace falta al menos otro detras para tapar el salto.
  *
- * 8 juegos = 4 por mitad = 2820 px de mitad, medido a 705 px el juego de 5 logos.
+ * Este numero es tambien el divisor del @keyframes en marquee.css, y de el sale el
+ * ancho maximo al que la barra se ve entera: techo = (JUEGOS - 1) juegos. Medido a
+ * 703 px el juego de 5 logos, 8 juegos dan 4920 px de techo.
  */
 export const MARQUEE_JUEGOS = 8;
 
@@ -931,8 +932,8 @@ function duplicarMarquee(html) {
   if (items.length === 0) {
     throw new Error('[marquee] la lista de logos no trae ningun item: cambio el markup del export?');
   }
-  if (MARQUEE_JUEGOS % 2 !== 0) {
-    throw new Error(`[marquee] MARQUEE_JUEGOS tiene que ser PAR y es ${MARQUEE_JUEGOS}`);
+  if (MARQUEE_JUEGOS < 2) {
+    throw new Error(`[marquee] MARQUEE_JUEGOS tiene que ser 2 o mas y es ${MARQUEE_JUEGOS}`);
   }
 
   // Las copias salen del arbol de accesibilidad: alt vacio en la imagen (la saca a
@@ -1157,19 +1158,19 @@ export function transformar(html, ruta) {
   //       .fs-marquee-logos_list { justify-content: center }   los 5 logos, quietos
   //       .fs-marquee-logos_list-wrapper { overflow: clip }    y recortados
   //
-  //     Medido en el navegador: UN juego de 5 logos ocupa 705 px. A 1440 no llega ni
+  //     Medido en el navegador: UN juego de 5 logos ocupa 703 px. A 1440 no llega ni
   //     a la mitad del ancho, y a 2560 es un cuarto. Por eso no basta con duplicar
-  //     una vez: la animacion desplaza media pista, y si esa mitad es mas estrecha
-  //     que la pantalla se ve el hueco al final de cada vuelta.
+  //     una vez: al final de cada vuelta la pista tiene que seguir dando contenido
+  //     hasta el borde derecho, o se ve el hueco.
   //
-  //     La pista lleva JUEGOS copias planas. La animacion la mueve exactamente
-  //     -50% —o sea, media pista, JUEGOS/2 juegos— y como el contenido se repite con
-  //     periodo de un juego, al terminar cae sobre una configuracion identica: no hay
-  //     costura. Que JUEGOS sea PAR es lo que hace que -50% caiga en frontera.
+  //     La pista lleva JUEGOS copias planas y la animacion salta UN juego por vuelta.
+  //     Como el contenido se repite con periodo de un juego, el salto cae sobre una
+  //     configuracion identica y no hay costura. Lo que queda por detras —los otros
+  //     JUEGOS-1— es lo que tapa la ventana: techo = 7 x 703 = 4920 px.
   //
-  //     ponytail: techo conocido — media pista son 4 x 705 = 2820 px. Por encima de
-  //     ese ancho de viewport se veria hueco; se sube JUEGOS y ya. No se envuelven
-  //     los juegos en <div> a proposito: la lista es role="list" y un hijo que no sea
+  //     ponytail: techo conocido — por encima de 4920 px de viewport se veria hueco;
+  //     se sube JUEGOS (y el divisor del @keyframes con el) y ya. No se envuelven los
+  //     juegos en <div> a proposito: la lista es role="list" y un hijo que no sea
   //     role="listitem" rompe la relacion lista/elemento.
   //
   //     Las copias van con alt="" y aria-hidden="true": sin eso un lector de pantalla

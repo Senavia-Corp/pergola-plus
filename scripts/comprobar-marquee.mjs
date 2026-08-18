@@ -25,8 +25,9 @@
  *
  *   1. Que el paso 4j del transformador deje de casar y la pista vuelva a tener 5
  *      logos: el marquee volveria a estar muerto y el build seguiria verde.
- *   2. Que las dos mitades dejen de ser identicas: la animacion desplaza -50%, y si
- *      esa frontera no cae en juego completo, cada vuelta da un tiron.
+ *   2. Que el salto de vuelta deje de medir UN juego exacto: la animacion desplaza
+ *      1/JUEGOS de pista, y si ese divisor y el numero de juegos se separan, el salto
+ *      cae en mitad de un logo y cada vuelta da un tiron.
  *   3. Que alguien anime `.section-marquee-logos` en vez del nieto: una animacion con
  *      fill activo gana al element.style de IX2 y le anula sus dos interacciones sin
  *      un solo error en consola.
@@ -71,7 +72,6 @@ console.log(`\n  la barra de logos, en ${CON_MARQUEE.length} paginas\n`);
 
 const sinPista = [];
 const malContadas = [];
-const mitadesDistintas = [];
 const noPeriodicas = [];
 const ariaMal = [];
 const sinAlt = [];
@@ -99,15 +99,10 @@ for (const { ruta, altsPropios } of CON_MARQUEE) {
     continue;
   }
 
-  // La animacion desplaza -50%: las dos mitades tienen que decir lo MISMO y en el
-  // mismo orden, o cada vuelta se nota.
+  // El salto de vuelta mide UN juego, asi que la unica condicion es que el contenido
+  // sea periodico con periodo de un juego: si lo es, la pista despues del salto queda
+  // exactamente igual que antes y no hay costura.
   const src = items.map((it) => it.src);
-  const a = src.slice(0, src.length / 2).join('|');
-  const b = src.slice(src.length / 2).join('|');
-  if (a !== b) mitadesDistintas.push(`${ruta}: la segunda mitad no repite la primera`);
-
-  // Y el contenido tiene que ser periodico con periodo de UN juego: si no, -50% cae
-  // en mitad de un juego aunque las mitades coincidan.
   const juego = src.slice(0, porJuego);
   if (!src.every((s, n) => s === juego[n % porJuego])) {
     noPeriodicas.push(`${ruta}: el contenido no se repite cada ${porJuego} logos`);
@@ -145,8 +140,7 @@ for (const { ruta, altsPropios } of CON_MARQUEE) {
 
 decir(sinPista.length === 0, 'las 4 paginas llevan la pista duplicada', sinPista);
 decir(malContadas.length === 0, `los items reparten en ${MARQUEE_JUEGOS} juegos exactos`, malContadas);
-decir(MARQUEE_JUEGOS % 2 === 0, `el numero de juegos es PAR (${MARQUEE_JUEGOS}), o -50% no cae en frontera`);
-decir(mitadesDistintas.length === 0, 'las dos mitades de la pista son identicas', mitadesDistintas);
+decir(MARQUEE_JUEGOS >= 2, `hay al menos 2 juegos (${MARQUEE_JUEGOS}) para tapar el salto`);
 decir(noPeriodicas.length === 0, 'el contenido se repite con periodo de un juego', noPeriodicas);
 decir(ariaMal.length === 0, 'solo el primer juego se anuncia a un lector de pantalla', ariaMal);
 decir(sinAlt.length === 0, 'los logos anunciados conservan su alt', sinAlt);
@@ -164,7 +158,8 @@ const css = (
 
 decir(css.length > 0, 'hay CSS emitido que revisar');
 
-// El minificador reescribe translateX(-50%) como translate(-50%): las dos valen.
+// El minificador reescribe translateX(-12.5%) como translate(-12.5%) y pliega el
+// calc(-100%/8) a su porcentaje: las tres formas valen, lo que se mide es el NUMERO.
 const marco = css.match(/@keyframes pp-marquee-logos\s*\{[\s\S]{0,300}?\}\s*\}/);
 decir(Boolean(marco), 'existe @keyframes pp-marquee-logos');
 if (marco) {
@@ -173,10 +168,21 @@ if (marco) {
     'el @keyframes declara su estado final explicito',
     [marco[0].slice(0, 160)],
   );
+  /*
+   * EL numero que importa. El desplazamiento tiene que ser 1/MARQUEE_JUEGOS de pista
+   * —o sea, UN juego— y ese acoplamiento no lo ve nadie: subir MARQUEE_JUEGOS a 10 y
+   * dejar el divisor en 8 da un salto de 1,25 juegos que cae en mitad de un logo. La
+   * barra pega un tiron cada vuelta, el build sigue verde y no hay error en consola.
+   */
+  const esperado = 100 / MARQUEE_JUEGOS;
+  const salto = marco[0].match(
+    /transform:\s*translate(?:X)?\(\s*(?:calc\(\s*-100%\s*\/\s*(\d+(?:\.\d+)?)\s*\)|-(\d+(?:\.\d+)?)%)/,
+  );
+  const pct = salto ? (salto[1] ? 100 / Number(salto[1]) : Number(salto[2])) : NaN;
   decir(
-    /transform:\s*translate(?:X)?\(\s*-50%/.test(marco[0]),
-    'el desplazamiento es exactamente -50% (media pista)',
-    [marco[0].slice(0, 160)],
+    Math.abs(pct - esperado) < 1e-9,
+    `el salto mide UN juego: ${esperado}% de pista (1/${MARQUEE_JUEGOS})`,
+    [`leido: ${Number.isNaN(pct) ? 'no se reconoce el transform' : pct + '%'}`, marco[0].slice(0, 160)],
   );
 }
 
@@ -195,6 +201,11 @@ if (reglaPista) {
   decir(
     !/[;{]animation:/.test(reglaPista[0]),
     'no se usa el atajo `animation:` (el minificador lo fusiona y lo tira entero)',
+    [reglaPista[0].slice(0, 200)],
+  );
+  decir(
+    /animation-duration:\s*[\d.]+m?s/.test(reglaPista[0]),
+    'la duracion va en propiedad larga (el atajo se la lleva por delante)',
     [reglaPista[0].slice(0, 200)],
   );
   decir(

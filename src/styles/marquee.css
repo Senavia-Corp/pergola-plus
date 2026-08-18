@@ -23,14 +23,16 @@
  * error. Se anima `.fs-marquee-logos_list`, que es NIETO: los `transform` anidados se
  * componen en vez de competir, y cada uno hace lo suyo.
  *
- * OJO, RIESGO HEREDADO: la seccion nace en `opacity:0` y es IX2 quien la enciende. Si
- * webflow.js no llegara a poner `w-mod-ix`, el marquee giraria perfectamente
- * invisible. No es de este arreglo —ya era asi— pero conviene saberlo antes de colgar
- * nada mas de esa seccion.
+ * OJO, RIESGO HEREDADO: la seccion nace en `opacity:0` y es IX2 quien la enciende. El
+ * anti-FOUC es `html.w-mod-js:not(.w-mod-ix)`, asi que sin JS —un rastreador que no
+ * ejecuta scripts— la barra se ve; el agujero solo se abre si webflow.js CARGA pero
+ * no llega a poner `w-mod-ix`, y entonces el marquee giraria perfectamente invisible.
+ * No es de este arreglo —ya era asi— pero conviene saberlo antes de colgar nada mas
+ * de esa seccion.
  *
  * POR QUE ESTAS PROPIEDADES Y NO EL ATAJO
  *
- * `animation: X 60s linear infinite` es un atajo, y el minificador fusiona atajos: si
+ * `animation: X 15s linear infinite` es un atajo, y el minificador fusiona atajos: si
  * en la fusion se cuela un valor que no entiende, el navegador descarta la
  * declaracion ENTERA y queda `animation-name: none`. Sin animacion y sin nada roto a
  * la vista. Es el mismo fallo que vigila check:blog con `animation-timeline`, y por
@@ -68,7 +70,10 @@
     will-change: transform;
 
     animation-name: pp-marquee-logos;
-    animation-duration: 60s;
+    /* 15s = un juego. Antes eran 60s para cuatro juegos: misma velocidad en pantalla
+       (~43 px/s), un cuarto de recorrido. Si cambia el divisor del @keyframes, este
+       numero se mueve con el o la barra cambia de velocidad. */
+    animation-duration: 15s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }
@@ -77,7 +82,9 @@
     display: flex;
   }
 
-  /* Que se pueda parar para leer un logo, y que el teclado tambien lo pare. */
+  /* Que se pueda parar para leer un logo, y que el teclado tambien lo pare. Hoy no
+     hay nada enfocable dentro de la pista, asi que `:focus-within` es una red para el
+     dia que los logos pasen a ser enlaces —que es lo normal en una barra de marcas. */
   .fs-marquee-logos_list[data-pp-marquee]:hover,
   .fs-marquee-logos_list[data-pp-marquee]:focus-within {
     animation-play-state: paused;
@@ -85,10 +92,31 @@
 }
 
 /*
- * -50% es media pista. La pista lleva 8 juegos identicos de 5 logos, asi que media
- * pista son 4 juegos exactos: al terminar la vuelta el contenido queda en una
- * configuracion identica a la de partida y no hay costura. Que el numero de juegos
- * sea PAR es justo lo que hace que -50% caiga en frontera de juego.
+ * SE DESPLAZA UN JUEGO, NO MEDIA PISTA.
+ *
+ * El contenido se repite con periodo de UN juego, asi que el bucle es invisible en
+ * cuanto el salto de vuelta mida un multiplo entero de juego. El mas pequeno de esos
+ * multiplos es UNO, y elegirlo no es cosmetico: es lo que fija hasta que ancho de
+ * pantalla el carrusel se ve entero.
+ *
+ * Lo que se ve por la ventana es el trozo de pista [x, x+viewport], con x recorriendo
+ * de 0 al desplazamiento. Al final de la vuelta hace falta que la pista siga habiendo
+ * llegado hasta ahi:
+ *
+ *     desplazamiento + viewport <= pista        →  techo = pista - desplazamiento
+ *
+ * Con -50% el desplazamiento era MEDIA pista, asi que el techo era la otra media:
+ * 2812 px medidos a 8 juegos de 703. Por encima de ese ancho —un ultrapanoramico de
+ * 3440, un 4K sin escalar— la ultima vuelta dejaba hueco blanco a la derecha. Se veia
+ * cada 60 s y solo en pantallas grandes, que es justo donde nadie mira.
+ *
+ * Con un juego el desplazamiento es 1/8 de pista y el techo son los otros 7/8:
+ * 4920 px. Mismo HTML, mismos 40 logos, ningun nodo mas.
+ *
+ * El divisor es MARQUEE_JUEGOS y tiene que seguir siendolo: si la pista pasa a 10
+ * juegos y esto se queda en 8, el salto mide 1,25 juegos, cae en mitad de un logo y
+ * la barra da un tiron cada vuelta sin romper nada. Por eso check:marquee compara los
+ * dos numeros en vez de fiarse de este comentario.
  */
 @keyframes pp-marquee-logos {
   from {
@@ -96,6 +124,6 @@
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% / 8));
   }
 }
