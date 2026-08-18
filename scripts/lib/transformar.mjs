@@ -253,14 +253,31 @@ export const RECORTE = {
  * las 12, porque las 12 caen en cajas con `object-fit:cover` y altura fija en el
  * CSS migrado: la relacion intrinseca no la ve nadie.
  *
- * 1250x703 es exactamente lo que miden los heroes del CMS que sustituyen, asi
- * que ningun slot cambia de comportamiento.
+ * POR QUE 2500x1406 Y NO LOS 1250x703 QUE HABIA
  *
- * ponytail: un ancho y una relacion para todas. Si algun dia una caja pide otra
- * cosa, aqui se mete un mapa por ruta.
+ * 1250x703 era lo que median los heroes del CMS que sustituyen, y se copio ese
+ * numero para que ningun slot cambiara de comportamiento. Pero eso convirtio el
+ * limite del CMS VIEJO en el limite de las fotos NUEVAS: los originales que mando
+ * el cliente llegan hasta 4996x3747 y se estaban tirando los pixeles de en medio.
+ * La auditoria de nitidez lo marco: estas cajas se pintan a 1440 px de ancho en
+ * escritorio, o sea 2880 px en retina, y serviamos 1250 (0,87x).
+ *
+ * 2500x1406 es la misma relacion (1,778) y el doble de pixeles. No llega a los
+ * 2880 ideales a proposito: por encima de 2500 varias fotos ya no tienen pixeles
+ * REALES que dar —habria que inventarlos— y el peso de la home no lo justifica.
+ *
+ * Cambiar estos dos numeros obliga a regenerar: van horneados en el markup.
+ *   npm run imagenes:cliente && npm run medir:imagenes
+ *   node scripts/generar-paginas.mjs && node scripts/generar-detalle.mjs
+ *
+ * ponytail: un ancho y una relacion para todas. Sobra para dos —forte-plus se
+ * pinta en 950x450 y custom-pergolas en 593x450—, pero el techo de bytes de
+ * optimizar-imagenes-cliente.mjs ya acota lo que eso cuesta, y un mapa por ruta
+ * seria mas codigo que el problema. Si algun dia una caja pide otra RELACION,
+ * entonces si: aqui se mete el mapa.
  */
-export const CLIENTE_ANCHO = 1250;
-export const CLIENTE_ALTO = 703;
+export const CLIENTE_ANCHO = 2500;
+export const CLIENTE_ALTO = 1406;
 export const rutaCliente = (origen) =>
   '/images/cliente/' +
   origen.split('/').pop().replace(/\.[^.]+$/, '')

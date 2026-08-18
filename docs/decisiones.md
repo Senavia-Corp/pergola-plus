@@ -31,6 +31,11 @@ lo que miden los heroes del CMS que sustituyen, y las 12 caen en cajas con
 la ve nadie. Alternativa descartada: una relacion por slot, que son 12 casos
 particulares para un resultado identico en pantalla.
 
+> **Corregido despues:** el ancho paso a **2500x1406**. Copiar el 1250 del CMS viejo
+> convirtio su limite en el limite de las fotos NUEVAS, con originales de hasta
+> 4996x3747 y cajas que se pintan a 1440 px (2880 en retina). La relacion no cambia.
+> Ver «Las fotos del cliente no necesitaban IA, necesitaban dejar de tirar pixeles».
+
 **Recorte con `position:'attention'`, con dos excepciones medidas a ojo.**
 `attention` premia la region con mas entropia, que en estas fotos suele ser cielo o
 pared blanca. En `Sukkah.jpeg` (1024x1034 -> 1.78:1, recorte grande) se llevaba la
@@ -488,3 +493,100 @@ De paso, la pasada de navegador se cachea en `auditoria-imagenes/display.json`: 
 ~15 minutos y solo cambia si cambia el CSS o el markup, mientras que los umbrales se
 retocan a menudo. Con `--remedir` se rehace, y hay que usarlo después de tocar la
 maquetación: una caché silenciosa que se queda vieja mide el sitio de anteayer.
+
+## Las fotos del cliente no necesitaban IA, necesitaban dejar de tirar píxeles
+
+El pipeline llevaba las 12 fotos de Daniel a 1250x703 **teniendo originales de hasta
+4996x3747**. El número salió de los heroes del CMS que sustituyen, así que el límite
+del CMS viejo se convirtió en el límite de las fotos nuevas. La auditoría lo marcó:
+esas cajas se pintan a 1440 px en escritorio —2880 en retina— y servíamos 1250.
+
+Objetivo unificado **2500x1406**, la misma relación y el doble de píxeles. No llega a
+los 2880 ideales a propósito: por encima de 2500 varias fotos ya no tienen píxeles
+reales que dar.
+
+**Cinco se rehicieron sin IA.** Solo había que dejar de reducir. **Siete no daban
+2500 en el recorte del sitio** y pasaron por Topaz (Higgsfield). De esas siete,
+**cuatro tenían el original más pequeño que lo publicado** —796x548 para un hueco
+donde servíamos 1250—: quien las amplió fue este repo, no el cliente.
+
+**La fuente de las siete es `~/Downloads/hf-topaz/<slug>.png`, y el script la
+prefiere al original.** No es comodidad. Si `optimizar-imagenes-cliente.mjs` leyera
+siempre el original, la siguiente ejecución las reescalaría con Lanczos desde la foto
+pequeña —en silencio, sin error y sin hueco— y se perdería el trabajo. Con la
+preferencia, `npm run imagenes:cliente` reproduce las doce tal cual están. Se
+comprobó: tres de las cinco sin IA salen **byte a byte idénticas** al volver a correr.
+
+**`public/images/cliente/` NO va a `regeneradas.json`.** Ese registro existe porque
+`instalar-assets.mjs` copia `EXPORT/images/` encima de `public/images/`. Comprobado:
+el export **no tiene `images/cliente/`** ni ningún fichero que colisione con los 12
+slugs, y `copiarDir` no borra el destino. No hay reversión posible que anotar, y
+`sha256Export` no significaría nada. La reproducibilidad la da `IMAGENES_CLIENTE`.
+
+**Techo de 300 KB por foto, bajando la calidad y no el tamaño.** Ocho de las doce
+salen en la home. A q62 fijo alguna se iba a medio mega, así que se prueba
+`[62, 56, 50, 44, 38]` y gana la primera que no pase del techo. El tamaño es lo que
+arregla la nitidez; la calidad solo cuesta artefactos que a 2500 px casi no se ven.
+Resultado en la home: **851 KB -> 1768 KB** en 8 fotos, todas `loading="lazy"`, con
+4x los píxeles. Cuatro necesitaron bajar de 62 (a 56, 50 y 44).
+
+## La regla «la nitidez tiene que subir un 10%» rechazaba los upscales buenos
+
+`integrar-higgsfield.mjs` exigía `MEJORA_MINIMA = 1.10` a todo lo que volviera. Con
+Topaz eso rechaza restauraciones buenas, y salió midiendo: `cover-miami-dade`, de
+1024x1024 a 2048x2048, daba nitidez **3558 -> 2713 (-23,7%)** con SSIM 0,961 y a 1:1
+era visiblemente mejor.
+
+Eran **dos** efectos, y ninguno es pérdida de detalle real:
+
+**1. Topaz denoisea.** La varianza del Laplaciano no distingue grano de textura:
+contaba el ruido de compresión del original como si fuera detalle.
+
+**2. La medida estaba sesgada.** `nitidez()` normaliza a 512 px antes de medir. Una
+imagen de 2500 px bajada a 512 promedia ~5x5 píxeles por muestra y una de 1250 px
+promedia ~2x2, así que **la grande llega al medidor más suavizada por pura aritmética
+del remuestreo**, tenga el detalle que tenga. El sesgo crece con el factor y siempre
+penaliza al upscale.
+
+Los dos arreglos son distintos y hacen falta los dos:
+
+**Al sesgo se le quita la causa, no se le sube el umbral.** `nitidez(buf, aTamano)`
+lleva los dos lados al tamaño final antes de medir, así que recorren la misma cadena
+de remuestreo y lo que queda es detalle. Medido en `forte-plus`: 3034 -> 2051 (68%,
+«se hundió») pasó a 2752 -> 2040 (75%, pasa). Siete puntos que no eran de la foto,
+eran del método. **Trampa que costó una iteración:** sharp admite **un solo `resize`
+por pipeline** —el segundo pisa al primero sin dar error—, así que encadenarlos dejó
+la medida idéntica de sesgada pero con un comentario diciendo que no lo estaba. Va en
+una pasada aparte, y hay un control: medir con `aTamano` igual al tamaño propio tiene
+que dar exactamente lo mismo que sin él.
+
+**El umbral pasa a dos tramos, según por qué se marcó la imagen** (`exigenciaNitidez`):
+
+- **`BLANDA` -> sigue pidiendo +10%.** Es la única marca que *afirma* que a la foto le
+  falta micro-textura, y el upscale existe justo para recuperarla. Hace falta el
+  margen porque «que no baje» no basta: medido, un Lanczos 2x que no añade ni un
+  detalle pasaba con 241,1 -> 241,4 (+0,1%, ruido de medida).
+- **`SUB-RESOLUCION`, `SOBRECOMPRIMIDA`, `BLOQUES JPEG` -> solo que no se hunda
+  (>=70%).** No dicen nada del detalle: dicen que faltan píxeles o bitrate. Pedirles
+  una subida de nitidez es pedirles algo que nadie diagnosticó.
+
+Lo que **no** se tocó: relación de aspecto, factor de aumento y SSIM. Esos tres cazan
+la alucinación, que es el riesgo caro — una foto bonita que ya no es la casa del
+cliente no sirve.
+
+**Una excepción nombrada, no un umbral más flojo.** `custom-pergolas-and-patio-covers`
+se queda en +1,4% con la regla ya corregida. Su `BLANDA` es un falso positivo de
+**contenido**: es una casa blanca minimalista y ~70% del cuadro es pared lisa y
+cristal oscuro, el mismo efecto que ya está documentado aquí para las fotos de cielo
+(«un cielo liso puntúa bajo aunque el archivo esté perfecto»). Su defecto real es el
+otro motivo, `SOBRECOMPRIMIDA` (0,063 B/px, 28% de la mediana), y ese sí lo arregla:
+54 KB -> 176 KB. Comprobado a 1:1 antes de decidir: las lamas de la pérgola, los
+marcos de las correderas y las tablillas de la silla se resuelven en la nueva y se
+emborronan en la vieja. Va en `SALTAN_NITIDEZ`, con el motivo y los números, **y el
+script sigue avisando en cada ejecución de que esa foto se saltó la reja**. Mover el
+umbral habría afectado a las 12 y a las ~106 de la cola del CMS; esto afecta a una.
+
+**Las siete se revisaron a ojo, una a una**, en los montajes de
+`auditoria-imagenes/comparativas/`: mismo número de postes y de lamas, mismos muebles,
+ningún rótulo inventado. El SSIM (0,859-0,953) caza un recorte cambiado; no caza un
+poste de más. Ese filtro sigue siendo el ojo.

@@ -67,7 +67,10 @@ import sharp from 'sharp';
 // La MISMA metrica que usa la auditoria. Ver scripts/lib/nitidez.mjs: si midieran
 // distinto, esto rechazaria por «no ha subido» justo lo que aquella marco por
 // «esta blanda».
-import { nitidez, luminancia, ANCHO_NITIDEZ, autocomprobar } from './lib/nitidez.mjs';
+import {
+  nitidez, luminancia, ssim, exigenciaNitidez, NITIDEZ_SUBE, NITIDEZ_SUELO,
+  ANCHO_NITIDEZ, autocomprobar,
+} from './lib/nitidez.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const ENTRADA = '/Users/senavia/Downloads/higgsfield-out';
@@ -86,60 +89,8 @@ const FACTOR_MIN = 1.8;
 /** SSIM minimo contra el original reescalado. Por debajo, se invento contenido. */
 const SSIM_MIN = 0.75;
 
-/**
- * Cuanto tiene que SUBIR la nitidez para contar como que subio.
- *
- * "Que no baje" no basta y se vio probando: un simple reescalado de Lanczos a 2x
- * —que no añade ni un detalle, solo interpola— pasaba el filtro con 241,1 -> 241,4,
- * o sea un +0,1% que es ruido de medida. Habriamos escrito un archivo cuatro veces
- * mas pesado a cambio de nada.
- *
- * El punto de todo esto es RECUPERAR MICRO-TEXTURA. Como las dos medidas se toman
- * al mismo tamano normalizado, una restauracion de verdad tiene que notarse con
- * holgura; un +10% es un minimo prudente que distingue "ha recuperado detalle" de
- * "ha interpolado".
- */
-const MEJORA_MINIMA = 1.10;
-
-// ------------------------------------------------------------------ metricas
-
-/**
- * SSIM medio por ventanas de 8x8 sobre luminancia.
- *
- * Sharp no lo trae y no merece una dependencia: son treinta lineas. Se usa el
- * SSIM y no una diferencia de pixeles (MAE/PSNR) porque un upscale legitimo
- * cambia TODOS los pixeles —de eso se trata— y una diferencia absoluta lo
- * marcaria igual que una alucinacion. El SSIM compara luminancia, contraste y
- * ESTRUCTURA local, que es lo unico que tiene que sobrevivir.
- */
-function ssim(a, b, w, h) {
-  const C1 = (0.01 * 255) ** 2;
-  const C2 = (0.03 * 255) ** 2;
-  const V = 8;
-  let total = 0, n = 0;
-  for (let y = 0; y + V <= h; y += V) {
-    for (let x = 0; x + V <= w; x += V) {
-      let ma = 0, mb = 0;
-      for (let j = 0; j < V; j++) for (let i = 0; i < V; i++) {
-        ma += a[(y + j) * w + x + i];
-        mb += b[(y + j) * w + x + i];
-      }
-      const N = V * V;
-      ma /= N; mb /= N;
-      let va = 0, vb = 0, cov = 0;
-      for (let j = 0; j < V; j++) for (let i = 0; i < V; i++) {
-        const da = a[(y + j) * w + x + i] - ma;
-        const db = b[(y + j) * w + x + i] - mb;
-        va += da * da; vb += db * db; cov += da * db;
-      }
-      va /= N - 1; vb /= N - 1; cov /= N - 1;
-      total += ((2 * ma * mb + C1) * (2 * cov + C2)) / ((ma * ma + mb * mb + C1) * (va + vb + C2));
-      n++;
-    }
-  }
-  return n ? total / n : 0;
-}
-
+// La regla de nitidez —de dos tramos, segun `motivos`— vive en lib/nitidez.mjs
+// junto a la metrica que la alimenta. Ahi esta el porque, con los numeros medidos.
 
 // -------------------------------------------------------------------- inicio
 // La metrica se comprueba a si misma ANTES de juzgar nada. Si volviera el fallo
@@ -203,12 +154,17 @@ for (const nombre of devueltos.filter((f) => !f.startsWith('.'))) {
   }
 
   // 3. Nitidez. Un upscale que no anade detalle es peso extra por nada.
-  const nitV = await nitidez(viejoBuf);
-  const nitN = await nitidez(nuevoBuf);
-  if (nitN < nitV * MEJORA_MINIMA) {
+  // Los DOS al tamano del archivo nuevo: si no, el remuestreo a 512 penaliza al
+  // que trae mas pixeles y el upscale bueno suspende. Ver lib/nitidez.mjs.
+  const alFinal = { width: nw, height: nh };
+  const nitV = await nitidez(viejoBuf, alFinal);
+  const nitN = await nitidez(nuevoBuf, alFinal);
+  const exig = exigenciaNitidez(item.motivos);
+  if (nitN < nitV * exig.factor) {
     motivos.push(
-      `la nitidez no sube lo suficiente: ${nitV.toFixed(1)} -> ${nitN.toFixed(1)}`
-      + ` (${((nitN / nitV - 1) * 100).toFixed(1)}%, hace falta +${((MEJORA_MINIMA - 1) * 100).toFixed(0)}%)`,
+      `la nitidez cae por debajo del minimo: ${nitV.toFixed(1)} -> ${nitN.toFixed(1)}`
+      + ` (${((nitN / nitV - 1) * 100).toFixed(1)}%, hace falta >=${(exig.factor * 100).toFixed(0)}%`
+      + ` del original — ${exig.porque})`,
     );
   }
 
@@ -274,7 +230,7 @@ if (aprobadas.length) {
 await fs.writeFile(
   path.join(AUDIT, 'veredicto-higgsfield.json'),
   JSON.stringify({
-    umbrales: { AR_MAX, FACTOR_MIN, SSIM_MIN },
+    umbrales: { AR_MAX, FACTOR_MIN, SSIM_MIN, NITIDEZ_SUBE, NITIDEZ_SUELO },
     aprobadas: aprobadas.map(({ buf, meta, ...r }) => r),
     rechazadas: rechazadas.map(({ buf, meta, ...r }) => r),
     huerfanos,

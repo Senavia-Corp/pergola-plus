@@ -573,7 +573,7 @@ resultaron ser errores de medición propios.
 | `npm run integrar:higgsfield` | Juzga lo devuelto y saca comparativas. Con `--aplicar` escribe |
 | `npm run resenas` | Trae las reseñas de Google Business Profile y reescribe el snapshot |
 | `npm run fuentes` | Rebaja Inter de Google a `public/fonts/` |
-| `npm run imagenes:cliente` | Reprocesa las fotos del cliente desde `~/Downloads` |
+| `npm run imagenes:cliente` | Reprocesa las 12 fotos del cliente a 2500x1406 desde `~/Downloads` (prefiere el upscale de `hf-topaz/` cuando existe) |
 
 `npm run preview` **no funciona**: el adaptador de Vercel no trae servidor de
 preview y muere con *«Preview server process exited before becoming ready»*. Para
