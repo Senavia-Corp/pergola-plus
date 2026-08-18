@@ -116,7 +116,36 @@ function enlazarEnEspanol(html) {
     return `href="${es}"`;
   });
 
-  const restaurado = salida.replace(
+  // Y el campo oculto `pagina` de los formularios, que NO es un href pero es una
+  // ruta y decide algo mas caro que un enlace.
+  //
+  // src/pages/api/lead.ts saca de ahi el idioma del lead: `ES_ES(pagina) ? 'es' :
+  // 'en'`. Los 2 formularios de captacion vienen del fragmento migrado, que hornea
+  // la ruta INGLESA en scripts/lib/transformar.mjs y que /es/ reutiliza tal cual —
+  // asi que un hispanohablante que pedia presupuesto generaba un lead etiquetado
+  // «English»: acuse en ingles, aviso al despacho diciendo que llame en ingles, y
+  // 303 a /thank-you en vez de /es/thank-you. El del pie si acertaba, porque
+  // Footer.astro lo emite con Astro.url.pathname.
+  //
+  // Se acota a `name="pagina"` y no a `value=` a secas: un `value` es dato de
+  // formulario y reescribirlo a ciegas es como traducir el value de un <option>.
+  // Comprobado sobre la salida construida: los 107 `value="/..."` de /es/ son
+  // exactamente este campo, cero <option>, <select> o <button>.
+  //
+  // El arreglo de fondo es que la ruta la ponga quien conoce el idioma de la
+  // pagina, como hace Footer.astro; eso pide sacar el hidden del fragmento
+  // migrado, que es salida generada compartida por los dos idiomas.
+  const conPagina = salida.replace(
+    /name="pagina" value="(\/[^"]*)"/g,
+    (todo, ruta) => {
+      const es = haciaEspanol(ruta);
+      if (!es || es === ruta) return todo;
+      cambiados++;
+      return `name="pagina" value="${es}"`;
+    },
+  );
+
+  const restaurado = conPagina.replace(
     /\u0000IDIOMA(\d+)\u0000/g,
     (_m, i) => apartados[Number(i)],
   );
@@ -172,11 +201,19 @@ function dimensionarHtml() {
           `${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`
           + ` (selector de idioma respetado en ${paginasEs - sinProteger.length})`,
         );
+        // LANZA, no avisa. Un warning en el log del build no para nada: el deploy
+        // sale, el aviso se pierde entre 200 lineas y el sintoma vuelve a ser
+        // invisible —el menu abre, se ve bien y no lleva a ninguna parte—. La
+        // invariante es exacta: una pagina española = un selector que apartar, asi
+        // que si deja de cumplirse es que el markup de .idioma-lista cambio y esta
+        // proteccion ya no engancha.
         if (sinProteger.length) {
-          logger.warn(
-            `[idioma] ${sinProteger.length} pagina(s) sin selector que apartar: `
-            + `${sinProteger.slice(0, 5).join(', ')}. La opcion «English» puede haber `
-            + 'quedado apuntando al espanol. Revisa el markup de .idioma-lista en Nav.astro.',
+          throw new Error(
+            `[idioma] ${sinProteger.length} pagina(s) españolas sin selector que apartar: `
+            + `${sinProteger.slice(0, 5).join(', ')}.\n`
+            + '  La reescritura de enlaces habria apuntado la opcion «English» al español\n'
+            + '  en esas paginas, y el fallo NO da error en tiempo de ejecucion.\n'
+            + '  Revisa el markup de .idioma-lista en src/components/Nav.astro.',
           );
         }
         // Se avisa en vez de callar: una imagen sin medida es una imagen que sigue

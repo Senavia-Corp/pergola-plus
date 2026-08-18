@@ -313,14 +313,47 @@ for (const rel of htmls) {
     const relOtra = a.p === '/' ? 'index.html' : a.p.replace(/^\//, '').replace(/\/$/, '') + '/index.html';
     const otra = await fs.readFile(path.join(DIST, relOtra), 'utf8').catch(() => null);
     if (!otra) continue;
-    const vuelve = [...otra.matchAll(/<link rel="alternate" hreflang="[^"]+" href="([^"]+)"/g)]
-      .some((m) => new URL(m[1]).pathname.replace(/\/$/, '') === r.replace(/\/$/, ''));
-    if (!vuelve) noReciprocos.push(`${r} -> ${a.p} no apunta de vuelta`);
+    // La vuelta tiene que ser CON EL IDIOMA de esta pagina, no con cualquiera.
+    //
+    // Antes el patron era hreflang="[^"]+", o sea que se descartaba el idioma y
+    // solo se comprobaba que las dos paginas se conocieran. Con eso, un cluster
+    // donde LAS DOS dicen «la version española esta alli» pasaba en verde: son
+    // reciprocas y estan mutuamente equivocadas. Google descarta entero un cluster
+    // asi —deja de servir /es/ a hispanohablantes y las dos paginas compiten entre
+    // si— y ademas el sitemap copia estos mismos xhtml:link, con lo que la mentira
+    // se repite en los dos sitios sin que ninguna puerta la vea.
+    const idiomaDeEsta = r === '/es/' || r.startsWith('/es/') ? 'es' : 'en';
+    const vuelve = [...otra.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)]
+      .some((m) => m[1].split('-')[0] === idiomaDeEsta
+        && new URL(m[2]).pathname.replace(/\/$/, '') === r.replace(/\/$/, ''));
+    if (!vuelve) noReciprocos.push(`${r} -> ${a.p} no apunta de vuelta con hreflang="${idiomaDeEsta}"`);
+  }
+}
+
+// Y la comprobacion que faltaba del todo: que el idioma DECLARADO coincida con el
+// idioma de la URL a la que apunta. Es la forma directa del mismo fallo, y no la
+// caza la reciprocidad porque un error simetrico se valida a si mismo.
+const idiomaMentido = [];
+for (const rel of htmls) {
+  const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  for (const m of html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)) {
+    const lang = m[1].split('-')[0];
+    if (lang === 'x') continue; // x-default no declara idioma
+    const destino = new URL(m[2]).pathname;
+    const idiomaDelDestino = destino === '/es/' || destino.startsWith('/es/') ? 'es' : 'en';
+    if (lang !== idiomaDelDestino) {
+      idiomaMentido.push(`${rel}: hreflang="${m[1]}" apunta a ${destino}, que es ${idiomaDelDestino}`);
+    }
   }
 }
 
 decir(rotos.length === 0, 'ningun hreflang apunta a una pagina que no existe', rotos);
-decir(noReciprocos.length === 0, 'todo par de hreflang es reciproco', noReciprocos);
+decir(noReciprocos.length === 0, 'todo par de hreflang es reciproco Y con el idioma correcto', noReciprocos);
+decir(
+  idiomaMentido.length === 0,
+  'ningun hreflang declara un idioma distinto del de la URL a la que apunta',
+  idiomaMentido,
+);
 
 // --- el selector de idioma lleva de verdad al otro idioma -------------------
 //
@@ -338,11 +371,15 @@ decir(noReciprocos.length === 0, 'todo par de hreflang es reciproco', noReciproc
 // Y el hreflang del <head> se salvo de casualidad, porque sus href son absolutos y
 // aquel regex solo captura los que empiezan por «/».
 const selectorMal = [];
+const sinBloque = [];
 const sinOpcionViva = [];
 for (const rel of htmls) {
   const html = await fs.readFile(path.join(DIST, rel), 'utf8');
   const bloque = html.match(/<ul class="idioma-lista"[\s\S]*?<\/ul>/)?.[0];
-  if (!bloque) continue; // los 404 y alguna suelta no montan nav
+  // Se ACUMULA en vez de saltar. Un `continue` hace que esta puerta falle ABIERTA:
+  // el dia que cambie el markup, deja de encontrar bloques, no comprueba nada y sale
+  // en verde — justo cuando la proteccion del build tambien se ha desarmado.
+  if (!bloque) { sinBloque.push(rel); continue; }
 
   const esPaginaEs = ruta(rel).startsWith('/es/') || ruta(rel) === '/es/';
   const opciones = [...bloque.matchAll(/<a href="([^"]+)"[^>]*lang="(en|es)"/g)]
@@ -373,6 +410,11 @@ decir(
   selectorMal.length === 0,
   'cada opcion del selector lleva a una URL de SU idioma',
   selectorMal,
+);
+decir(
+  sinBloque.length === 0,
+  `las ${htmls.length} paginas montan el selector de idioma`,
+  sinBloque,
 );
 decir(
   sinOpcionViva.length === 0,

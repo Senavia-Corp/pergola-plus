@@ -365,10 +365,52 @@ if (despues > antes) {
 // queda sin saber que pasa despues, justo despues de dar sus datos. Lo decide
 // `pagina`, no una cabecera del navegador: es el unico dato que dice de que version
 // del sitio salio el envio.
-const r1es = await enviar({ ...VALIDO, pagina: '/es/contact-us/get-in-touch', Email: 'puerta.es@example.com' });
+//
+// EL `pagina` SE LEE DEL HTML CONSTRUIDO, NO SE ESCRIBE A MANO AQUI.
+//
+// Antes esta prueba mandaba `pagina: '/es/contact-us/get-in-touch'` escrito en el
+// script, y con eso afirmaba que el circuito español funcionaba. Era un control
+// positivo SINTETICO: ninguna pagina construida mandaba ese valor. Los 2
+// formularios de captacion vienen del fragmento migrado, que hornea la ruta
+// INGLESA, asi que las 105 paginas /es/ mandaban `/contact-us/get-a-quote` y
+// generaban leads etiquetados «English» — acuse en ingles, aviso al despacho
+// diciendo que se llame en ingles, y 303 a /thank-you en vez de /es/thank-you.
+// La puerta pasaba en verde mientras el sitio entero lo incumplia.
+const htmlEsContacto = await fs.readFile(
+  path.join(DIST, 'es/contact-us/get-in-touch/index.html'), 'utf8',
+);
+const paginaQueMandaEs = htmlEsContacto.match(
+  /<form[^>]*id="wf-form-Contact-Page-Form"[\s\S]*?name="pagina" value="([^"]*)"/,
+)?.[1] ?? '(no encontrado)';
+decir(
+  paginaQueMandaEs.startsWith('/es/'),
+  `el formulario de /es/ declara una pagina española (declara "${paginaQueMandaEs}")`,
+);
+
+const r1es = await enviar({ ...VALIDO, pagina: paginaQueMandaEs, Email: 'puerta.es@example.com' });
 decir(
   (r1es.headers.get('location') ?? '').startsWith('/es/thank-you'),
   `un envio desde /es/ redirige a /es/thank-you (dio "${r1es.headers.get('location')}")`,
+);
+
+// Y que el lead quede marcado en español: es lo que decide en que idioma se le
+// contesta y en que idioma se le manda el acuse.
+const ultimoEs = JSON.parse((await fs.readFile(LEADS, 'utf8')).trim().split('\n').pop());
+decir(ultimoEs.idioma === 'es', `el lead desde /es/ queda marcado idioma:'es' (quedo '${ultimoEs.idioma}')`);
+
+// La otra mitad: NINGUNA pagina española puede declarar una ruta inglesa.
+const declaranIngles = [];
+for (const rel of (await fs.readdir(DIST, { recursive: true }))
+  .filter((p) => p.startsWith('es/') && p.endsWith('.html'))) {
+  const h = await fs.readFile(path.join(DIST, rel), 'utf8');
+  for (const [, v] of h.matchAll(/name="pagina" value="([^"]*)"/g)) {
+    if (!v.startsWith('/es/')) declaranIngles.push(`${rel}: ${v}`);
+  }
+}
+decir(
+  declaranIngles.length === 0,
+  'ninguna pagina /es/ declara una ruta inglesa en el campo `pagina`',
+  declaranIngles,
 );
 
 // c) Con JavaScript -> 200 y JSON
