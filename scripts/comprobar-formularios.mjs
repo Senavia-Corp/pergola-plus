@@ -162,13 +162,26 @@ decir(
 // 2 · El circuito, de verdad
 // ---------------------------------------------------------------------------
 
-// El aviso de entrega tiene que seguir estando. Es lo unico que separa «los leads
-// llegan» de «los leads se pierden en un log que nadie mira», y ese fallo no da
-// error: los formularios responden 303 y el visitante ve "gracias" igual.
+// El aviso de entrega tiene que seguir estando, y ahora tiene que conocer LOS DOS
+// canales: si solo mirara LEAD_WEBHOOK_URL, un deploy con el correo bien puesto
+// seguiria gritando que no hay a donde entregar, y un aviso que miente es un aviso
+// que se aprende a ignorar — que es como se pierde de vista el que si importa.
 const config = await fs.readFile(path.join(RAIZ, 'astro.config.mjs'), 'utf8');
 decir(
-  /LEAD_WEBHOOK_URL/.test(config) && /\[leads\]/.test(config),
-  'el build avisa si no hay a donde entregar los leads',
+  /LEAD_WEBHOOK_URL/.test(config) && /SMTP_HOST/.test(config) && /\[leads\]/.test(config),
+  'el build avisa si no hay a donde entregar los leads (correo O webhook)',
+);
+
+// Y el log NO puede volver a contar como entrega. Fue el fallo silencioso original:
+// `ok = log || ...` con un console.log que no falla nunca hacia que `ok` fuera
+// siempre true, el 500 del endpoint fuera inalcanzable y el visitante viera
+// "gracias" aunque su lead no hubiera llegado a ningun sitio.
+const fuenteLead = await fs.readFile(path.join(RAIZ, 'src/lib/lead.ts'), 'utf8');
+const expresionOk = fuenteLead.match(/const ok = ([^;]+);/)?.[1] ?? '';
+decir(
+  expresionOk !== '' && !/canales\.log/.test(expresionOk),
+  'el canal `log` NO cuenta como entrega',
+  [expresionOk || '(no se encontro `const ok =` en src/lib/lead.ts)'],
 );
 
 const antes = await fs.readFile(LEADS, 'utf8').then((s) => s.split('\n').filter(Boolean).length).catch(() => 0);

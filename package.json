@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex",
+    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:correo",
     "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
@@ -23,6 +23,7 @@
     "check:seo": "node scripts/comprobar-seo.mjs",
     "check:paginas": "node scripts/comprobar-paginas.mjs",
     "check:noindex": "node scripts/comprobar-noindex.mjs",
+    "check:correo": "node scripts/comprobar-correo.mjs",
     "extraer": "node scripts/extraer-traducibles.mjs",
     "fuentes": "node scripts/bajar-fuentes.mjs",
     "imagenes:cliente": "node scripts/optimizar-imagenes-cliente.mjs",
@@ -34,7 +35,8 @@
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",
-    "astro": "^7.2.2"
+    "astro": "^7.2.2",
+    "nodemailer": "^9.0.5"
   },
   "devDependencies": {
     "playwright": "^1.62.1",

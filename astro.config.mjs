@@ -303,20 +303,24 @@ if (!process.env.TURNSTILE_SECRET_KEY) {
 // Se avisa en CADA build, con nombre y apellidos de lo que hay que hacer, porque este
 // es el fallo que no da error: los formularios responden 303, el visitante ve
 // "gracias", y el negocio no se entera de que no le llega nada.
-if (!process.env.LEAD_WEBHOOK_URL) {
+const HAY_CORREO = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS;
+if (!HAY_CORREO && !process.env.LEAD_WEBHOOK_URL) {
   console.warn(
     '\n  ============================================================\n'
-    + '  [leads] LEAD_WEBHOOK_URL sin definir.\n'
+    + '  [leads] SIN CANAL DE ENTREGA.\n'
     + '\n'
-    + '  En produccion los leads quedaran SOLO en el log de la funcion\n'
-    + '  de Vercel. Nadie mira los logs: en la practica se pierden.\n'
+    + '  En produccion el disco es de solo lectura, asi que sin correo\n'
+    + '  ni webhook no queda ni un canal: /api/lead devolvera 500 y el\n'
+    + '  visitante vera el telefono en vez de la pagina de gracias.\n'
+    + '\n'
+    + '  Eso es lo correcto —antes respondia "gracias" y el lead se\n'
+    + '  perdia— pero significa que el formulario NO capta.\n'
     + '\n'
     + '  Hace falta UNA de estas dos, y basta con una:\n'
-    + '    - definir LEAD_WEBHOOK_URL con la URL del CRM, o\n'
-    + '    - cablear el correo transaccional en el TODO(correo) de\n'
-    + '      src/lib/lead.ts.\n'
+    + '    - SMTP_HOST + SMTP_USER + SMTP_PASS + LEAD_NOTIFY_TO, o\n'
+    + '    - LEAD_WEBHOOK_URL con la URL del CRM.\n'
     + '\n'
-    + '  Detalle en docs/estado-final.md.\n'
+    + '  Detalle en .env.example y en src/lib/lead.ts.\n'
     + '  ============================================================\n',
   );
 }

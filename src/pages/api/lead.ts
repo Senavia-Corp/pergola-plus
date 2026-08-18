@@ -143,6 +143,11 @@ export const POST: APIRoute = async ({ request, url }) => {
   for (const [clave, valor] of Object.entries(crudo)) {
     if (clave === 'website' || clave === 't' || clave === 'js') continue;
     if (clave === 'cf-turnstile-response') continue;
+    // Enrutado, no datos del lead: ya viajan en `lead.formulario` y `lead.pagina`.
+    // Dejarlos aqui los pintaba ADEMAS como dos campos mas del formulario en los
+    // dos correos ("Formulario: quote", "Pagina: /contact-us/get-a-quote"),
+    // repetidos justo debajo del bloque que ya los dice.
+    if (clave === 'formulario' || clave === 'pagina') continue;
 
     if (Array.isArray(valor)) {
       campos[clave] = valor.map((v) => recortar(v, TOPES[clave] ?? TOPE_POR_DEFECTO));
