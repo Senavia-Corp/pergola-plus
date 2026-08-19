@@ -59,10 +59,30 @@ export interface Perfil {
   url: string | null;
 }
 
+/**
+ * Nota agregada leida de la ficha PUBLICA y transcrita a mano, con su fecha.
+ *
+ * Existe para el hueco entre «no hay nada» y «estan las resenas»: sin el texto de
+ * las resenas no se puede montar el carrusel, pero la nota y el numero SI son datos
+ * ciertos y comprobables, y sin ellos la pagina de testimonios era un titulo sobre
+ * un hueco en blanco.
+ *
+ * Lleva fecha a proposito: envejece. En cuanto corra el fetch de GBP, `resenas` se
+ * llena y getResumen() calcula la media de verdad ignorando esto.
+ */
+export interface ResumenPublico {
+  media: number;
+  total: number;
+  /** ISO corto. Cuando se leyo de la ficha. */
+  leidoEl: string;
+  fuente: string;
+}
+
 interface Snapshot {
   actualizado: string | null;
   perfil: Perfil;
   resenas: Resena[];
+  resumenPublico?: ResumenPublico | null;
 }
 
 const SNAPSHOT = datos as unknown as Snapshot;
@@ -98,9 +118,26 @@ export function getActualizado(): string | null {
  */
 export function getResumen(): { media: number; total: number } | null {
   const rs = SNAPSHOT.resenas;
-  if (!rs.length) return null;
-  return {
-    media: rs.reduce((s, r) => s + r.rating, 0) / rs.length,
-    total: rs.length,
-  };
+  if (rs.length) {
+    return {
+      media: rs.reduce((s, r) => s + r.rating, 0) / rs.length,
+      total: rs.length,
+    };
+  }
+  // Sin resenas cargadas se usa la nota transcrita de la ficha publica, si la hay.
+  // Las resenas reales SIEMPRE mandan sobre ella: en cuanto llegan, esta rama no se
+  // vuelve a tocar y no hay dos cifras que puedan contradecirse.
+  const p = SNAPSHOT.resumenPublico;
+  return p ? { media: p.media, total: p.total } : null;
+}
+
+/**
+ * La nota transcrita, o null si el resumen sale de resenas de verdad.
+ *
+ * El componente lo usa para decir de DONDE sale la cifra y de cuando. Un numero sin
+ * procedencia en una pagina de testimonios es exactamente lo que no queremos.
+ */
+export function getResumenPublico(): ResumenPublico | null {
+  if (SNAPSHOT.resenas.length) return null;
+  return SNAPSHOT.resumenPublico ?? null;
 }

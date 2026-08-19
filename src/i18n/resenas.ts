@@ -14,7 +14,8 @@ import type { Idioma } from './index';
 
 type Claves =
   | 'titulo' | 'entradilla' | 'deCinco' | 'verEnGoogle' | 'verFicha'
-  | 'respuestaDe' | 'orden' | 'sinFicha';
+  | 'respuestaDe' | 'orden' | 'sinFicha'
+  | 'soloNota' | 'leerEnGoogle' | 'fuenteFicha';
 
 export const RESENAS: Record<Idioma, Record<Claves, string>> = {
   en: {
@@ -28,6 +29,14 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     // dice como esta ordenada invita a pensar que se han elegido las buenas.
     orden: 'All reviews from our Google Business Profile, newest first. None are filtered out.',
     sinFicha: 'Pergola Plus Florida on Google',
+    // Lo que se dice cuando tenemos la nota pero todavia no el texto de las
+    // resenas. Explica el porque en vez de callarlo: la alternativa era un titulo
+    // sobre un hueco en blanco.
+    soloNota: 'The full text of each review lives on our Google Business Profile.',
+    leerEnGoogle: 'Read our reviews on Google',
+    // La PROCEDENCIA es rotulo, no dato: vive aqui y no en el JSON, que salia en
+    // español dentro de la pagina inglesa.
+    fuenteFicha: 'read from the public Google profile',
   },
   es: {
     titulo: 'Lo que dicen nuestros clientes',
@@ -37,6 +46,9 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     verFicha: 'Ver todas las reseñas en Google',
     respuestaDe: 'Respuesta de Pergola Plus Florida',
     orden: 'Todas las reseñas de nuestro perfil de Google Business, de la más reciente a la más antigua. No se filtra ninguna.',
+    soloNota: 'El texto completo de cada reseña está en nuestro perfil de Google Business.',
+    leerEnGoogle: 'Leer nuestras reseñas en Google',
+    fuenteFicha: 'leído de la ficha pública de Google',
     sinFicha: 'Pergola Plus Florida en Google',
   },
 };

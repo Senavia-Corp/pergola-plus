@@ -31,7 +31,7 @@
  * expone a accion manual. Las estrellas ya salen solas desde la ficha de Business
  * Profile. Ver la cabecera de src/lib/jsonld.ts, que documenta esa decision.
  */
-import { getReviews, getPerfil, getResumen } from '../lib/reviews';
+import { getReviews, getPerfil, getResumen, getResumenPublico } from '../lib/reviews';
 import { idiomaDeRuta } from '../i18n';
 import { RESENAS } from '../i18n/resenas';
 import '../styles/resenas.css';
@@ -39,6 +39,8 @@ import '../styles/resenas.css';
 const resenas = getReviews();
 const perfil = getPerfil();
 const resumen = getResumen();
+/** No null solo cuando la nota sale de la ficha publica y NO de resenas cargadas. */
+const soloNota = getResumenPublico();
 
 const idioma = idiomaDeRuta(Astro.url.pathname);
 const t = RESENAS[idioma];
@@ -56,7 +58,13 @@ const iniciales = (nombre: string) =>
   nombre.trim().split(/\s+/).slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
 ---
 
-{resenas.length > 0 && (
+{/* Se renderiza con resenas O con la nota transcrita de la ficha. Antes exigia
+    resenas y por eso la pagina de testimonios era un titulo sobre un hueco en
+    blanco: no habia estado vacio porque no habia NADA cierto que decir. Ahora si
+    lo hay —la nota y el numero, con su fuente y su fecha— y callarlo no ayuda a
+    nadie. Lo que sigue sin existir es el TEXTO de cada resena, y por eso el
+    carrusel de abajo sigue colgando de `resenas.length`. */}
+{(resenas.length > 0 || soloNota) && (
   <section class="resenas" aria-labelledby="resenas-titulo">
     <div class="w-layout-blockcontainer container w-container">
       <div class="resenas-cabecera">
@@ -78,15 +86,31 @@ const iniciales = (nombre: string) =>
           </p>
         )}
 
+        {soloNota && (
+          <p class="resenas-solo-nota">
+            {t.soloNota}
+            {/* La procedencia y la fecha van EN PANTALLA. Una nota agregada sin
+                decir de donde sale ni de cuando es, en una pagina de testimonios,
+                es justo lo que invita a desconfiar de ella. */}
+            <span class="resenas-procedencia">
+              {' '}({t.fuenteFicha}, {fecha(soloNota.leidoEl)})
+            </span>
+          </p>
+        )}
+
         {perfil.url && (
           <a class="resenas-ficha" href={perfil.url} target="_blank" rel="noopener nofollow">
-            {t.verFicha}
+            {soloNota ? t.leerEnGoogle : t.verFicha}
           </a>
         )}
       </div>
 
       {/* El contrato de Finsweet, atributo por atributo. Los nombres NO son
-          decorativos: Carrusel.astro busca exactamente estos. */}
+          decorativos: Carrusel.astro busca exactamente estos.
+          Cuelga de `resenas.length` y no de la condicion de arriba: un carrusel de
+          cero slides es peor que ningun carrusel — Carrusel.astro se lo salta, los
+          puntos no se pintan y quedan dos flechas sin nada detras. */}
+      {resenas.length > 0 && (
       <div fs-slider-instance="fs-slider-resenas" class="fs-slider-resenas_instance">
         <div fs-slider-element="list-wrapper" class="fs-slider-resenas_list-wrapper">
           <div fs-slider-element="list" role="list" class="fs-slider-resenas_list">
@@ -172,11 +196,12 @@ const iniciales = (nombre: string) =>
           <div fs-slider-element="pagination-bullet" class="fs-slider-resenas_bullet"></div>
         </div>
       </div>
+      )}
 
       {/* La politica de Google pide decir como se ordenan y filtran las resenas.
           Va visible y no en un comentario: es informacion para quien lee, no para
           quien mantiene. */}
-      <p class="resenas-orden">{t.orden}</p>
+      {resenas.length > 0 && <p class="resenas-orden">{t.orden}</p>}
     </div>
   </section>
 )}

@@ -16,6 +16,7 @@ import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
 
 const DIST = await raizHtml();
+const RAIZ = path.resolve(import.meta.dirname, '..');
 
 let fallos = 0;
 const decir = (ok, msg, detalle = []) => {
@@ -165,6 +166,55 @@ decir(
   'todo enlace interno lleva a una pagina que existe',
   [...aNingunSitio].map(([h, desde]) => `${h}  (p.ej. desde ${desde})`),
 );
+
+
+// --- resenas: que no aparezca ni una inventada -------------------------------
+//
+// La pagina de testimonios muestra hoy la nota agregada (5,0 de 27) leida de la
+// ficha publica y transcrita a mano, con su fuente y su fecha en pantalla, mas el
+// enlace al perfil. Lo que NO tiene es el TEXTO de las resenas, porque en este repo
+// no existe: el widget de Elfsight nunca metio texto en el HTML.
+//
+// Esta puerta vigila el limite. Un testimonio inventado en el sitio de un
+// contratista no es un detalle de maquetacion —es fraude publicitario y en EE. UU.
+// expone al cliente ante la FTC— y es justo el atajo que tienta cuando la seccion
+// se ve vacia.
+{
+  const snapshot = JSON.parse(
+    await fs.readFile(path.join(RAIZ, 'src/data/reviews-google.json'), 'utf8'),
+  );
+  const nResenas = snapshot.resenas.length;
+
+  // El carrusel solo puede existir si hay resenas de verdad en el snapshot.
+  const conCarrusel = [];
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    // El ELEMENTO, no la cadena: `.fs-slider-resenas_slide{...}` aparece en el CSS
+    // que Astro inlinea en el <head> de cada pagina, asi que buscar el nombre a
+    // secas daba 20 falsos positivos.
+    if (/<div[^>]*fs-slider-element="slide"[^>]*fs-slider-resenas_slide/.test(html)) {
+      conCarrusel.push(rel);
+    }
+  }
+  decir(
+    nResenas > 0 || conCarrusel.length === 0,
+    `sin resenas en el snapshot no se pinta ningun carrusel de resenas (${conCarrusel.length} paginas lo pintan)`,
+    conCarrusel,
+  );
+
+  // Y si algun dia hay resenas, cada una tiene que traer su origen: una cita sin
+  // enlace a la resena real es indistinguible de una escrita por la casa.
+  const sinOrigen = (snapshot.resenas ?? []).filter((r) => !r.urlOrigen || !r.autor);
+  decir(sinOrigen.length === 0, 'toda resena del snapshot trae autor y enlace de origen');
+
+  // La nota transcrita tiene que decir de cuando es: envejece.
+  const rp = snapshot.resumenPublico;
+  decir(
+    !rp || /^\d{4}-\d{2}-\d{2}$/.test(rp.leidoEl ?? ''),
+    'la nota transcrita de la ficha lleva su fecha de lectura',
+    [JSON.stringify(rp ?? null)],
+  );
+}
 
 if (fallos) {
   console.log(`\n${fallos} fallo(s).`);
