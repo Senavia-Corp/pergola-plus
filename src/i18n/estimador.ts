@@ -124,12 +124,6 @@ export interface TextosEstimador {
   noscriptEnlace: string;
   noscriptFin: string;
 
-  // --- cierre de pagina ---
-  cierreH2: string;
-  cierreP: string;
-  cierreA: string;
-  cierreB: string;
-  altCierre: string;
 
   /**
    * Lo que pinta el navegador. Los `{...}` se sustituyen con replaceAll: si algun
@@ -155,12 +149,6 @@ export interface TextosEstimador {
   };
 }
 
-// La misma foto en las dos paginas, y su alt describe la foto, no la pagina: se
-// queda en ingles a proposito.
-const ALT_CIERRE =
-  'Luxury outdoor living in South Florida featuring a custom pool, modern pergola with'
-  + ' outdoor kitchen, tropical landscaping, and elegant patio design for high-end'
-  + ' residential properties.';
 
 export const ESTIMADOR_EN: TextosEstimador = {
   h1: 'Project Estimator',
@@ -347,13 +335,6 @@ export const ESTIMADOR_EN: TextosEstimador = {
   noscriptEnlace: 'request an exact quote',
   noscriptFin: ' and we will do it for you.',
 
-  cierreH2: 'Ready to put a number on it?',
-  cierreP:
-    'Send us the details and a project consultant will confirm your estimate with the'
-    + ' engineering and permitting your address actually requires.',
-  cierreA: 'Get An Exact Quote',
-  cierreB: 'Schedule A Visit',
-  altCierre: ALT_CIERRE,
 
   cliente: {
     pideMedidas: 'Enter a width and a length to see your range.',
@@ -562,13 +543,6 @@ export const ESTIMADOR_ES: TextosEstimador = {
   noscriptEnlace: 'pida una cotización exacta',
   noscriptFin: ' y lo hacemos por usted.',
 
-  cierreH2: '¿Listo para ponerle una cifra?',
-  cierreP:
-    'Mándenos los detalles y un asesor confirmará su estimado con el cálculo y los'
-    + ' permisos que su dirección exija de verdad.',
-  cierreA: 'Pida su cotización exacta',
-  cierreB: 'Agende una visita',
-  altCierre: ALT_CIERRE,
 
   cliente: {
     pideMedidas: 'Escriba un ancho y un largo para ver su rango.',

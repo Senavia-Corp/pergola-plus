@@ -28,7 +28,7 @@ import {
 // entre las tres piezas es el `id`.
 //
 // Se maqueta con las mismas clases que el resto del sitio (.header-page / .container
-// / .body-page / .call-to-action-footer) para que no se note la costura.
+// / .body-page) para que no se note la costura.
 //
 // Sin wfPage/wfSite a proposito: `data-wf-page` solo lo consulta IX2 para ids con
 // delimitador "|" (page-scoped), y ninguno de los 4 del footer ni de los 18 del nav
@@ -606,18 +606,6 @@ const paginaActual = Astro.url.pathname;
   </div>
 </section>
 
-<section class="call-to-action-footer">
-  <div class="w-layout-blockcontainer container w-container">
-    <h2>{t.cierreH2}</h2>
-    <p>{t.cierreP}</p>
-    <div class="est-cta">
-      <a href={`${base}/contact-us/get-a-quote`} class="button w-button">{t.cierreA}</a>
-      <a href={`${base}/contact-us/schedule-a-visit`} class="button secundary w-button">
-        {t.cierreB}
-      </a>
-    </div>
-  </div>
-</section>
 
 <script is:inline set:html={`window.__ESTIMADOR__ = ${datos};`} />
 
@@ -1583,12 +1571,6 @@ const paginaActual = Astro.url.pathname;
     text-decoration: underline;
   }
 
-  .est-cta {
-    flex-wrap: wrap;
-    gap: .5rem;
-    margin-top: 1.25rem;
-    display: flex;
-  }
 
   /* --- sin JS --- */
   .est-noscript {
