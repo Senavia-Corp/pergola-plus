@@ -132,7 +132,7 @@ export const EXCLUIDOS = {
 
   // --- por encima del pliegue: medido a 1440, 1280, 768 y 375 px ---
   'c9dbcfe6-6f76-b9b3-3799-240503e34f8f': '.block-hero-homepage — heroe, y=160 a 1440x900',
-  '8533b1f7-0818-2072-e3ec-d0f0e9b6e8f4': '.hero-block-video — heroe de la home, y=363',
+  '8533b1f7-0818-2072-e3ec-d0f0e9b6e8f4': '.hero-block-video — heroe de la home, y=593 (era 363: el bloque bajo al pie del video)',
   'cf48fa22-3cea-52a9-6d36-bc35400a50f6': '.wrapper-hero-product — heroe de 76 paginas, y=622',
   '15b709b4-f6d7-0064-6f7b-160d6783adab': '.wrapper-hero-page — heroe de 32 paginas, y=193',
   'a2dcf6a0-e1bf-85de-d1a1-e972da6081a2': '.hero-grid — heroe de marcas, y=213',

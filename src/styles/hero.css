@@ -20,3 +20,83 @@
     max-width: 880px;
   }
 }
+
+/*
+ * El bloque del hero, abajo a la izquierda — como la ficha de producto.
+ *
+ * POR QUE. Centrado, el texto se comia justo la banda central del video, que es donde
+ * esta el sujeto (la casa, la pergola, la piscina). Medido a 1440: el bloque ocupaba
+ * de y=363 a y=556 sobre un video de 834 px de alto, o sea el 23% del alto y
+ * exactamente el tercio del medio. Bajandolo, el sujeto queda libre y el texto cae
+ * sobre la zona inferior, que en este video es suelo y cesped: menos detalle que
+ * tapar y fondo mas uniforme para leer encima.
+ *
+ * Y ademas lo alinea con el resto del sitio: las 17 fichas de detalle ya llevan su
+ * hero asi (.wrapper-hero-product, abajo a la izquierda, a x=95 en el contenedor de
+ * 1250). Ahora la home entra por la misma puerta que las demas paginas.
+ *
+ * El eje horizontal no se toca: el bloque ya vive dentro del .container de 1250, asi
+ * que quitarle el margen izquierdo automatico lo deja en x=95, la misma linea que el
+ * h1 de producto. No hace falta reposicionar nada.
+ */
+.wrapper-hero-video {
+  align-items: flex-end;
+  padding-bottom: 3rem;
+  /*
+   * El velo pasa de plano a degradado. El de Webflow era un 55% de negro UNIFORME
+   * sobre todo el video: pagaba contraste en la imagen entera para dar legibilidad a
+   * un texto que solo ocupaba el centro.
+   *
+   * Ahora el peso esta donde esta el texto. Los 85 px de arriba los tapa la barra de
+   * navegacion, que es opaca (rgb(58,84,91)), asi que ahi el velo no lo necesita
+   * nadie: el 0,35 inicial solo suaviza el corte por debajo de la barra.
+   *
+   * El 0,72 del fondo no es a ojo: blanco sobre negro al 72% encima del fotograma mas
+   * claro del video (sRGB ~0,85) da un compuesto de ~0,24 y un contraste de 9,8:1,
+   * con margen de sobra sobre el 4,5:1 que pide AA. Con 0,45 se quedaria en 4,5 justo
+   * —y un video cambia de fotograma—.
+   */
+  background-image: linear-gradient(
+    180deg,
+    #00000059 0%,
+    #00000026 22%,
+    #00000026 46%,
+    #000000b8 88%,
+    #000000c4 100%
+  );
+}
+
+.hero-block-video {
+  text-align: left;
+  align-items: flex-start;
+  margin-left: 0;
+}
+
+/*
+ * El parrafo, en DOS lineas parejas.
+ *
+ * A 880 px partia como le venia: 122 caracteres en la primera y «Florida living.» —15—
+ * solo en la segunda. El tope no es un numero bonito: 660 px son ~91 caracteres a esta
+ * fuente, lo justo para que quepan en dos lineas los dos idiomas (149 caracteres en
+ * ingles, 178 en español, que es el largo) y ninguno se vaya a tres.
+ *
+ * `balance` es quien las iguala. Sin el, el tope solo garantiza «dos lineas», no «dos
+ * lineas del mismo largo», que es lo que se pide. `pretty` no vale aqui: optimiza la
+ * ULTIMA linea, no el reparto.
+ *
+ * Solo de 768 px para arriba. En un movil de 390 px el parrafo son 358 px de ancho:
+ * dos lineas pedirian 5 px por caracter, que no existen. Ahi parte donde toque.
+ */
+@media (min-width: 768px) {
+  .hero-block-video > div:not([class]) {
+    max-width: 660px;
+    text-wrap: balance;
+  }
+}
+
+/* En movil el bloque sigue abajo, pero pegado: la altura del hero es 550 px, no 900. */
+@media (max-width: 767px) {
+  .wrapper-hero-video {
+    padding-bottom: 2rem;
+  }
+}

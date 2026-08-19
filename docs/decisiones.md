@@ -702,3 +702,41 @@ de `.faq_item` no se cambió una sola clase, y `check:animaciones` afirma que lo
 eventos que no son entrada siguen intactos. Verificado con un clic real en las tres
 anchuras: la respuesta abre en las 17.
 
+## El hero de la home baja al pie: el video era el contenido y el texto lo tapaba
+
+Centrado, el bloque del hero ocupaba de y=363 a y=556 sobre un video de 834 px —el
+tercio central justo, que es donde estan la casa, la pergola y la piscina—. El texto
+no competia con el fondo: competia con el argumento de venta.
+
+Ahora va abajo a la izquierda, exactamente como el hero de las 17 fichas de detalle
+(`.wrapper-hero-product`). Medido a 1440: el bloque arranca en y=593, empieza en x=95
+—la misma linea vertical que el h1 de producto, porque los dos cuelgan del `.container`
+de 1250— y deja 48 px hasta el marquee de logos. El eje horizontal no hubo que
+calcularlo: bastaba con quitarle a `.hero-block-video` el margen izquierdo automatico.
+
+**El velo pasa de plano a degradado.** Webflow ponia un 55% de negro UNIFORME sobre
+todo el video: pagaba contraste en la imagen entera para dar legibilidad a un texto
+que solo ocupaba el centro. Ahora el peso esta donde esta el texto (0,72 abajo) y la
+franja central se queda en 0,15, que es lo que deja verse el video. Arriba no hace
+falta casi nada: los primeros 85 px los tapa la barra de navegacion, que es opaca
+(`rgb(58,84,91)`).
+
+El 0,72 sale de una cuenta, no del ojo: blanco sobre negro al 72% encima del fotograma
+mas claro (sRGB ~0,85) da un compuesto de ~0,24 y **9,8:1**. Con 0,45 daria 4,5:1
+clavado, y un video cambia de fotograma. Verificado despues sobre pixeles reales del
+build —recortando la banda del parrafo y midiendo su luminancia media— sale un suelo
+de **6,5:1 a 6,7:1** en escritorio y **5,4:1** en movil. Es un suelo y no un techo: el
+promedio incluye los propios pixeles blancos del texto, asi que el fondo real esta mas
+oscuro.
+
+**El parrafo, en dos lineas parejas.** A 880 px partia donde le venia: 122 caracteres
+en la primera y `Florida living.` —15— solo en la segunda. El tope de 660 px son ~91
+caracteres a esta fuente: lo justo para que los dos idiomas quepan en dos lineas
+(149 caracteres en ingles, 178 en español) sin que ninguno se vaya a tres. Quien las
+iguala es `text-wrap: balance`; el tope solo garantiza «dos lineas», no «dos lineas
+del mismo largo». Medido: 501/454 px en ingles y 649/589 en español, 9% de diferencia
+en los dos.
+
+Nada de esto aplica por debajo de 768 px. En un movil de 390 el parrafo mide 358 px de
+ancho: dos lineas pedirian 5 px por caracter. Ahi parte donde toque y el bloque sigue
+abajo, dejando libre el 48% superior del video.
