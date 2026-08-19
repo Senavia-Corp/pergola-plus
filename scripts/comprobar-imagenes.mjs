@@ -2,11 +2,16 @@
 /**
  * Puerta de imagenes: demuestra que TODO lo que el sitio pinta esta en local.
  *
- * Los binarios NO estan en git (.gitignore: assets-migracion/content, /design,
- * public/cms-img, public/videos). Solo se versiona manifest.json. Eso significa
- * que en cualquier clon limpio —y en Vercel— las imagenes del CMS no existen
- * hasta que alguien ejecuta instalar-assets.mjs, y ese script lee de
- * ~/Downloads. Una cadena que nadie comprueba es una cadena que ya esta rota.
+ * Todo lo que el sitio pide SI esta en git: public/images, public/cms-img y los
+ * dos videos que el HTML referencia. El staging (assets-migracion/{content,design})
+ * sigue fuera, y se reconstruye desde ~/Downloads con instalar-assets.mjs.
+ *
+ * No siempre fue asi, y por eso existe el check 4b. public/cms-img y public/videos
+ * estuvieron en .gitignore mientras el proyecto desplegaba por `git push`: Vercel
+ * construye desde un CLON, alli no existian, y 429 urls devolvian 404 en el sitio
+ * desplegado con esta puerta en verde — porque comprobaba el disco de esta maquina,
+ * que es justo donde instalar-assets.mjs los acababa de poner. Estar en disco no
+ * demuestra nada sobre lo que se despliega. El invariante es estar versionado.
  *
  * Se ejecuta sobre dist/ DESPUES de npm run build, igual que check:blog:
  * lo que importa no es lo que dice el manifest, es lo que pide el HTML servido.
@@ -106,8 +111,8 @@ const mapa = JSON.parse(await fs.readFile(path.join(RAIZ, 'src/lib/img-map.json'
 // La comprobacion que de verdad importa: no lo que el manifest promete, sino lo
 // que el HTML construido va a pedirle al navegador. Cubre src/ y srcset, url()
 // del CSS en linea, y los <video>/<source>.
+const pedidas = new Map();   // ruta -> quien la pide
 {
-  const pedidas = new Map();   // ruta -> quien la pide
   for (const f of await listar(DIST)) {
     if (!/\.(html|css|js|xml)$/.test(f)) continue;
     const txt = await fs.readFile(path.join(DIST, f), 'utf8');
@@ -125,6 +130,25 @@ const mapa = JSON.parse(await fs.readFile(path.join(RAIZ, 'src/lib/img-map.json'
       faltan.push(`${r}   <- dist/${quien}`);
   decir(!faltan.length, `las ${pedidas.size} rutas de asset que pide dist/ existen en public/`, faltan);
   console.log(`         (${pedidas.size} rutas unicas referenciadas)`);
+}
+
+// --- 4b. ...y ademas esta en git --------------------------------------------
+// El check 4 mira el disco de ESTA maquina, donde instalar-assets.mjs acaba de
+// dejarlo todo. Vercel no ve este disco: clona el repo. Lo que no este versionado
+// no llega, y el sintoma es exactamente el que ya se produjo — 404 en el sitio
+// desplegado con la puerta local en verde. Mismo patron que el check 6b.
+{
+  const { execSync } = await import('node:child_process');
+  const enGit = new Set(
+    execSync('git ls-files public', { cwd: RAIZ, encoding: 'utf8' }).split('\n').filter(Boolean),
+  );
+  const sinVersionar = [];
+  for (const [r, quien] of pedidas) {
+    const rel = 'public' + decodeURIComponent(r);
+    if (!enGit.has(rel)) sinVersionar.push(`${rel}   <- dist/${quien}`);
+  }
+  decir(!sinVersionar.length,
+    `las ${pedidas.size} rutas que pide dist/ estan versionadas en git`, sinVersionar);
 }
 
 // --- 5. Cero dependencias del CDN de Webflow --------------------------------

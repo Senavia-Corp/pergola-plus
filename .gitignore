@@ -31,14 +31,18 @@ pnpm-debug.log*
 assets-migracion/design/
 assets-migracion/content/
 
-# Imagenes del CMS servidas en local durante la Fase 1.
-# Provisional: en la Fase 3 las sirve el CDN de Sanity y esta carpeta se borra.
-# Se regenera con: node scripts/instalar-assets.mjs
-public/cms-img/
+# public/cms-img/ (503 archivos, 116 MB) SI va a git a proposito, aunque sea
+# provisional hasta el CDN de Sanity en la Fase 3. El sitio despliega por
+# `git push` y Vercel construye desde un CLON: mientras estuvo ignorada, las 427
+# urls del CMS devolvian 404 en el sitio desplegado y en local todo pasaba en
+# verde. Lo comprueba el check 4b de comprobar-imagenes.mjs.
 
-# Videos del hero (47 MB). Se regeneran con instalar-assets.mjs.
-# En la Fase 2 se mueven a Vercel Blob o a Sanity.
-public/videos/
+# Videos del hero. Solo se versionan los 2 que el HTML pide de verdad (18 MB).
+# El .mp4 sin sufijo (27 MB) y el _poster.jpg no los referencia ninguna pagina:
+# instalar-assets.mjs los copia igual, pero no hace falta desplegarlos.
+public/videos/*
+!public/videos/Bd-video-pergola-plus-Final_mp4.mp4
+!public/videos/Bd-video-pergola-plus-Final_webm.webm
 
 # Leads recibidos en local por /api/lead. Datos personales reales: NO van a git.
 # Se regenera solo, enviando cualquiera de los 3 formularios.

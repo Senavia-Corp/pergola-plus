@@ -18,9 +18,10 @@
  *                       Las paginas estaticas migran con un cambio de ruta
  *                       trivial: "images/x" -> "/images/x". Sin helper.
  *
- *   public/cms-img/  <- las 472 imagenes del CMS, con la estructura del staging.
+ *   public/cms-img/  <- las 503 imagenes del CMS, con la estructura del staging.
  *                       Provisional: en la Fase 3 las sirve el CDN de Sanity y
- *                       esta carpeta se borra. Va en .gitignore.
+ *                       esta carpeta se borra. SI esta en git: el sitio despliega
+ *                       desde un clon y sin versionarlas Vercel sirve 404.
  *
  *   src/lib/img-map.json <- URL de Webflow -> { src, alt }. Lo consume
  *                       src/lib/img.ts, que es lo que usan las plantillas de CMS.
@@ -115,15 +116,22 @@ for (const [remoto, local] of Object.entries(PLACEHOLDERS)) {
 }
 
 // 2c. videos ------------------------------------------------------------------
-// 47 MB. NO van a git (.gitignore), pero el hero de la home los necesita para
-// renderizar. En la Fase 2 se deciden a Vercel Blob o assets de Sanity.
+// El hero de la home los necesita. De los 4 del export solo 2 los pide el HTML
+// (_mp4.mp4 y _webm.webm) y son los 2 que estan en git; el .mp4 sin sufijo (27 MB)
+// y el _poster.jpg se copian aqui pero .gitignore los deja fuera.
+//
+// NO se borra el destino antes de copiar: ver el porque en el bloque 1. Ahora que
+// hay archivos versionados aqui, un `rm -rf` los tiraria en cada ejecucion.
 const destVid = path.join(RAIZ, 'public/videos');
-await fs.rm(destVid, { recursive: true, force: true });
 const nVid = await copiarDir(path.join(EXPORT, 'videos'), destVid);
 
 // 3. imagenes del CMS, provisional hasta Sanity -------------------------------
+// Tampoco se borra el destino: esta carpeta esta versionada. El `rm -rf` que habia
+// aqui es la misma clase de fallo que se llevo 20 archivos de public/images/ —
+// invisible, porque el copiado posterior deja la carpeta casi igual. Si el staging
+// deja de traer un archivo, lo canta `git status` y el aviso de huerfanas del
+// check:imagenes; borrar a ciegas no.
 const destCms = path.join(RAIZ, 'public/cms-img');
-await fs.rm(destCms, { recursive: true, force: true });
 const nCms = await copiarDir(path.join(STAGING, 'content'), destCms);
 
 // 4. mapa URL de Webflow -> ruta local ----------------------------------------
@@ -163,7 +171,7 @@ console.log(`  public/images/    ${nImg + nExtra + nPh} archivos  (${nImg} del e
 if (saltadas) {
   console.log(`  ${' '.repeat(18)}${saltadas} NO sobrescritas: regeneradas con IA (assets-migracion/regeneradas.json)`);
 }
-console.log(`  public/videos/    ${nVid} archivos  (provisional: no van a git)`);
+console.log(`  public/videos/    ${nVid} archivos  (2 versionados; el resto fuera por .gitignore)`);
 console.log(`  public/cms-img/   ${nCms} archivos`);
 console.log(`  src/lib/img-map.json  ${Object.keys(mapa).length} urls mapeadas`);
 console.log(`\n  el HTML original pide ${pide.size} imagenes de images/  ->  faltan ${faltan.length}`);
