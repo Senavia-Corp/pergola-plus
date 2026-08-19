@@ -127,3 +127,85 @@
     transform: translateX(calc(-100% / 8));
   }
 }
+
+/* ===========================================================================
+ * LAS DOS FILAS DE FOTOS, EN SENTIDOS CONTRARIOS
+ *
+ * Estaban muertas igual que lo estaba la barra de logos: el script de Finsweet que
+ * las movia en Webflow no viaja con la migracion, asi que quedaban dos rejillas de
+ * fotos quietas, cortadas por los bordes y sin nada que indicara que debian moverse.
+ *
+ * Mismo mecanismo que los logos —pista duplicada por el generador y un translate por
+ * juego— con dos diferencias:
+ *
+ *   - DOS pistas, no una, y cada una con su sentido. El atributo
+ *     `data-pp-marquee-fotos` que pone transformar.mjs lleva el lado, asi que el
+ *     sentido se decide en el CSS y no duplicando keyframes a ojo.
+ *   - 2 juegos y no 8: cada juego son 10 fotos de ~300-370 px (~3.300 px), asi que
+ *     la tira cubre hasta 3.300 px de viewport. Los logos necesitan 8 porque cada
+ *     uno mide ~110 px.
+ *
+ * ESTADO POR DEFECTO = quietas. Sin la media query, o en un navegador que no la
+ * entienda, se ven las 10 fotos de siempre sin recorte raro. La animacion es
+ * decoracion y se anade encima, nunca al reves.
+ *
+ * 60s y lineal: es un fondo, no un carrusel. A esta velocidad una foto tarda ~6 s en
+ * cruzar, que se lee como movimiento y no distrae de la lectura.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-pp-marquee-fotos] {
+    /* `max-content` para que la pista no se comprima al ancho del contenedor: si se
+       comprime, el translate por porcentaje se calcula sobre un ancho equivocado y
+       el salto deja de coincidir con un juego exacto. */
+    width: max-content;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    will-change: transform;
+    animation-duration: 60s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  /* El salto mide UN juego de dos, o sea el 50% de la pista. Con las copias
+     detras, el fotograma final es identico al inicial y el bucle no se ve. */
+  [data-pp-marquee-fotos='right'] {
+    animation-name: pp-marquee-fotos-izq;
+  }
+
+  [data-pp-marquee-fotos='left'] {
+    animation-name: pp-marquee-fotos-der;
+  }
+
+  /* Que se pueda parar para mirar una foto, con raton y con teclado. */
+  [data-pp-marquee-fotos]:hover,
+  [data-pp-marquee-fotos]:focus-within {
+    animation-play-state: paused;
+  }
+}
+
+/*
+ * Los dos sentidos, con su estado final EXPLICITO en los dos extremos.
+ *
+ * Un `@keyframes` de un solo `from` obliga a jugar con `backwards`/`both` y ahi es
+ * donde se cuelan los estados pegados; con los dos fotogramas escritos no hace falta
+ * fill-mode ninguno.
+ */
+@keyframes pp-marquee-fotos-izq {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pp-marquee-fotos-der {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

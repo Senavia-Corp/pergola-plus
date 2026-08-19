@@ -117,12 +117,19 @@ label.text-block-6 {
   cursor: pointer;
 }
 
-.pp-progreso {
+/* «Paso 2 de 3» del formulario multipaso.
+ *
+ * Se llamaba `.pp-progreso`, IGUAL que la barra de lectura del blog, que iba
+ * `position: fixed`. Nunca coincidieron en la misma pagina, asi que el choque no
+ * llego a verse — pero bastaba con que un formulario apareciera en un articulo para
+ * que este contador saliera fijado bajo el nav. Se desambigua ahora que la otra se
+ * retira, que es cuando es gratis. */
+.pp-paso {
   color: var(--terceary, #3a545b);
   font-size: 15px;
   margin-bottom: 0.75rem;
 }
 
-.pp-progreso[hidden] {
+.pp-paso[hidden] {
   display: none;
 }

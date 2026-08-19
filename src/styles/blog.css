@@ -929,76 +929,17 @@
   }
 }
 
-/* ------------------------------------------------- barra de progreso -- */
-
-.pp-progreso {
-  position: fixed;
-  top: 85px; /* justo debajo del nav fixed */
-  left: 0;
-  z-index: 6;
-  width: 100%;
-  height: 3px;
-  background: transparent;
-  pointer-events: none;
-}
-
-.pp-progreso span {
-  display: block;
-  height: 100%;
-  width: 100%;
-  background-color: var(--primary);
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-}
-
-/*
- * El avance sale del scroll, sin JavaScript.
+/* La barra de progreso de lectura se retiro por peticion del cliente.
  *
- * DOS GUARDAS, las dos necesarias:
+ * Iba `position: fixed` a `top: 85px` —la altura del nav— y esa cifra deja de ser
+ * cierta en cuanto el nav cambia de alto, asi que se cruzaba por encima del texto
+ * del articulo. Era decoracion, no informacion (iba `aria-hidden`), de modo que se
+ * quita entera en vez de perseguir el numero magico.
  *
- * 1. `@supports`. Sin el, un navegador sin animation-timeline (Safari, Firefox a
- *    dia de hoy) ignora esa linea pero SI aplica el resto: la animacion correria
- *    una vez al cargar, de 0 a 100% en un segundo, y `both` la dejaria fijada
- *    LLENA. Una barra de progreso al 100% nada mas entrar es peor que no tenerla.
- *    Con la guarda esos navegadores se quedan en el `scaleX(0)` de base, o sea
- *    una barra invisible: es decoracion, no informacion.
- *
- *    Ojo a la diferencia con la entrada del listado, que tambien usa
- *    animation-timeline pero SIN guarda: alli el fotograma final es el estado
- *    correcto en reposo (visible), asi que correr la animacion de golpe es
- *    justamente el degradado que se busca. Aqui el final es el estado equivocado.
- *
- * 2. Propiedades largas, nunca el atajo `animation`. El minificador fusiona el
- *    atajo con animation-timeline y el navegador tira la declaracion entera (ya
- *    paso en el listado; ver comprobar-blog.mjs).
+ * Con ella se va su comprobacion en comprobar-blog.mjs: vigilaba que la animacion
+ * quedara dentro del @supports, y sin barra no hay animacion que vigilar.
  */
-@supports (animation-timeline: scroll(root)) {
-  @media (prefers-reduced-motion: no-preference) {
-    .pp-progreso span {
-      animation-name: pp-avance;
-      animation-duration: 1s;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: scroll(root block);
-    }
-  }
-}
 
-@keyframes pp-avance {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* ----------------------------------------------------------- relacionados -- */
-
-.pp-relacionados {
-  border-top: 1px solid var(--gray);
-  padding: 3rem 2rem 0;
-}
 
 .pp-relacionados h2 {
   margin: 0.5rem 0 1.5rem;

@@ -1041,6 +1041,96 @@ function duplicarMarquee(html) {
 }
 
 /**
+ * Juegos que lleva cada pista de FOTOS. Dos bastan y no son un numero al azar.
+ *
+ * La animacion salta UN juego por vuelta, asi que hace falta al menos otro detras
+ * para tapar el salto. El techo de ancho al que la tira se ve entera es
+ * (JUEGOS - 1) juegos: aqui cada juego son 10 fotos de ~300-370 px, o sea ~3.300 px,
+ * de modo que con 2 juegos la tira cubre hasta 3.300 px de viewport. De sobra.
+ *
+ * Los logos necesitan 8 porque cada logo mide ~110 px y su juego se queda en ~700.
+ */
+export const MARQUEE_FOTOS_JUEGOS = 2;
+
+/** Las dos pistas de fotos, en el orden en que se recorren. */
+const MARQUEE_FOTOS = ['right', 'left'].map((lado) => ({
+  lado,
+  lista: `<div fs-marquee-element="list" role="list" class="fs-marquee-picture-${lado}_list w-dyn-items">`,
+  item: new RegExp(
+    `^<div fs-marquee-element="item" role="listitem" class="fs-marquee-picture-${lado}_item w-dyn-item">`
+    + '<img\\b[^>]*\\/><\\/div>',
+  ),
+}));
+
+/**
+ * Duplica las DOS pistas de fotos y las marca para animarlas.
+ *
+ * Mismo mecanismo que duplicarMarquee() para los logos, y por las mismas razones: se
+ * para si el ancla no aparece o si una pista se queda sin items, porque el fallo que
+ * importa es el silencioso — un ancla que deja de casar escribiria la pagina sin
+ * duplicar, la tira se quedaria corta y al llegar al final saltaria a un hueco
+ * blanco, sin romper el build.
+ *
+ * Cada pista lleva `data-pp-marquee-fotos` con su lado: de ahi cuelga el sentido de
+ * la animacion en marquee.css, para que las dos filas corran en direcciones
+ * contrarias.
+ */
+function duplicarMarqueeFotos(html) {
+  let salida = html;
+
+  for (const pista of MARQUEE_FOTOS) {
+    if (!salida.includes(pista.lista)) continue;
+
+    const trozos = salida.split(pista.lista);
+    if (trozos.length !== 2) {
+      throw new Error(
+        `[marquee-fotos] se esperaba UNA pista "${pista.lado}" y hay ${trozos.length - 1}`,
+      );
+    }
+
+    let resto = trozos[1];
+    const items = [];
+    for (;;) {
+      const m = resto.match(pista.item);
+      if (!m) break;
+      items.push(m[0]);
+      resto = resto.slice(m[0].length);
+    }
+
+    if (items.length === 0) {
+      throw new Error(
+        `[marquee-fotos] la pista "${pista.lado}" no trae ningun item: cambio el markup del export?`,
+      );
+    }
+
+    // Las copias salen del arbol de accesibilidad: alt vacio y aria-hidden en el
+    // item, que ademas quita el role="listitem" duplicado — si no, un lector de
+    // pantalla anunciaria una lista con el doble de fotos de las que hay.
+    const copias = items
+      .map((it) =>
+        it
+          .replace(/\salt="[^"]*"/, ' alt=""')
+          .replace(
+            `<div fs-marquee-element="item"`,
+            `<div aria-hidden="true" fs-marquee-element="item"`,
+          ),
+      )
+      .join('');
+
+    salida =
+      trozos[0]
+      + pista.lista.replace(
+        '<div fs-marquee-element="list"',
+        `<div data-pp-marquee-fotos="${pista.lado}" fs-marquee-element="list"`,
+      )
+      + items.join('') + copias.repeat(MARQUEE_FOTOS_JUEGOS - 1)
+      + resto;
+  }
+
+  return salida;
+}
+
+/**
  * `ruta` es opcional y solo la usa el paso 6b, para no dejar un enlace a si misma
  * en la pagina de testimonios. Las paginas de detalle no la pasan: ninguna es esa.
  */
@@ -1263,6 +1353,7 @@ export function transformar(html, ruta) {
   //     especificidad (0,2,0) para ganarle al (0,1,0) de Webflow sin depender del
   //     orden en que salgan las hojas del build, y es el ancla de check:marquee.
   s = duplicarMarquee(s);
+  s = duplicarMarqueeFotos(s);
 
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');

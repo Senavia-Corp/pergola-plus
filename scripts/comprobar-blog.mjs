@@ -192,25 +192,15 @@ decir(/"wordCount":\s*\d+/.test(uno), 'wordCount en el BlogPosting');
 decir(uno.includes('"dateModified"'), 'dateModified en el BlogPosting');
 
 /*
- * La barra de progreso tiene que quedar DENTRO de @supports.
- *
- * Sin esa guarda, un navegador sin animation-timeline aplica el resto de la regla:
- * la animacion corre una vez al cargar y `both` deja la barra fijada al 100%. Una
- * barra de progreso llena nada mas entrar es peor que no tener barra.
+ * La barra de progreso de lectura se retiro por peticion del cliente, asi que aqui
+ * ya no hay animacion de scroll que vigilar. Se conserva UNA afirmacion: que no
+ * vuelva. Si alguien la reintroduce, vuelve con ella el `position: fixed` a la
+ * altura del nav escrita a mano, que es lo que la cruzaba por encima del texto.
  */
 console.log('\nbarra de progreso');
-// Nada de regex de un tiron: entre el @supports y la regla hay un @media, y
-// cualquier clase de caracteres que excluya '@' no lo cruza.
-const iSupports = cssBuild.indexOf('@supports (animation-timeline:scroll(root))');
-const iAnim = cssBuild.indexOf('.pp-progreso span{animation-name');
-decir(iSupports !== -1, 'existe el bloque @supports (animation-timeline)');
 decir(
-  iAnim !== -1 && iSupports !== -1 && iAnim > iSupports && iAnim - iSupports < 200,
-  'la animacion de la barra vive DENTRO de ese @supports',
-);
-decir(
-  !/animation:[^;]*scroll\(/.test(cssBuild),
-  'el minificador NO ha compuesto el atajo con scroll()',
+  !cssBuild.includes('pp-progreso'),
+  'la barra de progreso de lectura sigue retirada (se cruzaba sobre el texto)',
 );
 
 console.log('');

@@ -241,5 +241,82 @@ decir(
   tocanFotos,
 );
 
+
+// --- las dos filas de fotos -------------------------------------------------
+//
+// Estaban muertas igual que lo estuvo la barra de logos: el script de Finsweet que
+// las movia en Webflow no viaja con la migracion. Ahora se animan en sentidos
+// CONTRARIOS, y esta puerta vigila lo que no da error al romperse — que una pista se
+// quede sin duplicar y al llegar al final salte a un hueco blanco.
+console.log('\nlas dos filas de fotos');
+{
+  // Las dos filas viven en about-us/industries-we-serve y su gemela en /es/. Se
+  // buscan en vez de escribirlas a mano: si manana la seccion se reutiliza en otra
+  // pagina, entra sola en la comprobacion.
+  const todos = (await fs.readdir(DIST, { recursive: true })).filter((f) => f.endsWith('.html'));
+  const paginas = [];
+  const cache = new Map();
+  for (const rel of todos) {
+    const h = await fs.readFile(path.join(DIST, rel), 'utf8');
+    if (h.includes('fs-marquee-picture-right_list')) { paginas.push(rel); cache.set(rel, h); }
+  }
+  decir(paginas.length > 0, `hay paginas con las dos filas de fotos (${paginas.length})`);
+
+  for (const rel of paginas) {
+    const html = cache.get(rel);
+    for (const lado of ['right', 'left']) {
+      const marcada = html.includes(`data-pp-marquee-fotos="${lado}"`);
+      decir(marcada, `${rel}: la pista "${lado}" esta marcada para animarse`);
+      if (!marcada) continue;
+
+      const items = (html.match(new RegExp(`fs-marquee-picture-${lado}_item`, 'g')) ?? []).length;
+      // Un juego son 10 fotos; con JUEGOS=2 tienen que salir 20. Si el ancla del
+      // generador dejara de casar, saldrian 10 y la tira se quedaria corta.
+      decir(
+        items % 2 === 0 && items >= 20,
+        `${rel}: la pista "${lado}" esta duplicada (${items} items, deben ser 20)`,
+      );
+
+      // Las copias fuera del arbol de accesibilidad: si no, un lector anuncia el
+      // doble de fotos de las que hay.
+      const ocultos = (html.match(
+        new RegExp(`aria-hidden="true" fs-marquee-element="item" role="listitem" class="fs-marquee-picture-${lado}_item`, 'g'),
+      ) ?? []).length;
+      decir(
+        ocultos === items / 2,
+        `${rel}: las copias de "${lado}" van aria-hidden (${ocultos} de ${items / 2})`,
+      );
+    }
+  }
+
+  // Sentidos CONTRARIOS. Si las dos acabaran con el mismo keyframe el efecto se
+  // pierde entero y no lo dice ningun error.
+  const animDe = (lado) =>
+    css.replace(/\n/g, '').match(
+      new RegExp(`\\[data-pp-marquee-fotos=['"]?${lado}['"]?\\][^{]*\\{[^}]*animation-name:\\s*([\\w-]+)`),
+    )?.[1];
+  const a = animDe('right');
+  const b = animDe('left');
+  decir(!!a && !!b, `las dos pistas declaran animacion (${a ?? '-'} / ${b ?? '-'})`);
+  decir(a !== b, 'las dos filas NO comparten keyframe: van en sentidos contrarios');
+
+  // Mismo cuidado que la barra de logos con el minificador.
+  const reglaFotos = css.replace(/\n/g, '').match(/\[data-pp-marquee-fotos\][^{]*\{[^}]*\}/)?.[0] ?? '';
+  decir(
+    !/[;{]animation:/.test(reglaFotos),
+    'no se usa el atajo `animation:` en las filas de fotos',
+    [reglaFotos.slice(0, 160)],
+  );
+  decir(
+    /animation-duration:\s*[\d.]+m?s/.test(reglaFotos),
+    'la duracion va en propiedad larga',
+    [reglaFotos.slice(0, 160)],
+  );
+  decir(
+    /prefers-reduced-motion[^{]*\{[^@]*data-pp-marquee-fotos/.test(css.replace(/\n/g, '')),
+    'la animacion de las fotos esta dentro de un bloque prefers-reduced-motion',
+  );
+}
+
 console.log(fallos === 0 ? '\n  Todo en verde.\n' : `\n${fallos} fallo(s).\n`);
 process.exit(fallos === 0 ? 0 : 1);

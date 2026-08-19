@@ -60,6 +60,31 @@ img.icon-key-business {
 }
 
 /*
+ * LA OTRA CARA DEL MISMO FALLO: reglas que fijan solo el ANCHO.
+ *
+ * Arriba estan las clases cuyo CSS declara solo `height` y a las que el atributo les
+ * imponia el ancho. Estas son las contrarias —Webflow declara solo `width`— y el
+ * atributo les impone la ALTURA, que se nota mucho mas porque estira la fila entera:
+ *
+ *   .serve-image             1280x1280 -> 592x1024   deformada Y de doble altura que
+ *                                                    su columna de texto (385 px)
+ *   .img-center-commercial   1250x1250 -> 384x1250   estiraba su fila a 1250 px
+ *   .bbb                     300x113   -> 105x55     deformada
+ *
+ * `height: auto` devuelve la altura al calculo por proporcion. Es exactamente el
+ * espejo del `width: auto` de arriba, y hacen falta las dos: buscar solo una de las
+ * dos formas es lo que dejo estas tres sueltas en la primera pasada.
+ *
+ * `.intro-img-city` tambien es de este grupo pero lleva su propia regla mas abajo,
+ * porque ademas se estira a la altura de su columna de texto.
+ */
+img.serve-image,
+img.img-center-commercial,
+img.bbb {
+  height: auto;
+}
+
+/*
  * La foto de la seccion de introduccion: misma altura que su columna de texto.
  *
  * MISMO FALLO QUE LOS LOGOS, con otra cara. Webflow declara:

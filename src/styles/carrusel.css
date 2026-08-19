@@ -153,6 +153,47 @@
 }
 
 /*
+ * La otra galeria —la de las paginas de marca y de proyecto— con el MISMO patron.
+ *
+ * Su fila de controles es `.fs-slider-feature-gallery_navigation` y reparte tambien
+ * con `space-between`, pero al reves: las dos flechas a la izquierda y los puntos a
+ * la derecha, 625 px de por medio. Mismo problema de proximidad y ademas invertido
+ * respecto a la galeria de servicios, asi que el sitio ensenaba dos gramaticas
+ * distintas para el mismo control.
+ *
+ * Aqui los puntos son el TERCER hijo, asi que sacarlos del flujo deja las dos
+ * flechas juntas y `flex-end` las lleva a la derecha: queda igual que la otra
+ * galeria —puntos centrados, flechas a la derecha— sin tocar el orden del DOM, que
+ * es el que sigue el teclado.
+ */
+.fs-slider-feature-gallery_navigation {
+  position: relative;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.fs-slider-feature-gallery_navigation [fs-slider-element='pagination'] {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .fs-slider-feature-gallery_navigation {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .fs-slider-feature-gallery_navigation [fs-slider-element='pagination'] {
+    position: static;
+    transform: none;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/*
  * En movil hay un punto por foto y la tira de puntos se pone mas ancha que la
  * pantalla, asi que centrada por encima de las flechas se solaparian. Vuelven al
  * flujo, en su propia linea y por delante: primero «voy por la tercera», debajo
