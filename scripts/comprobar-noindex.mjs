@@ -106,14 +106,35 @@ if (!ES_PRODUCCION) {
   decir(await existe('sitemap.xml'), 'se ha escrito sitemap.xml');
   decir(await existe('resources/blog/rss.xml'), 'se ha escrito el RSS');
 
+  // Estas cuatro lo llevan A PROPOSITO, con la prop `noindex` de BaseLayout: no son
+  // contenido y responden 200 (salvo la inglesa de error, que Vercel sirve con 404).
+  // Al declararse ellas mismas no indexables, el generador del sitemap las salta
+  // solo — que es lo que impide que se cuelen por olvidar una cadena en EXCLUIR,
+  // como paso con las dos gemelas españolas.
+  const NOINDEX_A_PROPOSITO = new Set([
+    '404.html', 'thank-you/index.html',
+    'es/404/index.html', 'es/thank-you/index.html',
+  ]);
+
   const conMeta = [];
   for (const rel of htmls) {
     const html = await leer(rel);
     if (NOINDEX.test(html ?? '')) conMeta.push(rel);
   }
-  // El 404 sí puede llevarlo por su cuenta: no es contenido.
-  const indebidos = conMeta.filter((r) => !r.endsWith('404.html'));
-  decir(indebidos.length === 0, 'ninguna pagina se ha quedado con noindex', indebidos);
+  const indebidos = conMeta.filter((r) => !NOINDEX_A_PROPOSITO.has(r));
+  decir(indebidos.length === 0, 'ninguna pagina de contenido se ha quedado con noindex', indebidos);
+
+  // Y la otra mitad: que NO se les haya caido. Sin esto, quitar la prop dejaria
+  // /es/404/ respondiendo 200 con contenido de error y nada lo diria.
+  const sinMeta = [...NOINDEX_A_PROPOSITO].filter((r) => htmls.includes(r) && !conMeta.includes(r));
+  decir(sinMeta.length === 0, 'las 4 paginas que no son contenido siguen con noindex', sinMeta);
+
+  // Ninguna de ellas puede estar en el sitemap.
+  const mapa = await leer('sitemap.xml') ?? '';
+  const coladas = [...NOINDEX_A_PROPOSITO]
+    .map((r) => '/' + r.replace(/index\.html$/, '').replace(/\.html$/, '/'))
+    .filter((ruta) => mapa.includes(`${ruta}<`) || mapa.includes(`${ruta}"`));
+  decir(coladas.length === 0, 'ninguna de las 4 aparece en el sitemap (ni como loc ni como alternate)', coladas);
 }
 
 console.log('');

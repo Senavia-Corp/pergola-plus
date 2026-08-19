@@ -435,6 +435,35 @@ for (const rel of htmls) {
 }
 decir(anclasMuertas.length === 0, 'ninguna opcion es un <a> sin href', anclasMuertas);
 
+// --- bloques compartidos entre los dos idiomas ------------------------------
+//
+// CtaFinal.astro cerraba las 27 paginas del blog español —el indice, las 5
+// categorias y los 21 articulos, que son las que reciben el trafico organico— con
+// un bloque INGLES entero: titular, parrafo y los dos botones. Estaba cableado en
+// el componente, que sirve los dos idiomas desde el mismo fichero.
+//
+// La reescritura de enlaces lo empeoro en un sentido concreto: antes un boton «Get
+// A Quote» llevaba al formulario ingles —coherente aunque sin traducir—, despues
+// apunta al formulario ESPAÑOL, asi que el visitante cambiaba de idioma a mitad de
+// conversion.
+//
+// Se comprueba contra la GEMELA inglesa y no contra una lista de cadenas: cualquier
+// bloque compartido que alguien añada mañana entra solo.
+const ctaIngles = [];
+for (const rel of es) {
+  const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+  const i = html.indexOf('f00e2efe');
+  if (i === -1) continue; // esa pagina no monta el CTA
+  const bloque = html.slice(i, i + 1200);
+  const titular = bloque.match(/<h2>([^<]+)<\/h2>/)?.[1]?.trim();
+  if (titular && DIC[titular]) ctaIngles.push(`${rel}: «${titular}»`);
+}
+decir(
+  ctaIngles.length === 0,
+  'el CTA final del blog esta traducido en las paginas /es/',
+  ctaIngles,
+);
+
 // --- texto visible que NO vive en un nodo de texto --------------------------
 //
 // `traducirHtml` sustituia solo nodos de texto, asi que todo lo visible que vive en

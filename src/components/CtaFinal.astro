@@ -5,31 +5,44 @@
  *
  * Conserva `data-w-id="f00e2efe-..."`, que es la llave de su animacion IX2 dentro
  * de webflow.js. Borrarla mata la animacion sin dar ningun error.
+ *
+ * ESTABA CABLEADO EN INGLES, y por eso las 27 paginas del blog español —el indice,
+ * las 5 categorias y los 21 articulos, o sea las que reciben el trafico organico—
+ * cerraban con un bloque ingles entero: titular, parrafo y los dos botones.
+ *
+ * Y la reescritura de enlaces de astro.config.mjs lo empeoro en un sentido concreto:
+ * antes un boton «Get A Quote» llevaba al formulario ingles, que era coherente
+ * aunque estuviera sin traducir; despues apunta al formulario ESPAÑOL, asi que el
+ * visitante cambiaba de idioma a mitad de conversion.
+ *
+ * El idioma sale de la ruta, como en Nav.astro: este componente lo usan plantillas
+ * que sirven los dos idiomas desde el mismo fichero.
  */
+import { idiomaDeRuta } from '../i18n';
+import { traductor } from '../i18n/shell';
+
+const t = traductor(idiomaDeRuta(Astro.url.pathname));
 ---
 
 <section class="call-to-action-footer">
   <div class="wrapper-call-to-action">
     <div data-w-id="f00e2efe-9b56-1210-e497-b72104be4b25" class="box-call-to-action">
-      <h2>Request your free Estimate</h2>
-      <div>
-        Meet with our exterior designers for a free consultation. We'll assess your space
-        and goals to plan the installation of pergolas, patio covers, or pool enclosures.
-      </div>
+      <h2>{t('ctaTitulo')}</h2>
+      <div>{t('ctaTexto')}</div>
       {/* Estos dos venian con href="#" del sitio original. El arreglo es global:
           en las paginas generadas lo hace BOTONES_MUERTOS, en
           scripts/lib/transformar.mjs. Estas ya no se generan, asi que aqui va a
           mano — mismos destinos. */}
       <div class="process-cta">
-        <a href="/contact-us/get-a-quote" class="button w-button">Get A Quote</a>
-        <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule A Visit</a>
+        <a href="/contact-us/get-a-quote" class="button w-button">{t('getAQuote')}</a>
+        <a href="/contact-us/schedule-a-visit" class="button secundary w-button">{t('scheduleAVisit')}</a>
       </div>
     </div>
   </div>
   <img
     sizes="(max-width: 2000px) 100vw, 2000px"
     srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
-    alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties."
+    alt={t('ctaAlt')}
     src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
     loading="lazy"
     class="image-call-to-action"

@@ -16,6 +16,7 @@ type Claves =
   | 'screenEnclosures' | 'motorizedScreens' | 'carports' | 'solar' | 'sukkha'
   | 'customPergolas' | 'pavers' | 'driveways' | 'concrete' | 'deck' | 'fence'
   | 'fullRemodel'
+  | 'ctaTitulo' | 'ctaTexto' | 'ctaAlt'
   | 'aboutUsTitulo' | 'aboutUsTexto' | 'whereWeWorkTitulo' | 'whereWeWorkTexto'
   | 'brandsTitulo' | 'brandsTexto' | 'industriesTitulo' | 'industriesTexto'
   | 'blogTitulo' | 'blogTexto' | 'faqTitulo' | 'faqTexto'
@@ -42,6 +43,14 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     aboutUs: 'About Us',
     resources: 'Resources',
     contactUs: 'Contact Us',
+    ctaTitulo: 'Request your free Estimate',
+    ctaTexto:
+      "Meet with our exterior designers for a free consultation. We'll assess your space "
+      + 'and goals to plan the installation of pergolas, patio covers, or pool enclosures.',
+    ctaAlt:
+      'Luxury outdoor living in South Florida featuring a custom pool, modern pergola with '
+      + 'outdoor kitchen, tropical landscaping, and elegant patio design for high-end '
+      + 'residential properties.',
     getAQuote: 'Get a Quote',
     scheduleAVisit: 'Schedule A Visit',
 
@@ -138,6 +147,14 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     aboutUs: 'Nosotros',
     resources: 'Recursos',
     contactUs: 'Contacto',
+    ctaTitulo: 'Pida su presupuesto gratis',
+    ctaTexto:
+      'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Estudiamos '
+      + 'su espacio y sus objetivos para planificar la instalación de pérgolas, techos de '
+      + 'patio o cerramientos de piscina.',
+    ctaAlt:
+      'Vida al aire libre de lujo en el sur de Florida: piscina a medida, pérgola moderna con '
+      + 'cocina exterior, jardinería tropical y patio elegante para viviendas de alta gama.',
     getAQuote: 'Pedir presupuesto',
     scheduleAVisit: 'Agendar visita',
 

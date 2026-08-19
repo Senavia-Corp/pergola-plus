@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/rutas-vercel.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:correo",

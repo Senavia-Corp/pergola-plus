@@ -36,6 +36,18 @@ interface Props {
   ogImage?: string;
   /** URL canonica. Por defecto, la ruta actual sobre `site`. */
   canonical?: string;
+  /**
+   * Pide `noindex` aunque el build sea de produccion. Para las paginas que
+   * responden 200 y NO son contenido: las dos de gracias y la de error española
+   * (la inglesa se sirve con status 404, pero /es/404/ responde 200 y sin esto es
+   * un soft-404 de manual).
+   *
+   * No es solo una señal para el buscador: el generador del sitemap salta las
+   * paginas con noindex, asi que ponerlo AQUI hace que la lista de cadenas EXCLUIR
+   * de astro.config.mjs deje de ser la unica defensa. Una pagina que se declara a
+   * si misma no indexable no se puede colar por olvidar una cadena.
+   */
+  noindex?: boolean;
   /** Bloque <style> anti-FOUC especifico de la pagina. Copiar literal del original. */
   pageStyles?: string;
   /**
@@ -65,6 +77,7 @@ const {
   description = 'Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote.',
   ogImage,
   canonical,
+  noindex = false,
   pageStyles,
   wfPage,
   wfSite,
@@ -76,7 +89,7 @@ const {
 // olvide la variable sale noindex, que es el fallo barato; al reves seria publicar
 // una copia del sitio compitiendo con el que el cliente tiene en vivo.
 // La regla completa y las otras tres capas, en astro.config.mjs (ES_PRODUCCION).
-const indexable = import.meta.env.PUBLIC_ES_PRODUCCION === '1';
+const indexable = import.meta.env.PUBLIC_ES_PRODUCCION === '1' && !noindex;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 

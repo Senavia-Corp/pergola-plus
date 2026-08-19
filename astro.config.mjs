@@ -255,6 +255,24 @@ function sitemapYRobots() {
     'api/',           // el endpoint
   ];
 
+  /**
+   * La lista de arriba se escribio cuando el sitio era monolingue y se comparaba
+   * contra el pathname CRUDO, asi que las gemelas españolas se colaban enteras: sus
+   * pathnames son `es/404/` y `es/thank-you/`, que ni son iguales a esas cadenas ni
+   * empiezan por ellas. Resultado medido: el sitemap invitaba a Google a indexar la
+   * pagina de error española —un soft-404 de manual, porque responde 200— y una
+   * «Gracias, hemos recibido su solicitud» alcanzable desde una busqueda sin haber
+   * enviado nada.
+   *
+   * Y remataba: el bloque de /es/thank-you/ llevaba un `xhtml:link` con la
+   * /thank-you/ INGLESA, que es justo la que la exclusion se cuidaba de omitir como
+   * <loc>. La exclusion no protegia, solo desordenaba.
+   *
+   * Se quita el prefijo antes de comparar para que la regla valga en los dos
+   * idiomas sin duplicar cadenas.
+   */
+  const sinPrefijoIdioma = (pathname) => pathname.replace(/^es\//, '');
+
   return {
     name: 'pergola-sitemap-robots',
     hooks: {
@@ -297,7 +315,8 @@ function sitemapYRobots() {
         const entradas = [];
 
         for (const { pathname } of pages) {
-          if (EXCLUIR.some((e) => pathname === e || pathname.startsWith(e))) continue;
+          const sinIdioma = sinPrefijoIdioma(pathname);
+          if (EXCLUIR.some((e) => sinIdioma === e || sinIdioma.startsWith(e))) continue;
 
           const ruta = '/' + pathname;
           const archivo = path.join(raiz.pathname, pathname, 'index.html');

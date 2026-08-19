@@ -73,8 +73,19 @@ if (!htmls.length) {
   process.exit(1);
 }
 
-/** Las que no compiten en buscadores y por tanto no se les exige lo mismo. */
-const NO_INDEXABLES = new Set(['404.html', 'thank-you/index.html']);
+/**
+ * Las que no compiten en buscadores y por tanto no se les exige lo mismo.
+ *
+ * Las gemelas españolas faltaban, y ese hueco tenia dos caras: esta lista se usa
+ * mas abajo para EXIGIR que toda pagina fuera de ella este en el sitemap, asi que
+ * mientras el sitemap las incluia —por el mismo fallo monolingue de EXCLUIR en
+ * astro.config.mjs— las dos listas se daban la razon la una a la otra y la puerta
+ * salia en verde con /es/404/ ofrecido a Google.
+ */
+const NO_INDEXABLES = new Set([
+  '404.html', 'thank-you/index.html',
+  'es/404/index.html', 'es/thank-you/index.html',
+]);
 
 const ruta = (rel) => '/' + rel.replace(/index\.html$/, '').replace(/\.html$/, '');
 const decodificar = (s) => s

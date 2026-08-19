@@ -134,6 +134,19 @@ const archivoVivo = (r) =>
 const destino = (r) => (r === '/' ? 'index.astro' : r.slice(1) + '.astro');   // /404 -> 404.astro
 
 /**
+ * Rutas generadas que no son contenido y por tanto no deben indexarse.
+ *
+ * `/thank-you` responde 200 y solo tiene sentido tras enviar un formulario; `/404`
+ * lo sirve Vercel con status 404, pero se marca igual por coherencia y porque su
+ * gemela española SI responde 200.
+ *
+ * Marcarlas aqui hace que el generador del sitemap las salte solo —salta las
+ * paginas con noindex— en vez de depender de que la lista EXCLUIR de
+ * astro.config.mjs acierte con la cadena.
+ */
+const NO_INDEXABLES = new Set(['/404', '/thank-you']);
+
+/**
  * El menu anida TRES niveles de <nav>: hay que contar profundidad.
  * El 404 es la excepcion: no lleva nav ni footer, asi que se coge el <body>
  * entero menos los scripts del final.
@@ -231,6 +244,12 @@ for (const ruta of RUTAS) {
 
   const props = [
     `title=${JSON.stringify(propio.title ?? m.title ?? 'Pergola Plus Florida')}`,
+    // Las que responden 200 y NO son contenido se declaran no indexables. Va AQUI y
+    // no a mano en el .astro porque src/pages/ es salida generada: un `noindex`
+    // escrito a mano lo revierte el siguiente regenerado, en silencio y justo en las
+    // paginas donde el sintoma —una «Gracias» o un error indexados— tarda semanas en
+    // notarse. Lo caza check:generadores, que fue quien lo cazó.
+    NO_INDEXABLES.has(ruta) ? 'noindex' : null,
     (propio.description ?? m.description)
       ? `description=${JSON.stringify(propio.description ?? m.description)}` : null,
     m.ogImage ? `ogImage=${JSON.stringify(m.ogImage)}` : null,
