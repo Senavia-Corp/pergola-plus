@@ -1,0 +1,55 @@
+/*
+ * Logos e iconos: que el arreglo de CLS no los deforme.
+ *
+ * QUE PASABA
+ *
+ * `dimensionarImagenes()` (astro.config.mjs) hornea width/height como ATRIBUTOS en
+ * las 7.147 imagenes del sitio, que es lo correcto: es lo que le da al navegador la
+ * proporcion antes de descargar el archivo y evita que salte el layout.
+ *
+ * El sitio original de Webflow NO los traia —comprobado contra docs/vivo/index.html,
+ * donde estos <img> salen sin width ni height— y su CSS declara SOLO la altura:
+ *
+ *   .icon-tagline { height: 25px }        (0,1,0), sin width
+ *
+ * Con el atributo puesto, el navegador coge el ancho del ATRIBUTO y la altura de la
+ * hoja, y pinta un icono de 150x150 como 50x25. Medido en la home antes de esto:
+ * 9 imagenes deformadas, y las peores al 100% —el doble de ancho que de alto—.
+ *
+ *   .icon-tagline    150x150 -> 50x25    aplastado a la mitad
+ *   .icon-process    150x150 -> 50x75    estirado vez y media
+ *   .logo            273x150 -> 58x65    la marca del nav, 51% fuera
+ *   .logo-footer     273x150 -> 100x100  45% fuera
+ *   marquee de logos 450x200 -> 450x50   a la cuarta parte de su altura
+ *
+ * EL ARREGLO, Y POR QUE LAS DOS LINEAS
+ *
+ *   width: auto           devuelve el ancho al calculo por proporcion, asi que el
+ *                         atributo deja de contradecir a la hoja y cada logo recupera
+ *                         su forma Y su tamaño relativo.
+ *   object-fit: contain   red de seguridad. Si algo mas vuelve a fijar una caja que
+ *                         no respeta la proporcion —un max-width del contenedor, por
+ *                         ejemplo— la imagen se encaja dentro en vez de deformarse.
+ *
+ * Se seleccionan por `img.clase` y no por `.clase` a secas para subir la
+ * especificidad a (0,1,1) y ganarle a las reglas de Webflow, que son (0,1,0), sin
+ * depender del orden de carga ni de un !important.
+ *
+ * NO se toca public/css/pergola-plus-florida.webflow.css: es el export de Webflow y
+ * cualquier edicion la revierte la siguiente instalacion de assets.
+ *
+ * `.why-choose-image` queda FUERA a proposito aunque tambien tenga altura sola: es
+ * una foto con object-fit:cover, donde recortar es la intencion y no un fallo.
+ */
+img.logo,
+img.logo-footer,
+img.fs-marquee-logos_logo,
+img.icon-tagline,
+img.icon-process,
+img.icon-services,
+img.icon-social-media,
+img.icon-phone,
+img.why-choose-icon {
+  width: auto;
+  object-fit: contain;
+}

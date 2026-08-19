@@ -774,3 +774,20 @@ html.menu-movil-abierto body:before {
     transform: none;
   }
 }
+
+/*
+ * La marca no se encoge.
+ *
+ * `.brand` es un item flex del nav con `flex-shrink: 1` heredado, y la fila va justa:
+ * logo + 6 menus + 2 botones + selector de idioma. El flex le robaba ancho al logo
+ * —118 px que necesita para sus 65 de alto se quedaban en 55— y el atributo `width`
+ * que hornea el arreglo de CLS rellenaba el hueco deformandolo.
+ *
+ * Con `width: auto` (src/styles/imagenes.css) el logo ya no se deforma, pero sin esto
+ * se encogeria: la caja manda. Un logo es lo ultimo que debe ceder espacio en una
+ * barra, asi que se saca del reparto. Medido a 1093, 1280 y 1440 px: el logo queda en
+ * 118x65 y el desbordamiento horizontal sigue en 0.
+ */
+.menu .brand {
+  flex-shrink: 0;
+}
