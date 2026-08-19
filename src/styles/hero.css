@@ -1,0 +1,22 @@
+/*
+ * El titular del hero, en UNA sola linea.
+ *
+ * `.hero-block-video` viene de Webflow con `max-width: 800px`, y el titular no cabe
+ * por poco. Medido a 64px/64px:
+ *
+ *   EN  «Live Outdoors. Beautifully.»    pide 817 px  -> se partia en 2 lineas
+ *   ES  «Viva el exterior. Con estilo.»  pide 826 px  -> se partia en 2 lineas
+ *
+ * 880 px da holgura para los dos sin acercarse a la medida de linea del parrafo que
+ * va debajo, que sigue con su propio ancho.
+ *
+ * SOLO a partir de 940 px, y esto es lo que importa: por debajo, el contenedor ya lo
+ * limita el viewport y su padding, asi que un tope mas ancho no cambia nada y el
+ * titular sigue partiendo donde toca. Nada de `white-space: nowrap`: eso lo forzaria
+ * tambien en movil y desbordaria la pantalla.
+ */
+@media (min-width: 940px) {
+  .hero-block-video {
+    max-width: 880px;
+  }
+}

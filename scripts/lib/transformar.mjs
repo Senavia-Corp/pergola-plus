@@ -943,6 +943,23 @@ const ELFSIGHT_RESENAS =
 const RESENAS = '/about-us/testimonials';
 
 /**
+ * Los tres diferenciales del hero de la HOME. Se retiran por peticion del cliente.
+ *
+ * Es el bloque entero, no los tres <div> sueltos: `.tagline` es el contenedor flex
+ * que les da la fila y el hueco, asi que dejarlo vacio dejaria su margen y el <h1>
+ * no subiria. Solo esta en la home; las fichas de producto tienen su propio
+ * `.tagline-product` con otro contenido y no se tocan.
+ *
+ * Va aqui y NO editando src/contenido-migrado/estaticas/index.html, que es salida
+ * generada: un solo `node scripts/generar-paginas.mjs` se lo llevaria por delante en
+ * silencio. Es el mismo error que ya paso con el widget de resenas.
+ */
+const HERO_DIFERENCIALES =
+  '<div class="tagline"><div class="tagline-item"><img src="/images/1.svg" loading="lazy" alt="" class="icon-tagline"/><div>Licensed &amp; Insured</div></div>'
+  + '<div class="tagline-item"><img src="/images/2.svg" loading="lazy" alt="" class="icon-tagline"/><div>+10 Years of Experience</div></div>'
+  + '<div class="tagline-item"><img src="/images/3.svg" loading="lazy" alt="" class="icon-tagline"/><div>Financing Available</div></div></div>';
+
+/**
  * Juegos de logos que lleva la pista del marquee. Minimo 2: la animacion salta UN
  * juego por vuelta y hace falta al menos otro detras para tapar el salto.
  *
@@ -1273,6 +1290,19 @@ export function transformar(html, ruta) {
       ? ''
       : `<a href="${RESENAS}" class="button w-button">Read Client Reviews</a>`,
   );
+
+  // 6c. Los tres diferenciales del hero de la home, retirados por peticion del
+  //     cliente. Se comprueba que la sustitucion ocurra: si el markup cambia y este
+  //     literal deja de coincidir, el bloque volveria a salir y nadie se enteraria.
+  if (ruta === '/') {
+    if (!s.includes(HERO_DIFERENCIALES)) {
+      throw new Error(
+        '[hero] no encuentro el bloque .tagline de los 3 diferenciales en la home.\n'
+        + '  El markup ha cambiado y la retirada ya no engancha: volverian a salir.',
+      );
+    }
+    s = s.replace(HERO_DIFERENCIALES, '');
+  }
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las
