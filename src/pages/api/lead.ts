@@ -35,6 +35,10 @@ const OBLIGATORIOS: Record<string, string[]> = {
     'Street-Address', 'City', 'ZIP-Code',
     'Full-Name', 'email', 'Phone', 'SMS-Consent',
   ],
+  // El estimador NO pide la direccion de calle. Es el campo mas pesado del
+  // formulario y el comercial la saca en la llamada; a cambio, el lead llega con
+  // las quince respuestas del embudo, que valen mas para preparar esa llamada.
+  estimador: ['Full-Name', 'email', 'Phone', 'ZIP-Code', 'SMS-Consent'],
 };
 
 /**

@@ -89,7 +89,7 @@ const hostil = (idioma) => ({
 });
 
 const IDIOMAS = ['en', 'es'];
-const FORMULARIOS = ['quote', 'contact', 'footer'];
+const FORMULARIOS = ['quote', 'contact', 'footer', 'estimador'];
 
 // --- volcado para mirarlo en el navegador ----------------------------------
 const dump = process.argv.indexOf('--dump');
@@ -112,7 +112,7 @@ for (const i of IDIOMAS) {
     todos.push([`aviso ${i}/${f}`, construirAvisoLead(d, N)]);
   }
 }
-decir(todos.length === 12, `se construyen los 12 correos (2 tipos x 2 idiomas x 3 formularios)`);
+decir(todos.length === 16, `se construyen los 16 correos (2 tipos x 2 idiomas x 4 formularios)`);
 
 for (const [nombre, c] of todos) {
   if (!c.asunto?.trim()) decir(false, `${nombre}: asunto vacio`);

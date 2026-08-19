@@ -63,6 +63,8 @@ export interface Producto {
   id: string;
   /** Ruta del producto, sin prefijo de idioma. */
   href: string;
+  /** Foto de la tarjeta del paso 1. Absoluta desde public/. */
+  imagen: string;
   /** Por pie cuadrado instalado. `null` = solo cotizacion, no entra en el calculo. */
   tarifa: Tarifa | null;
   /** Estructura exenta por definicion: se salta la pregunta de montaje. */
@@ -72,16 +74,19 @@ export interface Producto {
 export const PRODUCTOS: Producto[] = [
   {
     id: 'open-air',
+    imagen: '/images/cliente/open-air-pergolas.avif',
     href: '/products/open-air-pergolas',
     tarifa: { min: 85, max: 110, fuente: 'publicada' },
   },
   {
     id: 'insulated',
+    imagen: '/images/cliente/solid-roof-pergolas.avif',
     href: '/products/solid-roof-pergolas',
     tarifa: { min: 95, max: 130, fuente: 'publicada' },
   },
   {
     id: 'polycarbonate',
+    imagen: '/images/cliente/polycarbonate-pergola.avif',
     href: '/products/polycarbonate-pergolas',
     // El mercado publica $12-20/sq ft para "policarbonato", pero eso son kits
     // prefabricados de bricolaje. Aqui el panel va sobre la MISMA estructura de
@@ -96,17 +101,20 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     id: 'louvered',
+    imagen: '/images/cliente/motorized-louvered.avif',
     href: '/products/motorized-louvered-pergolas',
     tarifa: { min: 110, max: 150, techoAbierto: true, fuente: 'publicada' },
   },
   {
     id: 'cabana',
+    imagen: '/cms-img/products/cabanas/cover-aluminum-cabana-contractors-south-florida.avif',
     href: '/products/cabanas',
     tarifa: { min: 120, max: 175, techoAbierto: true, fuente: 'publicada' },
     siempreExenta: true,
   },
   {
     id: 'screens',
+    imagen: '/images/cliente/screen-enclosure.avif',
     href: '/products/screen-enclosures',
     tarifa: {
       min: 14,
@@ -117,6 +125,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     id: 'carport',
+    imagen: '/cms-img/products/carports/cover-aluminum-carport-builders-south-florida.avif',
     href: '/products/carports',
     tarifa: {
       min: 18,
@@ -129,8 +138,8 @@ export const PRODUCTOS: Producto[] = [
   // Los dos ultimos no llevan numero. El solar depende del vataje y de la
   // interconexion con la electrica, y el Sukkha es un sistema propietario sin
   // comparable de mercado: cualquier banda seria inventada.
-  { id: 'solar', href: '/products/solar-pergolas', tarifa: null },
-  { id: 'sukkha', href: '/products/sukkha', tarifa: null },
+  { id: 'solar', imagen: '/cms-img/products/solar-pergolas/cover-solar-roof-structure-contractors-south-florida.avif', href: '/products/solar-pergolas', tarifa: null },
+  { id: 'sukkha', imagen: '/images/cliente/sukkah.avif', href: '/products/sukkha', tarifa: null },
 ];
 
 /** Los que no dan cifra y van directos a la captura. */
@@ -199,34 +208,38 @@ export const INGENIERIA: Tarifa = { min: 2000, max: 5000, techoAbierto: true, fu
 
 export type Condado = 'miami-dade' | 'broward' | 'palm-beach';
 
-/** Donde cae cada condado DENTRO de la banda publicada. Nunca fuera de ella. */
-export const POR_CONDADO: Record<Condado, { min: number; max: number }> = {
-  'miami-dade': { min: 3500, max: 5000 },
-  broward: { min: 3000, max: 5000 },
-  'palm-beach': { min: 2000, max: 4000 },
-};
-
 /**
- * Condado a partir del codigo postal, o `null` si no se reconoce.
+ * Rangos de codigo postal y donde cae cada condado DENTRO de la banda publicada.
  *
- * ponytail: por rangos de prefijo, no por la tabla completa del USPS. Los limites
- * reales no son limpios —Broward tiene enclaves en 330xx— pero estos tres rangos
- * cubren la inmensa mayoria del area de servicio, y lo que se escape cae en `null`,
- * que usa la banda publicada entera y marca el campo para la visita. Si algun dia
- * hace falta el ZIP exacto, la tabla completa va justo aqui.
+ * Es una tabla y no tres `if` porque el navegador necesita exactamente lo mismo que
+ * la puerta: serializando esto, el cliente y el servidor no pueden discrepar.
+ *
+ * ponytail: por rangos, no por la tabla completa del USPS. Los limites reales no
+ * son limpios —Broward tiene enclaves en 330xx— pero estos tres cubren la inmensa
+ * mayoria del area de servicio, y lo que se escape cae fuera, que usa la banda
+ * publicada entera y marca el campo para la visita. Si algun dia hace falta el ZIP
+ * exacto, la tabla completa va justo aqui.
  */
+export const CONDADOS: { id: Condado; desde: number; hasta: number; min: number; max: number }[] = [
+  { id: 'miami-dade', desde: 33010, hasta: 33299, min: 3500, max: 5000 },
+  { id: 'broward', desde: 33300, hasta: 33399, min: 3000, max: 5000 },
+  { id: 'palm-beach', desde: 33400, hasta: 33499, min: 2000, max: 4000 },
+];
+
+/** Condado a partir del codigo postal, o `null` si no se reconoce. */
 export function condadoDe(zip: string): Condado | null {
   const n = Number(String(zip).trim().slice(0, 5));
   if (!Number.isInteger(n)) return null;
-  if (n >= 33010 && n <= 33299) return 'miami-dade';
-  if (n >= 33300 && n <= 33399) return 'broward';
-  if (n >= 33400 && n <= 33499) return 'palm-beach';
-  return null;
+  return CONDADOS.find((c) => n >= c.desde && n <= c.hasta)?.id ?? null;
 }
 
 /** La banda de ingenieria que toca. Sin condado, la publicada entera. */
-export const ingenieriaDe = (c: Condado | null) =>
-  c ? POR_CONDADO[c] : { min: INGENIERIA.min, max: INGENIERIA.max };
+export const ingenieriaDe = (c: Condado | null) => {
+  const encontrado = c && CONDADOS.find((x) => x.id === c);
+  return encontrado
+    ? { min: encontrado.min, max: encontrado.max }
+    : { min: INGENIERIA.min, max: INGENIERIA.max };
+};
 
 // -----------------------------------------------------------------------------
 // FRENTE AL AGUA

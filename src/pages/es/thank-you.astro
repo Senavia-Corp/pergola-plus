@@ -76,11 +76,14 @@ const ESCUDO_SVG =
 <script>
   // Mismo mecanismo que la gemela inglesa: el `?de=` lo pone el endpoint (303) y
   // tambien el envio por fetch. Sin JavaScript se queda la frase por defecto, que es
-  // cierta para los tres formularios.
+  // cierta para los cuatro formularios.
   const POR_FORMULARIO = {
     quote: 'Alguien de nuestro equipo de diseño está revisando los detalles de su proyecto.',
     contact: 'Alguien de nuestro equipo está leyendo su mensaje.',
     footer: 'Ya está en la lista: le enviaremos nuestras novedades de vida al aire libre.',
+    estimador:
+      'Su estimado desglosado va camino de su correo, y un asesor de proyecto le'
+      + ' llamará en un día laborable.',
   };
   const de = new URLSearchParams(location.search).get('de');
   const intro = document.getElementById('ty-intro');

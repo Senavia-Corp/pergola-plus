@@ -172,13 +172,11 @@ decir(
 // nuevo, solo dice donde de la banda publicada cae cada jurisdiccion. Si alguien
 // sube un condado por encima del techo publicado, eso deja de ser cierto en
 // silencio y la pagina pasa a ensenar una cifra que la guia no respalda.
-const fuera = Object.entries(D.POR_CONDADO).filter(
-  ([, b]) => b.min < D.INGENIERIA.min || b.max > D.INGENIERIA.max,
-);
+const fuera = D.CONDADOS.filter((c) => c.min < D.INGENIERIA.min || c.max > D.INGENIERIA.max);
 decir(
   fuera.length === 0,
-  `los ${Object.keys(D.POR_CONDADO).length} condados caen dentro de la banda publicada de ingenieria`,
-  fuera.map(([c, b]) => `${c}: ${b.min}-${b.max} se sale de ${D.INGENIERIA.min}-${D.INGENIERIA.max}`),
+  `los ${D.CONDADOS.length} condados caen dentro de la banda publicada de ingenieria`,
+  fuera.map((c) => `${c.id}: ${c.min}-${c.max} se sale de ${D.INGENIERIA.min}-${D.INGENIERIA.max}`),
 );
 
 // condadoDe() por rangos de prefijo: los casos que importan, incluida la punta de
