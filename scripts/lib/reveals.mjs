@@ -98,9 +98,10 @@ export const CLASES = [
  * una escalera de 60 dejaria la ultima tarjeta fuera de rango.
  */
 export const REJILLAS = [
-  '.card-services', '.faq_item', '.feature-about-item', '.feature-header-item',
-  '.item-footer', '.item-kpis', '.product-card', '.product-grid-item',
-  '.serve-column-left', '.step-content', '.warranty_item', '.why-choose-item',
+  '.brands-grid-item', '.card-services', '.faq_item', '.feature-about-item',
+  '.feature-header-item', '.item-footer', '.item-kpis', '.product-card',
+  '.product-grid-item', '.projects-grid-item', '.serve-column-left',
+  '.step-content', '.warranty_item', '.why-choose-item',
 ];
 
 /**

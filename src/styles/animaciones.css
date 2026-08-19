@@ -234,6 +234,7 @@
      Con view() cada elemento tiene su propia linea de tiempo, asi que esto es lo
      que separa a las tarjetas de una MISMA fila, que entran todas a la vez. */
   :is(
+    .brands-grid-item,
     .card-services,
     .faq_item,
     .feature-about-item,
@@ -242,6 +243,7 @@
     .item-kpis,
     .product-card,
     .product-grid-item,
+    .projects-grid-item,
     .serve-column-left,
     .step-content,
     .warranty_item,
@@ -251,6 +253,7 @@
   }
 
   :is(
+    .brands-grid-item,
     .card-services,
     .faq_item,
     .feature-about-item,
@@ -259,6 +262,7 @@
     .item-kpis,
     .product-card,
     .product-grid-item,
+    .projects-grid-item,
     .serve-column-left,
     .step-content,
     .warranty_item,
@@ -268,6 +272,7 @@
   }
 
   :is(
+    .brands-grid-item,
     .card-services,
     .faq_item,
     .feature-about-item,
@@ -276,6 +281,7 @@
     .item-kpis,
     .product-card,
     .product-grid-item,
+    .projects-grid-item,
     .serve-column-left,
     .step-content,
     .warranty_item,
