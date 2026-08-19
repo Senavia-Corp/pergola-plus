@@ -139,6 +139,97 @@ for (const clase of ['est-bloque', 'est-opcion', 'est-panel', 'est-resultado', '
   decir(clases.has(clase), `.${clase} llega al CSS del build`);
 }
 
+// --- 6. Las tarifas, afirmadas sobre el modulo real --------------------------
+//
+// Node 22.12+ ejecuta TypeScript quitando los tipos, asi que la puerta importa
+// src/data/estimador.ts de verdad en vez de mirarlo como texto. Comprobar el
+// fichero con expresiones regulares habria sido comprobar la forma de las comillas.
+const D = await import('../src/data/estimador.ts');
+
+const tarifas = [
+  ...D.PRODUCTOS.map((p) => [`producto/${p.id}`, p.tarifa]),
+  ...Object.entries(D.SUPERFICIES).map(([k, t]) => [`superficie/${k}`, t]),
+  ...D.MEJORAS.map((m) => [`mejora/${m.id}`, m.tarifa]),
+  ['ingenieria', D.INGENIERIA],
+  ['waterfront', D.WATERFRONT],
+].filter(([, t]) => t);
+
+const sinNota = tarifas.filter(([, t]) => D.requiereFirma(t) && !t.nota?.trim());
+decir(
+  sinNota.length === 0,
+  'toda tarifa que no es publicada dice de donde sale',
+  sinNota.map(([d]) => `${d}: fuente distinta de 'publicada' y sin nota`),
+);
+
+const alReves = tarifas.filter(([, t]) => t.min > t.max);
+decir(
+  alReves.length === 0,
+  'ninguna banda tiene el minimo por encima del maximo',
+  alReves.map(([d, t]) => `${d}: ${t.min} > ${t.max}`),
+);
+
+// El comentario de POR_CONDADO afirma que el codigo postal no aporta un numero
+// nuevo, solo dice donde de la banda publicada cae cada jurisdiccion. Si alguien
+// sube un condado por encima del techo publicado, eso deja de ser cierto en
+// silencio y la pagina pasa a ensenar una cifra que la guia no respalda.
+const fuera = Object.entries(D.POR_CONDADO).filter(
+  ([, b]) => b.min < D.INGENIERIA.min || b.max > D.INGENIERIA.max,
+);
+decir(
+  fuera.length === 0,
+  `los ${Object.keys(D.POR_CONDADO).length} condados caen dentro de la banda publicada de ingenieria`,
+  fuera.map(([c, b]) => `${c}: ${b.min}-${b.max} se sale de ${D.INGENIERIA.min}-${D.INGENIERIA.max}`),
+);
+
+// condadoDe() por rangos de prefijo: los casos que importan, incluida la punta de
+// cada rango y el ZIP que no es de aqui.
+const CASOS = [
+  ['33139', 'miami-dade'], // Miami Beach
+  ['33010', 'miami-dade'], // primera del rango
+  ['33299', 'miami-dade'], // ultima del rango
+  ['33301', 'broward'], // Fort Lauderdale
+  ['33432', 'palm-beach'], // Boca Raton
+  ['33499', 'palm-beach'], // ultima del rango
+  ['90210', null], // fuera del area de servicio
+  ['', null], // campo vacio
+  ['no soy un zip', null], // basura
+];
+const malos = CASOS.filter(([zip, esperado]) => D.condadoDe(zip) !== esperado);
+decir(
+  malos.length === 0,
+  `condadoDe() acierta los ${CASOS.length} casos, incluidas las puntas de rango y la basura`,
+  malos.map(([z, e]) => `"${z}" -> ${D.condadoDe(z)}, se esperaba ${e}`),
+);
+
+// Cada producto apunta a una pagina que existe. check:enlaces cubre los enlaces
+// del HTML servido, pero un producto que nunca se llega a pintar —los de solo
+// cotizacion, por ejemplo— no deja enlace que auditar.
+const existe = async (href) =>
+  fs
+    .access(path.join(DIST, href.replace(/^\//, ''), 'index.html'))
+    .then(() => true)
+    .catch(() => false);
+const rotos = (
+  await Promise.all(D.PRODUCTOS.map(async (p) => ((await existe(p.href)) ? null : p)))
+).filter(Boolean);
+decir(
+  rotos.length === 0,
+  `los ${D.PRODUCTOS.length} productos apuntan a una pagina construida`,
+  rotos.map((p) => `${p.id} -> ${p.href} no existe en dist/`),
+);
+
+// --- 7. Lo que falta por firmar ---------------------------------------------
+//
+// No es un fallo: es la lista, impresa en cada build para que no haya que
+// reconstruirla a mano el dia que Pergola Plus pregunte que tiene que validar.
+const pendientes = D.pendientesDeFirma();
+if (pendientes.length) {
+  console.log(`\n  ---   ${pendientes.length} tarifas pendientes de firma de Pergola Plus:`);
+  for (const { donde, tarifa } of pendientes) {
+    console.log(`         ${donde.padEnd(28)} ${tarifa.min}-${tarifa.max}  (${tarifa.fuente})`);
+  }
+}
+
 if (fallos) {
   console.log(`\n${fallos} fallo(s).`);
   process.exit(1);
