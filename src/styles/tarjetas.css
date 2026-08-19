@@ -72,6 +72,31 @@
   box-shadow: var(--pp-card-sombra);
 }
 
+/* --- el panel oscuro ocupa SIEMPRE el ancho de la tarjeta -------------------
+   Esto va antes que el max-width de abajo porque es su consecuencia, y sin ello
+   el max-width deja un marco crema.
+
+   Las tres tarjetas son `flex-flow: column` con `align-items: center`, asi que
+   sus hijos NO se estiran: se encogen a su contenido y se centran. Lo que hasta
+   ahora empujaba el panel oscuro a ancho completo era el max-content del
+   parrafo, que sin limitar es el texto entero en una linea — cientos de px mas
+   que la tarjeta. Es decir: el ancho del panel dependia, por accidente, de que
+   el parrafo no tuviera medida.
+
+   Al limitar la medida a 60ch ese puntal desaparece y el panel se queda en
+   529,9 + 64 de padding = 593,9 px. Medido: en tarjetas de 617 px asomaban
+   11,5 px de crema por lado, y en las de 609 px otros 7,5 — pero solo en las
+   que ademas tenian el titulo corto, porque en las demas el h3 seguia
+   empujando. De ahi que el sintoma pareciera aleatorio.
+
+   `align-self: stretch` separa las dos cosas que nunca debieron ir juntas: el
+   ancho del PANEL lo fija la tarjeta, el de la MEDIDA lo fija el max-width. */
+.product-card-body-page,
+.projects-card-body-page,
+.brands-card-body-page {
+  align-self: stretch;
+}
+
 /* --- tipografia del cuerpo -------------------------------------------------
    12px/300 sobre fondo oscuro y a 553 px de ancho era el peor de los tres
    factores a la vez. 14px/400 y la medida limitada a 60ch: la rejilla no se
