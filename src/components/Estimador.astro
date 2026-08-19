@@ -122,7 +122,10 @@ const datos = JSON.stringify({
   ingenieria: { min: INGENIERIA.min, max: INGENIERIA.max },
   waterfront: { min: WATERFRONT.min, max: WATERFRONT.max },
   limites: { min: MIN_FT, max: MAX_FT },
-  textos: t.cliente,
+  // `panelVacio` se pinta en el servidor (estado inicial) y tambien en el navegador
+  // cuando se deselecciona: viaja aqui para no tener la misma frase escrita dos
+  // veces por idioma.
+  textos: { ...t.cliente, panelVacio: t.panelVacio },
 });
 
 const paginaActual = Astro.url.pathname;
@@ -135,7 +138,7 @@ const paginaActual = Astro.url.pathname;
   </div>
 </header>
 
-<section class="body-page">
+<section class="body-page est-seccion">
   <div class="w-layout-blockcontainer container w-container">
     <div class="est">
       <div class="est-pasos" id="est-pasos">
@@ -517,9 +520,9 @@ const paginaActual = Astro.url.pathname;
 
       <aside class="est-panel">
         <div class="est-resultado" aria-live="polite">
-          <p class="est-resultado-etiqueta">{t.confirmado}</p>
+          <p class="est-resultado-etiqueta" id="est-etiqueta">{t.confirmado}</p>
           <p class="est-resultado-cifra" id="est-total">—</p>
-          <p class="est-resultado-sub" id="est-sub"></p>
+          <p class="est-resultado-sub" id="est-sub">{t.panelVacio}</p>
           <ul class="est-desglose" id="est-desglose"></ul>
 
           <!-- El segundo bloque es lo que impide que esto sea una cifra unica de
@@ -538,13 +541,16 @@ const paginaActual = Astro.url.pathname;
             <p class="est-confianza-texto" id="est-confianza-texto"></p>
           </div>
         </div>
-
-        <p class="est-legal">
-          <strong>{t.legalFuerte}</strong>{t.legalAntes}
-          <a href={`${base}/post/pergola-cost-south-florida`}>{t.legalEnlace}</a>{t.legalDespues}
-        </p>
       </aside>
     </div>
+
+    <!-- El aviso legal vive FUERA del panel a proposito. En movil el panel se
+         vuelve pegajoso para que la cifra siga a la vista mientras se responde, y
+         un parrafo de seis lineas pegado ahi arriba se comeria media pantalla. -->
+    <p class="est-legal">
+      <strong>{t.legalFuerte}</strong>{t.legalAntes}
+      <a href={`${base}/post/pergola-cost-south-florida`}>{t.legalEnlace}</a>{t.legalDespues}
+    </p>
 
     <noscript>
       <div class="est-noscript">
@@ -898,17 +904,12 @@ const paginaActual = Astro.url.pathname;
       const elAbierto = $('est-abierto');
       const elConfianza = $('est-confianza');
 
-      if (!p) {
+      // Antes de elegir nada el panel no puede quedarse en un guion dentro de una
+      // caja navy vacia: ocupa media pantalla y no dice que hacer. Lleva la frase
+      // que explica que va a pasar ahi.
+      if (!p || !p.tarifa) {
         elTotal.textContent = '—';
-        elSub.textContent = textos.pideMedidas ? '' : '';
-        elDesglose.replaceChildren();
-        elAbierto.hidden = true;
-        elConfianza.hidden = true;
-        return;
-      }
-      if (!p.tarifa) {
-        elTotal.textContent = '—';
-        elSub.textContent = textos.soloCotizacion;
+        elSub.textContent = p ? textos.soloCotizacion : textos.panelVacio;
         elDesglose.replaceChildren();
         elAbierto.hidden = true;
         elConfianza.hidden = true;
@@ -1126,12 +1127,27 @@ const paginaActual = Astro.url.pathname;
 <style>
   /* Estilos propios del estimador. Usan los tokens del sitio; el CSS migrado de
      Webflow no se toca. */
+
+  /* El inset lateral. `.body-page` es solo el envoltorio exterior y no tiene
+     padding: en las paginas migradas de Webflow lo pone una seccion intermedia
+     (.intro-location y compañeras) con los mismos 2rem. Este componente mete el
+     .container directamente dentro, asi que pone el suyo. `.container` solo
+     centra por debajo de sus 1250px de max-width, asi que sin esto el contenido
+     tocaba los bordes en cualquier pantalla mas estrecha que eso.
+     No se usa `.body-page-unique`, que si trae el padding, porque arrastra
+     `margin-top: 85px` y `min-height: 100vh` para paginas SIN hero — y esta tiene. */
+  .est-seccion {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .est {
     grid-column-gap: 2.5rem;
     grid-row-gap: 2.5rem;
     grid-template-columns: 1.35fr 1fr;
     align-items: start;
-    margin-top: 3rem;
+    /* Sin margen arriba: el hero ya cierra con 4rem de padding y sumarle otros 3
+       dejaba 112 px de nada entre la entradilla y la primera pregunta. */
     margin-bottom: 3rem;
     display: grid;
   }
@@ -1593,13 +1609,56 @@ const paginaActual = Astro.url.pathname;
     font-size: 14px;
   }
 
+  /* En una sola columna el panel se iria DEBAJO del formulario, y ahi el mecanismo
+     entero desaparece: la gracia es ver la cifra estrecharse mientras se responde,
+     y medido en un iPhone el panel arrancaba en y=3.451 con el paso 1 midiendo
+     2.922 px. Sube arriba y se queda pegado bajo la barra de navegacion, que es
+     fixed y mide 85 px. Se recorta a lo esencial —cifra, lo que sigue abierto y la
+     barra de confianza— porque el desglose completo ahi arriba se comeria la
+     pantalla; sigue entero en escritorio y en el correo. */
   @media (max-width: 991px) {
     .est {
       grid-template-columns: 1fr;
     }
 
     .est-panel {
-      position: static;
+      z-index: 5;
+      order: -1;
+      position: sticky;
+      top: 85px;
+    }
+
+    .est-resultado {
+      padding: 1rem 1.1rem;
+    }
+
+    .est-resultado-cifra {
+      font-size: 22px;
+    }
+
+    .est-resultado-sub,
+    .est-desglose {
+      display: none;
+    }
+
+    .est-abierto {
+      margin-top: .6rem;
+      padding-top: .6rem;
+    }
+
+    .est-abierto-cifra {
+      font-size: 15px;
+    }
+
+    .est-confianza {
+      margin-top: .6rem;
+    }
+
+    /* El stepper hace scrollIntoView al cambiar de paso. Con el panel pegado
+       arriba, sin este margen el titulo del paso nuevo aterriza justo debajo y no
+       se lee. 85 de barra + el alto del panel. */
+    .est-paso {
+      scroll-margin-top: 300px;
     }
   }
 
@@ -1609,12 +1668,27 @@ const paginaActual = Astro.url.pathname;
       grid-template-columns: 1fr;
     }
 
-    .est-medida input {
-      width: 6rem;
+    /* La tarjeta pasa de banner a fila. Con la foto a todo ancho, las nueve
+       opciones del paso 1 ocupaban 2.922 px de scroll: casi tres pantallas para
+       leer una lista. En fila bajan a poco mas de un tercio. */
+    .est-opcion--foto {
+      flex-direction: row;
+      align-items: stretch;
     }
 
-    .est-resultado-cifra {
-      font-size: 26px;
+    .est-foto {
+      aspect-ratio: 1;
+      flex: none;
+      width: 92px;
+    }
+
+    .est-opcion-fila {
+      flex: 1;
+      padding: .75rem .9rem;
+    }
+
+    .est-medida input {
+      width: 6rem;
     }
 
     .est-omitir {

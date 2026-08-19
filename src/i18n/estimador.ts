@@ -104,6 +104,8 @@ export interface TextosEstimador {
   exitoCta: string;
 
   // --- el panel ---
+  /** Lo que dice el panel antes de elegir nada: sin esto es una caja vacia. */
+  panelVacio: string;
   confirmado: string;
   porDefinir: string;
   resultado: string;
@@ -324,6 +326,7 @@ export const ESTIMADOR_EN: TextosEstimador = {
     + ' within one business day.',
   exitoCta: 'Book your free on-site measurement',
 
+  panelVacio: 'Pick a structure above and your range appears here, narrowing with every answer.',
   confirmado: 'Confirmed so far',
   porDefinir: 'Still to be defined',
   resultado: 'Estimated investment',
@@ -538,6 +541,7 @@ export const ESTIMADOR_ES: TextosEstimador = {
     + ' día laborable.',
   exitoCta: 'Reserve su medición gratuita',
 
+  panelVacio: 'Elija una estructura arriba y aquí aparece su rango, más ajustado con cada respuesta.',
   confirmado: 'Confirmado hasta ahora',
   porDefinir: 'Aún por definir',
   resultado: 'Inversión estimada',
