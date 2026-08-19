@@ -1,0 +1,330 @@
+/* =============================================================================
+   Entradas por scroll. CSS nativo, sin JavaScript.
+   =============================================================================
+
+   QUE SE ROMPIO Y COMO SE VEIA
+
+   Las 110 entradas del sitio las hacia IX2 (public/js/webflow.js) sobre
+   requestAnimationFrame. Medido sobre el propio fichero antes de apagarlas:
+
+     - los cinco presets (growIn, slideInLeft/Right/Bottom/Top) duran 1000 ms
+     - 104 de los 110 eventos llevan ademas delay:450
+
+   Son 1450 ms desde que el elemento cruza el umbral hasta que se asienta. Los
+   slideIn* recorrian 100 px y growIn escalaba desde 0,75. Y 20 de los 66 elementos
+   cambiaban de gesto a 992 px: slideInLeft en escritorio, growIn en movil.
+
+   (El easeInOut y los 500 ms que hay en webflow.js NO eran de las entradas: son del
+   nav, los hover y el acordeon de FAQ, y siguen vivos.)
+
+   Los eventos estan apagados en scripts/parchear-webflow.mjs. Esto es su relevo.
+
+   LA REGLA
+
+   1. Por defecto se SUBE. `--pp-entrada-subida` px, nada mas. El contenido acompana
+      al scroll en vez de pelearse con el.
+   2. Lateral SOLO en los pares que el layout justifica —medidos lado a lado a
+      1440 px— y SOLO a partir de 992 px. Por debajo esas columnas se apilan, asi que
+      caen a la subida. La tabla esta en scripts/lib/reveals.mjs.
+   3. Escala en NINGUNO. Era el gesto de 73 de las 110 y es la razon de que todo se
+      sintiera igual.
+   4. Nada por encima del pliegue. Los excluidos, con su medicion, en reveals.mjs.
+   5. Una sola duracion, un solo recorrido, una sola curva: los tokens de :root.
+
+   DOS COSAS QUE NO SON OBVIAS Y QUE ALGUIEN VA A -ARREGLAR-
+
+   a) `animation-duration` NO gobierna nada cuando hay scroll-timeline. Medido en
+      Chromium 151: con el mismo animation-range, duraciones de 0,3 s / 2 s / 10 s dan
+      las tres opacity 0.250 en la misma posicion de scroll. Quien manda es
+      `animation-range`. La duracion gobierna SOLO el camino de respaldo (navegadores
+      sin animation-timeline, donde esto corre una vez al cargar). Por eso estan las dos.
+
+   b) El rango termina en `entry`, NUNCA en `cover`. Medido en la home: con
+      `entry 0% cover 25%` el pie se quedaba a medio encender PARA SIEMPRE en las 211
+      paginas — .wrapper-bar-footer en opacity 0,35, .line-footer en 0,46,
+      .div-block-7 en 0,80 — porque un elemento pegado al final del documento nunca
+      llega al 25% de su fase `cover`: el scroll se acaba antes. Con
+      `entry 0% entry 60%` los tres cierran en 1,00. No da error, no rompe el layout:
+      simplemente el pie se ve lavado en todo el sitio.
+
+   c) Por eso mismo el escalonado va con `animation-range-start` y no con
+      `animation-delay`. El delay tambien escalona, pero se mide CONTRA la duracion:
+      un delay de 1 s sobre una animacion de 0,3 s se sale del rango. Atar el
+      escalonado al token de la duracion es pedir que se rompa al tocarlo.
+
+   Y la de siempre, ya pisada dos veces en este repo: NUNCA el atajo `animation:`
+   junto a `animation-timeline`. El minificador los fusiona y el navegador tira la
+   declaracion entera, dejando `animation-name: none`. Propiedades largas, y
+   `animation-name` en su propio bloque. Lo vigila check:animaciones.
+
+   DEGRADACION
+
+   Los keyframes terminan en el estado de reposo (`opacity:1; transform:none`), asi
+   que no hay ningun camino que deje un elemento invisible: sin soporte de
+   animation-timeline corre una vez al cargar y `both` lo fija visible; con
+   prefers-reduced-motion no se entra en el bloque; sin CSS no hay nada que aplicar.
+   ============================================================================= */
+
+:root {
+  /* Solo gobierna el camino de respaldo. Ver la nota (a) de arriba. */
+  --pp-entrada-duracion: 300ms;
+  --pp-entrada-curva: ease-out;
+  --pp-entrada-subida: 16px;
+  --pp-entrada-lateral: 24px;
+  /* Un paso de escalonado. Cuatro pasos y vuelta a empezar. */
+  --pp-entrada-paso: 4%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* --- lo comun a todo lo que entra ------------------------------------- */
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960bd'],  /* .products-menu       (home, pareja de .products-display) */
+  [data-w-id='6e40fb1b-9056-3dcb-7088-c614f3e8faa0'],  /* .intro-column-left   (90 paginas, pareja de .intro-column-right) */
+  [data-w-id='8e25be38-8af5-bd56-fef1-65d902221d20'],  /* .column-left-color   (20 paginas, pareja de .column-right-color) */
+  [data-w-id='75ab0aed-f458-0f6c-c3e3-46c239fb009f'],  /* .intro-left-column   (about-us, pareja de .intro-right-column) */
+  [data-w-id='d1a9be1f-b69f-a2f0-ecba-d86f44713a94'],  /* .column-left-commercial (sectores, fila de 3) */
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960c6'],  /* .products-display    (home, pareja de .products-menu) */
+  [data-w-id='6e40fb1b-9056-3dcb-7088-c614f3e8faa2'],  /* .intro-column-right  (90 paginas, pareja de .intro-column-left) */
+  [data-w-id='4bd4bb2a-09d0-43e7-8c40-d721bf135688'],  /* .column-right-color  (20 paginas, pareja de .column-left-color) */
+  [data-w-id='de620e7c-00c6-9295-215a-c63c3d0264e4'],  /* .intro-right-column  (about-us, pareja de .intro-left-column) */
+  [data-w-id='3a5b213a-e551-9220-6b99-5febdf20190a'],  /* .column-right-commercial (sectores, fila de 3) */
+  [data-w-id='f00e2efe-9b56-1210-e497-b72104be4b25'],  /* .box-call-to-action    (201 paginas, el CTA final) */
+  [data-w-id='e2f2465a-47b0-b46c-8bcb-683e8ff0f22b'],  /* .box-info-contact */
+  [data-w-id='762f6675-48f9-c1de-d687-e89165fbbad7'],  /* .brands-grid-item */
+  [data-w-id='8d35da46-f8fb-23b0-be5e-ac916f28396f'],  /* .column-center-commercial (la del medio de la fila de 3) */
+  [data-w-id='e5de5a0c-53a0-ec9b-3b42-737243767a7e'],  /* .column-left-footer    (211 paginas; sin gemela derecha, asi que sube) */
+  [data-w-id='9e3abbef-7c3b-f086-0635-e97421a15e4b'],  /* .div-block-7           (211 paginas, pie) */
+  [data-w-id='e2f2465a-47b0-b46c-8bcb-683e8ff0f243'],  /* .divider-right */
+  [data-w-id='7c33b7a7-92b7-ad27-24ab-6eef3704f70a'],  /* .faq-mini-cta */
+  [data-w-id='dc99a523-ff98-25c5-a796-1da9e193eb98'],  /* .feature-about-left    (sin gemela medida a 1440) */
+  [data-w-id='9348e4fd-5ad5-6f0c-9007-8e8852879e59'],  /* .fs-slider-industries_instance */
+  [data-w-id='9348e4fd-5ad5-6f0c-9007-8e8852879e62'],  /* .fs-slider-industries_navigation */
+  [data-w-id='4812227a-f236-48fe-183f-8787908faa3d'],  /* .header-intro-commercial */
+  [data-w-id='46ae4251-e346-bd3f-3db2-cceb0742293b'],  /* .header-kpis */
+  [data-w-id='e18f94ff-36cb-4548-f2d3-8a097f110d5f'],  /* .header-kpis           (segunda pagina, otro id) */
+  [data-w-id='3dfd9ad1-3068-91a5-2ecd-ca41bcbc061b'],  /* .header-locations */
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960b4'],  /* .header-products */
+  [data-w-id='378744cc-edb3-aef2-2e9a-113e77ea958a'],  /* .header-projects */
+  [data-w-id='d03f876a-fa65-68e5-c8ed-9fd6290b938d'],  /* .header-reviews */
+  [data-w-id='d03f876a-fa65-68e5-c8ed-9fd6290b9395'],  /* (div sin clase) boton a /about-us/testimonials, 78 paginas */
+  [data-w-id='af395482-435a-2143-5385-d4f1e6bdca74'],  /* .header-services */
+  [data-w-id='502afbbc-ef77-646b-50b5-dfef6a57c0f6'],  /* .left-content          (96 paginas; sin gemela medida) */
+  [data-w-id='e5de5a0c-53a0-ec9b-3b42-737243767ad0'],  /* .line-footer           (211 paginas) */
+  [data-w-id='3dfd9ad1-3068-91a5-2ecd-ca41bcbc0625'],  /* .locations-left        (sin gemela medida) */
+  [data-w-id='998fbe51-4b1e-9336-a738-d1d7ffb1592d'],  /* .projects-grid-item */
+  [data-w-id='9e6cd8cc-1a46-44d5-b687-f5405cbfa2df'],  /* .section-marquee-logos (ver nota en animaciones.css) */
+  [data-w-id='378744cc-edb3-aef2-2e9a-113e77ea9591'],  /* .slider-wrapper-projects */
+  [data-w-id='af395482-435a-2143-5385-d4f1e6bdca7b'],  /* .wrapper-services */
+  [data-w-id='a36f2a1e-9f59-c2af-809a-f51186a9ca93'],  /* .why-choose-content    (sin gemela medida) */
+  [data-w-id='e5de5a0c-53a0-ec9b-3b42-737243767ad1'] /* .wrapper-bar-footer    (211 paginas) */,
+  .block-intro-commercial,
+  .card-services,
+  .faq_item,
+  .feature-about-item,
+  .feature-header-item,
+  .featured_left,
+  .fs-slider-feature-gallery_instance,
+  .fs-slider-gallery-section_instance,
+  .header-feature,
+  .header-gallery,
+  .item-footer,
+  .item-kpis,
+  .product-card,
+  .product-grid-item,
+  .serve-column-left,
+  .step-content,
+  .warranty_item,
+  .why-choose-item {
+    animation-duration: var(--pp-entrada-duracion);
+    animation-timing-function: var(--pp-entrada-curva);
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range-start: entry 0%;
+    animation-range-end: entry 60%;
+  }
+
+  /* --- el gesto por defecto: subir --------------------------------------
+     animation-name va SIEMPRE en un bloque aparte. Ver la nota del encabezado. */
+  [data-w-id='f00e2efe-9b56-1210-e497-b72104be4b25'],  /* .box-call-to-action    (201 paginas, el CTA final) */
+  [data-w-id='e2f2465a-47b0-b46c-8bcb-683e8ff0f22b'],  /* .box-info-contact */
+  [data-w-id='762f6675-48f9-c1de-d687-e89165fbbad7'],  /* .brands-grid-item */
+  [data-w-id='8d35da46-f8fb-23b0-be5e-ac916f28396f'],  /* .column-center-commercial (la del medio de la fila de 3) */
+  [data-w-id='e5de5a0c-53a0-ec9b-3b42-737243767a7e'],  /* .column-left-footer    (211 paginas; sin gemela derecha, asi que sube) */
+  [data-w-id='9e3abbef-7c3b-f086-0635-e97421a15e4b'],  /* .div-block-7           (211 paginas, pie) */
+  [data-w-id='e2f2465a-47b0-b46c-8bcb-683e8ff0f243'],  /* .divider-right */
+  [data-w-id='7c33b7a7-92b7-ad27-24ab-6eef3704f70a'],  /* .faq-mini-cta */
+  [data-w-id='dc99a523-ff98-25c5-a796-1da9e193eb98'],  /* .feature-about-left    (sin gemela medida a 1440) */
+  [data-w-id='9348e4fd-5ad5-6f0c-9007-8e8852879e59'],  /* .fs-slider-industries_instance */
+  [data-w-id='9348e4fd-5ad5-6f0c-9007-8e8852879e62'],  /* .fs-slider-industries_navigation */
+  [data-w-id='4812227a-f236-48fe-183f-8787908faa3d'],  /* .header-intro-commercial */
+  [data-w-id='46ae4251-e346-bd3f-3db2-cceb0742293b'],  /* .header-kpis */
+  [data-w-id='e18f94ff-36cb-4548-f2d3-8a097f110d5f'],  /* .header-kpis           (segunda pagina, otro id) */
+  [data-w-id='3dfd9ad1-3068-91a5-2ecd-ca41bcbc061b'],  /* .header-locations */
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960b4'],  /* .header-products */
+  [data-w-id='378744cc-edb3-aef2-2e9a-113e77ea958a'],  /* .header-projects */
+  [data-w-id='d03f876a-fa65-68e5-c8ed-9fd6290b938d'],  /* .header-reviews */
+  [data-w-id='d03f876a-fa65-68e5-c8ed-9fd6290b9395'],  /* (div sin clase) boton a /about-us/testimonials, 78 paginas */
+  [data-w-id='af395482-435a-2143-5385-d4f1e6bdca74'],  /* .header-services */
+  [data-w-id='502afbbc-ef77-646b-50b5-dfef6a57c0f6'],  /* .left-content          (96 paginas; sin gemela medida) */
+  [data-w-id='e5de5a0c-53a0-ec9b-3b42-737243767ad0'],  /* .line-footer           (211 paginas) */
+  [data-w-id='3dfd9ad1-3068-91a5-2ecd-ca41bcbc0625'],  /* .locations-left        (sin gemela medida) */
+  [data-w-id='998fbe51-4b1e-9336-a738-d1d7ffb1592d'],  /* .projects-grid-item */
+  [data-w-id='9e6cd8cc-1a46-44d5-b687-f5405cbfa2df'],  /* .section-marquee-logos (ver nota en animaciones.css) */
+  [data-w-id='378744cc-edb3-aef2-2e9a-113e77ea9591'],  /* .slider-wrapper-projects */
+  [data-w-id='af395482-435a-2143-5385-d4f1e6bdca7b'],  /* .wrapper-services */
+  [data-w-id='a36f2a1e-9f59-c2af-809a-f51186a9ca93'],  /* .why-choose-content    (sin gemela medida) */
+  [data-w-id='e5de5a0c-53a0-ec9b-3b42-737243767ad1'] /* .wrapper-bar-footer    (211 paginas) */,
+  .block-intro-commercial,
+  .card-services,
+  .faq_item,
+  .feature-about-item,
+  .feature-header-item,
+  .featured_left,
+  .fs-slider-feature-gallery_instance,
+  .fs-slider-gallery-section_instance,
+  .header-feature,
+  .header-gallery,
+  .item-footer,
+  .item-kpis,
+  .product-card,
+  .product-grid-item,
+  .serve-column-left,
+  .step-content,
+  .warranty_item,
+  .why-choose-item {
+    animation-name: pp-entrada;
+  }
+
+  /* Los laterales tambien suben por defecto: por debajo de 992 px sus columnas
+     estan apiladas y un gesto lateral no significaria nada. */
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960bd'],  /* .products-menu       (home, pareja de .products-display) */
+  [data-w-id='6e40fb1b-9056-3dcb-7088-c614f3e8faa0'],  /* .intro-column-left   (90 paginas, pareja de .intro-column-right) */
+  [data-w-id='8e25be38-8af5-bd56-fef1-65d902221d20'],  /* .column-left-color   (20 paginas, pareja de .column-right-color) */
+  [data-w-id='75ab0aed-f458-0f6c-c3e3-46c239fb009f'],  /* .intro-left-column   (about-us, pareja de .intro-right-column) */
+  [data-w-id='d1a9be1f-b69f-a2f0-ecba-d86f44713a94'],  /* .column-left-commercial (sectores, fila de 3) */
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960c6'],  /* .products-display    (home, pareja de .products-menu) */
+  [data-w-id='6e40fb1b-9056-3dcb-7088-c614f3e8faa2'],  /* .intro-column-right  (90 paginas, pareja de .intro-column-left) */
+  [data-w-id='4bd4bb2a-09d0-43e7-8c40-d721bf135688'],  /* .column-right-color  (20 paginas, pareja de .column-left-color) */
+  [data-w-id='de620e7c-00c6-9295-215a-c63c3d0264e4'],  /* .intro-right-column  (about-us, pareja de .intro-left-column) */
+  [data-w-id='3a5b213a-e551-9220-6b99-5febdf20190a'] /* .column-right-commercial (sectores, fila de 3) */ {
+    animation-name: pp-entrada;
+  }
+
+  /* --- lateral, solo donde el layout lo justifica ------------------------ */
+  @media (min-width: 992px) {
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960bd'],  /* .products-menu       (home, pareja de .products-display) */
+  [data-w-id='6e40fb1b-9056-3dcb-7088-c614f3e8faa0'],  /* .intro-column-left   (90 paginas, pareja de .intro-column-right) */
+  [data-w-id='8e25be38-8af5-bd56-fef1-65d902221d20'],  /* .column-left-color   (20 paginas, pareja de .column-right-color) */
+  [data-w-id='75ab0aed-f458-0f6c-c3e3-46c239fb009f'],  /* .intro-left-column   (about-us, pareja de .intro-right-column) */
+  [data-w-id='d1a9be1f-b69f-a2f0-ecba-d86f44713a94'] /* .column-left-commercial (sectores, fila de 3) */ {
+      animation-name: pp-entrada-izq;
+    }
+
+  [data-w-id='9df885f6-9158-46e1-339c-34a5f32960c6'],  /* .products-display    (home, pareja de .products-menu) */
+  [data-w-id='6e40fb1b-9056-3dcb-7088-c614f3e8faa2'],  /* .intro-column-right  (90 paginas, pareja de .intro-column-left) */
+  [data-w-id='4bd4bb2a-09d0-43e7-8c40-d721bf135688'],  /* .column-right-color  (20 paginas, pareja de .column-left-color) */
+  [data-w-id='de620e7c-00c6-9295-215a-c63c3d0264e4'],  /* .intro-right-column  (about-us, pareja de .intro-left-column) */
+  [data-w-id='3a5b213a-e551-9220-6b99-5febdf20190a'] /* .column-right-commercial (sectores, fila de 3) */ {
+      animation-name: pp-entrada-der;
+    }
+  }
+
+  /* --- escalonado en rejillas -------------------------------------------
+     Cuatro pasos y vuelta a empezar. El tope importa: .product-card llega a 60 por
+     pagina, y una escalera de 60 dejaria la ultima tarjeta fuera del rango.
+     Con view() cada elemento tiene su propia linea de tiempo, asi que esto es lo
+     que separa a las tarjetas de una MISMA fila, que entran todas a la vez. */
+  :is(
+    .card-services,
+    .faq_item,
+    .feature-about-item,
+    .feature-header-item,
+    .item-footer,
+    .item-kpis,
+    .product-card,
+    .product-grid-item,
+    .serve-column-left,
+    .step-content,
+    .warranty_item,
+    .why-choose-item
+  ):nth-child(4n + 2) {
+    animation-range-start: entry var(--pp-entrada-paso);
+  }
+
+  :is(
+    .card-services,
+    .faq_item,
+    .feature-about-item,
+    .feature-header-item,
+    .item-footer,
+    .item-kpis,
+    .product-card,
+    .product-grid-item,
+    .serve-column-left,
+    .step-content,
+    .warranty_item,
+    .why-choose-item
+  ):nth-child(4n + 3) {
+    animation-range-start: entry calc(var(--pp-entrada-paso) * 2);
+  }
+
+  :is(
+    .card-services,
+    .faq_item,
+    .feature-about-item,
+    .feature-header-item,
+    .item-footer,
+    .item-kpis,
+    .product-card,
+    .product-grid-item,
+    .serve-column-left,
+    .step-content,
+    .warranty_item,
+    .why-choose-item
+  ):nth-child(4n + 4) {
+    animation-range-start: entry calc(var(--pp-entrada-paso) * 3);
+  }
+
+  /* --- [data-pp-reveal], el interruptor explicito -------------------------
+     Lo usa el listado del blog (BlogListado.astro), que fue el primero en tener
+     este sistema, y sirve para cualquier elemento propio que quiera entrar sin
+     depender de un data-w-id heredado de Webflow.
+
+     VA EN SU PROPIO BLOQUE, NO metido en las listas de arriba, y no es cosmetico:
+     check:blog busca la regla con /\[data-pp-reveal\]\{([^}]*)\}/ sobre el CSS
+     construido y exige encontrar dentro animation-name y animation-timeline. Si el
+     selector cae dentro de una lista separada por comas, esa expresion no casa y la
+     puerta se pone roja sin que haya nada roto. */
+  [data-pp-reveal] {
+    animation-duration: var(--pp-entrada-duracion);
+    animation-timing-function: var(--pp-entrada-curva);
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range-start: entry 0%;
+    animation-range-end: entry 60%;
+  }
+
+  [data-pp-reveal] {
+    animation-name: pp-entrada;
+  }
+}
+/* El -to- va EXPLICITO en los tres. Un @keyframes con solo -from- toma como -to-
+   implicito el estilo calculado del elemento; si ese estilo fuera opacity:0, la
+   animacion interpolaria de 0 a 0 y no apareceria nada nunca.
+   Y de ahi sale la degradacion: como el ultimo fotograma es el estado de reposo,
+   cualquier camino que no sea el scroll-timeline (navegador sin soporte, animacion
+   que corre una vez al cargar) acaba con el elemento VISIBLE. No hay forma de que
+   esto deje nada invisible. */
+@keyframes pp-entrada {
+  from { opacity: 0; transform: translateY(var(--pp-entrada-subida)); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes pp-entrada-izq {
+  from { opacity: 0; transform: translateX(calc(var(--pp-entrada-lateral) * -1)); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes pp-entrada-der {
+  from { opacity: 0; transform: translateX(var(--pp-entrada-lateral)); }
+  to   { opacity: 1; transform: none; }
+}

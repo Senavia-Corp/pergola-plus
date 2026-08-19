@@ -1355,6 +1355,34 @@ export function transformar(html, ruta) {
   s = duplicarMarquee(s);
   s = duplicarMarqueeFotos(s);
 
+  // 4k. El opacity:0 EN LINEA de los elementos que animaba IX2.
+  //
+  //     Son 111 en los fragmentos (50 instancias en las 211 paginas construidas), y
+  //     los 12 data-w-id distintos que lo llevan son los 12 objetivos de una entrada
+  //     por scroll. Webflow los exportaba invisibles a proposito: los encendia IX2 al
+  //     entrar en pantalla, y NO llevan bloque anti-FOUC, asi que no habia ninguna
+  //     otra red debajo.
+  //
+  //     Al apagar las 110 entradas de IX2 (scripts/parchear-webflow.mjs) ya no queda
+  //     nadie que los encienda. Medido en el navegador antes de escribir esto: la home
+  //     se quedaba con .hero-block-video invisible PARA SIEMPRE, sin un solo error en
+  //     consola y sin que el layout se moviera. Es el fallo que no avisa.
+  //
+  //     Ahora el estado en reposo es visible y la entrada la pone
+  //     src/styles/animaciones.css, cuyos keyframes terminan en opacity:1.
+  s = s.replace(/(<[a-z]+[^>]*\bdata-w-id="[^"]+")\s+style="opacity:0"/gi, '$1');
+
+  //     Si queda alguno, es un elemento que se quedaria invisible y que ademas no
+  //     tiene data-w-id, o sea que ni siquiera hay una entrada que pudiera encenderlo.
+  //     Preferible reventar el build que publicarlo en blanco.
+  const huerfano = s.match(/<[^>]*style="opacity:0"[^>]*>/i);
+  if (huerfano) {
+    throw new Error(
+      `opacity:0 en linea sin data-w-id en ${ruta}: ${huerfano[0].slice(0, 120)}\n`
+      + '  Nadie lo va a encender. Mira src/styles/animaciones.css antes de seguir.',
+    );
+  }
+
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');
 
@@ -1421,10 +1449,6 @@ export function extraer(html, desde, hasta) {
 export function leerHead(html) {
   const head = extraer(html, '<head>', '</head>');
   const t = (re) => head.match(re)?.[1]?.trim() ?? null;
-  // El bloque anti-FOUC: sin el, los elementos animados aparecen y luego saltan.
-  const estilos = [...head.matchAll(/<style>([\s\S]*?)<\/style>/g)]
-    .map((m) => m[1])
-    .filter((c) => c.includes('w-mod-ix'));
   // IX2 necesita saber en que pagina esta para cargar sus interacciones.
   const wfPage = html.match(/<html[^>]*\sdata-wf-page="([^"]*)"/)?.[1] ?? null;
   const wfSite = html.match(/<html[^>]*\sdata-wf-site="([^"]*)"/)?.[1] ?? null;
@@ -1434,7 +1458,6 @@ export function leerHead(html) {
     description: t(/<meta content="([^"]*)"\s+name="description">/),
     ogTitle: t(/<meta content="([^"]*)"\s+property="og:title">/),
     ogImage: t(/<meta content="([^"]*)"\s+property="og:image">/),
-    pageStyles: estilos.length ? estilos.join('\n') : null,
   };
 }
 

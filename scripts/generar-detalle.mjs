@@ -117,14 +117,12 @@ function cuerpo(html) {
 
 function meta(html) {
   const t = (re) => html.match(re)?.[1]?.trim() ?? null;
-  // Bloque anti-FOUC. Las plantillas de /products y /services SI lo llevan
-  // (8 bloques, 2 ids): sin el, esos dos elementos aparecen y luego saltan para
-  // animar. Se detecta por el selector w-mod-ix, no por posicion.
-  const head = html.slice(0, html.indexOf('</head>'));
-  const estilos = [...head.matchAll(/<style>([\s\S]*?)<\/style>/g)]
-    .map((m) => m[1]).filter((c) => c.includes('w-mod-ix'));
+  // El bloque anti-FOUC de Webflow ya NO se cosecha. Decia «manten este elemento
+  // invisible hasta que arranque IX2», y existia solo para las entradas por scroll.
+  // Los 110 eventos SCROLL_INTO_VIEW estan apagados (scripts/parchear-webflow.mjs) y
+  // la entrada la hace ahora src/styles/animaciones.css, cuyo estado en reposo es
+  // VISIBLE. Mantener el bloque dejaria esos 11 ids invisibles para siempre.
   return {
-    pageStyles: estilos.length ? estilos.join('\n') : null,
     title: decodificar(t(/<title>([\s\S]*?)<\/title>/)),
     description: decodificar(t(/<meta content="([^"]*)"\s+name="description"/)),
     ogImage: t(/<meta content="([^"]*)"\s+property="og:image"/),
@@ -255,7 +253,6 @@ const jsonLd = grafo(${{
   title={item.title}
   description={item.description ?? undefined}
   ogImage={item.ogImage ?? undefined}
-  pageStyles={item.pageStyles ?? undefined}
   wfPage={item.wfPage ?? undefined}
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}

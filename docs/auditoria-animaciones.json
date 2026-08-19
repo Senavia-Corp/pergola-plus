@@ -1,0 +1,617 @@
+{
+ "desviaciones": [],
+ "informe": [
+  {
+   "ruta": "/",
+   "ancho": 1440,
+   "reveals": 36,
+   "antes": 36,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/products/cabanas",
+   "ancho": 1440,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/services/concrete",
+   "ancho": 1440,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/about-us",
+   "ancho": 1440,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/industries-we-serve",
+   "ancho": 1440,
+   "reveals": 33,
+   "antes": 33,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/pergolas-contractors/aventura-pergola-builders",
+   "ancho": 1440,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/countries/broward-county-pergola-contractor",
+   "ancho": 1440,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/brands/appolo",
+   "ancho": 1440,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/project/attached-forte-pergola-in-west-palm-beach",
+   "ancho": 1440,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/resources/blog",
+   "ancho": 1440,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/post/add-shade-backyard-south-florida",
+   "ancho": 1440,
+   "reveals": 8,
+   "antes": 8,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/contact-us/get-a-quote",
+   "ancho": 1440,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/products/cabanas",
+   "ancho": 1440,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/services/concrete",
+   "ancho": 1440,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/brands/appolo",
+   "ancho": 1440,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/resources/blog",
+   "ancho": 1440,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/contact-us/get-a-quote",
+   "ancho": 1440,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/",
+   "ancho": 1280,
+   "reveals": 36,
+   "antes": 36,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/products/cabanas",
+   "ancho": 1280,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/services/concrete",
+   "ancho": 1280,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/about-us",
+   "ancho": 1280,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/industries-we-serve",
+   "ancho": 1280,
+   "reveals": 33,
+   "antes": 33,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/pergolas-contractors/aventura-pergola-builders",
+   "ancho": 1280,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/countries/broward-county-pergola-contractor",
+   "ancho": 1280,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/brands/appolo",
+   "ancho": 1280,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/project/attached-forte-pergola-in-west-palm-beach",
+   "ancho": 1280,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/resources/blog",
+   "ancho": 1280,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/post/add-shade-backyard-south-florida",
+   "ancho": 1280,
+   "reveals": 8,
+   "antes": 8,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/contact-us/get-a-quote",
+   "ancho": 1280,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/products/cabanas",
+   "ancho": 1280,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/services/concrete",
+   "ancho": 1280,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/brands/appolo",
+   "ancho": 1280,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/resources/blog",
+   "ancho": 1280,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/contact-us/get-a-quote",
+   "ancho": 1280,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/",
+   "ancho": 768,
+   "reveals": 44,
+   "antes": 44,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/products/cabanas",
+   "ancho": 768,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/services/concrete",
+   "ancho": 768,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/about-us",
+   "ancho": 768,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/industries-we-serve",
+   "ancho": 768,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/pergolas-contractors/aventura-pergola-builders",
+   "ancho": 768,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/countries/broward-county-pergola-contractor",
+   "ancho": 768,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/brands/appolo",
+   "ancho": 768,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/project/attached-forte-pergola-in-west-palm-beach",
+   "ancho": 768,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/resources/blog",
+   "ancho": 768,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/post/add-shade-backyard-south-florida",
+   "ancho": 768,
+   "reveals": 8,
+   "antes": 8,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/contact-us/get-a-quote",
+   "ancho": 768,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/products/cabanas",
+   "ancho": 768,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/services/concrete",
+   "ancho": 768,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/brands/appolo",
+   "ancho": 768,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/resources/blog",
+   "ancho": 768,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/contact-us/get-a-quote",
+   "ancho": 768,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/",
+   "ancho": 375,
+   "reveals": 44,
+   "antes": 44,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/products/cabanas",
+   "ancho": 375,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/services/concrete",
+   "ancho": 375,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/about-us",
+   "ancho": 375,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/about-us/industries-we-serve",
+   "ancho": 375,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/pergolas-contractors/aventura-pergola-builders",
+   "ancho": 375,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/countries/broward-county-pergola-contractor",
+   "ancho": 375,
+   "reveals": 26,
+   "antes": 26,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/brands/appolo",
+   "ancho": 375,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/project/attached-forte-pergola-in-west-palm-beach",
+   "ancho": 375,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/resources/blog",
+   "ancho": 375,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/post/add-shade-backyard-south-florida",
+   "ancho": 375,
+   "reveals": 8,
+   "antes": 8,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/contact-us/get-a-quote",
+   "ancho": 375,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/products/cabanas",
+   "ancho": 375,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/services/concrete",
+   "ancho": 375,
+   "reveals": 32,
+   "antes": 32,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/brands/appolo",
+   "ancho": 375,
+   "reveals": 10,
+   "antes": 10,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/resources/blog",
+   "ancho": 375,
+   "reveals": 29,
+   "antes": 29,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  },
+  {
+   "ruta": "/es/contact-us/get-a-quote",
+   "ancho": 375,
+   "reveals": 7,
+   "antes": 7,
+   "aMedias": [],
+   "sinArrancar": [],
+   "navTocado": false
+  }
+ ]
+}

@@ -282,65 +282,14 @@
 /* ---------------------------------------------------- entrada por scroll -- */
 
 /*
- * Entrada por scroll, SOLO CSS. No hay JavaScript detras.
+ * Se mudo a src/styles/animaciones.css, que es donde vive ahora el sistema de
+ * entrada de TODO el sitio. El blog fue el primero en tenerlo y durante un tiempo
+ * fue el unico; al migrar las 110 interacciones IX2 dejo de tener sentido que el
+ * listado tuviera su propia copia de la regla.
  *
- * El estado en reposo del elemento es VISIBLE, y esa es toda la gracia: no existe
- * ningun camino que lo deje invisible.
- *
- *   - Chrome/Edge: animation-timeline lo engancha al scroll -> reveal de verdad.
- *   - Safari/Firefox (sin animation-timeline): la animacion corre una vez al
- *     cargar y `both` la deja fijada en el `to`, o sea visible.
- *   - prefers-reduced-motion: no entra en el bloque -> visible.
- *   - Sin JS / con JS roto: es CSS, ni se entera -> visible.
- *
- * Esto sustituye al style="opacity:0" en linea del markup migrado, que dejaba el
- * grid y el destacado invisibles PARA SIEMPRE si fallaba webflow.js. El hero y el
- * CTA no lo llevaban, asi que conservan su animacion IX2 y no pasan por aqui.
- *
- * DOS TRAMPAS, las dos pisadas ya:
- *
- * 1. El `to` va EXPLICITO. Un @keyframes con solo `from` toma como `to` implicito
- *    el estilo calculado del elemento; si ese estilo era opacity:0, la animacion
- *    interpola de 0 a 0 y no aparece nada nunca.
- * 2. Esto anima el <li>, NO la .pp-card de dentro. Una animacion con fill activo
- *    se impone a las declaraciones normales, asi que animar `transform` en la
- *    propia tarjeta anularia el translateY(-4px) del hover.
- *
- * 3. NO usar el atajo `animation` junto a `animation-timeline`. El minificador
- *    del build los fusionaba en
- *        animation: .5s ease-out both pp-entrada view();
- *    y `animation-timeline` NO forma parte del atajo `animation` en la
- *    especificacion —se quito por ambiguedad con `animation-name`—, asi que el
- *    navegador descartaba la declaracion ENTERA y dejaba `animation-name: none`.
- *    Medido en el build: las 22 entradas del listado no se ejecutaban. Y como el
- *    estado base es opacity:1, no se veia roto: simplemente no habia animacion.
- *    Con las propiedades largas y `animation-name` declarado APARTE, el
- *    minificador ya no puede componer el atajo. Lo comprueba `check:blog`.
+ * [data-pp-reveal] lo siguen llevando los dos sitios de BlogListado.astro y sigue
+ * significando lo mismo. Lo comprueban check:blog y check:animaciones.
  */
-@media (prefers-reduced-motion: no-preference) {
-  [data-pp-reveal] {
-    animation-duration: 0.5s;
-    animation-timing-function: ease-out;
-    animation-fill-mode: both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 20%;
-  }
-
-  [data-pp-reveal] {
-    animation-name: pp-entrada;
-  }
-}
-
-@keyframes pp-entrada {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 /* -------------------------------------------------- detalle: volver y nav -- */
 

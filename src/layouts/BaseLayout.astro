@@ -13,6 +13,9 @@ import '../styles/accesibilidad.css';
 // propio, asi que no hay donde colgarle el CSS mas que aqui. Son ~30 lineas para
 // 2 rutas (x2 idiomas); el coste esta medido y asumido.
 import '../styles/marquee.css';
+// Las entradas por scroll de todo el sitio. Sustituye a las 110 interacciones IX2
+// de webflow.js, apagadas en scripts/parchear-webflow.mjs.
+import '../styles/animaciones.css';
 import '../styles/imagenes.css';
 import '../styles/hero.css';
 
@@ -22,11 +25,11 @@ import '../styles/hero.css';
 //  - Los 3 CSS van en este orden exacto: normalize -> webflow -> sitio.
 //  - jQuery va ANTES que webflow.js, ambos al final del <body>.
 //  - webflow.js lleva dentro las 749 interacciones IX2 del sitio.
-//  - `pageStyles` es el bloque anti-FOUC que Webflow inyecta por pagina
-//    (html.w-mod-js:not(.w-mod-ix) [data-w-id="..."]{opacity:0}). Solo 7 de las
-//    34 paginas lo llevan y cada una tiene los suyos: se copia LITERAL, no se
-//    comparte entre paginas. Sin el, los elementos animados aparecen y luego
-//    saltan.
+// El bloque anti-FOUC de Webflow ya NO se cosecha. Decia «manten este elemento
+// invisible hasta que arranque IX2», y existia solo para las entradas por scroll.
+// Los 110 eventos SCROLL_INTO_VIEW estan apagados (scripts/parchear-webflow.mjs) y
+// la entrada la hace ahora src/styles/animaciones.css, cuyo estado en reposo es
+// VISIBLE. Mantener el bloque dejaria esos 11 ids invisibles para siempre.
 //  - NO anadir <ClientRouter />: IX2 se inicializa una sola vez por documento,
 //    asi que con View Transitions las animaciones mueren de la 2a pagina en
 //    adelante.
@@ -51,7 +54,6 @@ interface Props {
    */
   noindex?: boolean;
   /** Bloque <style> anti-FOUC especifico de la pagina. Copiar literal del original. */
-  pageStyles?: string;
   /**
    * data-wf-page de la pagina original. NO es un metadato decorativo: IX2 lo lee
    * (es una constante suya dentro de webflow.js) para saber que interacciones
@@ -80,7 +82,6 @@ const {
   ogImage,
   canonical,
   noindex = false,
-  pageStyles,
   wfPage,
   wfSite,
   ogType = 'website',
@@ -162,8 +163,6 @@ const xDefault = alternativas.length > 1
     <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="/css/webflow.css" rel="stylesheet" type="text/css" />
     <link href="/css/pergola-plus-florida.webflow.css" rel="stylesheet" type="text/css" />
-
-    {pageStyles && <style set:html={pageStyles} />}
 
     {/* Inter AUTOALOJADA. Aquí vivían cuatro líneas que costaban caro en las 113
         páginas: dos `preconnect` a Google y `webfont.js` de ajax.googleapis.com en

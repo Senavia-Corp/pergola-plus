@@ -172,17 +172,12 @@ function cuerpo(html) {
 
 function meta(html) {
   const t = (re) => html.match(re)?.[1]?.trim() ?? null;
-  const head = html.slice(0, html.indexOf('</head>'));
-  // Bloque anti-FOUC: sin el, los elementos animados aparecen y luego saltan.
-  const estilos = [...head.matchAll(/<style>([\s\S]*?)<\/style>/g)]
-    .map((m) => m[1]).filter((c) => c.includes('w-mod-ix'));
   return {
     title: decodificar(t(/<title>([\s\S]*?)<\/title>/)),
     description: decodificar(t(/<meta content="([^"]*)"\s+name="description"/)),
     ogImage: t(/<meta content="([^"]*)"\s+property="og:image"/),
     wfPage: t(/<html[^>]*\sdata-wf-page="([^"]*)"/),
     wfSite: t(/<html[^>]*\sdata-wf-site="([^"]*)"/),
-    pageStyles: estilos.length ? estilos.join('\n') : null,
   };
 }
 
@@ -228,7 +223,7 @@ for (const ruta of RUTAS) {
 
   META_POR_RUTA[ruta] = {
     fragmento: nombre,
-    wfPage: m.wfPage, wfSite: m.wfSite, pageStyles: m.pageStyles,
+    wfPage: m.wfPage, wfSite: m.wfSite,
     titleEn: propio.title ?? m.title, descriptionEn: propio.description ?? m.description,
   };
 
@@ -255,7 +250,6 @@ for (const ruta of RUTAS) {
     m.ogImage ? `ogImage=${JSON.stringify(m.ogImage)}` : null,
     m.wfPage ? `wfPage=${JSON.stringify(m.wfPage)}` : null,
     m.wfSite ? `wfSite=${JSON.stringify(m.wfSite)}` : null,
-    m.pageStyles ? 'pageStyles={PAGE_STYLES}' : null,
     nodos.length ? 'jsonLd={jsonLd}' : null,
   ].filter(Boolean).join('\n  ');
 
@@ -270,7 +264,7 @@ for (const ruta of RUTAS) {
   const salida = `---
 import BaseLayout from '${rel}layouts/BaseLayout.astro';
 import html from '${rel}contenido-migrado/estaticas/${nombre}?raw';
-${importaResenas}${importaLd}${m.pageStyles ? `\nconst PAGE_STYLES = ${JSON.stringify(m.pageStyles)};\n` : ''}${
+${importaResenas}${importaLd}${
   nodos.length
     ? `\nconst site = Astro.site!.href;\nconst jsonLd = grafo(${nodos.join(', ')});\n`
     : ''}
@@ -296,7 +290,6 @@ ${conResenas ? '  <ReseñasGoogle />\n' : ''}</BaseLayout>
   generadas.push({
     ruta,
     ids: (frag.match(/data-w-id="/g) ?? []).length,
-    fouc: !!m.pageStyles,
     manual: MANUALES.has(ruta) && !FORZAR,
   });
 }
@@ -305,7 +298,7 @@ console.log('Fase 1 — paginas estaticas (desde el sitio en vivo)\n');
 for (const g of generadas)
   console.log(
     `  ${g.ruta.padEnd(34)} data-w-id ${String(g.ids).padStart(3)}` +
-      `${g.fouc ? '   [anti-FOUC]' : ''}${g.manual ? '   [manual: pagina NO sobrescrita]' : ''}`,
+      `${g.manual ? '   [manual: pagina NO sobrescrita]' : ''}`,
   );
 console.log(`\n  ${generadas.length} fragmentos, ${generadas.length - omitidas.length} paginas`);
 

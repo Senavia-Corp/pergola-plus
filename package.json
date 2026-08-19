@@ -10,7 +10,7 @@
     "build": "astro build && node scripts/rutas-vercel.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:correo",
+    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:correo",
     "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
@@ -31,7 +31,9 @@
     "auditar:nitidez": "node scripts/auditar-nitidez.mjs",
     "preparar:higgsfield": "node scripts/preparar-higgsfield.mjs",
     "integrar:higgsfield": "node scripts/integrar-higgsfield.mjs",
-    "check:marquee": "node scripts/comprobar-marquee.mjs"
+    "check:marquee": "node scripts/comprobar-marquee.mjs",
+    "check:animaciones": "node scripts/comprobar-animaciones.mjs",
+    "auditar:animaciones": "node scripts/auditar-animaciones.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",

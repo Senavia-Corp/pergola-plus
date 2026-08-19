@@ -8,7 +8,8 @@
  * Lo que comprueba:
  *   1. data-w-id      conjunto a conjunto por pagina. Uno que falte = un
  *                     elemento que dejo de animarse, en silencio.
- *   2. anti-FOUC      mismos ids ocultos y mismas 4 media queries.
+ *   2. anti-FOUC      que no quede ninguno. Se retiraron los 11 el 19-08-2026 al
+ *                     migrar las entradas a CSS; ver FOUC_RETIRADO mas abajo.
  *   3. <head>         title, description, og:*. La unica diferencia ESPERADA es
  *                     el SEO desde el CMS, que se marca aparte.
  *   4. assets         que ninguna ruta local apunte a un archivo inexistente.
@@ -97,6 +98,35 @@ const PROPIAS_SHELL = {
     'item "Landscaping" del submenu de servicios. Apuntaba a /services/landscaping, que no existe ni en el export ni en el vivo: era el unico href="#" vivo del sitio. Retirado en los dos idiomas (Fase 1)',
 };
 
+/**
+ * Bloques anti-FOUC retirados A PROPOSITO el 19-08-2026. Van UNO A UNO con su motivo,
+ * igual que PROPIAS_SHELL: apagar el contador entero convertiria «anti-FOUC faltantes»
+ * en un numero que ya no avisa de nada.
+ *
+ * El bloque `html.w-mod-js:not(.w-mod-ix) [data-w-id="..."]{opacity:0}` decia «manten
+ * esto invisible hasta que arranque IX2». Existia SOLO para las entradas por scroll:
+ * los 11 ids que lo llevaban son los 11 objetivos de una interaccion SCROLL_INTO_VIEW,
+ * comprobado uno a uno. Esas 110 interacciones estan apagadas
+ * (scripts/parchear-webflow.mjs) y la entrada la hace ahora src/styles/animaciones.css
+ * con animation-timeline: view(), cuyos keyframes terminan en opacity:1.
+ *
+ * Mantener el bloque dejaria estos 11 elementos invisibles PARA SIEMPRE en las 42
+ * paginas que lo llevaban, sin un solo error. Lo vigila check:animaciones.
+ */
+const FOUC_RETIRADO = {
+  '9e6cd8cc-1a46-44d5-b687-f5405cbfa2df': '.section-marquee-logos — entra con animaciones.css; lo vigila tambien check:marquee',
+  '75ab0aed-f458-0f6c-c3e3-46c239fb009f': '.intro-left-column — entra de lado a >=992px',
+  'de620e7c-00c6-9295-215a-c63c3d0264e4': '.intro-right-column — entra de lado a >=992px',
+  'dc99a523-ff98-25c5-a796-1da9e193eb98': '.feature-about-left — entra subiendo (no tiene gemela derecha medida)',
+  'd1a9be1f-b69f-a2f0-ecba-d86f44713a94': '.column-left-commercial — entra de lado a >=992px',
+  '3a5b213a-e551-9220-6b99-5febdf20190a': '.column-right-commercial — entra de lado a >=992px',
+  'e2f2465a-47b0-b46c-8bcb-683e8ff0f22b': '.box-info-contact — entra subiendo',
+  '8e25be38-8af5-bd56-fef1-65d902221d20': '.column-left-color — entra de lado a >=992px (20 paginas)',
+  '4bd4bb2a-09d0-43e7-8c40-d721bf135688': '.column-right-color — entra de lado a >=992px (20 paginas)',
+  '0e17210d-a02e-0587-0e89-a3118db8567e': '.column-left-hero-service — SIN entrada: esta por encima del pliegue (14 paginas)',
+  '9d7c5ec8-09e1-d041-2bb5-788cc13790e2': '.column-right-hero-service — SIN entrada: esta por encima del pliegue (14 paginas)',
+};
+
 const ids = (s) => new Set([...s.matchAll(/data-w-id="([^"]+)"/g)].map((m) => m[1]));
 const foucIds = (s) => new Set(
   [...s.matchAll(/html\.w-mod-js:not\(\.w-mod-ix\)\s*\[data-w-id="([^"]+)"\]/g)].map((m) => m[1]));
@@ -162,7 +192,12 @@ for (const ruta of rutas) {
   const sobran = [...ig].filter((x) => !iv.has(x));
 
   const fv = foucIds(viv), fg = foucIds(gen);
-  const foucFaltan = [...fv].filter((x) => !fg.has(x));
+  const foucAusentes = [...fv].filter((x) => !fg.has(x));
+  const foucFaltan = foucAusentes.filter((x) => !FOUC_RETIRADO[x]);
+  const foucRetirados = foucAusentes.filter((x) => FOUC_RETIRADO[x]);
+  // Una declaracion que ya no hace falta es ruido que tapa la siguiente: se canta.
+  const foucDeclaracionesObsoletas = Object.keys(FOUC_RETIRADO).filter(
+    (x) => fv.has(x) && !foucAusentes.includes(x));
 
   // Assets locales que no existen en public/.
   const rotos = [];
@@ -186,7 +221,7 @@ for (const ruta of rutas) {
   filas.push({
     ruta,
     idsV: iv.size, idsG: ig.size, faltan, sobran, declarados, delShell, declaracionesObsoletas,
-    foucV: fv.size, foucG: fg.size, foucFaltan,
+    foucV: fv.size, foucG: fg.size, foucFaltan, foucRetirados, foucDeclaracionesObsoletas,
     tituloIgual: titulo(viv) === titulo(gen),
     tituloV: titulo(viv), tituloG: titulo(gen),
     descIgual: desc(viv) === desc(gen),
@@ -214,6 +249,11 @@ for (const [id, razon] of Object.entries(PROPIAS_SHELL)) {
   console.log(`  retirados del shell ....... ${n} paginas · ${id.slice(0, 8)}…  ${razon}`);
 }
 console.log(`  anti-FOUC faltantes ....... ${suma('foucFaltan')}`);
+console.log(`  anti-FOUC RETIRADOS ....... ${suma('foucRetirados')} en ${filas.filter((f) => f.foucRetirados?.length).length} paginas (${Object.keys(FOUC_RETIRADO).length} ids declarados)`);
+{
+  const obs = new Set(filas.flatMap((f) => f.foucDeclaracionesObsoletas ?? []));
+  if (obs.size) console.log(`  !! declaraciones de anti-FOUC que ya sobran (el bloque volvio): ${[...obs].join(', ')}`);
+}
 console.log(`  assets rotos .............. ${suma('rotos')}`);
 console.log(`  referencias a Webflow ..... ${filas.reduce((s, f) => s + (f.externos ?? 0), 0)}`);
 console.log(`  paginas con delta de texto > 2% ... ${filas.filter((f) => f.deltaTexto > 0.02).length}`);

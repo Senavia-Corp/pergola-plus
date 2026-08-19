@@ -132,8 +132,19 @@ for (const { ruta, altsPropios } of CON_MARQUEE) {
       && !new RegExp(`class="section-marquee-logos"[^>]*data-w-id="${WID_SECCION}"`).test(html)) {
       sinWid.push(`${ruta}: el data-w-id ya no esta en .section-marquee-logos`);
     }
-    if (!html.includes(`[data-w-id="${WID_SECCION}"]`)) {
-      sinWid.push(`${ruta}: falta el bloque anti-FOUC del data-w-id`);
+    /*
+     * Antes aqui se exigia el bloque anti-FOUC del data-w-id. Se le dio la vuelta el
+     * 19-08-2026 y NO es un relajamiento: es la afirmacion contraria.
+     *
+     * El bloque decia «manten esto invisible hasta que arranque IX2», y existia solo
+     * para la entrada por scroll. Las 110 entradas de IX2 estan apagadas
+     * (scripts/parchear-webflow.mjs) y la seccion entra ahora con
+     * src/styles/animaciones.css, cuyo estado en reposo es VISIBLE. Con el bloque
+     * puesto y sin IX2 que lo quite, la barra de logos se quedaria invisible para
+     * siempre en la home de los dos idiomas.
+     */
+    if (html.includes(`[data-w-id="${WID_SECCION}"]`)) {
+      sinWid.push(`${ruta}: ha vuelto el bloque anti-FOUC; sin IX2 deja la barra invisible`);
     }
   }
 }
@@ -222,14 +233,29 @@ decir(
 
 // El nieto se anima; la seccion NUNCA. Animarla anularia las dos interacciones IX2.
 const propias = [...css.matchAll(/([^{}]*fs-marquee-logos[^{}]*|[^{}]*section-marquee-logos[^{}]*)\{([^}]*)\}/g)];
-const tocanSeccion = propias
+/*
+ * Esta afirmacion cambio de objeto el 19-08-2026.
+ *
+ * Antes prohibia animar `.section-marquee-logos` porque IX2 le escribia el
+ * element.style en sus dos interacciones y una animacion con fill activo se lo
+ * hubiera anulado. Esas dos interacciones eran las DOS ENTRADAS POR SCROLL del
+ * elemento (growIn y slideInBottom), y estan apagadas: la seccion ya no es de IX2 y
+ * ahora entra con animaciones.css como cualquier otra.
+ *
+ * Lo que sigue sin poder pasar es que se anime la PISTA. La seccion es un ancestro,
+ * asi que su entrada no pisa nada; pero una segunda animacion sobre
+ * `.fs-marquee-logos_list` sustituiria a pp-marquee-logos y la barra se pararia en
+ * seco, sin error y sin que el layout se moviera.
+ */
+const tocanPista = propias
   .filter(([, sel, cuerpo]) =>
-    /section-marquee-logos/.test(sel) && /(^|[;{\s])(transform|opacity|animation)/.test(cuerpo))
-  .map(([, sel]) => sel.trim().slice(0, 80));
+    /fs-marquee-logos_list/.test(sel)
+    && /animation-name:\s*(?!pp-marquee-logos)[\w-]+/.test(cuerpo))
+  .map(([, sel, cuerpo]) => `${sel.trim().slice(0, 60)} -> ${cuerpo.match(/animation-name:\s*([\w-]+)/)?.[1]}`);
 decir(
-  tocanSeccion.length === 0,
-  'ningun selector propio anima .section-marquee-logos (es de IX2)',
-  tocanSeccion,
+  tocanPista.length === 0,
+  'ninguna otra animacion se aplica a la pista (sustituiria a pp-marquee-logos)',
+  tocanPista,
 );
 
 const tocanFotos = propias

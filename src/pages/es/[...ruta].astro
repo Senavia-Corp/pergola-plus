@@ -32,7 +32,7 @@ export function getStaticPaths() {
 
 const { p } = Astro.props as { p: PaginaEs };
 const m = (meta as Record<string, {
-  fragmento: string; wfPage: string | null; wfSite: string | null; pageStyles: string | null;
+  fragmento: string; wfPage: string | null; wfSite: string | null;
 }>)[p.en];
 if (!m) throw new Error(`[i18n] no hay metadatos para ${p.en}: ¿está en RUTAS de generar-paginas.mjs?`);
 
@@ -68,7 +68,6 @@ const jsonLd = grafo(
   noindex={p.en === '/404'}
   wfPage={m.wfPage ?? undefined}
   wfSite={m.wfSite ?? undefined}
-  pageStyles={m.pageStyles ?? undefined}
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
