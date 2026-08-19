@@ -1,0 +1,205 @@
+/* =============================================================================
+   Las tarjetas de /products, /services, /project-gallery y /about-us/brands.
+   =============================================================================
+
+   POR QUE EXISTE ESTA HOJA Y NO SE EDITA EL CSS DE WEBFLOW
+
+   public/css/pergola-plus-florida.webflow.css es un export. La proxima
+   exportacion lo sobrescribe entero, asi que cualquier arreglo escrito alli
+   dura hasta que alguien vuelva a exportar. Aqui no.
+
+   Y funciona sin pelear por especificidad porque el bundle de Astro se enlaza
+   DESPUES de las tres hojas de Webflow —medido en el DOM del preview, no
+   supuesto—, asi que a igualdad de especificidad gana esta. Una sola clase por
+   selector, cero !important. Si algun dia alguien mueve los <link> del <head>
+   de BaseLayout por encima del bundle, esta hoja deja de aplicar en bloque.
+
+   QUE SE ARREGLA, MEDIDO ANTES DE TOCAR NADA
+
+   1. El CTA no parecia pulsable. "Explore More ->" era color var(--secundary)
+      (#fffbf0) dentro de un cuerpo color var(--white) (#fff): 1,03:1 de
+      contraste ENTRE ellos. Mismo peso, sin fondo, sin borde, sin padding. No
+      se leia como accion sino como la ultima linea del parrafo.
+
+      Que quede claro que NO era un problema de contraste: crema sobre
+      var(--primary) da 7,81:1 y cumple AA de sobra. Era de jerarquia. Subir el
+      contraste habria sido el arreglo equivocado.
+
+   2. Area tactil de 104x24 px (el ::after de accesibilidad.css la subia de 18
+      a 24). WCAG 2.5.8 pide 44. Ahora la da el propio boton con su padding.
+
+   3. 88 caracteres por linea a 1440 px, con el cuerpo a 12px/300. El rango
+      comodo son 45-75. No se toca la rejilla: se limita la medida del texto.
+
+   4. Cuatro paginas, seis divergencias. La que importaba: en products y
+      services solo el enlace era pulsable, en project-gallery y brands la
+      tarjeta entera. Dos reglas contradictorias sobre que es pulsable.
+
+   LO QUE NO SE TOCA Y POR QUE
+
+   El padding lateral del cuerpo baja a 1rem por debajo de cierto ancho en el
+   CSS migrado. Aqui no se declara `padding` en .product-card-body-page ni en
+   .projects-card-body-page: una regla incondicional en esta hoja pisaria esa
+   media query y devolveria los 2rem al movil.
+
+   La escala del hover NO contradice la prohibicion de `scale` de
+   animaciones.css. Alli la prohibicion es para las ENTRADAS por scroll, que es
+   donde 73 de 110 elementos hacian el mismo gesto y todo se sentia igual. El
+   hover es otro sistema.
+   ============================================================================= */
+
+:root {
+  --pp-card-sombra: 0 2px 5px #0003;
+  --pp-card-sombra-hover: 0 8px 20px #00000026;
+  --pp-card-radio: 8px;
+  /* El radio de .button, para que el boton de la tarjeta sea el mismo objeto
+     que los botones del resto del sitio y no un primo lejano. */
+  --pp-boton-radio: 4px;
+  --pp-boton-alto-min: 44px;
+  --pp-card-transicion: .18s ease;
+}
+
+/* --- la tarjeta como objeto ------------------------------------------------
+   La sombra la tenia SOLO project-gallery. Las otras tres eran rectangulos
+   planos sobre fondo blanco. Ahora las cuatro son el mismo objeto.
+
+   position:relative en .product-card-page es ademas el requisito del enlace
+   estirado de mas abajo: sin el, el ::after se resolveria contra el <a>. */
+.product-card-page,
+.projects-card-page,
+.brands-card-page {
+  position: relative;
+  box-shadow: var(--pp-card-sombra);
+}
+
+/* --- tipografia del cuerpo -------------------------------------------------
+   12px/300 sobre fondo oscuro y a 553 px de ancho era el peor de los tres
+   factores a la vez. 14px/400 y la medida limitada a 60ch: la rejilla no se
+   entera y los CPL bajan de 88 a ~60.
+
+   .projects-card-text la comparten project-gallery Y brands. */
+.product-card-text,
+.projects-card-text {
+  max-width: 60ch;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.product-card-h3,
+.projects-card-h3 {
+  margin-bottom: .5rem;
+  line-height: 1.3;
+}
+
+/* --- el CTA pasa a ser un boton --------------------------------------------
+   Contorno crema, no crema solido. Hay 10 tarjetas por pagina: diez botones
+   solidos competirian con "Get a Quote" y "Schedule A Visit", que son los CTAs
+   de conversion de verdad. Esto se lee como boton sin gritar.
+
+   Contraste: texto crema sobre var(--primary) 7,81:1 en reposo; al rellenar,
+   var(--primary) sobre crema, los mismos 7,81:1. El borde da 7,81:1 contra el
+   fondo, muy por encima del 3:1 que pide WCAG 1.4.11 para componentes.
+
+   El alto sale del padding, no de un min-height a secas: min-height por si
+   algun dia cambia la fuente y el calculo deja de dar 44. */
+.product-card-link-page,
+.projects-card-link-page {
+  box-sizing: border-box;
+  min-height: var(--pp-boton-alto-min);
+  margin-top: 1.5rem;
+  border: 1px solid var(--secundary, #fffbf0);
+  border-radius: var(--pp-boton-radio);
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--secundary, #fffbf0);
+  justify-content: center;
+  transition:
+    background-color var(--pp-card-transicion),
+    color var(--pp-card-transicion),
+    border-color var(--pp-card-transicion);
+}
+
+/* El relleno lo dispara la tarjeta ENTERA, no solo el boton: ahora que toda la
+   tarjeta es pulsable, el feedback tiene que cubrir toda la zona pulsable.
+   :focus-visible incluido, que es como lo ve quien navega con teclado. */
+.product-card-page:hover .product-card-link-page,
+.product-card-link-page:focus-visible,
+.projects-card-page:hover .projects-card-link-page,
+.projects-card-page:focus-visible .projects-card-link-page,
+.brands-card-page:hover .projects-card-link-page,
+.brands-card-page:focus-visible .projects-card-link-page {
+  background-color: var(--secundary, #fffbf0);
+  color: var(--primary, #3a545b);
+}
+
+/* El empujon de 5px del CSS migrado. Movia el enlace de texto entero, que en un
+   boton con borde se lee como que la caja se descoloca. El feedback ahora es el
+   relleno. */
+.product-card-link-page:hover,
+.projects-card-link-page:hover {
+  transform: none;
+}
+
+/* --- una sola regla de clicabilidad ----------------------------------------
+   project-gallery y brands YA son <a> con la tarjeta entera. products y
+   services eran un <div> con un unico <a> dentro, asi que solo el enlace se
+   podia pulsar. Se estira ese <a> sobre toda la tarjeta.
+
+   La mecanica: .product-card-link-page pasa a position:static para que su
+   ::after se resuelva contra .product-card-page (que arriba se puso relative)
+   y no contra si mismo.
+
+   Ese ::after NO es nuevo: existe en accesibilidad.css como parche de area
+   tactil (height:100%, min-height:24px, centrado con top:50% + translateY).
+   Aqui se reutiliza para estirarlo, asi que hay que deshacer sus cuatro
+   declaraciones una por una — de ahi el height/min-height/transform explicitos.
+   El parche ya no hace falta: el padding del boton da los 44 px por si solo.
+
+   Un unico <a> por tarjeta (verificado en el HTML migrado), asi que no hay
+   enlaces anidados ni dos paradas de tabulador. */
+.product-card-link-page {
+  position: static;
+}
+
+.product-card-link-page::after {
+  inset: 0;
+  height: auto;
+  min-height: 0;
+  transform: none;
+  border-radius: var(--pp-card-radio);
+}
+
+/* --- movimiento ------------------------------------------------------------
+   Todo lo que se mueve va aqui dentro. El cambio de color del boton se queda
+   fuera a proposito: es el feedback de "esto es pulsable", no un adorno, y
+   quien pide movimiento reducido sigue necesitandolo. */
+@media (prefers-reduced-motion: no-preference) {
+  .product-card-page,
+  .projects-card-page,
+  .brands-card-page {
+    transition:
+      box-shadow var(--pp-card-transicion),
+      transform var(--pp-card-transicion);
+  }
+
+  .product-card-page:hover,
+  .projects-card-page:hover,
+  .brands-card-page:hover {
+    box-shadow: var(--pp-card-sombra-hover);
+    transform: translateY(-2px);
+  }
+
+  .product-card-image,
+  .projects-card-image,
+  .brands-card-image {
+    transition: transform .25s ease;
+  }
+
+  .product-card-page:hover .product-card-image,
+  .projects-card-page:hover .projects-card-image,
+  .brands-card-page:hover .brands-card-image {
+    transform: scale(1.03);
+  }
+}

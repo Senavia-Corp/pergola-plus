@@ -76,9 +76,27 @@ textarea:focus-visible,
   border-radius: 2px;
 }
 
-/* Sobre fondo oscuro el azul del outline se pierde. */
+/* Sobre fondo oscuro el azul del outline se pierde.
+
+   .product-card-link-page es el caso extremo y estuvo roto sin que se viera: el
+   boton vive dentro de .product-card-body-page, cuyo fondo es var(--primary), y
+   el outline de arriba es 3px solid var(--primary). Mismo color que el fondo,
+   contraste 1:1, anillo de foco INVISIBLE en /products y /services.
+
+   Ojo con la forma del selector: tiene que llevar el `a`. La regla general de
+   arriba es `.body-page a:focus-visible`, (0,2,1) por ese elemento; un
+   `.product-card-link-page:focus-visible` a secas es (0,2,0) y PIERDE, asi que
+   el anillo se quedaba del color del fondo aunque la regla existiera. Se ve solo
+   tabulando de verdad: .focus() por JS no activa :focus-visible y da un falso
+   verde. Por eso los tres van en la forma `.padre a`.
+
+   Las tarjetas de project-gallery y brands NO van en esta lista a proposito:
+   ahi el <a> es la tarjeta entera, asi que su outline se dibuja por fuera,
+   contra el blanco de la pagina. En crema seria igual de invisible. Se quedan
+   con el var(--primary) de la regla general, que es lo correcto sobre blanco. */
 .footer a:focus-visible,
-.hero-video-main a:focus-visible {
+.hero-video-main a:focus-visible,
+.product-card-page a:focus-visible {
   outline-color: var(--secundary, #fffbf0);
 }
 
