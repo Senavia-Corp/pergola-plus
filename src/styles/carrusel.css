@@ -65,3 +65,109 @@
     scroll-behavior: auto;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * SEPARACION ENTRE FOTOS
+ *
+ * Los carruseles de varias fotos por vista las servian PEGADAS, sin un pixel de
+ * aire: cinco recortes distintos en fila se leen como una sola tira rota, no como
+ * cinco fotos. Es lo primero que chirria en la galeria de las paginas de servicio.
+ *
+ * POR QUE PADDING Y NO `gap`.
+ *
+ * El ancho de cada slide es un PORCENTAJE y cambia por punto de ruptura: la galeria
+ * declara 20 / 25 / 33,3 / 50 / 100 % segun el ancho. Con `gap` esos porcentajes
+ * dejan de cuadrar y aparece la astilla del ultimo slide cortado — habria que
+ * rehacerlos a mano con calc((100% - (n-1)*hueco)/n), y cada punto de ruptura nuevo
+ * volveria a romperlo en silencio. El `box-sizing: border-box` es global aqui
+ * (comprobado en el sitio construido), asi que un padding interior cabe DENTRO del
+ * porcentaje: la separacion sale sin tocar ni uno de esos anchos.
+ *
+ * Las flechas se ajustan solas: Carrusel.astro MIDE el paso con
+ * `slides[1].offsetLeft - slides[0].offsetLeft`, y offsetLeft ya cuenta el padding.
+ *
+ * SE NOMBRAN LAS DOS INSTANCIAS, en vez de aplicarlo a todo slide. Comprobado uno a
+ * uno sobre el sitio construido:
+ *
+ *   gallery-section   20/25/33/50/100%   sin padding propio   -> lo necesita
+ *   feature-gallery   50/100%            sin padding propio   -> lo necesita
+ *   industries        33/50/100%         ya trae 1rem          -> no se toca
+ *   projects          100% SIEMPRE       una foto por vista    -> no se toca
+ *
+ * La primera version usaba `[fs-slider-element='slide']:not(:only-child)` y rompio
+ * justo el ultimo: `projects` tiene varios slides pero enseña UNO, asi que el padding
+ * no separaba nada — le metia 16 px por la derecha y ninguno por la izquierda, y la
+ * foto de «Recent Projects» quedaba descentrada en la home. Medido: slide 950, foto
+ * 934. Un selector generico no puede distinguir «varios slides» de «varios a la
+ * vista»; la lista explicita si, y falla del lado seguro (una instancia nueva se
+ * queda sin aire, que es cosmetico, en vez de salir descuadrada).
+ */
+.fs-slider-gallery-section_slide,
+.fs-slider-feature-gallery_slide {
+  padding-inline-end: 1rem;
+}
+
+/*
+ * A una foto por vista el slide ocupa el ancho entero: ese aire ya no separa nada,
+ * mete 16 px por la derecha y ninguno por la izquierda. Las dos instancias pasan a
+ * 100% en este mismo punto — medido: a 375 px las dos dan 1 slide por vista.
+ */
+@media (max-width: 767px) {
+  .fs-slider-gallery-section_slide,
+  .fs-slider-feature-gallery_slide {
+    padding-inline-end: 0;
+  }
+}
+
+/*
+ * Esquinas redondeadas, para que el hueco se lea como intencion.
+ *
+ * No es un gusto: `.fs-slider-projects_image` ya viene de Webflow con
+ * `border-radius: .5rem`, igual que `.intro-img-city` con 8px. Estas dos galerias
+ * eran las unicas tiras de fotos del sitio con esquina viva.
+ */
+.fs-slider-gallery-section_slide img,
+.fs-slider-feature-gallery_slide img {
+  border-radius: .5rem;
+}
+
+.block-nav-gallery {
+  position: relative;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/*
+ * Los puntos se centran respecto a la FILA, no al hueco que sobra.
+ *
+ * La primera version compensaba con un margen del ancho de las flechas, y quedaba
+ * a 12 px del centro: el numero magico no contaba el gap, y habria que corregirlo
+ * cada vez que cambie el tamano de un boton. En posicion absoluta el centro es el
+ * centro, midan lo que midan las flechas.
+ */
+.block-nav-gallery [fs-slider-element='pagination'] {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
+}
+
+/*
+ * En movil hay un punto por foto y la tira de puntos se pone mas ancha que la
+ * pantalla, asi que centrada por encima de las flechas se solaparian. Vuelven al
+ * flujo, en su propia linea y por delante: primero «voy por la tercera», debajo
+ * «ir a la siguiente».
+ */
+@media (max-width: 767px) {
+  .block-nav-gallery {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .block-nav-gallery [fs-slider-element='pagination'] {
+    position: static;
+    transform: none;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+  }
+}

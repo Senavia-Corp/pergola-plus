@@ -38,8 +38,10 @@
  * NO se toca public/css/pergola-plus-florida.webflow.css: es el export de Webflow y
  * cualquier edicion la revierte la siguiente instalacion de assets.
  *
- * `.why-choose-image` queda FUERA a proposito aunque tambien tenga altura sola: es
- * una foto con object-fit:cover, donde recortar es la intencion y no un fallo.
+ * Quedan FUERA a proposito, aunque tambien tengan altura sola: `.why-choose-image`,
+ * `.blog-featured_image`, `.img-cover-service` y `.img-logo-brand`. Las cuatro llevan
+ * object-fit:cover, donde recortar es la intencion y no un fallo — se comprobo una a
+ * una: el `fit` es lo que separa deformacion de recorte deliberado.
  */
 img.logo,
 img.logo-footer,
@@ -49,7 +51,10 @@ img.icon-process,
 img.icon-services,
 img.icon-social-media,
 img.icon-phone,
-img.why-choose-icon {
+img.why-choose-icon,
+img.icon-feature,
+img.icon-intro,
+img.icon-key-business {
   width: auto;
   object-fit: contain;
 }
@@ -117,4 +122,21 @@ img.why-choose-icon {
     height: 100%;
     min-height: 0;
   }
+}
+
+/*
+ * Las fotos del marquee de sectores, en su PROPIA regla y no en la lista de arriba.
+ *
+ * No es cosmetica del fichero: check:marquee vigila que ningun selector propio
+ * mezcle el marquee de LOGOS con el de FOTOS —el primero se anima y se le duplica la
+ * pista, el segundo se dejo fuera a proposito— y una lista que nombrase los dos a la
+ * vez es indistinguible de haber empezado a tratarlos igual. La puerta lo caza, y
+ * hace bien.
+ *
+ * El fallo era el mismo de siempre: `.fs-marquee-picture { height: 200px }` sin width,
+ * y el atributo `width="1250"` del arreglo de CLS pintandolas 1250x200.
+ */
+img.fs-marquee-picture {
+  width: auto;
+  object-fit: contain;
 }

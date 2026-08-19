@@ -198,6 +198,62 @@ decir(comoEnlace.length === 0, 'las flechas siguen siendo <button>, no <a href="
   }
 }
 
+
+// --- separacion entre fotos ------------------------------------------------
+//
+// Los carruseles de varias fotos por vista las servian PEGADAS. El aire se mete con
+// un padding interior en src/styles/carrusel.css, y solo en las instancias que lo
+// necesitan.
+//
+// ESTA COMPROBACION EXISTE POR UN FALLO QUE SE COLO ARREGLANDO ESTO. La primera
+// version usaba `[fs-slider-element='slide']:not(:only-child)`, que parece razonable
+// y no lo es: `fs-slider-projects` tiene varios slides pero enseña UNO por vista, asi
+// que el padding no separaba nada — metia 16 px por la derecha y ninguno por la
+// izquierda, y la foto de «Recent Projects» quedaba descentrada en la home. Un
+// selector generico no puede distinguir «varios slides» de «varios a la vista».
+//
+// Se comprueba sobre el CSS y no sobre el DOM porque el reparto por punto de ruptura
+// es lo que decide el caso, y eso vive en la hoja: un slide que ocupa el 100% en
+// TODOS sus anchos no puede llevar aire, porque ahi solo puede descentrar.
+{
+  const css = await fs.readFile(path.join(RAIZ, 'src/styles/carrusel.css'), 'utf8');
+  const webflow = await fs.readFile(
+    path.join(RAIZ, 'public/css/pergola-plus-florida.webflow.css'), 'utf8');
+
+  const instancias = [...new Set(
+    [...webflow.matchAll(/\.fs-slider-([\w-]+)_slide\b/g)].map((m) => m[1]),
+  )];
+
+  const conAire = instancias.filter((i) => new RegExp(`\\.fs-slider-${i}_slide\\b`).test(css));
+  const anchosDe = (i) => [...webflow.matchAll(
+    new RegExp(`\\.fs-slider-${i}_slide\\s*\\{([^}]*)\\}`, 'g'),
+  )].map((m) => (m[1].match(/width\s*:\s*([^;]+)/) || [])[1]).filter(Boolean).map((w) => w.trim());
+
+  const siempreEntera = conAire.filter((i) => {
+    const a = anchosDe(i);
+    return a.length > 0 && a.every((w) => w === '100%');
+  });
+  decir(
+    siempreEntera.length === 0,
+    'ninguna instancia de UNA foto por vista lleva aire (ahi solo descentra)',
+    siempreEntera.map((i) => `fs-slider-${i}: anchos ${anchosDe(i).join(', ')}`),
+  );
+
+  // Y la otra mitad: que a las de varias por vista no se les caiga.
+  const multi = instancias.filter((i) => {
+    const a = anchosDe(i);
+    return a.length > 0 && a.some((w) => w !== '100%');
+  });
+  const yaTraenElSuyo = multi.filter((i) => new RegExp(
+    `\\.fs-slider-${i}_slide\\s*\\{[^}]*padding`, 's').test(webflow));
+  const sinAire = multi.filter((i) => !conAire.includes(i) && !yaTraenElSuyo.includes(i));
+  decir(
+    sinAire.length === 0,
+    'toda instancia de varias fotos por vista tiene separacion (propia o anadida)',
+    sinAire.map((i) => `fs-slider-${i} las sirve pegadas`),
+  );
+}
+
 if (fallos) {
   console.log(`\n${fallos} fallo(s).`);
   process.exit(1);
