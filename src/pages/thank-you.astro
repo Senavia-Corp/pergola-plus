@@ -46,8 +46,11 @@ const ESCUDO_SVG =
           <strong>Within one business day</strong> we reply by email to confirm we
           received your request and to ask anything we still need.
         </li>
+        <!-- "Your location" y no "your address": el estimador pide el codigo
+             postal y nunca la calle, asi que prometer que revisamos una direccion
+             que el visitante no ha dado era falso en ese camino. -->
         <li>
-          <strong>We check your address</strong> against the counties we build in —
+          <strong>We check your location</strong> against the counties we build in —
           Miami-Dade, Broward and Palm Beach — and against local permitting and
           wind-load requirements.
         </li>
@@ -61,10 +64,13 @@ const ESCUDO_SVG =
         </li>
       </ol>
 
+      <!-- Los {' '} no son decoracion: Astro se come el espacio en blanco que
+           precede a un elemento cuando esta al final de linea, y salia
+           "Call(561) 710-8363" y "write toinfo@pergolaplusflorida.com". -->
       <p class="ty-prisa">
-        In a hurry, or would you rather talk it through now? Call
+        In a hurry, or would you rather talk it through now? Call{' '}
         <a href="tel:+15617108363">(561) 710-8363</a> during business hours
-        (Mon–Fri, 8:00 AM – 5:00 PM) or write to
+        (Mon–Fri, 8:00 AM – 5:00 PM) or write to{' '}
         <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>.
       </p>
 
@@ -94,6 +100,26 @@ const ESCUDO_SVG =
 </script>
 
 <style>
+  /* La barra de navegacion es fixed y mide 85px, y la hoja migrada de Webflow
+     centra este bloque dentro de `height: 100vh` sin descontarla. Con el contenido
+     midiendo mas que la ventana (885 contra 862), el centrado lo empujaba hacia
+     ARRIBA: el escudo de confirmacion, de 110px, quedaba con 13 visibles — esa
+     punta oscura suelta debajo de la barra que parecia un triangulo roto.
+     Se cambia a min-height para que el bloque crezca en vez de desbordar, y se
+     reserva la altura de la barra. El export de Webflow no se toca: la proxima
+     exportacion lo sobrescribiria. */
+  .utility-page-wrap-copy {
+    height: auto;
+    min-height: 100vh;
+    padding-top: calc(85px + 3rem);
+    padding-bottom: 4rem;
+  }
+
+  /* `flex-flow: column` sin gap dejaba los dos botones pegados. */
+  .wrapper-buttons-center-form {
+    gap: .75rem;
+  }
+
   /* Propio, no migrado: el fragmento original solo tenia un parrafo. */
   .ty-intro {
     font-size: 20px;
