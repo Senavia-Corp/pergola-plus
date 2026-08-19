@@ -27,6 +27,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Adoquinado de lujo | Sur de Florida',
     description: 'Patios, bordes de piscina y entradas de coche adoquinados sobre bases calculadas, con el drenaje que pide la lluvia de Florida.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Luxury paver patio installation at modern South Florida residence with pool integration.':
+        'Patio adoquinado de lujo instalado en una residencia moderna del sur de Florida, integrado con la piscina.',
       'Paver Installation': 'Instalación de adoquinado',
       'Luxury Paver Installation in South Florida': 'Adoquinado de lujo en el sur de Florida',
       'Pergola Plus Florida provides premium paver installation services throughout Palm Beach and Broward County for high-end residential properties. From pool decks and patios to expansive outdoor entertainment areas, our paver systems are engineered for structural integrity, proper drainage, and long-term performance. If you&#x27;re searching for professional paver contractors in South Florida, our team delivers custom-designed surfaces that enhance curb appeal and withstand Florida’s heavy rain and sun exposure. We focus on permanent, professionally installed solutions that elevate your entire outdoor living environment.':
@@ -80,6 +84,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Diseño y construcción de pérgolas | Sur de Florida',
     description: 'Pérgolas de aluminio a medida con cálculo estructural y permisos, pensadas para el calor, la humedad y el viento de Florida.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Completed custom aluminum pergola installation at luxury South Florida residence with integrated lighting and modern architectural design.':
+        'Pérgola de aluminio a medida terminada en una residencia de lujo del sur de Florida, con iluminación integrada y diseño actual.',
       'Pergola Design &amp; Construction': 'Diseño y construcción de pérgolas',
       'Custom Pergola Design &amp; Construction in South Florida': 'Diseño y construcción de pérgolas a medida en el sur de Florida',
       'Pergola Plus Florida delivers fully engineered pergola design and construction services across Palm Beach and Broward County. We specialize in custom aluminum pergolas, insulated roof systems, and modern louvered structures designed specifically for Florida’s heat, humidity, and wind exposure. Every project is professionally designed, structurally engineered, and permitted to ensure long-term durability and compliance. Whether you&#x27;re searching for pergola builders near you or a high-end outdoor structure contractor in South Florida, we create architectural outdoor spaces that increase comfort, elevate aesthetics, and add lasting property value.':
@@ -129,6 +137,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Entradas de coche a medida | Sur de Florida',
     description: 'Entradas adoquinadas sobre bases reforzadas, con las pendientes y el drenaje calculados para las lluvias de Florida.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Modern paver driveway installation at upscale South Florida residence.':
+        'Entrada de coche adoquinada y de línea actual instalada en una residencia de alto nivel del sur de Florida.',
       'Driveway Design &amp; Installation': 'Diseño e instalación de entradas de coche',
       'Custom Driveway Installation in South Florida': 'Entradas de coche a medida en el sur de Florida',
       'Pergola Plus Florida designs and installs luxury driveway systems across Palm Beach and Broward County for upscale residential properties. Our custom paver and concrete driveways are built on reinforced foundations engineered for durability, load-bearing performance, and climate resilience. If you&#x27;re searching for driveway contractors in South Florida, we deliver architecturally cohesive installations that enhance curb appeal and withstand heavy rainfall, sun exposure, and daily vehicle use. We focus on structural precision and long-term performance to ensure your driveway remains both functional and visually refined for years to come.':
@@ -178,6 +190,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Hormigón estructural | Sur de Florida',
     description: 'Losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y adoquinado, con permisos en regla.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Structural concrete patio foundation installation at South Florida luxury property.':
+        'Cimentación de hormigón estructural para patio instalada en una propiedad de lujo del sur de Florida.',
       'Structural Concrete Services': 'Servicios de hormigón estructural',
       'Structural Concrete Services in South Florida': 'Hormigón estructural en el sur de Florida',
       'Pergola Plus Florida provides structural concrete services for high-end residential outdoor projects across Palm Beach and Broward County. From reinforced pergola slabs and patio foundations to custom drive surfaces, every installation is engineered for strength, longevity, and code compliance. If you need professional concrete contractors in South Florida for a fully permitted project, our team ensures proper reinforcement, grading, and curing to support long-term structural performance. We build foundations that protect and enhance your outdoor investment.':
@@ -228,6 +244,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Constructores de decks a medida | Sur de Florida',
     description: 'Decks de composite y aluminio calculados para el ambiente costero, con permisos e instalación profesional.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Premium composite deck installation at South Florida luxury residence.':
+        'Instalación de deck de composite de gama alta en una residencia de lujo del sur de Florida.',
       'Deck Builders': 'Constructores de decks',
       'Custom Deck Builders in South Florida': 'Decks a medida en el sur de Florida',
       'Pergola Plus Florida designs and builds custom composite and aluminum decks for luxury homes throughout Palm Beach and Broward County. Our deck systems are engineered for coastal durability, structural stability, and seamless architectural integration. If you&#x27;re searching for deck builders near you or experienced deck contractors in South Florida, we deliver fully permitted, professionally installed outdoor decks built for Florida living. Each project is tailored to enhance pool areas, outdoor kitchens, and pergola systems while increasing long-term property value.':
@@ -277,6 +297,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Instalación de vallado | Sur de Florida',
     description: 'Vallado de aluminio y cerramientos de privacidad calculados para resistir el viento y la corrosión de la costa, con permisos y visto bueno de la HOA.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Premium aluminum fence installation at luxury South Florida residence.':
+        'Instalación de vallado de aluminio de gama alta en una residencia de lujo del sur de Florida.',
       'Fence Solutions': 'Soluciones de vallado',
       'Premium Fence Installation in South Florida': 'Vallado de gama alta en el sur de Florida',
       'Pergola Plus Florida provides premium fence installation services throughout Palm Beach and Broward County for upscale residential properties. Our aluminum and modern privacy fencing systems are engineered for wind resistance, corrosion protection, and long-term structural performance in South Florida’s climate. If you&#x27;re searching for fence contractors in South Florida, our team delivers fully compliant, professionally installed solutions that enhance security and architectural cohesion. We focus on durable, low-maintenance fencing that complements your home while providing lasting privacy and protection.':
@@ -328,6 +352,10 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Reforma integral de patio | Sur de Florida',
     description: 'Convertimos patios anticuados en espacios exteriores cuidados: refuerzo estructural, adoquinado, pérgolas integradas y cortinas motorizadas.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Luxury patio remodeling project completed at South Florida residence with pergola integration.':
+        'Reforma de patio de lujo terminada en una residencia del sur de Florida, con la pérgola integrada.',
       'Patio Remodeling': 'Reforma de patio',
       'Luxury Patio Remodeling in South Florida': 'Reforma de patio de lujo en el sur de Florida',
       'Pergola Plus Florida transforms outdated patios into refined outdoor living spaces across Palm Beach and Broward County. Our remodeling services include structural upgrades, premium pavers, integrated pergolas, and motorized screen systems designed for comfort and longevity. If you&#x27;re searching for patio remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.':

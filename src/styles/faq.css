@@ -1,0 +1,122 @@
+/**
+ * El FAQ de las 17 fichas de detalle (10 productos + 7 servicios), a dos columnas:
+ * la portada del CMS a la izquierda, las preguntas a la derecha.
+ *
+ * TODO cuelga de .pp-faq-2col, que la pone scripts/lib/transformar.mjs (paso 6d) y
+ * solo en esas 17. NO se estiliza .faq_item, .wrapper-faq, .header-faq ni
+ * .div-block-10 a pelo: ese mismo componente FAQ lo usan tambien /resources/faq y
+ * /resources/warranties —donde no hay portada que poner— y una regla suelta les
+ * habria partido la maqueta sin que nada avisara.
+ *
+ * Tampoco se toca .faq_trigger ni .faq_content: el acordeon lo sigue moviendo IX2
+ * (eventos e-37/e-38 sobre la clase), y check:animaciones afirma que los 90 eventos
+ * que no son entrada siguen intactos.
+ *
+ * Por la misma razon esto vive aqui y no en animaciones.css, cuya puerta exige que
+ * el CSS construido reclame EXACTAMENTE los selectores de scripts/lib/reveals.mjs y
+ * ninguno mas.
+ */
+
+/* La doble clase (.pp-faq-2col.w-container) no es adorno: sube la especificidad a
+   0,2,0. Con una sola clase empatariamos con .w-layout-blockcontainer y con el
+   clearfix de .w-container, y quien gane dependeria de en que orden salgan la hoja
+   propia y el export de Webflow del build. Un empate no es una regla. */
+.pp-faq-2col.w-container {
+  display: grid;
+  /* La lista manda: la foto acompana. minmax(0,·) para que una pregunta larga no
+     ensanche su columna por encima del reparto. */
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  /* Tres filas y no dos: cabecera, lista y una vacia que se come la holgura.
+     Sin ella, la foto —que se ve a su relacion natural, sin recorte: 504x672 en una
+     ficha vertical frente a los 384 que miden cabecera y lista— reparte su altura de
+     mas entre las DOS filas que abarca, y abria 170 px de hueco muerto entre el
+     subtitulo y la primera pregunta. Medido en /products/cabanas a 1440. */
+  grid-template-rows: auto auto 1fr;
+  column-gap: 4rem;
+  row-gap: 2rem;
+  align-items: start;
+}
+
+/* El clearfix de .w-container. Con display:grid esos dos ::before/::after dejan de
+   ser cajas de tabla y pasan a ser ITEMS del grid: Webflow los aparca en la celda
+   1,1 —justo donde va la foto— y ahi meten la altura de un espacio en blanco. */
+.pp-faq-2col.w-container::before,
+.pp-faq-2col.w-container::after {
+  display: none;
+}
+
+/* La foto abarca las dos filas de la izquierda: cabecera + lista. */
+.pp-faq-2col > .pp-faq-media {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: stretch;
+}
+
+/* Cabecera y lista a la derecha, sean cuales sean sus clases: en productos la lista
+   es .div-block-10 y en servicios .wrapper-faq. Se selecciona por posicion, no por
+   nombre, para no depender de esa diferencia. */
+.pp-faq-2col > *:not(.pp-faq-media) {
+  grid-column: 2;
+}
+
+.pp-faq-media {
+  height: 100%;
+  min-height: 380px;
+}
+
+.pp-faq-img {
+  width: 100%;
+  height: 100%;
+  /* Las portadas no comparten relacion: productos 938x1250 (vertical) y servicios
+     1250x1250 (cuadrada). Con cover las dos rellenan el hueco que marca la lista. */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+/* .header-faq venia centrada y con 550px de tope, medida para una sola columna. */
+.pp-faq-2col > .header-faq {
+  text-align: left;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* El margen que separaba la lista del titulo centrado; en grid lo da row-gap. */
+.pp-faq-2col > .div-block-10,
+.pp-faq-2col > .wrapper-faq {
+  margin-top: 0;
+}
+
+@media (max-width: 991px) {
+  .pp-faq-2col.w-container {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    column-gap: 2.5rem;
+  }
+}
+
+/* Breakpoint de Webflow: por debajo de 768 las columnas se apilan, foto arriba. */
+@media (max-width: 767px) {
+  .pp-faq-2col.w-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .pp-faq-2col > .pp-faq-media,
+  .pp-faq-2col > *:not(.pp-faq-media) {
+    grid-column: 1;
+  }
+
+  .pp-faq-2col > .pp-faq-media {
+    grid-row: auto;
+  }
+
+  /* Altura DEFINIDA, no un maximo: el hijo lleva height:100% y con la caja en auto
+     eso resuelve a auto. Si la foto no ha pintado todavia —o el build se sirviera sin
+     los width/height que inyecta dimensionarImagenes()— la columna colapsaba a 0 y el
+     hueco desaparecia. Medido: 0 px en /products/... a 390 px. */
+  .pp-faq-media {
+    min-height: 0;
+    height: 320px;
+  }
+}

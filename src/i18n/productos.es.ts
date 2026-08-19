@@ -28,6 +28,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas de lamas motorizadas | Sur de Florida',
     description: 'Lamas de aluminio orientables con sensores de lluvia y viento, integración domótica y certificación NOA, instaladas en el sur de Florida.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Louvered roof pergola contractors in South Florida installing motorized aluminum pergolas with smart controls, rain sensors, and modern outdoor living design.':
+        'Especialistas en pérgolas de techo de lamas en el sur de Florida instalando pérgolas de aluminio motorizadas con control inteligente, sensor de lluvia y diseño exterior actual.',
       'Motorized Louvered Pergolas': 'Pérgolas de lamas motorizadas',
       'Sun or Shade on Demand': 'Sol o sombra cuando quiera',
       'Smart Home Integrated': 'Integrada con la domótica',
@@ -88,6 +92,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas de techo aislado | Sur de Florida',
     description: 'Paneles aislantes que cortan el calor radiante, con canalón oculto y preparación para ventiladores y televisión.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Insulated roof pergola builders in South Florida designing custom aluminum patio covers engineered for heat reduction and all-weather protection.':
+        'Constructores de pérgolas de techo aislado en el sur de Florida diseñando cubiertas de patio de aluminio a medida, pensadas para bajar el calor y proteger con cualquier tiempo.',
       'Solid Roof Pergolas': 'Pérgolas de techo sólido',
       'Cools Patio Drastically': 'Baja mucho la temperatura del patio',
       'Ready for Fans &amp; TVs': 'Preparada para ventiladores y TV',
@@ -148,6 +156,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas abiertas de aluminio | Sur de Florida',
     description: 'Pérgolas de aluminio de estructura abierta que definen el patio sin cortar la brisa ni las vistas al cielo, sin mantenimiento.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Open-air pergola builders in South Florida creating architectural aluminum pergolas that define outdoor living spaces with modern design.':
+        'Constructores de pérgolas abiertas en el sur de Florida creando pérgolas de aluminio que definen el espacio exterior con un diseño actual.',
       'Open-Air Pergolas': 'Pérgolas abiertas',
       'Timeless Elegance': 'Elegancia que no pasa de moda',
       'Maximum Cooling Airflow': 'Máxima ventilación',
@@ -208,6 +220,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cabañas de aluminio a medida | Sur de Florida',
     description: 'Cabañas de aluminio de inspiración resort, calculadas para resistir huracanes, con cortinas motorizadas y techo aislado opcionales.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Aluminum cabana contractors in South Florida building luxury backyard cabanas engineered for shade, privacy, and resort-style outdoor living.':
+        'Constructores de cabañas de aluminio en el sur de Florida levantando cabañas de patio de gama alta, pensadas para dar sombra, privacidad y un exterior con aire de resort.',
       Cabanas: 'Cabañas',
       'Resort-Style Luxury': 'Lujo de resort',
       'Hurricane-Resistant': 'Resistente a huracanes',
@@ -266,6 +282,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cerramientos con mosquitero | Sur de Florida',
     description: 'Cerramientos calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción resistente a mascotas.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant engineering.':
+        'Especialistas en cerramientos con mosquitero en el sur de Florida instalando habitaciones de aluminio a medida para patios y piscinas, conforme a la normativa.',
       'Screen Enclosures': 'Cerramientos con mosquitero',
       'Expands Living Space': 'Amplía el espacio habitable',
       'High-Visibility Mesh': 'Malla de alta visibilidad',
@@ -324,6 +344,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cortinas motorizadas para patios | Sur de Florida',
     description: 'Cortinas retráctiles con mando o app, detección de obstáculos y carcasa oculta, integradas en pérgolas y porches.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Motorized screen installers in South Florida providing retractable patio screens for shade, privacy, and smart outdoor automation.':
+        'Instaladores de cortinas motorizadas en el sur de Florida con cortinas retráctiles de patio para dar sombra, privacidad y automatización al exterior.',
       'Instant Bug Protection': 'Protección inmediata frente a insectos',
       'Retracts Invisibly': 'Se recoge y desaparece',
       'Coastal Wind Rated': 'Homologada para viento de costa',
@@ -383,6 +407,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cocheras de aluminio | Sur de Florida',
     description: 'Cocheras de aluminio calculadas para las cargas de viento de Florida, con drenaje oculto y acabados que se integran con la casa.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Aluminum carport builders in South Florida constructing custom vehicle protection structures engineered for sun, rain, and high-wind conditions.':
+        'Constructores de cocheras de aluminio en el sur de Florida levantando estructuras a medida que protegen el coche del sol, la lluvia y el viento fuerte.',
       'Premium Sun Protection': 'Protección solar de verdad',
       'Custom Home Integration': 'Integrada con su casa',
       'Wind-Code Compliant': 'Cumple la normativa de viento',
@@ -441,6 +469,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas con techo de policarbonato | Sur de Florida',
     description: 'Paneles translúcidos que bloquean el 99% de los UV, resisten impactos y dejan pasar la luz, sobre estructura de aluminio reforzada.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Polycarbonate pergola contractors in South Florida installing UV-protected translucent roofing systems for patios and poolside outdoor spaces.':
+        'Especialistas en pérgolas de policarbonato en el sur de Florida instalando cubiertas traslúcidas con protección UV para patios y zonas de piscina.',
       '100% Waterproof Patio': 'Patio 100% estanco',
       'Advanced UV Protection': 'Protección UV avanzada',
       'Impact-Resistant Roofing': 'Techo resistente a impactos',
@@ -499,6 +531,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas solares | Sur de Florida',
     description: 'Estructuras preparadas para fotovoltaica: refuerzo de carga, cableado oculto y drenaje integrado, con orientación estudiada.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Solar roof structure contractors in South Florida designing engineered aluminum structures ready for solar panel integration and shaded outdoor living.':
+        'Especialistas en pérgolas solares en el sur de Florida diseñando estructuras de aluminio preparadas para integrar paneles solares y dar sombra al exterior.',
       'Shade That Pays Back': 'Sombra que se paga sola',
       'Concealed Wiring': 'Cableado oculto',
       'Eco-Friendly Luxury': 'Lujo sostenible',
@@ -558,6 +594,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Sukkha 3000 | Estructuras exteriores de lujo',
     description: 'El sistema Sukkha 3000: ingeniería modular, aluminio de alto rendimiento, diseño minimalista y automatización integrada.',
     dic: {
+      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
+      'Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design.':
+        'Constructores de estructuras Sukkha 3000 en el sur de Florida con sistemas de pérgola avanzados, automatizados y de diseño actual.',
       'Bespoke Luxury Design': 'Diseño de lujo a medida',
       'Category 5 Reinforced': 'Reforzada para categoría 5',
       'Smart-Home Automated': 'Automatizada con domótica',

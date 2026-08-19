@@ -653,3 +653,52 @@ Misma fidelidad a la fuente. Va en `REENCUADRADAS` con esa verificación escrita
 regla de esa lista es explícita: **si no puedes escribir el número contra el original,
 no metas la imagen ahí**. El script avisa en cada ejecución de que ese encuadre se
 saltó la reja.
+
+## El FAQ de ficha a dos columnas: la clase propia no es cosmética
+
+El cliente pidió el FAQ de productos y servicios a dos columnas, con la imagen de
+referencia a la izquierda. Dos cosas decidieron cómo se hizo.
+
+**No se tocan los 17 fragmentos.** `src/contenido-migrado/` es salida generada y
+`check:generadores` regenera y compara: una edición a mano falla la puerta y el
+siguiente `node scripts/generar-detalle.mjs` la revierte en silencio. El cambio vive
+en `scripts/lib/transformar.mjs` (paso 6d), que es el mismo sitio donde acabó la
+retirada del widget de Elfsight por esta misma razón.
+
+**El componente FAQ está en más sitios de los que se ve.** Medido sobre `dist/`:
+`.section-faq-page` sí es exclusivo de las 17 fichas (34 páginas con el español),
+pero `.faq_item` sale también en `/resources/faq` y `.wrapper-faq` en
+`/resources/faq` y `/resources/warranties`. Y la lista ni siquiera se llama igual
+dentro de las 17: `.div-block-10` en productos, `.wrapper-faq` en servicios. Estilar
+cualquiera de esas clases a pelo habría partido dos páginas que nadie estaba mirando.
+Por eso el transformador marca el contenedor con `.pp-faq-2col` —clase propia, solo
+donde él la pone— y `src/styles/faq.css` cuelga entero de ella. La columna derecha se
+selecciona por posición (`> *:not(.pp-faq-media)`), no por nombre, precisamente
+porque ese nombre cambia entre colecciones.
+
+**La imagen es la portada del CMS** (`/cms-img/<colección>/<slug>/cover-*`). Las 17
+existían, traían el `alt` redactado en `img-map.json` y no se usaban en ninguna de las
+211 páginas: la migración las había dejado fuera. El `width`/`height` no se escribe,
+lo pone `dimensionarImagenes()` sobre `dist/` al cerrar el build.
+
+Dos detalles que costaron una medición cada uno:
+
+- **Tres filas, no dos.** La foto se ve a su relación natural (504x672 en una ficha
+  vertical) y abarca las dos filas de texto, que suman 384. Ese exceso se repartía
+  entre ambas y abría 170 px de hueco muerto entre el subtítulo y la primera
+  pregunta. Con `grid-template-rows: auto auto 1fr` la holgura cae en una tercera fila
+  vacía y el texto queda pegado arriba.
+- **En móvil la caja necesita altura definida.** Con `max-height` y el hijo en
+  `height:100%`, una foto que aún no ha pintado dejaba la columna en 0 px —medido a
+  390 en el servidor de desarrollo, donde los `width`/`height` todavía no están—.
+
+`.pp-faq-2col.w-container` va con doble clase a propósito: con una sola empata en
+especificidad con `.w-layout-blockcontainer` y con el clearfix `::before/::after` de
+`.w-container`, y quién gana dependería del orden en que salgan la hoja propia y el
+export de Webflow. Un empate no es una regla.
+
+El acordeón sigue siendo de IX2 (eventos `e-37`/`e-38` sobre `.faq_trigger`): dentro
+de `.faq_item` no se cambió una sola clase, y `check:animaciones` afirma que los 90
+eventos que no son entrada siguen intactos. Verificado con un clic real en las tres
+anchuras: la respuesta abre en las 17.
+

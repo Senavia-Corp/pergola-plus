@@ -943,6 +943,41 @@ const ELFSIGHT_RESENAS =
 const RESENAS = '/about-us/testimonials';
 
 /**
+ * La portada del CMS de cada ficha de detalle: /products/<slug> -> { src, alt }.
+ *
+ * Sale de img-map.json y no de leer la carpeta porque ahi esta el alt REDACTADO por
+ * el CMS. Las 17 portadas existen, ninguna tiene el alt vacio y —medido sobre el
+ * build— no se usaban en ninguna de las 211 paginas: eran el unico retrato de cada
+ * producto que la migracion habia dejado fuera.
+ *
+ * width/height no se ponen aqui: los inyecta dimensionarImagenes() sobre dist/ al
+ * cerrar el build, que es donde estan medidas las 7147 imagenes del sitio.
+ */
+const PORTADAS = await (async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const f = fileURLToPath(new URL('../../src/lib/img-map.json', import.meta.url));
+  let mapa;
+  try { mapa = JSON.parse(await readFile(f, 'utf8')); } catch { return {}; }
+  const portadas = {};
+  for (const v of Object.values(mapa)) {
+    const m = v.src?.match(/^\/cms-img\/(products|services)\/([^/]+)\/cover-/);
+    if (m) portadas[`/${m[1]}/${m[2]}`] = { src: v.src, alt: v.alt || v.altDerivado || '' };
+  }
+  return portadas;
+})();
+
+/** Marca de que la pagina trae el FAQ de ficha. Es exclusivo de las 17 de detalle. */
+const FAQ_SECCION = 'class="section-faq-page"';
+
+/**
+ * La apertura del FAQ de ficha, IDENTICA en los 17 fragmentos (comprobado byte a
+ * byte). Es literal a proposito, como el resto de anclas de este fichero: si el
+ * markup cambia, mejor que reviente el build a que la columna deje de salir.
+ */
+const FAQ_ANCLA = '<div class="section-faq-page"><div class="w-layout-blockcontainer w-container">';
+
+/**
  * Los tres diferenciales del hero de la HOME. Se retiran por peticion del cliente.
  *
  * Es el bloque entero, no los tres <div> sueltos: `.tagline` es el contenedor flex
@@ -1421,6 +1456,44 @@ export function transformar(html, ruta) {
       );
     }
     s = s.replace(HERO_DIFERENCIALES, '');
+  }
+
+  // 6d. El FAQ de ficha, a dos columnas: la portada del producto a la izquierda y
+  //     las preguntas a la derecha.
+  //
+  //     Solo se inserta la imagen como PRIMER hijo del contenedor y se marca este con
+  //     .pp-faq-2col; las dos columnas las hace src/styles/faq.css. Nada de envolver
+  //     bloques: dentro de .faq_item no se toca ni una clase, y el acordeon lo sigue
+  //     moviendo IX2 por selector de clase (.faq_trigger, eventos e-37/e-38), que es
+  //     justo lo que afirma check:animaciones de los 90 eventos que no son entrada.
+  //
+  //     Por que una clase propia y no `.section-faq-page`: el mismo componente FAQ vive
+  //     tambien en /resources/faq y /resources/warranties (.section-faq, .wrapper-faq,
+  //     .faq_item) y ahi NO hay portada que poner. Con .pp-faq-2col el CSS no puede
+  //     alcanzarlas ni por accidente.
+  //
+  //     Se anade tambien `container`: el contenedor del FAQ era el w-container pelado
+  //     de 940px mientras el resto de secciones de la ficha van a 1250. A 940 las dos
+  //     columnas salen a ~430px cada una.
+  if (s.includes(FAQ_SECCION)) {
+    const portada = PORTADAS[ruta];
+    if (!portada) {
+      throw new Error(
+        `[faq] ${ruta} trae el FAQ de ficha pero no encuentro su portada en img-map.json.\n`
+        + '  Sin imagen las dos columnas no tienen sentido: revisa /cms-img/<coleccion>/<slug>/cover-*',
+      );
+    }
+    if (!s.includes(FAQ_ANCLA)) {
+      throw new Error(
+        `[faq] ${ruta}: el markup del FAQ ha cambiado y el ancla ya no engancha.\n`
+        + '  La ficha se publicaria con el FAQ a una columna y sin foto, en silencio.',
+      );
+    }
+    s = s.replace(
+      FAQ_ANCLA,
+      '<div class="section-faq-page"><div class="w-layout-blockcontainer container w-container pp-faq-2col">'
+      + `<div class="pp-faq-media"><img src="${portada.src}" alt="${portada.alt}" loading="lazy" class="pp-faq-img"/></div>`,
+    );
   }
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
