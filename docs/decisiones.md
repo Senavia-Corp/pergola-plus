@@ -740,3 +740,41 @@ en los dos.
 Nada de esto aplica por debajo de 768 px. En un movil de 390 el parrafo mide 358 px de
 ancho: dos lineas pedirian 5 px por caracter. Ahi parte donde toque y el bloque sigue
 abajo, dejando libre el 48% superior del video.
+
+## Las tres relaciones de las portadas: la sección se veía distinta en cada página
+
+Al pasar el FAQ a dos columnas la foto se dejó a su relación natural, y eso hacía que
+cada ficha se viera de una forma. Medidas las 17: **tres relaciones distintas en el
+origen** —0,75 en nueve productos (938x1250), 1,00 en siete (1250x1250) y 1,04 en
+`pergola-design-construction`—. A 1440 daban columnas de 672, 504 y 491 px de alto
+contra un texto que siempre mide entre 416 y 464. Una página salía cuadrada, otra
+colgaba 256 px por debajo de la última pregunta, y ninguna cuadraba con la de al lado.
+
+**Ahora la altura la manda el texto, no el archivo.** La foto abarca la columna
+entera con `align-self: stretch` y `object-fit: cover` absorbe el recorte. Medidas las
+17 después: desfase arriba y abajo **0 px en todas**, y la relación de la caja pasa a
+1,10–1,31 —apaisada, nunca cuadrada— vengan de donde vengan los píxeles. También con
+una respuesta abierta: la columna de texto crece y la foto crece con ella, que es
+justo cuando alguien está mirando.
+
+Tres trampas, cada una encontrada de una forma distinta:
+
+- **`aspect-ratio` sobre la caja deriva el ANCHO.** Era el primer intento de poner un
+  suelo a la altura. Con la altura ya definida por el grid, Chrome usa la relación al
+  revés: la caja de 504 px se fue a 576 y se comió la columna del texto. La sonda no
+  lo cazó porque solo medía el alto; la captura sí. El suelo acabó siendo
+  `min-height: 320px`, que no toca el ancho, y quien impide que la imagen infle las
+  filas es sacarla del flujo (`position: absolute` dentro de una caja `relative`): así
+  no aporta altura y las filas las mide solo el texto.
+- **Las filas vacías cobran `row-gap`.** Con `1fr auto auto 1fr` y `row-gap: 2rem` hay
+  tres huecos y dos caen en las filas vacías: la foto salía 64 px más alta que el
+  texto y sobresalía 32 por arriba y 32 por abajo. Simétrico, pero no a ras. El hueco
+  pasó a ser el `margin-top` del hijo que lo necesita.
+- **Y ese margen se lo comía una regla anterior.** Había un `margin-top: 0` sobre
+  `.div-block-10`/`.wrapper-faq` —puesto cuando el `row-gap` daba la separación— que
+  empataba en especificidad con el nuevo y ganaba por orden. El subtítulo quedó
+  tocando el borde de la primera pregunta. Se retiró.
+
+Las filas siguen siendo cuatro (`1fr auto auto 1fr`) aunque hoy las dos `1fr` midan
+cero: son las que centran el texto si una ficha futura trae dos preguntas y el
+`min-height` de la foto pasa a mandar.
