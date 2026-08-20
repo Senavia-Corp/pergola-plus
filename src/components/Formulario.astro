@@ -21,6 +21,12 @@ import '../styles/formulario.css';
       tel: 'Enter a valid phone number.',
       atras: 'Back', siguiente: 'Next',
       paso: (n, t) => `Step ${n} of ${t}`,
+      // Las etiquetas del indicador de paso. Viven AQUI y no en el HTML a
+      // proposito: check:i18n mide la cobertura de traduccion contando nodos de
+      // texto del HTML servido, y lo que inyecta este script no esta ahi. Ponerlas
+      // en el fragmento migrado obligaria a una clave nueva en paginas.es.ts y a
+      // regenerar. Un paso mas en el formulario exige una etiqueta mas aqui.
+      etiquetas: ['Project', 'Address', 'Contact'],
     },
     es: {
       enviando: 'Enviando…',
@@ -31,6 +37,7 @@ import '../styles/formulario.css';
       tel: 'Escribe un teléfono válido.',
       atras: 'Atrás', siguiente: 'Siguiente',
       paso: (n, t) => `Paso ${n} de ${t}`,
+      etiquetas: ['Proyecto', 'Dirección', 'Contacto'],
     },
   };
 
@@ -162,9 +169,42 @@ import '../styles/formulario.css';
       boton.setAttribute('aria-label', texto);
     }
 
-    const progreso = document.createElement('p');
+    // El indicador de paso. Dos piezas, con dos publicos distintos:
+    //
+    //   .pp-paso__lista  las pastillas que se ven. Es un <ol> de verdad, porque
+    //                    son pasos numerados y en orden, y el paso en curso lleva
+    //                    aria-current="step".
+    //   .pp-paso__vivo   "Paso 2 de 3", invisible en pantalla y en region viva.
+    //                    Va APARTE de la lista: un aria-live sobre el <ol> releeria
+    //                    las tres pastillas enteras en cada cambio de paso.
+    //
+    // `progreso` es un <div> y no un <p> porque ahora contiene un <ol>. La clase
+    // .pp-paso se conserva: de ella cuelga el CSS y el .pp-paso[hidden].
+    const progreso = document.createElement('div');
     progreso.className = 'pp-paso';
-    progreso.setAttribute('aria-live', 'polite');
+
+    const vivo = document.createElement('p');
+    vivo.className = 'pp-paso__vivo pp-sr';
+    vivo.setAttribute('aria-live', 'polite');
+
+    const lista = document.createElement('ol');
+    lista.className = 'pp-paso__lista';
+
+    const pastillas = pasos.map((_, i) => {
+      const li = document.createElement('li');
+      li.className = 'pp-paso__item';
+      const num = document.createElement('span');
+      num.className = 'pp-paso__num';
+      num.textContent = String(i + 1);
+      const eti = document.createElement('span');
+      eti.className = 'pp-paso__eti';
+      eti.textContent = t.etiquetas[i] ?? '';
+      li.append(num, eti);
+      lista.append(li);
+      return li;
+    });
+
+    progreso.append(vivo, lista);
     contenedor.prepend(progreso);
 
     let actual = 0;
@@ -177,7 +217,12 @@ import '../styles/formulario.css';
       atras.hidden = actual === 0;
       siguiente.hidden = actual === pasos.length - 1;
       if (enviar) enviar.hidden = actual !== pasos.length - 1;
-      progreso.textContent = t.paso(actual + 1, pasos.length);
+      pastillas.forEach((li, i) => {
+        li.dataset.estado = i < actual ? 'hecho' : i === actual ? 'actual' : 'pendiente';
+        if (i === actual) li.setAttribute('aria-current', 'step');
+        else li.removeAttribute('aria-current');
+      });
+      vivo.textContent = t.paso(actual + 1, pasos.length);
     };
 
     /** Valida solo los controles del paso visible. */
