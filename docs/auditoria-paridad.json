@@ -1841,8 +1841,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1595,
-      "palabrasG": 1623,
-      "deltaTexto": 0.01755485893416928
+      "palabrasG": 1631,
+      "deltaTexto": 0.0225705329153605
     },
     {
       "ruta": "/products/carports",
@@ -1870,8 +1870,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 1673,
-      "deltaTexto": 0.01702127659574468
+      "palabrasG": 1680,
+      "deltaTexto": 0.02127659574468085
     },
     {
       "ruta": "/products/motorized-louvered-pergolas",
@@ -1899,8 +1899,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 1755,
-      "deltaTexto": 0.016213086276780544
+      "palabrasG": 1763,
+      "deltaTexto": 0.020845396641574986
     },
     {
       "ruta": "/products/motorized-screens",
@@ -1928,8 +1928,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1626,
-      "palabrasG": 1654,
-      "deltaTexto": 0.017220172201722016
+      "palabrasG": 1661,
+      "deltaTexto": 0.02152521525215252
     },
     {
       "ruta": "/products/open-air-pergolas",
@@ -1957,8 +1957,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1664,
-      "palabrasG": 1692,
-      "deltaTexto": 0.016826923076923076
+      "palabrasG": 1699,
+      "deltaTexto": 0.021033653846153848
     },
     {
       "ruta": "/products/polycarbonate-pergolas",
@@ -1986,8 +1986,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1624,
-      "palabrasG": 1652,
-      "deltaTexto": 0.017241379310344827
+      "palabrasG": 1660,
+      "deltaTexto": 0.022167487684729065
     },
     {
       "ruta": "/products/screen-enclosures",
@@ -2015,8 +2015,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1578,
-      "palabrasG": 1606,
-      "deltaTexto": 0.017743979721166033
+      "palabrasG": 1613,
+      "deltaTexto": 0.022179974651457542
     },
     {
       "ruta": "/products/solar-pergolas",
@@ -2044,8 +2044,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1637,
-      "palabrasG": 1665,
-      "deltaTexto": 0.01710445937690898
+      "palabrasG": 1673,
+      "deltaTexto": 0.021991447770311544
     },
     {
       "ruta": "/products/solid-roof-pergolas",
@@ -2073,8 +2073,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1651,
-      "palabrasG": 1679,
-      "deltaTexto": 0.016959418534221685
+      "palabrasG": 1688,
+      "deltaTexto": 0.022410660205935795
     },
     {
       "ruta": "/products/sukkha",
@@ -2102,8 +2102,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1588,
-      "palabrasG": 1616,
-      "deltaTexto": 0.017632241813602016
+      "palabrasG": 1624,
+      "deltaTexto": 0.022670025188916875
     },
     {
       "ruta": "/project-gallery",
@@ -2444,8 +2444,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 991,
-      "palabrasG": 3764,
-      "deltaTexto": 2.798183652875883
+      "palabrasG": 12273,
+      "deltaTexto": 11.384460141271443
     },
     {
       "ruta": "/resources/warranties",
@@ -2525,8 +2525,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1548,
-      "palabrasG": 1579,
-      "deltaTexto": 0.020025839793281652
+      "palabrasG": 1586,
+      "deltaTexto": 0.02454780361757106
     },
     {
       "ruta": "/services/deck-builders",
@@ -2554,8 +2554,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1520,
-      "palabrasG": 1551,
-      "deltaTexto": 0.020394736842105264
+      "palabrasG": 1558,
+      "deltaTexto": 0.025
     },
     {
       "ruta": "/services/driveways",
@@ -2583,8 +2583,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1630,
-      "palabrasG": 1661,
-      "deltaTexto": 0.01901840490797546
+      "palabrasG": 1668,
+      "deltaTexto": 0.023312883435582823
     },
     {
       "ruta": "/services/fence-solutions",
@@ -2612,8 +2612,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1509,
-      "palabrasG": 1540,
-      "deltaTexto": 0.02054340622929092
+      "palabrasG": 1547,
+      "deltaTexto": 0.025182239893969515
     },
     {
       "ruta": "/services/patio-remodeling",
@@ -2641,8 +2641,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1489,
-      "palabrasG": 1520,
-      "deltaTexto": 0.020819341840161182
+      "palabrasG": 1527,
+      "deltaTexto": 0.02552048354600403
     },
     {
       "ruta": "/services/pavers",
@@ -2670,8 +2670,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1590,
-      "palabrasG": 1621,
-      "deltaTexto": 0.01949685534591195
+      "palabrasG": 1628,
+      "deltaTexto": 0.02389937106918239
     },
     {
       "ruta": "/services/pergola-design-construction",
@@ -2699,8 +2699,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 1676,
-      "deltaTexto": 0.01884498480243161
+      "palabrasG": 1686,
+      "deltaTexto": 0.02492401215805471
     },
     {
       "ruta": "/thank-you",
