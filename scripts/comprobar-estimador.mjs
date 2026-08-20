@@ -139,6 +139,32 @@ for (const clase of ['est-bloque', 'est-opcion', 'est-panel', 'est-resultado', '
   decir(clases.has(clase), `.${clase} llega al CSS del build`);
 }
 
+// --- 5b. Las fotos declaran SUS DOS dimensiones ------------------------------
+//
+// El build hornea width/height en cada <img> midiendo el fichero, y el atributo
+// `height` es una pista de presentacion: si ninguna regla de autor declara
+// `height`, gana el atributo. Con la altura ya definida `aspect-ratio` no puede
+// aplicar, y las fotos del paso 1 salian a 1406px de alto.
+//
+// Lo peor es donde NO se ve: en `npm run dev` los atributos no se hornean, asi que
+// la pagina se ve perfecta y el fallo solo aparece en dist/ — es decir, en
+// produccion. Es la misma familia que la regresion de CLS que documenta
+// src/styles/imagenes.css: declarar una sola dimension y dejar que el navegador
+// combine atributo y hoja.
+const reglaFoto = css.match(/\.est-foto\[[^\]]*\]\{[^}]*\}/)?.[0] ?? '';
+decir(
+  /(^|;|\{)\s*height\s*:/.test(reglaFoto),
+  '.est-foto declara height en CSS, para que el atributo horneado no mande',
+  [reglaFoto || '(no hay regla .est-foto en el CSS del build)'],
+);
+
+const conFoto = [...(htmls.get(PAGINAS[0]) ?? '').matchAll(/<img[^>]*class="est-foto"[^>]*>/g)];
+decir(
+  conFoto.length > 0 && conFoto.every((m) => /width="\d+"/.test(m[0]) && /height="\d+"/.test(m[0])),
+  `las ${conFoto.length} fotos del paso 1 llevan sus dimensiones horneadas`,
+  conFoto.filter((m) => !/height="\d+"/.test(m[0])).map((m) => m[0].slice(0, 90)),
+);
+
 // --- 6. Las tarifas, afirmadas sobre el modulo real --------------------------
 //
 // Node 22.12+ ejecuta TypeScript quitando los tipos, asi que la puerta importa
