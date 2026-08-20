@@ -4,17 +4,21 @@
  *
  * TODO cuelga de .pp-faq-2col, que la pone scripts/lib/transformar.mjs (paso 6d) y
  * solo en esas 17. NO se estiliza .faq_item, .wrapper-faq, .header-faq ni
- * .div-block-10 a pelo: ese mismo componente FAQ lo usan tambien /resources/faq y
- * /resources/warranties —donde no hay portada que poner— y una regla suelta les
- * habria partido la maqueta sin que nada avisara.
+ * .div-block-10 a pelo: el envoltorio migrado lo comparte /resources/warranties
+ * —donde no hay portada que poner— y una regla suelta le habria partido la maqueta
+ * sin que nada avisara. (/resources/faq ya no entra en esta cuenta: desde que es la
+ * biblioteca, su markup es propio y lleva prefijo pp-faq-.)
  *
- * Tampoco se toca .faq_trigger ni .faq_content: el acordeon lo sigue moviendo IX2
- * (eventos e-37/e-38 sobre la clase), y check:animaciones afirma que los 90 eventos
- * que no son entrada siguen intactos.
+ * Tampoco se toca .faq_trigger ni .faq_content: en las fichas el acordeon lo sigue
+ * moviendo IX2 (eventos e-37/e-38 sobre la CLASE, activos en todo el sitio), y
+ * check:animaciones afirma que los 90 eventos que no son entrada siguen intactos.
+ * Por eso la biblioteca usa <details> nativo con otras clases: con .faq_trigger,
+ * IX2 se habria enganchado a pelear con el toggle del navegador.
  *
- * Por la misma razon esto vive aqui y no en animaciones.css, cuya puerta exige que
- * el CSS construido reclame EXACTAMENTE los selectores de scripts/lib/reveals.mjs y
- * ninguno mas.
+ * Y esto vive aqui y no en animaciones.css por higiene, no por obligacion: la
+ * puerta exige que el CSS reclame los selectores de scripts/lib/reveals.mjs, pero
+ * esa comprobacion es de una sola direccion (comprobar-animaciones.mjs:318) y no
+ * rechaza clases de mas. Bidireccional si es la de los data-w-id (:304-310).
  */
 
 /* La doble clase (.pp-faq-2col.w-container) no es adorno: sube la especificidad a

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/contact-us__schedule-a-visit.html?raw';
-import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Schedule a Visit","/contact-us/schedule-a-visit"]]));

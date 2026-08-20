@@ -93,7 +93,7 @@ const LD_ESTATICAS = {
   '/contact-us/get-in-touch':      { negocio: true, miga: ['Contact Us', '/contact-us/get-in-touch'] },
   '/contact-us/get-a-quote':       { miga: ['Get a Quote', '/contact-us/get-a-quote'] },
   '/contact-us/schedule-a-visit':  { miga: ['Schedule a Visit', '/contact-us/schedule-a-visit'] },
-  '/resources/faq':                { faq: true, miga: ['FAQ', '/resources/faq'] },
+  '/resources/faq':                { miga: ['FAQ', '/resources/faq'] },
   '/resources/warranties':         { miga: ['Warranties', '/resources/warranties'] },
   '/products':                     { miga: ['Our Products', '/products'] },
   '/services':                     { miga: ['Our Services', '/services'] },
@@ -104,27 +104,6 @@ const LD_ESTATICAS = {
   '/about-us/testimonials':        { miga: ['Testimonials', '/about-us/testimonials'] },
   '/about-us/where-we-work':       { miga: ['Where We Work', '/about-us/where-we-work'] },
 };
-
-/**
- * Las 10 preguntas de /resources/faq, sacadas del PROPIO fragmento.
- *
- * Google exige que el markup de FAQPage coincida con lo que se ve en la pagina; una
- * copia a mano se desincroniza y entonces el markup pasa a ser spam a sus ojos. Por
- * eso se extraen aqui en vez de mantener una lista.
- */
-function preguntasFaq(frag) {
-  const pares = [];
-  for (const bloque of frag.split('<div class="faq_item">').slice(1)) {
-    const q = bloque.match(/faq_question[^>]*>([\s\S]*?)</)?.[1];
-    const a = bloque.match(/faq_answer[^>]*>([\s\S]*?)<\/div>/)?.[1];
-    if (!q || !a) continue;
-    pares.push({
-      pregunta: decodificar(q.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()),
-      respuesta: decodificar(a.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()),
-    });
-  }
-  return pares;
-}
 
 /**
  * Rutas de AUTORIA PROPIA: el generador sigue escribiendo su FRAGMENTO —la copia en
@@ -245,10 +224,9 @@ for (const ruta of RUTAS) {
   const ld = LD_ESTATICAS[ruta];
   const nodos = [];
   if (ld?.negocio) nodos.push('localBusiness(site)');
-  if (ld?.faq) nodos.push(`faqPage(${JSON.stringify(preguntasFaq(frag))})`);
   if (ld?.miga) nodos.push(`breadcrumbs(site, [${JSON.stringify(ld.miga)}])`);
   const importaLd = nodos.length
-    ? `import { grafo, localBusiness, breadcrumbs, faqPage } from '${rel}lib/jsonld';\n`
+    ? `import { grafo, localBusiness, breadcrumbs } from '${rel}lib/jsonld';\n`
     : '';
 
   const props = [

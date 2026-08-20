@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__industries-we-serve.html?raw';
-import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Industries We Serve","/about-us/industries-we-serve"]]));

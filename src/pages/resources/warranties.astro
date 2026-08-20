@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/resources__warranties.html?raw';
-import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Warranties","/resources/warranties"]]));
