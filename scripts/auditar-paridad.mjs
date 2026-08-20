@@ -48,6 +48,18 @@ const VIVO = path.join(RAIZ, 'docs/vivo');
  * cero y con el la unica cifra que de verdad avisa de una animacion muerta.
  */
 const PROPIAS = {
+  '/contact-us/get-in-touch': {
+    razon:
+      'hero, datos de contacto y formulario reconstruidos a mano; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2. Las tres secciones de abajo (condados, reseñas y CTA final) conservan su markup y sus ids, asi que siguen contando',
+    permitidos: {
+      '15b709b4-f6d7-0064-6f7b-160d6783adab':
+        '.wrapper-hero-page -> el hero es ahora un panel propio. No estaba en animaciones.css, asi que no animaba nada: se pierde el id, no una entrada',
+      'e2f2465a-47b0-b46c-8bcb-683e8ff0f22b':
+        '.box-info-contact -> las cuatro filas de datos son markup propio y entran con [data-pp-reveal]',
+      'e2f2465a-47b0-b46c-8bcb-683e8ff0f243':
+        '.divider-right -> la tarjeta del formulario es markup propio y entra con [data-pp-reveal]',
+    },
+  },
   '/resources/blog': {
     razon: 'listado reconstruido desde el CSV del CMS; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2',
     permitidos: {

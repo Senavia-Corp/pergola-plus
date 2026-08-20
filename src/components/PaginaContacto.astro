@@ -1,0 +1,277 @@
+---
+/**
+ * Pagina de contacto — CODIGO DE AUTORIA PROPIA.
+ *
+ * Lo monta /contact-us/get-in-touch y su gemela /es/contact-us/get-in-touch. Toda
+ * la copia entra por props (src/i18n/contacto.ts): el markup NO se traduce en
+ * cliente, a diferencia del resto de paginas estaticas espanolas.
+ *
+ * QUE SE REDISEÑO Y QUE NO
+ *
+ *   Hero, datos de contacto y formulario  -> markup propio. Se retiraron las clases
+ *   `w-*` de Webflow para no pelear con el CSS migrado, y con ellas los tres
+ *   `data-w-id` que llevaban. Estan declarados uno a uno en el Set PROPIAS de
+ *   scripts/auditar-paridad.mjs; la entrada la hace ahora [data-pp-reveal].
+ *
+ *   Condados, reseñas y CTA final -> markup migrado LITERAL, con sus clases y sus
+ *   `data-w-id` intactos. src/styles/animaciones.css selecciona por `data-w-id`, no
+ *   por clase: tocar esos atributos les quitaria la entrada por scroll.
+ */
+import { rutaEnIdioma, type Idioma } from '../i18n';
+import { CONDADOS, PERFILES, type CopiaContacto } from '../i18n/contacto';
+import '../styles/contacto.css';
+
+interface Props {
+  copia: CopiaContacto;
+  idioma?: Idioma;
+}
+
+const { copia: c, idioma = 'en' } = Astro.props;
+
+/** Enlace en el idioma de la pagina. `rutaEnIdioma` devuelve null cuando esa
+ *  traduccion no existe (p. ej. /articles/terms-of-service), y entonces se enlaza
+ *  el original: mejor el ingles que un 404. */
+const ruta = (r: string) => (idioma === 'es' ? (rutaEnIdioma(r, 'es') ?? r) : r);
+
+/** Lo lee el endpoint para saber de que idioma venia el lead: decide el correo de
+ *  acuse y la pagina de gracias. */
+const pagina = idioma === 'es' ? '/es/contact-us/get-in-touch' : '/contact-us/get-in-touch';
+
+const DATOS = [
+  { icono: '/images/email.svg', ...c.datos.email },
+  { icono: '/images/phone.svg', ...c.datos.telefono },
+  { icono: '/images/location.svg', ...c.datos.oficina },
+  { icono: '/images/schedule.svg', ...c.datos.horario },
+];
+---
+
+<section class="pp-contacto">
+  <div class="pp-contacto__inner">
+    <div data-pp-reveal>
+      <p class="pp-contacto__eyebrow">{c.eyebrow}</p>
+      <h1 class="pp-contacto__titulo">{c.titulo}</h1>
+      <p class="pp-contacto__intro">{c.intro}</p>
+
+      <ul class="pp-datos">
+        {DATOS.map((d) => (
+          <li class="pp-dato">
+            <span class="pp-dato__icono">
+              <img src={d.icono} alt="" width="20" height="20" loading="lazy" />
+            </span>
+            <div>
+              <div class="pp-dato__rotulo">{d.rotulo}</div>
+              <div class="pp-dato__apoyo">{d.apoyo}</div>
+              {d.href
+                ? <a class="pp-dato__valor" href={d.href}>{d.valor}</a>
+                : <div class="pp-dato__texto">{d.valor}</div>}
+              {d.nota && <div class="pp-dato__nota">{d.nota}</div>}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="pp-sellos">
+        {c.sellos.map((s) => <li class="pp-sello">{s}</li>)}
+      </ul>
+    </div>
+
+    <div class="pp-tarjeta" data-pp-reveal>
+      <h2 class="pp-tarjeta__titulo">{c.form.titulo}</h2>
+      <p class="pp-tarjeta__apoyo">{c.form.apoyo}</p>
+
+      <form
+        id="wf-form-Contact-Page-Form"
+        name="wf-form-Contact-Page-Form"
+        data-name="Contact Page Form"
+        data-wf-no-turnstile
+        method="post"
+        action="/api/lead"
+        class="pp-form"
+      >
+        <input type="hidden" name="formulario" value="contact" />
+        <input type="hidden" name="pagina" value={pagina} />
+        {/* Vacios A PROPOSITO: los rellena Formulario.astro. Si llegaran puestos
+            desde el HTML, la comprobacion de los 2s castigaria a quien navega sin
+            JavaScript. */}
+        <input type="hidden" name="t" value="" />
+        <input type="hidden" name="js" value="" />
+
+        <div class="pp-trampa" aria-hidden="true">
+          <input type="text" id="pp-website-contact" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAQTptj2So4dx43e"></div>
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+        {/* `form-div` se conserva ademas de `pp-campo`: es el contenedor que busca
+            Formulario.astro para colgar el error junto al campo. */}
+        <div class="form-div pp-campo">
+          <label for="First-Name">{c.form.nombre}</label>
+          <input class="pp-control" type="text" id="First-Name" name="First-Name"
+            data-name="First Name" autocomplete="given-name" maxlength="256" required />
+        </div>
+
+        <div class="form-div pp-campo">
+          <label for="Last-Name">{c.form.apellidos}</label>
+          <input class="pp-control" type="text" id="Last-Name" name="Last-Name"
+            data-name="Last Name" autocomplete="family-name" maxlength="256" />
+        </div>
+
+        <div class="form-div pp-campo">
+          <label for="Email">{c.form.email}</label>
+          <input class="pp-control" type="email" id="Email" name="Email"
+            data-name="Email" autocomplete="email" maxlength="256" required />
+        </div>
+
+        <div class="form-div pp-campo">
+          <label for="Phone-Number">{c.form.telefono}</label>
+          <input class="pp-control" type="tel" id="Phone-Number" name="Phone-Number"
+            data-name="Phone Number" autocomplete="tel" maxlength="256" required />
+        </div>
+
+        <div class="form-div pp-campo pp-campo--ancho">
+          <label for="Project-Type">{c.form.tipoProyecto}</label>
+          {/* Los `value` NO se traducen: es el dato que viaja al CRM. */}
+          <select class="pp-control" id="Project-Type" name="Project-Type" data-name="Project Type" required>
+            <option value="">{c.form.tipoVacio}</option>
+            <option value="Residential">{c.form.residencial}</option>
+            <option value="Commercial">{c.form.comercial}</option>
+          </select>
+        </div>
+
+        {/* Grupo de radios: <fieldset> y <legend> en vez de un <label for> que no
+            puede apuntar a seis controles a la vez. */}
+        <fieldset class="form-div pp-campo pp-campo--ancho">
+          <legend class="pp-campo__rotulo">{c.form.ustedEs}</legend>
+          <div class="pp-opciones">
+            {PERFILES.map((p, i) => (
+              <label class="pp-opcion" for={p.id}>
+                <input type="radio" id={p.id} name="Type" data-name="Type" value={p.value} />
+                <span>{c.form.perfiles[i]}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="form-div pp-campo pp-campo--ancho">
+          <label for="Message">{c.form.mensaje}</label>
+          <textarea class="pp-control" id="Message" name="Message" data-name="Message"
+            maxlength="5000" placeholder={c.form.mensajeApoyo}></textarea>
+        </div>
+
+        <div class="form-div pp-campo pp-campo--ancho">
+          <label class="pp-consentimiento" for="SMS-Consent">
+            <input type="checkbox" id="SMS-Consent" name="SMS-Consent" data-name="Checkbox" required />
+            <span>{c.form.sms}</span>
+          </label>
+        </div>
+
+        <div class="pp-campo--ancho">
+          <input type="submit" class="pp-enviar" data-wait={c.form.espere} value={c.form.enviar} />
+        </div>
+
+        <p class="pp-legal pp-campo--ancho">
+          {c.form.legalAntes}{' '}
+          <a href={ruta('/articles/terms-of-service')}>{c.form.legalTerminos}</a>{' '}
+          {c.form.legalY}{' '}
+          <a href={ruta('/articles/privacy-policy')}>{c.form.legalPrivacidad}</a>.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="body-page">
+  <section class="locations-section">
+    <div class="w-layout-blockcontainer container w-container">
+      <div data-w-id="3dfd9ad1-3068-91a5-2ecd-ca41bcbc061b" class="header-locations">
+        <h2>{c.condados.titulo}</h2>
+        <div>{c.condados.intro}</div>
+      </div>
+      <div class="locations-container">
+        <div class="locations-wrapper w-dyn-list">
+          <div role="list" class="locations-list w-dyn-items">
+            {CONDADOS.map((cd, i) => (
+              <div role="listitem" class="locations-item w-dyn-item">
+                <div class="locations-grid">
+                  <div data-county={cd.clave} data-w-id="3dfd9ad1-3068-91a5-2ecd-ca41bcbc0625" class="locations-left">
+                    <div class="title-locations">{cd.nombre}</div>
+                    <div class="text-mini-locations">{c.condados.textos[i]}</div>
+                    <a href={ruta(cd.enlace)} class="location-card-link w-inline-block">
+                      <div>{c.condados.leerMas}</div>
+                    </a>
+                  </div>
+                  <div data-county-image={cd.clave} class="locations-right">
+                    <img alt={cd.alt} loading="lazy" src={cd.img} class="img-location" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* Va `is:inline` a proposito. Un <script> normal de Astro se sirve como
+          modulo diferido, asi que `DOMContentLoaded` ya habria disparado cuando
+          corre y el listener no se ejecutaria nunca: el hover de condados quedaria
+          muerto sin error en consola. Los estilos que lo acompañaban se movieron a
+          src/styles/contacto.css. */}
+      <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+          const desktopMQ = window.matchMedia("(min-width: 768px)");
+          if (!desktopMQ.matches) return;
+
+          const triggers = Array.from(document.querySelectorAll(".locations-left[data-county]"));
+          const targets = Array.from(document.querySelectorAll(".locations-right[data-county-image]"));
+          if (!triggers.length || !targets.length) return;
+
+          function activate(id) {
+            targets.forEach(t => t.classList.toggle("is-active", t.getAttribute("data-county-image") === id));
+            triggers.forEach(tr => tr.classList.toggle("is-active", tr.getAttribute("data-county") === id));
+          }
+
+          activate(triggers[0].getAttribute("data-county"));
+
+          triggers.forEach(tr => {
+            const id = tr.getAttribute("data-county");
+            tr.addEventListener("mouseenter", () => activate(id));
+            tr.addEventListener("focus", () => activate(id));
+            if (!tr.hasAttribute("tabindex")) tr.setAttribute("tabindex", "0");
+          });
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <div class="w-layout-blockcontainer container w-container">
+      <div data-w-id="d03f876a-fa65-68e5-c8ed-9fd6290b938d" class="header-reviews">
+        <div class="title-deco">{c.resenas.deco}</div>
+        <h2><strong>{c.resenas.titulo}</strong></h2>
+        <div>{c.resenas.intro}</div>
+      </div>
+      <div data-w-id="d03f876a-fa65-68e5-c8ed-9fd6290b9395">
+        <a href={ruta('/about-us/testimonials')} class="button w-button">{c.resenas.boton}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="call-to-action-footer">
+    <div class="wrapper-call-to-action">
+      <div data-w-id="f00e2efe-9b56-1210-e497-b72104be4b25" class="box-call-to-action">
+        <h2>{c.cta.titulo}</h2>
+        <div>{c.cta.texto}</div>
+        <div class="process-cta">
+          <a href={ruta('/contact-us/get-a-quote')} class="button w-button">{c.cta.presupuesto}</a>
+          <a href={ruta('/contact-us/schedule-a-visit')} class="button secundary w-button">{c.cta.visita}</a>
+        </div>
+      </div>
+    </div>
+    <img
+      sizes="(max-width: 2000px) 100vw, 2000px"
+      srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
+      alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties."
+      src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
+      loading="lazy"
+      class="image-call-to-action"
+    />
+  </section>
+</section>

@@ -1,0 +1,431 @@
+/* Pagina de contacto — /contact-us/get-in-touch y su gemela /es/.
+ *
+ * CODIGO DE AUTORIA PROPIA. La pagina salio del Set MANUALES de
+ * scripts/generar-paginas.mjs, asi que este CSS no compite con el markup migrado:
+ * las clases `w-*` de Webflow se retiraron del hero, de los datos de contacto y del
+ * formulario. Las tres secciones de abajo (condados, reseñas y CTA final) SI siguen
+ * siendo markup migrado y las sigue vistiendo public/css/pergola-plus-florida.webflow.css:
+ * no se toca nada suyo desde aqui.
+ *
+ * El original tenia `.header-page { padding: 12rem 2rem 4rem }` con el nav en
+ * `position: static`. Son 192px de hueco DESPUES de los 85px que el nav ya ocupa en
+ * el flujo: de ahi el medio viewport vacio bajo el titulo.
+ */
+
+.pp-contacto {
+  /* El nav es #3a545b y `position: static`. El panel arranca en el MISMO color para
+     que el nav se disuelva en el hero en vez de dejar una costura a los 85px. */
+  --pp-c-campo: var(--primary, #3a545b);
+  --pp-c-tinte: #32484e;          /* un peldaño por debajo, para las fichas de dato */
+  --pp-c-borde: #ffffff24;
+  --pp-c-suave: #c2d2d6;          /* texto de apoyo sobre el campo oscuro */
+  --pp-c-crema: #fffbf0;
+  --pp-c-tinta: #1d2f34;          /* texto sobre la crema */
+  --pp-c-error: #b3261e;
+
+  background-color: var(--pp-c-campo);
+  color: #fff;
+  padding: clamp(3.5rem, 7vw, 5.5rem) 2rem clamp(4rem, 8vw, 6rem);
+}
+
+.pp-contacto__inner {
+  width: 100%;
+  max-width: 1250px;            /* el mismo que .container del sitio */
+  margin-inline: auto;
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+@media screen and (min-width: 992px) {
+  .pp-contacto__inner {
+    /* La columna del formulario manda: es la accion principal de la pagina. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   1 · Columna editorial
+   -------------------------------------------------------------------------- */
+
+.pp-contacto__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: .8125rem;
+  font-weight: 500;
+  color: var(--pp-c-suave);
+  margin-bottom: 1rem;
+}
+
+.pp-contacto__titulo {
+  /* `balance` y no `pretty`: es un titular de 2-4 palabras y lo que importa es que
+     las lineas queden parejas, no evitar una viuda al final de un parrafo. */
+  text-wrap: balance;
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  font-weight: 500;
+  margin: 0 0 1.25rem;
+  color: #fff;
+}
+
+.pp-contacto__intro {
+  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+  line-height: 1.6;
+  color: var(--pp-c-suave);
+  max-width: 46ch;
+  margin: 0 0 clamp(2.25rem, 4vw, 3rem);
+}
+
+/* --- Las cuatro fichas de dato --------------------------------------------- */
+
+.pp-datos {
+  list-style: none;
+  margin: 0 0 clamp(2rem, 4vw, 2.75rem);
+  padding: 0;
+  display: grid;
+  gap: .875rem;
+}
+
+@media screen and (min-width: 560px) {
+  .pp-datos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.pp-dato {
+  display: grid;
+  /* Columna fija para el icono: asi los cuatro cuerpos de texto arrancan en la MISMA
+     vertical aunque los iconos no midan igual. El original los alineaba de vista. */
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: .875rem;
+  align-items: start;
+  background-color: var(--pp-c-tinte);
+  border: 1px solid var(--pp-c-borde);
+  border-radius: 14px;
+  padding: 1.125rem 1.25rem;
+}
+
+.pp-dato__icono {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background-color: #ffffff14;
+}
+
+/* Los SVG del sitio son negros y aqui van sobre fondo oscuro: se invierten a blanco
+   con un filtro en vez de duplicar cuatro archivos solo por el color. */
+.pp-dato__icono img {
+  width: 1.25rem;
+  height: 1.25rem;
+  filter: brightness(0) invert(1);
+  opacity: .92;
+}
+
+.pp-dato__rotulo {
+  font-size: .9375rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: .125rem;
+}
+
+.pp-dato__apoyo {
+  font-size: .8125rem;
+  line-height: 1.4;
+  color: var(--pp-c-suave);
+  margin-bottom: .5rem;
+}
+
+.pp-dato__valor {
+  font-size: .9375rem;
+  line-height: 1.45;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: #ffffff59;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;      /* el correo largo no debe desbordar la ficha */
+}
+
+.pp-dato__valor:hover { text-decoration-color: #fff; }
+
+/* El horario NO es un enlace: en el markup migrado los cuatro bloques —correo,
+   direccion y horario incluidos— iban envueltos en el MISMO `tel:`, y ademas con un
+   numero que no es el del sitio. */
+.pp-dato__texto {
+  font-size: .9375rem;
+  line-height: 1.45;
+  color: #fff;
+}
+
+.pp-dato__nota {
+  font-size: .8125rem;
+  color: var(--pp-c-suave);
+  margin-top: .375rem;
+}
+
+/* --- Sellos de confianza ---------------------------------------------------- */
+
+.pp-sellos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .75rem;
+}
+
+.pp-sello {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .875rem;
+  color: var(--pp-c-suave);
+  border: 1px solid var(--pp-c-borde);
+  border-radius: 999px;
+  padding: .4375rem .875rem;
+}
+
+.pp-sello::before {
+  content: "";
+  width: .375rem;
+  height: .375rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex: none;
+}
+
+/* -----------------------------------------------------------------------------
+   2 · La tarjeta del formulario
+   -------------------------------------------------------------------------- */
+
+/* Crema sobre el campo oscuro. El original tenia el formulario EN oscuro con los
+   rotulos en blanco y los campos claros: tres tonos peleandose en el sitio donde
+   mas importa leer sin esfuerzo. */
+.pp-tarjeta {
+  background-color: var(--pp-c-crema);
+  color: var(--pp-c-tinta);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  box-shadow: 0 24px 60px #00000038;
+}
+
+.pp-tarjeta__titulo {
+  font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+  font-weight: 500;
+  margin: 0 0 .5rem;
+  color: var(--pp-c-tinta);
+}
+
+.pp-tarjeta__apoyo {
+  font-size: .9375rem;
+  line-height: 1.55;
+  color: #55686d;
+  margin: 0 0 1.75rem;
+}
+
+/* --- Rejilla de campos ------------------------------------------------------ */
+
+.pp-form { display: grid; gap: 1.125rem; }
+
+@media screen and (min-width: 560px) {
+  .pp-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Nombre y apellidos comparten fila; todo lo demas ocupa el ancho entero. */
+  .pp-campo--ancho { grid-column: 1 / -1; }
+}
+
+/* `.form-div` se conserva ADEMAS de `.pp-campo`: es el contenedor que busca
+   Formulario.astro para colgar el mensaje de error junto al campo. Cambiarlo por
+   una clase propia sin tocar ese archivo deja los errores al final del formulario. */
+.pp-campo { display: grid; gap: .4375rem; min-width: 0; }
+
+.pp-campo > label,
+.pp-campo__rotulo {
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--pp-c-tinta);
+}
+
+.pp-control {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--pp-c-tinta);
+  background-color: #fff;
+  border: 1px solid #d9d2c4;
+  border-radius: 10px;
+  padding: .8125rem .9375rem;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.pp-control::placeholder { color: #8d9a9e; }
+
+.pp-control:hover { border-color: #bdb3a1; }
+
+.pp-control:focus-visible {
+  outline: none;
+  border-color: var(--pp-c-campo);
+  box-shadow: 0 0 0 3px #3a545b3d;
+}
+
+textarea.pp-control {
+  min-height: 8.5rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+/* El chevron va como fondo y no como elemento aparte: un `<select>` no admite hijos
+   que no sean `<option>`, asi que cualquier flecha "de verdad" seria un div encima
+   que tapa el area de click. */
+select.pp-control {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%233a545b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+/* --- «Usted es:», como control segmentado ----------------------------------- */
+
+.pp-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.pp-opcion {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: .9375rem;
+  line-height: 1.2;
+  color: var(--pp-c-tinta);
+  background-color: #fff;
+  border: 1px solid #d9d2c4;
+  border-radius: 999px;
+  padding: .5625rem 1rem;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+/* El radio sigue EXISTIENDO y sigue siendo enfocable: solo es invisible. Con
+   `display:none` saldria del orden de tabulacion y el grupo dejaria de recorrerse
+   con las flechas, que es como se navega un grupo de radios con teclado. */
+.pp-opcion input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.pp-opcion:hover { border-color: var(--pp-c-campo); }
+
+.pp-opcion:has(input:checked) {
+  background-color: var(--pp-c-campo);
+  border-color: var(--pp-c-campo);
+  color: #fff;
+}
+
+/* El foco cuelga del `:has()` porque el input real no se ve: sin esto, recorrer el
+   grupo con el teclado no muestra donde estas. */
+.pp-opcion:has(input:focus-visible) {
+  outline: 3px solid var(--pp-c-campo);
+  outline-offset: 2px;
+}
+
+/* --- Consentimiento SMS ------------------------------------------------------ */
+
+.pp-consentimiento {
+  display: grid;
+  grid-template-columns: 1.125rem minmax(0, 1fr);
+  gap: .75rem;
+  align-items: start;
+  font-size: .8125rem;
+  line-height: 1.5;
+  color: #55686d;
+  cursor: pointer;
+}
+
+.pp-consentimiento input {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: .125rem 0 0;
+  accent-color: var(--pp-c-campo);
+  cursor: pointer;
+}
+
+/* --- Envio y letra legal ----------------------------------------------------- */
+
+.pp-enviar {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--pp-c-campo);
+  border: 1px solid var(--pp-c-campo);
+  border-radius: 10px;
+  padding: .9375rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.pp-enviar:hover { background-color: #2e454b; }
+
+.pp-enviar:focus-visible {
+  outline: 3px solid var(--pp-c-campo);
+  outline-offset: 3px;
+}
+
+.pp-legal {
+  font-size: .8125rem;
+  line-height: 1.5;
+  color: #6d7c80;
+  text-align: center;
+}
+
+.pp-legal a {
+  color: var(--pp-c-campo);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* El resumen de errores de Formulario.astro se inyecta como primer hijo del <form>,
+   que aqui es una rejilla de dos columnas: sin esto ocuparia media fila. */
+.pp-form > .pp-resumen { grid-column: 1 / -1; }
+
+/* Turnstile y la trampa de bots van dentro de la rejilla y no deben abrir hueco:
+   `.pp-trampa` ya esta fuera de pantalla, y el widget se pinta solo si Cloudflare
+   decide mostrarlo. */
+.pp-form > .cf-turnstile,
+.pp-form > .pp-trampa { grid-column: 1 / -1; }
+
+/* -----------------------------------------------------------------------------
+   3 · Condados — venia como <style> incrustado en el fragmento migrado
+   --------------------------------------------------------------------------
+   Se trae aqui tal cual. El motivo NO es de estilo: en un .astro un <style> es
+   raw-text, asi que un comentario mal cerrado dentro se traga el resto del archivo
+   y Astro lo descarta SIN error. Fuera del .astro ese riesgo no existe.
+   El comportamiento (el JS que enciende la imagen del condado) sigue siendo
+   `<script is:inline>` dentro del componente: es lo que ya funcionaba. */
+
+@media screen and (min-width: 768px) {
+  .locations-left {
+    position: relative;
+    z-index: 2;
+  }
+
+  .locations-right {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+    z-index: 1;
+  }
+
+  .locations-right.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

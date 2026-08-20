@@ -1,14 +1,26 @@
 ---
+/**
+ * Pagina de contacto. CODIGO DE AUTORIA PROPIA.
+ *
+ * Ya NO la escribe scripts/generar-paginas.mjs: la ruta esta en su Set MANUALES.
+ * El generador sigue produciendo el fragmento migrado en
+ * src/contenido-migrado/estaticas/contact-us__get-in-touch.html —la copia en el repo
+ * del markup original, util para diffear— pero no pisa este archivo.
+ *
+ * El cuerpo es el MISMO componente que la gemela española (PaginaContacto.astro):
+ * el diseño y el formulario no pueden divergir entre idiomas.
+ */
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/contact-us__get-in-touch.html?raw';
+import PaginaContacto from '../../components/PaginaContacto.astro';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
-import { grafo, localBusiness, breadcrumbs, faqPage } from '../../lib/jsonld';
+import { CONTACTO_EN } from '../../i18n/contacto';
+import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
-const jsonLd = grafo(localBusiness(site), breadcrumbs(site, [["Contact Us","/contact-us/get-in-touch"]]));
-
-// Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/get-in-touch.
-// NO editar a mano. El nav y el footer los pone BaseLayout.
+const jsonLd = grafo(
+  localBusiness(site),
+  breadcrumbs(site, [['Contact Us', '/contact-us/get-in-touch']]),
+);
 ---
 
 <BaseLayout
@@ -18,6 +30,6 @@ const jsonLd = grafo(localBusiness(site), breadcrumbs(site, [["Contact Us","/con
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
+  <PaginaContacto copia={CONTACTO_EN} />
   <ReseñasGoogle />
 </BaseLayout>

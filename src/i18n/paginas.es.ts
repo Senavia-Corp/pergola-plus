@@ -411,12 +411,18 @@ export const PAGINAS_ES: PaginaEs[] = [
     description: 'Cuéntenos su proyecto de patio o jardín y reciba una propuesta a medida para una pérgola de aluminio o una cubierta de patio premium.',
     dic: PRESUPUESTO,
   },
-  {
-    en: '/contact-us/get-in-touch', es: '/es/contact-us/get-in-touch',
-    title: 'Contacte con Pergola Plus Florida | Boca Ratón',
-    description: 'Llame, escriba o visítenos en Boca Ratón para hablar de pérgolas, cubiertas de patio y cerramientos en cualquier punto del sur de Florida.',
-    dic: CONTACTO,
-  },
+  // /contact-us/get-in-touch NO esta aqui a proposito. Se rediseño a mano, salio del
+  // generador (Set MANUALES) y por tanto ya no hay fragmento migrado del que partir:
+  // por este camino la pagina española habria seguido sirviendo el diseño VIEJO, sin
+  // error y sin que saltara ninguna puerta. Su gemela vive en
+  // src/pages/es/contact-us/get-in-touch.astro y la copia, en src/i18n/contacto.ts.
+  // Volver a añadirla aqui rompe el build: dos rutas generando /es/contact-us/get-in-touch.
+  //
+  // En TRADUCIDAS (rutas.mjs) SI sigue: es lo que hace reciproco el hreflang.
+  // El diccionario CONTACTO se conserva mas abajo aunque ya no lo use ninguna pagina:
+  // check:i18n vuelca TODOS los .es.ts en un unico DIC y lo usa para reconocer ingles
+  // en /es/. Sus claves («First name», «Email»...) son las mismas que las de las otras
+  // dos paginas de contacto, asi que borrarlo AFLOJA la puerta en vez de limpiarla.
   {
     en: '/contact-us/schedule-a-visit', es: '/es/contact-us/schedule-a-visit',
     title: 'Reserve una consulta de diseño gratuita | Pergola Plus',

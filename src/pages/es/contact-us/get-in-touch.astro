@@ -1,0 +1,40 @@
+---
+/**
+ * Pagina de contacto en español. Gemela de /contact-us/get-in-touch.
+ *
+ * POR QUE ES UN ARCHIVO Y NO LA PINTA EL CATCH-ALL
+ *
+ * src/pages/es/[...ruta].astro monta las estaticas españolas cogiendo el FRAGMENTO
+ * migrado y sustituyendo nodos de texto. Su gemela inglesa dejo de salir de ese
+ * fragmento al rediseñarse, asi que por ese camino esta pagina habria seguido
+ * sirviendo el diseño viejo —sin error y sin que saltara ninguna puerta—. Por eso la
+ * entrada correspondiente se quito de PAGINAS_ES.
+ *
+ * En TRADUCIDAS (src/i18n/rutas.mjs) SI sigue: es lo que hace reciproco el hreflang.
+ * Mismo caso que /resources/blog, que tambien es de autoria propia.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PaginaContacto from '../../../components/PaginaContacto.astro';
+import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
+import { CONTACTO_ES } from '../../../i18n/contacto';
+import { grafo, localBusiness, breadcrumbs } from '../../../lib/jsonld';
+
+// El negocio es el MISMO nodo que en la inglesa (mismo @id): no son dos empresas,
+// es una con dos idiomas.
+const site = Astro.site!.href;
+const jsonLd = grafo(
+  localBusiness(site),
+  breadcrumbs(site, [['Contacte con Pergola Plus Florida', '/es/contact-us/get-in-touch']]),
+);
+---
+
+<BaseLayout
+  title="Contacte con Pergola Plus Florida | Boca Ratón"
+  description="Llame, escriba o visítenos en Boca Ratón para hablar de pérgolas, cubiertas de patio y cerramientos en cualquier punto del sur de Florida."
+  wfPage="698a91c07b51ec699ca6f4f8"
+  wfSite="6903b7794d5df3d76a7a2488"
+  jsonLd={jsonLd}
+>
+  <PaginaContacto copia={CONTACTO_ES} idioma="es" />
+  <ReseñasGoogle />
+</BaseLayout>
