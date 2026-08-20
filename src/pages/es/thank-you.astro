@@ -44,7 +44,10 @@ const ESCUDO_SVG =
           falte.
         </li>
         <li>
-          <strong>Comprobamos su dirección</strong> con los condados en los que
+          <!-- "Su ubicación" y no "su dirección": el estimador pide el codigo
+               postal y nunca la calle, asi que prometer que revisamos una direccion
+               que el visitante no ha dado era falso en ese camino. -->
+          <strong>Comprobamos su ubicación</strong> con los condados en los que
           trabajamos —Miami-Dade, Broward y Palm Beach— y con los permisos y las
           cargas de viento que exija su municipio.
         </li>
@@ -59,9 +62,9 @@ const ESCUDO_SVG =
       </ol>
 
       <p class="ty-prisa">
-        ¿Le corre prisa o prefiere hablarlo ahora? Llame al
+        ¿Le corre prisa o prefiere hablarlo ahora? Llame al{' '}
         <a href="tel:+15617108363">(561) 710-8363</a> en horario de oficina
-        (lunes a viernes, de 8:00 a 17:00) o escriba a
+        (lunes a viernes, de 8:00 a 17:00) o escriba a{' '}
         <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>.
       </p>
 
@@ -76,11 +79,14 @@ const ESCUDO_SVG =
 <script>
   // Mismo mecanismo que la gemela inglesa: el `?de=` lo pone el endpoint (303) y
   // tambien el envio por fetch. Sin JavaScript se queda la frase por defecto, que es
-  // cierta para los tres formularios.
+  // cierta para los cuatro formularios.
   const POR_FORMULARIO = {
     quote: 'Alguien de nuestro equipo de diseño está revisando los detalles de su proyecto.',
     contact: 'Alguien de nuestro equipo está leyendo su mensaje.',
     footer: 'Ya está en la lista: le enviaremos nuestras novedades de vida al aire libre.',
+    estimador:
+      'Su estimado desglosado va camino de su correo, y un asesor de proyecto le'
+      + ' llamará en un día laborable.',
   };
   const de = new URLSearchParams(location.search).get('de');
   const intro = document.getElementById('ty-intro');
@@ -88,6 +94,21 @@ const ESCUDO_SVG =
 </script>
 
 <style>
+  /* Mismos dos arreglos que la gemela inglesa. La barra de navegacion es fixed y
+     mide 85px, y la hoja migrada centra este bloque dentro de `height: 100vh` sin
+     descontarla: con el contenido midiendo mas que la ventana, el centrado lo
+     empujaba hacia ARRIBA y el escudo de 110px se quedaba en 13 visibles. */
+  .utility-page-wrap-copy {
+    height: auto;
+    min-height: 100vh;
+    padding-top: calc(85px + 3rem);
+    padding-bottom: 4rem;
+  }
+
+  .wrapper-buttons-center-form {
+    gap: .75rem;
+  }
+
   /* Copia de los estilos de /thank-you: las dos paginas son la misma plantilla. */
   .ty-intro {
     font-size: 20px;

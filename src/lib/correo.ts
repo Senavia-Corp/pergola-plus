@@ -113,11 +113,12 @@ const fechaEt = (iso: string): string => {
 
 // --- Vocabulario ----------------------------------------------------------
 
-/** Los 3 formularios, con nombre legible en los dos idiomas. */
+/** Los 4 formularios, con nombre legible en los dos idiomas. */
 const FORMULARIO: Record<string, Record<Idioma, string>> = {
   quote: { en: 'Quote request', es: 'Solicitud de presupuesto' },
   contact: { en: 'Contact form', es: 'Formulario de contacto' },
   footer: { en: 'Newsletter signup', es: 'Alta en el boletin' },
+  estimador: { en: 'Project estimator', es: 'Calculador de presupuesto' },
 };
 
 /**
@@ -145,6 +146,21 @@ const ETIQUETA: Record<string, Record<Idioma, string>> = {
   'Project-Type': { en: 'Project type', es: 'Tipo de proyecto' },
   Message: { en: 'Message', es: 'Mensaje' },
   'SMS-Consent': { en: 'SMS consent', es: 'Consentimiento SMS' },
+  // Las del estimador. Sin entrada aqui no se perderian —deSlug() las convierte en
+  // "Ground surface"— pero el aviso al despacho solo saca bilingue lo que esta en
+  // este mapa, y este es el correo con el que el comercial prepara la llamada.
+  'Project-Size': { en: 'Size', es: 'Tamano' },
+  Mounting: { en: 'Mounting', es: 'Montaje' },
+  'Ground-Surface': { en: 'Ground today', es: 'Suelo actual' },
+  'New-Base': { en: 'New base', es: 'Base nueva' },
+  Enhancements: { en: 'Enhancements', es: 'Mejoras' },
+  County: { en: 'County', es: 'Condado' },
+  Waterfront: { en: 'Waterfront', es: 'Frente al agua' },
+  'HOA-Approval': { en: 'HOA approval', es: 'Aprobacion de comunidad' },
+  'Budget-Fit': { en: 'Budget fit', es: 'Encaje de presupuesto' },
+  'Estimate-Range': { en: 'Estimate', es: 'Estimado' },
+  'Estimate-Open': { en: 'Still open', es: 'Sin definir' },
+  'Steps-Completed': { en: 'Steps done', es: 'Pasos completados' },
 };
 
 /** `Estimated-Project-Budget` -> `Estimated project budget`. */

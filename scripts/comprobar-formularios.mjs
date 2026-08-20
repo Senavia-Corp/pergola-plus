@@ -54,11 +54,16 @@ const decir = (ok, msg, detalle = []) => {
 
 const htmls = (await fs.readdir(DIST, { recursive: true })).filter((p) => p.endsWith('.html'));
 
-/** Los 3 formularios, con la pagina donde vive cada uno. */
+/** Los 4 formularios, con la pagina donde vive cada uno. */
 const ESPERADOS = [
   { id: 'email-form', origen: 'quote', pagina: 'contact-us/get-a-quote/index.html' },
   { id: 'wf-form-Contact-Page-Form', origen: 'contact', pagina: 'contact-us/get-in-touch/index.html' },
   { id: 'wf-form-Footer-Form', origen: 'footer', pagina: 'index.html' },
+  // El del estimador es el unico escrito a mano en un componente Astro, no migrado
+  // de Webflow: lo que se comprueba aqui es que respeta el mismo contrato que los
+  // generados (ocultos, trampa, POST a /api/lead y el apagado del Turnstile de
+  // webflow.js, que si falta deja TODOS los formularios de la pagina en "enviando").
+  { id: 'est-captura', origen: 'estimador', pagina: 'project-estimator/index.html' },
 ];
 
 const conGet = [];

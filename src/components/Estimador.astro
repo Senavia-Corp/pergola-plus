@@ -1,51 +1,48 @@
 ---
 import type { TextosEstimador } from '../i18n/estimador';
+import {
+  PRODUCTOS,
+  MONTAJE,
+  SUPERFICIES,
+  SUPERFICIE_MAX,
+  MEJORAS,
+  CONDADOS,
+  INGENIERIA,
+  WATERFRONT,
+  PRESETS,
+  PRESET_POR_DEFECTO,
+  MIN_FT,
+  MAX_FT,
+  ANCHO_POR_DEFECTO,
+  LARGO_POR_DEFECTO,
+} from '../data/estimador';
 
 // Estimador de presupuesto. CODIGO DE AUTORIA PROPIA.
 //
 // Vive en un componente y no en la pagina porque hay DOS paginas —/project-estimator
-// y /es/project-estimator— y los precios no pueden estar duplicados. Lo que cambia
-// entre idiomas son los rotulos y los enlaces internos; las tarifas son las mismas y
-// se declaran una sola vez, aqui.
+// y /es/project-estimator— y ni los precios ni la logica pueden estar duplicados. Lo
+// que cambia entre idiomas son los rotulos y los enlaces internos.
+//
+// Las tarifas NO estan aqui: viven en src/data/estimador.ts, con su procedencia.
+// Los rotulos tampoco: viven en src/i18n/estimador.ts, uno por idioma. La bisagra
+// entre las tres piezas es el `id`.
 //
 // Se maqueta con las mismas clases que el resto del sitio (.header-page / .container
-// / .body-page / .call-to-action-footer) para que no se note la costura, y lo propio
-// del estimador va en el <style> de abajo.
+// / .body-page) para que no se note la costura.
 //
 // Sin wfPage/wfSite a proposito: `data-wf-page` solo lo consulta IX2 para ids con
 // delimitador "|" (page-scoped), y ninguno de los 4 del footer ni de los 18 del nav
-// lo lleva, asi que sus animaciones funcionan igual. Esta pagina no tiene
-// interacciones propias, asi que tampoco necesita bloque anti-FOUC.
-
-// -----------------------------------------------------------------------------
-// PRECIOS
-// -----------------------------------------------------------------------------
-// TODO dato de aqui sale de la guia de costes publicada por la propia empresa,
-// /post/pergola-cost-south-florida ("Average Pergola Cost in South Florida
-// (2026)"), y coincide con /post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale.
-// No hay ni un numero inventado: si el cliente actualiza sus tarifas, se
-// actualizan las dos tablas de abajo y ya — las DOS paginas leen de aqui.
+// lo lleva. Esta pagina no tiene interacciones propias, asi que tampoco necesita
+// bloque anti-FOUC.
 //
-// El "+" del articulo ($150+, $175+) significa que el techo es abierto; se
-// arrastra hasta el resultado para no dar una cifra maxima que no es tal.
-
-const TARIFAS = [
-  { id: 'open-air',  min: 85,  max: 110, techoAbierto: false, href: '/products/open-air-pergolas' },
-  { id: 'insulated', min: 95,  max: 130, techoAbierto: false, href: '/products/solid-roof-pergolas' },
-  { id: 'louvered',  min: 110, max: 150, techoAbierto: true,  href: '/products/motorized-louvered-pergolas' },
-  { id: 'cabana',    min: 120, max: 175, techoAbierto: true,  href: '/products/cabanas' },
-];
-
-const EXTRAS_TARIFAS = [
-  { id: 'engineering', min: 2000, max: 5000,  techoAbierto: true },
-  { id: 'footings',    min: 3000, max: 10000, techoAbierto: true },
-  { id: 'electrical',  min: 1000, max: 4000,  techoAbierto: true },
-  { id: 'waterfront',  min: 5000, max: 15000, techoAbierto: false },
-];
-
-// Medidas por defecto: 16 x 20 ft = 320 sq ft, un tamano corriente de patio.
-const ANCHO_POR_DEFECTO = 16;
-const LARGO_POR_DEFECTO = 20;
+// POR QUE UN STEPPER PROPIO Y NO EL DE Formulario.astro
+//
+// El wizard `.msf-step` es lineal y valida con checkValidity() al avanzar. Aqui hay
+// ramificacion —cabana y carport son exentas por definicion y se saltan el paso 2;
+// solar y Sukkha no llevan tarifa y van derechos al cierre— y recalculo en vivo en
+// cada pulsacion. Lo que si se reutiliza de Formulario.astro es todo lo del paso 8:
+// con solo llevar action="/api/lead", el formulario de captura hereda el resumen de
+// errores accesible, el envio por fetch y el redirect bilingue.
 
 interface Props {
   t: TextosEstimador;
@@ -54,581 +51,1091 @@ interface Props {
 }
 const { t, base = '' } = Astro.props;
 
-const ESTRUCTURAS = TARIFAS.map((e) => ({ ...e, ...t.estructuras[e.id]!, href: base + e.href }));
-const EXTRAS = EXTRAS_TARIFAS.map((x) => ({ ...x, ...t.extras[x.id]! }));
+const productos = PRODUCTOS.map((p) => ({
+  ...p,
+  ...t.productos[p.id]!,
+  href: base + p.href,
+}));
+
+const mejoras = MEJORAS.map((m) => ({ ...m, ...t.mejoras[m.id]! }));
+
+// El vocabulario del formulario de cotizacion largo, palabra por palabra
+// (contact-us/get-a-quote, select#Shade-Structure). Un lead del estimador y uno del
+// formulario tienen que decir lo MISMO cuando llegan al comercial: si aqui pusiera
+// "Open-Air Pergola" y alli "Open-Air Aluminum Pergola", nadie podria contarlos
+// juntos. No se traduce nunca.
+const NOMBRE_LEAD: Record<string, string> = {
+  'open-air': 'Open-Air Pergola',
+  insulated: 'Insulated Roof Pergola',
+  polycarbonate: 'Polycarbonate Pergola',
+  louvered: 'Louvered Roof Pergola',
+  cabana: 'Aluminum Cabana',
+  screens: 'Screen Enclosure',
+  carport: 'Aluminum Carport',
+  solar: 'Solar Roof Structure',
+  sukkha: 'Sukkha 3000 System',
+};
+
+// Y lo mismo con el resto de respuestas. Los `id` internos estan en español porque
+// el codigo lo esta, pero el comercial que abre el aviso no tiene por que leer
+// "cesped" ni "nueva-pavers": lo que llega al lead va en el idioma del despacho,
+// igual para un visitante ingles que para uno español.
+const VOCABULARIO_LEAD: Record<string, Record<string, string>> = {
+  montaje: { adosada: 'Attached to house', exenta: 'Free-standing' },
+  suelo: {
+    'losa-ok': 'Existing concrete slab',
+    'pavers-ok': 'Existing pavers',
+    cesped: 'Grass / dirt / sand',
+    'deck-madera': 'Wood deck',
+    'no-se': 'Not sure',
+  },
+  base: { 'nueva-losa': 'New concrete slab', 'nueva-pavers': 'New paver base' },
+  agua: { si: 'Yes', no: 'No' },
+  hoa: { si: 'Yes', no: 'No', 'no-se': 'Not sure' },
+  espejo: { encaja: 'Fits', alto: 'A little high', premium: 'Can invest more' },
+};
 
 // El dinero se formatea SIEMPRE en en-US, tambien en la version española: son
 // dolares en Florida, y "$34,000" es como los escribe y los lee ahi todo el mundo.
 // Con es-ES saldria "$34.000", que a un vecino de Hialeah le parece otra cifra.
 const datos = JSON.stringify({
-  estructuras: ESTRUCTURAS.map(({ id, nombre, min, max, techoAbierto }) => ({ id, nombre, min, max, techoAbierto })),
-  extras: EXTRAS.map(({ id, nombre, min, max, techoAbierto }) => ({ id, nombre, min, max, techoAbierto })),
-  textos: t.cliente,
+  productos: PRODUCTOS.map((p) => ({
+    id: p.id,
+    tarifa: p.tarifa && { min: p.tarifa.min, max: p.tarifa.max, techoAbierto: !!p.tarifa.techoAbierto },
+    siempreExenta: !!p.siempreExenta,
+    nombre: t.productos[p.id]!.nombre,
+    lead: NOMBRE_LEAD[p.id],
+  })),
+  montaje: MONTAJE,
+  superficies: Object.fromEntries(
+    Object.entries(SUPERFICIES).map(([k, v]) => [k, { min: v.min, max: v.max }]),
+  ),
+  superficieMax: SUPERFICIE_MAX,
+  mejoras: MEJORAS.map((m) => ({
+    id: m.id,
+    grupo: m.grupo ?? null,
+    tarifa: m.tarifa && { min: m.tarifa.min, max: m.tarifa.max, techoAbierto: !!m.tarifa.techoAbierto },
+    nombre: t.mejoras[m.id]!.nombre,
+  })),
+  condados: CONDADOS,
+  vocabulario: VOCABULARIO_LEAD,
+  ingenieria: { min: INGENIERIA.min, max: INGENIERIA.max },
+  waterfront: { min: WATERFRONT.min, max: WATERFRONT.max },
+  limites: { min: MIN_FT, max: MAX_FT },
+  // `panelVacio` se pinta en el servidor (estado inicial) y tambien en el navegador
+  // cuando se deselecciona: viaja aqui para no tener la misma frase escrita dos
+  // veces por idioma.
+  textos: { ...t.cliente, panelVacio: t.panelVacio },
 });
+
+const paginaActual = Astro.url.pathname;
 ---
 
 <header class="header-page">
   <div class="w-layout-blockcontainer container w-container">
-    <div class="wrapper-hero-page">
-      <h1>{t.h1}</h1>
-      <div>{t.entradilla}</div>
-    </div>
+    <h1>{t.h1}</h1>
+    <p>{t.entradilla}</p>
   </div>
 </header>
 
-<section class="body-page">
+<section class="body-page est-seccion">
   <div class="w-layout-blockcontainer container w-container">
     <div class="est">
-      <form class="est-form" id="est-form" novalidate>
-        <fieldset class="est-bloque">
-          <legend class="est-legend">{t.paso1}</legend>
-          <div class="est-opciones">
-            {ESTRUCTURAS.map((e, i) => (
+      <div class="est-pasos" id="est-pasos">
+        <!-- El contador y la barra los rellena el script: sin JS no hay pasos que
+             contar, y la pagina cae al camino <noscript> de mas abajo. -->
+        <div class="est-progreso" id="est-progreso" hidden>
+          <div class="est-barra"><span id="est-barra-relleno"></span></div>
+          <p class="est-progreso-texto" id="est-progreso-texto" aria-live="polite"></p>
+        </div>
+
+        <form class="est-form" id="est-form" novalidate>
+          <!-- 1 · que quieres que haga ------------------------------------- -->
+          <fieldset class="est-bloque est-paso" data-paso="1">
+            <legend class="est-legend">{t.paso1}</legend>
+            <p class="est-ayuda">{t.ayuda1}</p>
+            <div class="est-opciones">
+              {
+                productos.map((p) => (
+                  <label class="est-opcion est-opcion--foto">
+                    {/* alt vacio a proposito: la foto es redundante con el rotulo
+                        que va justo debajo, y describirla otra vez solo anade ruido
+                        para quien navega con lector de pantalla. */}
+                    <img class="est-foto" src={p.imagen} alt="" loading="lazy" />
+                    <span class="est-opcion-fila">
+                      <input type="radio" name="producto" value={p.id} />
+                      <span class="est-opcion-cuerpo">
+                        <span class="est-opcion-titulo">{p.nombre}</span>
+                        <span class="est-opcion-nota">{p.nota}</span>
+                        <span class="est-opcion-tarifa">
+                          {
+                            p.tarifa ? (
+                              <>
+                                {t.desde} ${p.tarifa.min}–${p.tarifa.max}
+                                {p.tarifa.techoAbierto ? '+' : ''}{' '}
+                                <span class="est-unidad">{t.porPie}</span>
+                              </>
+                            ) : (
+                              <span class="est-unidad">{t.aMedidaEtiqueta}</span>
+                            )
+                          }
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- 2 · montaje ---------------------------------------------------- -->
+          <fieldset class="est-bloque est-paso" data-paso="2">
+            <legend class="est-legend">{t.paso2}</legend>
+            <p class="est-ayuda">{t.ayuda2}</p>
+            <div class="est-opciones">
+              {
+                Object.keys(MONTAJE).map((id) => (
+                  <label class="est-opcion">
+                    <input type="radio" name="montaje" value={id} />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{t.montaje[id]!.nombre}</span>
+                      <span class="est-opcion-nota">{t.montaje[id]!.nota}</span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- 3 · tamano ----------------------------------------------------- -->
+          <fieldset class="est-bloque est-paso" data-paso="3">
+            <legend class="est-legend">{t.paso3}</legend>
+            <p class="est-ayuda">{t.ayuda3}</p>
+            <div class="est-opciones">
+              {
+                PRESETS.map((p) => (
+                  <label class="est-opcion">
+                    <input
+                      type="radio"
+                      name="preset"
+                      value={p.id}
+                      data-ancho={p.ancho}
+                      data-largo={p.largo}
+                      checked={p.id === PRESET_POR_DEFECTO}
+                    />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{t.presets[p.id]!.nombre}</span>
+                      <span class="est-opcion-nota">{t.presets[p.id]!.nota}</span>
+                    </span>
+                  </label>
+                ))
+              }
               <label class="est-opcion">
-                <input type="radio" name="estructura" value={e.id} checked={i === 0} />
+                <input type="radio" name="preset" value="a-medida" />
                 <span class="est-opcion-cuerpo">
-                  <span class="est-opcion-titulo">{e.nombre}</span>
-                  <span class="est-opcion-nota">{e.nota}</span>
-                  <span class="est-opcion-tarifa">
-                    ${e.min}–${e.max}{e.techoAbierto ? '+' : ''} <span class="est-unidad">{t.porPie}</span>
-                  </span>
+                  <span class="est-opcion-titulo">{t.aMedida}</span>
                 </span>
               </label>
-            ))}
-          </div>
-        </fieldset>
-
-        <fieldset class="est-bloque">
-          <legend class="est-legend">{t.paso2}</legend>
-          <div class="est-medidas">
-            <label class="est-medida">
-              <span>{t.ancho}</span>
-              <input type="number" id="est-ancho" name="ancho" value={ANCHO_POR_DEFECTO}
-                     min="8" max="60" step="1" inputmode="numeric" />
-            </label>
-            <span class="est-por" aria-hidden="true">×</span>
-            <label class="est-medida">
-              <span>{t.largo}</span>
-              <input type="number" id="est-largo" name="largo" value={LARGO_POR_DEFECTO}
-                     min="8" max="60" step="1" inputmode="numeric" />
-            </label>
-            <p class="est-area">= <strong id="est-area">{ANCHO_POR_DEFECTO * LARGO_POR_DEFECTO}</strong> {t.pies2}</p>
-          </div>
-          <p class="est-aviso" id="est-aviso" hidden></p>
-        </fieldset>
-
-        <fieldset class="est-bloque">
-          <legend class="est-legend">{t.paso3}</legend>
-          <p class="est-ayuda">{t.ayudaExtras}</p>
-          <div class="est-opciones est-opciones--extras">
-            {EXTRAS.map((x) => (
-              <label class="est-opcion">
-                <input type="checkbox" name="extra" value={x.id} />
-                <span class="est-opcion-cuerpo">
-                  <span class="est-opcion-titulo">{x.nombre}</span>
-                  <span class="est-opcion-nota">{x.nota}</span>
-                  <span class="est-opcion-tarifa">
-                    +${x.min.toLocaleString('en-US')}–${x.max.toLocaleString('en-US')}{x.techoAbierto ? '+' : ''}
-                  </span>
-                </span>
+            </div>
+            <div class="est-medidas">
+              <label class="est-medida">
+                <span>{t.ancho}</span>
+                <input
+                  type="number"
+                  id="est-ancho"
+                  name="ancho"
+                  value={ANCHO_POR_DEFECTO}
+                  min={MIN_FT}
+                  max={MAX_FT}
+                  step="1"
+                  inputmode="numeric"
+                />
               </label>
-            ))}
+              <span class="est-por" aria-hidden="true">×</span>
+              <label class="est-medida">
+                <span>{t.largo}</span>
+                <input
+                  type="number"
+                  id="est-largo"
+                  name="largo"
+                  value={LARGO_POR_DEFECTO}
+                  min={MIN_FT}
+                  max={MAX_FT}
+                  step="1"
+                  inputmode="numeric"
+                />
+              </label>
+              <p class="est-area">
+                = <strong id="est-area">{ANCHO_POR_DEFECTO * LARGO_POR_DEFECTO}</strong> {t.pies2}
+              </p>
+            </div>
+            <p class="est-aviso" id="est-aviso" hidden></p>
+          </fieldset>
+
+          <!-- 4 · que hay en el suelo ---------------------------------------- -->
+          <fieldset class="est-bloque est-paso" data-paso="4">
+            <legend class="est-legend">{t.paso4}</legend>
+            <p class="est-ayuda">{t.ayuda4}</p>
+            <div class="est-opciones est-opciones--una">
+              {
+                ['losa-ok', 'pavers-ok', 'cesped', 'deck-madera', 'no-se'].map((id) => (
+                  <label class="est-opcion">
+                    <input type="radio" name="suelo" value={id} />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{t.suelo[id]!.nombre}</span>
+                      <span class="est-opcion-nota">{t.suelo[id]!.nota}</span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+            <!-- La subpregunta solo aparece si lo que hay debajo es cesped: no se
+                 puede anclar una pergola a la tierra, asi que aqui la base deja de
+                 ser opcional y pasa a ser una partida del proyecto. -->
+            <div class="est-sub" id="est-sub-base" hidden>
+              <p class="est-sub-titulo">{t.baseTitulo}</p>
+              <p class="est-ayuda">{t.baseAyuda}</p>
+              <div class="est-opciones">
+                {
+                  ['nueva-losa', 'nueva-pavers'].map((id) => (
+                    <label class="est-opcion">
+                      <input type="radio" name="base" value={id} />
+                      <span class="est-opcion-cuerpo">
+                        <span class="est-opcion-titulo">{t.base[id]!.nombre}</span>
+                        <span class="est-opcion-nota">{t.base[id]!.nota}</span>
+                        <span class="est-opcion-tarifa">
+                          ${SUPERFICIES[id as 'nueva-losa'].min}–$
+                          {SUPERFICIES[id as 'nueva-losa'].max}{' '}
+                          <span class="est-unidad">{t.porPie}</span>
+                        </span>
+                      </span>
+                    </label>
+                  ))
+                }
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 5 · que va debajo ---------------------------------------------- -->
+          <fieldset class="est-bloque est-paso" data-paso="5">
+            <legend class="est-legend">{t.paso5}</legend>
+            <p class="est-ayuda">{t.ayuda5}</p>
+            <div class="est-opciones est-opciones--una">
+              {
+                mejoras.map((m) => (
+                  <label class="est-opcion">
+                    <input type="checkbox" name="mejora" value={m.id} />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{m.nombre}</span>
+                      <span class="est-opcion-nota">{m.nota}</span>
+                      <span class="est-opcion-tarifa">
+                        {
+                          m.tarifa ? (
+                            <>
+                              +${m.tarifa.min.toLocaleString('en-US')}–$
+                              {m.tarifa.max.toLocaleString('en-US')}
+                              {m.tarifa.techoAbierto ? '+' : ''}
+                            </>
+                          ) : (
+                            <span class="est-unidad">{t.enLaVisita}</span>
+                          )
+                        }
+                      </span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- 6 · el sitio ---------------------------------------------------- -->
+          <fieldset class="est-bloque est-paso" data-paso="6">
+            <legend class="est-legend">{t.paso6}</legend>
+            <p class="est-ayuda">{t.ayuda6}</p>
+
+            <div class="est-medidas">
+              <label class="est-medida">
+                <span>{t.zip}</span>
+                <input
+                  type="text"
+                  id="est-zip"
+                  name="zip"
+                  inputmode="numeric"
+                  autocomplete="postal-code"
+                  maxlength="5"
+                  pattern="[0-9]{5}"
+                />
+              </label>
+              <p class="est-area" id="est-condado"></p>
+            </div>
+            <p class="est-ayuda">{t.zipAyuda}</p>
+
+            <p class="est-sub-titulo">{t.agua}</p>
+            <p class="est-ayuda">{t.aguaAyuda}</p>
+            <div class="est-opciones">
+              {
+                [
+                  ['si', t.si],
+                  ['no', t.no],
+                ].map(([id, rotulo]) => (
+                  <label class="est-opcion est-opcion--corta">
+                    <input type="radio" name="agua" value={id} />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{rotulo}</span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+
+            <p class="est-sub-titulo">{t.hoa}</p>
+            <p class="est-ayuda">{t.hoaAyuda}</p>
+            <div class="est-opciones">
+              {
+                [
+                  ['si', t.si],
+                  ['no', t.no],
+                  ['no-se', t.noLoSe],
+                ].map(([id, rotulo]) => (
+                  <label class="est-opcion est-opcion--corta">
+                    <input type="radio" name="hoa" value={id} />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{rotulo}</span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- 7 · el espejo --------------------------------------------------- -->
+          <!-- No se pregunta el presupuesto: acabamos de dar el precio, y preguntar
+               cuanto tiene despues de eso se lee como una trampa. Esta pregunta da
+               la misma senal y ademas le entrega al comercial la objecion antes de
+               la llamada. -->
+          <fieldset class="est-bloque est-paso" data-paso="7">
+            <legend class="est-legend">{t.paso7}</legend>
+            <p class="est-ayuda">{t.ayuda7}</p>
+            <div class="est-opciones est-opciones--una">
+              {
+                ['encaja', 'alto', 'premium'].map((id) => (
+                  <label class="est-opcion">
+                    <input type="radio" name="espejo" value={id} />
+                    <span class="est-opcion-cuerpo">
+                      <span class="est-opcion-titulo">{t.espejo[id]!.nombre}</span>
+                      <span class="est-opcion-nota">{t.espejo[id]!.nota}</span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+            <!-- Si dice que es alto, se le ensenan dos palancas concretas con
+                 recalculo en vivo. Recuperar el susto de precio en el sitio es mas
+                 barato que perder el lead y llamarle luego. -->
+            <div class="est-sub" id="est-palancas" hidden>
+              <p class="est-sub-titulo">{t.palancasTitulo}</p>
+              <div class="est-opciones est-opciones--una" id="est-palancas-lista"></div>
+            </div>
+          </fieldset>
+        </form>
+
+        <!-- 8 · el cierre ---------------------------------------------------- -->
+        <!-- Hermano y no anidado: HTML no permite un <form> dentro de otro. Con
+             action="/api/lead" hereda de Formulario.astro el resumen de errores
+             accesible, el envio por fetch y el 303 a /thank-you cuando no hay JS. -->
+        <form
+          class="est-bloque est-paso est-captura"
+          data-paso="8"
+          id="est-captura"
+          method="post"
+          action="/api/lead"
+          data-wf-no-turnstile
+        >
+          <p class="est-legend">{t.paso8}</p>
+          <p class="est-ayuda">{t.ayuda8}</p>
+
+          <input type="hidden" name="formulario" value="estimador" />
+          <input type="hidden" name="pagina" value={paginaActual} />
+          <input type="hidden" name="t" value="" />
+          <input type="hidden" name="js" value="" />
+          <div class="pp-trampa" aria-hidden="true">
+            <input
+              type="text"
+              id="pp-website-estimador"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+            />
           </div>
-        </fieldset>
-      </form>
+
+          <!-- Lo que el estimador ya sabe. Lo rellena el script segun se responde:
+               el endpoint acepta campos arbitrarios, asi que el embudo entero llega
+               al comercial sin tocar la validacion. -->
+          <input type="hidden" name="Shade-Structure" value="" />
+          <input type="hidden" name="Project-Size" value="" />
+          <input type="hidden" name="Mounting" value="" />
+          <input type="hidden" name="Ground-Surface" value="" />
+          <input type="hidden" name="New-Base" value="" />
+          <input type="hidden" name="Enhancements" value="" />
+          <input type="hidden" name="County" value="" />
+          <input type="hidden" name="Waterfront" value="" />
+          <input type="hidden" name="HOA-Approval" value="" />
+          <input type="hidden" name="Budget-Fit" value="" />
+          <input type="hidden" name="Estimate-Range" value="" />
+          <input type="hidden" name="Estimate-Open" value="" />
+          <input type="hidden" name="Steps-Completed" value="" />
+
+          <div class="est-campos">
+            <label class="est-campo">
+              <span>{t.nombre}</span>
+              <input type="text" name="Full-Name" autocomplete="name" required />
+            </label>
+            <label class="est-campo">
+              <span>{t.email}</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label class="est-campo">
+              <span>{t.telefono}</span>
+              <input type="tel" name="Phone" autocomplete="tel" required />
+            </label>
+            <!-- El codigo postal ya se pidio en el paso 6; este espejo es el que
+                 viaja al endpoint, que lo exige. Lo rellena el script. -->
+            <input type="hidden" name="ZIP-Code" value="" />
+            <label class="est-consentimiento">
+              <input type="checkbox" name="SMS-Consent" value="Yes" required />
+              <span>{t.sms}</span>
+            </label>
+          </div>
+
+          <button type="submit" class="button w-button" id="est-enviar">{t.enviar}</button>
+          <p class="est-tranquilidad">{t.tranquilidad}</p>
+        </form>
+
+        <div class="est-nav" id="est-nav" hidden>
+          <button type="button" class="button secundary w-button" id="est-atras">{t.atras}</button>
+          <button type="button" class="button w-button" id="est-siguiente">{t.siguiente}</button>
+          <button type="button" class="est-omitir" id="est-omitir">{t.noSeguro}</button>
+        </div>
+      </div>
 
       <aside class="est-panel">
         <div class="est-resultado" aria-live="polite">
-          <p class="est-resultado-etiqueta">{t.resultado}</p>
+          <p class="est-resultado-etiqueta" id="est-etiqueta">{t.confirmado}</p>
           <p class="est-resultado-cifra" id="est-total">—</p>
-          <p class="est-resultado-sub" id="est-sub"></p>
+          <p class="est-resultado-sub" id="est-sub">{t.panelVacio}</p>
           <ul class="est-desglose" id="est-desglose"></ul>
-        </div>
 
-        <p class="est-legal">
-          <strong>{t.legalFuerte}</strong> {t.legalAntes}
-          <a href="/post/pergola-cost-south-florida">{t.legalEnlace}</a>{t.legalDespues}
-        </p>
+          <!-- El segundo bloque es lo que impide que esto sea una cifra unica de
+               minimo a maximo absoluto: con todo sin responder daria un rango tan
+               ancho que se lee como no tener ni idea. Las partidas suben de aqui
+               arriba segun se responden, y el usuario ve el techo posible desde el
+               primer momento: nunca hay sorpresa. -->
+          <div class="est-abierto" id="est-abierto" hidden>
+            <p class="est-resultado-etiqueta">{t.porDefinir}</p>
+            <p class="est-abierto-cifra" id="est-abierto-cifra"></p>
+            <ul class="est-desglose" id="est-abierto-lista"></ul>
+          </div>
 
-        <div class="est-cta">
-          <a href={`${base}/contact-us/get-a-quote`} class="button w-button">{t.ctaExacto}</a>
-          <a href={`${base}/contact-us/schedule-a-visit`} class="button secundary w-button">{t.ctaVisita}</a>
+          <div class="est-confianza" id="est-confianza" hidden>
+            <div class="est-barra est-barra--panel"><span id="est-confianza-relleno"></span></div>
+            <p class="est-confianza-texto" id="est-confianza-texto"></p>
+          </div>
         </div>
       </aside>
     </div>
+
+    <!-- El aviso legal vive FUERA del panel a proposito. En movil el panel se
+         vuelve pegajoso para que la cifra siga a la vista mientras se responde, y
+         un parrafo de seis lineas pegado ahi arriba se comeria media pantalla. -->
+    <p class="est-legal">
+      <strong>{t.legalFuerte}</strong>{t.legalAntes}
+      <a href={`${base}/post/pergola-cost-south-florida`}>{t.legalEnlace}</a>{t.legalDespues}
+    </p>
 
     <noscript>
       <div class="est-noscript">
         <h2>{t.noscriptH2}</h2>
         <table class="est-tabla">
-          <thead><tr><th>{t.thEstructura}</th><th>{t.thTarifa}</th></tr></thead>
+          <thead>
+            <tr><th>{t.thEstructura}</th><th>{t.thTarifa}</th></tr>
+          </thead>
           <tbody>
-            {ESTRUCTURAS.map((e) => (
-              <tr><td><a href={e.href}>{e.nombre}</a></td><td>${e.min}–${e.max}{e.techoAbierto ? '+' : ''}</td></tr>
-            ))}
+            {
+              productos.map((p) => (
+                <tr>
+                  <td><a href={p.href}>{p.nota}</a></td>
+                  <td>
+                    {
+                      p.tarifa
+                        ? `$${p.tarifa.min}–$${p.tarifa.max}${p.tarifa.techoAbierto ? '+' : ''}`
+                        : t.aMedidaEtiqueta
+                    }
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
         <table class="est-tabla">
-          <thead><tr><th>{t.thAdicion}</th><th>{t.thCoste}</th></tr></thead>
+          <thead>
+            <tr><th>{t.thAdicion}</th><th>{t.thCoste}</th></tr>
+          </thead>
           <tbody>
-            {EXTRAS.map((x) => (
-              <tr><td>{x.nombre}</td><td>${x.min.toLocaleString('en-US')}–${x.max.toLocaleString('en-US')}{x.techoAbierto ? '+' : ''}</td></tr>
-            ))}
+            {
+              mejoras.map((m) => (
+                <tr>
+                  <td>{m.nombre}</td>
+                  <td>
+                    {
+                      m.tarifa
+                        ? `+$${m.tarifa.min.toLocaleString('en-US')}–$${m.tarifa.max.toLocaleString('en-US')}${m.tarifa.techoAbierto ? '+' : ''}`
+                        : t.enLaVisita
+                    }
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
-        <p>{t.noscriptPie} <a href={`${base}/contact-us/get-a-quote`}>{t.noscriptEnlace}</a>{t.noscriptFin}</p>
+        <p>
+          {t.noscriptPie}
+          <a href={`${base}/contact-us/get-a-quote`}>{t.noscriptEnlace}</a>{t.noscriptFin}
+        </p>
       </div>
     </noscript>
   </div>
 </section>
 
-<section class="call-to-action-footer">
-  <div class="wrapper-call-to-action">
-    <div class="box-call-to-action">
-      <h2>{t.cierreH2}</h2>
-      <div>{t.cierreP}</div>
-      <div class="process-cta">
-        <a href={`${base}/contact-us/get-a-quote`} class="button w-button">{t.cierreA}</a>
-        <a href={`${base}/contact-us/schedule-a-visit`} class="button secundary w-button">{t.cierreB}</a>
-      </div>
-    </div>
-  </div>
-  <img
-    sizes="(max-width: 2000px) 100vw, 2000px"
-    srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
-    alt={t.altCierre}
-    src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
-    loading="lazy"
-    class="image-call-to-action"
-  />
-</section>
 
 <script is:inline set:html={`window.__ESTIMADOR__ = ${datos};`} />
 
 <script>
-  // Estimador. Vanilla, sin dependencias: son cuatro multiplicaciones.
-  //
-  // Los rotulos que pinta el cliente llegan por `textos` dentro de __ESTIMADOR__,
-  // no cableados aqui: es el mismo script en las dos paginas.
-  const { estructuras, extras, textos } = (window as any).__ESTIMADOR__;
+  // El calculador y el stepper. El MISMO script sirve a las dos paginas: todo lo
+  // que se pinta sale de `textos`, que viene del diccionario del idioma que toque.
+  const D = (window as any).__ESTIMADOR__;
+  const { productos, montaje, superficies, superficieMax, mejoras, condados } = D;
+  const { ingenieria, waterfront, limites, textos, vocabulario } = D;
 
   const $ = (id: string) => document.getElementById(id)!;
   const form = $('est-form') as HTMLFormElement;
+  const captura = $('est-captura') as HTMLFormElement;
+  const contenedor = $('est-pasos');
+  if (form && captura && contenedor) arrancar();
 
-  // Este <form> no envia nada: es una calculadora y el resultado se pinta al
-  // vuelo. Pero sigue siendo un <form> con dos <input type="number">, y sin action
-  // un Enter en cualquiera de los dos hace un GET a la propia pagina: recarga y se
-  // pierde lo que el visitante habia metido. Se corta aqui en vez de quitar el
-  // <form>, porque el <form> es lo que agrupa los controles y da la validacion.
-  form.addEventListener('submit', (e) => e.preventDefault());
-  const inAncho = $('est-ancho') as HTMLInputElement;
-  const inLargo = $('est-largo') as HTMLInputElement;
-  const elArea = $('est-area');
-  const elTotal = $('est-total');
-  const elSub = $('est-sub');
-  const elDesglose = $('est-desglose');
-  const elAviso = $('est-aviso');
+  function arrancar() {
+    // Sin esto, un Enter en un <input type="number"> sin action haria GET a la
+    // propia pagina y perderia todo lo introducido. Se corta aqui en vez de quitar
+    // el <form>, que es lo que agrupa los controles para lectores de pantalla.
+    form.addEventListener('submit', (e) => e.preventDefault());
 
-  const MIN_FT = 8, MAX_FT = 60;
+    const pasos = [...contenedor.querySelectorAll<HTMLElement>('.est-paso')];
+    const nav = $('est-nav');
+    const atras = $('est-atras') as HTMLButtonElement;
+    const siguiente = $('est-siguiente') as HTMLButtonElement;
+    const omitir = $('est-omitir') as HTMLButtonElement;
 
-  // Se redondea a la baja/alza en tramos de 500: un estimador que escupe
-  // "$34.187" finge una precision que no tiene.
-  const aTramo = (n: number, arriba: boolean) =>
-    (arriba ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500;
+    let actual = 0;
+    /** Hasta donde ha llegado. Un paso solo cuenta como respondido si se paso por el. */
+    let visto = 0;
+    /** Los pasos que se saltaron con "no lo se": quedan en "por definir" a proposito. */
+    const omitidos = new Set<number>();
 
-  // en-US tambien en español: ver el comentario del frontmatter.
-  const dinero = (n: number) => '$' + n.toLocaleString('en-US');
+    // --- persistencia ---------------------------------------------------------
+    // El sello lleva la version del formulario: si manana cambian los pasos, un
+    // estado guardado de la version vieja se descarta solo en vez de rellenar
+    // campos que ya no significan lo mismo.
+    const LLAVE = 'pp-estimador-v1';
+    const guardar = () => {
+      try {
+        sessionStorage.setItem(
+          LLAVE,
+          JSON.stringify({ datos: [...new FormData(form as any)], visto, omitidos: [...omitidos] }),
+        );
+      } catch {
+        // Modo privado de Safari y poco mas. Perder el estado no rompe nada.
+      }
+    };
+    const recuperar = () => {
+      try {
+        const crudo = sessionStorage.getItem(LLAVE);
+        if (!crudo) return;
+        const g = JSON.parse(crudo);
+        for (const [k, v] of g.datos ?? []) {
+          const el = form.querySelector<HTMLInputElement>(
+            `[name="${k}"][value="${CSS.escape(String(v))}"], input[name="${k}"]:not([type=radio]):not([type=checkbox])`,
+          );
+          if (!el) continue;
+          if (el.type === 'radio' || el.type === 'checkbox') el.checked = true;
+          else el.value = String(v);
+        }
+        visto = Number(g.visto) || 0;
+        for (const n of g.omitidos ?? []) omitidos.add(Number(n));
+      } catch {
+        // Estado ilegible: se empieza de cero, que es lo que haria de todas formas.
+      }
+    };
 
-  function lado(input: HTMLInputElement) {
-    const n = Math.round(Number(input.value));
-    if (!Number.isFinite(n)) return null;
-    return Math.min(MAX_FT, Math.max(MIN_FT, n));
-  }
+    // --- el estado, leido del DOM --------------------------------------------
+    const marcado = (n: string) =>
+      form.querySelector<HTMLInputElement>(`input[name="${n}"]:checked`)?.value ?? null;
+    const productoDe = () => productos.find((p: any) => p.id === marcado('producto')) ?? null;
 
-  function calcular() {
-    const ancho = lado(inAncho);
-    const largo = lado(inLargo);
+    const lado = (input: HTMLInputElement) => {
+      const n = Math.round(Number(input.value));
+      if (!Number.isFinite(n)) return null;
+      return Math.min(limites.max, Math.max(limites.min, n));
+    };
 
-    if (ancho === null || largo === null) {
-      elAviso.textContent = textos.pideMedidas;
-      elAviso.hidden = false;
-      elTotal.textContent = '—';
-      elSub.textContent = '';
-      elDesglose.replaceChildren();
-      return;
+    // --- los pasos que aplican ------------------------------------------------
+    // Cabana y carport son exentas por definicion: preguntar como se apoyan seria
+    // una pregunta sin respuesta posible. Solar y Sukkha no llevan tarifa, asi que
+    // todo lo que hay entre el paso 1 y el cierre no cambiaria ninguna cifra.
+    function aplica(indice: number) {
+      const p = productoDe();
+      const paso = Number(pasos[indice].dataset.paso);
+      if (paso === 1 || paso === 8) return true;
+      if (!p) return true;
+      if (!p.tarifa) return false;
+      if (paso === 2 && p.siempreExenta) return false;
+      return true;
+    }
+    const siguienteQueAplica = (desde: number, paso: number) => {
+      let i = desde + paso;
+      while (i > 0 && i < pasos.length && !aplica(i)) i += paso;
+      return Math.max(0, Math.min(pasos.length - 1, i));
+    };
+
+    // --- dinero ---------------------------------------------------------------
+    // Se redondea a tramos de $500: un estimador que escupe $34.187 finge una
+    // precision que no tiene. El minimo baja y el maximo sube, nunca al reves.
+    const aTramo = (n: number, arriba: boolean) =>
+      (arriba ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500;
+    const dinero = (n: number) => '$' + n.toLocaleString('en-US');
+    const banda = (min: number, max: number, abierto: boolean) =>
+      `${dinero(aTramo(min, false))} – ${dinero(aTramo(max, true))}${abierto ? '+' : ''}`;
+
+    interface Partida {
+      etiqueta: string;
+      min: number;
+      max: number;
+      abierto: boolean;
+      firme: boolean;
+      /** Se valora en la visita: suma cero y se dice en voz alta. */
+      enVisita?: boolean;
     }
 
-    // Se avisa del recorte en vez de corregir el input mientras se escribe:
-    // reescribir el valor bajo los dedos del usuario es de las cosas mas
-    // molestas que puede hacer un formulario.
-    const recortado = Number(inAncho.value) !== ancho || Number(inLargo.value) !== largo;
-    elAviso.textContent = recortado
-      ? textos.recorte
-          .replace('{ancho}', String(ancho))
-          .replace('{largo}', String(largo))
-          .replace('{min}', String(MIN_FT))
-          .replace('{max}', String(MAX_FT))
-      : '';
-    elAviso.hidden = !recortado;
+    // --- el calculo -----------------------------------------------------------
+    //
+    // Todo el proyecto es una suma de partidas con [min, max]. Lo que aun no se ha
+    // respondido aporta su banda COMPLETA; responderlo la colapsa. Por eso el rango
+    // se estrecha solo, por matematica y no por animacion: no hay nada que fingir.
+    function calcular(): { firmes: Partida[]; abiertas: Partida[]; preguntas: boolean[] } {
+      const firmes: Partida[] = [];
+      const abiertas: Partida[] = [];
+      const preguntas: boolean[] = [];
+      const mete = (p: Partida) => (p.firme ? firmes : abiertas).push(p);
 
-    const area = ancho * largo;
-    elArea.textContent = String(area);
+      const p = productoDe();
+      if (!p || !p.tarifa) return { firmes, abiertas, preguntas };
 
-    const elegida = estructuras.find(
-      (e: any) => e.id === (form.querySelector('input[name="estructura"]:checked') as HTMLInputElement)?.value
-    ) ?? estructuras[0];
+      const ancho = lado($('est-ancho') as HTMLInputElement);
+      const largo = lado($('est-largo') as HTMLInputElement);
+      if (ancho === null || largo === null) return { firmes, abiertas, preguntas };
+      const area = ancho * largo;
 
-    let min = area * elegida.min;
-    let max = area * elegida.max;
-    let abierto = elegida.techoAbierto;
+      // 1 · estructura. SIEMPRE firme en cuanto hay producto y medidas: el coste de
+      //     la estructura se conoce. Lo unico que aporta saber como se apoya es un
+      //     8% —adosada 0,92 contra exenta 1,00— y eso ensancha la banda de esta
+      //     partida, no la deja sin confirmar. Tratarla como abierta hacia que el
+      //     panel dijera "confirmado: $0" con una pergola ya elegida, que es falso
+      //     y ademas es justo lo contrario de lo que el panel viene a hacer.
+      const m = p.siempreExenta ? 'exenta' : marcado('montaje');
+      const fMin = m ? montaje[m] : montaje.adosada;
+      const fMax = m ? montaje[m] : montaje.exenta;
+      preguntas.push(!!m);
+      mete({
+        etiqueta: `${p.nombre} · ${area} ${textos.pies2}`,
+        min: area * p.tarifa.min * fMin,
+        max: area * p.tarifa.max * fMax,
+        abierto: p.tarifa.techoAbierto,
+        firme: true,
+      });
 
-    const filas = [{
-      etiqueta: `${elegida.nombre} · ${area} ${textos.pies2}`,
-      texto: `${dinero(aTramo(min, false))}–${dinero(aTramo(max, true))}${elegida.techoAbierto ? '+' : ''}`,
-    }];
+      // 2 · el suelo. La banda mas grande mientras no se responde, porque incluye
+      //     la posibilidad de tener que construir la base entera.
+      const suelo = marcado('suelo');
+      const base = marcado('base');
+      const puesta = (k: string) => superficies[k] ?? { min: 0, max: 0 };
+      preguntas.push(suelo === 'cesped' ? !!base : !!suelo && suelo !== 'no-se');
+      if (suelo === 'losa-ok' || suelo === 'pavers-ok') {
+        mete({ etiqueta: textos.partidaBase, min: 0, max: 0, abierto: false, firme: true });
+      } else if (suelo === 'cesped' && base) {
+        const s = puesta(base);
+        mete({
+          etiqueta: textos.partidaBase,
+          min: area * s.min,
+          max: area * s.max,
+          abierto: false,
+          firme: true,
+        });
+      } else if (suelo === 'deck-madera') {
+        const s = puesta('deck-madera');
+        mete({
+          etiqueta: textos.partidaBase,
+          min: area * s.min,
+          max: area * s.max,
+          abierto: false,
+          firme: false,
+        });
+      } else {
+        mete({
+          etiqueta: textos.partidaBase,
+          min: 0,
+          max: area * superficieMax,
+          abierto: false,
+          firme: false,
+        });
+      }
 
-    for (const cb of form.querySelectorAll<HTMLInputElement>('input[name="extra"]:checked')) {
-      const x = extras.find((e: any) => e.id === cb.value);
-      if (!x) continue;
-      min += x.min;
-      max += x.max;
-      abierto = abierto || x.techoAbierto;
-      filas.push({ etiqueta: x.nombre, texto: `+${dinero(x.min)}–${dinero(x.max)}${x.techoAbierto ? '+' : ''}` });
+      // 3 · calculo y permisos. El codigo postal no aporta un numero nuevo: dice
+      //     donde de la banda publicada cae la jurisdiccion.
+      const zip = ($('est-zip') as HTMLInputElement)?.value ?? '';
+      const n = Number(String(zip).trim().slice(0, 5));
+      const c = Number.isInteger(n)
+        ? condados.find((x: any) => n >= x.desde && n <= x.hasta)
+        : undefined;
+      preguntas.push(!!c);
+      mete({
+        etiqueta: textos.partidaIngenieria,
+        min: c ? c.min : ingenieria.min,
+        max: c ? c.max : ingenieria.max,
+        abierto: !c,
+        firme: !!c,
+      });
+
+      // 4 · frente al agua.
+      const agua = marcado('agua');
+      preguntas.push(!!agua);
+      mete({
+        etiqueta: textos.partidaAgua,
+        min: agua === 'si' ? waterfront.min : 0,
+        max: agua === 'no' ? 0 : waterfront.max,
+        abierto: false,
+        firme: !!agua,
+      });
+
+      // 5 · mejoras. Las que comparten grupo aportan su banda UNA vez: la guia
+      //     publicada precia iluminacion y ventiladores juntos, asi que marcarlas
+      //     las dos no puede cobrar dos veces.
+      const elegidas = [...form.querySelectorAll<HTMLInputElement>('input[name="mejora"]:checked')];
+      const paso5Visto = visto >= indiceDePaso(5);
+      preguntas.push(paso5Visto);
+      if (elegidas.length) {
+        const grupos = new Set<string>();
+        let min = 0;
+        let max = 0;
+        let abierto = false;
+        const nombres: string[] = [];
+        let hayVisita = false;
+        for (const el of elegidas) {
+          const mj = mejoras.find((x: any) => x.id === el.value);
+          if (!mj) continue;
+          nombres.push(mj.nombre);
+          if (!mj.tarifa) {
+            hayVisita = true;
+            continue;
+          }
+          if (mj.grupo) {
+            if (grupos.has(mj.grupo)) continue;
+            grupos.add(mj.grupo);
+          }
+          min += mj.tarifa.min;
+          max += mj.tarifa.max;
+          abierto = abierto || mj.tarifa.techoAbierto;
+        }
+        mete({
+          etiqueta: `${textos.partidaMejoras} · ${nombres.length}`,
+          min,
+          max,
+          abierto,
+          firme: true,
+          enVisita: hayVisita,
+        });
+      } else if (!paso5Visto) {
+        // Sin haber llegado al paso, el techo es que las quiera todas.
+        let max = 0;
+        const grupos = new Set<string>();
+        for (const mj of mejoras) {
+          if (!mj.tarifa) continue;
+          if (mj.grupo) {
+            if (grupos.has(mj.grupo)) continue;
+            grupos.add(mj.grupo);
+          }
+          max += mj.tarifa.max;
+        }
+        mete({ etiqueta: textos.partidaMejoras, min: 0, max, abierto: false, firme: false });
+      }
+
+      return { firmes, abiertas, preguntas };
     }
 
-    elTotal.textContent = `${dinero(aTramo(min, false))} – ${dinero(aTramo(max, true))}${abierto ? '+' : ''}`;
-    elSub.textContent = `${elegida.nombre} · ${ancho} × ${largo} ${textos.pies} · ${area} ${textos.instalados}`;
+    const indiceDePaso = (n: number) => pasos.findIndex((p) => Number(p.dataset.paso) === n);
 
-    elDesglose.replaceChildren(...filas.map((f) => {
-      const li = document.createElement('li');
-      const a = document.createElement('span'); a.textContent = f.etiqueta;
-      const b = document.createElement('span'); b.textContent = f.texto;
-      li.append(a, b);
-      return li;
-    }));
-  }
+    // --- pintar el panel ------------------------------------------------------
+    function pintarPanel() {
+      const { firmes, abiertas, preguntas } = calcular();
+      const p = productoDe();
 
-  form.addEventListener('input', calcular);
-  form.addEventListener('change', calcular);
-  calcular();
-</script>
+      const elTotal = $('est-total');
+      const elSub = $('est-sub');
+      const elDesglose = $('est-desglose');
+      const elAbierto = $('est-abierto');
+      const elConfianza = $('est-confianza');
 
-<style> de abajo.
-//
-// Sin wfPage/wfSite a proposito: `data-wf-page` solo lo consulta IX2 para ids
-// con delimitador "|" (page-scoped), y ninguno de los 4 del footer ni de los 18
-// del nav lo lleva, asi que sus animaciones funcionan igual. Esta pagina no
-// tiene interacciones propias, asi que tampoco necesita bloque anti-FOUC.
+      // Antes de elegir nada el panel no puede quedarse en un guion dentro de una
+      // caja navy vacia: ocupa media pantalla y no dice que hacer. Lleva la frase
+      // que explica que va a pasar ahi.
+      if (!p || !p.tarifa) {
+        elTotal.textContent = '—';
+        elSub.textContent = p ? textos.soloCotizacion : textos.panelVacio;
+        elDesglose.replaceChildren();
+        elAbierto.hidden = true;
+        elConfianza.hidden = true;
+        return;
+      }
 
-// -----------------------------------------------------------------------------
-// PRECIOS
-// -----------------------------------------------------------------------------
-// TODO dato de aqui sale de la guia de costes publicada por la propia empresa,
-// /post/pergola-cost-south-florida ("Average Pergola Cost in South Florida
-// (2026)"), y coincide con /post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale.
-// No hay ni un numero inventado: si el cliente actualiza sus tarifas, se
-// actualizan las dos tablas de abajo y ya.
-//
-// El "+" del articulo ($150+, $175+) significa que el techo es abierto; se
-// arrastra hasta el resultado para no dar una cifra maxima que no es tal.
+      const suma = (l: Partida[], k: 'min' | 'max') => l.reduce((a, x) => a + x[k], 0);
+      const abiertoFirme = firmes.some((x) => x.abierto);
 
-const ESTRUCTURAS = [
-  { id: 'open-air',  nombre: 'Open-Air Aluminum Pergola',    min: 85,  max: 110, techoAbierto: false,
-    nota: 'Shade and architecture without full weather control.', href: '/products/open-air-pergolas' },
-  { id: 'insulated', nombre: 'Insulated Roof Pergola',       min: 95,  max: 130, techoAbierto: false,
-    nota: 'Heat control and full rain cover. Popular on the coast.', href: '/products/solid-roof-pergolas' },
-  { id: 'louvered',  nombre: 'Motorized Louvered Roof',      min: 110, max: 150, techoAbierto: true,
-    nota: 'Open or close the roof on demand. Year-round usability.', href: '/products/motorized-louvered-pergolas' },
-  { id: 'cabana',    nombre: 'Aluminum Cabana Structure',    min: 120, max: 175, techoAbierto: true,
-    nota: 'Free-standing structures for pools and estate properties.', href: '/products/cabanas' },
-];
+      elTotal.textContent = banda(suma(firmes, 'min'), suma(firmes, 'max'), abiertoFirme);
 
-const EXTRAS = [
-  { id: 'engineering', nombre: 'Engineering & wind-load calculations', min: 2000, max: 5000,  techoAbierto: true,
-    nota: 'Sealed drawings for Florida wind-load compliance.' },
-  { id: 'footings',    nombre: 'Concrete footings',                    min: 3000, max: 10000, techoAbierto: true,
-    nota: 'Depth depends on soil and span.' },
-  { id: 'electrical',  nombre: 'Electrical & automation',              min: 1000, max: 4000,  techoAbierto: true,
-    nota: 'Integrated lighting, fans, motorized screens.' },
-  { id: 'waterfront',  nombre: 'Waterfront lot',                       min: 5000, max: 15000, techoAbierto: false,
-    nota: 'Deeper footings and longer spans on Intracoastal and oceanfront lots.' },
-];
+      const ancho = lado($('est-ancho') as HTMLInputElement) ?? 0;
+      const largo = lado($('est-largo') as HTMLInputElement) ?? 0;
+      elSub.textContent =
+        `${p.nombre} · ${ancho} × ${largo} ${textos.pies} · ${ancho * largo} ${textos.instalados}`;
 
-// Medidas por defecto: 16 x 20 ft = 320 sq ft, un tamano corriente de patio.
-const ANCHO_POR_DEFECTO = 16;
-const LARGO_POR_DEFECTO = 20;
+      // Los <li> los crea el JS, asi que nunca reciben el data-astro-cid del scoping:
+      // el CSS que los pinta necesita :global(). Sin eso el texto cae a #333 sobre el
+      // panel navy — 1,56:1 de contraste, ilegible.
+      const fila = (p2: Partida) => {
+        const li = document.createElement('li');
+        const a = document.createElement('span');
+        a.textContent = p2.etiqueta;
+        const b = document.createElement('span');
+        b.textContent = p2.enVisita && !p2.max
+          ? textos.enLaVisita
+          : banda(p2.min, p2.max, p2.abierto);
+        li.append(a, b);
+        return li;
+      };
+      elDesglose.replaceChildren(...firmes.map(fila));
 
-const datos = JSON.stringify({ estructuras: ESTRUCTURAS, extras: EXTRAS });
+      if (abiertas.length) {
+        elAbierto.hidden = false;
+        $('est-abierto-cifra').textContent =
+          '~' + banda(suma(abiertas, 'min'), suma(abiertas, 'max'), abiertas.some((x) => x.abierto));
+        $('est-abierto-lista').replaceChildren(...abiertas.map(fila));
+      } else {
+        elAbierto.hidden = true;
+      }
 
-// Migas. Es una pagina de primer nivel, asi que el rastro es Home > Project Estimator.
-const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/project-estimator']]));
----
+      // La confianza cuenta PREGUNTAS respondidas, no partidas cerradas. Si contara
+      // partidas, responder el montaje no moveria la barra —solo estrecha una banda
+      // que ya estaba firme— y el usuario veria que responder no sirve de nada.
+      const pct = preguntas.length
+        ? Math.round((preguntas.filter(Boolean).length / preguntas.length) * 100)
+        : 0;
+      elConfianza.hidden = false;
+      ($('est-confianza-relleno') as HTMLElement).style.width = `${pct}%`;
+      const hueco = suma(abiertas, 'max') - suma(abiertas, 'min');
+      $('est-confianza-texto').textContent = abiertas.length
+        ? textos.estrecha
+            .replaceAll('{n}', String(abiertas.length))
+            .replaceAll('{monto}', dinero(aTramo(hueco, true)))
+        : textos.cerrado;
 
-<BaseLayout
-  title="Pergola Cost Estimator | Pergola Plus Florida"
-  description="Estimate your custom pergola or patio cover investment in South Florida using our published 2026 installed price ranges. No contact details required."
-  jsonLd={jsonLd}
->
-  <header class="header-page">
-    <div class="w-layout-blockcontainer container w-container">
-      <div class="wrapper-hero-page">
-        <h1>Project Estimator</h1>
-        <div>
-          Price your pergola or patio cover in minutes using our published 2026
-          installed rates for Miami-Dade, Broward, and Palm Beach County. No
-          contact details required — you will see the range immediately.
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <section class="body-page">
-    <div class="w-layout-blockcontainer container w-container">
-      <div class="est">
-        <form class="est-form" id="est-form" novalidate>
-          <fieldset class="est-bloque">
-            <legend class="est-legend">1 · Structure type</legend>
-            <div class="est-opciones">
-              {ESTRUCTURAS.map((e, i) => (
-                <label class="est-opcion">
-                  <input type="radio" name="estructura" value={e.id} checked={i === 0} />
-                  <span class="est-opcion-cuerpo">
-                    <span class="est-opcion-titulo">{e.nombre}</span>
-                    <span class="est-opcion-nota">{e.nota}</span>
-                    <span class="est-opcion-tarifa">
-                      ${e.min}–${e.max}{e.techoAbierto ? '+' : ''} <span class="est-unidad">per sq ft installed</span>
-                    </span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset class="est-bloque">
-            <legend class="est-legend">2 · Size</legend>
-            <div class="est-medidas">
-              <label class="est-medida">
-                <span>Width (ft)</span>
-                <input type="number" id="est-ancho" name="ancho" value={ANCHO_POR_DEFECTO}
-                       min="8" max="60" step="1" inputmode="numeric" />
-              </label>
-              <span class="est-por" aria-hidden="true">×</span>
-              <label class="est-medida">
-                <span>Length (ft)</span>
-                <input type="number" id="est-largo" name="largo" value={LARGO_POR_DEFECTO}
-                       min="8" max="60" step="1" inputmode="numeric" />
-              </label>
-              <p class="est-area">= <strong id="est-area">{ANCHO_POR_DEFECTO * LARGO_POR_DEFECTO}</strong> sq ft</p>
-            </div>
-            <p class="est-aviso" id="est-aviso" hidden></p>
-          </fieldset>
-
-          <fieldset class="est-bloque">
-            <legend class="est-legend">3 · Add what your project needs</legend>
-            <p class="est-ayuda">
-              These are the items that most often move a South Florida project above the
-              base rate. Leave them unchecked if you are not sure — we confirm them on site.
-            </p>
-            <div class="est-opciones est-opciones--extras">
-              {EXTRAS.map((x) => (
-                <label class="est-opcion">
-                  <input type="checkbox" name="extra" value={x.id} />
-                  <span class="est-opcion-cuerpo">
-                    <span class="est-opcion-titulo">{x.nombre}</span>
-                    <span class="est-opcion-nota">{x.nota}</span>
-                    <span class="est-opcion-tarifa">
-                      +${x.min.toLocaleString('en-US')}–${x.max.toLocaleString('en-US')}{x.techoAbierto ? '+' : ''}
-                    </span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        </form>
-
-        <aside class="est-panel">
-          <div class="est-resultado" aria-live="polite">
-            <p class="est-resultado-etiqueta">Estimated investment</p>
-            <p class="est-resultado-cifra" id="est-total">—</p>
-            <p class="est-resultado-sub" id="est-sub"></p>
-            <ul class="est-desglose" id="est-desglose"></ul>
-          </div>
-
-          <p class="est-legal">
-            <strong>This is an estimate, not a quote.</strong> The ranges come from our
-            published <a href="/post/pergola-cost-south-florida">2026 South Florida cost
-            guide</a>. Final pricing depends on your site, span, wind-load engineering,
-            HOA and permitting requirements, and finish selections, and is confirmed only
-            after an on-site assessment. Nothing here is a binding offer.
-          </p>
-
-          <div class="est-cta">
-            <a href="/contact-us/get-a-quote" class="button w-button">Get an exact quote</a>
-            <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule a visit</a>
-          </div>
-        </aside>
-      </div>
-
-      <noscript>
-        <div class="est-noscript">
-          <h2>2026 installed rates</h2>
-          <table class="est-tabla">
-            <thead><tr><th>Structure</th><th>Per sq ft installed</th></tr></thead>
-            <tbody>
-              {ESTRUCTURAS.map((e) => (
-                <tr><td><a href={e.href}>{e.nombre}</a></td><td>${e.min}–${e.max}{e.techoAbierto ? '+' : ''}</td></tr>
-              ))}
-            </tbody>
-          </table>
-          <table class="est-tabla">
-            <thead><tr><th>Common addition</th><th>Typical cost</th></tr></thead>
-            <tbody>
-              {EXTRAS.map((x) => (
-                <tr><td>{x.nombre}</td><td>${x.min.toLocaleString('en-US')}–${x.max.toLocaleString('en-US')}{x.techoAbierto ? '+' : ''}</td></tr>
-              ))}
-            </tbody>
-          </table>
-          <p>Multiply your area in square feet by the rate above, then add what applies.
-             <a href="/contact-us/get-a-quote">Request a quote</a> for exact pricing.</p>
-        </div>
-      </noscript>
-    </div>
-  </section>
-
-  <section class="call-to-action-footer">
-    <div class="wrapper-call-to-action">
-      <div class="box-call-to-action">
-        <h2>Request your free Estimate</h2>
-        <div>Meet with our exterior designers for a free consultation. We'll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.</div>
-        <div class="process-cta">
-          <a href="/contact-us/get-a-quote" class="button w-button">Get A Quote</a>
-          <a href="/contact-us/schedule-a-visit" class="button secundary w-button">Schedule A Visit</a>
-        </div>
-      </div>
-    </div>
-    <img
-      sizes="(max-width: 2000px) 100vw, 2000px"
-      srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w"
-      alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties."
-      src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif"
-      loading="lazy"
-      class="image-call-to-action"
-    />
-  </section>
-</BaseLayout>
-
-<script is:inline set:html={`window.__ESTIMADOR__ = ${datos};`} />
-
-<script>
-  // Estimador. Vanilla, sin dependencias: son cuatro multiplicaciones.
-  const { estructuras, extras } = (window as any).__ESTIMADOR__;
-
-  const $ = (id: string) => document.getElementById(id)!;
-  const form = $('est-form') as HTMLFormElement;
-
-  // Este <form> no envia nada: es una calculadora y el resultado se pinta al
-  // vuelo. Pero sigue siendo un <form> con dos <input type="number">, y sin action
-  // un Enter en cualquiera de los dos hace un GET a la propia pagina: recarga y se
-  // pierde lo que el visitante habia metido. Se corta aqui en vez de quitar el
-  // <form>, porque el <form> es lo que agrupa los controles y da la validacion.
-  form.addEventListener('submit', (e) => e.preventDefault());
-  const inAncho = $('est-ancho') as HTMLInputElement;
-  const inLargo = $('est-largo') as HTMLInputElement;
-  const elArea = $('est-area');
-  const elTotal = $('est-total');
-  const elSub = $('est-sub');
-  const elDesglose = $('est-desglose');
-  const elAviso = $('est-aviso');
-
-  const MIN_FT = 8, MAX_FT = 60;
-
-  // Se redondea a la baja/alza en tramos de 500: un estimador que escupe
-  // "$34.187" finge una precision que no tiene.
-  const aTramo = (n: number, arriba: boolean) =>
-    (arriba ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500;
-
-  const dinero = (n: number) => '$' + n.toLocaleString('en-US');
-
-  function lado(input: HTMLInputElement) {
-    const n = Math.round(Number(input.value));
-    if (!Number.isFinite(n)) return null;
-    return Math.min(MAX_FT, Math.max(MIN_FT, n));
-  }
-
-  function calcular() {
-    const ancho = lado(inAncho);
-    const largo = lado(inLargo);
-
-    if (ancho === null || largo === null) {
-      elAviso.textContent = 'Enter the width and length in feet.';
-      elAviso.hidden = false;
-      elTotal.textContent = '—';
-      elSub.textContent = '';
-      elDesglose.replaceChildren();
-      return;
+      volcarAlFormulario(firmes, abiertas);
     }
 
-    // Se avisa del recorte en vez de corregir el input mientras se escribe:
-    // reescribir el valor bajo los dedos del usuario es de las cosas mas
-    // molestas que puede hacer un formulario.
-    const recortado = Number(inAncho.value) !== ancho || Number(inLargo.value) !== largo;
-    elAviso.textContent = recortado
-      ? `Estimating for ${ancho} × ${largo} ft. This tool covers ${MIN_FT}–${MAX_FT} ft per side; larger spans need engineering input.`
-      : '';
-    elAviso.hidden = !recortado;
+    // --- lo que viaja al comercial -------------------------------------------
+    // El endpoint acepta campos arbitrarios, asi que el embudo entero llega sin
+    // tocar la validacion. Dos limites reales: 256 caracteres por campo, y ningun
+    // salto de linea salvo en un campo que se llame literalmente `Message`.
+    function volcarAlFormulario(firmes: Partida[], abiertas: Partida[]) {
+      const pon = (n: string, v: string) => {
+        const el = captura.querySelector<HTMLInputElement>(`input[name="${n}"]`);
+        if (el) el.value = v.slice(0, 250);
+      };
+      const p = productoDe();
+      const ancho = lado($('est-ancho') as HTMLInputElement) ?? 0;
+      const largo = lado($('est-largo') as HTMLInputElement) ?? 0;
+      const zip = (($('est-zip') as HTMLInputElement)?.value ?? '').trim();
+      const n = Number(zip.slice(0, 5));
+      const c = Number.isInteger(n)
+        ? condados.find((x: any) => n >= x.desde && n <= x.hasta)
+        : undefined;
+      const nombres = [...form.querySelectorAll<HTMLInputElement>('input[name="mejora"]:checked')]
+        .map((el) => mejoras.find((x: any) => x.id === el.value)?.id)
+        .filter(Boolean);
+      const suma = (l: Partida[], k: 'min' | 'max') => l.reduce((a, x) => a + x[k], 0);
 
-    const area = ancho * largo;
-    elArea.textContent = String(area);
+      /** El `id` interno traducido al vocabulario del despacho. */
+      const dicho = (campo: string) => {
+        const v = marcado(campo);
+        return v ? (vocabulario[campo]?.[v] ?? v) : '';
+      };
 
-    const elegida = estructuras.find(
-      (e: any) => e.id === (form.querySelector('input[name="estructura"]:checked') as HTMLInputElement)?.value
-    ) ?? estructuras[0];
-
-    let min = area * elegida.min;
-    let max = area * elegida.max;
-    let abierto = elegida.techoAbierto;
-
-    const filas = [{
-      etiqueta: `${elegida.nombre} · ${area} sq ft`,
-      texto: `${dinero(aTramo(min, false))}–${dinero(aTramo(max, true))}${elegida.techoAbierto ? '+' : ''}`,
-    }];
-
-    for (const cb of form.querySelectorAll<HTMLInputElement>('input[name="extra"]:checked')) {
-      const x = extras.find((e: any) => e.id === cb.value);
-      if (!x) continue;
-      min += x.min;
-      max += x.max;
-      abierto = abierto || x.techoAbierto;
-      filas.push({ etiqueta: x.nombre, texto: `+${dinero(x.min)}–${dinero(x.max)}${x.techoAbierto ? '+' : ''}` });
+      pon('Shade-Structure', p?.lead ?? '');
+      pon('Project-Size', p ? `${ancho} x ${largo} ft · ${ancho * largo} sq ft` : '');
+      pon('Mounting', p?.siempreExenta ? vocabulario.montaje.exenta : dicho('montaje'));
+      pon('Ground-Surface', dicho('suelo'));
+      pon('New-Base', dicho('base'));
+      pon('Enhancements', nombres.join(' · '));
+      pon('ZIP-Code', zip);
+      pon('County', c?.id ?? '');
+      pon('Waterfront', dicho('agua'));
+      pon('HOA-Approval', dicho('hoa'));
+      pon('Budget-Fit', dicho('espejo'));
+      pon(
+        'Estimate-Range',
+        p?.tarifa ? banda(suma(firmes, 'min'), suma(firmes, 'max'), firmes.some((x) => x.abierto)) : '',
+      );
+      pon(
+        'Estimate-Open',
+        abiertas.length
+          ? banda(suma(abiertas, 'min'), suma(abiertas, 'max'), false) + ` (${abiertas.length})`
+          : '',
+      );
+      pon('Steps-Completed', String(visto + 1));
     }
 
-    elTotal.textContent = `${dinero(aTramo(min, false))} – ${dinero(aTramo(max, true))}${abierto ? '+' : ''}`;
-    elSub.textContent = `${elegida.nombre} · ${ancho} × ${largo} ft · ${area} sq ft installed`;
+    // --- el area, el recorte y la subpregunta --------------------------------
+    function pintarPasoActual() {
+      const ancho = lado($('est-ancho') as HTMLInputElement);
+      const largo = lado($('est-largo') as HTMLInputElement);
+      const elAviso = $('est-aviso');
 
-    elDesglose.replaceChildren(...filas.map((f) => {
-      const li = document.createElement('li');
-      const a = document.createElement('span'); a.textContent = f.etiqueta;
-      const b = document.createElement('span'); b.textContent = f.texto;
-      li.append(a, b);
-      return li;
-    }));
+      if (ancho === null || largo === null) {
+        elAviso.textContent = textos.pideMedidas;
+        elAviso.hidden = false;
+      } else {
+        $('est-area').textContent = String(ancho * largo);
+        // Se avisa en vez de reescribir el input bajo los dedos de quien escribe.
+        const recortado =
+          Number(($('est-ancho') as HTMLInputElement).value) !== ancho
+          || Number(($('est-largo') as HTMLInputElement).value) !== largo;
+        elAviso.textContent = recortado
+          ? textos.recorte
+              .replaceAll('{ancho}', String(ancho))
+              .replaceAll('{largo}', String(largo))
+              .replaceAll('{min}', String(limites.min))
+              .replaceAll('{max}', String(limites.max))
+          : '';
+        elAviso.hidden = !recortado;
+      }
+
+      $('est-sub-base').hidden = marcado('suelo') !== 'cesped';
+
+      const zip = (($('est-zip') as HTMLInputElement)?.value ?? '').trim();
+      const n = Number(zip.slice(0, 5));
+      const c = Number.isInteger(n)
+        ? condados.find((x: any) => n >= x.desde && n <= x.hasta)
+        : undefined;
+      $('est-condado').textContent = zip.length === 5 && !c ? '—' : c ? c.id : '';
+
+      $('est-palancas').hidden = marcado('espejo') !== 'alto';
+    }
+
+    // --- navegacion -----------------------------------------------------------
+    function pintar() {
+      pasos.forEach((el, i) => (el.hidden = i !== actual));
+      const total = pasos.filter((_, i) => aplica(i)).length;
+      const hechos = pasos.filter((_, i) => aplica(i) && i <= actual).length;
+      $('est-progreso').hidden = false;
+      $('est-nav').hidden = false;
+      (atras as HTMLElement).hidden = actual === 0;
+      (siguiente as HTMLElement).hidden = actual === pasos.length - 1;
+      // El enlace de escape no aparece ni en el primer paso —sin producto no hay
+      // nada que estimar— ni en el cierre, que no es una pregunta.
+      (omitir as HTMLElement).hidden = actual === 0 || actual === pasos.length - 1;
+      ($('est-barra-relleno') as HTMLElement).style.width = `${Math.round((hechos / total) * 100)}%`;
+      $('est-progreso-texto').textContent = textos.dePaso
+        .replaceAll('{n}', String(hechos))
+        .replaceAll('{total}', String(total));
+    }
+
+    function ir(delta: number) {
+      const destino = siguienteQueAplica(actual, delta);
+      if (destino === actual) return;
+      actual = destino;
+      visto = Math.max(visto, actual);
+      pintar();
+      pintarPasoActual();
+      pintarPanel();
+      guardar();
+      pasos[actual].querySelector<HTMLElement>('input, button')?.focus();
+      pasos[actual].scrollIntoView({ block: 'nearest' });
+    }
+
+    atras.addEventListener('click', () => ir(-1));
+    siguiente.addEventListener('click', () => ir(1));
+    omitir.addEventListener('click', () => {
+      omitidos.add(actual);
+      ir(1);
+    });
+
+    // Elegir producto en el paso 1 avanza solo: es una decision, no un formulario.
+    form.addEventListener('change', (e) => {
+      const el = e.target as HTMLInputElement;
+      if (el.name === 'preset' && el.value !== 'a-medida') {
+        ($('est-ancho') as HTMLInputElement).value = el.dataset.ancho ?? '';
+        ($('est-largo') as HTMLInputElement).value = el.dataset.largo ?? '';
+      }
+      if (el.name === 'ancho' || el.name === 'largo') {
+        const aMedida = form.querySelector<HTMLInputElement>('input[name="preset"][value="a-medida"]');
+        if (aMedida) aMedida.checked = true;
+      }
+      pintarPasoActual();
+      pintarPanel();
+      guardar();
+    });
+    form.addEventListener('input', () => {
+      pintarPasoActual();
+      pintarPanel();
+      guardar();
+    });
+
+    recuperar();
+    pintar();
+    pintarPasoActual();
+    pintarPanel();
   }
-
-  form.addEventListener('input', calcular);
-  form.addEventListener('change', calcular);
-  form.addEventListener('submit', (e) => e.preventDefault()); // no hay nada que enviar
-  calcular();
 </script>
 
 <style>
   /* Estilos propios del estimador. Usan los tokens del sitio; el CSS migrado de
      Webflow no se toca. */
+
+  /* El inset lateral. `.body-page` es solo el envoltorio exterior y no tiene
+     padding: en las paginas migradas de Webflow lo pone una seccion intermedia
+     (.intro-location y compañeras) con los mismos 2rem. Este componente mete el
+     .container directamente dentro, asi que pone el suyo. `.container` solo
+     centra por debajo de sus 1250px de max-width, asi que sin esto el contenido
+     tocaba los bordes en cualquier pantalla mas estrecha que eso.
+     No se usa `.body-page-unique`, que si trae el padding, porque arrastra
+     `margin-top: 85px` y `min-height: 100vh` para paginas SIN hero — y esta tiene. */
+  .est-seccion {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .est {
     grid-column-gap: 2.5rem;
     grid-row-gap: 2.5rem;
     grid-template-columns: 1.35fr 1fr;
     align-items: start;
-    margin-top: 3rem;
+    /* Sin margen arriba: el hero ya cierra con 4rem de padding y sumarle otros 3
+       dejaba 112 px de nada entre la entradilla y la primera pregunta. */
     margin-bottom: 3rem;
     display: grid;
   }
@@ -647,15 +1154,52 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     padding: 0;
     font-size: 11.5px;
     font-weight: 600;
+    display: block;
   }
 
   .est-ayuda {
     color: var(--terceary);
-    margin: -.4rem 0 1rem;
+    margin-top: -.4rem;
+    margin-bottom: 1rem;
     font-size: 13px;
-    line-height: 1.45;
   }
 
+  .est-sub-titulo {
+    color: var(--black);
+    margin-top: 1.75rem;
+    margin-bottom: .5rem;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* --- barra de progreso --- */
+  .est-progreso {
+    margin-bottom: 2rem;
+  }
+
+  .est-barra {
+    background: #3a545b26;
+    border-radius: 999px;
+    height: 4px;
+    overflow: hidden;
+  }
+
+  .est-barra span {
+    background: var(--primary);
+    border-radius: 999px;
+    width: 0%;
+    height: 100%;
+    transition: width .25s ease;
+    display: block;
+  }
+
+  .est-progreso-texto {
+    color: var(--terceary);
+    margin-top: .5rem;
+    font-size: 12.5px;
+  }
+
+  /* --- tarjetas de opcion --- */
   .est-opciones {
     grid-column-gap: .75rem;
     grid-row-gap: .75rem;
@@ -663,31 +1207,29 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     display: grid;
   }
 
-  .est-opciones--extras {
+  .est-opciones--una {
     grid-template-columns: 1fr;
   }
 
   .est-opcion {
-    grid-column-gap: .75rem;
-    cursor: pointer;
     border: 1px solid #3a545b26;
     border-radius: 8px;
     align-items: flex-start;
+    gap: .75rem;
     padding: 1rem;
-    transition: border-color .16s ease, background-color .16s ease;
+    transition: border-color .16s, background-color .16s;
     display: flex;
   }
 
   .est-opcion:hover {
+    background: var(--secundary);
     border-color: var(--primary);
-    background-color: var(--secundary);
+    cursor: pointer;
   }
 
-  /* El estado seleccionado no puede depender solo del radio nativo: tiene que
-     leerse de un vistazo en toda la tarjeta. */
   .est-opcion:has(input:checked) {
+    background: var(--secundary);
     border-color: var(--primary);
-    background-color: var(--secundary);
     box-shadow: inset 0 0 0 1px var(--primary);
   }
 
@@ -713,14 +1255,12 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     color: var(--black);
     font-size: 15px;
     font-weight: 600;
-    line-height: 1.3;
   }
 
   .est-opcion-nota {
     color: var(--terceary);
-    margin-top: 3px;
+    margin-top: .15rem;
     font-size: 12.5px;
-    line-height: 1.4;
   }
 
   .est-opcion-tarifa {
@@ -735,10 +1275,56 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     font-weight: 400;
   }
 
+  .est-opcion--corta {
+    align-items: center;
+  }
+
+  /* Tarjeta con foto. El build hornea width/height en cada <img> midiendo el
+     fichero, asi que declarar SOLO una de las dos dimensiones en CSS deja que el
+     navegador combine atributo y hoja y deforme la imagen — la regresion que
+     documenta src/styles/imagenes.css. Aqui se fija el ancho y se deja que la
+     proporcion mande, que es la pareja segura. */
+  .est-opcion--foto {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* `height: auto` NO es opcional, y no se ve en `npm run dev`.
+     El build hornea width/height en cada <img> midiendo el fichero, y el atributo
+     `height` es una PISTA DE PRESENTACION: si ninguna regla de autor declara
+     `height`, gana el atributo. Con la altura ya definida, `aspect-ratio` no puede
+     aplicar y la foto salia a 1406px de alto, recortada por object-fit. En el
+     servidor de desarrollo se veia perfecta porque ahi los atributos no se hornean:
+     esto solo aparece sobre dist/. */
+  .est-foto {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .est-opcion-fila {
+    align-items: flex-start;
+    gap: .75rem;
+    padding: 1rem;
+    display: flex;
+  }
+
+  .est-sub {
+    border-left: 3px solid var(--primary);
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+  }
+
+  /* --- medidas --- */
   .est-medidas {
-    grid-column-gap: .75rem;
     flex-wrap: wrap;
     align-items: flex-end;
+    gap: .75rem;
+    margin-top: 1.25rem;
     display: flex;
   }
 
@@ -753,14 +1339,16 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     font-size: 12.5px;
   }
 
+  /* 44px de alto minimo por area tactil, y 16px de fuente para que iOS no haga
+     zoom al enfocar. */
   .est-medida input {
     border: 1px solid #3a545b40;
     border-radius: 8px;
     width: 7rem;
-    min-height: 44px; /* area tactil minima; con solo el padding se quedaba en 42 */
-    padding: .65rem .75rem;
+    min-height: 44px;
+    padding: 0 .7rem;
     font-family: inherit;
-    font-size: 16px; /* <16px hace que iOS haga zoom al enfocar */
+    font-size: 16px;
   }
 
   .est-medida input:focus-visible {
@@ -775,8 +1363,8 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
 
   .est-area {
     color: var(--terceary);
-    margin: 0 0 0 .5rem;
-    padding-bottom: .55rem;
+    align-self: flex-end;
+    padding-bottom: .7rem;
     font-size: 14px;
   }
 
@@ -785,23 +1373,103 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
   }
 
   .est-aviso {
-    color: var(--primary);
-    background-color: var(--secundary);
+    background: var(--secundary);
     border-left: 3px solid var(--primary);
-    margin: .9rem 0 0;
-    padding: .6rem .75rem;
+    margin-top: .75rem;
+    padding: .6rem .8rem;
     font-size: 12.5px;
-    line-height: 1.45;
+  }
+
+  /* --- navegacion --- */
+  .est-nav {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6rem;
+    margin-top: 1.5rem;
+    display: flex;
+  }
+
+  .est-omitir {
+    color: var(--terceary);
+    cursor: pointer;
+    background: none;
+    border: 0;
+    margin-left: auto;
+    padding: .5rem;
+    font-family: inherit;
+    font-size: 12.5px;
+    text-decoration: underline;
+  }
+
+  .est-omitir:hover {
+    color: var(--primary);
+  }
+
+  /* --- captura --- */
+  .est-campos {
+    grid-column-gap: .75rem;
+    grid-row-gap: .75rem;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 1.25rem;
+    display: grid;
+  }
+
+  .est-campo {
+    flex-direction: column;
+    display: flex;
+  }
+
+  .est-campo span {
+    color: var(--terceary);
+    margin-bottom: .35rem;
+    font-size: 12.5px;
+  }
+
+  .est-campo input {
+    border: 1px solid #3a545b40;
+    border-radius: 8px;
+    min-height: 44px;
+    padding: 0 .7rem;
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+  .est-campo input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+  }
+
+  .est-consentimiento {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    gap: .6rem;
+    font-size: 13px;
+    display: flex;
+  }
+
+  .est-consentimiento input {
+    accent-color: var(--primary);
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+  }
+
+  .est-tranquilidad {
+    color: var(--terceary);
+    margin-top: .9rem;
+    font-size: 12.5px;
+    line-height: 1.5;
   }
 
   /* --- panel de resultado --- */
   .est-panel {
     position: sticky;
-    top: 105px; /* 85px de barra + aire */
+    top: 105px;
   }
 
   .est-resultado {
-    background-color: var(--primary);
+    background: var(--primary);
     border-radius: 12px;
     padding: 1.75rem;
   }
@@ -811,14 +1479,13 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     text-transform: uppercase;
     letter-spacing: .09em;
     opacity: .75;
-    margin: 0;
+    margin-bottom: .35rem;
     font-size: 11.5px;
     font-weight: 600;
   }
 
   .est-resultado-cifra {
     color: var(--white);
-    margin: .5rem 0 0;
     font-size: 30px;
     font-weight: 700;
     line-height: 1.15;
@@ -827,27 +1494,57 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
   .est-resultado-sub {
     color: var(--secundary);
     opacity: .8;
-    margin: .5rem 0 0;
+    margin-top: .4rem;
     font-size: 13px;
-    line-height: 1.4;
   }
 
+  .est-abierto {
+    border-top: 1px solid #ffffff2e;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+  }
+
+  .est-abierto-cifra {
+    color: var(--secundary);
+    opacity: .9;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .est-confianza {
+    margin-top: 1.25rem;
+  }
+
+  .est-barra--panel {
+    background: #ffffff2e;
+  }
+
+  .est-barra--panel span {
+    background: var(--secundary);
+  }
+
+  .est-confianza-texto {
+    color: var(--secundary);
+    opacity: .85;
+    margin-top: .5rem;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  /* Los <li> y sus <span> los crea el JS en runtime, asi que nunca reciben el
+     atributo data-astro-cid del scoping de Astro. Sin :global() estas reglas no
+     les aplican y el texto cae al #333 heredado: 1,56:1 sobre el panel navy. */
   .est-desglose {
     border-top: 1px solid #ffffff2e;
-    margin: 1.25rem 0 0;
-    padding: 1rem 0 0;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
     list-style: none;
   }
 
-  /* :global() obligatorio aqui. Astro escopa por atributo (data-astro-cid-…) y
-     estos <li>/<span> los crea el JS en tiempo de ejecucion, asi que nunca lo
-     reciben: sin :global la regla no los alcanza y el texto caia al color del
-     body (#333) sobre el panel navy — contraste 1,56:1, ilegible. */
   .est-desglose :global(li) {
-    grid-column-gap: 1rem;
     justify-content: space-between;
+    gap: 1rem;
     margin-bottom: .5rem;
-    line-height: 1.35;
     display: flex;
   }
 
@@ -865,9 +1562,10 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     font-weight: 600;
   }
 
+  /* --- legal y cierre --- */
   .est-legal {
     color: var(--terceary);
-    margin: 1.25rem 0 0;
+    margin-top: 1.25rem;
     font-size: 12px;
     line-height: 1.5;
   }
@@ -881,13 +1579,6 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
     text-decoration: underline;
   }
 
-  .est-cta {
-    grid-column-gap: .5rem;
-    grid-row-gap: .5rem;
-    flex-wrap: wrap;
-    margin-top: 1.25rem;
-    display: flex;
-  }
 
   /* --- sin JS --- */
   .est-noscript {
@@ -902,38 +1593,102 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
 
   .est-tabla th,
   .est-tabla td {
+    text-align: left;
     border-bottom: 1px solid #3a545b26;
     padding: .6rem .5rem;
     font-size: 14px;
-    text-align: left;
   }
 
-  @media screen and (max-width: 991px) {
+  /* En una sola columna el panel se iria DEBAJO del formulario, y ahi el mecanismo
+     entero desaparece: la gracia es ver la cifra estrecharse mientras se responde,
+     y medido en un iPhone el panel arrancaba en y=3.451 con el paso 1 midiendo
+     2.922 px. Sube arriba y se queda pegado bajo la barra de navegacion, que es
+     fixed y mide 85 px. Se recorta a lo esencial —cifra, lo que sigue abierto y la
+     barra de confianza— porque el desglose completo ahi arriba se comeria la
+     pantalla; sigue entero en escritorio y en el correo. */
+  @media (max-width: 991px) {
     .est {
       grid-template-columns: 1fr;
     }
 
     .est-panel {
-      position: static;
+      z-index: 5;
+      order: -1;
+      position: sticky;
+      top: 85px;
+    }
+
+    .est-resultado {
+      padding: 1rem 1.1rem;
+    }
+
+    .est-resultado-cifra {
+      font-size: 22px;
+    }
+
+    .est-resultado-sub,
+    .est-desglose {
+      display: none;
+    }
+
+    .est-abierto {
+      margin-top: .6rem;
+      padding-top: .6rem;
+    }
+
+    .est-abierto-cifra {
+      font-size: 15px;
+    }
+
+    .est-confianza {
+      margin-top: .6rem;
+    }
+
+    /* El stepper hace scrollIntoView al cambiar de paso. Con el panel pegado
+       arriba, sin este margen el titulo del paso nuevo aterriza justo debajo y no
+       se lee. 85 de barra + el alto del panel. */
+    .est-paso {
+      scroll-margin-top: 300px;
     }
   }
 
-  @media screen and (max-width: 767px) {
-    .est-opciones {
+  @media (max-width: 767px) {
+    .est-opciones,
+    .est-campos {
       grid-template-columns: 1fr;
+    }
+
+    /* La tarjeta pasa de banner a fila. Con la foto a todo ancho, las nueve
+       opciones del paso 1 ocupaban 2.922 px de scroll: casi tres pantallas para
+       leer una lista. En fila bajan a poco mas de un tercio. */
+    .est-opcion--foto {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .est-foto {
+      aspect-ratio: 1;
+      flex: none;
+      width: 92px;
+    }
+
+    .est-opcion-fila {
+      flex: 1;
+      padding: .75rem .9rem;
     }
 
     .est-medida input {
       width: 6rem;
     }
 
-    .est-resultado-cifra {
-      font-size: 26px;
+    .est-omitir {
+      margin-left: 0;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .est-opcion {
+    .est-opcion,
+    .est-barra span {
       transition: none;
     }
   }
