@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/services/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
+import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -50,4 +51,5 @@ const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
+  <FaqFichaEnlace tema={item.slug} />
 </BaseLayout>

@@ -4,6 +4,7 @@ import items from '../../../contenido-migrado/products/_items.json';
 import { traducirHtml } from '../../../i18n';
 import { PRODUCTOS_ES } from '../../../i18n/productos.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
+import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
 import { grafo, breadcrumbs, producto } from '../../../lib/jsonld';
 
 // Las fichas de producto en español.
@@ -62,4 +63,5 @@ const jsonLd = grafo(
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
+  <FaqFichaEnlace tema={item.slug} idioma="es" />
 </BaseLayout>

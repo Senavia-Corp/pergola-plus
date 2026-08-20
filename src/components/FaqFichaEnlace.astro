@@ -1,0 +1,88 @@
+---
+/**
+ * El puente de una ficha de producto o servicio a la biblioteca de preguntas,
+ * ya filtrada por su tema.
+ *
+ * VA DESPUES DEL <Fragment set:html>, NUNCA DENTRO DEL FRAGMENTO MIGRADO. Dos
+ * razones y las dos muerden:
+ *  1. El fragmento lo reescribe scripts/generar-detalle.mjs; lo que se meta ahi
+ *     a mano lo borra la siguiente regeneracion en silencio.
+ *  2. El reescritor de enlaces al español (astro.config) usa href="(\/[^"#?]*)"
+ *     y DESCARTA todo href con `?`. Un enlace ?t=… metido en el fragmento se
+ *     quedaria apuntando a la biblioteca inglesa desde la ficha española.
+ * Por eso el href se calcula aqui, con el idioma en la mano.
+ *
+ * La ficha conserva su bloque de 5 preguntas: son el contenido indexable de la
+ * pagina que manda para ese producto. Esto solo abre la puerta al resto.
+ */
+import { FAQS, TEMAS_FICHA, type Tema } from '../data/faqs';
+import { TEMAS_COPY, TEXTOS_FAQ, traducidas, type Idioma } from '../i18n/faqs.es';
+
+interface Props {
+  /** El slug de la ficha. Tiene que ser uno de TEMAS_FICHA. */
+  tema: string;
+  idioma?: Idioma;
+}
+
+const { tema, idioma = 'en' } = Astro.props;
+
+if (!TEMAS_FICHA.has(tema as Tema)) {
+  throw new Error(`[faqs] "${tema}" no es un tema de ficha: no puede recibir ?t=`);
+}
+
+const cuantas = traducidas(idioma).filter((f) => f.tema === tema).length;
+const t = TEXTOS_FAQ[idioma];
+const base = idioma === 'es' ? '/es/resources/faq' : '/resources/faq';
+const rotulo = t.verTodas
+  .replace('{n}', String(cuantas))
+  .replace('{tema}', TEMAS_COPY[idioma][tema as Tema]);
+---
+
+{
+  cuantas > 0 && (
+    <div class="pp-faq-puente">
+      <div class="w-layout-blockcontainer container w-container">
+        <a class="pp-faq-puente-a" href={`${base}?t=${tema}`}>
+          {rotulo}
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .pp-faq-puente {
+    padding: 0 0 3rem;
+  }
+
+  .pp-faq-puente-a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.4rem;
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  .pp-faq-puente-a:hover {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+
+  .pp-faq-puente-a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+  }
+</style>

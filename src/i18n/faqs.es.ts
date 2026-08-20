@@ -53,6 +53,8 @@ export interface TextosFaq {
   migaFaq: string;
   etiquetaMigas: string;
   filtrarPor: string;
+  /** `{n}` y `{tema}` se sustituyen. Una sola llave: check:paginas veta `{{`. */
+  verTodas: string;
   ctaTitulo: string;
   ctaTexto: string;
   ctaBoton: string;
@@ -148,6 +150,7 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
     migaFaq: 'FAQ',
     etiquetaMigas: 'Breadcrumb',
     filtrarPor: 'Filter by category',
+    verTodas: 'See all {n} questions about {tema}',
     ctaTitulo: 'Need more information?',
     ctaTexto: 'Reach out to our team for specifics about your project',
     ctaBoton: 'Contact Us',
@@ -169,6 +172,7 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
     migaFaq: 'Preguntas frecuentes',
     etiquetaMigas: 'Migas de pan',
     filtrarPor: 'Filtrar por categoría',
+    verTodas: 'Ver las {n} preguntas sobre {tema}',
     ctaTitulo: '¿Necesita más información?',
     ctaTexto: 'Hable con nuestro equipo y le contamos lo que aplique a su proyecto',
     ctaBoton: 'Contacto',

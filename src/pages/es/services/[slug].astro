@@ -4,6 +4,7 @@ import items from '../../../contenido-migrado/services/_items.json';
 import { traducirHtml } from '../../../i18n';
 import { SERVICIOS_ES } from '../../../i18n/servicios.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
+import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
 import { grafo, breadcrumbs, servicio } from '../../../lib/jsonld';
 
 // Las páginas de servicio en español.
@@ -57,4 +58,5 @@ const jsonLd = grafo(
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
+  <FaqFichaEnlace tema={item.slug} idioma="es" />
 </BaseLayout>

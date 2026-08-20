@@ -51,6 +51,11 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
  * Colecciones con ruta propia. Prefijos CONFIRMADOS contra el sitio en vivo.
  * `csv` y las columnas SEO se usan para el arreglo opcional de abajo.
  *
+ * `faq: true` = la ficha cierra con un enlace a la biblioteca de preguntas ya
+ * filtrada por su tema (?t=<slug>). Solo products y services: son los unicos cuyos
+ * slugs existen como `Tema` en src/data/faqs.ts, y el componente revienta el build
+ * si le llega otro.
+ *
  * `paginaPropia: true` = se siguen escribiendo los fragmentos y el _items.json,
  * pero NO se sobrescribe src/pages/<ruta>/[slug].astro, porque esa plantilla es
  * codigo nuestro. Ojo: la plantilla de mas abajo es UNA SOLA cadena compartida por
@@ -59,8 +64,8 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
  * project, brands, countries, pergolas-contractors y articles.
  */
 const COLECCIONES = [
-  { dir: 'products', ruta: 'products', csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products' },
-  { dir: 'services', ruta: 'services', csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services' },
+  { dir: 'products', ruta: 'products', faq: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products' },
+  { dir: 'services', ruta: 'services', faq: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services' },
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
   { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery' },
   { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands' },
@@ -206,7 +211,7 @@ for (const col of COLECCIONES) {
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
-
+${col.faq ? "import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\n" : ''}
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
 // El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
@@ -258,7 +263,7 @@ const jsonLd = grafo(${{
   jsonLd={jsonLd}
 >
   <Fragment set:html={html} />
-</BaseLayout>
+${col.faq ? '  <FaqFichaEnlace tema={item.slug} />\n' : ''}</BaseLayout>
 `;
 
   // Los fragmentos y el _items.json de arriba SI se han escrito; lo que se salta
