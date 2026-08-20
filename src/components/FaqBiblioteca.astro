@@ -1,0 +1,438 @@
+---
+/**
+ * La biblioteca de preguntas frecuentes: buscador, chips de categoria y todas las
+ * preguntas del sitio agrupadas por tema.
+ *
+ * CODIGO DE AUTORIA PROPIA. No sale de scripts/generar-paginas.mjs — la ruta
+ * /resources/faq esta en el Set MANUALES, igual que /resources/blog.
+ *
+ * DIFERENCIA CON BlogListado, y es la que confunde: alli hay 6 rutas y el `hidden`
+ * inicial se decide en BUILD, por eso tiene una prop `activa`. Aqui hay UNA ruta:
+ * el mismo HTML sirve ?c=permisos y ?c=precios, asi que NADA sale con `hidden`
+ * desde el servidor y el filtro es 100 % de cliente. Sin JS se ven las 95.
+ *
+ * DOS EJES (ver src/data/faqs.ts): el chip es como navega la gente, el tema es de
+ * que producto habla. Los 17 enlaces desde las fichas llegan por ?t=<tema>.
+ *
+ * EL ACORDEON ES NATIVO, <details>/<summary>, y las clases llevan prefijo `pp-`
+ * A PROPOSITO. Las `.faq_trigger` del markup migrado las engancha IX2 por CLASE
+ * (eventos e-37/e-38 de webflow.js, activos en todo el sitio): usar esa clase aqui
+ * pondria a IX2 a pelear con el toggle nativo. Ademas, aquellas son <div> sin
+ * role ni tabindex ni aria-expanded — no se pueden recorrer con el teclado.
+ */
+import { CHIPS, TEMAS_FICHA, type Chip, type Tema } from '../data/faqs';
+import {
+  FAQS_COPY, TEMAS_COPY, CHIPS_COPY, TEXTOS_FAQ, traducidas, type Idioma,
+} from '../i18n/faqs.es';
+import CtaFinal from './CtaFinal.astro';
+// La tira de chips se reutiliza tal cual del blog: blog.css es 100 % `.pp-*` sin
+// una sola regla global, y las clases que no existen aqui (.pp-grid, .pp-card)
+// no pueden alcanzar nada. Asi los chips son identicos en las dos bibliotecas por
+// construccion, en vez de por dos copias que un dia divergen.
+import '../styles/blog.css';
+import '../styles/faq-biblioteca.css';
+
+interface Props {
+  titulo: string;
+  intro: string;
+  idioma?: Idioma;
+}
+
+const { titulo, intro, idioma = 'en' } = Astro.props;
+const t = TEXTOS_FAQ[idioma];
+const es = idioma === 'es';
+const copy = FAQS_COPY[idioma];
+const temas = TEMAS_COPY[idioma];
+
+// Una pregunta sin copy en español sale fuera, no en ingles: media traduccion baja
+// la cobertura que exige check:i18n y ademas queda peor que no tenerla.
+const items = traducidas(idioma);
+
+// Los hrefs se calculan AQUI, por idioma. No se pueden delegar al reescritor de
+// astro.config: su regex es href="(\/[^"#?]*)" y descarta todo href con `?`, asi
+// que la pagina española acabaria enlazando a la inglesa.
+const base = es ? '/es/resources/faq' : '/resources/faq';
+
+/** Las secciones, cada una con sus temas y sus preguntas. Se descartan las vacias. */
+const secciones = CHIPS.map((chip) => {
+  const suyas = items.filter((f) => f.chip === chip);
+  const orden: Tema[] = [...new Set(suyas.map((f) => f.tema))];
+  return {
+    chip,
+    nombre: CHIPS_COPY[idioma][chip],
+    total: suyas.length,
+    grupos: orden.map((tema) => ({
+      tema,
+      nombre: temas[tema],
+      // Las destacadas primero dentro de su grupo.
+      faqs: suyas
+        .filter((f) => f.tema === tema)
+        .sort((a, b) => Number(!!b.destacada) - Number(!!a.destacada)),
+    })),
+  };
+}).filter((s) => s.total > 0);
+
+const chips = [
+  { slug: 'todo', nombre: t.todo, total: items.length, href: base },
+  ...secciones.map((s) => ({
+    slug: s.chip as string,
+    nombre: s.nombre,
+    total: s.total,
+    href: `${base}?c=${s.chip}#c-${s.chip}`,
+  })),
+];
+
+/** Todo lo que el buscador tiene que encontrar y no esta en la pregunta visible. */
+const clavesDe = (id: string, tema: Tema, invariantes?: string[]) =>
+  [temas[tema], ...(invariantes ?? []), copy[id]?.claves ?? ''].join(' ').trim();
+
+/** Los temas que son ficha real pueden recibir ?t= y por tanto necesitan ancla. */
+const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
+---
+
+<header class="header-page">
+  <div class="w-layout-blockcontainer container w-container">
+    <div data-w-id="15b709b4-f6d7-0064-6f7b-160d6783adab" class="wrapper-hero-page">
+      <h1>{titulo}</h1>
+      <div>{intro}</div>
+    </div>
+  </div>
+</header>
+
+<section class="body-page" id="pp-faq">
+  <nav
+    class="pp-filtros"
+    id="pp-faq-filtros"
+    aria-label={t.navFiltros}
+    data-base={base}
+    data-resultado={t.resultado}
+    data-resultados={t.resultados}
+    data-filtrando={t.filtrandoPor}
+  >
+    <div class="pp-wrap">
+      {/* Sin <form>: check:formularios exige `action` en todo formulario que envie,
+          y la unica excepcion es el estimador. Suelto tampoco hay que interceptar
+          el Enter. La caja se oculta sin JS — ver .pp-faq-buscador en el CSS. */}
+      <div class="pp-faq-buscador">
+        <svg class="pp-faq-lupa" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
+          <path
+            d="M9 3a6 6 0 1 0 3.7 10.7l3.3 3.3 1.4-1.4-3.3-3.3A6 6 0 0 0 9 3Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"
+            fill="currentColor"></path>
+        </svg>
+        <input
+          type="search"
+          id="pp-faq-q"
+          class="pp-faq-input"
+          placeholder={t.buscarPista}
+          aria-label={t.buscarEtiqueta}
+          aria-controls="pp-faq-cuerpo"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="title-deco">{t.filtrarPor}</div>
+      <div class="pp-chips-scroll">
+        <ul class="pp-chips">
+          {
+            chips.map((c) => (
+              <li>
+                {/* El nombre y la cuenta son dos cajas flex: a la vista quedan
+                    separadas pero el nombre accesible saldria pegado. El aria-label
+                    lo desambigua y sigue conteniendo el texto visible. */}
+                <a
+                  href={c.href}
+                  class="pp-chip"
+                  data-cat={c.slug}
+                  data-nombre={c.nombre}
+                  aria-label={`${c.nombre}, ${c.total}`}
+                  aria-current={c.slug === 'todo' ? 'page' : undefined}
+                >
+                  {c.nombre}
+                  <span class="pp-chip-n">{c.total}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Quien llega desde una ficha ve 5 preguntas de 95 y no sabe por que. */}
+      <p class="pp-faq-pildora" id="pp-faq-pildora" hidden>
+        <span id="pp-faq-pildora-txt"></span>
+        <button type="button" id="pp-faq-pildora-x" aria-label={t.quitarFiltro}>&#215;</button>
+      </p>
+    </div>
+  </nav>
+
+  <div class="pp-wrap" id="pp-faq-cuerpo">
+    <p class="pp-sr" id="pp-faq-anuncio" role="status" aria-live="polite"></p>
+    <p class="pp-faq-vacio" id="pp-faq-vacio" hidden>{t.vacio}</p>
+
+    {
+      secciones.map((s) => (
+        <section class="pp-faq-seccion" id={`c-${s.chip}`} data-chip={s.chip}>
+          <h2 class="pp-faq-h2">{s.nombre}</h2>
+          {s.grupos.map((g) => (
+            <div
+              class="pp-faq-grupo"
+              data-tema={g.tema}
+              id={anclable(g.tema) ? `t-${g.tema}` : undefined}
+            >
+              <h3 class="pp-faq-h3">{g.nombre}</h3>
+              <ul class="pp-faq-lista">
+                {g.faqs.map((f) => (
+                  /* data-pp-reveal va en el <li>, no en el <details>: una animacion
+                     con fill activo gana a las declaraciones normales y le pisaria
+                     el estado abierto. La regla ya existe en animaciones.css. */
+                  <li
+                    data-chip={f.chip}
+                    data-tema={f.tema}
+                    data-claves={clavesDe(f.id, f.tema, f.claves)}
+                    data-pp-reveal
+                  >
+                    <details class="pp-faq-item" id={`faq-${f.id}`}>
+                      <summary class="pp-faq-q">
+                        <span>{copy[f.id].pregunta}</span>
+                        {/* SVG en linea, no <img>: check:seo exige alt+width+height
+                            en toda imagen y aqui seria decorativa. */}
+                        <svg
+                          class="pp-faq-chevron"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path
+                            d="M2.5 5.5 8 11l5.5-5.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </summary>
+                      <div class="pp-faq-a">
+                        <p>{copy[f.id].respuesta}</p>
+                        {f.enlace && (
+                          <a
+                            class="pp-faq-mas"
+                            href={es ? `/es${f.enlace}` : f.enlace}
+                          >
+                            {t.verMas.replace('{tema}', temas[f.tema])}
+                          </a>
+                        )}
+                      </div>
+                    </details>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+
+  {/* Bloque migrado, verbatim. Conserva data-w-id="7c33b7a7-..." porque es la
+      llave de su animacion IX2 y este es el unico sitio del sitio donde existe. */}
+  <div class="section-faq-mini-cta">
+    <div data-w-id="7c33b7a7-92b7-ad27-24ab-6eef3704f70a" class="faq-mini-cta">
+      <h3 class="faq-mini-cta_title">{t.ctaTitulo}</h3>
+      <div>{t.ctaTexto}</div>
+      <div class="wrapper-buttons-center">
+        <a href={es ? '/es/contact-us/get-in-touch' : '/contact-us/get-in-touch'} class="button w-button">
+          {t.ctaBoton}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<CtaFinal />
+
+<style is:global>
+  /* Solo para lectores de pantalla. El resto del CSS vive en faq-biblioteca.css;
+     esto se queda aqui porque es de la mecanica del filtro, no del diseno. */
+  .pp-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  // Buscador + filtro de la biblioteca.
+  //
+  // SOLO alterna el atributo `hidden` sobre nodos que ya estan en el DOM. Nunca
+  // crea, mueve ni reemplaza nada: IX2 se enlaza UNA vez por documento (por eso
+  // astro.config prohibe ClientRouter) y los nodos nuevos quedarian congelados.
+  //
+  // Sin este script la pagina sigue sirviendo: se ven las 95 preguntas, el
+  // acordeon es nativo y los chips son enlaces con ancla de verdad. Lo unico que
+  // se apaga es el buscador, y se apaga por CSS para no dejar una caja muerta.
+  const filtros = document.getElementById('pp-faq-filtros');
+  const cuerpo = document.getElementById('pp-faq-cuerpo');
+  const caja = document.getElementById('pp-faq-q') as HTMLInputElement | null;
+
+  if (filtros && cuerpo && caja) {
+    const items = [...cuerpo.querySelectorAll<HTMLLIElement>('.pp-faq-lista > li')];
+    const grupos = [...cuerpo.querySelectorAll<HTMLElement>('.pp-faq-grupo')];
+    const secciones = [...cuerpo.querySelectorAll<HTMLElement>('.pp-faq-seccion')];
+    const enlaces = [...filtros.querySelectorAll<HTMLAnchorElement>('.pp-chip')];
+    const anuncio = document.getElementById('pp-faq-anuncio')!;
+    const vacio = document.getElementById('pp-faq-vacio')!;
+    const pildora = document.getElementById('pp-faq-pildora')!;
+    const pildoraTxt = document.getElementById('pp-faq-pildora-txt')!;
+    const pildoraX = document.getElementById('pp-faq-pildora-x')!;
+    const base = filtros.dataset.base!;
+
+    /** Nombre visible de cada tema, leido del <h3> que ya esta en la pagina. */
+    const nombreTema = new Map(
+      grupos.map((g) => [g.dataset.tema!, g.querySelector('.pp-faq-h3')?.textContent?.trim() ?? '']),
+    );
+
+    // NFD no es un lujo: sin el, en /es/ escribir "pergola" no encuentra "pérgola".
+    const norm = (s: string) =>
+      s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+    // El indice se construye en la PRIMERA busqueda, no al cargar: quien solo
+    // navega por chips no lo paga. No se indexa el cuerpo de la respuesta —
+    // "pergola" sale en las 95 y eso convertiria el buscador en ruido.
+    let indice: string[] | null = null;
+    const construir = () =>
+      items.map((li) =>
+        norm(`${li.querySelector('summary')?.textContent ?? ''} ${li.dataset.claves ?? ''}`),
+      );
+
+    // Estado anterior, para escribir SOLO lo que cambia. Tocar los 95 `hidden` en
+    // cada pulsacion fuerza un recalculo de estilo completo; tocar los 4 que
+    // cambian, no. Con 245 preguntas la diferencia se nota en movil.
+    const previo = new Uint8Array(items.length).fill(1);
+
+    let chip = 'todo';
+    let tema = '';
+    let consulta = '';
+
+    const aplicar = () => {
+      const q = norm(consulta.trim());
+      const tokens = q ? q.split(/\s+/) : [];
+      if (tokens.length && !indice) indice = construir();
+
+      let visibles = 0;
+      items.forEach((li, i) => {
+        const okChip = chip === 'todo' || li.dataset.chip === chip;
+        const okTema = !tema || li.dataset.tema === tema;
+        const okQ = !tokens.length || tokens.every((tk) => indice![i].includes(tk));
+        const v = okChip && okTema && okQ ? 1 : 0;
+        if (v) visibles++;
+        if (v !== previo[i]) {
+          li.hidden = !v;
+          previo[i] = v;
+        }
+      });
+
+      // Un grupo o una seccion sin preguntas visibles no deja su encabezado suelto.
+      for (const g of grupos) {
+        g.hidden = !g.querySelector('.pp-faq-lista > li:not([hidden])');
+      }
+      for (const s of secciones) {
+        s.hidden = !s.querySelector('.pp-faq-grupo:not([hidden])');
+      }
+
+      vacio.hidden = visibles > 0;
+
+      for (const a of enlaces) {
+        if (a.dataset.cat === chip) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      }
+
+      const nombre = tema ? nombreTema.get(tema) : '';
+      pildora.hidden = !nombre;
+      if (nombre) pildoraTxt.textContent = filtros.dataset.filtrando!.replace('{tema}', nombre);
+
+      programarAnuncio(visibles);
+      programarUrl();
+    };
+
+    // Un aria-live que dispara por letra convierte al lector de pantalla en una
+    // ametralladora. El filtrado va inmediato; lo que se difiere es el anuncio.
+    let tAnuncio: number | undefined;
+    const programarAnuncio = (n: number) => {
+      clearTimeout(tAnuncio);
+      tAnuncio = window.setTimeout(() => {
+        const plantilla = n === 1 ? filtros.dataset.resultado! : filtros.dataset.resultados!;
+        anuncio.textContent = plantilla.replace('{n}', String(n));
+      }, 500);
+    };
+
+    // Con pushState por pulsacion el boton "atras" queda inservible, asi que
+    // teclear hace replaceState y solo el clic en un chip empuja historial.
+    let tUrl: number | undefined;
+    const url = () => {
+      const p = new URLSearchParams();
+      if (chip !== 'todo') p.set('c', chip);
+      if (tema) p.set('t', tema);
+      if (consulta.trim()) p.set('q', consulta.trim());
+      const qs = p.toString();
+      return qs ? `${base}?${qs}` : base;
+    };
+    const programarUrl = () => {
+      clearTimeout(tUrl);
+      tUrl = window.setTimeout(() => history.replaceState({}, '', url()), 300);
+    };
+
+    const leer = () => {
+      const p = new URLSearchParams(location.search);
+      const c = p.get('c') ?? 'todo';
+      chip = enlaces.some((a) => a.dataset.cat === c) ? c : 'todo';
+      const tt = p.get('t') ?? '';
+      tema = nombreTema.has(tt) ? tt : '';
+      consulta = p.get('q') ?? '';
+      caja.value = consulta;
+    };
+
+    caja.addEventListener('input', () => {
+      consulta = caja.value;
+      aplicar();
+    });
+
+    for (const a of enlaces) {
+      a.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        chip = a.dataset.cat!;
+        tema = '';
+        aplicar();
+        clearTimeout(tUrl);
+        history.pushState({}, '', url());
+        document.getElementById(`c-${chip}`)?.scrollIntoView({ block: 'start' });
+      });
+    }
+
+    pildoraX.addEventListener('click', () => {
+      tema = '';
+      aplicar();
+      clearTimeout(tUrl);
+      history.pushState({}, '', url());
+    });
+
+    window.addEventListener('popstate', () => {
+      leer();
+      aplicar();
+    });
+
+    leer();
+    // Solo se filtra si la URL pedia algo: la entrada normal ya viene bien servida.
+    if (chip !== 'todo' || tema || consulta) aplicar();
+  }
+</script>

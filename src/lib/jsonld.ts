@@ -159,6 +159,27 @@ export function faqPage(pares: { pregunta: string; respuesta: string }[]) {
   };
 }
 
+/**
+ * Una pagina que es un indice de algo (la biblioteca de FAQs, un listado).
+ * Se acompana del nodo que describe el contenido — FAQPage, ItemList — dentro
+ * del mismo @graph.
+ */
+export function collectionPage(opciones: {
+  url: string;
+  nombre: string;
+  descripcion: string;
+  idioma: string;
+}) {
+  return {
+    '@type': 'CollectionPage',
+    '@id': `${opciones.url}#coleccion`,
+    url: opciones.url,
+    name: opciones.nombre,
+    description: opciones.descripcion,
+    inLanguage: opciones.idioma,
+  };
+}
+
 /** Envoltorio: varios nodos en un solo bloque, como recomienda schema.org. */
 export const grafo = (...nodos: unknown[]) => ({
   '@context': 'https://schema.org',

@@ -1,0 +1,47 @@
+---
+/**
+ * La biblioteca de preguntas frecuentes en español. CODIGO DE AUTORIA PROPIA.
+ *
+ * NO la pinta el catch-all src/pages/es/[...ruta].astro: /resources/faq se saco de
+ * PAGINAS_ES a proposito. Si estuviera en los dos sitios, Astro resolveria el
+ * empate a favor de esta pagina y soltaria un WARN de PrerenderRouteConflict que
+ * en Vercel no lee nadie, mientras el diccionario de alla se quedaba muerto.
+ *
+ * Monta el MISMO componente que la inglesa. Eso no es elegancia: es lo que hace
+ * que los `data-w-id` de las dos coincidan por construccion, que es lo que compara
+ * check:i18n contra la gemela que declara el hreflang.
+ *
+ * La ruta sigue en TRADUCIDAS (src/i18n/rutas.mjs) — de ahi salen el hreflang, los
+ * alternates del sitemap y la reescritura de enlaces. Eso no se toca.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FaqBiblioteca from '../../../components/FaqBiblioteca.astro';
+import { WF_PAGE, WF_SITE } from '../../../data/faqs';
+import { destacadas } from '../../../i18n/faqs.es';
+import { grafo, collectionPage, faqPage, breadcrumbs } from '../../../lib/jsonld';
+
+const TITULO = 'Biblioteca de preguntas frecuentes | Pergola Plus';
+const DESCRIPCION =
+  'Todas las preguntas que nos hacen sobre pérgolas, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios y plazos.';
+
+const site = Astro.site!;
+const url = new URL('/es/resources/faq', site).href;
+---
+
+<BaseLayout
+  title={TITULO}
+  description={DESCRIPCION}
+  wfPage={WF_PAGE}
+  wfSite={WF_SITE}
+  jsonLd={grafo(
+    collectionPage({ url, nombre: 'Biblioteca de preguntas de Pergola Plus', descripcion: DESCRIPCION, idioma: 'es' }),
+    faqPage(destacadas('es')),
+    breadcrumbs(site.href, [['Preguntas frecuentes', '/es/resources/faq']]),
+  )}
+>
+  <FaqBiblioteca
+    idioma="es"
+    titulo="Preguntas frecuentes"
+    intro="Busque entre todas las preguntas que nos hacen sobre pérgolas, techos de lamas motorizados, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios, materiales y cuánto se tarda."
+  />
+</BaseLayout>

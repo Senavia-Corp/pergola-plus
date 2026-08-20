@@ -1,0 +1,247 @@
+/* La biblioteca de preguntas frecuentes: /resources/faq y /es/resources/faq.
+ *
+ * LO QUE NO ESTA AQUI, Y ES A PROPOSITO:
+ *
+ *  - La tira de chips (.pp-filtros, .pp-chips*, .pp-chip*, .pp-wrap). Sale de
+ *    blog.css, que el componente importa antes que esta hoja. Duplicarla aqui
+ *    seria garantizar que un dia las dos bibliotecas dejen de parecerse.
+ *  - La animacion de entrada. La pone [data-pp-reveal] desde animaciones.css, que
+ *    ya la tiene declarada y reclamada. Escribir aqui una regla nueva con
+ *    `animation-name: pp-entrada` la dejaria fuera del control de esa puerta.
+ *  - Nada que toque .faq_item, .faq_trigger, .wrapper-faq ni .header-faq: ese es
+ *    el componente FAQ migrado, que sigue vivo en las 17 fichas y en
+ *    /resources/warranties. Aqui todo lleva prefijo pp-faq-.
+ *
+ * El acordeon es <details>/<summary> nativo. No hay JavaScript detras: abre, cierra
+ * y se recorre con el teclado el navegador solo.
+ */
+
+/* ---------------------------------------------------------------- buscador -- */
+
+/* Sin JavaScript la caja no puede filtrar nada, asi que no se pinta. La clase
+   w-mod-js la pone un script BLOQUEANTE del <head> (BaseLayout), o sea antes del
+   primer pintado: no hay parpadeo y no hace falta JS nuevo para esconderla. */
+.pp-faq-buscador {
+  display: none;
+}
+
+html.w-mod-js .pp-faq-buscador {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 520px;
+  margin: 0 0 1.25rem;
+  padding: 0.7rem 1rem;
+  background-color: var(--white);
+  border: 1px solid var(--gray);
+  border-radius: 999px;
+}
+
+.pp-faq-buscador:focus-within {
+  border-color: var(--primary);
+}
+
+.pp-faq-lupa {
+  flex: none;
+  color: var(--terceary);
+}
+
+.pp-faq-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  font-size: 1rem;
+  color: var(--black);
+}
+
+.pp-faq-input:focus {
+  outline: none;
+}
+
+/* La X nativa de Safari/Chrome dentro del anillo redondeado queda pegada al borde. */
+.pp-faq-input::-webkit-search-cancel-button {
+  margin-right: 0.2rem;
+}
+
+/* ------------------------------------------------------- pildora de tema -- */
+
+/* Quien llega desde una ficha con ?t= ve 5 preguntas de 95 y sin esto no sabe
+   por que. Es la unica forma de deshacer ese filtro sin editar la URL. */
+.pp-faq-pildora {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 0.85rem 0 0;
+  padding: 0.35rem 0.4rem 0.35rem 0.9rem;
+  background-color: var(--primary);
+  color: var(--white);
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.pp-faq-pildora[hidden] {
+  display: none;
+}
+
+.pp-faq-pildora button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.18);
+  color: inherit;
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pp-faq-pildora button:hover {
+  background-color: rgba(255, 255, 255, 0.32);
+}
+
+/* ---------------------------------------------------------------- secciones -- */
+
+.pp-faq-seccion {
+  padding: 2.5rem 0 0;
+}
+
+.pp-faq-seccion[hidden],
+.pp-faq-grupo[hidden] {
+  display: none;
+}
+
+.pp-faq-h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+.pp-faq-grupo {
+  padding: 1.25rem 0 0;
+}
+
+.pp-faq-h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--terceary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ----------------------------------------------------------------- preguntas -- */
+
+.pp-faq-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* La segunda regla NO sobra: el `display` de la primera gana al [hidden] que el
+   navegador trae de serie, y sin esto el filtro no oculta nada. */
+.pp-faq-lista > li {
+  display: block;
+}
+
+.pp-faq-lista > li[hidden] {
+  display: none;
+}
+
+.pp-faq-item {
+  border-bottom: 1px solid var(--gray);
+}
+
+.pp-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  /* Sin esto el navegador pinta su propio triangulo delante del texto. */
+  list-style: none;
+}
+
+.pp-faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.pp-faq-q:hover {
+  color: var(--primary);
+}
+
+.pp-faq-q:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-faq-chevron {
+  flex: none;
+  color: var(--terceary);
+  transition: transform 0.2s ease;
+}
+
+.pp-faq-item[open] .pp-faq-chevron {
+  transform: rotate(180deg);
+}
+
+.pp-faq-a {
+  padding: 0 0.25rem 1.1rem;
+  max-width: 70ch;
+}
+
+.pp-faq-a p {
+  margin: 0;
+  color: var(--terceary);
+}
+
+.pp-faq-mas {
+  display: inline-block;
+  margin-top: 0.6rem;
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ------------------------------------------------------------- estado vacio -- */
+
+/* El texto NO puede decir "No items found": check:paginas trata esa frase como
+   resto de plantilla de Webflow, y la cuenta aunque el nodo este oculto. */
+.pp-faq-vacio {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  background-color: var(--secundary);
+  border-radius: 12px;
+  color: var(--terceary);
+  text-align: center;
+}
+
+.pp-faq-vacio[hidden] {
+  display: none;
+}
+
+/* -------------------------------------------------------------------- movil -- */
+
+@media screen and (max-width: 600px) {
+  .pp-faq-h2 {
+    font-size: 1.4rem;
+  }
+
+  .pp-faq-q {
+    font-size: 0.95rem;
+    gap: 0.6rem;
+  }
+
+  html.w-mod-js .pp-faq-buscador {
+    max-width: none;
+  }
+}

@@ -244,51 +244,6 @@ const GARANTIAS_PAG: Record<string, string> = {
     'Las cortinas retráctiles MaestroShield llevan una garantía amplia sobre materiales, herrajes y mecanismos. Son sistemas de altas prestaciones: duran, funcionan con suavidad y aguantan el tiempo que hace en Florida.',
 };
 
-const PREGUNTAS: Record<string, string> = {
-  'Pergola FAQs': 'Preguntas frecuentes sobre pérgolas',
-  'Get clear answers to common questions about aluminum pergolas and motorized louvered roof systems. Learn about permits, installation timelines, durability, and what to expect when investing in a custom shade solution in Florida.':
-    'Respuestas claras a las dudas habituales sobre pérgolas de aluminio y techos de lamas motorizados: permisos, plazos de instalación, durabilidad y qué esperar al encargar una solución de sombra a medida en Florida.',
-  'Do I need a permit to install a pergola in South Florida?':
-    '¿Hace falta permiso para instalar una pérgola en el sur de Florida?',
-  'Yes. In Palm Beach, Broward, and Miami-Dade counties, pergolas typically require permits, especially if they are attached to the home or include a motorized roof system. Structural calculations, wind-load engineering, and site plans are often required. In Miami-Dade, product approvals or NOA documentation may also apply. Working with a licensed contractor ensures your project meets local building codes and passes inspections properly.':
-    'Sí. En Palm Beach, Broward y Miami-Dade la pérgola normalmente lleva permiso, sobre todo si va anclada a la casa o si el techo es motorizado. Suelen pedir cálculo estructural, memoria de cargas de viento y plano de situación. En Miami-Dade puede hacer falta además la aprobación del producto o la NOA. Con un contratista con licencia, la obra cumple la normativa local y pasa las inspecciones.',
-  'Are aluminum pergolas hurricane-rated for Florida storms?':
-    '¿Están las pérgolas de aluminio homologadas para huracanes?',
-  'High-quality aluminum pergolas can be engineered to meet South Florida wind-load requirements. Properly designed systems are built to withstand high wind speeds when installed according to structural specifications. Motorized louvered roof systems can also be designed to meet code requirements, depending on engineering and anchoring methods. Structural integrity is critical in coastal environments.':
-    'Una pérgola de aluminio de calidad se puede calcular para cumplir las cargas de viento del sur de Florida. Bien diseñada y bien instalada, aguanta vientos fuertes. Los techos de lamas motorizados también pueden calcularse para cumplir, según la ingeniería y los anclajes. En la costa, la solidez estructural es lo que manda.',
-  'How much does a custom aluminum pergola cost in Palm Beach, Broward, or Miami-Dade?':
-    '¿Cuánto cuesta una pérgola de aluminio a medida en Palm Beach, Broward o Miami-Dade?',
-  'Custom aluminum pergolas in South Florida typically range from the mid five figures upward, depending on size, motorization, integration features, and structural requirements. Motorized louvered systems are a premium investment due to engineering, automation, and electrical integration. Every project is custom-designed, so pricing reflects materials, permitting, and installation complexity.':
-    'En el sur de Florida, una pérgola de aluminio a medida suele partir de una cifra media de cinco dígitos, según el tamaño, la motorización, los extras y lo que pida el cálculo. Los sistemas de lamas motorizados son la opción más cara por la ingeniería, la automatización y la parte eléctrica. Cada proyecto se diseña a medida, así que el precio recoge materiales, permisos y dificultad de montaje.',
-  'What is the difference between a standard pergola and a motorized louvered roof system?':
-    '¿En qué se diferencia una pérgola normal de un techo de lamas motorizado?',
-  'A standard pergola provides fixed shade through slats or beams. A motorized louvered roof system allows adjustable louvers that open and close electronically, offering full sun, partial shade, or complete rain protection. Louvered systems provide superior versatility, climate control, and functionality, making them ideal for high-end outdoor living spaces.':
-    'Una pérgola normal da una sombra fija, con listones o vigas. Un techo de lamas motorizado lleva lamas que se abren y se cierran con un motor, así que puede tener sol pleno, media sombra o protección total frente a la lluvia. Las lamas dan mucha más versatilidad y control del ambiente, y por eso encajan en exteriores de gama alta.',
-  'How long does the installation process take from design to completion?':
-    '¿Cuánto se tarda desde el diseño hasta terminar la instalación?',
-  'The full process typically includes consultation, design development, engineering, permitting, fabrication, and installation. In South Florida, permitting timelines vary by municipality, but most projects take several weeks from approval to completion. Installation itself is usually completed within a few days once materials are ready.':
-    'El proceso completo pasa por la consulta, el desarrollo del diseño, el cálculo, los permisos, la fabricación y el montaje. En el sur de Florida los plazos de permiso cambian según el municipio, pero la mayoría de proyectos tarda varias semanas desde la aprobación. El montaje en sí suele resolverse en pocos días cuando el material ya está.',
-  'Will a pergola increase my property value?': '¿Una pérgola revaloriza la casa?',
-  'Yes, when professionally designed and installed, a custom aluminum pergola enhances curb appeal, functionality, and overall outdoor living experience. In high-value markets like Palm Beach and waterfront Broward or Miami properties, well-integrated outdoor structures can increase perceived and resale value by expanding usable living space.':
-    'Sí. Bien diseñada y bien instalada, una pérgola de aluminio a medida mejora la fachada, el uso del espacio y la vida al aire libre. En mercados altos como Palm Beach o las propiedades frente al agua de Broward y Miami, una estructura bien integrada sube el valor percibido y el de reventa, porque amplía el espacio que se puede usar.',
-  'Can the pergola be integrated with lighting, fans, screens, or outdoor kitchens?':
-    '¿Se puede integrar con iluminación, ventiladores, cortinas o cocina exterior?',
-  'Absolutely. Modern pergola systems can integrate LED lighting, ceiling fans, retractable screens, heaters, drainage systems, and even smart-home controls. When planned correctly during the design phase, these integrations create a seamless and fully functional outdoor environment.':
-    'Sí. Una pérgola actual admite iluminación LED, ventiladores de techo, cortinas retráctiles, calefactores, drenaje e incluso control domótico. Si se planifica en la fase de diseño, todo queda integrado y el exterior funciona de verdad.',
-  'Are aluminum pergolas better than wood for South Florida’s climate?':
-    '¿Es mejor el aluminio que la madera en el clima del sur de Florida?',
-  'In humid and coastal environments, aluminum significantly outperforms wood in durability and maintenance. Wood structures require regular sealing, staining, and are vulnerable to rot, warping, and termites. Powder-coated aluminum offers corrosion resistance, structural strength, and minimal upkeep—ideal for South Florida conditions.':
-    'En ambiente húmedo y costero, el aluminio gana con claridad en durabilidad y en mantenimiento. La madera hay que sellarla y teñirla cada cierto tiempo, y se pudre, se comba y le entran termitas. El aluminio con recubrimiento en polvo no se corroe, aguanta y casi no da trabajo.',
-  'Do HOA approvals apply for pergolas in gated communities?':
-    '¿Hace falta la aprobación de la comunidad en una urbanización cerrada?',
-  'Yes, most gated communities and HOAs require architectural approval before construction begins. Requirements vary by community and may include design review, color selection, height limitations, and placement guidelines. A professional contractor can provide drawings and documentation to streamline HOA approval.':
-    'Sí. Casi todas las urbanizaciones cerradas y comunidades piden la aprobación de su comité antes de empezar. Los requisitos cambian según la comunidad: revisión del diseño, elección del color, límites de altura y dónde se puede colocar. Un contratista profesional aporta planos y documentación para que la aprobación salga rápido.',
-  'How do motorized louvered systems handle heavy rain and drainage?':
-    '¿Cómo se comporta un techo de lamas con lluvia fuerte?',
-  'High-end motorized louvered systems are designed with integrated gutter systems that channel water into concealed drainage pathways within the posts. When closed, the louvers create a watertight seal that directs rain away from the seating area, allowing the space to remain usable during storms.':
-    'Los sistemas de lamas de gama alta llevan canalón integrado que conduce el agua por dentro de los pilares. Al cerrarse, las lamas forman un sellado estanco que aparta la lluvia de la zona de estar, así que el espacio se sigue usando aunque llueva.',
-};
-
 const SECTORES: Record<string, string> = {
   // Titular partido en tres nodos: cada trozo lleva la parte que le toca.
   'Pergolas': 'Pérgolas',
@@ -452,12 +407,6 @@ export const PAGINAS_ES: PaginaEs[] = [
     title: 'Sectores a los que servimos | Pergola Plus Florida',
     description: 'Pérgolas comerciales para hostelería, comercio, promotoras, comunidades, centros educativos, sanitarios y espacios públicos.',
     dic: SECTORES,
-  },
-  {
-    en: '/resources/faq', es: '/es/resources/faq',
-    title: 'Preguntas frecuentes | Permisos, viento y plazos',
-    description: 'Permisos, cargas de viento, precios, plazos y mantenimiento de una pérgola de aluminio en el sur de Florida, explicados sin rodeos.',
-    dic: PREGUNTAS,
   },
   {
     en: '/resources/warranties', es: '/es/resources/warranties',

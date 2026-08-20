@@ -130,13 +130,17 @@ function preguntasFaq(frag) {
  * Rutas de AUTORIA PROPIA: el generador sigue escribiendo su FRAGMENTO —la copia en
  * el repo del markup original, util para diffear— pero NO pisa su .astro.
  *
+ * /resources/faq paso de 10 preguntas en acordeon a la biblioteca completa del sitio
+ * (buscador + chips), que se monta desde src/data/faqs.ts. Sin esta entrada el
+ * generador la devuelve al markup migrado de 10 preguntas en silencio.
+ *
  * /contact-us/get-in-touch se rediseño a mano: hero, datos de contacto y formulario.
  * Sin esta entrada un `node scripts/generar-paginas.mjs` devuelve la pagina al markup
  * migrado en silencio y sin error, y de paso reintroduce los cuatro `tel:` erroneos
  * que el rediseño arreglo (el email, la direccion y el horario iban todos envueltos
  * en un enlace de telefono, y ademas con un numero que no es el del sitio).
  */
-const MANUALES = new Set(['/resources/blog', '/thank-you', '/contact-us/get-in-touch']);
+const MANUALES = new Set(['/resources/blog', '/resources/faq', '/thank-you', '/contact-us/get-in-touch']);
 const FORZAR = process.argv.includes('--regenerar-manuales');
 
 const archivoVivo = (r) =>
