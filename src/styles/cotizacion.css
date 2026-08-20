@@ -1,0 +1,826 @@
+/* Rediseno visual del formulario multipaso de /contact-us/get-a-quote.
+ *
+ * QUE ES ESTO Y POR QUE VA APARTE DE formulario.css
+ * formulario.css son las piezas que el markup migrado no traia porque los
+ * formularios no enviaban a ningun sitio: la trampa, los errores, el estado de
+ * envio. Esto es otra cosa — es diseno. El formulario llego del export de Webflow
+ * con campos de 55px y fuente de 20px, tarjeta gris plana y el progreso reducido a
+ * un "Step 3 of 3" suelto. Aqui se reviste; alli se hace funcionar.
+ *
+ * LA LOGICA NO SE TOCA. Los selectores que busca src/components/Formulario.astro
+ * (#msf, .msf-step, #msf-back, #msf-next, #msf-submit, .pp-paso) siguen intactos:
+ * este archivo solo los pinta.
+ *
+ * TODO VA BAJO .form-quote. No es cosmetica del scope: .select-field,
+ * .text-mini-form y .wrapper-buttons-center-form las comparte
+ * /contact-us/get-in-touch, y un selector global se la lleva por delante.
+ * .form-quote solo existe en esta pagina.
+ *
+ * CUATRO TRAMPAS QUE EXPLICAN DECISIONES RARAS DE MAS ABAJO
+ *
+ *   1. La especificidad tiene que ser >= (0,3,0). webflow.css declara
+ *      `.w-input:focus { outline: 0 }` con (0,2,0) y le gana a la regla de
+ *      accesibilidad.css, que es (0,1,1). Por eso HOY los campos de este sitio no
+ *      tienen anillo de foco aunque la regla exista. De ahi que cada selector aqui
+ *      lleve `.form-quote` delante: no es namespacing, es municion.
+ *
+ *   2. `currentColor` NO atraviesa un `background-image: url("data:image/svg+xml")`.
+ *      El SVG es un documento aparte y resuelve su propio color (negro). Los iconos
+ *      que no cambian de color llevan el color CODIFICADO en el data-URI; los que
+ *      siguen al estado (los chips) van con mask-image + background-color.
+ *
+ *   3. pintar() oculta con el ATRIBUTO `hidden`, que la UA aplica con (0,1,0).
+ *      Cualquier `display` de aqui sobre #msf-back / #msf-next / #msf-submit lo
+ *      pisa y saca "Atras" en el paso 1. Cada uno lleva su guarda `[hidden]`.
+ *
+ *   4. .w-checkbox ya trae ::before y ::after (clearfix de Webflow con
+ *      `content:" "; display:table`). Al pasar el label a flex se vuelven items
+ *      reales con un espacio dentro. Se anula el ::after y se recicla el ::before.
+ *
+ * La escala sale del Estimador (src/components/Estimador.astro), que ya fijo el
+ * lenguaje de la casa: radio 8px, 44px de suelo tactil, 16px de texto de campo,
+ * y el seleccionado como crema + `inset 0 0 0 1px`. Esto no inventa un sistema
+ * nuevo: alinea el formulario con el que ya habia.
+ */
+
+/* -----------------------------------------------------------------------------
+   0 · Utilidad y contenedor
+   -------------------------------------------------------------------------- */
+
+/* Visible solo para lector de pantalla. Misma receta que .pp-trampa, sin el
+   proposito de trampa. La usa el contador "Paso N de 3" del stepper. */
+.pp-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* El gap de 1rem separaba la tarjeta de su barra de botones. Ahora la barra ES el
+   pie de la tarjeta, asi que van pegadas. */
+.form-quote #msf {
+  gap: 0;
+}
+
+/* La tarjeta. Era #ededed con sombra dura; pasa a blanca sobre borde tenue.
+   `overflow: visible` no es capricho: el .msf-step migrado lleva overflow:hidden y
+   recortaba el anillo de foco (3px + 2px de offset) de los campos a ancho completo,
+   que es justo el borde de la tarjeta. */
+.form-quote .msf-step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #3a545b1f;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 1px 2px #3a545b0f, 0 8px 24px -12px #3a545b40;
+  padding: 28px;
+  overflow: visible;
+}
+
+/* Guarda de la trampa 3: el `display:flex` de arriba es (0,2,0) y le ganaria al
+   [hidden] de la UA. Sin esto los tres pasos se ven a la vez. */
+.form-quote [data-pp-multipaso] .msf-step[hidden] {
+  display: none;
+}
+
+/* La cabecera del paso deja de ser un bloque centrado de 550px. */
+.form-quote .header-form {
+  max-width: none;
+  margin: 0 0 4px;
+  text-align: left;
+}
+
+/* De 40px capitalize a 22px. El H1 de la pagina son 64px: asi deja de competir con
+   el y se lee como lo que es, el titulo de una seccion dentro de una tarjeta. */
+.form-quote .header-form h2 {
+  margin: 0 0 6px;
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+.form-quote .header-form > div {
+  color: #4a5f66;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* -----------------------------------------------------------------------------
+   1 · Stepper
+   -------------------------------------------------------------------------- */
+
+/* El markup lo emite Formulario.astro (ver el diff del stepper alli). Aqui solo
+   vive el aspecto.
+   Fondo blanco SIEMPRE, tambien en escritorio: a <=991 la columna del formulario
+   pasa a ser la foto oscurecida por un linear-gradient, y --terceary sobre esa foto
+   es ilegible. Una pista blanca resuelve los dos casos de una vez. */
+.form-quote .pp-paso {
+  width: 100%;
+  margin: 0 0 16px;
+  background: #fff;
+  border: 1px solid #3a545b1f;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px #3a545b0f;
+  padding: 6px;
+}
+
+.form-quote .pp-paso__lista {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.form-quote .pp-paso__item {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--terceary);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background-color 0.18s, border-color 0.18s, color 0.18s;
+}
+
+.form-quote .pp-paso__num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: #3a545b14;
+  border-radius: 999px;
+  color: var(--terceary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.form-quote .pp-paso__item[data-estado='actual'] {
+  background: var(--secundary);
+  border-color: #3a545b40;
+  color: var(--primary);
+}
+
+.form-quote .pp-paso__item[data-estado='actual'] .pp-paso__num {
+  background: var(--primary);
+  color: #fff;
+}
+
+.form-quote .pp-paso__item[data-estado='hecho'] {
+  color: var(--primary);
+}
+
+/* El numeral del paso ya hecho se sustituye por un check. `color: transparent`
+   esconde la cifra sin sacarla del DOM. */
+.form-quote .pp-paso__item[data-estado='hecho'] .pp-paso__num {
+  background-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 13 4 4L19 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+  color: transparent;
+}
+
+/* El paso PENDIENTE se distingue por el relleno del numeral, no bajando el color
+   del texto: el gris que "se veria pendiente" (#7d8f94) da 3.37:1 y suspende.
+   Se queda en --terceary, que da 4.79:1. */
+
+/* -----------------------------------------------------------------------------
+   2 · Etiquetas y contenedores de campo
+   -------------------------------------------------------------------------- */
+
+.form-quote .product-form,
+.form-quote .bugget-form {
+  margin: 0;
+  gap: 8px;
+}
+
+/* El presupuesto y su etiqueta iban en fila y se comprimian. En columna respiran
+   igual que el resto de campos. */
+.form-quote .div-block-2 {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+/* El segundo selector alcanza el <div> SIN CLASE de "Would You Like To Include Any
+   Enhancements?", que en el markup migrado no tiene por donde cogerse. :has() lo
+   identifica por lo que va detras, sin tocar el HTML. Es Baseline desde dic-2023 y
+   el Estimador ya lo usa en produccion. */
+.form-quote label.text-block-6,
+.form-quote .msf-step > div:has(+ .services-form) {
+  display: block;
+  margin: 0;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* El markup mete <strong> dentro de varias etiquetas. El peso lo decide la clase. */
+.form-quote label.text-block-6 strong {
+  font-weight: 600;
+}
+
+/* La coletilla de "We specialize in premium engineered systems…" */
+.form-quote .bugget-form .text-mini-form {
+  margin-top: 6px;
+  color: #4a5f66;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* -----------------------------------------------------------------------------
+   3 · Campos de texto
+   -------------------------------------------------------------------------- */
+
+/* `opacity: .8` venia del CSS migrado y apagaba el texto tecleado junto con el
+   borde. El borde no es #ccc: ese da 1.61:1 y suspende WCAG 1.4.11 (3:1 para
+   limites de componente). #3a545bb3 —el primario al 70%— da 3.75:1. */
+.form-quote .text-field-form {
+  height: auto;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 14px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  background-size: 20px 20px;
+  border: 1px solid #3a545bb3;
+  border-radius: 8px;
+  color: #333;
+  font-family: inherit;
+  /* 16px y no menos: por debajo, iOS hace zoom al enfocar el campo. */
+  font-size: 16px;
+  line-height: 1.4;
+  opacity: 1;
+  transition: border-color 0.16s, box-shadow 0.16s;
+}
+
+.form-quote .text-field-form::placeholder {
+  color: var(--terceary);
+  opacity: 1;
+}
+
+.form-quote .text-field-form:hover {
+  border-color: var(--primary);
+}
+
+/* Un icono por campo, por id. El color va codificado (%2361767c = --terceary):
+   currentColor no llega hasta aqui, ver la trampa 2 de la cabecera. */
+.form-quote #Full-Name {
+  padding-left: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+}
+
+.form-quote #email {
+  padding-left: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z'/%3E%3Cpath d='m22 6-10 7L2 6'/%3E%3C/svg%3E");
+}
+
+.form-quote #Phone {
+  padding-left: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z'/%3E%3C/svg%3E");
+}
+
+.form-quote #Street-Address {
+  padding-left: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpath d='M9 22V12h6v10'/%3E%3C/svg%3E");
+}
+
+.form-quote #City {
+  padding-left: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z'/%3E%3Cpath d='M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2'/%3E%3Cpath d='M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2'/%3E%3Cpath d='M10 6h4M10 10h4M10 14h4M10 18h4'/%3E%3C/svg%3E");
+}
+
+.form-quote #ZIP-Code {
+  padding-left: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+}
+
+/* -----------------------------------------------------------------------------
+   4 · Selects
+   -------------------------------------------------------------------------- */
+
+/* Dos capas de fondo: el icono del campo a la izquierda y el chevron propio a la
+   derecha. `appearance: none` mata la flecha del sistema, que era lo que
+   desentonaba. El fondo pasa de #f3f3f3 (de .w-select) a blanco. */
+.form-quote .select-field {
+  height: auto;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 44px;
+  background-color: #fff;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 14px center, right 14px center;
+  background-size: 20px 20px, 16px 16px;
+  border: 1px solid #3a545bb3;
+  border-radius: 8px;
+  color: #333;
+  font-family: inherit;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.16s;
+}
+
+.form-quote #Shade-Structure {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 8 3-4h12l3 4'/%3E%3Cpath d='M3 8h18'/%3E%3Cpath d='M5 8v12M19 8v12'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+.form-quote #Estimated-Project-Budget {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2v20'/%3E%3Cpath d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+.form-quote #Project-Timeline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2361767c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+.form-quote .select-field:hover {
+  border-color: var(--primary);
+}
+
+/* "Select one…" tiene value vacio: se pinta como marcador de posicion para que se
+   distinga de una opcion ya elegida. */
+.form-quote .select-field:has(option[value='']:checked) {
+  color: var(--terceary);
+}
+
+/* -----------------------------------------------------------------------------
+   5 · Mejoras: de lista de casillas a chips
+   -------------------------------------------------------------------------- */
+
+.form-quote .services-form {
+  margin-top: 4px;
+  gap: 10px;
+}
+
+.form-quote .services-form .w-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  margin: 0;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid #3a545b40;
+  border-radius: 10px;
+  color: var(--terceary);
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  transition: background-color 0.16s, border-color 0.16s, color 0.16s;
+}
+
+/* Trampa 4: el clearfix de Webflow. El ::after se anula y el ::before se recicla
+   como icono. Aqui SI se usa mask + currentColor, porque el icono tiene que virar
+   a --primary cuando el chip queda seleccionado. */
+.form-quote .services-form .w-checkbox::after {
+  content: none;
+}
+
+.form-quote .services-form .w-checkbox::before {
+  content: '';
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: center / 20px 20px no-repeat;
+  mask: center / 20px 20px no-repeat;
+}
+
+.form-quote .services-form .w-checkbox:has(#Integrated-LED-Lighting)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3Cpath d='M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3Cpath d='M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14'/%3E%3C/svg%3E");
+}
+
+.form-quote .services-form .w-checkbox:has(#Ceiling-Fans)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.83 16.38a6.08 6.08 0 0 1-8.62-7l5.41 1.45a6.08 6.08 0 0 1 7-8.62l-1.45 5.41a6.08 6.08 0 0 1 8.62 7l-5.41-1.45a6.08 6.08 0 0 1-7 8.62Z'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.83 16.38a6.08 6.08 0 0 1-8.62-7l5.41 1.45a6.08 6.08 0 0 1 7-8.62l-1.45 5.41a6.08 6.08 0 0 1 8.62 7l-5.41-1.45a6.08 6.08 0 0 1-7 8.62Z'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E");
+}
+
+.form-quote .services-form .w-checkbox:has(#Motorized-Screens)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3h18'/%3E%3Cpath d='M20 7H8M20 11H8M20 15H8M20 19H8'/%3E%3Cpath d='M4 3v14'/%3E%3Ccircle cx='4' cy='19' r='2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3h18'/%3E%3Cpath d='M20 7H8M20 11H8M20 15H8M20 19H8'/%3E%3Cpath d='M4 3v14'/%3E%3Ccircle cx='4' cy='19' r='2'/%3E%3C/svg%3E");
+}
+
+.form-quote .services-form .w-checkbox:has(#Drainage-System)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12.5 5.5 12 3c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12.5 5.5 12 3c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z'/%3E%3C/svg%3E");
+}
+
+.form-quote .services-form .w-checkbox:has(#Outdoor-Kitchen-Integration)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2'/%3E%3Cpath d='M7 2v20'/%3E%3Cpath d='M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2'/%3E%3Cpath d='M7 2v20'/%3E%3Cpath d='M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7'/%3E%3C/svg%3E");
+}
+
+.form-quote .services-form .w-checkbox:has(#Paver-Extension)::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7' rx='1'/%3E%3Crect x='14' y='3' width='7' height='7' rx='1'/%3E%3Crect x='14' y='14' width='7' height='7' rx='1'/%3E%3Crect x='3' y='14' width='7' height='7' rx='1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7' rx='1'/%3E%3Crect x='14' y='3' width='7' height='7' rx='1'/%3E%3Crect x='14' y='14' width='7' height='7' rx='1'/%3E%3Crect x='3' y='14' width='7' height='7' rx='1'/%3E%3C/svg%3E");
+}
+
+.form-quote .services-form .w-form-label {
+  flex: 1;
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-quote .services-form .w-form-label strong {
+  font-weight: 500;
+}
+
+/* La casilla, al final del chip. El float:left del CSS migrado no estorba (no
+   aplica a un flex item); lo que estorbaba era su margin-left:-20px. */
+.form-quote .services-form .w-checkbox-input {
+  flex: none;
+  order: 2;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  float: none;
+  background-color: #fff;
+  border: 1px solid #3a545bb3;
+  border-radius: 6px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color 0.14s, border-color 0.14s;
+}
+
+/* La marca va como background-image y NO como ::before del input: los controles de
+   formulario son elementos reemplazados y su soporte de pseudoelementos es
+   irregular entre motores. Con background-image funciona en todos. */
+.form-quote .services-form .w-checkbox-input:checked {
+  background-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 13 4 4L19 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+  border-color: var(--primary);
+}
+
+/* Mismo recurso que .est-opcion del Estimador: crema + doble linea de borde.
+   `:has(input:checked)` y no `:has(:checked)` a secas: con el :checked desnudo hay
+   motores que no reevaluan el ancestro al marcar la casilla y el chip se queda sin
+   pintar hasta que algo mas fuerza un re-estilado. Con el tipo delante invalidan
+   bien, y ademas es la forma que ya usa .est-opcion en el Estimador. */
+.form-quote .services-form .w-checkbox:has(input:checked) {
+  background: var(--secundary);
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+  color: var(--primary);
+}
+
+.form-quote .services-form .w-checkbox:hover {
+  border-color: var(--primary);
+}
+
+/* El anillo lo dibuja el chip, pero quien tiene el foco sigue siendo la casilla
+   nativa: no se pierde nada de teclado. */
+.form-quote .services-form .w-checkbox:has(input:focus-visible) {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* En contraste forzado un appearance:none desaparece del todo. */
+@media (forced-colors: active) {
+  .form-quote .services-form .w-checkbox-input {
+    appearance: auto;
+    -webkit-appearance: auto;
+  }
+}
+
+/* montarErrores hace `label.after(p)`, asi que dentro de la rejilla el mensaje
+   ocuparia una celda de chip. */
+.form-quote .services-form .pp-error {
+  grid-column: 1 / -1;
+  margin-top: -4px;
+}
+
+/* -----------------------------------------------------------------------------
+   6 · Consentimiento SMS
+   -------------------------------------------------------------------------- */
+
+/* Era un muro de 4 lineas a 12px/120% junto a una casilla nativa de ~13px. Deja de
+   serlo por tres cosas medibles: el interlineado pasa de 14.4px a 19.5px, gana un
+   contenedor propio que lo separa del resto, y el max-width le pone medida de
+   lectura. El selector de hijo directo lo distingue de los chips del paso 1. */
+.form-quote .msf-step[data-step='3'] > .w-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 4px 0 0;
+  padding: 14px 16px;
+  background: var(--secundary);
+  border: 1px solid #3a545b1f;
+  border-radius: 10px;
+}
+
+.form-quote .msf-step[data-step='3'] > .w-checkbox::before,
+.form-quote .msf-step[data-step='3'] > .w-checkbox::after {
+  content: none;
+}
+
+.form-quote #SMS-Consent {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  float: none;
+  background-color: #fff;
+  border: 1px solid #3a545bb3;
+  border-radius: 6px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color 0.14s, border-color 0.14s;
+}
+
+.form-quote #SMS-Consent:checked {
+  background-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 13 4 4L19 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+  border-color: var(--primary);
+}
+
+.form-quote .msf-step[data-step='3'] > .w-checkbox .text-mini-form {
+  max-width: 62ch;
+  margin: 0;
+  color: #4a5f66;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* -----------------------------------------------------------------------------
+   7 · Acciones
+   -------------------------------------------------------------------------- */
+
+/* La barra Atras/Siguiente pasa a ser el PIE de la tarjeta. No hace falta mover
+   nada: .msf-step y .msf-buttons ya son hermanos dentro de #msf, solo estaban
+   separados por el gap. */
+.form-quote [data-pp-multipaso] .msf-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 16px 28px;
+  background: #fff;
+  border: 1px solid #3a545b1f;
+  border-top: 1px solid #3a545b14;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 24px -12px #3a545b40;
+}
+
+.form-quote .msf-back,
+.form-quote .msf-next {
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background-color 0.16s, border-color 0.16s, color 0.16s;
+}
+
+.form-quote .msf-back {
+  background: #fff;
+  border: 1px solid #3a545bb3;
+  color: var(--primary);
+}
+
+.form-quote .msf-back:hover {
+  background: var(--secundary);
+  border-color: var(--primary);
+}
+
+.form-quote .msf-next {
+  margin-left: auto;
+  background: var(--primary);
+  border: 0;
+  color: #fff;
+}
+
+.form-quote .msf-next:hover {
+  background: var(--terceary);
+}
+
+/* LA GUARDA (trampa 3 de la cabecera). El `display:inline-flex` es (0,2,0) y le
+   gana al [hidden] de la UA, que es (0,1,0). Sin la segunda regla, "Atras" sale en
+   el paso 1 y "Siguiente" en el 3. */
+.form-quote [data-pp-multipaso] .msf-back,
+.form-quote [data-pp-multipaso] .msf-next {
+  display: inline-flex;
+}
+
+.form-quote [data-pp-multipaso] .msf-back[hidden],
+.form-quote [data-pp-multipaso] .msf-next[hidden] {
+  display: none;
+}
+
+/* El submit vive en la barra desde el paso 6c de transformar.mjs. Un unico sitio
+   para la accion principal en los tres pasos. */
+.form-quote #msf-submit {
+  min-height: 48px;
+  margin-left: auto;
+  padding: 0 22px;
+  background: var(--primary);
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  transition: background-color 0.16s;
+}
+
+/* El .button migrado hace scale(1.05) al pasar por encima. En una barra con dos
+   botones pegados, uno que crece se come al otro. */
+.form-quote #msf-submit:hover {
+  background: var(--terceary);
+  transform: none;
+}
+
+.form-quote #msf-submit[hidden] {
+  display: none;
+}
+
+/* Sin el submit dentro, el envoltorio solo lleva la letra pequena: deja de ser una
+   columna centrada y vuelve a ser prosa. */
+.form-quote .wrapper-buttons-center-form {
+  display: block;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #3a545b14;
+}
+
+.form-quote .wrapper-buttons-center-form .text-mini-form {
+  margin: 0;
+  color: #4a5f66;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.form-quote .wrapper-buttons-center-form a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* -----------------------------------------------------------------------------
+   8 · Foco, errores y orden del widget
+   -------------------------------------------------------------------------- */
+
+/* (0,3,0) a proposito: webflow.css declara `.w-input:focus { outline: 0 }` con
+   (0,2,0), y por eso HOY la regla de accesibilidad.css —que es (0,1,1)— no llega a
+   aplicarse nunca en este formulario. Esto lo arregla. */
+.form-quote .w-input:focus,
+.form-quote .w-select:focus {
+  border-color: var(--primary);
+  outline: 0;
+}
+
+.form-quote .w-input:focus-visible,
+.form-quote .w-select:focus-visible,
+.form-quote .msf-back:focus-visible,
+.form-quote .msf-next:focus-visible,
+.form-quote #msf-submit:focus-visible,
+.form-quote .w-checkbox-input:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.form-quote .pp-error {
+  margin-top: -10px;
+  font-size: 13px;
+}
+
+.form-quote .pp-resumen {
+  border-radius: 10px;
+}
+
+/* El widget de Cloudflare va ANTES de #msf en el markup, o sea por encima del
+   stepper, que es donde menos pinta. Se baja con `order` en vez de moverlo. */
+.form-quote {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-quote .pp-resumen {
+  order: 0;
+}
+
+.form-quote #msf {
+  order: 1;
+}
+
+.form-quote .cf-turnstile {
+  order: 2;
+  margin-top: 16px;
+}
+
+/* -----------------------------------------------------------------------------
+   9 · Adaptable
+   -------------------------------------------------------------------------- */
+
+/* A <=991 la columna del formulario deja de tener la foto al lado y pasa a tenerla
+   DETRAS, oscurecida por un linear-gradient. Las piezas blancas necesitan mas
+   sombra para despegarse de ella. El stepper ya lleva su pista blanca de serie. */
+@media screen and (max-width: 991px) {
+  .form-quote .msf-step,
+  .form-quote [data-pp-multipaso] .msf-buttons {
+    box-shadow: 0 18px 40px -18px #000000b3;
+  }
+
+  .form-quote .pp-paso {
+    box-shadow: 0 6px 18px -10px #000000a6;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .form-quote .msf-step {
+    padding: 20px;
+  }
+
+  .form-quote [data-pp-multipaso] .msf-buttons {
+    padding: 14px 20px;
+  }
+
+  .form-quote .header-form h2 {
+    font-size: 20px;
+  }
+
+  .form-quote .services-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .form-quote .msf-step {
+    padding: 16px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .form-quote [data-pp-multipaso] .msf-buttons {
+    padding: 12px 16px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  /* Solo se lee la etiqueta del paso en curso. A 390px de viewport quedan 326px de
+     contenido util, y tres etiquetas a 11.5px se parten en dos lineas. Los otros
+     dos pasos siguen ahi, en numeral. */
+  .form-quote .pp-paso__item[data-estado='pendiente'] .pp-paso__eti,
+  .form-quote .pp-paso__item[data-estado='hecho'] .pp-paso__eti {
+    display: none;
+  }
+
+  .form-quote .pp-paso__item[data-estado='pendiente'],
+  .form-quote .pp-paso__item[data-estado='hecho'] {
+    flex: 0 0 auto;
+  }
+
+  .form-quote .pp-paso__item[data-estado='actual'] {
+    flex: 1 1 auto;
+  }
+
+  /* Los dos botones a partes iguales, sin bajar de los 48px de alto. */
+  .form-quote .msf-back,
+  .form-quote .msf-next,
+  .form-quote #msf-submit {
+    flex: 1 1 0;
+    margin-left: 0;
+    padding: 0 12px;
+  }
+}

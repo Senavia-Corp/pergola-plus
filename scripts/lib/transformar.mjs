@@ -692,6 +692,60 @@ function cablearFormulario(form, origen, ruta) {
       `<button type="button" id="msf-${cual}" class="${clases}"${resto}>${dentro}</button>`,
   );
 
+  // 6c. El boton de envio sale del PASO 3 y entra en la barra de acciones.
+  //
+  //     Llegaba dentro de `.wrapper-buttons-center-form`, o sea DENTRO del tercer
+  //     `.msf-step`, mientras Atras/Siguiente viven en `.msf-buttons`, fuera y
+  //     debajo. La consecuencia es que la accion principal cambia de sitio segun el
+  //     paso: en el 1 y el 2 esta en la barra, y en el 3 aparece en mitad de la
+  //     tarjeta, encima de la letra pequena y con "Atras" POR DEBAJO de ella.
+  //
+  //     Desde CSS no tiene arreglo. El submit y los Back/Next no son hermanos ni
+  //     comparten un ancestro cercano: `order` solo reordena hermanos, y sacarlo
+  //     con `position:absolute` lo dejaria colgado de la altura variable de un
+  //     texto legal.
+  //
+  //     El texto legal NO se mueve: se queda cerrando el paso 3, que es donde tiene
+  //     sentido leerlo antes de enviar.
+  //
+  //     OJO AL CSS QUE ACOMPANA A ESTO. `.msf-buttons` ya no puede ser
+  //     `display:none` sin JavaScript: se llevaria por delante el UNICO boton de
+  //     envio del formulario y la pagina de captacion se quedaria muda para quien
+  //     navegue sin JS. Ese cambio esta en src/styles/formulario.css, seccion 5.
+  if (origen === 'quote') {
+    const antesSacar = s;
+    let submit = '';
+    s = s.replace(
+      /<div class="wrapper-buttons-center-form">\s*(<input type="submit"[^>]*\bid="msf-submit"[^>]*\/>)/,
+      (_todo, boton) => {
+        submit = boton;
+        return '<div class="wrapper-buttons-center-form">';
+      },
+    );
+    if (s === antesSacar || !submit) {
+      throw new Error(
+        'no se pudo sacar <input id="msf-submit"> de .wrapper-buttons-center-form: '
+        + 'ha cambiado el markup de docs/vivo/contact-us__get-a-quote.html',
+      );
+    }
+
+    // Se inserta con funcion y no con "$1$2": si el value del boton llevara un "$&"
+    // o un "$1", el reemplazo por cadena lo interpretaria como referencia.
+    const antesMeter = s;
+    s = s.replace(
+      /(<button type="button" id="msf-next"[^>]*>[\s\S]*?<\/button>)(\s*<\/div>)/,
+      (_todo, next, cierra) => next + submit + cierra,
+    );
+    if (s === antesMeter) {
+      // Este throw no es decorativo: si el primero acierta y este falla, el
+      // formulario se queda SIN boton de envio. Tiene que romper el build.
+      throw new Error(
+        'el submit se saco del paso 3 pero no se pudo meter en .msf-buttons: '
+        + 'el formulario se quedaria sin boton de envio',
+      );
+    }
+  }
+
   // 7. Campos ocultos. Van justo despues de la etiqueta de apertura.
   //
   //    formulario  que formulario es, para el endpoint y para el lead.

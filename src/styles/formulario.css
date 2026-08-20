@@ -97,13 +97,13 @@ label.text-block-6 {
   display: none;
 }
 
-/* Los Back/Next llegaron del export como vestigios de Finsweet, sin nada detras.
-   Mientras no haya JS siguen sin hacer nada, asi que no se muestran. */
+/* La barra de acciones se ve SIEMPRE. Desde que el submit vive dentro de ella
+   (transformar.mjs, paso 6c) es el unico boton de envio del formulario, y
+   ocultarla sin JavaScript dejaba la pagina de captacion sin forma de enviar nada
+   — justo el fallo que toda esta capa existe para no cometer.
+   Lo que si se oculta sin JS son los dos vestigios de Finsweet: sin el script no
+   hacen nada. */
 .msf-buttons {
-  display: none;
-}
-
-[data-pp-multipaso] .msf-buttons {
   display: flex;
 }
 
@@ -115,6 +115,22 @@ label.text-block-6 {
   font: inherit;
   border: 0;
   cursor: pointer;
+  display: none;
+}
+
+[data-pp-multipaso] .msf-back,
+[data-pp-multipaso] .msf-next {
+  display: inline-flex;
+}
+
+/* pintar() esconde con el ATRIBUTO `hidden`, y la UA lo aplica con especificidad
+   (0,1,0): cualquier regla de `display` con una clase le gana. Sin estas tres
+   guardas, "Atras" saldria en el paso 1, "Siguiente" en el 3 y el envio en los
+   tres a la vez. */
+[data-pp-multipaso] .msf-back[hidden],
+[data-pp-multipaso] .msf-next[hidden],
+#msf-submit[hidden] {
+  display: none;
 }
 
 /* «Paso 2 de 3» del formulario multipaso.
