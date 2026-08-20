@@ -26,14 +26,26 @@
   /* La lista manda: la foto acompana. minmax(0,·) para que una pregunta larga no
      ensanche su columna por encima del reparto. */
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  /* Tres filas y no dos: cabecera, lista y una vacia que se come la holgura.
-     Sin ella, la foto —que se ve a su relacion natural, sin recorte: 504x672 en una
-     ficha vertical frente a los 384 que miden cabecera y lista— reparte su altura de
-     mas entre las DOS filas que abarca, y abria 170 px de hueco muerto entre el
-     subtitulo y la primera pregunta. Medido en /products/cabanas a 1440. */
-  grid-template-rows: auto auto 1fr;
+  /*
+   * Cuatro filas: holgura, cabecera, lista, holgura. Las dos `1fr` son iguales, asi
+   * que el texto queda CENTRADO frente a la foto en vez de colgando de arriba.
+   *
+   * Antes eran tres (auto auto 1fr) y el texto se pegaba al techo. Y antes de eso,
+   * dos: la foto repartia su altura sobrante entre las dos filas de texto y abria un
+   * hueco muerto entre el subtitulo y la primera pregunta.
+   */
+  grid-template-rows: 1fr auto auto 1fr;
   column-gap: 4rem;
-  row-gap: 2rem;
+  /*
+   * row-gap CERO, y la separacion entre cabecera y lista como margen del hijo.
+   *
+   * Con `row-gap: 2rem` las cuatro filas cobran TRES huecos, y dos de ellos caen en
+   * las filas vacias: la foto salia 64 px mas alta que el texto y sobresalia 32 por
+   * arriba y 32 por abajo. Simetrico, si, pero no a ras. Con el hueco convertido en
+   * margen solo separa lo que tiene que separar y las dos columnas empiezan y acaban
+   * en la misma linea. En movil se devuelve, que ahi las filas son de verdad.
+   */
+  row-gap: 0;
   align-items: start;
 }
 
@@ -45,7 +57,29 @@
   display: none;
 }
 
-/* La foto abarca las dos filas de la izquierda: cabecera + lista. */
+/*
+ * La foto abarca la columna entera y se estira hasta la altura del texto.
+ *
+ * ESTO ES LO QUE ARREGLA QUE CADA PAGINA SE VIERA DISTINTA. Las portadas del CMS no
+ * comparten forma: medidas las 17, hay tres relaciones —0,75 en nueve fichas
+ * (938x1250), 1,00 en siete (1250x1250) y 1,04 en una—. A su relacion natural eso
+ * daba columnas de 672, 504 y 491 px de alto contra un texto que siempre mide entre
+ * 416 y 464: una pagina salia cuadrada, otra colgaba 256 px por debajo de la ultima
+ * pregunta y ninguna cuadraba con la de al lado.
+ *
+ * Con `stretch` la altura la manda el TEXTO, no el archivo: las dos columnas empiezan
+ * y acaban en la misma linea en las 17, y el recorte lo absorbe `object-fit: cover`.
+ *
+ * Como se consigue: la imagen sale del flujo (`position: absolute` dentro de una caja
+ * `relative`). Asi NO aporta altura, las filas las mide solo el texto y la caja se
+ * estira a esa altura. El intento anterior fue `aspect-ratio` sobre la caja y salio
+ * mal de una forma que solo se ve mirando: con la altura ya definida por el grid,
+ * Chrome deriva del ratio el ANCHO —576 px en una columna de 504— y la foto se comia
+ * la columna del texto. Medir solo el alto no lo cazo; la captura si.
+ *
+ * El suelo de 320 px es para una ficha futura con dos preguntas: sin el, un texto muy
+ * corto dejaria la foto convertida en una tira.
+ */
 .pp-faq-2col > .pp-faq-media {
   grid-column: 1;
   grid-row: 1 / -1;
@@ -59,12 +93,32 @@
   grid-column: 2;
 }
 
+/* Y en las filas 2 y 3, que son las `auto`. Sin esto el auto-placement las metia en
+   la 1 y la 2 —las dos primeras libres— y las `1fr` quedaban las dos abajo: el texto
+   volvia a pegarse al techo. El contenedor tiene EXACTAMENTE tres hijos en las 17
+   fichas (foto, cabecera, lista), comprobado, y el orden lo fija el transformador. */
+.pp-faq-2col > :nth-child(2) {
+  grid-row: 2;
+}
+
+/* La separacion entre cabecera y lista. Ya no puede venir de row-gap —esta a cero
+   para que las filas vacias no cobren hueco— asi que la pone el margen del hijo.
+   Antes habia aqui un `margin-top: 0` que cancelaba el de Webflow; con el gap a cero
+   dejaba el subtitulo tocando el borde de la primera pregunta. */
+.pp-faq-2col > :nth-child(3) {
+  grid-row: 3;
+  margin-top: 2rem;
+}
+
 .pp-faq-media {
+  position: relative;
   height: 100%;
-  min-height: 380px;
+  min-height: 320px;
 }
 
 .pp-faq-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   /* Las portadas no comparten relacion: productos 938x1250 (vertical) y servicios
@@ -82,12 +136,6 @@
   margin-right: 0;
 }
 
-/* El margen que separaba la lista del titulo centrado; en grid lo da row-gap. */
-.pp-faq-2col > .div-block-10,
-.pp-faq-2col > .wrapper-faq {
-  margin-top: 0;
-}
-
 @media (max-width: 991px) {
   .pp-faq-2col.w-container {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -100,6 +148,12 @@
   .pp-faq-2col.w-container {
     grid-template-columns: 1fr;
     grid-template-rows: none;
+    /* Apilado las filas son reales: el hueco vuelve a ser hueco. */
+    row-gap: 2rem;
+  }
+
+  .pp-faq-2col > :nth-child(3) {
+    margin-top: 0;
   }
 
   .pp-faq-2col > .pp-faq-media,
@@ -111,12 +165,13 @@
     grid-row: auto;
   }
 
-  /* Altura DEFINIDA, no un maximo: el hijo lleva height:100% y con la caja en auto
-     eso resuelve a auto. Si la foto no ha pintado todavia —o el build se sirviera sin
-     los width/height que inyecta dimensionarImagenes()— la columna colapsaba a 0 y el
-     hueco desaparecia. Medido: 0 px en /products/... a 390 px. */
-  .pp-faq-media {
+  /* Relacion, no pixeles: la caja escala con el ancho del telefono y sigue teniendo
+     altura DEFINIDA, que es lo que impide el colapso. Con `max-height` y el hijo en
+     height:100%, una foto que aun no habia pintado dejaba la columna en 0 px —medido
+     a 390 en el servidor de desarrollo, donde los width/height todavia no estan—. */
+  .pp-faq-2col > .pp-faq-media {
+    aspect-ratio: 4 / 3;
+    height: auto;
     min-height: 0;
-    height: 320px;
   }
 }
