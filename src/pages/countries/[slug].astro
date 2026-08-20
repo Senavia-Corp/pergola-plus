@@ -21,6 +21,7 @@ const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/countries/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para countries/' + item.slug);
 
+
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
 // src/lib/jsonld.ts y todos estan publicados en el propio sitio.

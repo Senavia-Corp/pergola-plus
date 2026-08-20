@@ -5,6 +5,7 @@ import { traducirHtml } from '../../../i18n';
 import { PRODUCTOS_ES } from '../../../i18n/productos.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
 import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
+import { partirTrasFaq } from '../../../lib/faq-ficha';
 import { grafo, breadcrumbs, producto } from '../../../lib/jsonld';
 
 // Las fichas de producto en español.
@@ -41,6 +42,10 @@ if (faltan.length) {
   for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
 }
 
+// El enlace a la biblioteca va DENTRO de la lista de preguntas. Se parte el html
+// YA TRADUCIDO: partir el original dejaria la mitad de la ficha sin traducir.
+const faq = partirTrasFaq(html, 'es/products/' + item.slug);
+
 const site = Astro.site!.href;
 const ruta = `/es/products/${item.slug}/`;
 const jsonLd = grafo(
@@ -62,6 +67,7 @@ const jsonLd = grafo(
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
+  <Fragment set:html={faq.antes} />
   <FaqFichaEnlace tema={item.slug} idioma="es" />
+  <Fragment set:html={faq.despues} />
 </BaseLayout>

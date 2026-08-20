@@ -211,7 +211,7 @@ for (const col of COLECCIONES) {
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
-${col.faq ? "import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\n" : ''}
+${col.faq ? "import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\nimport { partirTrasFaq } from '../../lib/faq-ficha';\n" : ''}
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
 // El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
@@ -229,6 +229,7 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);
+${col.faq ? "// El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el\n// fragmento se parte ahi. Ver src/lib/faq-ficha.ts.\nconst faq = partirTrasFaq(html, '${col.dir}/' + item.slug);\n" : ''}
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
@@ -262,8 +263,9 @@ const jsonLd = grafo(${{
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
-${col.faq ? '  <FaqFichaEnlace tema={item.slug} />\n' : ''}</BaseLayout>
+${col.faq
+    ? '  <Fragment set:html={faq.antes} />\n  <FaqFichaEnlace tema={item.slug} />\n  <Fragment set:html={faq.despues} />\n'
+    : '  <Fragment set:html={html} />\n'}</BaseLayout>
 `;
 
   // Los fragmentos y el _items.json de arriba SI se han escrito; lo que se salta

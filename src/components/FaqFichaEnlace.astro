@@ -3,14 +3,13 @@
  * El puente de una ficha de producto o servicio a la biblioteca de preguntas,
  * ya filtrada por su tema.
  *
- * VA DESPUES DEL <Fragment set:html>, NUNCA DENTRO DEL FRAGMENTO MIGRADO. Dos
- * razones y las dos muerden:
- *  1. El fragmento lo reescribe scripts/generar-detalle.mjs; lo que se meta ahi
- *     a mano lo borra la siguiente regeneracion en silencio.
- *  2. El reescritor de enlaces al español (astro.config) usa href="(\/[^"#?]*)"
- *     y DESCARTA todo href con `?`. Un enlace ?t=… metido en el fragmento se
- *     quedaria apuntando a la biblioteca inglesa desde la ficha española.
- * Por eso el href se calcula aqui, con el idioma en la mano.
+ * VA DENTRO DE LA LISTA DE PREGUNTAS, como su ultimo hijo. El fragmento migrado se
+ * parte para eso en src/lib/faq-ficha.ts — ahi esta explicado por que no se inyecta
+ * en el fragmento (lo reescribe el generador, y el reescritor de enlaces al español
+ * descarta los href con `?`) y por que no cuelga del grid como cuarto hijo.
+ *
+ * Antes se montaba DESPUES del fragmento entero, y el resultado era un boton suelto
+ * al final de la pagina, por debajo del CTA y sin nada alrededor.
  *
  * La ficha conserva su bloque de 5 preguntas: son el contenido indexable de la
  * pagina que manda para ese producto. Esto solo abre la puerta al resto.
@@ -41,28 +40,31 @@ const rotulo = t.verTodas
 {
   cuantas > 0 && (
     <div class="pp-faq-puente">
-      <div class="w-layout-blockcontainer container w-container">
-        <a class="pp-faq-puente-a" href={`${base}?t=${tema}`}>
-          {rotulo}
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
-            <path
-              d="M3 8h10M9 4l4 4-4 4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </a>
-      </div>
+      <a class="pp-faq-puente-a" href={`${base}?t=${tema}`}>
+        {rotulo}
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <path
+            d="M3 8h10M9 4l4 4-4 4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
     </div>
   )
 }
 
 <style>
+  /* En servicios la lista (.wrapper-faq) es flex en columna con gap 2rem: sin
+     align-self el boton se estiraria a todo el ancho de la columna. En productos
+     (.div-block-10) es un bloque y el margen es el que separa. La propiedad que
+     sobra en cada caso no molesta en el otro. */
   .pp-faq-puente {
-    padding: 0 0 3rem;
+    align-self: flex-start;
+    margin-top: 1.5rem;
   }
 
   .pp-faq-puente-a {
