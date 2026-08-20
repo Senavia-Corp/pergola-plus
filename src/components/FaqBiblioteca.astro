@@ -53,7 +53,16 @@ const items = traducidas(idioma);
 // que la pagina española acabaria enlazando a la inglesa.
 const base = es ? '/es/resources/faq' : '/resources/faq';
 
-/** Las secciones, cada una con sus temas y sus preguntas. Se descartan las vacias. */
+/**
+ * Las secciones, cada una con sus temas y sus preguntas. Se descartan las vacias.
+ *
+ * `ancla` marca la PRIMERA aparicion de cada tema en todo el recorrido. Hace falta
+ * porque los dos ejes no son una particion: 10 temas viven en mas de un chip
+ * (screen-enclosures esta en cuatro), asi que emitir id={`t-${tema}`} en cada grupo
+ * generaba 8 ids duplicados en el HTML — invalido, y el salto de ?t= aterrizaba
+ * siempre en el primero de ellos.
+ */
+const emitidos = new Set<Tema>();
 const secciones = CHIPS.map((chip) => {
   const suyas = items.filter((f) => f.chip === chip);
   const orden: Tema[] = [...new Set(suyas.map((f) => f.tema))];
@@ -61,14 +70,19 @@ const secciones = CHIPS.map((chip) => {
     chip,
     nombre: CHIPS_COPY[idioma][chip],
     total: suyas.length,
-    grupos: orden.map((tema) => ({
-      tema,
-      nombre: temas[tema],
-      // Las destacadas primero dentro de su grupo.
-      faqs: suyas
-        .filter((f) => f.tema === tema)
-        .sort((a, b) => Number(!!b.destacada) - Number(!!a.destacada)),
-    })),
+    grupos: orden.map((tema) => {
+      const ancla = TEMAS_FICHA.has(tema) && !emitidos.has(tema);
+      if (ancla) emitidos.add(tema);
+      return {
+        tema,
+        ancla,
+        nombre: temas[tema],
+        // Las destacadas primero dentro de su grupo.
+        faqs: suyas
+          .filter((f) => f.tema === tema)
+          .sort((a, b) => Number(!!b.destacada) - Number(!!a.destacada)),
+      };
+    }),
   };
 }).filter((s) => s.total > 0);
 
@@ -85,9 +99,6 @@ const chips = [
 /** Todo lo que el buscador tiene que encontrar y no esta en la pregunta visible. */
 const clavesDe = (id: string, tema: Tema, invariantes?: string[]) =>
   [temas[tema], ...(invariantes ?? []), copy[id]?.claves ?? ''].join(' ').trim();
-
-/** Los temas que son ficha real pueden recibir ?t= y por tanto necesitan ancla. */
-const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
 ---
 
 <header class="header-page">
@@ -177,7 +188,7 @@ const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
             <div
               class="pp-faq-grupo"
               data-tema={g.tema}
-              id={anclable(g.tema) ? `t-${g.tema}` : undefined}
+              id={g.ancla ? `t-${g.tema}` : undefined}
             >
               <h3 class="pp-faq-h3">{g.nombre}</h3>
               <ul class="pp-faq-lista">
@@ -328,11 +339,19 @@ const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
       const tokens = q ? q.split(/\s+/) : [];
       if (tokens.length && !indice) indice = construir();
 
+      // `cuenta` es lo que cada chip MOSTRARIA con la busqueda actual, ignorando
+      // el chip activo. Sin esto un chip que promete "33" abre con 4 y parece roto.
       let visibles = 0;
+      const cuenta: Record<string, number> = { todo: 0 };
       items.forEach((li, i) => {
         const okChip = chip === 'todo' || li.dataset.chip === chip;
         const okTema = !tema || li.dataset.tema === tema;
         const okQ = !tokens.length || tokens.every((tk) => indice![i].includes(tk));
+        if (okTema && okQ) {
+          const c = li.dataset.chip!;
+          cuenta[c] = (cuenta[c] ?? 0) + 1;
+          cuenta.todo++;
+        }
         const v = okChip && okTema && okQ ? 1 : 0;
         if (v) visibles++;
         if (v !== previo[i]) {
@@ -354,6 +373,12 @@ const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
       for (const a of enlaces) {
         if (a.dataset.cat === chip) a.setAttribute('aria-current', 'page');
         else a.removeAttribute('aria-current');
+        const n = cuenta[a.dataset.cat!] ?? 0;
+        const span = a.querySelector('.pp-chip-n');
+        if (span && span.textContent !== String(n)) span.textContent = String(n);
+        // El nombre accesible lleva la cuenta: si se queda con la de build, el
+        // lector de pantalla anuncia un numero que ya no es cierto.
+        a.setAttribute('aria-label', `${a.dataset.nombre}, ${n}`);
       }
 
       const nombre = tema ? nombreTema.get(tema) : '';
@@ -422,6 +447,7 @@ const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
         clearTimeout(tUrl);
         history.pushState({}, '', url());
         document.getElementById(`c-${chip}`)?.scrollIntoView({ block: 'start' });
+        medirSticky();
       });
     }
 
@@ -430,12 +456,29 @@ const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
       aplicar();
       clearTimeout(tUrl);
       history.pushState({}, '', url());
+      // aplicar() acaba de esconder esta X, y con ella el foco del teclado, que
+      // habria vuelto al <body>. Se lleva al chip activo, que es lo que ahora manda.
+      (enlaces.find((a) => a.dataset.cat === chip) ?? caja).focus();
     });
 
     window.addEventListener('popstate', () => {
       leer();
       aplicar();
     });
+
+    /**
+     * La barra de filtros es sticky, asi que un salto de ancla deja la seccion
+     * DEBAJO de ella: no se ve ni el <h2>. Se resuelve con scroll-margin-top, que
+     * lo respetan por igual el scrollIntoView de aqui y el salto nativo del
+     * navegador cuando no hay JS. La altura se mide porque cambia con la pildora
+     * de tema y al envolverse los chips en movil; el CSS trae un valor de reserva.
+     */
+    const medirSticky = () => {
+      const alto = Math.round(filtros.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--pp-faq-sticky', `${alto + 12}px`);
+    };
+    medirSticky();
+    addEventListener('resize', medirSticky, { passive: true });
 
     leer();
     // Solo se filtra si la URL pedia algo: la entrada normal ya viene bien servida.

@@ -108,8 +108,22 @@ html.w-mod-js .pp-faq-buscador {
 
 /* ---------------------------------------------------------------- secciones -- */
 
+/* La barra .pp-filtros es sticky: sin esto, un salto de ancla —el del chip cuando
+   no hay JS, o el scrollIntoView cuando lo hay— deja el <h2> escondido debajo de
+   ella. El script mide la barra y reescribe --pp-faq-sticky; este valor es el de
+   reserva para cuando no hay JS, que es justo cuando el ancla es la unica via. */
+:root {
+  --pp-faq-sticky: 180px;
+}
+
 .pp-faq-seccion {
   padding: 2.5rem 0 0;
+  scroll-margin-top: var(--pp-faq-sticky);
+}
+
+.pp-faq-grupo,
+.pp-faq-item {
+  scroll-margin-top: var(--pp-faq-sticky);
 }
 
 .pp-faq-seccion[hidden],

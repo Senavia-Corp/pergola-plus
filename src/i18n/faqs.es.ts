@@ -38,7 +38,6 @@ export interface TextosFaq {
   todo: string;
   buscarEtiqueta: string;
   buscarPista: string;
-  limpiar: string;
   /** `{tema}` se sustituye por el nombre del tema. Una sola llave: check:paginas veta `{{`. */
   filtrandoPor: string;
   quitarFiltro: string;
@@ -48,10 +47,6 @@ export interface TextosFaq {
   vacio: string;
   verMas: string;
   navFiltros: string;
-  migaHome: string;
-  migaRecursos: string;
-  migaFaq: string;
-  etiquetaMigas: string;
   filtrarPor: string;
   /** `{n}` y `{tema}` se sustituyen. Una sola llave: check:paginas veta `{{`. */
   verTodas: string;
@@ -137,7 +132,6 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
     todo: 'All',
     buscarEtiqueta: 'Search the FAQ library',
     buscarPista: 'Search questions…',
-    limpiar: 'Clear search',
     filtrandoPor: 'Filtering by: {tema}',
     quitarFiltro: 'Remove filter',
     resultado: '{n} question',
@@ -145,10 +139,6 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
     vacio: 'No questions match your search. Try another word, or ask us directly and we will answer it.',
     verMas: 'More about {tema}',
     navFiltros: 'Filter questions by category',
-    migaHome: 'Home',
-    migaRecursos: 'Resources',
-    migaFaq: 'FAQ',
-    etiquetaMigas: 'Breadcrumb',
     filtrarPor: 'Filter by category',
     verTodas: 'See all {n} questions about {tema}',
     ctaTitulo: 'Need more information?',
@@ -159,7 +149,6 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
     todo: 'Todo',
     buscarEtiqueta: 'Buscar en la biblioteca de preguntas',
     buscarPista: 'Buscar preguntas…',
-    limpiar: 'Limpiar la búsqueda',
     filtrandoPor: 'Filtrando por: {tema}',
     quitarFiltro: 'Quitar el filtro',
     resultado: '{n} pregunta',
@@ -167,10 +156,6 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
     vacio: 'No hay preguntas que coincidan. Pruebe con otra palabra, o escríbanos y se la respondemos.',
     verMas: 'Más sobre {tema}',
     navFiltros: 'Filtrar las preguntas por categoría',
-    migaHome: 'Inicio',
-    migaRecursos: 'Recursos',
-    migaFaq: 'Preguntas frecuentes',
-    etiquetaMigas: 'Migas de pan',
     filtrarPor: 'Filtrar por categoría',
     verTodas: 'Ver las {n} preguntas sobre {tema}',
     ctaTitulo: '¿Necesita más información?',
@@ -701,8 +686,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'permiso-miami-dade': {
       'pregunta': 'What does Miami-Dade require that other counties don\'t?',
-      'respuesta':
-        'Miami-Dade applies the strictest reading of the HVHZ chapter and generally expects Miami-Dade NOA documentation for tested products rather than a statewide approval. Coastal and barrier-island addresses draw a higher exposure category, which drives the anchoring and the post sizing.',
+      'respuesta': 'Miami-Dade applies the strictest reading of the HVHZ chapter. Tested components need HVHZ-level documentation on file — a Miami-Dade NOA or a statewide Florida Product Approval issued for HVHZ use — and reviewers there are the least tolerant of gaps in it. Beachfront and barrier-island addresses draw a higher exposure category, which drives the anchoring and the post sizing.',
       'claves': 'Miami-Dade NOA product approval exposure coastal',
     },
     'permiso-retranqueos': {
@@ -737,14 +721,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'permiso-hoa-rechazo': {
       'pregunta': 'What if the HOA rejects the design?',
-      'respuesta':
-        'Rejections are usually about a specific detail — the color, the height, how visible it is from the street — not the structure itself. We revise the affected item and resubmit. Because the HOA review runs before we file for the building permit, a revision at that stage costs time, not money.',
+      'respuesta': 'Rejections are usually about a specific detail — the color, the height, how visible it is from the street — not the structure itself. We revise the affected item and resubmit. Because the HOA review runs before we file for the building permit, most revisions at that stage cost time rather than money; one that changes the structure enough to need re-engineering is the exception, and we tell you before doing it.',
       'claves': 'HOA rejected denied resubmit revision color height',
     },
     'permiso-carga-viento': {
       'pregunta': 'What wind speed is a pergola engineered to?',
-      'respuesta':
-        'The design wind speed comes from the Florida Building Code map for your address and its exposure category, not from a marketing number. Much of South Florida falls in the 170–195 mph range for risk category II structures. The engineer sizes posts, footings and anchors to that figure.',
+      'respuesta': 'The design wind speed comes from the Florida Building Code map for your address and its exposure category, not from a marketing number. For a risk category II home across Miami-Dade, Broward and Palm Beach, that ultimate design speed generally lands somewhere between 150 and 175 mph depending on the parcel. The engineer sizes posts, footings and anchors to the figure for your address.',
       'claves': 'wind speed mph design load engineering exposure category',
     },
     'permiso-piscina-barrera': {
@@ -857,8 +839,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'precio-forma-de-pago': {
       'pregunta': 'How is payment structured?',
-      'respuesta':
-        'In stages tied to milestones — a deposit to start design and engineering, a payment when materials are released to fabrication, and the balance at completion. Florida law limits what a contractor can take up front on residential work, and the schedule is written into the contract before anything is signed.',
+      'respuesta': 'In stages tied to milestones — a deposit to start design and engineering, a payment when materials are released to fabrication, and the balance at completion. Florida law does not cap the deposit, but it does attach duties to a large one: a contractor who takes more than 10% of the contract price up front has to apply for permits within 30 days and start work within 90. The schedule is written into the contract before anything is signed.',
       'claves': 'payment schedule deposit milestone balance contract draw',
     },
     'precio-presupuesto-gratis': {
@@ -1085,8 +1066,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'material-policarbonato-ruido': {
       'pregunta': 'Is a polycarbonate roof noisy in the rain?',
-      'respuesta':
-        'Noticeably more than an insulated solid roof, yes — it is a thin panel and rain drums on it. Multiwall panels are quieter than single-skin, and a shallower pitch spreads the sound. If you want to hold a conversation through a downpour, an insulated roof is the honest answer.',
+      'respuesta': 'Noticeably more than an insulated solid roof, yes — it is a thin panel and rain drums on it. Multiwall panels are quieter than single-skin, because the air chambers damp the impact. If you want to hold a conversation through a downpour, an insulated roof is the honest answer.',
       'claves': 'polycarbonate rain noise loud drumming sound insulated',
     },
     'material-techo-aislado': {
@@ -1121,8 +1101,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'material-sensor-lluvia-falla': {
       'pregunta': 'Can the rain sensor close the roof while I\'m underneath?',
-      'respuesta':
-        'That is what it is for, and it will. The louvers move slowly and the systems include obstruction handling, but if you would rather decide yourself you can disable the automation and drive it manually. Most people leave it on precisely because it works when nobody is home.',
+      'respuesta': 'That is what it is for, and it will. The louvers move slowly, and many systems offer obstruction detection — worth confirming for the one you choose, because it is not universal. If you would rather decide yourself you can disable the automation and drive it manually. Most people leave it on precisely because it works when nobody is home.',
       'claves': 'rain sensor automatic close safety obstruction override manual',
     },
     'material-domotica': {
@@ -1241,8 +1220,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'pergola-lamas-que-angulo': {
       'pregunta': 'How far do the louvers actually rotate?',
-      'respuesta':
-        'Typically through about 140 to 170 degrees depending on the system, which is what lets you go from fully open sky to a closed, sealed roof and stop anywhere in between. The useful positions in practice are closed for rain, part-open for filtered light, and open for evening.',
+      'respuesta': 'Typically through about 140 to 170 degrees depending on the system, which is what lets you go from fully open sky to a closed roof and stop anywhere in between. The useful positions in practice are closed for rain, part-open for filtered light, and open for evening.',
       'claves': 'louver rotation degrees angle open closed position tilt',
     },
     'pergola-lamas-cuanto-duran': {
@@ -2055,9 +2033,8 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'permiso-sin-permiso-riesgo': {
       'pregunta': '¿Qué pasa si se construye una pérgola sin permiso?',
-      'respuesta':
-        'Una obra sin permiso da problemas de verdad: disciplina urbanística puede ordenar el desmontaje, hay que abrir lo construido para una inspección a posteriori, y la infracción abierta sale en la nota registral y puede frenar una venta o una hipoteca. Además, el seguro puede rechazar un parte por viento sobre una estructura que nunca se inspeccionó.',
-      'claves': 'sin permiso infraccion sancion multa venta seguro',
+      'respuesta': 'Una obra sin permiso da problemas de verdad: el departamento de code enforcement puede ordenar el desmontaje, hay que abrir lo construido para una inspección a posteriori, y el permiso abierto sale en la búsqueda de título y puede frenar una venta o una refinanciación. Además, el seguro puede rechazar un parte por viento sobre una estructura que nunca se inspeccionó.',
+      'claves': 'sin permiso infraccion code enforcement multa venta titulo seguro',
     },
     'permiso-noa-que-es': {
       'pregunta': '¿Qué es una NOA y cuándo la necesita mi proyecto?',
@@ -2085,8 +2062,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'permiso-miami-dade': {
       'pregunta': '¿Qué exige Miami-Dade que no exijan los demás condados?',
-      'respuesta':
-        'Miami-Dade aplica la lectura más estricta del capítulo de vientos altos y normalmente espera documentación NOA propia del condado para los productos ensayados, no la homologación estatal. Las direcciones en la costa y en los cayos entran en una categoría de exposición más alta, y eso condiciona los anclajes y la sección de los pilares.',
+      'respuesta': 'Miami-Dade aplica la lectura más estricta del capítulo de vientos altos. Los componentes ensayados necesitan documentación de nivel HVHZ en el expediente —NOA de Miami-Dade o Florida Product Approval emitida para uso en HVHZ— y allí son los más exigentes con que no falte nada. Las direcciones en primera línea de playa y en las islas de barrera entran en una categoría de exposición más alta, y eso condiciona los anclajes y la sección de los pilares.',
       'claves': 'Miami-Dade NOA homologacion exposicion costa',
     },
     'permiso-retranqueos': {
@@ -2121,14 +2097,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'permiso-hoa-rechazo': {
       'pregunta': '¿Y si la comunidad rechaza el diseño?',
-      'respuesta':
-        'Los rechazos casi siempre van por un detalle concreto —el color, la altura, lo que se ve desde la calle—, no por la estructura. Se corrige ese punto y se vuelve a presentar. Como la revisión de la comunidad va antes de pedir el permiso de obra, una corrección ahí cuesta tiempo, no dinero.',
+      'respuesta': 'Los rechazos casi siempre van por un detalle concreto —el color, la altura, lo que se ve desde la calle—, no por la estructura. Se corrige ese punto y se vuelve a presentar. Como la revisión de la comunidad va antes de pedir el permiso de obra, la mayoría de correcciones en esa fase cuestan tiempo y no dinero; la excepción es una que cambie la estructura lo bastante como para rehacer el cálculo, y eso se le dice antes de hacerlo.',
       'claves': 'comunidad rechaza denegado corregir color altura',
     },
     'permiso-carga-viento': {
       'pregunta': '¿Para qué velocidad de viento se calcula una pérgola?',
-      'respuesta':
-        'La velocidad de cálculo sale del mapa del código de edificación de Florida para su dirección y su categoría de exposición, no de una cifra de folleto. Buena parte del sur de Florida se mueve entre 170 y 195 mph para estructuras de categoría de riesgo II. El ingeniero dimensiona pilares, zapatas y anclajes a partir de ese número.',
+      'respuesta': 'La velocidad de cálculo sale del mapa del código de edificación de Florida para su dirección y su categoría de exposición, no de una cifra de folleto. Para una vivienda de categoría de riesgo II en Miami-Dade, Broward o Palm Beach, esa velocidad última de cálculo suele moverse entre 150 y 175 mph según la parcela. El ingeniero dimensiona pilares, zapatas y anclajes a partir de la cifra de su dirección.',
       'claves': 'velocidad viento mph carga calculo ingenieria exposicion',
     },
     'permiso-piscina-barrera': {
@@ -2175,15 +2149,13 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'permiso-costa-corrosion-codigo': {
       'pregunta': '¿Hay requisitos añadidos cerca del mar?',
-      'respuesta':
-        'Sí. Las direcciones próximas a la costa entran en una categoría de exposición al viento más alta, lo que sube las cargas de cálculo, y algunos municipios añaden exigencias de resistencia a la corrosión en tornillería y herrajes. Las parcelas en cayos o pasada la línea de control costero pueden llevar además una revisión estatal.',
-      'claves': 'costa mar exposicion corrosion tornilleria cayo',
+      'respuesta': 'Sí. Las direcciones próximas a la costa entran en una categoría de exposición al viento más alta, lo que sube las cargas de cálculo, y algunos municipios añaden exigencias de resistencia a la corrosión en tornillería y herrajes. Las parcelas en islas de barrera o pasada la línea de control costero pueden llevar además una revisión estatal.',
+      'claves': 'costa mar exposicion corrosion tornilleria isla barrera',
     },
     'permiso-planos-sellados': {
       'pregunta': '¿Por qué los planos tienen que ir sellados por un ingeniero?',
-      'respuesta':
-        'Porque el revisor está examinando una estructura que debe resistir viento de huracán, y Florida exige que un ingeniero colegiado asuma la responsabilidad profesional de ese cálculo. El sello es lo que convierte el recorrido de cargas —techo, viga, pilar, zapata, terreno— en un diseño exigible e inspeccionable.',
-      'claves': 'planos sellados ingeniero colegiado calculo cargas',
+      'respuesta': 'Porque el revisor está examinando una estructura que debe resistir viento de huracán, y Florida exige que un ingeniero con licencia asuma la responsabilidad profesional de ese cálculo. El sello es lo que convierte el recorrido de cargas —techo, viga, pilar, zapata, terreno— en un diseño exigible e inspeccionable.',
+      'claves': 'planos sellados ingeniero con licencia calculo cargas',
     },
     'permiso-cocina-exterior': {
       'pregunta': '¿Una cocina exterior bajo la pérgola lleva permisos propios?',
@@ -2204,10 +2176,9 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
       'claves': 'seguro hogar viento parte cobertura poliza compania',
     },
     'permiso-impuestos': {
-      'pregunta': '¿Una obra con permiso sube el impuesto de bienes inmuebles?',
-      'respuesta':
-        'Puede subirlo. La oficina de valoración recoge las mejoras con permiso y puede ajustar el valor catastral de la parcela. El efecto depende de la valoración de su condado y del tope de exención que le aplique, así que es una consulta para esa oficina, no para el contratista.',
-      'claves': 'impuesto valor catastral valoracion exencion tributo',
+      'pregunta': '¿Una obra con permiso sube el impuesto sobre la propiedad?',
+      'respuesta': 'Puede subirlo. La oficina de tasación del condado (property appraiser) registra las mejoras con permiso y puede ajustar el valor tasado de la parcela. El efecto depende de la tasación de su condado y del tope anual que le aplique la exención de homestead, si la tiene, así que es una consulta para esa oficina y no para el contratista.',
+      'claves': 'impuesto propiedad valor tasado tasacion homestead exencion',
     },
     'permiso-generador-solar': {
       'pregunta': '¿Qué aprobaciones añade una pérgola solar?',
@@ -2241,8 +2212,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'precio-forma-de-pago': {
       'pregunta': '¿Cómo se estructura el pago?',
-      'respuesta':
-        'Por hitos: una entrada para arrancar diseño e ingeniería, un pago cuando el material entra en fabricación y el resto al terminar. La ley de Florida limita lo que un contratista puede cobrar por adelantado en obra residencial, y el calendario queda escrito en el contrato antes de firmar nada.',
+      'respuesta': 'Por hitos: una entrada para arrancar diseño e ingeniería, un pago cuando el material entra en fabricación y el resto al terminar. La ley de Florida no fija un tope a la entrada, pero sí impone obligaciones cuando es alta: el contratista que cobra por adelantado más del 10 % del precio del contrato tiene que solicitar los permisos en 30 días y empezar la obra en 90. El calendario de pagos queda escrito en el contrato antes de firmar nada.',
       'claves': 'pago calendario entrada hito resto contrato',
     },
     'precio-presupuesto-gratis': {
@@ -2255,7 +2225,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
       'pregunta': '¿Cuánto cuesta una cabaña de aluminio a medida?',
       'respuesta':
         'Una cabaña se presupuesta como una construcción pequeña, no como un simple techo de sombra: lleva cubierta maciza, muchas veces paredes o mosquitero, y casi siempre corriente. Cuente con que salga por encima de una pérgola abierta de la misma superficie. Lo que más mueve la cifra es el tamaño, el tipo de cubierta y si lleva fontanería.',
-      'claves': 'cabana precio coste caseta piscina metro cuadrado',
+      'claves': 'cabana precio coste caseta piscina superficie',
     },
     'precio-cuanto-cuesta-cerramiento': {
       'pregunta': '¿Cómo se presupuesta un cerramiento con mosquitero?',
@@ -2337,8 +2307,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'precio-retorno-inversion': {
       'pregunta': '¿Una estructura exterior se paga sola al vender?',
-      'respuesta':
-        'Rara vez dólar por dólar, y quien prometa eso está adivinando. Lo que sí hace de forma fiable una estructura bien integrada y con permiso es añadir metros utilizables y mejorar las fotos del anuncio, lo que afecta al tiempo en mercado tanto como al precio. Tómelo como espacio de vida que además disfruta ya.',
+      'respuesta': 'Rara vez dólar por dólar, y quien prometa eso está adivinando. Lo que sí hace de forma fiable una estructura bien integrada y con permiso es añadir superficie utilizable y mejorar las fotos del anuncio, lo que afecta al tiempo en mercado tanto como al precio. Tómelo como espacio de vida que además disfruta ya.',
       'claves': 'rentabilidad reventa valor inversion tasacion anuncio',
     },
     'precio-fases': {
@@ -2409,14 +2378,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'material-lacado': {
       'pregunta': '¿Qué es el lacado en polvo y por qué importa aquí?',
-      'respuesta':
-        'Es un acabado en seco que se hornea sobre el metal, y da una película más dura, más gruesa y más estable frente al UV que la pintura líquida. En clima de salitre el acabado ES la barrera contra la corrosión, así que su calidad no es una cuestión estética. Los recubrimientos de gama arquitectónica llevan garantía propia contra el pulverulencia y la pérdida de color.',
+      'respuesta': 'Es un acabado en seco que se hornea sobre el metal, y da una película más dura, más gruesa y más estable frente al UV que la pintura líquida. En clima de salitre el acabado hace de barrera contra la corrosión, así que su calidad no es una cuestión estética. Los recubrimientos de gama arquitectónica llevan garantía propia contra la pulverulencia y la pérdida de color.',
       'claves': 'lacado polvo acabado pintura UV decoloracion anodizado',
     },
     'material-colores': {
       'pregunta': '¿Entre qué colores y acabados puedo elegir?',
-      'respuesta':
-        'La carta arquitectónica estándar cubre lo que pide casi cualquier vivienda —blancos y roturas de blanco, bronces, grises, negro— más los acabados imitación madera, que a un par de metros pasan por madera sin comportarse como ella. Los colores a medida son posibles y añaden plazo.',
+      'respuesta': 'La carta arquitectónica estándar cubre lo que pide casi cualquier vivienda —blancos y roturas de blanco, bronces, grises, negro— más los acabados imitación madera, que a unos pies de distancia pasan por madera sin comportarse como ella. Los colores a medida son posibles y añaden plazo.',
       'claves': 'colores acabados imitacion madera bronce blanco negro',
     },
     'material-color-oscuro-calor': {
@@ -2469,15 +2436,13 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'material-policarbonato-ruido': {
       'pregunta': '¿Un techo de policarbonato hace ruido con la lluvia?',
-      'respuesta':
-        'Bastante más que una cubierta maciza aislada, sí: es un panel fino y la lluvia repica. Los paneles de celdas suenan menos que los de una sola capa, y una pendiente menor reparte el sonido. Si quiere poder conversar durante un aguacero, la respuesta honesta es cubierta aislada.',
+      'respuesta': 'Bastante más que una cubierta maciza aislada, sí: es un panel fino y la lluvia repica. Los paneles de celdas suenan menos que los de una sola capa, porque las cámaras de aire amortiguan el impacto. Si quiere poder conversar durante un aguacero, la respuesta honesta es cubierta aislada.',
       'claves': 'policarbonato lluvia ruido repique sonido aislada',
     },
     'material-techo-aislado': {
       'pregunta': '¿Qué lleva dentro un panel de cubierta maciza aislada?',
-      'respuesta':
-        'Un núcleo aislante encolado entre dos chapas de aluminio, y eso es lo que hace el panel estructural y térmicamente útil a la vez. Salva la luz sin estructura vista por debajo, mantiene el intradós más fresco que una cubierta de metal desnudo, y le deja un techo plano y limpio donde colgar un ventilador o una luz.',
-      'claves': 'panel aislado nucleo sandwich techo ventilador luz luz',
+      'respuesta': 'Un núcleo aislante encolado entre dos chapas de aluminio, y eso es lo que hace el panel estructural y térmicamente útil a la vez. Salva la luz sin estructura vista por debajo, mantiene la cara de abajo más fresca que una cubierta de metal desnudo, y le deja un techo plano y limpio donde colgar un ventilador o una luz.',
+      'claves': 'panel aislado nucleo sandwich techo ventilador luz',
     },
     'material-mosquitera-tipos': {
       'pregunta': '¿Qué tipos de malla hay?',
@@ -2505,8 +2470,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'material-sensor-lluvia-falla': {
       'pregunta': '¿El sensor de lluvia puede cerrar el techo estando yo debajo?',
-      'respuesta':
-        'Para eso está, y lo hará. Las lamas se mueven despacio y los sistemas contemplan la detección de obstáculos, pero si prefiere decidir usted puede desactivar la automatización y manejarlo a mano. Casi todo el mundo lo deja puesto precisamente porque funciona cuando no hay nadie en casa.',
+      'respuesta': 'Para eso está, y lo hará. Las lamas se mueven despacio y muchos sistemas ofrecen detección de obstáculos — conviene confirmarlo en el que elija, porque no lo llevan todos. Si prefiere decidir usted, puede desactivar la automatización y manejarlo a mano. Casi todo el mundo lo deja puesto precisamente porque funciona cuando no hay nadie en casa.',
       'claves': 'sensor lluvia cierre automatico seguridad obstaculo manual',
     },
     'material-domotica': {
@@ -2595,15 +2559,13 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'pergola-tamano-tipico': {
       'pregunta': '¿Qué tamaño de pérgola necesito de verdad?',
-      'respuesta':
-        'Empiece por los muebles. Una mesa de seis pide del orden de 3,5 por 5 metros para poder retirar las sillas; un tresillo de exterior pide más fondo que ancho. Y luego sume por el ángulo del sol: en esta latitud el sol bajo de la tarde se cuela mucho por debajo de un techo.',
-      'claves': 'tamano medidas dimensiones metros muebles comedor salon',
+      'respuesta': 'Empiece por los muebles. Una mesa de seis pide del orden de 12 por 16 pies para poder retirar las sillas; un tresillo de exterior pide más fondo que ancho. Y luego sume por el ángulo del sol: en esta latitud el sol bajo de la tarde se cuela mucho por debajo de un techo.',
+      'claves': 'tamano medidas dimensiones pies muebles comedor salon',
     },
     'pergola-orientacion': {
       'pregunta': '¿Importa hacia dónde mira la pérgola?',
-      'respuesta':
-        'Muchísimo. Un patio a poniente se lleva el sol más duro del día y es el que más gana con lamas orientables o una cortina lateral; uno a mediodía tiene sol más horas pero más alto, y eso lo resuelve bien una cubierta fija. La orientación debería decidir el tipo de techo, y no al revés.',
-      'claves': 'orientacion poniente mediodia sol angulo tarde sombra',
+      'respuesta': 'Muchísimo. Un patio orientado al oeste se lleva el sol más duro del día y es el que más gana con lamas orientables o una cortina lateral; uno orientado al sur tiene sol más horas pero más alto, y eso lo lleva mejor una cubierta fija. La orientación debería decidir el tipo de techo, y no al revés.',
+      'claves': 'orientacion oeste sur sol angulo tarde sombra',
     },
     'pergola-cuanta-sombra': {
       'pregunta': '¿Cuánta sombra da realmente una pérgola abierta?',
@@ -2625,8 +2587,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'pergola-lamas-que-angulo': {
       'pregunta': '¿Cuánto giran realmente las lamas?',
-      'respuesta':
-        'Del orden de 140 a 170 grados según el sistema, que es lo que permite pasar de cielo abierto a un techo cerrado y estanco, parando en cualquier punto intermedio. Las posiciones útiles en la práctica son cerrada para la lluvia, entreabierta para luz tamizada, y abierta al atardecer.',
+      'respuesta': 'Del orden de 140 a 170 grados según el sistema, que es lo que permite pasar de cielo abierto a un techo cerrado, parando en cualquier punto intermedio. Las posiciones útiles en la práctica son cerrada para la lluvia, entreabierta para luz tamizada, y abierta al atardecer.',
       'claves': 'lamas giro grados angulo abierta cerrada posicion',
     },
     'pergola-lamas-cuanto-duran': {
@@ -2661,9 +2622,8 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'pergola-altura': {
       'pregunta': '¿A qué altura debe quedar el techo?',
-      'respuesta':
-        'Lo bastante alto para librar las puertas y dejar entrar el sol bajo, lo bastante bajo para que siga pareciendo una estancia y para que dé sombra de verdad. Entre 2,4 y 3 metros libres encaja en casi cualquier casa. Subir más deja entrar más sol de tarde por el lateral, que es justo lo contrario de lo que la gente espera.',
-      'claves': 'altura techo libre metros sol bajo',
+      'respuesta': 'Lo bastante alto para librar las puertas y dejar entrar el sol bajo, lo bastante bajo para que siga pareciendo una estancia y para que dé sombra de verdad. Entre 8 y 10 pies de altura libre encaja en casi cualquier casa. Subir más deja entrar más sol de tarde por el lateral, que es justo lo contrario de lo que la gente espera.',
+      'claves': 'altura techo libre pies sol bajo',
     },
     'pergola-piscina-cloro': {
       'pregunta': '¿Es problema construir justo encima de la piscina?',
@@ -2732,10 +2692,9 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
       'claves': 'cuantas cortinas lados cuatro parcial cobertura',
     },
     'pergola-cerramiento-mascota': {
-      'pregunta': '¿Se puede poner una gatera en el cerramiento?',
-      'respuesta':
-        'Sí, y es más fácil dejarla prevista que abrirla después. Va en un paño con marco, no en la propia malla, así que no afecta ni a la estructura ni al tensado. La posición importa: lejos del lado de la piscina si de lo que se trata es de que el animal no se meta en el agua.',
-      'claves': 'gatera puerta mascota cerramiento paño instalar',
+      'pregunta': '¿Se puede poner una puerta para mascotas en el cerramiento?',
+      'respuesta': 'Sí, y es más fácil dejarla prevista que abrirla después. Va en un paño con marco, no en la propia malla, así que no afecta ni a la estructura ni al tensado. La posición importa: lejos del lado de la piscina si de lo que se trata es de que el animal no se meta en el agua.',
+      'claves': 'puerta mascota perro gato cerramiento paño instalar',
     },
     'pergola-policarbonato-vs-macizo': {
       'pregunta': '¿Policarbonato o cubierta maciza aislada?',
@@ -2811,8 +2770,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'obra-hormigon-pisar': {
       'pregunta': '¿Cuándo puedo pisar o aparcar sobre hormigón nuevo?',
-      'respuesta':
-        'A pie normalmente al día siguiente; con vehículos, bastante más: el hormigón sigue ganando resistencia durante semanas y alcanza la de proyecto mucho después de parecer terminado. Aparcar antes de tiempo es como una entrada nueva se lleva su primera marca permanente. Le damos las fechas de su hormigonado.',
+      'respuesta': 'A pie normalmente al día siguiente; con vehículos, bastante más: el hormigón sigue ganando resistencia durante semanas y alcanza la de proyecto mucho después de parecer terminado. Aparcar antes de tiempo es la forma más habitual de que una entrada nueva se lleve su primera marca permanente. Le damos las fechas de su hormigonado.',
       'claves': 'pisar aparcar hormigon nuevo curado resistencia dias',
     },
     'obra-hormigon-vs-adoquin-cual': {
@@ -2847,8 +2805,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     },
     'obra-deck-sobre-hormigon': {
       'pregunta': '¿Se puede montar un deck sobre una losa de hormigón que ya existe?',
-      'respuesta':
-        'Sí, y es una buena forma de rescatar una losa agrietada o fea sin derribarla. El entramado apoya sobre rastreles dejando hueco para drenaje y ventilación por debajo. La pega es la altura: el deck acabado queda unos centímetros más alto, y eso puede afectar al umbral de una puerta.',
+      'respuesta': 'Sí, y es una buena forma de rescatar una losa agrietada o fea sin derribarla. El entramado apoya sobre rastreles dejando hueco para drenaje y ventilación por debajo. La pega es la altura: el deck acabado queda unas pulgadas más alto, y eso puede afectar al umbral de una puerta.',
       'claves': 'deck sobre hormigon losa rastrel existente altura umbral',
     },
     'obra-valla-aluminio-vs-pvc': {
