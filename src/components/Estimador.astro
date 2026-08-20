@@ -269,6 +269,35 @@ const paginaActual = Astro.url.pathname;
                 = <strong id="est-area">{ANCHO_POR_DEFECTO * LARGO_POR_DEFECTO}</strong> {t.pies2}
               </p>
             </div>
+
+            {/* Un deslizador por dimension. En un telefono dos campos numericos
+                son dos teclados; esto es un gesto. Los campos se quedan para
+                quien sabe la medida exacta. Uno por lado y no un unico pies2
+                como AB: calcular() trabaja con ancho x largo, y pasar a area
+                tocaria el motor de precios. Emparejado 1:1 con su campo, la
+                correspondencia es biyectiva y no hace falta decidir quien manda. */}
+            <div class="est-rangos">
+              <input
+                class="est-rango"
+                type="range"
+                id="est-rango-ancho"
+                aria-label={t.ancho}
+                value={ANCHO_POR_DEFECTO}
+                min={MIN_FT}
+                max={MAX_FT}
+                step="1"
+              />
+              <input
+                class="est-rango"
+                type="range"
+                id="est-rango-largo"
+                aria-label={t.largo}
+                value={LARGO_POR_DEFECTO}
+                min={MIN_FT}
+                max={MAX_FT}
+                step="1"
+              />
+            </div>
             <p class="est-aviso" id="est-aviso" hidden></p>
           </fieldset>
 
@@ -518,8 +547,58 @@ const paginaActual = Astro.url.pathname;
         </div>
       </div>
 
-      <aside class="est-panel">
-        <div class="est-resultado" aria-live="polite">
+      <!-- La barra movil vive DENTRO del panel a proposito: barra y hoja son un
+           UNICO elemento fijo. Dos franjas fijas independientes obligan a
+           coordinar sus alturas a mano y se pisan en cuanto una crece; asi el
+           solape es imposible por construccion. En escritorio la barra entera
+           esta en display:none y el panel sigue siendo la columna pegajosa.
+           Nace plegada desde el servidor para que no haya destello. -->
+      <aside class="est-panel" data-plegado>
+        <div class="est-pie">
+          <!-- La franja de confianza sube aqui porque es el mecanismo entero: el
+               rango estrechandose con cada respuesta. Verlo no puede costar un
+               toque. El texto que lo explica se queda dentro de la hoja. -->
+          <div class="est-pie-confianza" aria-hidden="true"><span id="est-pie-relleno"></span></div>
+
+          <button
+            type="button"
+            class="est-desplegar"
+            id="est-desplegar"
+            aria-expanded="false"
+            aria-controls="est-resultado">
+            <span class="est-pie-resumen">
+              <span class="est-pie-rotulo">{t.confirmado}</span>
+              {/* Plegada, .est-resultado esta en display:none y un lector de
+                  pantalla no anuncia lo que no esta en el arbol: la region viva
+                  es esta. ponHoja() le pone aria-hidden al desplegar, para que
+                  nunca haya dos anunciando la misma cifra. */}
+              <span class="est-pie-cifra" id="est-pie-total" aria-live="polite">—</span>
+            </span>
+            <span class="est-pie-mando">
+              <span class="est-pie-accion" id="est-pie-accion">{t.cliente.verDesglose}</span>
+              <svg
+                class="est-pie-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                focusable="false"><path d="m6 15 6-6 6 6" /></svg>
+            </span>
+          </button>
+
+          {/* Proxies: hacen .click() sobre los botones reales de #est-nav en vez
+              de duplicar la navegacion. Toda la validacion y el salto de pasos
+              siguen pasando por el mismo camino que en escritorio. */}
+          <div class="est-pie-nav">
+            <button type="button" class="button secundary w-button" id="est-pie-atras">{t.atras}</button>
+            <button type="button" class="button w-button" id="est-pie-siguiente">{t.siguiente}</button>
+          </div>
+        </div>
+
+        <div class="est-resultado" id="est-resultado" aria-live="polite">
           <p class="est-resultado-etiqueta" id="est-etiqueta">{t.confirmado}</p>
           <p class="est-resultado-cifra" id="est-total">—</p>
           <p class="est-resultado-sub" id="est-sub">{t.panelVacio}</p>
@@ -544,9 +623,10 @@ const paginaActual = Astro.url.pathname;
       </aside>
     </div>
 
-    <!-- El aviso legal vive FUERA del panel a proposito. En movil el panel se
-         vuelve pegajoso para que la cifra siga a la vista mientras se responde, y
-         un parrafo de seis lineas pegado ahi arriba se comeria media pantalla. -->
+    <!-- El aviso legal vive FUERA del panel a proposito. En movil el panel es la
+         barra del borde inferior, siempre a la vista mientras se responde: seis
+         lineas de letra pequena ahi dentro la convertirian en media pantalla, y
+         en la hoja desplegada empujarian el desglose fuera del alcance. -->
     <p class="est-legal">
       <strong>{t.legalFuerte}</strong>{t.legalAntes}
       <a href={`${base}/post/pergola-cost-south-florida`}>{t.legalEnlace}</a>{t.legalDespues}
@@ -633,6 +713,25 @@ const paginaActual = Astro.url.pathname;
     const atras = $('est-atras') as HTMLButtonElement;
     const siguiente = $('est-siguiente') as HTMLButtonElement;
     const omitir = $('est-omitir') as HTMLButtonElement;
+
+    // La barra movil. Todo esto esta en display:none en escritorio, pero existe
+    // siempre en el DOM: hacerlo condicional obligaria a re-hidratar al girar.
+    const panel = document.querySelector('.est-panel') as HTMLElement;
+    const pie = document.querySelector('.est-pie') as HTMLElement;
+    const desplegar = $('est-desplegar') as HTMLButtonElement;
+    const pieAtras = $('est-pie-atras') as HTMLButtonElement;
+    const pieSiguiente = $('est-pie-siguiente') as HTMLButtonElement;
+
+    /** La cifra vive en dos sitios en movil —barra plegada y hoja— y no pueden
+        decir cosas distintas: un unico punto de escritura para las dos. */
+    const ponCifra = (v: string) => {
+      $('est-total').textContent = v;
+      $('est-pie-total').textContent = v;
+    };
+    const ponConfianza = (pct: number) => {
+      ($('est-confianza-relleno') as HTMLElement).style.width = `${pct}%`;
+      ($('est-pie-relleno') as HTMLElement).style.width = `${pct}%`;
+    };
 
     let actual = 0;
     /** Hasta donde ha llegado. Un paso solo cuenta como respondido si se paso por el. */
@@ -886,7 +985,6 @@ const paginaActual = Astro.url.pathname;
       const { firmes, abiertas, preguntas } = calcular();
       const p = productoDe();
 
-      const elTotal = $('est-total');
       const elSub = $('est-sub');
       const elDesglose = $('est-desglose');
       const elAbierto = $('est-abierto');
@@ -896,18 +994,19 @@ const paginaActual = Astro.url.pathname;
       // caja navy vacia: ocupa media pantalla y no dice que hacer. Lleva la frase
       // que explica que va a pasar ahi.
       if (!p || !p.tarifa) {
-        elTotal.textContent = '—';
+        ponCifra('—');
         elSub.textContent = p ? textos.soloCotizacion : textos.panelVacio;
         elDesglose.replaceChildren();
         elAbierto.hidden = true;
         elConfianza.hidden = true;
+        ponConfianza(0);
         return;
       }
 
       const suma = (l: Partida[], k: 'min' | 'max') => l.reduce((a, x) => a + x[k], 0);
       const abiertoFirme = firmes.some((x) => x.abierto);
 
-      elTotal.textContent = banda(suma(firmes, 'min'), suma(firmes, 'max'), abiertoFirme);
+      ponCifra(banda(suma(firmes, 'min'), suma(firmes, 'max'), abiertoFirme));
 
       const ancho = lado($('est-ancho') as HTMLInputElement) ?? 0;
       const largo = lado($('est-largo') as HTMLInputElement) ?? 0;
@@ -946,7 +1045,7 @@ const paginaActual = Astro.url.pathname;
         ? Math.round((preguntas.filter(Boolean).length / preguntas.length) * 100)
         : 0;
       elConfianza.hidden = false;
-      ($('est-confianza-relleno') as HTMLElement).style.width = `${pct}%`;
+      ponConfianza(pct);
       const hueco = suma(abiertas, 'max') - suma(abiertas, 'min');
       $('est-confianza-texto').textContent = abiertas.length
         ? textos.estrecha
@@ -1020,6 +1119,15 @@ const paginaActual = Astro.url.pathname;
         elAviso.hidden = false;
       } else {
         $('est-area').textContent = String(ancho * largo);
+        // La vuelta del deslizador. El campo manda —es el que calcular() lee— y
+        // el rango le sigue; asi el preset, el teclado y el gesto acaban siempre
+        // en el mismo sitio sin tener que decidir quien tiene la razon.
+        // Salvo el que se esta arrastrando: reescribirle el valor bajo el dedo
+        // es pelearse con el usuario.
+        for (const [id, v] of [['est-rango-ancho', ancho], ['est-rango-largo', largo]] as const) {
+          const el = $(id) as HTMLInputElement;
+          if (document.activeElement !== el) el.value = String(v);
+        }
         // Se avisa en vez de reescribir el input bajo los dedos de quien escribe.
         const recortado =
           Number(($('est-ancho') as HTMLInputElement).value) !== ancho
@@ -1058,6 +1166,15 @@ const paginaActual = Astro.url.pathname;
       // El enlace de escape no aparece ni en el primer paso —sin producto no hay
       // nada que estimar— ni en el cierre, que no es una pregunta.
       (omitir as HTMLElement).hidden = actual === 0 || actual === pasos.length - 1;
+      // Los proxy de la barra espejan a los reales en vez de recalcular la
+      // condicion: una segunda copia de la regla es una copia que un dia dira otra cosa.
+      pieAtras.hidden = (atras as HTMLElement).hidden;
+      // El cierre es el unico paso sin "siguiente", y dejarlo sin accion primaria
+      // en la barra seria quitar el boton justo en el paso que convierte: alli el
+      // proxy apunta a #est-enviar. El rotulo se copia del boton real para que no
+      // haya una segunda traduccion que un dia diga otra cosa.
+      pieSiguiente.textContent = primario().textContent;
+      medirPie();
       ($('est-barra-relleno') as HTMLElement).style.width = `${Math.round((hechos / total) * 100)}%`;
       $('est-progreso-texto').textContent = textos.dePaso
         .replaceAll('{n}', String(hechos))
@@ -1073,7 +1190,12 @@ const paginaActual = Astro.url.pathname;
       pintarPasoActual();
       pintarPanel();
       guardar();
-      pasos[actual].querySelector<HTMLElement>('input, button')?.focus();
+      // :not([type=hidden]) no es cosmetico: el primer input del paso 8 es uno de
+      // los 13 ocultos del embudo y .focus() sobre el es un no-op, asi que el foco
+      // se quedaba donde estuviera. Mismo selector que Formulario.astro:253.
+      pasos[actual]
+        .querySelector<HTMLElement>('input:not([type="hidden"]), select, textarea, button')
+        ?.focus();
       pasos[actual].scrollIntoView({ block: 'nearest' });
     }
 
@@ -1083,6 +1205,94 @@ const paginaActual = Astro.url.pathname;
       omitidos.add(actual);
       ir(1);
     });
+
+    // --- la barra movil ------------------------------------------------------
+    /** Lo que hace avanzar desde el paso actual: navegar, o enviar en el cierre. */
+    const primario = () =>
+      actual === pasos.length - 1 ? ($('est-enviar') as HTMLButtonElement) : siguiente;
+
+    const ponHoja = (abierta: boolean) => {
+      panel.toggleAttribute('data-plegado', !abierta);
+      desplegar.setAttribute('aria-expanded', String(abierta));
+      $('est-pie-accion').textContent = abierta ? textos.ocultarDesglose : textos.verDesglose;
+      // Desplegada manda el panel, que ya es aria-live. Si la barra siguiera
+      // anunciando, un lector de pantalla leeria la misma cifra dos veces.
+      $('est-pie-total').setAttribute('aria-hidden', String(abierta));
+      medirPie();
+    };
+    desplegar.addEventListener('click', () => ponHoja(panel.hasAttribute('data-plegado')));
+
+    // Cerrar ANTES de navegar: si no, el paso nuevo aparece detras de la hoja.
+    // Los proxy no repiten la navegacion, la delegan: .click() sobre el boton
+    // real hace que validacion y salto de pasos sigan el camino de escritorio.
+    pieAtras.addEventListener('click', () => {
+      ponHoja(false);
+      atras.click();
+    });
+    pieSiguiente.addEventListener('click', () => {
+      ponHoja(false);
+      primario().click();
+    });
+
+    // El hueco que libera el contenido tapado sale de la barra REAL, no de una
+    // constante: la barra crece si el rotulo se parte en dos lineas, si el
+    // sistema sube el tamano de fuente o si el telefono gira. Si la barra esta
+    // en display:none (escritorio) mide 0 y se deja el valor de la hoja.
+    const est = document.querySelector('.est') as HTMLElement;
+    /** El hueco que .est-pasos reserva para no quedar debajo de la barra. */
+    const medirPie = () => {
+      const alto = pie?.offsetHeight ?? 0;
+      // 0 = barra en display:none (escritorio): ahi el suelo de la hoja vale.
+      if (alto && est) est.style.setProperty('--alto-pie', `${alto}px`);
+    };
+    // Se llama a mano en los dos momentos en que la barra puede cambiar de alto
+    // —cambio de paso, que reescribe el rotulo del boton, y plegar/desplegar— y
+    // ademas se observa, que es lo unico que cubre girar el telefono o subir el
+    // tamano de fuente del sistema. A mano primero: un observador que no dispara
+    // deja el hueco corto y el contenido debajo de la barra, y eso no se ve.
+    if (pie && 'ResizeObserver' in window) new ResizeObserver(medirPie).observe(pie);
+    // Y cuando la tipografia real sustituye a la de respaldo: hasta ese momento
+    // los rotulos miden otra cosa y el hueco se calcula corto.
+    document.fonts?.ready.then(medirPie);
+
+    // iOS ancla position:fixed al layout viewport, que no encoge al abrir el
+    // teclado: la barra quedaria dibujada DEBAJO de las teclas, y como los
+    // botones reales estan ocultos en movil no habria forma de avanzar sin
+    // cerrarlo primero. visualViewport si mide lo que queda a la vista.
+    const vv = window.visualViewport;
+    if (vv) {
+      const ajustaTeclado = () => {
+        const tapado = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+        panel.style.setProperty('--alto-teclado', `${Math.round(tapado)}px`);
+      };
+      vv.addEventListener('resize', ajustaTeclado);
+      vv.addEventListener('scroll', ajustaTeclado);
+      ajustaTeclado();
+    }
+    window.addEventListener('resize', medirPie);
+
+    // Una barra fija sin condicion de salida se queda pegada sobre las resenas y
+    // el pie hasta el final de la pagina; el sticky de antes se soltaba solo al
+    // acabar su bloque. Esto le devuelve ese final.
+    if (est && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) =>
+        panel.toggleAttribute('data-fuera', !e.isIntersecting),
+      ).observe(est);
+    }
+
+    // Rango -> campo. Escribir .value no dispara ningun evento, asi que el preset
+    // "a medida" se marca aqui a mano igual que hace el camino del teclado; el
+    // input del propio rango si burbujea al form, que ya recalcula y guarda.
+    for (const [rango, campo] of [
+      ['est-rango-ancho', 'est-ancho'],
+      ['est-rango-largo', 'est-largo'],
+    ]) {
+      $(rango).addEventListener('input', () => {
+        ($(campo) as HTMLInputElement).value = ($(rango) as HTMLInputElement).value;
+        const aMedida = form.querySelector<HTMLInputElement>('input[name="preset"][value="a-medida"]');
+        if (aMedida) aMedida.checked = true;
+      });
+    }
 
     // Elegir producto en el paso 1 avanza solo: es una decision, no un formulario.
     form.addEventListener('change', (e) => {
@@ -1562,6 +1772,151 @@ const paginaActual = Astro.url.pathname;
     font-weight: 600;
   }
 
+  /* --- la barra movil ---
+     Existe siempre en el DOM y solo se enciende por debajo de 992px. El panel
+     no se duplica: se MUDA aqui abajo entero. Mantener ademas un resumen arriba
+     serian dos superficies de precio en 375px de ancho, que es justo el cuarto
+     de pantalla que este trabajo viene a recuperar. */
+  .est-pie {
+    display: none;
+  }
+
+  .est-pie-confianza {
+    background: #3a545b26;
+    border-radius: 2px;
+    height: 4px;
+    overflow: hidden;
+  }
+
+  .est-pie-confianza span {
+    background: var(--primary);
+    width: 0;
+    height: 100%;
+    transition: width .25s;
+    display: block;
+  }
+
+  /* Toda la fila es el disparador, no un chevron de 16px al borde: mas area
+     tactil por el mismo sitio y un solo control en vez de dos. */
+  .est-desplegar {
+    -webkit-appearance: none;
+    appearance: none;
+    color: inherit;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    min-height: 56px;
+    padding: .5rem 0;
+    font: inherit;
+    text-align: left;
+    display: flex;
+  }
+
+  .est-pie-resumen {
+    flex-direction: column;
+    min-width: 0;
+    display: flex;
+  }
+
+  .est-pie-rotulo {
+    color: var(--terceary);
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+
+  /* nowrap no es cosmetico: "$25,000 - $35,500" se partia en dos lineas a 360px
+     de ancho y la barra pasaba de 119 a 142px de alto, tapando el contenido que
+     .est-pasos ya habia reservado. La cifra es lo que no puede ceder. */
+  .est-pie-cifra {
+    color: var(--primary);
+    white-space: nowrap;
+    margin-top: .1rem;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  /* Quien cede el ancho es el rotulo de la accion, que se recorta con puntos
+     suspensivos; el chevron sobrevive siempre porque es el que dice que esto se
+     despliega. */
+  .est-pie-mando {
+    color: var(--primary);
+    align-items: center;
+    gap: .3rem;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+  }
+
+  .est-pie-accion {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .est-pie-chevron {
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+
+  .est-panel:not([data-plegado]) .est-pie-chevron {
+    transform: rotate(180deg);
+  }
+
+  .est-pie-nav {
+    gap: .6rem;
+    display: flex;
+  }
+
+  .est-pie-nav .button {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    margin: 0;
+    display: flex;
+  }
+
+  /* .w-button trae display:inline-block y .est-pie-nav .button un display:flex.
+     Las dos son reglas de AUTOR y ganan al [hidden]{display:none} del
+     user-agent, asi que el boton que el script marca hidden se sigue viendo:
+     "Atras" en el paso 1 y "Siguiente" en el cierre. Medido en produccion antes
+     de tocar nada: display:block y altura >0 con el atributo puesto.
+     Sin !important: el scoping de Astro ya da (0,5,0) contra el (0,1,0) de
+     .w-button, que es como lo resuelven cotizacion.css:639 y formulario.css:125. */
+  .est-nav .button[hidden],
+  .est-pie-nav .button[hidden] {
+    display: none;
+  }
+
+  /* --- deslizadores de tamano ---
+     accent-color pinta pista y pulgar nativos en los dos motores; estilizar
+     ::-webkit-slider-thumb a mano seria reponer lo que el navegador ya hace
+     bien. El alto minimo es area tactil, no adorno. */
+  .est-rangos {
+    flex-direction: column;
+    gap: .35rem;
+    margin-top: .9rem;
+    display: flex;
+  }
+
+  .est-rango {
+    accent-color: var(--primary);
+    width: 100%;
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+
   /* --- legal y cierre --- */
   .est-legal {
     color: var(--terceary);
@@ -1599,82 +1954,214 @@ const paginaActual = Astro.url.pathname;
     font-size: 14px;
   }
 
-  /* En una sola columna el panel se iria DEBAJO del formulario, y ahi el mecanismo
-     entero desaparece: la gracia es ver la cifra estrecharse mientras se responde,
-     y medido en un iPhone el panel arrancaba en y=3.451 con el paso 1 midiendo
-     2.922 px. Sube arriba y se queda pegado bajo la barra de navegacion, que es
-     fixed y mide 85 px. Se recorta a lo esencial —cifra, lo que sigue abierto y la
-     barra de confianza— porque el desglose completo ahi arriba se comeria la
-     pantalla; sigue entero en escritorio y en el correo. */
+  /* En una sola columna el panel se iria DEBAJO del formulario y el mecanismo
+     entero desaparece: la gracia es ver la cifra estrecharse mientras se
+     responde. Antes subia arriba, pegado al nav — pero ahi la cifra queda donde
+     mira el ojo mientras el pulgar esta abajo, y el boton de avanzar acababa en
+     y=1900: dos pantallas y media de scroll para pasar de paso, en un flujo de
+     ocho. Ahora el panel se muda ENTERO al borde inferior. La barra lleva
+     siempre la cifra confirmada y la navegacion; el detalle sube en una hoja
+     bajo demanda, asi que no se pierde nada, solo deja de cobrar pantalla. */
   @media (max-width: 991px) {
     .est {
+      /* Suelo, no verdad: medirPie() lo reescribe con el alto real en cuanto
+         arranca el script. Un numero fijo se queda corto en cuanto el rotulo se
+         parte en dos lineas —medido: 119px a 375 de ancho y 142 a 360—, asi que
+         el suelo se pone en el caso malo y el script lo AJUSTA hacia abajo. */
+      --alto-pie: 148px;
       grid-template-columns: 1fr;
     }
 
-    .est-panel {
-      z-index: 5;
-      order: -1;
-      position: sticky;
-      top: 85px;
+    /* La barra de estimacion sustituye aqui a los botones flotantes del sitio,
+       para que no se apilen ni se solapen en la zona del pulgar. Necesita
+       !important: la regla del layout es .botones-flotantes[data-astro-cid-X] y
+       gana en especificidad a un :global() de un solo nombre de clase. */
+    :global(.botones-flotantes) {
+      display: none !important;
     }
 
+    .est-pasos {
+      padding-bottom: calc(var(--alto-pie) + env(safe-area-inset-bottom) + 1rem);
+    }
+
+    /* Barra y hoja son UN solo elemento fijo. column-reverse deja el orden del
+       DOM intacto —la barra primero, que es lo que se lee y se tabula antes— y
+       pinta la hoja creciendo hacia arriba desde el borde. Dos franjas fijas
+       independientes obligarian a coordinar alturas a mano; asi el solape es
+       imposible por construccion. */
+    .est-panel {
+      /* Por DEBAJO del scrim del menu movil, que es z-index:15
+         (src/styles/menu.css:499). En 16 la barra se veria nitida y pulsable
+         sobre el fondo oscurecido con el menu abierto: exactamente el fallo que
+         documenta BaseLayout.astro:294 sobre los botones flotantes. */
+      z-index: 14;
+      background: var(--secundary);
+      border-top: 1px solid #3a545b26;
+      box-shadow: 0 -8px 28px #0000001f;
+      flex-direction: column-reverse;
+      padding: 0 1rem calc(.75rem + env(safe-area-inset-bottom));
+      display: flex;
+      position: fixed;
+      /* --alto-teclado lo escribe visualViewport: iOS ancla position:fixed al
+         layout viewport, que NO encoge al abrir el teclado, asi que la barra se
+         dibujaria debajo de las teclas justo en los pasos que piden escribir. */
+      inset: auto 0 var(--alto-teclado, 0px) 0;
+    }
+
+    /* Una barra fija sin condicion de salida se queda pegada sobre las resenas y
+       el pie hasta el final de la pagina. El sticky de antes se soltaba solo al
+       acabar .est; el IntersectionObserver hace lo mismo a mano. */
+    .est-panel[data-fuera] {
+      display: none;
+    }
+
+    .est-pie {
+      padding-top: .5rem;
+      display: block;
+    }
+
+    .est-panel[data-plegado] .est-resultado {
+      display: none;
+    }
+
+    /* La hoja. 70dvh y no 70vh: en Safari movil vh mide contra el viewport
+       grande, y con la barra de URL desplegada la hoja se saldria por arriba.
+       overscroll-behavior evita que al llegar al final arrastre la pagina. */
     .est-resultado {
-      padding: 1rem 1.1rem;
+      max-height: 70dvh;
+      overscroll-behavior: contain;
+      border-radius: 10px;
+      margin-bottom: .6rem;
+      padding: 1.1rem 1.2rem;
+      overflow-y: auto;
     }
 
     .est-resultado-cifra {
       font-size: 22px;
     }
 
+    /* El desglose vuelve. Antes estaba oculto porque el panel se comia la
+       pantalla desde arriba; ahora no compite con nada: esta detras de un toque. */
     .est-resultado-sub,
     .est-desglose {
-      display: none;
+      display: block;
+    }
+
+    .est-abierto,
+    .est-confianza {
+      margin-top: .9rem;
     }
 
     .est-abierto {
-      margin-top: .6rem;
-      padding-top: .6rem;
+      padding-top: .9rem;
     }
 
     .est-abierto-cifra {
-      font-size: 15px;
+      font-size: 16px;
     }
 
-    .est-confianza {
-      margin-top: .6rem;
+    /* Los botones reales se quedan en el DOM —son los que el proxy pulsa— pero
+       fuera de la vista: repetirlos al pie del paso serian dos juegos de
+       controles diciendo lo mismo. El enlace de escape si sigue en flujo bajo
+       las opciones, que es donde se lee para lo que es: una salida de baja
+       frecuencia, no un control primario. */
+    .est-nav .button {
+      display: none;
     }
 
-    /* El stepper hace scrollIntoView al cambiar de paso. Con el panel pegado
-       arriba, sin este margen el titulo del paso nuevo aterriza justo debajo y no
-       se lee. 85 de barra + el alto del panel. */
+    /* 85 del nav fijo mas holgura arriba, y la barra entera abajo. El 300 de
+       antes compensaba el panel pegado arriba, que ya no esta. */
     .est-paso {
-      scroll-margin-top: 300px;
+      scroll-margin-top: 100px;
+      scroll-margin-bottom: calc(var(--alto-pie) + 1rem);
     }
   }
 
   @media (max-width: 767px) {
-    .est-opciones,
     .est-campos {
       grid-template-columns: 1fr;
     }
 
-    /* La tarjeta pasa de banner a fila. Con la foto a todo ancho, las nueve
-       opciones del paso 1 ocupaban 2.922 px de scroll: casi tres pantallas para
-       leer una lista. En fila bajan a poco mas de un tercio. */
-    .est-opcion--foto {
-      flex-direction: row;
-      align-items: stretch;
+    /* Dos columnas mientras quepan. A una sola, las nueve opciones del paso 1
+       ocupaban 1.366px: casi dos pantallas para leer una lista que se elige
+       COMPARANDO, que es justo lo que una sola columna impide. La nota es el
+       nombre de catalogo y es lo que sobra cuando el ancho aprieta —la foto ya
+       dice de que producto se habla—; sigue viajando entera en el lead. */
+    .est-opcion--foto .est-opcion-nota {
+      display: none;
     }
 
     .est-foto {
-      aspect-ratio: 1;
-      flex: none;
-      width: 92px;
+      aspect-ratio: 2;
     }
 
-    .est-opcion-fila {
-      flex: 1;
-      padding: .75rem .9rem;
+    .est-opcion--foto {
+      position: relative;
+    }
+
+    .est-opcion--foto .est-opcion-fila {
+      padding: .5rem .6rem .6rem;
+    }
+
+    /* El radio se va SOLO de la tarjeta con foto. Medido: con el a dos columnas
+       el rotulo se queda en 104px y se parte en tres y cuatro lineas, y hasta la
+       tarifa envuelve; sin el son 128px y casi todas caben en dos. Sigue en el
+       DOM y sigue siendo enfocable —no es display:none— asi que teclado y lector
+       de pantalla no notan nada. En las filas de los pasos 4 a 7 se queda: alli
+       hay ancho de sobra y es la senal de estado mas clara que existe. */
+    .est-opcion--foto input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      width: 1px;
+      height: 1px;
+      margin: 0;
+      position: absolute;
+      overflow: hidden;
+    }
+
+    /* Sin el radio, el estado seleccionado se apoya entero en el borde: 2px en
+       vez de 1 para que se lea de un vistazo contra la foto. */
+    .est-opcion--foto:has(input:checked) {
+      box-shadow: inset 0 0 0 2px var(--primary);
+    }
+
+    .est-opcion--foto .est-opcion-titulo {
+      font-size: 12.5px;
+      line-height: 1.2;
+    }
+
+    /* "per sq ft installed" cae a su propia linea a 128px y esta bien que lo
+       haga: "installed" no es adorno —es lo que separa esta banda de la de un
+       kit de bricolaje, que es justo lo que justifica la tarifa en
+       src/data/estimador.ts:91— asi que se aprieta el interlineado en vez de
+       recortar el texto. */
+    .est-opcion--foto .est-opcion-tarifa {
+      margin-top: .25rem;
+      font-size: 11.5px;
+      line-height: 1.25;
+    }
+
+    /* Pasos 4 a 7 en filas apretadas: mas densas y mas rapidas de escanear que
+       la tarjeta grande que eran. El radio nativo se queda —hay ancho de sobra—
+       porque es la senal de estado mas clara que existe y no cuesta CSS. */
+    .est-opciones--una .est-opcion,
+    .est-opcion--corta {
+      gap: .6rem;
+      min-height: 56px;
+      padding: .7rem .85rem;
+    }
+
+    .est-opciones--una .est-opcion-nota {
+      font-size: 12px;
+    }
+
+    .est-pie-cifra {
+      font-size: 18px;
+    }
+
+    .est-pie-mando {
+      font-size: 12px;
     }
 
     .est-medida input {
@@ -1683,6 +2170,35 @@ const paginaActual = Astro.url.pathname;
 
     .est-omitir {
       margin-left: 0;
+    }
+  }
+
+  /* Por debajo de 360 la columna de una tarjeta con foto baja de 160px y el
+     rotulo se parte en cuatro lineas. Ahi la fila —foto a la izquierda— aprovecha
+     mejor el ancho que dos columnas, y cabe la nota otra vez. */
+  @media (max-width: 359px) {
+    .est-opciones {
+      grid-template-columns: 1fr;
+    }
+
+    .est-opcion--foto {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .est-opcion--foto .est-opcion-nota {
+      display: block;
+    }
+
+    .est-foto {
+      aspect-ratio: 1;
+      flex: none;
+      width: 84px;
+    }
+
+    .est-opcion--foto .est-opcion-fila {
+      flex: 1;
+      padding: .7rem .8rem;
     }
   }
 

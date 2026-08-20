@@ -91,14 +91,57 @@ const css = (
   )
 ).join('\n');
 
+// --- 2b. Trocear por media query ---------------------------------------------
+//
+// El minificador reescribe `max-width: 991px` a la sintaxis de rango
+// `(width<=991px)`. Cualquier asercion que busque "max-width" sale en verde por
+// no encontrar NADA que mirar, que es el peor modo de fallo que puede tener una
+// puerta. Se aceptan las dos formas y, si no aparece ninguna, se falla.
+const bloqueMedia = (fuente, px) => {
+  const re = new RegExp(`@media[^{]*(?:width\\s*<=\\s*${px}px|max-width:\\s*${px}px)[^{]*\\{`, 'g');
+  let out = '';
+  for (const m of fuente.matchAll(re)) {
+    let i = m.index + m[0].length;
+    let prof = 1;
+    while (i < fuente.length && prof) {
+      if (fuente[i] === '{') prof++;
+      else if (fuente[i] === '}') prof--;
+      i++;
+    }
+    out += fuente.slice(m.index, i);
+  }
+  return out;
+};
+
+/** El CSS sin ningun bloque @media: lo que aplica siempre, en cualquier ancho. */
+const sinMedia = (() => {
+  let out = '';
+  for (let i = 0; i < css.length; ) {
+    const j = css.indexOf('@media', i);
+    if (j === -1) { out += css.slice(i); break; }
+    out += css.slice(i, j);
+    let k = css.indexOf('{', j);
+    let prof = 1;
+    k++;
+    while (k < css.length && prof) {
+      if (css[k] === '{') prof++;
+      else if (css[k] === '}') prof--;
+      k++;
+    }
+    i = k;
+  }
+  return out;
+})();
+
 // --- 3. Cuantas clases .est-* sobreviven -------------------------------------
 //
 // Un recuento minimo, no "existe alguna regla": una sola superviviente daria
 // verde con la hoja entera perdida. El fallo real es binario —o llega el bloque
 // completo o no llega ninguno— asi que el suelo solo tiene que estar por encima
-// de cero y por debajo de lo que hay. Hoy son ~27; 20 deja margen para reordenar
-// la hoja sin que la puerta se vuelva un incordio.
-const SUELO = 20;
+// de cero y por debajo de lo que hay. Medido: 65 clases. El 20 de antes venia
+// con un comentario que decia "~27" y llevaba tiempo sin ser verdad — con 65
+// reales, un suelo de 20 daba verde con dos tercios de la hoja perdidos.
+const SUELO = 50;
 const clases = new Set([...css.matchAll(/\.(est-[a-z0-9-]+)/g)].map((m) => m[1]));
 decir(
   clases.size >= SUELO,
@@ -151,11 +194,17 @@ for (const clase of ['est-bloque', 'est-opcion', 'est-panel', 'est-resultado', '
 // produccion. Es la misma familia que la regresion de CLS que documenta
 // src/styles/imagenes.css: declarar una sola dimension y dejar que el navegador
 // combine atributo y hoja.
-const reglaFoto = css.match(/\.est-foto\[[^\]]*\]\{[^}]*\}/)?.[0] ?? '';
+//
+// La garantia real es que lo declare la regla INCONDICIONAL: esa aplica a toda
+// foto en todo ancho, asi que el atributo horneado no gana nunca, aunque las
+// media queries luego solo toquen aspect-ratio o width. Mirar la primera regla
+// que apareciera —lo que hacia antes— era mirar la que el minificador decidiera
+// poner delante, que hoy es una del bloque movil.
+const reglaBaseFoto = sinMedia.match(/\.est-foto\[[^\]]*\][^{]*\{[^}]*\}/)?.[0] ?? '';
 decir(
-  /(^|;|\{)\s*height\s*:/.test(reglaFoto),
-  '.est-foto declara height en CSS, para que el atributo horneado no mande',
-  [reglaFoto || '(no hay regla .est-foto en el CSS del build)'],
+  /(^|;|\{)\s*height\s*:/.test(reglaBaseFoto),
+  '.est-foto declara height fuera de toda media query (el atributo horneado no manda)',
+  [reglaBaseFoto || '(no hay regla .est-foto incondicional en el CSS del build)'],
 );
 
 const conFoto = [...(htmls.get(PAGINAS[0]) ?? '').matchAll(/<img[^>]*class="est-foto"[^>]*>/g)];
@@ -164,6 +213,83 @@ decir(
   `las ${conFoto.length} fotos del paso 1 llevan sus dimensiones horneadas`,
   conFoto.filter((m) => !/height="\d+"/.test(m[0])).map((m) => m[0].slice(0, 90)),
 );
+
+// --- 5c. El bloque movil ------------------------------------------------------
+//
+// El movil del estimador no es "el mismo diseno mas estrecho": es otro reparto de
+// controles —la cifra y la navegacion se mudan a una barra fija en el borde
+// inferior— y vive entero dentro de un @media. Si ese bloque se pierde, la pagina
+// sigue construyendo y sigue viendose bien EN ESCRITORIO: el fallo solo aparece en
+// un telefono, que es justo donde nadie mira antes de desplegar.
+const MOVIL = bloqueMedia(css, 991);
+
+// Esta va primera y las de abajo dependen de ella: si el minificador vuelve a
+// cambiar de sintaxis, MOVIL sale vacio y todas las demas darian verde por no
+// tener nada que mirar.
+decir(
+  MOVIL.length > 200,
+  `existe el bloque @media de 991px con reglas del estimador (${MOVIL.length} bytes)`,
+  ['no se ha encontrado: revisa la sintaxis que emite el minificador (hoy `(width<=991px)`)'],
+);
+
+decir(
+  /\.est-panel\[[^\]]*\][^{]*\{[^}]*position:fixed/.test(MOVIL),
+  '.est-panel se ancla al borde inferior (position:fixed) en el bloque movil',
+);
+
+// Sin esto la barra se come el ultimo tramo de cada paso y nadie lo ve hasta que
+// falta el boton de enviar.
+decir(
+  /\.est-pasos\[[^\]]*\][^{]*\{[^}]*padding-bottom:/.test(MOVIL),
+  '.est-pasos reserva el hueco inferior que ocupa la barra',
+);
+
+decir(
+  /env\(safe-area-inset-bottom\)/.test(MOVIL),
+  'el bloque movil descuenta env(safe-area-inset-bottom) (el iPhone con notch)',
+);
+
+// La barra sustituye a los botones flotantes del sitio; si vuelven, se apilan
+// encima de ella justo en la zona del pulgar.
+decir(
+  /\.botones-flotantes[^{]*\{[^}]*display:none/.test(MOVIL),
+  'los botones flotantes del sitio se apagan en esta pagina',
+);
+
+// Por debajo del scrim del menu movil (z-index 15, src/styles/menu.css) y del
+// nav (20). En 16 la barra se veia nitida y pulsable sobre el fondo oscurecido.
+const z = Number(MOVIL.match(/\.est-panel\[[^\]]*\][^{]*\{[^}]*z-index:(\d+)/)?.[1]);
+decir(
+  Number.isInteger(z) && z < 15,
+  `la barra se apila por debajo del scrim del menu movil (z-index ${z || 'ausente'} < 15)`,
+);
+
+// El desglose estaba oculto en movil cuando el panel vivia arriba y competia con
+// el formulario. Ahora esta detras de un toque: si vuelve a apagarse, la hoja se
+// queda vacia y el detalle desaparece del telefono sin que falle nada.
+decir(
+  !/\.est-desglose\[[^\]]*\][^{]*\{[^}]*display:none/.test(MOVIL),
+  '.est-desglose sigue disponible en movil (dentro de la hoja desplegable)',
+);
+
+// La guarda del [hidden]: .w-button trae display:inline-block, que es regla de
+// autor y gana al [hidden]{display:none} del user-agent. Sin ella el boton que
+// el script marca oculto se sigue viendo. Va contra el CSS entero porque no
+// depende del ancho.
+decir(
+  /\.button\[[^\]]*\]\[hidden\]|\[hidden\]\[[^\]]*\]\.button/.test(css),
+  'existe la guarda [hidden] de los .button (si no, .w-button los deja visibles)',
+);
+
+// Area tactil de los controles de la barra: es la unica navegacion que queda en
+// movil, asi que 44px no es un detalle de estilo.
+const chicos = [...MOVIL.matchAll(/\.est-(?:desplegar|pie-nav [a-z.]*button)\[[^\]]*\][^{]*\{[^}]*\}/g)]
+  .map((m) => m[0])
+  .filter((r) => {
+    const px = Number(r.match(/min-height:\s*(\d+)/)?.[1] ?? 0);
+    return px > 0 && px < 44;
+  });
+decir(chicos.length === 0, 'ningun control de la barra baja de 44px de area tactil', chicos);
 
 // --- 6. Las tarifas, afirmadas sobre el modulo real --------------------------
 //

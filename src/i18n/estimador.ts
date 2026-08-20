@@ -146,6 +146,9 @@ export interface TextosEstimador {
     partidaAgua: string;
     partidaMejoras: string;
     enviando: string;
+    /** El rotulo del desplegable de la barra movil: el JS lo intercambia. */
+    verDesglose: string;
+    ocultarDesglose: string;
   };
 }
 
@@ -355,6 +358,8 @@ export const ESTIMADOR_EN: TextosEstimador = {
     partidaAgua: 'Waterfront lot',
     partidaMejoras: 'Enhancements',
     enviando: 'Sending…',
+    verDesglose: 'View breakdown',
+    ocultarDesglose: 'Hide breakdown',
   },
 };
 
@@ -563,5 +568,7 @@ export const ESTIMADOR_ES: TextosEstimador = {
     partidaAgua: 'Parcela frente al agua',
     partidaMejoras: 'Mejoras',
     enviando: 'Enviando…',
+    verDesglose: 'Ver desglose',
+    ocultarDesglose: 'Ocultar desglose',
   },
 };
