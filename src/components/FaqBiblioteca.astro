@@ -410,6 +410,12 @@ const anclable = (tema: Tema) => TEMAS_FICHA.has(tema);
       a.addEventListener('click', (e) => {
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
+        // El href del chip lleva ancla (#c-<chip>) para que sin JS el navegador
+        // salte a la seccion. Con JS, webflow.js tiene un manejador de anclas
+        // DELEGADO en document que corre despues de este y hace su propio
+        // pushState del hash: sin cortar la propagacion cada clic dejaba DOS
+        // entradas de historial y el boton atras no volvia a ningun sitio.
+        e.stopPropagation();
         chip = a.dataset.cat!;
         tema = '';
         aplicar();
