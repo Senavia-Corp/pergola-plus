@@ -376,10 +376,14 @@
     {
       "ruta": "/contact-us/get-in-touch",
       "idsV": 31,
-      "idsG": 30,
+      "idsG": 27,
       "faltan": [],
       "sobran": [],
-      "declarados": [],
+      "declarados": [
+        "e2f2465a-47b0-b46c-8bcb-683e8ff0f22b",
+        "15b709b4-f6d7-0064-6f7b-160d6783adab",
+        "e2f2465a-47b0-b46c-8bcb-683e8ff0f243"
+      ],
       "delShell": [
         "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
@@ -398,8 +402,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 738,
-      "palabrasG": 811,
-      "deltaTexto": 0.0989159891598916
+      "palabrasG": 808,
+      "deltaTexto": 0.0948509485094851
     },
     {
       "ruta": "/contact-us/schedule-a-visit",

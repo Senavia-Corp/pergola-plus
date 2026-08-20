@@ -25,7 +25,11 @@
 
   background-color: var(--pp-c-campo);
   color: #fff;
-  padding: clamp(3.5rem, 7vw, 5.5rem) 2rem clamp(4rem, 8vw, 6rem);
+  /* El 85px NO es un margen de gusto: `nav.menu` es `position: fixed`, asi que no
+     ocupa sitio en el flujo y esta seccion empieza en y=0, POR DETRAS del nav. De ahi
+     salia el `padding: 12rem` del original. Medido sin este calc: 3px de aire entre
+     el borde del nav y el primer texto. */
+  padding: calc(85px + clamp(2.5rem, 5vw, 4rem)) 2rem clamp(4rem, 8vw, 6rem);
 }
 
 .pp-contacto__inner {
@@ -95,18 +99,18 @@
   display: grid;
   /* Columna fija para el icono: asi los cuatro cuerpos de texto arrancan en la MISMA
      vertical aunque los iconos no midan igual. El original los alineaba de vista. */
-  grid-template-columns: 2.75rem minmax(0, 1fr);
-  gap: .875rem;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: .75rem;
   align-items: start;
   background-color: var(--pp-c-tinte);
   border: 1px solid var(--pp-c-borde);
   border-radius: 14px;
-  padding: 1.125rem 1.25rem;
+  padding: 1.0625rem 1.125rem;
 }
 
 .pp-dato__icono {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
   display: grid;
   place-items: center;
   border-radius: 10px;
@@ -147,6 +151,11 @@
 }
 
 .pp-dato__valor:hover { text-decoration-color: #fff; }
+
+/* Un pelo mas pequeño que el rotulo: con 15px el correo de 27 caracteres se partia
+   a mitad del dominio —"…plusflorida." / "com"— dentro de una ficha de 280px. */
+.pp-dato__valor,
+.pp-dato__texto { font-size: .875rem; }
 
 /* El horario NO es un enlace: en el markup migrado los cuatro bloques —correo,
    direccion y horario incluidos— iban envueltos en el MISMO `tel:`, y ademas con un
@@ -303,7 +312,10 @@ select.pp-control {
   background-color: #fff;
   border: 1px solid #d9d2c4;
   border-radius: 999px;
-  padding: .5625rem 1rem;
+  /* 44px de alto: medido, con solo el padding se quedaban en 38. Pasa el minimo de
+     WCAG 2.2 AA (24px) igualmente, pero 38px en un dedo es una diana incomoda. */
+  min-height: 44px;
+  padding: .5rem 1rem;
   cursor: pointer;
   transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }

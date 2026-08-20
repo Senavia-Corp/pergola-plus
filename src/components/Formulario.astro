@@ -136,6 +136,13 @@ import '../styles/formulario.css';
     const control = form.elements[campo];
     const el = control instanceof RadioNodeList ? control[0] : control;
     if (!el) return null;
+    // Nombre corto SOLO para el resumen. Existe porque el nombre accesible de un
+    // campo y su rotulo en una lista de «revisa estos campos» no siempre pueden ser
+    // el mismo texto: el consentimiento SMS es un parrafo legal de 300 caracteres, y
+    // ese parrafo TIENE que seguir siendo su <label> —es lo que se acepta— pero como
+    // vineta del resumen es ilegible, y un lector de pantalla lo recita entero.
+    // Ningun otro formulario lo declara, asi que para ellos no cambia nada.
+    if (el.dataset.rotulo) return el.dataset.rotulo;
     if (el.id) {
       const lab = form.querySelector(`label[for="${el.id}"]`);
       if (lab) return lab.textContent.trim();

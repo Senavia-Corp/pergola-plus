@@ -54,6 +54,9 @@ export interface CopiaContacto {
     mensaje: string;
     mensajeApoyo: string;
     sms: string;
+    /** Nombre corto del consentimiento en el resumen de errores: el texto legal
+     *  entero es su <label> y ahi se queda, pero como vineta no se puede leer. */
+    smsRotulo: string;
     enviar: string;
     /** `data-wait` del submit. check:i18n lo inspecciona: es un atributo VISIBLE
      *  y dejarlo en ingles en /es/ es fallo, no aviso. */
@@ -172,6 +175,7 @@ export const CONTACTO_EN: CopiaContacto = {
     mensaje: 'Message:',
     mensajeApoyo: 'Tell us more about what you need',
     sms: 'I consent to receive SMS communications from Pergola Plus Florida regarding project updates, design consultations, scheduling, and promotional information. I understand I may opt out at any time by replying STOP. Message and data rates may apply.',
+    smsRotulo: 'SMS consent',
     enviar: 'Submit Inquiry',
     espere: 'Please wait...',
     legalAntes: 'By submitting this form, you agree to our',
@@ -265,6 +269,7 @@ export const CONTACTO_ES: CopiaContacto = {
     mensaje: 'Mensaje:',
     mensajeApoyo: 'Cuéntenos qué necesita',
     sms: 'Doy mi consentimiento para recibir comunicaciones por SMS de Pergola Plus Florida sobre novedades del proyecto, consultas de diseño, citas e información promocional. Entiendo que puedo darme de baja en cualquier momento respondiendo STOP. Pueden aplicarse tarifas de mensajes y datos.',
+    smsRotulo: 'Consentimiento SMS',
     enviar: 'Enviar consulta',
     espere: 'Espere...',
     legalAntes: 'Al enviar este formulario, acepta nuestros',
