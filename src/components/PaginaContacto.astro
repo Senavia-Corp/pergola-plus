@@ -56,7 +56,10 @@ const DATOS = [
         {DATOS.map((d) => (
           <li class="pp-dato">
             <span class="pp-dato__icono">
-              <img src={d.icono} alt="" width="20" height="20" loading="lazy" />
+              {/* `eager` y no `lazy`: estas cuatro fichas estan SIEMPRE sobre la linea de
+                  flotacion, asi que diferirlas solo retrasa su pintado. Medido en la
+                  produccion: los iconos entraban un instante despues del resto del panel. */}
+              <img src={d.icono} alt="" width="20" height="20" loading="eager" decoding="async" />
             </span>
             <div>
               <div class="pp-dato__rotulo">{d.rotulo}</div>
