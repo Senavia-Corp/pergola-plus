@@ -1,0 +1,350 @@
+/* =============================================================================
+   El carrusel «Latest Outdoor Living Insights», en las 72 URLs donde sale.
+   =============================================================================
+
+   POR QUE ESTA HOJA Y NO SE EDITA NI EL CSS DE WEBFLOW NI EL MARKUP
+
+   El markup de esta seccion vive en 36 ficheros de src/contenido-migrado/, que
+   es SALIDA GENERADA: check:generadores corre los generadores y diffea, asi que
+   una edicion a mano revierte en el siguiente generar-paginas.mjs y ademas tumba
+   la puerta. Y public/css/pergola-plus-florida.webflow.css es un export: la
+   proxima exportacion se lo lleva entero.
+
+   Asi que todo se hace desde aqui, sin tocar una sola etiqueta. Sale barato
+   porque las clases de esta seccion son SUYAS y de nadie mas. Contado sobre los
+   fragmentos, no supuesto:
+
+     .blog-card                    360 = 36 paginas x 10 slides
+     .fs-slider_button              72 = 36 x 2
+     .fs-slider_list / _pagination  36 = una por pagina
+     .blog / .header-blog           36 cada una
+
+   Los otros 91 carruseles del sitio van con espacio de nombres
+   (fs-slider-projects_*, fs-slider-gallery-section_*, fs-slider-feature-gallery_*,
+   fs-slider-industries_*, fs-slider-resenas_*), asi que el bloque generico
+   fs-slider_* es el del blog y restilarlo NO se filtra a ningun otro sitio.
+   Y carrusel.css nunca toca ese bloque por clase, solo por atributo: cero
+   conflicto con el scroll.
+
+   La excepcion es .title-deco, con 286 usos en el sitio. Por eso va SIEMPRE
+   como `.blog .title-deco` y nunca a secas.
+
+   QUE SE ARREGLA, MEDIDO EN EL NAVEGADOR A 1440 ANTES DE TOCAR NADA
+
+   1. La tarjeta no existia como objeto. .blog-card era `flex-flow: column` y ya:
+      background rgba(0,0,0,0), border-radius 0px, box-shadow none. Cuatro
+      bloques de texto sueltos sobre blanco. Las otras cuatro tarjetas del sitio
+      son concha crema + radio 8px + sombra 0 2px 5px #0003.
+
+   2. Los CTA no se alineaban: 601 / 601 / 627 / 627 px. 26 px de desfase, el
+      mismo que se ve en la captura del cliente.
+
+      La causa NO era el margin-top del enlace, que es lo que parecia. Era
+      `.fs-slider_list { align-items: start }`: con eso cada slide se queda a su
+      altura de contenido, asi que el `height: 100%` de .blog-card no tiene
+      contra que resolverse y las tarjetas median 340 / 340 / 366 / 366. El
+      `align-items: stretch` del slide estiraba la tarjeta DENTRO de un slide que
+      ya venia corto. Arreglar solo el enlace habria dejado el desfase intacto.
+
+      Medido el rango completo de las 10: min 340, max 366. Igualar cuesta 26 px.
+
+   3. Sin clamps. Los titulos van a 2-3 lineas y los extractos a 2; hoy nada lo
+      garantiza y el espanol es mas largo que el ingles.
+
+   4. La imagen media 281x150 — relacion 1,87, practicamente 16:9. Leia como
+      banda, no como foto. El resto del sitio usa 250/300 px o aspect-ratio 3/2.
+
+   5. Categoria y fecha compartian .text-mini-blog a 10px/400: mismo tamano,
+      mismo peso, cero jerarquia. Y la pildora no declaraba border-radius cuando
+      todas las demas del sitio llevan 4 px.
+
+   6. El CTA no leia como accion: var(--black), mismo peso que el cuerpo, sin
+      fondo ni borde ni padding. Es el mismo diagnostico que tarjetas.css escribio
+      para «Explore More ->», y se resuelve igual.
+
+   7. Cero feedback al hover en la tarjeta: solo el enlace se corria 5 px.
+
+   8. Al tabular, las flechas redondas se volvian cuadradas. accesibilidad.css
+      tiene `button:focus-visible { border-radius: 2px }`, que es (0,1,1) y le
+      gana a .fs-slider_button (0,1,0) con su border-radius de 1005px.
+
+   9. A <=991 el eyebrow se centraba solo. Webflow mete
+      `.title-deco { text-align: center }` en ese breakpoint, pero .header-blog
+      sigue alineada a la izquierda hasta 479: eyebrow centrado sobre un H2 a la
+      izquierda.
+
+   LA REFERENCIA
+
+   No se inventa nada. /resources/blog ya sirve esta misma tarjeta resuelta:
+   .pp-card, en blog.css:139-280. Mismo contenido — imagen, pildora, fecha, h3,
+   extracto, «Read More» — y mismos valores. Aqui se converge con ella para que
+   el visitante vea el mismo objeto entre en la seccion o en el listado.
+
+   Los tokens salen de tarjetas.css (--pp-card-radio, --pp-card-sombra,
+   --pp-card-sombra-hover, --pp-card-transicion). No se declara un :root propio a
+   proposito: asi la tarjeta de blog es el MISMO objeto que la de producto por
+   construccion, no por coincidencia. Esta hoja se importa despues que aquella.
+
+   LO QUE NO SE ARREGLA AQUI
+
+   Tres cosas necesitan scripts/lib/transformar.mjs y quedan fuera de alcance.
+   Van escritas para que el proximo que pase no las de por buenas:
+
+     a) Las 10 miniaturas llevan alt="". Son la imagen principal de una tarjeta
+        de contenido, no decoracion.
+     b) Los 10 enlaces se llaman todos «Read More ->». WCAG 2.4.4 (proposito del
+        enlace) pide que se distingan. Estirar el area de pulsado NO lo empeora
+        —el nombre ya era ese— pero tampoco lo arregla.
+     c) El titulo no es el enlace. .pp-card lo resolvio metiendo el <a> dentro
+        del <h3>; aqui el <h3> es texto pelado y CSS no puede moverlo.
+
+   Y los puntos siguen siendo pointer-events:none. Son indicadores, no controles:
+   la decision esta tomada y explicada en carrusel.css.
+   ============================================================================= */
+
+/* --- alturas iguales -------------------------------------------------------
+   Ver el punto 2 de arriba: esto es lo que alinea los CTA, no el margin-top.
+   Todas las tarjetas pasan a la altura de la mas alta de las 10 (26 px de
+   diferencia medidos), y los clamps de mas abajo evitan que ese rango crezca. */
+.fs-slider_list {
+  align-items: stretch;
+}
+
+/* --- la tarjeta como objeto ------------------------------------------------
+   position:relative es ademas el requisito del enlace estirado del final: sin
+   el, el ::after se resolveria contra el <a>.
+   overflow:hidden recorta la imagen al radio, que es como lo hacen
+   .product-card-page y .pp-card. */
+.blog-card {
+  position: relative;
+  background-color: var(--secundary);
+  border-radius: var(--pp-card-radio);
+  box-shadow: var(--pp-card-sombra);
+  overflow: hidden;
+}
+
+/* --- la imagen -------------------------------------------------------------
+   El `height: auto` va PRIMERO y no es cosmetico: aspect-ratio calcula la
+   dimension que NO esta declarada. .box-card-blog-image trae `height: 150px`
+   explicito del CSS migrado, asi que sin anularlo aspect-ratio derivaria el
+   ANCHO y desbordaria la columna. Con height:auto el ancho sigue siendo el
+   100% de Webflow y lo que se deriva es el alto, que es lo que queremos.
+
+   border-radius:0 porque ahora recorta la tarjeta. El fondo gris se ve mientras
+   carga, igual que en .pp-card. */
+.box-card-blog-image {
+  height: auto;
+  aspect-ratio: 3 / 2;
+  border-radius: 0;
+  background-color: var(--gray);
+}
+
+/* --- la meta ---------------------------------------------------------------
+   El markup no tiene un envoltorio de cuerpo que agrupe meta y texto: son dos
+   hermanos sueltos dentro de .blog-card. Asi que el aire lateral va repartido,
+   margin aqui y padding en el bloque de texto. Mismo valor en los dos.
+
+   `.card-blog-info > .text-mini-blog` es SOLO la fecha: la categoria lleva la
+   misma clase pero cuelga de .box-card-blog-info, o sea que es nieta. */
+.card-blog-info {
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 1.25rem .25rem;
+}
+
+.box-card-blog-info {
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+.box-card-blog-info .text-mini-blog {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.card-blog-info > .text-mini-blog {
+  color: var(--terceary);
+  font-size: 12px;
+}
+
+/* --- el bloque de texto ----------------------------------------------------
+   Sin clase en el markup, de ahi el selector estructural. Es el ultimo hijo:
+   imagen, meta, texto.
+
+   flex:1 en columna es lo que deja al CTA empujarse al fondo con margin-top:auto.
+   Los clamps estabilizan la altura para que el stretch de arriba no tenga que
+   absorber un titulo desbocado. */
+.blog-card > div:last-child {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.blog-card h3 {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  margin: 0 0 .5rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.blog-card h3 + div {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+/* --- el CTA y la clicabilidad ----------------------------------------------
+   Se estira el unico <a> de la tarjeta sobre toda su superficie. Verificado en
+   el markup: 10 tarjetas, 10 <a>, ninguno anidado, asi que no hay enlaces
+   dentro de enlaces ni dos paradas de tabulador.
+
+   La mecanica es la de tarjetas.css: el enlace pasa a position:static para que
+   su ::after se resuelva contra .blog-card y no contra si mismo. Ese ::after NO
+   es nuevo — existe en accesibilidad.css como parche de area tactil, con
+   height:100%, min-height:24px y centrado por top:50% + translateY. Aqui se
+   reaprovecha estirandolo, y por eso hay que deshacer sus cuatro declaraciones
+   una por una. */
+.blog-card-link {
+  color: var(--primary);
+  margin-top: auto;
+  padding-top: .75rem;
+  font-weight: 500;
+  position: static;
+}
+
+.blog-card-link::after {
+  inset: 0;
+  height: auto;
+  min-height: 0;
+  transform: none;
+  border-radius: var(--pp-card-radio);
+}
+
+/* Webflow trae `.blog-card-link:hover { transform: translate(5px) }` SIN guarda
+   de movimiento reducido. Se neutraliza aqui y se vuelve a poner, mas corto y
+   colgando del hover de la tarjeta, dentro del bloque del final. */
+.blog-card-link:hover {
+  transform: none;
+}
+
+/* --- el cromo --------------------------------------------------------------
+   Los puntos eran circulos de 1rem: pesaban mas que el contenido que indican.
+   El activo pasa a pildora, que se distingue por forma y no solo por color.
+
+   El :focus-visible devuelve el radio: sin el, accesibilidad.css deja la flecha
+   cuadrada al tabular (ver punto 8 de la cabecera). */
+.fs-slider_pagination {
+  gap: .5rem;
+}
+
+.fs-slider_pagination_bullet {
+  width: .5rem;
+  height: .5rem;
+}
+
+.fs-slider_pagination_bullet.is-bullet-active {
+  border-radius: 999px;
+  width: 1.25rem;
+}
+
+/* El cambio de color se queda FUERA del bloque de movimiento reducido: es el
+   feedback de «esto es pulsable», no un adorno. */
+.fs-slider_button {
+  cursor: pointer;
+  border: 0;
+  justify-content: center;
+  align-items: center;
+  transition: background-color .25s;
+  display: inline-flex;
+}
+
+.fs-slider_button:hover {
+  background-color: var(--terceary);
+}
+
+.fs-slider_button:focus-visible {
+  border-radius: 1005px;
+}
+
+/* --- la cabecera de la seccion ---------------------------------------------
+   El patron moderno del sitio es el de contacto.css: mayusculas con tracking.
+   Va como `.blog .title-deco` porque la clase suelta toca 286 elementos. */
+.blog .title-deco {
+  color: var(--terceary);
+  margin-bottom: .5rem;
+  font-size: .8125rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* El padding-inline alinea la cabecera con el carrusel. Medido a 1440: los
+   puntos, la paginacion, la primera tarjeta y el ultimo boton caen todos en
+   111px y 1329px — el carril es un bloque simetrico metido 16px respecto al
+   contenedor, que son el `padding: 1rem` de .fs-slider_slide. El unico fuera de
+   eje era la cabecera, en 95px. Antes no se veia porque la tarjeta no tenia
+   superficie; con la concha crema el H2 queda colgando a la izquierda.
+
+   Se mueve la cabecera y NO el carril: tocar el padding de los slides cambia el
+   ancho de tarjeta y el scrollWidth, y el carril ya esta bien consigo mismo.
+
+   `padding-inline` y no `padding-left`: a <=479 .header-blog se centra
+   (text-align:center + margin-left:auto), y un padding de un solo lado le
+   correria el centro 8px. Simetrico no. */
+.header-blog {
+  margin-bottom: 3rem;
+  padding-inline: 1rem;
+}
+
+.header-blog > div:last-child {
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+/* Webflow centra .title-deco a <=991 mientras .header-blog sigue a la izquierda
+   hasta 479. `inherit` la devuelve al eje de su cabecera: izquierda hasta 479,
+   centro por debajo, que es donde .header-blog si se centra. */
+@media (max-width: 991px) {
+  .blog .title-deco {
+    text-align: inherit;
+  }
+}
+
+/* --- movimiento ------------------------------------------------------------
+   Todo lo que se mueve, aqui dentro. Los mismos valores que .pp-card, que es
+   con quien esta tarjeta converge. */
+@media (prefers-reduced-motion: no-preference) {
+  .blog-card {
+    transition:
+      box-shadow var(--pp-card-transicion),
+      transform var(--pp-card-transicion);
+  }
+
+  .blog-card:hover {
+    box-shadow: var(--pp-card-sombra-hover);
+    transform: translateY(-4px);
+  }
+
+  .card-blog-image {
+    transition: transform .25s ease;
+  }
+
+  .blog-card:hover .card-blog-image {
+    transform: scale(1.04);
+  }
+
+  /* Cuelga del hover de la TARJETA, no del enlace: ahora el enlace cubre toda
+     la superficie, asi que son el mismo gesto, pero escrito asi se lee lo que
+     pasa. */
+  .blog-card:hover .blog-card-link {
+    transform: translateX(4px);
+  }
+}

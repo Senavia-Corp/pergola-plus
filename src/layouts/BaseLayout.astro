@@ -26,6 +26,12 @@ import '../styles/faq.css';
 // accesibilidad.css: reutiliza el ::after que aquella pone sobre
 // .product-card-link-page, asi que tiene que resolverse despues que ella.
 import '../styles/tarjetas.css';
+// El carrusel de blog «Latest Outdoor Living Insights», en las 72 URLs donde
+// sale la seccion. VA AQUI y no antes: reutiliza los tokens de tarjetas.css y
+// estira el ::after que accesibilidad.css pone sobre .blog-card-link, asi que
+// tiene que resolverse DESPUES de las dos. Y antes de cotizacion.css, que sigue
+// siendo la ultima por lo que explica su propio comentario.
+import '../styles/blog-carrusel.css';
 // El formulario multipaso de /contact-us/get-a-quote. VA LA ULTIMA por lo mismo:
 // tiene que ganarle al `.w-input:focus { outline: 0 }` de webflow.css, que hoy
 // deja los campos de ese formulario SIN anillo de foco.
