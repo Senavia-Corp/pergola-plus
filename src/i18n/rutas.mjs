@@ -95,6 +95,9 @@ export const TRADUCIDAS = {
   '/products/solar-pergolas': '/es/products/solar-pergolas/',
   '/products/sukkha': '/es/products/sukkha/',
   // Las 10 fichas de proyecto. Diccionario en src/i18n/proyectos.es.ts.
+  '/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club': '/es/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club/',
+  '/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club': '/es/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club/',
+  '/project/custom-sukkah-pergola-at-boca-beach': '/es/project/custom-sukkah-pergola-at-boca-beach/',
   '/project/attached-forte-pergola-in-west-palm-beach': '/es/project/attached-forte-pergola-in-west-palm-beach/',
   '/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton': '/es/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton/',
   '/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach': '/es/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach/',

@@ -138,4 +138,56 @@ export const PROYECTOS_ES: Record<string, ProyectoEs> = {
         'Estas pérgolas FORTE Plus a medida en Hillsboro Beach, condado de Broward, se diseñaron para una finca de lujo frente a la playa que exigía durabilidad estructural y una integración cuidada. Calculadas para cumplir o superar la normativa de Florida, aguantan a largo plazo unas condiciones de costa y de salitre exigentes. Colocadas en el frente de la finca, mirando a la playa, amplían el exterior sin tapar las vistas al agua. Las instaló nuestro equipo con licencia con materiales de calidad y precisión de oficio.',
     },
   },
+  // ---- Los tres proyectos que NO vienen del CMS de Webflow ----
+  // Ver scripts/lib/proyectos-destacados.mjs: el ingles de aqui abajo sale de
+  // ese modulo, asi que si alli cambia un texto hay que traerlo tambien aqui o
+  // check:i18n baja de cobertura y avisa.
+  'forte-pergola-with-outdoor-kitchen-at-elan-polo-club': {
+    nombre: 'Pérgola FORTE con cocina exterior en Elan Polo Club',
+    title: 'Pérgola FORTE con cocina exterior | Elan Polo Club',
+    description:
+      'Pérgola de aluminio exenta con tramos de lamas y de techo macizo, luz empotrada y cocina exterior, como pieza central de la zona común de Elan Polo Club.',
+    dic: {
+      'FORTE Pergola with Outdoor Kitchen at Elan Polo Club':
+        'Pérgola FORTE con cocina exterior en Elan Polo Club',
+      'FORTE Pergola & Outdoor Kitchen | Elan Polo Club':
+        'Pérgola FORTE con cocina exterior | Elan Polo Club',
+      'A freestanding aluminum pergola built as the centerpiece of the amenity lawn at Elan Polo Club. The structure carries two roof systems in one frame: an open louvered section that filters the afternoon sun, and a solid insulated section with recessed downlights and ceiling fans that keeps the dining area comfortable through a South Florida summer. Underneath, a travertine patio and a built-in outdoor kitchen turn a stretch of turf into the space residents actually gather in. The powder-coated aluminum frame is engineered for Florida conditions and asks for no seasonal upkeep.':
+        'Una pérgola de aluminio exenta, levantada como pieza central de la zona común de Elan Polo Club. La estructura lleva dos sistemas de techo en un mismo bastidor: un tramo de lamas abiertas que tamiza el sol de la tarde y otro macizo con aislamiento, luz empotrada y ventiladores, que mantiene cómoda la zona de comedor durante todo el verano del sur de Florida. Debajo, un patio de travertino y una cocina exterior de obra convierten una franja de césped en el sitio donde los vecinos se juntan de verdad. El bastidor de aluminio lacado está calculado para las condiciones de Florida y no pide mantenimiento por temporada.',
+      'The two roof systems, the outdoor kitchen and the travertine patio, from the lawn and from under the structure.':
+        'Los dos sistemas de techo, la cocina exterior y el patio de travertino, desde el césped y desde debajo de la estructura.',
+    },
+  },
+  'oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club': {
+    nombre: 'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
+    title: 'Terraza de piscina y cabañas | Jupiter Ocean Club',
+    description:
+      'Terraza de piscina en Jupiter con pavimento de adoquín, franjas de césped y cabañas blancas de techo plano, para una comunidad a pie de océano.',
+    dic: {
+      'Oceanfront Pool Deck & Cabanas at Jupiter Ocean Club':
+        'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
+      'Oceanfront Pool Deck & Cabanas | Jupiter Ocean Club':
+        'Terraza de piscina y cabañas | Jupiter Ocean Club',
+      'A full resort deck for an oceanfront community in Jupiter, a few hundred feet from the Atlantic. The pool is wrapped in wide paver decking that carries through to the walkways, the spa and the turf inlays, so the whole amenity area reads as one surface instead of a patchwork. White flat-roof cabanas line the deck and give shade where residents actually sit, kept low and open so they never block the water views the property is built around. Everything here lives in salt air, and the structures and paving were specified for it.':
+        'Una terraza completa para una comunidad frente al mar en Jupiter, a cien metros del Atlántico. La piscina va envuelta en un pavimento amplio de adoquín que sigue por los paseos, el spa y las franjas de césped, de modo que toda la zona común se lee como una sola superficie y no como un remiendo. Las cabañas blancas de techo plano bordean la terraza y dan sombra justo donde la gente se sienta, bajas y abiertas para no tapar nunca las vistas al agua sobre las que está construida la finca. Aquí todo vive en aire salino, y tanto las estructuras como el pavimento se eligieron pensando en eso.',
+      'The pool deck, the cabanas and the paver walkways, from above and along the water side.':
+        'La terraza de la piscina, las cabañas y los paseos de adoquín, desde el aire y desde el lado del agua.',
+    },
+  },
+  'custom-sukkah-pergola-at-boca-beach': {
+    nombre: 'Sukkah a medida en Boca Beach',
+    title: 'Sukkah a medida en Boca Beach | Terraza de eventos',
+    description:
+      'Sukkah blanca de aire libre sobre la terraza de eventos de Boca Beach, sin apoyos en la zona de mesas y vestida con vegetación y guirnaldas de luz.',
+    dic: {
+      'Custom Sukkah Pergola at Boca Beach':
+        'Sukkah a medida en Boca Beach',
+      'Custom Sukkah Pergola at Boca Beach | Event Terrace':
+        'Sukkah a medida en Boca Beach | Terraza de eventos',
+      'A white open-air sukkah built over the event terrace at Boca Beach, sized to seat a full reception underneath. The frame runs clear across the dining area, so the tables lay out without a post in the middle of the room and the greenery, string lights and florals hang from the beams themselves. The open roof is the point: it is what the structure is for, and it is also what makes the lighting read the way it does after sunset. Built in the same aluminum system as our pergolas, finished in white to disappear against the terrace.':
+        'Una sukkah blanca de aire libre levantada sobre la terraza de eventos de Boca Beach, dimensionada para acoger debajo un banquete entero. El bastidor cruza la zona de comedor de lado a lado, así que las mesas se reparten sin un pilar en medio y la vegetación, las guirnaldas y los arreglos florales cuelgan de las propias vigas. El techo abierto es el sentido de la estructura: es para lo que está, y es también lo que hace que la luz se vea como se ve al caer el sol. Construida con el mismo sistema de aluminio que nuestras pérgolas, acabada en blanco para desaparecer contra la terraza.',
+      'The terrace at dusk and after dark, with the structure dressed for a reception.':
+        'La terraza al atardecer y ya de noche, con la estructura vestida para un banquete.',
+    },
+  },
 };

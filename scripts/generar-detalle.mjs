@@ -35,6 +35,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_FALTANTE } from './lib/transformar.mjs';
 import { parseCSV } from './lib/csv.mjs';
+import { PROYECTOS, ITEMS as ITEMS_PROPIOS, ficha } from './lib/proyectos-destacados.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 
 // Mapa de imagenes del CMS + inventario de lo que hay en public/images/.
@@ -201,6 +202,24 @@ for (const col of COLECCIONES) {
       title: (SEO_DESDE_CMS && s.tituloSeo) || propio.title || m.title,
       description: (SEO_DESDE_CMS && s.descripcionSeo) || propio.description || m.description,
     });
+  }
+
+  // Los tres proyectos que mando el cliente y que NO estan en el CMS de Webflow.
+  // Se escriben aqui, dentro del generador, y no a mano, porque este script
+  // reconstruye _items.json entero en cada pasada: un item anadido a mano
+  // desapareceria en la siguiente regeneracion y check:generadores lo cazaria como
+  // diff. Ver la cabecera de scripts/lib/proyectos-destacados.mjs.
+  //
+  // La ficha se DERIVA de una de las diez del CMS que se acaban de escribir, para
+  // heredar sus contratos de carrusel y lightbox en vez de reescribirlos.
+  if (col.dir === 'project') {
+    const dir = path.join(FRAG, col.dir);
+    const plantilla = await fs.readFile(
+      path.join(dir, 'forte-pergolas-in-greenacres-pool-patio.html'), 'utf8');
+    for (const proyecto of PROYECTOS) {
+      await fs.writeFile(path.join(dir, `${proyecto.slug}.html`), ficha(proyecto, plantilla));
+    }
+    items.push(...ITEMS_PROPIOS);
   }
 
   items.sort((a, b) => a.slug.localeCompare(b.slug));

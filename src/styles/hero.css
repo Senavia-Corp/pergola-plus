@@ -100,3 +100,26 @@
     padding-bottom: 2rem;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   Foto en el hero de una ficha de proyecto
+   -------------------------------------------------------------------------- */
+
+/* Las 10 fichas que vienen del CMS meten un embed de YouTube en .hero_media, y el
+   embed trae su propia relacion (un padding-top del 56,2%). Los tres proyectos que
+   mando el cliente no tienen video, asi que ahi va una <img> — y .hero_media no
+   define tamano, solo `border-radius` y `overflow:hidden`, de modo que sin esta
+   regla la foto sale a su tamano natural: 2000px de ancho dentro de un contenedor
+   de 1250 y casi mil de alto.
+
+   El ancho manda y la altura se deriva. Al reves —fijar la altura y dejar que
+   `aspect-ratio` calcule el ancho— es la trampa que ya documenta decisiones.md:
+   desborda la columna. 16/9 es la misma relacion que el embed de las otras diez,
+   asi que las trece fichas presentan el hero igual. */
+.hero_media > .hero_media-img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
+}

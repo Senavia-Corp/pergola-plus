@@ -43,6 +43,7 @@ import { bajarFaltantes } from './lib/assets-cdn.mjs';
 // La lista de rutas con carrusel de resenas. Vive fuera porque la leen tambien
 // las paginas espanolas: ver la cabecera de ese fichero.
 import { CON_RESENAS } from '../src/lib/resenas-rutas.mjs';
+import { inyectarTarjetas } from './lib/proyectos-destacados.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const VIVO = path.join(RAIZ, 'docs/vivo');
@@ -200,7 +201,11 @@ for (const ruta of RUTAS) {
   const html = await fs.readFile(archivoVivo(ruta), 'utf8');
   const r = reescribirImagenes(cuerpo(html), MAPA, LOCALES);
   for (const u of r.sinResolver) if (!PLACEHOLDERS[u]) sinResolver.add(u);
-  const frag = transformar(r.html, ruta);
+  // Las tres tarjetas de los proyectos propios van AL PRINCIPIO de "Recent
+  // Projects" (/) y de "Featured Projects" (/project-gallery). Se inyectan aqui
+  // y no se editan a mano en el fragmento porque este bucle lo reescribe entero
+  // desde docs/vivo en cada pasada. Lanza si no encuentra la lista.
+  const frag = inyectarTarjetas(transformar(r.html, ruta), ruta);
 
   const nombre = (ruta === '/' ? 'index' : ruta.slice(1).replace(/\//g, '__')) + '.html';
   await fs.writeFile(path.join(FRAG, nombre), frag);

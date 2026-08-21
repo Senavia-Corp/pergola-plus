@@ -280,4 +280,18 @@ export const HOME_ES: Record<string, string> = {
   'Request your free Estimate': 'Solicite su presupuesto gratuito',
   'Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.':
     'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluaremos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o cerramientos de piscina.',
+
+  // Tarjetas de los tres proyectos propios de "Recent Projects".
+  'FORTE Pergola with Outdoor Kitchen at Elan Polo Club':
+    'Pérgola FORTE con cocina exterior en Elan Polo Club',
+  'A freestanding aluminum pergola combining louvered and solid roof sections over a travertine patio and built-in outdoor kitchen.':
+    'Una pérgola de aluminio exenta que reúne un tramo de lamas y otro de techo macizo sobre un patio de travertino con cocina exterior.',
+  'Oceanfront Pool Deck & Cabanas at Jupiter Ocean Club':
+    'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
+  'A resort pool deck steps from the Atlantic, with wide paver decking, turf inlays and white flat-roof cabanas along the water side.':
+    'Una terraza de piscina a un paso del Atlántico, con pavimento amplio de adoquín, franjas de césped y cabañas blancas de techo plano junto al agua.',
+  'Custom Sukkah Pergola at Boca Beach':
+    'Sukkah a medida en Boca Beach',
+  'A white open-air sukkah pergola over an event terrace, clear-span across the dining area and dressed with greenery and string lighting.':
+    'Una sukkah blanca de aire libre sobre una terraza de eventos, sin apoyos en la zona de mesas y vestida con vegetación y guirnaldas de luz.',
 };
