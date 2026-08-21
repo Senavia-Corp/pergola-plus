@@ -150,7 +150,7 @@ export const PROYECTOS_ES: Record<string, ProyectoEs> = {
     dic: {
       'FORTE Pergola with Outdoor Kitchen at Elan Polo Club':
         'Pérgola FORTE con cocina exterior en Elan Polo Club',
-      'FORTE Pergola & Outdoor Kitchen | Elan Polo Club':
+      'FORTE Pergola &amp; Outdoor Kitchen | Elan Polo Club':
         'Pérgola FORTE con cocina exterior | Elan Polo Club',
       'A freestanding aluminum pergola built as the centerpiece of the amenity lawn at Elan Polo Club. The structure carries two roof systems in one frame: an open louvered section that filters the afternoon sun, and a solid insulated section with recessed downlights and ceiling fans that keeps the dining area comfortable through a South Florida summer. Underneath, a travertine patio and a built-in outdoor kitchen turn a stretch of turf into the space residents actually gather in. The powder-coated aluminum frame is engineered for Florida conditions and asks for no seasonal upkeep.':
         'Una pérgola de aluminio exenta, levantada como pieza central de la zona común de Elan Polo Club. La estructura lleva dos sistemas de techo en un mismo bastidor: un tramo de lamas abiertas que tamiza el sol de la tarde y otro macizo con aislamiento, luz empotrada y ventiladores, que mantiene cómoda la zona de comedor durante todo el verano del sur de Florida. Debajo, un patio de travertino y una cocina exterior de obra convierten una franja de césped en el sitio donde los vecinos se juntan de verdad. El bastidor de aluminio lacado está calculado para las condiciones de Florida y no pide mantenimiento por temporada.',
@@ -164,9 +164,9 @@ export const PROYECTOS_ES: Record<string, ProyectoEs> = {
     description:
       'Terraza de piscina en Jupiter con pavimento de adoquín, franjas de césped y cabañas blancas de techo plano, para una comunidad a pie de océano.',
     dic: {
-      'Oceanfront Pool Deck & Cabanas at Jupiter Ocean Club':
+      'Oceanfront Pool Deck &amp; Cabanas at Jupiter Ocean Club':
         'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
-      'Oceanfront Pool Deck & Cabanas | Jupiter Ocean Club':
+      'Oceanfront Pool Deck &amp; Cabanas | Jupiter Ocean Club':
         'Terraza de piscina y cabañas | Jupiter Ocean Club',
       'A full resort deck for an oceanfront community in Jupiter, a few hundred feet from the Atlantic. The pool is wrapped in wide paver decking that carries through to the walkways, the spa and the turf inlays, so the whole amenity area reads as one surface instead of a patchwork. White flat-roof cabanas line the deck and give shade where residents actually sit, kept low and open so they never block the water views the property is built around. Everything here lives in salt air, and the structures and paving were specified for it.':
         'Una terraza completa para una comunidad frente al mar en Jupiter, a cien metros del Atlántico. La piscina va envuelta en un pavimento amplio de adoquín que sigue por los paseos, el spa y las franjas de césped, de modo que toda la zona común se lee como una sola superficie y no como un remiendo. Las cabañas blancas de techo plano bordean la terraza y dan sombra justo donde la gente se sienta, bajas y abiertas para no tapar nunca las vistas al agua sobre las que está construida la finca. Aquí todo vive en aire salino, y tanto las estructuras como el pavimento se eligieron pensando en eso.',

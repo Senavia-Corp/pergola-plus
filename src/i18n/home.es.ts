@@ -286,7 +286,7 @@ export const HOME_ES: Record<string, string> = {
     'Pérgola FORTE con cocina exterior en Elan Polo Club',
   'A freestanding aluminum pergola combining louvered and solid roof sections over a travertine patio and built-in outdoor kitchen.':
     'Una pérgola de aluminio exenta que reúne un tramo de lamas y otro de techo macizo sobre un patio de travertino con cocina exterior.',
-  'Oceanfront Pool Deck & Cabanas at Jupiter Ocean Club':
+  'Oceanfront Pool Deck &amp; Cabanas at Jupiter Ocean Club':
     'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
   'A resort pool deck steps from the Atlantic, with wide paver decking, turf inlays and white flat-roof cabanas along the water side.':
     'Una terraza de piscina a un paso del Atlántico, con pavimento amplio de adoquín, franjas de césped y cabañas blancas de techo plano junto al agua.',
