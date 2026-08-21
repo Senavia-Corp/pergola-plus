@@ -150,6 +150,198 @@
 }
 
 /* -----------------------------------------------------------------------------
+   3b · La cuadrícula del mega (>=992px)
+   -------------------------------------------------------------------------- */
+
+/* Daniel pidió volver a la «cuadrícula» del sitio viejo: allí cada enlace era una
+   FILA de ancho completo, todas de la misma altura, separadas por líneas de 1px.
+   Lo que él ve aquí —«los elementos flotando no alinean»— es texto suelto sobre
+   el fondo del panel, sin caja y sin una retícula que lo sujete.
+
+   El original lo conseguía con `height:350px` + `justify-content:space-between` en
+   la columna y `height:100%` en cada fila. Aquí NO sirve, y es la miga del
+   asunto: allí había UNA columna de 7; aquí hay DOS, y con distinto número de
+   ítems (productos 5+5, servicios 4+3). Cualquier reparto que cada columna haga
+   por su cuenta —`space-between`, `grid-auto-rows:1fr`, `flex:1`— da filas de
+   4/4 en una columna y de 3/3 en la otra, o sea filas de distinta altura entre
+   columnas. Que es exactamente el defecto que hay que quitar.
+
+   Descartada también la altura fija por fila: en español hay etiquetas que
+   envuelven entre 992 y 1199px («Pérgolas de lamas motorizadas», «Cerramientos y
+   sistemas exteriores»), y una fila fija las recorta.
+
+   La solución es que las filas se declaren UNA VEZ, en el contenedor común, y que
+   las dos columnas las hereden con `subgrid`. Así 4 y 3 ítems caen en las mismas
+   pistas (la columna de 3 deja la última vacía) y, si una etiqueta envuelve,
+   crecen las dos columnas a la vez.
+
+   Sin soporte de subgrid la declaración entera se cae y queda la pila de hoy con
+   sus filetes: se degrada a lo que ya había, no a algo roto.
+
+   NADA DE ESTO TOCA EL MARKUP, y eso es deliberado: las clases `is-N` las empareja
+   IX2 por selector global y COMPARTIDO entre los dos paneles (ver el comentario de
+   Nav.astro), así que renombrarlas o reordenar los ítems cruzaría las imágenes de
+   productos con las de servicios. Y los `data-w-id` los cuenta auditar-paridad.mjs
+   contra el sitio vivo en ~99 páginas. */
+
+@media screen and (min-width: 992px) {
+  .menu {
+    /* El alto de fila es el ÚNICO número que hay que tocar si se quieren filas
+       más generosas. Con 60px: productos = título (~31) + 5x60 + 5 gaps = 336px;
+       servicios = 31 + 4x60 + 4 = 275px. */
+    --menu-fila: 60px;
+    /* El 1px que asoma por los gaps. Sale del --primary al 15%, como el resto de
+       tintes del menú: la cuadrícula no introduce un color nuevo al sistema. */
+    --menu-linea: #3a545b26;
+  }
+
+  .menu .dropdown-list-products .wrapper-submenu {
+    grid-template-rows: auto repeat(5, minmax(var(--menu-fila), auto));
+  }
+
+  .menu .dropdown-list-services .wrapper-submenu {
+    grid-template-rows: auto repeat(4, minmax(var(--menu-fila), auto));
+  }
+
+  /* El `1fr 1fr 1fr` del CSS migrado es en realidad `minmax(auto, 1fr)`, así que
+     una columna con etiquetas largas se queda con el ancho de la otra: medido a
+     992px daba 279px la primera columna y 236px la segunda. Dos columnas de
+     distinto ancho es, otra vez, el "no alinean" de Daniel. `minmax(0, 1fr)` las
+     obliga a repartirse a partes iguales. */
+  .menu .wrapper-submenu {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  /* `place-items: center stretch` del CSS migrado centraba verticalmente cada
+     columna dentro de su celda: con eso las filas nunca llenan la pista y el
+     subgrid no sirve de nada. */
+  .menu .dropdown-list-products .wrapper-submenu,
+  .menu .dropdown-list-services .wrapper-submenu {
+    align-items: stretch;
+    row-gap: 1px;
+  }
+
+  .menu .wrapper-submenu > .block-submenu {
+    grid-row: 1 / -1;
+    grid-template-rows: subgrid;
+    align-items: stretch;
+    align-self: stretch;
+    /* Venía 2rem. Entre 992 y 1199px esos 24px de más son justo los que hacen
+       envolver a las etiquetas largas del español. */
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    display: grid;
+  }
+
+  .menu .wrapper-submenu > .block-submenu > .list {
+    grid-row: 2 / -1;
+    grid-template-rows: subgrid;
+    /* El CSS migrado deja el <ul> en `display:flex`, y sobre un contenedor flex
+       `grid-template-rows: subgrid` es letra muerta: no da error, simplemente no
+       hereda las pistas y los <li> se quedan a la altura de su texto. El síntoma
+       es una banda vacía al final de la columna. */
+    display: grid;
+    /* El aire lo pone el padding del título; con margin aquí se descuadraría
+       respecto a la otra columna. */
+    margin-top: 0;
+  }
+
+  .menu .nav-submenu-title {
+    padding-bottom: .875rem;
+  }
+
+  /* La fila: ancho completo, esquinas rectas y un filete propio arriba. La línea
+     va en la FILA y no como gap del <ul>, porque las dos columnas de servicios
+     tienen 4 y 3 ítems: con el fondo en el <ul>, la pista sobrante de la columna
+     corta se veía como una banda gris de 61px al final. Con el filete en la fila,
+     una pista vacía es sencillamente invisible.
+
+     `box-sizing: border-box` es global aquí, así que el borde no engorda la fila:
+     sigue midiendo lo que diga la pista. */
+  .menu .wrapper-submenu .submenu-item {
+    background-color: var(--secundary);
+    border-top: 1px solid var(--menu-linea);
+    border-radius: 0;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 10px 1.25rem;
+  }
+
+  /* Cierra la cuadrícula por abajo. `:last-child` sobre el <li>, no sobre el
+     enlace: el enlace es hijo único de su <li> y nunca sería "el último". */
+  .menu .wrapper-submenu .list > li:last-child .submenu-item {
+    border-bottom: 1px solid var(--menu-linea);
+  }
+
+  .menu .wrapper-submenu .heading-submenu {
+    font-size: 17px;
+  }
+
+  /* Relleno sólido al pasar por encima, como la referencia. `.is-1` se nombra
+     aparte porque el CSS migrado le da un hover propio (#e9e9e9): aquí se gana
+     por especificidad, no por orden de cascada. */
+  .menu .wrapper-submenu .submenu-item:hover,
+  .menu .wrapper-submenu .submenu-item.is-1:hover,
+  .menu .wrapper-submenu .submenu-item:focus-visible {
+    background-color: var(--primary);
+    color: var(--secundary);
+  }
+
+  .menu .wrapper-submenu .submenu-item:hover .heading-submenu,
+  .menu .wrapper-submenu .submenu-item:focus-visible .heading-submenu {
+    color: inherit;
+  }
+
+  /* El anillo de foco va HACIA DENTRO: con las filas pegadas, un offset positivo
+     pisa la fila vecina y el filete. */
+  .menu .wrapper-submenu .submenu-item:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .menu .wrapper-submenu .submenu-item.w--current {
+    background-color: var(--menu-tinte-activo);
+  }
+
+  /* La columna de la imagen ya NO manda el alto del panel. Medido: 300px de
+     preview + ~60 del "ver todo" + 2rem de padding = ~424px, y como abarca todas
+     las filas, inflaba las pistas —y el alto de fila salía DISTINTO en productos
+     (÷5) y en servicios (÷4)—. Ahora se estira a lo que midan las filas. */
+  .menu .wrapper-submenu > .block-submenu-view,
+  .menu .wrapper-submenu > .block-submenu-view-products {
+    grid-row: 1 / -1;
+    align-self: stretch;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .menu .preview-wrapper,
+  .menu .preview-wrapper-products {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 220px;
+  }
+
+  /* El filete vertical entre las dos columnas de texto: es el `border-right` de
+     la referencia. */
+  .menu .wrapper-submenu > .block-submenu + .block-submenu {
+    border-left: 1px solid var(--menu-linea);
+  }
+}
+
+/* Entre 992 y 1199px la columna deja ~240px de texto, y ahí envuelven cuatro
+   etiquetas medidas: "Custom Pergolas & Patio Covers" en inglés y, en español,
+   "Pérgolas de lamas motorizadas", "Cerramientos con mosquitero" y "Pérgolas y
+   cubiertas a medida". El subgrid mantiene las dos columnas alineadas aunque una
+   fila crezca, así que no se rompe nada —pero una fila del doble de alto deshace
+   justo la lectura de cuadrícula que pidió Daniel—. Dos puntos menos de tipo las
+   meten a todas en una línea. */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .menu .wrapper-submenu .heading-submenu {
+    font-size: 15px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
    4 · Hover y foco de verdad
    -------------------------------------------------------------------------- */
 
