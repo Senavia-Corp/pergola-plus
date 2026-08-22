@@ -28,6 +28,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas de lamas motorizadas | Sur de Florida',
     description: 'Lamas de aluminio orientables con sensores de lluvia y viento, integración domótica y certificación NOA, instaladas en el sur de Florida.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Motorized louvered roof pergola with white aluminum louvers open over a poolside deck at a waterfront home in Palm Beach Gardens, Florida.':
+        'Pérgola de techo de lamas motorizadas, con lamas de aluminio blancas abiertas, sobre la zona de piscina de una vivienda frente al agua en Palm Beach Gardens, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Louvered roof pergola contractors in South Florida installing motorized aluminum pergolas with smart controls, rain sensors, and modern outdoor living design.':
@@ -92,6 +98,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas de techo aislado | Sur de Florida',
     description: 'Paneles aislantes que cortan el calor radiante, con canalón oculto y preparación para ventiladores y televisión.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Solid insulated roof pergola with a warm wood-grain soffit and recessed lighting over a waterfront outdoor kitchen in Jupiter, Florida.':
+        'Pérgola de techo macizo aislado, con cara inferior en veta de madera y focos empotrados, sobre una cocina exterior frente al agua en Jupiter, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Insulated roof pergola builders in South Florida designing custom aluminum patio covers engineered for heat reduction and all-weather protection.':
@@ -156,6 +168,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas abiertas de aluminio | Sur de Florida',
     description: 'Pérgolas de aluminio de estructura abierta que definen el patio sin cortar la brisa ni las vistas al cielo, sin mantenimiento.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Open-air white aluminum pergola with an open rafter grid and visible sky above a paver patio in Parkland, Florida.':
+        'Pérgola abierta de aluminio blanco, con retícula de vigas y el cielo a la vista, sobre un patio adoquinado en Parkland, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Open-air pergola builders in South Florida creating architectural aluminum pergolas that define outdoor living spaces with modern design.':
@@ -220,6 +238,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cabañas de aluminio a medida | Sur de Florida',
     description: 'Cabañas de aluminio de inspiración resort, calculadas para resistir huracanes, con cortinas motorizadas y techo aislado opcionales.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Free-standing aluminum poolside cabana with white curtains and a lounge daybed in Weston, Florida.':
+        'Cabaña exenta de aluminio junto a la piscina, con cortinas blancas y un diván de descanso, en Weston, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Aluminum cabana contractors in South Florida building luxury backyard cabanas engineered for shade, privacy, and resort-style outdoor living.':
@@ -282,6 +306,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cerramientos con mosquitero | Sur de Florida',
     description: 'Cerramientos calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción resistente a mascotas.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Aluminum pool screen enclosure with charcoal mesh over a swimming pool and lake view in Coral Springs, Florida.':
+        'Cerramiento de piscina en aluminio con malla color carbón sobre la piscina, con vista al lago, en Coral Springs, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant engineering.':
@@ -344,6 +374,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cortinas motorizadas para patios | Sur de Florida',
     description: 'Cortinas retráctiles con mando o app, detección de obstáculos y carcasa oculta, integradas en pérgolas y porches.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Motorized retractable bronze screens lowered across a covered patio overlooking a pool in Wellington, Florida.':
+        'Mallas motorizadas retráctiles en bronce, bajadas sobre un patio cubierto con vistas a la piscina, en Wellington, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Motorized screen installers in South Florida providing retractable patio screens for shade, privacy, and smart outdoor automation.':
@@ -407,6 +443,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cocheras de aluminio | Sur de Florida',
     description: 'Cocheras de aluminio calculadas para las cargas de viento de Florida, con drenaje oculto y acabados que se integran con la casa.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Aluminum carport with a warm wood-grain soffit and slatted side screen over a paver driveway in Plantation, Florida.':
+        'Cochera de aluminio con cara inferior en veta de madera y celosía lateral de listones, sobre una entrada de coches adoquinada en Plantation, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Aluminum carport builders in South Florida constructing custom vehicle protection structures engineered for sun, rain, and high-wind conditions.':
@@ -469,6 +511,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas con techo de policarbonato | Sur de Florida',
     description: 'Paneles translúcidos que bloquean el 99% de los UV, resisten impactos y dejan pasar la luz, sobre estructura de aluminio reforzada.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Polycarbonate roof pergola with translucent panels casting soft diffuse light over a patio in Boynton Beach, Florida.':
+        'Pérgola con techo de policarbonato, de paneles translúcidos que dan una luz suave y difusa, sobre un patio en Boynton Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Polycarbonate pergola contractors in South Florida installing UV-protected translucent roofing systems for patios and poolside outdoor spaces.':
@@ -531,6 +579,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas solares | Sur de Florida',
     description: 'Estructuras preparadas para fotovoltaica: refuerzo de carga, cableado oculto y drenaje integrado, con orientación estudiada.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Solar pergola with a photovoltaic panel roof over an outdoor lounge at a waterfront home in Miami, Florida.':
+        'Pérgola solar con techo de paneles fotovoltaicos sobre una zona de estar exterior en una vivienda frente al agua en Miami, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Solar roof structure contractors in South Florida designing engineered aluminum structures ready for solar panel integration and shaded outdoor living.':
@@ -594,6 +648,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Sukkha 3000 | Estructuras exteriores de lujo',
     description: 'El sistema Sukkha 3000: ingeniería modular, aluminio de alto rendimiento, diseño minimalista y automatización integrada.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Sukkha 3000 retractable roof structure with a bamboo reed mat and glazed walls over a set table in Fort Lauderdale, Florida.':
+        'Estructura Sukkha 3000 de techo retráctil, con estera de bambú y paredes acristaladas, sobre una mesa puesta en Fort Lauderdale, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design.':

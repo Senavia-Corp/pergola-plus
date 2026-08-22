@@ -27,6 +27,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Adoquinado de lujo | Sur de Florida',
     description: 'Patios, bordes de piscina y entradas de coche adoquinados sobre bases calculadas, con el drenaje que pide la lluvia de Florida.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Newly installed large-format paver patio with tight uniform joints and a linear drain in Boca Raton, Florida.':
+        'Patio de adoquín de gran formato recién instalado, con juntas apretadas y uniformes y sumidero lineal, en Boca Raton, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Luxury paver patio installation at modern South Florida residence with pool integration.':
@@ -84,6 +90,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Diseño y construcción de pérgolas | Sur de Florida',
     description: 'Pérgolas de aluminio a medida con cálculo estructural y permisos, pensadas para el calor, la humedad y el viento de Florida.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Custom engineered aluminum louvered pergola integrated into a contemporary waterfront home in West Palm Beach, Florida.':
+        'Pérgola de lamas de aluminio calculada a medida e integrada en una vivienda contemporánea frente al agua en West Palm Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Completed custom aluminum pergola installation at luxury South Florida residence with integrated lighting and modern architectural design.':
@@ -137,6 +149,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Entradas de coche a medida | Sur de Florida',
     description: 'Entradas adoquinadas sobre bases reforzadas, con las pendientes y el drenaje calculados para las lluvias de Florida.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Herringbone paver driveway with a soldier-course border sweeping up to a luxury home in Palm Beach, Florida.':
+        'Entrada de coches adoquinada en espiga, con cenefa de remate, subiendo hasta una vivienda de lujo en Palm Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Modern paver driveway installation at upscale South Florida residence.':
@@ -190,6 +208,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Hormigón estructural | Sur de Florida',
     description: 'Losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y adoquinado, con permisos en regla.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Finished structural concrete patio slab with saw-cut joints and a clean square edge in Pompano Beach, Florida.':
+        'Losa de hormigón estructural terminada, con juntas aserradas y canto recto y limpio, en Pompano Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Structural concrete patio foundation installation at South Florida luxury property.':
@@ -244,6 +268,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Constructores de decks a medida | Sur de Florida',
     description: 'Decks de composite y aluminio calculados para el ambiente costero, con permisos e instalación profesional.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Multi-level grey composite deck with black horizontal cable railing at a home in West Palm Beach, Florida.':
+        'Tarima composite gris a varios niveles, con barandilla de cable horizontal negra, en una vivienda de West Palm Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Premium composite deck installation at South Florida luxury residence.':
@@ -297,6 +327,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Instalación de vallado | Sur de Florida',
     description: 'Vallado de aluminio y cerramientos de privacidad calculados para resistir el viento y la corrosión de la costa, con permisos y visto bueno de la HOA.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Dark aluminum horizontal-slat privacy fence running along a landscaped property edge in Boca Raton, Florida.':
+        'Valla de intimidad de aluminio oscuro con lamas horizontales, a lo largo del lindero ajardinado de la parcela, en Boca Raton, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Premium aluminum fence installation at luxury South Florida residence.':
@@ -352,6 +388,12 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Reforma integral de patio | Sur de Florida',
     description: 'Convertimos patios anticuados en espacios exteriores cuidados: refuerzo estructural, adoquinado, pérgolas integradas y cortinas motorizadas.',
     dic: {
+      // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
+      // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
+      // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
+      // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
+      'Fully remodelled patio with large-format pavers, a louvered pergola and an outdoor kitchen in Delray Beach, Florida.':
+        'Patio reformado por completo, con adoquín de gran formato, pérgola de lamas y cocina exterior, en Delray Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Luxury patio remodeling project completed at South Florida residence with pergola integration.':

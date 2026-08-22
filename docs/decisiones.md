@@ -778,3 +778,154 @@ Tres trampas, cada una encontrada de una forma distinta:
 Las filas siguen siendo cuatro (`1fr auto auto 1fr`) aunque hoy las dos `1fr` midan
 cero: son las que centran el texto si una ficha futura trae dos preguntas y el
 `min-height` de la foto pasa a mandar.
+
+## Un fondo de CTA por producto: lo que la puerta mide y lo que no puede medir
+
+Las 201 páginas cerraban con la **misma** foto de piscina y pérgola: los 106 bloques
+`.call-to-action-footer` de los fragmentos son byte a byte idénticos. La página que
+vende carports se despedía enseñando otra cosa. Los 17 productos y servicios pasan a
+tener el suyo; los **79** fragmentos restantes se quedan con el genérico, que es lo
+correcto para un post o una página de marca.
+
+**El reparto sale del disco, no de una lista escrita a mano.** `CTA_POR_RUTA` se
+construye leyendo `public/images/cta/`. Eso hace que las tandas parciales funcionen
+solas —lo que aún no se ha generado no está, no entra en el mapa y esa página se
+queda con el genérico— y que un slug rechazado vuelva al genérico sin que nadie tenga
+que acordarse de borrar una línea. Un mapa a mano puede nombrar una imagen que no
+existe y dejar 201 páginas pidiendo un 404; éste no puede mentir.
+
+### `sharp().stats()` IGNORA las operaciones del pipeline
+
+La puerta mide el rectángulo central 46% x 55%, que es donde va el titular. Escrita de
+la forma obvia —`sharp(f).extract(centro).stats()`— **mide la imagen entera**, porque
+`stats()` opera sobre la imagen de ENTRADA y descarta el pipeline en silencio. Medido
+sobre el fondo de producción:
+
+| | media |
+|---|---|
+| `sharp(f).extract(esquina 100x100).stats()` | 147,70 |
+| `sharp(f).stats()` | 147,70 ← idéntico |
+| `sharp(buffer ya recortado).stats()` | 160,21 ← el recorte real |
+
+Es la misma familia que el `convolve()` con canal alfa ya documentado más arriba: no
+da error, produce un número plausible, y ese número aprueba o suspende imágenes por
+motivos que no tienen nada que ver con lo que se creía estar midiendo. El recorte se
+materializa con `.toBuffer()`, y hay un `autocomprobar()` que lo demuestra: una imagen
+negra con el rectángulo central exacto en blanco tiene que dar media ~255; si el
+recorte se ignora sale ~64. **190 puntos de separación**, imposible de confundir.
+
+### El mínimo de 3000 px es de lo que VUELVE, no de lo que se publica
+
+Se piden 3000 px de ancho a Higgsfield para tener píxeles de sobra al recortar a
+2.55:1 y bajar al master de 2400. Aplicar esa misma regla al master publicado lo
+suspende siempre —mide 2400 a propósito—, y eso dejaba `npm run check` en rojo
+permanente en cuanto entrara la primera imagen buena. Lo destapó la propia puerta
+suspendiendo su propia salida. `juzgar()` recibe ahora el mínimo que toca en cada
+lado: 3000 para la generación, 2400 para lo publicado.
+
+### El techo de sigma sube de 75 a 90
+
+El suelo de 40 está justificado: por debajo de 30 el modelo ha tapiado el centro con
+una pared lisa en vez de dar profundidad, y eso ya ocurrió. El techo no lo estaba. A
+75, la imagen que **hoy está en producción** —sigma 71,9— queda a un 4% de ser
+rechazada. Un techo que casi suspende a la referencia no mide calidad, mide suerte.
+A 90 sigue cazando un centro caótico y deja margen real.
+
+### Lo que la puerta NO puede medir, y por eso hay montajes
+
+**No distingue un producto de otro.** Una pérgola de lamas preciosa cerrando la página
+de carports pasa las cuatro medidas con nota. Por eso `integrar-cta.mjs` no escribe
+nada sin `--aplicar` y genera un montaje por imagen en `auditoria-imagenes/cta/`: la
+generada con el velo del 50% y el titular encima, y debajo sus tres referencias
+reales, con la pregunta escrita al lado. En el ensayo con una imagen de atrezo el
+montaje hizo exactamente su trabajo: arriba una piscina, abajo tres cocheras.
+
+### El escenario sale del texto del fragmento, no del nombre del archivo
+
+El plan era sacar la ciudad de los nombres de las fotos. Medido: de las ~180 fotos de
+los 17 slugs **solo una** menciona una ciudad
+(`intro-luxury-stone-driveway-palm-beach-project.avif`); el resto dice
+`south-florida` a secas. La copia del CMS sí nombra las ciudades que cada ficha
+sirve, y de ahí sale cada escenario. Dos se repiten entre los 17: el bloque compartido
+de los servicios solo nombra siete y no dan para más.
+
+### La tabla del encargo se corrigió en cinco slugs, mirando las fotos
+
+Se generaron hojas de contactos con las nueve mejores de cada slug y se describió lo
+que se VE:
+
+- **deck-builders** — el encargo pedía «luz LED en las contrahuellas». No hay LED en
+  ninguna de las siete fotos. Lo que sí distingue al servicio es la **barandilla de
+  cable horizontal negra** sobre tarima composite gris a niveles.
+- **sukkha** — no es una «estructura de lamas»: es un techo **retráctil con estera de
+  bambú** (s'chach) a la vista y paredes acristaladas. Y sus referencias están hechas
+  en clima templado, así que la línea que las acompaña le dice al modelo que tome de
+  ellas **solo la estructura** y el entorno del prompt.
+- **fence-solutions** — «valla de aluminio de lamas» se queda corto: son lamas
+  **horizontales** planas con hueco regular, y hay que pedirlo o sale de barrotes.
+- **carports** — la firma real es el **sofito de veta de madera** bajo un marco
+  grafito, con celosía de listones a juego; no solo «un coche debajo».
+- **concrete** — «losa acabada» es correcto, pero tres de las siete fotos son de obra.
+
+**Cuatro referencias que la métrica puntuaba alto y no servían.** La nitidez y la
+resolución no ven que una foto sea de obra a medio hacer: `pavers` y `driveways`
+tenían de primera candidata una cama de arena y una subbase de grava sin adoquinar;
+`concrete` colaba una pérgola sobre travertino al atardecer que no es una losa; y
+`pergola-design-construction` tenía en su carpeta el producto de
+`polycarbonate-pergolas` prestado. Van en `EXCLUIR` **nombradas y con el motivo
+escrito**, no en un filtro por rol: se probó filtrar por `swatch-`/`gallery-` y habría
+tirado fotos buenas —`swatch-*` no son muestras de color, son fotografías completas de
+instalaciones— dejando pasar las de obra, que se llaman `feature-` como el resto.
+
+### Un `alt` sin traducir es invisible para las puertas
+
+`traducirHtml()` sí traduce `alt`, pero **nada avisa cuando falta**:
+`traducibles.mjs` solo extrae nodos de texto, la pasada de atributos no apunta las
+ausencias en `faltan`, y `comprobar-i18n.mjs` no lee atributos. La cobertura seguiría
+en verde con los 17 `alt` en inglés.
+
+Al medirlo salió que **ya pasaba**: el `alt` del CTA genérico no estaba en ningún
+diccionario de fragmento y viajaba en inglés en las ~100 páginas de `/es/`. La versión
+por clave de `shell.ts` solo cubre el `CtaFinal.astro` del blog y el FAQ. Se añadieron
+los 17 a `productos.es.ts` / `servicios.es.ts` y el genérico a `comun.es.ts`.
+
+### Se sustituye el `<img>` entero, no las rutas sueltas
+
+El bloque lleva **cuatro rutas distintas** —los tres `-p-NNN` del srcset más el
+master, que además sale dos veces porque es el candidato de 2000w y el `src`—. El
+idiom de `replaceAll` sobre una ruta que usa el paso 4d habría dejado tres candidatos
+apuntando a la foto vieja, y el navegador elige un `-p-NNN` en casi todos los
+viewports: se habría seguido viendo la vieja casi siempre. Los 10 productos llevan el
+bloque **dos veces** y son indistinguibles entre sí, así que van los dos.
+
+De paso se arreglan dos cosas del markup de Webflow. `sizes` decía
+`(max-width: 2000px) 100vw, 2000px` cuando la sección **siempre** ocupa el ancho
+completo: pasa a `100vw`. Y el srcset gana el candidato de **1600** —que existía en
+disco y no pedía nadie— y el de **2400**. Verificado en el navegador a dpr 2: con el
+`sizes` nuevo elige el de 2400; con el viejo se quedaba en 2000.
+
+**El juego tiene que estar completo.** El mapa exige los cinco ficheros, no solo el
+master: con un juego a medias el srcset pide un `-p-NNN` que no existe y el fallo sale
+en `check:imagenes` como «una URL de dist no existe», sin decir por qué. Si faltan
+todos, esa página usa el genérico; si faltan algunos, revienta con el nombre de los
+que faltan.
+
+### La legibilidad se midió, no se miró
+
+Las capturas siguen saliendo en blanco en este entorno —ya está documentado más
+arriba—, así que el «¿se lee el titular?» se resolvió con números sobre la geometría
+real, medida en el navegador: a 1440 la sección es 1440x371 (se ve el **66%** del alto
+de la imagen) y a 390 es 390x414 (el **37%** del ancho). Contraste del texto blanco
+sobre el fondo ya velado, midiendo el fondo ANTES de pintar el texto:
+
+| | media | 5% más claro |
+|---|---|---|
+| a 1440 | 8,7:1 | **4,5:1** |
+| a 390 | 9,0:1 | **4,7:1** |
+
+O sea que el fondo que ya está publicado está **justo en la línea** de los 4,5:1 que
+WCAG AA pide para texto normal, en sus zonas más claras. Por eso el techo de media 160
+hace trabajo real: una imagen más clara que ésa hunde el párrafo. La medida quedó
+dentro de la puerta y suspende por debajo de **3:1**, que es el mínimo para texto
+grande —por ahí el titular deja de leerse—; el número del párrafo se imprime siempre
+pero no suspende, porque una puerta que suspende a la referencia no mide calidad.

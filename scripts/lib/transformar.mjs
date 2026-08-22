@@ -243,6 +243,88 @@ export const IMAGENES_CLIENTE = {
     'Home Page/Forte Plus Hillsboro Estate.jpeg',
 };
 
+/** Anchos del srcset del CTA. El master (2400) va sin sufijo, como en el resto del sitio. */
+const CTA_ANCHOS = [500, 800, 1080, 1600, 2400];
+
+/**
+ * El fondo del CTA propio de cada producto y servicio.
+ *
+ *   '/products/carports' -> { base: '/images/cta/carports', alt: '...' }
+ *
+ * SALE DEL DISCO, NO DE UNA LISTA ESCRITA AQUI. Se lee public/images/cta/, que es lo
+ * que escribe scripts/integrar-cta.mjs con las generaciones APROBADAS. Eso da tres
+ * cosas gratis:
+ *
+ *   - las tandas parciales funcionan solas: lo que aun no se ha generado no esta en
+ *     la carpeta, no entra en el mapa, y esa pagina se queda con el fondo generico;
+ *   - un slug que no pasa la puerta tampoco tiene fichero, asi que vuelve al generico
+ *     sin que haya que acordarse de borrar una linea;
+ *   - no puede mentir. Un mapa a mano puede nombrar una imagen que no existe y dejar
+ *     201 paginas pidiendo un 404.
+ *
+ * Es determinista aunque lea el disco: esos ficheros van en git, asi que el arbol es
+ * el mismo para cualquiera que clone. Lo comprueba check:generadores regenerando.
+ *
+ * Misma forma de clave que PORTADAS —CON barra inicial—, porque las dos se consultan
+ * con el parametro `ruta` de transformar(). Ojo: SEO_FALTANTE usa la forma SIN barra,
+ * y mezclarlas es un fallo silencioso.
+ */
+const CTA_POR_RUTA = await (async () => {
+  const { readdir } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const dir = fileURLToPath(new URL('../../public/images/cta', import.meta.url));
+  const frag = fileURLToPath(new URL('../../src/contenido-migrado', import.meta.url));
+  let ficheros;
+  try { ficheros = await readdir(dir); } catch { return {}; }
+  const { CTA_SLOTS } = await import('./cta-slots.mjs');
+  const mapa = {};
+  for (const col of ['products', 'services']) {
+    let html;
+    try { html = await readdir(`${frag}/${col}`); } catch { continue; }
+    for (const nombre of html) {
+      if (!nombre.endsWith('.html')) continue;
+      const slug = nombre.slice(0, -5);
+      // Tienen que estar LOS CINCO. El bloque emite cinco URLs —cuatro candidatos
+      // del srcset mas el src— y con un juego incompleto el navegador pide un
+      // -p-NNN que no existe. Media imagen es peor que la generica entera, asi que
+      // un juego a medias se salta y esa pagina se queda con el fondo de siempre.
+      //
+      // No es teorico: integrar-cta.mjs los escribe juntos, pero un borrado a mano o
+      // una escritura a medias dejaria el sitio pidiendo 404 y el fallo saldria en
+      // check:imagenes como «una URL de dist no existe», sin decir por que.
+      const juego = CTA_ANCHOS.map((w) => `${slug}${w === 2400 ? '' : `-p-${w}`}.avif`);
+      const ausentes = juego.filter((n) => !ficheros.includes(n));
+      if (ausentes.length === juego.length) continue;   // no hay nada para este slug
+      if (ausentes.length) {
+        throw new Error(
+          `[cta] ${col}/${slug} tiene el juego de imagenes incompleto: faltan ${ausentes.join(', ')}.\n`
+          + '  Con un juego a medias el srcset pediria un fichero que no existe.\n'
+          + '  Borra las que queden en public/images/cta/ para volver al fondo generico,\n'
+          + '  o vuelve a pasar esa imagen por: node scripts/integrar-cta.mjs --aplicar',
+        );
+      }
+      const alt = CTA_SLOTS[slug]?.alt;
+      if (!alt) {
+        throw new Error(
+          `[cta] hay imagen para ${col}/${slug} pero no tiene alt en cta-slots.mjs.\n`
+          + '  Publicarla dejaria un <img> sin texto alternativo en las 2 versiones.',
+        );
+      }
+      mapa[`/${col}/${slug}`] = { base: `/images/cta/${slug}`, alt };
+    }
+  }
+  return mapa;
+})();
+
+/**
+ * El <img> del CTA, IDENTICO en los 106 bloques (comprobado byte a byte).
+ *
+ * Es literal y no una regex a proposito, como el resto de anclas de este fichero: si
+ * Webflow cambiara un atributo, mejor que reviente el build a que el fondo propio deje
+ * de ponerse en silencio y las 17 fichas sigan cerrando con la foto de la piscina.
+ */
+const CTA_IMG = '<img sizes="(max-width: 2000px) 100vw, 2000px" srcset="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif 500w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-800.avif 800w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-1080.avif 1080w, /images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif 2000w" alt="Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties." src="/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard.avif" loading="lazy" class="image-call-to-action"/>';
+
 /**
  * Excepciones al recorte automatico. La llave es el archivo de origen.
  *
@@ -987,7 +1069,11 @@ export function reescribirImagenes(html, mapa, locales) {
 /**
  * El embed de Google Reviews, tal cual sale del vivo. Literal y no regex a
  * proposito: si Webflow cambiara una coma, mejor que deje de coincidir y salte la
- * puerta de scripts/comprobar-cta.mjs a que se coma medio documento.
+ * puerta de scripts/comprobar-paginas.mjs a que se coma medio documento.
+ *
+ * (Antes esta linea citaba un `scripts/comprobar-cta.mjs` que no existia. Ahora SI
+ * existe, pero es la puerta del FONDO del CTA, que no tiene nada que ver con este
+ * embed: dejarla habria mandado al siguiente lector al fichero equivocado.)
  */
 const ELFSIGHT_RESENAS =
   '<div class="code-embed-2 w-embed w-script"><!-- Elfsight Google Reviews | Pergola Plus -->\n' +
@@ -1378,6 +1464,49 @@ export function transformar(html, ruta) {
     if (/\swidth=/.test(attrs)) return tal_cual;
     return `<img ${attrs.trim()} width="${CLIENTE_ANCHO}" height="${CLIENTE_ALTO}"/>`;
   });
+
+  // 4f. El fondo del CTA propio de cada ficha.
+  //
+  //     Las 201 paginas cerraban con la MISMA foto de piscina y pergola: la pagina
+  //     que vende carports se despedia enseñando otra cosa. Los 17 productos y
+  //     servicios que tengan imagen generada pasan a cerrar con la suya; las ~79
+  //     restantes se quedan con la generica, que es lo correcto para un post o una
+  //     pagina de marca.
+  //
+  //     SE SUSTITUYE EL <img> ENTERO, no las rutas sueltas. El bloque lleva CUATRO
+  //     rutas distintas —los tres -p-NNN del srcset mas el master, que ademas sale
+  //     dos veces porque es el candidato de 2000w Y el src—, asi que el idiom de
+  //     replaceAll sobre UNA ruta que usa el paso 4d dejaria tres candidatos
+  //     apuntando a la foto vieja. Y el navegador elige un -p-NNN en casi todos los
+  //     viewports, o sea que se seguiria viendo la vieja casi siempre.
+  //
+  //     De paso se arreglan dos cosas del markup de Webflow:
+  //       - `sizes` decia "(max-width: 2000px) 100vw, 2000px" cuando la seccion
+  //         SIEMPRE ocupa el 100% del ancho. Pasa a "100vw", que es la verdad y ademas
+  //         deja que en retina elija el candidato grande.
+  //       - el srcset gana el candidato de 1600 —que existia en disco y no pedia
+  //         nadie— y el de 2400, para los 2880 px que pide un 1440 en retina.
+  //
+  //     Los 10 productos llevan el bloque DOS veces y son indistinguibles entre si:
+  //     por eso replaceAll y no replace.
+  const cta = CTA_POR_RUTA[ruta];
+  if (cta) {
+    if (!s.includes(CTA_IMG)) {
+      throw new Error(
+        `[cta] ${ruta} tiene fondo propio en public/images/cta/ pero el <img> del CTA\n`
+        + '  ya no coincide con el ancla. La pagina se publicaria con el fondo generico\n'
+        + '  en silencio. Revisa CTA_IMG en scripts/lib/transformar.mjs.',
+      );
+    }
+    const srcset = CTA_ANCHOS
+      .map((w) => `${cta.base}${w === 2400 ? '' : `-p-${w}`}.avif ${w}w`)
+      .join(', ');
+    s = s.replaceAll(
+      CTA_IMG,
+      `<img sizes="100vw" srcset="${srcset}" alt="${cta.alt}" src="${cta.base}.avif"`
+      + ' loading="lazy" class="image-call-to-action"/>',
+    );
+  }
 
   // 4i. OnceHub: fachada diferida en vez de carga inmediata.
   //

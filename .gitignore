@@ -65,3 +65,7 @@ auditoria-imagenes/comparativas/
 # El CLI escribe aqui `.env*` a secas, y eso taparia .env.example — que SI se
 # versiona a proposito: es la documentacion de todas las variables del sitio.
 .env.local
+
+# Montajes de revision de los fondos de CTA. Se regeneran con integrar-cta.mjs y
+# solo sirven para mirarlos una vez, igual que comparativas/.
+auditoria-imagenes/cta/

@@ -13,6 +13,12 @@ export const COMUN_ES: Record<string, string> = {
   'Request your free Estimate': 'Solicite su presupuesto gratis',
   'Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.':
     'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluamos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o cerramientos de piscina.',
+  // El alt del fondo generico, el que llevan las ~79 paginas que NO son ficha de
+  // producto o servicio. Faltaba: iba en ingles en las ~100 paginas de /es/ y
+  // ninguna puerta lo veia. La version por clave de shell.ts solo cubre el
+  // CtaFinal.astro del blog y el FAQ, no el bloque de los fragmentos migrados.
+  'Luxury outdoor living in South Florida featuring a custom pool, modern pergola with outdoor kitchen, tropical landscaping, and elegant patio design for high-end residential properties.':
+    'Vida al aire libre de lujo en el sur de Florida: piscina a medida, pérgola moderna con cocina exterior, jardinería tropical y patio elegante para viviendas de alta gama.',
   'Get A Quote': 'Pedir presupuesto',
   'Get a Quote': 'Pedir presupuesto',
   'Schedule A Visit': 'Agendar una visita',
