@@ -70,6 +70,35 @@ crearla. Era el ultimo `href="#"` vivo del sitio. Compartia imagen de vista prev
 con motivo: excluir el shell del recuento habria convertido el contador global en un
 numero que ya no avisa de nada.
 
+**«Patio Remodeling» pasa a ser «Full Outdoor Remodel», y su URL con el.** El nombre
+ya venia del cliente —el asset del handoff se llama `Our Services Thumbnails/Full
+Outdoor Remodel.JPEG`— y estaba aplicado al menu y a `/services`, pero NO al contenido:
+se pinchaba «Full Outdoor Remodel» y se aterrizaba en una pagina titulada «Patio
+Remodeling». Con el renombrado el servicio ademas ensancha su alcance del patio al
+exterior completo, apoyandose solo en lo que Pergola Plus ya presta (adoquinado,
+entradas de coche, hormigon, decks, vallado, pergolas y cortinas motorizadas): no se
+inventa ningun servicio, cada uno tiene su propia ficha en `/services`. En espanol es
+«Remodelacion exterior integral», no «reforma»: el publico es de Florida, no de Espana.
+
+Es la PRIMERA URL viva del sitio original que cambia de ruta, y por eso obligo a tres
+cosas que conviene recordar. Una, renombrar tambien su captura del vivo
+(`docs/vivo/services__full-outdoor-remodel.html`), porque el slug de las paginas de
+detalle sale del NOMBRE DE FICHERO de la captura (`generar-detalle.mjs`) y no de
+ninguna configuracion; el contenido de esa captura sigue siendo el del sitio en vivo,
+que continua sirviendo la URL vieja. Dos, dos redirects 301, uno por idioma. Tres,
+mover el tema en `src/data/faqs.ts`: `FaqFichaEnlace.astro` lanza si el tema no esta en
+`TEMAS_FICHA`, asi que el build falla ruidosamente si se olvida — eso esta bien.
+
+**Las imagenes de ese servicio NO se renombran.** Siguen en
+`public/cms-img/services/patio-remodeling/` y con «patio-remodel» en el nombre.
+Renombrarlas arrastraria `img-map.json`, `img-dim.json`, el manifest, `cta-slots.mjs` y
+`transformar.mjs`, y sobre todo `public/css/pergola-plus-florida.webflow.css:5518`, que
+pide `url('../images/patio-remodeling-project-south-florida.avif')`: **ninguna puerta
+escanea los `url()` del CSS**, asi que ahi quedaria un 404 invisible. El nombre de
+fichero de una imagen no mueve el ranking; el `alt` si, y ese si se reescribio entero.
+El precio de no renombrar es una linea de alias en `PORTADAS` (`transformar.mjs`),
+porque esa clave se deriva de la ruta de la imagen y ya no coincide con la de la pagina.
+
 **MaestroShield enlaza al fabricante.** Es la unica de las 5 tarjetas de garantia
 sin pagina de marca en el CMS, y su «Read More →» llevaba meses en `href="#"`. La
 garantia de MaestroShield la da MaestroShield: se enlaza su sitio con

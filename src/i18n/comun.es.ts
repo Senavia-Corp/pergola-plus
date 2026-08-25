@@ -194,8 +194,8 @@ export const COMUN_ES: Record<string, string> = {
   // --- Bloque de servicios, en las 10 fichas y en varias páginas más ---
   'Our Services': 'Nuestros servicios',
   'Everything Your Patio Needs, All In One Place': 'Todo lo que su patio necesita, en un solo sitio',
-  'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full patio remodeling—designed to enhance both beauty and functionality.':
-    'Transforme su espacio exterior con una gama completa de servicios: desde pérgolas a medida hasta hormigón, adoquinado, decks, vallado y reformas integrales de patio, pensados para que gane en belleza y en uso.',
+  'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full outdoor remodels—designed to enhance both beauty and functionality.':
+    'Transforme su espacio exterior con una gama completa de servicios: desde pérgolas a medida hasta hormigón, adoquinado, decks, vallado y remodelaciones exteriores integrales, pensados para que gane en belleza y en uso.',
   'Custom aluminum pergolas built for shade, style, and durability.':
     'Pérgolas de aluminio a medida, hechas para dar sombra, estilo y durar.',
   'Premium paver installations for patios, walkways, and driveways.':
@@ -208,8 +208,8 @@ export const COMUN_ES: Record<string, string> = {
     'Decks a medida, pensados para durar e integrarse sin costuras.',
   'Residential fencing for privacy, security, and clean design.':
     'Vallado residencial para privacidad, seguridad y una línea limpia.',
-  'Complete patio renovations for modern outdoor living spaces.':
-    'Reformas integrales de patio para espacios exteriores actuales.',
+  'Complete outdoor renovations: patio, hardscape, shade and lighting as one project.':
+    'Remodelación completa del exterior: patio, adoquinado, sombra e iluminación en un solo proyecto.',
   'Contractors Proudly Serving South Florida': 'Damos servicio en todo el sur de Florida',
 
   // --- Teasers del blog, en las 10 fichas ---
@@ -270,7 +270,7 @@ export const COMUN_ES: Record<string, string> = {
   'Pergola Design &amp; Construction': 'Diseño y construcción de pérgolas',
   'Deck Builders': 'Decks',
   'Fence Solutions': 'Vallado',
-  'Patio Remodeling': 'Reforma de patio',
+  'Full Outdoor Remodel': 'Remodelación exterior integral',
   'Take full control of your outdoor space with our custom louvered pergolas. Engineered for South Florida, the adjustable aluminum louvers regulate sun and rain at the touch of a button. A sophisticated, all-season solution for luxury outdoor living.':
     'Tome el control total de su espacio exterior con nuestras pérgolas de lamas a medida. Diseñadas para el sur de Florida, las lamas de aluminio orientables regulan el sol y la lluvia con solo pulsar un botón. Una solución sofisticada para disfrutar del exterior todo el año.',
 

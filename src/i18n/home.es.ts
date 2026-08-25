@@ -194,8 +194,8 @@ export const HOME_ES: Record<string, string> = {
   'Our Services': 'Nuestros servicios',
   'Everything Your Patio Needs, All In One Place':
     'Todo lo que su patio necesita, en un solo sitio',
-  'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full patio remodeling—designed to enhance both beauty and functionality.':
-    'Transforme su espacio exterior con una gama completa de servicios: desde la construcción de pérgolas a medida hasta hormigón, adoquines, terrazas de madera, vallados y la reforma integral del patio.',
+  'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full outdoor remodels—designed to enhance both beauty and functionality.':
+    'Transforme su espacio exterior con una gama completa de servicios: desde la construcción de pérgolas a medida hasta hormigón, adoquines, terrazas de madera, vallados y la remodelación exterior integral.',
   'Pergola Design &amp; Construction': 'Diseño y construcción de pérgolas',
   'Custom aluminum pergolas built for shade, style, and durability.':
     'Pérgolas de aluminio a medida, pensadas para dar sombra, estilo y durabilidad.',
@@ -214,9 +214,9 @@ export const HOME_ES: Record<string, string> = {
   'Fence Solutions': 'Soluciones de vallado',
   'Residential fencing for privacy, security, and clean design.':
     'Vallado residencial para privacidad, seguridad y un diseño limpio.',
-  'Patio Remodeling': 'Reforma de patios',
-  'Complete patio renovations for modern outdoor living spaces.':
-    'Reformas integrales de patio para espacios exteriores modernos.',
+  'Full Outdoor Remodel': 'Remodelación exterior integral',
+  'Complete outdoor renovations: patio, hardscape, shade and lighting as one project.':
+    'Remodelación completa del exterior: patio, adoquinado, sombra e iluminación en un solo proyecto.',
 
   // --- Zonas de servicio ---
   'Service Areas': 'Zonas de servicio',

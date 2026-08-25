@@ -239,8 +239,8 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
         'Las lluvias del sur de Florida obligan a planificar el drenaje. Incorporamos control de pendientes y gestión de la humedad en cada trabajo para evitar encharcamientos, erosión y daños en la cimentación. Así aguanta en un ambiente húmedo.',
       'Integrated Outdoor Construction Support': 'La base del resto del proyecto',
       'The Structural Base for Luxury Additions': 'Lo que sostiene todo lo demás',
-      'Our concrete services support pergolas, decks, paver systems, and complete patio remodels. By engineering the foundation in-house, we ensure seamless integration between structural elements and surface finishes. This unified approach guarantees stability, alignment, and long-term performance across your entire outdoor project.':
-        'Nuestro hormigón sostiene pérgolas, decks, adoquinado y reformas completas de patio. Al calcular la base nosotros mismos, la estructura y los acabados encajan sin sorpresas. Ese enfoque unificado garantiza estabilidad, alineación y rendimiento en todo el proyecto.',
+      'Our concrete services support pergolas, decks, paver systems, and full outdoor remodels. By engineering the foundation in-house, we ensure seamless integration between structural elements and surface finishes. This unified approach guarantees stability, alignment, and long-term performance across your entire outdoor project.':
+        'Nuestro hormigón sostiene pérgolas, decks, adoquinado y remodelaciones exteriores integrales. Al calcular la base nosotros mismos, la estructura y los acabados encajan sin sorpresas. Ese enfoque unificado garantiza estabilidad, alineación y rendimiento en todo el proyecto.',
       'Discover our structural concrete projects engineered to support pergolas, patios, and driveways with long-term stability.':
         'Vea nuestros trabajos de hormigón estructural, calculados para sostener pérgolas, patios y entradas de coche con estabilidad a largo plazo.',
       'Answers about structural concrete services for outdoor projects.':
@@ -383,63 +383,67 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     },
   },
 
-  'patio-remodeling': {
-    nombre: 'Reforma de patio',
-    title: 'Reforma integral de patio | Sur de Florida',
-    description: 'Convertimos patios anticuados en espacios exteriores cuidados: refuerzo estructural, adoquinado, pérgolas integradas y cortinas motorizadas.',
+  'full-outdoor-remodel': {
+    nombre: 'Remodelación exterior integral',
+    title: 'Remodelación exterior integral | Sur de Florida',
+    description: 'Remodelamos el exterior entero: patio, adoquinado, hormigón, decks, vallado, pérgolas, cortinas motorizadas, iluminación y drenaje en un solo proyecto.',
     dic: {
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Fully remodelled patio with large-format pavers, a louvered pergola and an outdoor kitchen in Delray Beach, Florida.':
-        'Patio reformado por completo, con adoquín de gran formato, pérgola de lamas y cocina exterior, en Delray Beach, Florida.',
+      'Full outdoor remodel with large-format pavers, a louvered pergola and an outdoor kitchen in Delray Beach, Florida.':
+        'Remodelación exterior integral con adoquín de gran formato, pérgola de lamas y cocina exterior, en Delray Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
-      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
-      'Luxury patio remodeling project completed at South Florida residence with pergola integration.':
-        'Reforma de patio de lujo terminada en una residencia del sur de Florida, con la pérgola integrada.',
-      'Patio Remodeling': 'Reforma de patio',
-      'Luxury Patio Remodeling in South Florida': 'Reforma de patio de lujo en el sur de Florida',
-      'Pergola Plus Florida transforms outdated patios into refined outdoor living spaces across Palm Beach and Broward County. Our remodeling services include structural upgrades, premium pavers, integrated pergolas, and motorized screen systems designed for comfort and longevity. If you&#x27;re searching for patio remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.':
-        'Pergola Plus Florida convierte patios anticuados en espacios exteriores cuidados por todo Palm Beach y Broward. Nuestras reformas incluyen refuerzo estructural, adoquinado de gama alta, pérgolas integradas y cortinas motorizadas, pensadas para el confort y para durar. Si busca quién le reforme el patio en el sur de Florida, entregamos reformas a medida y con todos los permisos, que mejoran el uso del espacio y suman valor. Cada proyecto se aborda con precisión arquitectónica y mirando al largo plazo.',
-      'We transform outdated patios into refined, fully integrated outdoor living environments across Palm Beach and Broward County. Our patio remodeling services combine structural upgrades, premium pavers, pergola integration, and modern enhancements designed for long-term durability in South Florida’s climate.':
-        'Convertimos patios anticuados en espacios exteriores cuidados y bien integrados en Palm Beach y Broward. Nuestras reformas combinan refuerzo estructural, adoquinado de gama alta, pérgolas integradas y mejoras actuales, pensadas para durar en el clima del sur de Florida.',
-      'Complete Structural Upgrades': 'Refuerzo estructural completo',
-      'Beyond Cosmetic Renovation': 'Más que un lavado de cara',
+      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla. Ojo: no
+      // llega por TEXTOS_CLIENTE sino por el alias de PORTADAS en transformar.mjs,
+      // que se aplica despues.
+      'Full outdoor remodel completed at a South Florida residence with pergola integration.':
+        'Remodelación exterior integral terminada en una residencia del sur de Florida, con la pérgola integrada.',
+      'Full Outdoor Remodel': 'Remodelación exterior integral',
+      'Complete Outdoor Remodeling in South Florida': 'Remodelación exterior integral en el sur de Florida',
+      'Pergola Plus Florida remodels entire outdoor spaces across Palm Beach and Broward County. A full outdoor remodel brings the patio, the hardscape, the shade structures, the lighting and the drainage under one design, one set of permits and one crew — pavers and driveways, structural concrete, decks and fencing, custom pergolas and motorized screens. If you&#x27;re searching for outdoor remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.':
+        'Pergola Plus Florida remodela exteriores completos por todo Palm Beach y Broward. Una remodelación exterior integral reúne el patio, el adoquinado, las estructuras de sombra, la iluminación y el drenaje bajo un mismo diseño, un mismo juego de permisos y un mismo equipo: adoquines y entradas de coche, hormigón estructural, decks y cercas, pérgolas a medida y cortinas motorizadas. Si busca quién le remodele el exterior en el sur de Florida, entregamos remodelaciones a medida y con todos los permisos, que mejoran el uso del espacio y suman valor. Cada proyecto se aborda con precisión arquitectónica y mirando al largo plazo.',
+      'We transform entire exteriors into refined, fully integrated outdoor living environments across Palm Beach and Broward County. A full outdoor remodel combines structural work, premium pavers and driveways, decks and fencing, pergola integration, and lighting and drainage, all designed for long-term durability in South Florida’s climate.':
+        'Convertimos exteriores enteros en espacios cuidados y bien integrados en Palm Beach y Broward. Una remodelación exterior integral combina trabajo estructural, adoquinado y entradas de coche de gama alta, decks y cercas, pérgolas integradas, iluminación y drenaje, todo pensado para durar en el clima del sur de Florida.',
+      'One Project, the Whole Exterior': 'Un solo proyecto para todo el exterior',
+      'A Single Plan Instead of Five Contractors': 'Un plan en vez de cinco contratistas',
+      'Paving, concrete, decking, fencing, shade structures and drainage are drawn together from the start instead of bolted on one at a time. One design, one set of permits and one crew means levels line up, materials match and nothing has to be undone later to make room for the next trade.':
+        'Adoquinado, hormigón, deck, cercas, sombra y drenaje se dibujan juntos desde el principio, en vez de irse añadiendo de uno en uno. Con un solo diseño, un solo juego de permisos y un solo equipo, los niveles cuadran, los materiales pegan entre sí y no hay que deshacer nada para hacerle sitio al siguiente gremio.',
       'We install high-performance pavers and refined surface materials selected for durability, color retention, and architectural elegance. Designed to withstand Florida’s sun and heavy rain, our materials enhance aesthetics while maintaining long-term performance.':
         'Instalamos adoquines de alto rendimiento y pavimentos elegidos por su durabilidad, por cómo mantienen el color y por cómo quedan. Pensados para aguantar el sol y las lluvias de Florida, mejoran la estética sin renunciar al rendimiento.',
       'Premium Paver &amp; Surface Finishes': 'Adoquinado y acabados de gama alta',
       'Elevated Materials for Lasting Beauty': 'Materiales que envejecen bien',
       'Integrated Pergolas &amp; Shade Systems': 'Pérgolas y sombra integradas',
       'Expanding Comfort &amp; Functionality': 'Más confort y más uso',
-      'We seamlessly integrate pergolas, insulated roof systems, and motorized screens into patio remodels. This creates shaded, climate-controlled outdoor environments that extend usability year-round while maintaining architectural cohesion.':
-        'Integramos pérgolas, techos aislados y cortinas motorizadas en la reforma. Así queda un exterior con sombra y temperatura controlada que se puede usar todo el año, y todo sigue encajando con la casa.',
+      'We seamlessly integrate pergolas, insulated roof systems, and motorized screens into the remodel. This creates shaded, climate-controlled outdoor environments that extend usability year-round while maintaining architectural cohesion.':
+        'Integramos pérgolas, techos aislados y cortinas motorizadas en la remodelación. Así queda un exterior con sombra y temperatura controlada que se puede usar todo el año, y todo sigue encajando con la casa.',
       'Custom Outdoor Living Design': 'Diseño exterior a medida',
       'Architecturally Cohesive Layouts': 'Distribuciones que van con la casa',
-      'Every patio remodel is custom designed to improve flow between indoor and outdoor spaces. We consider elevation, traffic patterns, entertainment areas, and surrounding landscaping to create a seamless extension of your home’s architecture.':
-        'Cada reforma se diseña a medida para que se pase mejor del interior al exterior. Tenemos en cuenta los desniveles, por dónde se camina, las zonas de estar y el jardín, para que el patio sea una continuación natural de la casa.',
+      'Every outdoor remodel is custom designed to improve flow between indoor and outdoor spaces. We consider elevation, traffic patterns, entertainment areas, and surrounding landscaping to create a seamless extension of your home’s architecture.':
+        'Cada remodelación se diseña a medida para que se pase mejor del interior al exterior. Tenemos en cuenta los desniveles, por dónde se camina, las zonas de estar y el jardín, para que el exterior sea una continuación natural de la casa.',
       'Professional Project Management': 'Gestión profesional del proyecto',
-      'We manage permitting, inspections, and compliance with local regulations across Palm Beach and Broward County. Our structured installation process ensures long-term durability, structural integrity, and peace of mind. Every patio remodel is treated as a permanent investment in your property.':
-        'Nos ocupamos de permisos, inspecciones y cumplimiento de la normativa local en Palm Beach y Broward. Nuestro proceso asegura durabilidad, solidez estructural y tranquilidad. Tratamos cada reforma como una inversión permanente en su propiedad.',
-      'View our patio transformations featuring structural upgrades, premium finishes, and integrated outdoor living design.':
-        'Vea nuestras reformas de patio, con refuerzo estructural, acabados de gama alta y diseño exterior integrado.',
-      'Common questions about patio remodeling in South Florida.':
-        'Preguntas frecuentes sobre reformas de patio en el sur de Florida.',
-      'Do patio remodels require permits in South Florida?': '¿Hace falta permiso para reformar un patio en el sur de Florida?',
-      'Structural patio remodeling projects often require permits. Professional patio contractors manage engineering documentation and building inspections in Palm Beach and Broward County.':
-        'Las reformas que tocan estructura suelen requerir permiso. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
-      'How long does patio remodeling take?': '¿Cuánto se tarda en reformar un patio?',
-      'Patio remodeling timelines vary based on scope and materials. Most South Florida patio renovation projects take several weeks including demolition, preparation, and installation.':
-        'Depende del alcance y de los materiales. La mayoría de reformas en el sur de Florida llevan varias semanas, contando demolición, preparación e instalación.',
-      'Can pergolas be added during patio remodeling?': '¿Se puede añadir una pérgola durante la reforma?',
-      'Yes. Patio remodeling contractors integrate aluminum pergolas, motorized screens, and premium paver systems to create cohesive outdoor living environments.':
-        'Sí. Integramos pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta para que el exterior quede como un conjunto.',
-      'Will remodeling my patio increase property value?': '¿Reformar el patio revaloriza la casa?',
-      'A professionally remodeled patio enhances usability and curb appeal. Luxury patio remodeling in South Florida can improve resale value.':
-        'Un patio bien reformado se usa más y mejora la imagen de la casa. En el sur de Florida suele mejorar el valor de reventa.',
-      'What materials are best for patio renovations?': '¿Qué materiales son mejores para reformar un patio?',
-      'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable patio remodeling in South Florida’s climate.':
-        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una reforma aguante el clima del sur de Florida.',
+      'We manage permitting, inspections, and compliance with local regulations across Palm Beach and Broward County. Our structured installation process ensures long-term durability, structural integrity, and peace of mind. Every outdoor remodel is treated as a permanent investment in your property.':
+        'Nos ocupamos de permisos, inspecciones y cumplimiento de la normativa local en Palm Beach y Broward. Nuestro proceso asegura durabilidad, solidez estructural y tranquilidad. Tratamos cada remodelación como una inversión permanente en su propiedad.',
+      'View our outdoor transformations featuring structural work, premium finishes, and integrated outdoor living design.':
+        'Vea nuestras remodelaciones de exteriores, con trabajo estructural, acabados de gama alta y diseño exterior integrado.',
+      'Common questions about full outdoor remodels in South Florida.':
+        'Preguntas frecuentes sobre remodelaciones exteriores integrales en el sur de Florida.',
+      'Do outdoor remodels require permits in South Florida?': '¿Hace falta permiso para remodelar el exterior en el sur de Florida?',
+      'Structural outdoor remodeling projects almost always require permits, and a remodel that touches paving, concrete and a roofed structure needs several at once. We manage the engineering documentation and the building inspections in Palm Beach and Broward County.':
+        'Las remodelaciones que tocan estructura casi siempre requieren permiso, y una que toca adoquinado, hormigón y una estructura techada necesita varios a la vez. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
+      'How long does a full outdoor remodel take?': '¿Cuánto se tarda en remodelar el exterior?',
+      'Timelines vary based on scope and materials. Most South Florida outdoor remodels take several weeks including demolition, preparation, and installation — and running the trades under one schedule is usually faster than hiring them separately.':
+        'Depende del alcance y de los materiales. La mayoría de remodelaciones exteriores en el sur de Florida llevan varias semanas, contando demolición, preparación e instalación, y llevar todos los gremios con un mismo calendario suele salir más rápido que contratarlos por separado.',
+      'Can pergolas be added during an outdoor remodel?': '¿Se puede añadir una pérgola durante la remodelación?',
+      'Yes, and it is the cheapest moment to do it. Integrating aluminum pergolas, motorized screens, and premium paver systems while the ground is already open creates a cohesive outdoor living environment without paying twice for the same groundwork.':
+        'Sí, y es el momento más barato para hacerlo. Integrar pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta con el terreno ya abierto deja el exterior como un conjunto y evita pagar dos veces la misma obra de base.',
+      'Will an outdoor remodel increase property value?': '¿Remodelar el exterior revaloriza la casa?',
+      'A professionally remodeled exterior enhances usability and curb appeal on every side of the house, not just the back. Luxury outdoor remodeling in South Florida can improve resale value.':
+        'Un exterior bien remodelado se usa más y mejora la imagen de la casa por todos sus lados, no solo por detrás. En el sur de Florida suele mejorar el valor de reventa.',
+      'What materials are best for outdoor renovations?': '¿Qué materiales son mejores para remodelar el exterior?',
+      'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable outdoor remodeling in South Florida’s climate.':
+        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una remodelación aguante el clima del sur de Florida.',
     },
   },
 };

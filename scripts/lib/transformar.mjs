@@ -170,6 +170,120 @@ export const TEXTOS_CLIENTE = {
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
     'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.',
+
+  // --- «Patio Remodeling» -> «Full Outdoor Remodel» (25-ago-2026) ---
+  //
+  // El servicio deja de ser solo el patio y pasa a cubrir el exterior entero, que es
+  // lo que Pergola Plus ya hace: adoquinado, entradas de coche, hormigon, decks,
+  // vallado, pergolas y cortinas motorizadas bajo UN proyecto. No se inventa ningun
+  // servicio nuevo: todos tienen su propia ficha en /services.
+  //
+  // El nombre ya venia del cliente ('Our Services Thumbnails/Full Outdoor Remodel.JPEG')
+  // y estaba aplicado al menu y a /services, pero no al contenido: se pinchaba «Full
+  // Outdoor Remodel» y se aterrizaba en una pagina titulada «Patio Remodeling».
+  //
+  // OJO: estas claves son tambien las del diccionario de src/i18n/servicios.es.ts.
+  // Cambiar una aqui sin cambiarla alli deja esa cadena en ingles en /es/, y lo mide
+  // check:i18n con su umbral del 98%.
+
+  // ORDEN: la clave larga va PRIMERO. 'Patio Remodeling' es subcadena suya, y
+  // replaceAll se aplica en orden de insercion: al reves, el h2 se convertiria en
+  // «Luxury Full Outdoor Remodel in South Florida» y su clave ya no casaria.
+  'Luxury Patio Remodeling in South Florida': 'Complete Outdoor Remodeling in South Florida',
+  // El h1 de la ficha Y el <h3> de su tarjeta en la seccion de servicios, que sale en
+  // la home y en las 10 fichas de producto. Una sola entrada arregla las doce.
+  'Patio Remodeling': 'Full Outdoor Remodel',
+  // La ficha de /services/concrete nombra el servicio hermano por su nombre viejo.
+  'Our concrete services support pergolas, decks, paver systems, and complete patio remodels.':
+    'Our concrete services support pergolas, decks, paver systems, and full outdoor remodels.',
+  // Las dos frases-lista que enumeran los 7 servicios: el hero de /services y la
+  // cabecera de la seccion de servicios de la home.
+  'We design and build custom pergolas, pavers, driveways, decks, fencing, and full patio remodeling projects across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.':
+    'We design and build custom pergolas, pavers, driveways, decks, fencing, and full outdoor remodels across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.',
+  'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full patio remodeling—designed to enhance both beauty and functionality.':
+    'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full outdoor remodels—designed to enhance both beauty and functionality.',
+  'Complete patio renovations for modern outdoor living spaces.':
+    'Complete outdoor renovations: patio, hardscape, shade and lighting as one project.',
+
+  // Entradilla del hero.
+  'We transform outdated patios into refined outdoor living environments designed for comfort and longevity. From upgraded pavers and structural enhancements to integrated pergolas and motorized screens, every remodel is custom designed and fully permitted. Our approach focuses on architectural integration, durability, and long-term value — creating a seamless extension of your home’s interior space.':
+    'We remodel entire outdoor spaces, not just the patio. Pavers and driveways, structural concrete, decks and fencing, integrated pergolas, motorized screens, lighting and drainage — designed, permitted and built as one project. Our approach focuses on architectural integration, durability, and long-term value, turning the whole exterior of your home into a seamless extension of the way you live indoors.',
+
+  // Intro con la foto a la izquierda.
+  'Pergola Plus Florida transforms outdated patios into refined outdoor living spaces across Palm Beach and Broward County. Our remodeling services include structural upgrades, premium pavers, integrated pergolas, and motorized screen systems designed for comfort and longevity. If you&#x27;re searching for patio remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.':
+    'Pergola Plus Florida remodels entire outdoor spaces across Palm Beach and Broward County. A full outdoor remodel brings the patio, the hardscape, the shade structures, the lighting and the drainage under one design, one set of permits and one crew — pavers and driveways, structural concrete, decks and fencing, custom pergolas and motorized screens. If you&#x27;re searching for outdoor remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.',
+
+  // Cabecera de «Discover What Our Service Includes!».
+  'We transform outdated patios into refined, fully integrated outdoor living environments across Palm Beach and Broward County. Our patio remodeling services combine structural upgrades, premium pavers, pergola integration, and modern enhancements designed for long-term durability in South Florida’s climate.':
+    'We transform entire exteriors into refined, fully integrated outdoor living environments across Palm Beach and Broward County. A full outdoor remodel combines structural work, premium pavers and driveways, decks and fencing, pergola integration, and lighting and drainage, all designed for long-term durability in South Florida’s climate.',
+
+  // Las cinco feature-cards. La primera se reencuadra como el proyecto unico llave en
+  // mano: es el hueco que abre el alcance nuevo.
+  'Complete Structural Upgrades': 'One Project, the Whole Exterior',
+  'Beyond Cosmetic Renovation': 'A Single Plan Instead of Five Contractors',
+
+  // El texto de la card 1 venia DUPLICADO del de la card 2 en el Webflow original
+  // (las dos decian lo mismo sobre adoquines). Se aprovecha el renombrado para darle
+  // el suyo. La clave lleva el <h4> delante porque el texto solo, repetido, casaria
+  // con las dos y las dejaria identicas otra vez.
+  '<h4 class="subtile-feature-card">A Single Plan Instead of Five Contractors</h4><div class="text-card">We install high-performance pavers and refined surface materials selected for durability, color retention, and architectural elegance. Designed to withstand Florida’s sun and heavy rain, our materials enhance aesthetics while maintaining long-term performance.</div>':
+    '<h4 class="subtile-feature-card">A Single Plan Instead of Five Contractors</h4><div class="text-card">Paving, concrete, decking, fencing, shade structures and drainage are drawn together from the start instead of bolted on one at a time. One design, one set of permits and one crew means levels line up, materials match and nothing has to be undone later to make room for the next trade.</div>',
+
+  'We seamlessly integrate pergolas, insulated roof systems, and motorized screens into patio remodels. This creates shaded, climate-controlled outdoor environments that extend usability year-round while maintaining architectural cohesion.':
+    'We seamlessly integrate pergolas, insulated roof systems, and motorized screens into the remodel. This creates shaded, climate-controlled outdoor environments that extend usability year-round while maintaining architectural cohesion.',
+
+  'Every patio remodel is custom designed to improve flow between indoor and outdoor spaces. We consider elevation, traffic patterns, entertainment areas, and surrounding landscaping to create a seamless extension of your home’s architecture.':
+    'Every outdoor remodel is custom designed to improve flow between indoor and outdoor spaces. We consider elevation, traffic patterns, entertainment areas, and surrounding landscaping to create a seamless extension of your home’s architecture.',
+
+  'We manage permitting, inspections, and compliance with local regulations across Palm Beach and Broward County. Our structured installation process ensures long-term durability, structural integrity, and peace of mind. Every patio remodel is treated as a permanent investment in your property.':
+    'We manage permitting, inspections, and compliance with local regulations across Palm Beach and Broward County. Our structured installation process ensures long-term durability, structural integrity, and peace of mind. Every outdoor remodel is treated as a permanent investment in your property.',
+
+  // Entradilla de la galeria.
+  'View our patio transformations featuring structural upgrades, premium finishes, and integrated outdoor living design.':
+    'View our outdoor transformations featuring structural work, premium finishes, and integrated outdoor living design.',
+
+  // Las cinco FAQ de la ficha.
+  'Common questions about patio remodeling in South Florida.':
+    'Common questions about full outdoor remodels in South Florida.',
+  'Do patio remodels require permits in South Florida?':
+    'Do outdoor remodels require permits in South Florida?',
+  'Structural patio remodeling projects often require permits. Professional patio contractors manage engineering documentation and building inspections in Palm Beach and Broward County.':
+    'Structural outdoor remodeling projects almost always require permits, and a remodel that touches paving, concrete and a roofed structure needs several at once. We manage the engineering documentation and the building inspections in Palm Beach and Broward County.',
+  'How long does patio remodeling take?':
+    'How long does a full outdoor remodel take?',
+  'Patio remodeling timelines vary based on scope and materials. Most South Florida patio renovation projects take several weeks including demolition, preparation, and installation.':
+    'Timelines vary based on scope and materials. Most South Florida outdoor remodels take several weeks including demolition, preparation, and installation — and running the trades under one schedule is usually faster than hiring them separately.',
+  'Can pergolas be added during patio remodeling?':
+    'Can pergolas be added during an outdoor remodel?',
+  'Yes. Patio remodeling contractors integrate aluminum pergolas, motorized screens, and premium paver systems to create cohesive outdoor living environments.':
+    'Yes, and it is the cheapest moment to do it. Integrating aluminum pergolas, motorized screens, and premium paver systems while the ground is already open creates a cohesive outdoor living environment without paying twice for the same groundwork.',
+  'Will remodeling my patio increase property value?':
+    'Will an outdoor remodel increase property value?',
+  'A professionally remodeled patio enhances usability and curb appeal. Luxury patio remodeling in South Florida can improve resale value.':
+    'A professionally remodeled exterior enhances usability and curb appeal on every side of the house, not just the back. Luxury outdoor remodeling in South Florida can improve resale value.',
+  'What materials are best for patio renovations?':
+    'What materials are best for outdoor renovations?',
+  'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable patio remodeling in South Florida’s climate.':
+    'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable outdoor remodeling in South Florida’s climate.',
+
+  // Los alt de la ficha. Los dos que NO se tocan son ajenos al servicio: el proyecto
+  // FORTE de Greenacres y el fondo generico del CTA.
+  'Structural patio renovation with reinforced base at South Florida luxury home.':
+    'Structural outdoor renovation with reinforced base at South Florida luxury home.',
+  'Luxury paver patio remodeling at South Florida residence.':
+    'Luxury paver work during a full outdoor remodel at a South Florida residence.',
+  'Patio remodeling with integrated aluminum pergola in South Florida.':
+    'Full outdoor remodel with integrated aluminum pergola in South Florida.',
+  'Custom patio remodeling design integrated with modern South Florida home.':
+    'Custom outdoor remodeling design integrated with modern South Florida home.',
+  'Fully permitted patio remodeling project in South Florida luxury home.':
+    'Fully permitted outdoor remodeling project in South Florida luxury home.',
+  'Luxury patio remodeling project completed at South Florida residence with pergola integration.':
+    'Full outdoor remodel completed at a South Florida residence with pergola integration.',
+  'Patio remodeling service in South Florida transforming outdoor spaces into modern environments.':
+    'Full outdoor remodel service in South Florida transforming entire exteriors into modern environments.',
+  'Complete patio remodeling project in South Florida integrating pergolas, pavers, and modern outdoor living design.':
+    'Complete outdoor remodel in South Florida integrating pergolas, pavers, and modern outdoor living design.',
 };
 
 /**
@@ -431,6 +545,12 @@ export const SEO_ESTATICAS = {
     title: 'Book a Free Design Consultation | Pergola Plus',
     description: 'Schedule a consultation to review design options, system features and the right shade structure for your outdoor space.',
   },
+  // El vivo trae aqui una description que enumera los 7 servicios por su nombre, y
+  // uno de ellos cambio de nombre (Patio Remodeling -> Full Outdoor Remodel).
+  '/services': {
+    title: 'Outdoor Construction & Patio Services | South Florida',
+    description: 'Custom pergolas, pavers, driveways, decks, fencing & full outdoor remodels in Miami-Dade, Broward & Palm Beach. Engineered for Florida\'s climate.',
+  },
   '/resources/faq': {
     title: 'Pergola FAQ | Permits, Wind Load & Timelines',
     description: 'Answers to what we get asked most: permits, HOA approval, wind load, materials, maintenance and how long installation takes.',
@@ -523,9 +643,13 @@ export const SEO_FALTANTE = {
     title: 'Custom Fence Installation | South Florida',
     description: 'Custom fencing for privacy, security and architectural cohesion on luxury residential properties across South Florida.',
   },
-  'services/patio-remodeling': {
-    title: 'Patio Remodeling in South Florida',
-    description: 'We turn outdated patios into refined outdoor living spaces, from surfaces and shade to lighting, drainage and finishes.',
+  // Renombrado de 'patio-remodeling' (25-ago-2026): el servicio pasa a cubrir el
+  // exterior entero, no solo el patio. El nombre lo traia ya el cliente en el
+  // handoff ('Our Services Thumbnails/Full Outdoor Remodel.JPEG') y estaba aplicado
+  // al menu, pero no al contenido. Ver docs/decisiones.md.
+  'services/full-outdoor-remodel': {
+    title: 'Full Outdoor Remodel | South Florida',
+    description: 'Complete outdoor renovations across South Florida: patio, hardscape, shade structures, lighting and drainage, designed and permitted as one project.',
   },
   'services/pavers': {
     title: 'Luxury Paver Installation | South Florida',
@@ -1103,6 +1227,21 @@ const PORTADAS = await (async () => {
   for (const v of Object.values(mapa)) {
     const m = v.src?.match(/^\/cms-img\/(products|services)\/([^/]+)\/cover-/);
     if (m) portadas[`/${m[1]}/${m[2]}`] = { src: v.src, alt: v.alt || v.altDerivado || '' };
+  }
+  // 'patio-remodeling' se renombro a 'full-outdoor-remodel' (25-ago-2026) pero su
+  // carpeta de imagenes conserva el nombre viejo, asi que la clave que sale de la
+  // ruta ya no coincide con la de la pagina y el FAQ de esa ficha reventaria el
+  // generador. No se renombra la carpeta a proposito: arrastraria img-map.json,
+  // img-dim.json, el manifest y una url() del CSS de Webflow que NINGUNA puerta
+  // escanea — un 404 invisible a cambio de nada. Ver docs/decisiones.md.
+  if (portadas['/services/patio-remodeling']) {
+    portadas['/services/full-outdoor-remodel'] = {
+      ...portadas['/services/patio-remodeling'],
+      // El alt viene del manifest y se inyecta DESPUES de TEXTOS_CLIENTE, asi que la
+      // entrada de ese mapa no lo alcanza: hay que darselo aqui o la portada del FAQ
+      // se publica diciendo «patio remodeling» en la unica ficha que ya no lo es.
+      alt: 'Full outdoor remodel completed at a South Florida residence with pergola integration.',
+    };
   }
   return portadas;
 })();

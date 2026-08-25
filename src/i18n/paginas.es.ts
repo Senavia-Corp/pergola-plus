@@ -73,12 +73,12 @@ const PRODUCTOS: Record<string, string> = {
 const SERVICIOS: Record<string, string> = {
   'Luxury Outdoor Construction &amp; Patio Services in South Florida':
     'Construcción exterior y servicios de patio de lujo en el sur de Florida',
-  'We design and build custom pergolas, pavers, driveways, decks, fencing, and full patio remodeling projects across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.':
-    'Diseñamos y construimos pérgolas a medida, adoquinado, entradas de coche, decks, vallado y reformas integrales de patio en Miami-Dade, Broward y Palm Beach, calculados para el clima de Florida y para vivir el exterior con calidad.',
+  'We design and build custom pergolas, pavers, driveways, decks, fencing, and full outdoor remodels across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.':
+    'Diseñamos y construimos pérgolas a medida, adoquinado, entradas de coche, decks, vallado y remodelaciones exteriores integrales en Miami-Dade, Broward y Palm Beach, calculados para el clima de Florida y para vivir el exterior con calidad.',
   'Custom Pergolas &amp; Patio Covers': 'Pérgolas y cubiertas de patio a medida',
         Deck: 'Decks',
     Fence: 'Vallado',
-    'Full Outdoor Remodel': 'Reforma integral del exterior',
+    'Full Outdoor Remodel': 'Remodelación exterior integral',
   };
 
 // ---------------------------------------------------------------------------

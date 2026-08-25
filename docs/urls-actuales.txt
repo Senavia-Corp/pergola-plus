@@ -93,7 +93,7 @@
 /services/deck-builders
 /services/driveways
 /services/fence-solutions
-/services/patio-remodeling
+/services/full-outdoor-remodel
 /services/pavers
 /services/pergola-design-construction
 /thank-you

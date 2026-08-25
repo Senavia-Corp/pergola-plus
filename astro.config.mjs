@@ -473,6 +473,12 @@ export default defineConfig({
     // enlazado desde fuera esta llegando a un 404. Los enlaces ya estan corregidos;
     // esto salva a quien tenga el enlace viejo.
     '/about-us': { status: 301, destination: '/about-us/about-us' },
+    // El servicio 'Patio Remodeling' se renombro a 'Full Outdoor Remodel' al ampliar
+    // su alcance al exterior completo (25-ago-2026). Es la PRIMERA ruta viva del sitio
+    // original que cambia, asi que las dos viejas se cubren con un 301. Los enlaces
+    // internos ya apuntan a la nueva: esto salva al enlace externo y al guardado.
+    '/services/patio-remodeling': { status: 301, destination: '/services/full-outdoor-remodel' },
+    '/es/services/patio-remodeling': { status: 301, destination: '/es/services/full-outdoor-remodel' },
   },
 
   // NO anadir View Transitions / ClientRouter: las 749 interacciones IX2 de

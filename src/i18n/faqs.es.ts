@@ -92,7 +92,7 @@ export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = {
     concrete: 'Structural Concrete',
     'deck-builders': 'Custom Decks',
     'fence-solutions': 'Fence Installation',
-    'patio-remodeling': 'Patio Remodeling',
+    'full-outdoor-remodel': 'Full Outdoor Remodel',
     'general-pergolas': 'Pergolas & Roof Systems',
     'general-permisos': 'Permits, Code & HOA',
     'general-precios': 'Pricing & Value',
@@ -117,7 +117,7 @@ export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = {
     concrete: 'Hormigón estructural',
     'deck-builders': 'Decks',
     'fence-solutions': 'Vallado',
-    'patio-remodeling': 'Reforma de patio',
+    'full-outdoor-remodel': 'Remodelación exterior integral',
     'general-pergolas': 'Pérgolas y techos',
     'general-permisos': 'Permisos, normativa y comunidad',
     'general-precios': 'Precios y valor',
@@ -568,29 +568,29 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
         'High-quality fencing enhances privacy, security, and curb appeal, contributing to increased property value in South Florida residential markets.',
     },
     'patio-permiso': {
-      'pregunta': 'Do patio remodels require permits in South Florida?',
+      'pregunta': 'Do outdoor remodels require permits in South Florida?',
       'respuesta':
-        'Structural patio remodeling projects often require permits. Professional patio contractors manage engineering documentation and building inspections in Palm Beach and Broward County.',
+        'Structural outdoor remodeling projects almost always require permits, and a remodel that touches paving, concrete and a roofed structure needs several at once. We manage the engineering documentation and the building inspections in Palm Beach and Broward County.',
     },
     'patio-plazo': {
-      'pregunta': 'How long does patio remodeling take?',
+      'pregunta': 'How long does a full outdoor remodel take?',
       'respuesta':
-        'Patio remodeling timelines vary based on scope and materials. Most South Florida patio renovation projects take several weeks including demolition, preparation, and installation.',
+        'Timelines vary based on scope and materials. Most South Florida outdoor remodels take several weeks including demolition, preparation, and installation — and running the trades under one schedule is usually faster than hiring them separately.',
     },
     'patio-pergola': {
-      'pregunta': 'Can pergolas be added during patio remodeling?',
+      'pregunta': 'Can pergolas be added during an outdoor remodel?',
       'respuesta':
-        'Yes. Patio remodeling contractors integrate aluminum pergolas, motorized screens, and premium paver systems to create cohesive outdoor living environments.',
+        'Yes, and it is the cheapest moment to do it. Integrating aluminum pergolas, motorized screens, and premium paver systems while the ground is already open creates a cohesive outdoor living environment without paying twice for the same groundwork.',
     },
     'patio-revalorizacion': {
-      'pregunta': 'Will remodeling my patio increase property value?',
+      'pregunta': 'Will an outdoor remodel increase property value?',
       'respuesta':
-        'A professionally remodeled patio enhances usability and curb appeal. Luxury patio remodeling in South Florida can improve resale value.',
+        'A professionally remodeled exterior enhances usability and curb appeal on every side of the house, not just the back. Luxury outdoor remodeling in South Florida can improve resale value.',
     },
     'patio-material': {
-      'pregunta': 'What materials are best for patio renovations?',
+      'pregunta': 'What materials are best for outdoor renovations?',
       'respuesta':
-        'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable patio remodeling in South Florida’s climate.',
+        'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable outdoor remodeling in South Florida’s climate.',
     },
     'pavers-durabilidad': {
       'pregunta': 'How long do professionally installed pavers last in Florida?',
@@ -1945,29 +1945,29 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
         'Un buen vallado aporta privacidad, seguridad y mejor imagen, y eso suele traducirse en más valor en el mercado residencial del sur de Florida.',
     },
     'patio-permiso': {
-      'pregunta': '¿Hace falta permiso para reformar un patio en el sur de Florida?',
+      'pregunta': '¿Hace falta permiso para remodelar el exterior en el sur de Florida?',
       'respuesta':
-        'Las reformas que tocan estructura suelen requerir permiso. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
+        'Las remodelaciones que tocan estructura casi siempre requieren permiso, y una que toca adoquinado, hormigón y una estructura techada necesita varios a la vez. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
     },
     'patio-plazo': {
-      'pregunta': '¿Cuánto se tarda en reformar un patio?',
+      'pregunta': '¿Cuánto se tarda en remodelar el exterior?',
       'respuesta':
-        'Depende del alcance y de los materiales. La mayoría de reformas en el sur de Florida llevan varias semanas, contando demolición, preparación e instalación.',
+        'Depende del alcance y de los materiales. La mayoría de remodelaciones exteriores en el sur de Florida llevan varias semanas, contando demolición, preparación e instalación, y llevar todos los gremios con un mismo calendario suele salir más rápido que contratarlos por separado.',
     },
     'patio-pergola': {
-      'pregunta': '¿Se puede añadir una pérgola durante la reforma?',
+      'pregunta': '¿Se puede añadir una pérgola durante la remodelación?',
       'respuesta':
-        'Sí. Integramos pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta para que el exterior quede como un conjunto.',
+        'Sí, y es el momento más barato para hacerlo. Integrar pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta con el terreno ya abierto deja el exterior como un conjunto y evita pagar dos veces la misma obra de base.',
     },
     'patio-revalorizacion': {
-      'pregunta': '¿Reformar el patio revaloriza la casa?',
+      'pregunta': '¿Remodelar el exterior revaloriza la casa?',
       'respuesta':
-        'Un patio bien reformado se usa más y mejora la imagen de la casa. En el sur de Florida suele mejorar el valor de reventa.',
+        'Un exterior bien remodelado se usa más y mejora la imagen de la casa por todos sus lados, no solo por detrás. En el sur de Florida suele mejorar el valor de reventa.',
     },
     'patio-material': {
-      'pregunta': '¿Qué materiales son mejores para reformar un patio?',
+      'pregunta': '¿Qué materiales son mejores para remodelar el exterior?',
       'respuesta':
-        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una reforma aguante el clima del sur de Florida.',
+        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una remodelación aguante el clima del sur de Florida.',
     },
     'pavers-durabilidad': {
       'pregunta': '¿Cuánto dura un adoquinado bien instalado en Florida?',

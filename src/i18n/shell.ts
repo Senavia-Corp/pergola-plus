@@ -182,7 +182,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     concrete: 'Hormigón',
     deck: 'Terraza de madera',
     fence: 'Vallado',
-    fullRemodel: 'Reforma integral del exterior',
+    fullRemodel: 'Remodelación exterior integral',
 
     aboutUsTitulo: 'Sobre nosotros',
     aboutUsTexto: 'Por qué somos los contratistas de pérgolas de referencia en el sur de Florida.',

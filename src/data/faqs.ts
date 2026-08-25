@@ -29,7 +29,7 @@ export type Tema =
   | 'polycarbonate-pergolas' | 'solar-pergolas' | 'sukkha'
   | 'cabanas' | 'carports' | 'screen-enclosures' | 'motorized-screens'
   | 'pergola-design-construction' | 'pavers' | 'driveways' | 'concrete'
-  | 'deck-builders' | 'fence-solutions' | 'patio-remodeling'
+  | 'deck-builders' | 'fence-solutions' | 'full-outdoor-remodel'
   | 'general-pergolas' | 'general-permisos' | 'general-precios'
   | 'general-materiales' | 'general-proceso' | 'general-empresa';
 
@@ -42,7 +42,7 @@ export const TEMAS_FICHA = new Set<Tema>([
   'polycarbonate-pergolas', 'solar-pergolas', 'sukkha',
   'cabanas', 'carports', 'screen-enclosures', 'motorized-screens',
   'pergola-design-construction', 'pavers', 'driveways', 'concrete',
-  'deck-builders', 'fence-solutions', 'patio-remodeling',
+  'deck-builders', 'fence-solutions', 'full-outdoor-remodel',
 ]);
 
 export interface Faq {
@@ -153,11 +153,11 @@ export const FAQS: Faq[] = [
   { id: 'fences-durabilidad', chip: 'obra', tema: 'fence-solutions', origen: 'ficha' },
   { id: 'fences-viento', chip: 'obra', tema: 'fence-solutions', origen: 'ficha' },
   { id: 'fences-revalorizacion', chip: 'obra', tema: 'fence-solutions', origen: 'ficha' },
-  { id: 'patio-permiso', chip: 'obra', tema: 'patio-remodeling', origen: 'ficha' },
-  { id: 'patio-plazo', chip: 'obra', tema: 'patio-remodeling', origen: 'ficha' },
-  { id: 'patio-pergola', chip: 'obra', tema: 'patio-remodeling', origen: 'ficha', enlace: '/services/pergola-design-construction' },
-  { id: 'patio-revalorizacion', chip: 'obra', tema: 'patio-remodeling', origen: 'ficha' },
-  { id: 'patio-material', chip: 'obra', tema: 'patio-remodeling', origen: 'ficha', enlace: '/services/pavers' },
+  { id: 'patio-permiso', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'ficha' },
+  { id: 'patio-plazo', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'ficha' },
+  { id: 'patio-pergola', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'ficha', enlace: '/services/pergola-design-construction' },
+  { id: 'patio-revalorizacion', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'ficha' },
+  { id: 'patio-material', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'ficha', enlace: '/services/pavers' },
   { id: 'pavers-durabilidad', chip: 'obra', tema: 'pavers', origen: 'ficha' },
   { id: 'pavers-vs-hormigon', chip: 'obra', tema: 'pavers', origen: 'ficha', enlace: '/services/concrete' },
   { id: 'pavers-drenaje', chip: 'obra', tema: 'pavers', origen: 'ficha' },
@@ -336,9 +336,9 @@ export const FAQS: Faq[] = [
   { id: 'obra-hormigon-grietas', chip: 'obra', tema: 'concrete', origen: 'nueva' },
   { id: 'obra-hormigon-pisar', chip: 'obra', tema: 'concrete', origen: 'nueva' },
   { id: 'obra-hormigon-vs-adoquin-cual', chip: 'obra', tema: 'concrete', origen: 'nueva' },
-  { id: 'obra-drenaje-patio', chip: 'obra', tema: 'patio-remodeling', origen: 'nueva' },
-  { id: 'obra-patio-cuanto-dura-obra', chip: 'obra', tema: 'patio-remodeling', origen: 'nueva' },
-  { id: 'obra-patio-por-donde-empezar', chip: 'obra', tema: 'patio-remodeling', origen: 'nueva' },
+  { id: 'obra-drenaje-patio', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'nueva' },
+  { id: 'obra-patio-cuanto-dura-obra', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'nueva' },
+  { id: 'obra-patio-por-donde-empezar', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'nueva' },
   { id: 'obra-deck-material-cual', chip: 'obra', tema: 'deck-builders', origen: 'nueva' },
   { id: 'obra-deck-sobre-hormigon', chip: 'obra', tema: 'deck-builders', origen: 'nueva' },
   { id: 'obra-valla-aluminio-vs-pvc', chip: 'obra', tema: 'fence-solutions', origen: 'nueva' },
@@ -349,8 +349,8 @@ export const FAQS: Faq[] = [
   { id: 'obra-cuanto-dura-adoquin', chip: 'obra', tema: 'pavers', origen: 'nueva' },
   { id: 'obra-reutilizar-adoquin', chip: 'obra', tema: 'pavers', origen: 'nueva' },
   { id: 'obra-pergola-sobre-deck', chip: 'obra', tema: 'deck-builders', origen: 'nueva' },
-  { id: 'obra-riego-jardin', chip: 'obra', tema: 'patio-remodeling', origen: 'nueva' },
-  { id: 'obra-cesped-reparar', chip: 'obra', tema: 'patio-remodeling', origen: 'nueva' },
+  { id: 'obra-riego-jardin', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'nueva' },
+  { id: 'obra-cesped-reparar', chip: 'obra', tema: 'full-outdoor-remodel', origen: 'nueva' },
   { id: 'obra-entrada-ancho', chip: 'obra', tema: 'driveways', origen: 'nueva' },
   { id: 'obra-entrada-acera', chip: 'obra', tema: 'driveways', origen: 'nueva' },
   { id: 'obra-suelo-arena-florida', chip: 'obra', tema: 'concrete', origen: 'nueva' },

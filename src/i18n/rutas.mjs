@@ -82,7 +82,7 @@ export const TRADUCIDAS = {
   '/services/concrete': '/es/services/concrete/',
   '/services/deck-builders': '/es/services/deck-builders/',
   '/services/fence-solutions': '/es/services/fence-solutions/',
-  '/services/patio-remodeling': '/es/services/patio-remodeling/',
+  '/services/full-outdoor-remodel': '/es/services/full-outdoor-remodel/',
   // Fichas de producto. Solo las que tienen diccionario en src/i18n/productos.es.ts.
   '/products/motorized-louvered-pergolas': '/es/products/motorized-louvered-pergolas/',
   '/products/solid-roof-pergolas': '/es/products/solid-roof-pergolas/',

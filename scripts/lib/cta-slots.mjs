@@ -84,7 +84,7 @@ export const EXCLUIR = {
     fotos: ['feature-fence-installation-contractors-south-florida-2.avif'],
     motivo: 'obra a medio hacer: un solo panel sobre hormigon fresco',
   },
-  'patio-remodeling': {
+  'full-outdoor-remodel': {
     fotos: ['feature-patio-remodeling-design-contractors-south-florida-3.avif'],
     motivo: 'obra a medio hacer: ferralla y material apilado',
   },
@@ -128,7 +128,7 @@ export const AVISO_REFERENCIAS = {
     'The references are 3D renders, not photographs. Take the PANEL LAYOUT and the '
     + 'frame proportions from them and nothing else: your image must be a real '
     + 'photograph in late-morning sun.',
-  'patio-remodeling':
+  'full-outdoor-remodel':
     'Most references are shot at dusk with the interior lights on. Take the LAYOUT '
     + 'and the materials from them and ignore their time of day: your image is late '
     + 'morning, in full sun, with no lit windows.',
@@ -357,7 +357,7 @@ export const CTA_SLOTS = {
       + 'home in West Palm Beach, Florida.',
   },
 
-  'patio-remodeling': {
+  'full-outdoor-remodel': {
     producto: 'a completely remodelled rear patio',
     escenario: 'Delray Beach, Florida',
     detalle:
@@ -371,7 +371,7 @@ export const CTA_SLOTS = {
     derecha:
       'the pool and the planted bed running to the water',
     alt:
-      'Fully remodelled patio with large-format pavers, a louvered pergola and an outdoor '
+      'Full outdoor remodel with large-format pavers, a louvered pergola and an outdoor '
       + 'kitchen in Delray Beach, Florida.',
   },
 
