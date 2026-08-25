@@ -42,11 +42,18 @@ export const RUTAS = {
 };
 
 /**
- * Enlaces rotos que ya venian del sitio original. Se corrigen en el markup Y se
- * cubren con un redirect 301, por si alguien tiene el enlace guardado.
+ * Enlaces que no llevan a ninguna pagina. Se corrigen en el markup Y se cubren con un
+ * redirect 301, por si alguien tiene el enlace guardado.
+ *
+ * Los dos primeros venian rotos del sitio original. El tercero lo rompimos nosotros al
+ * renombrar el servicio, y va aqui por la misma razon: el redirect salva al visitante
+ * de fuera, pero un enlace INTERNO a una ruta que ya no existe es un 404 propio, y eso
+ * lo caza check:paginas — los redirects del adaptador no generan HTML, asi que no
+ * cuentan como pagina servida.
  */
 export const ENLACES_ROTOS = {
   '/deck-builders': '/services/deck-builders',
+  '/services/patio-remodeling': '/services/full-outdoor-remodel',
 };
 
 /**
