@@ -1,9 +1,23 @@
 #!/usr/bin/env node
 /**
- * Integra los fondos de CTA que vuelven de Higgsfield.
+ * Integra los fondos de CTA de producto y servicio: los juzga y los publica.
  *
  *   node scripts/integrar-cta.mjs            juzga y genera los montajes. NO escribe.
  *   node scripts/integrar-cta.mjs --aplicar  escribe las aprobadas.
+ *
+ * ───────────────────────────────────────────────────────────────────────────────
+ * DE DONDE SALEN LAS IMAGENES: FOTOGRAFIA REAL, Y SOLO ESO
+ *
+ * Este script nacio como la vuelta de una sesion de generacion con IA. Esa mitad se
+ * retiro el 28-08-2026 junto con el prompt que vivia en lib/cta-slots.mjs: el fondo
+ * del CTA es lo ultimo que ve quien esta a punto de pedir presupuesto, y una pergola
+ * inventada ahi es la pagina de un contratista CON LICENCIA ensenando obra que no
+ * existe. Ver la cabecera de lib/cta-slots.mjs para el porque completo.
+ *
+ * Lo que queda vale igual, y por eso se conserva: pon en ENTRADA la fotografia REAL
+ * que mande el cliente, llamada `<slug>.png`, y este script mide si sirve y ensena el
+ * montaje para que un humano lo apruebe. Si no hay foto, esa pagina se queda con el
+ * fondo generico, que es lo de hoy en las 201.
  *
  * ───────────────────────────────────────────────────────────────────────────────
  * LO QUE ESTE SCRIPT NO PUEDE HACER, DICHO CLARO
@@ -38,7 +52,6 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import sharp from 'sharp';
 import { medirCentro, juzgar, juzgarBruto, legibilidad, juzgarLegibilidad, autocomprobar, UMBRALES, RATIO_OBJETIVO, ZONA } from './comprobar-cta.mjs';
-import { CTA_SLOTS } from './lib/cta-slots.mjs';
 
 const ejecutar = promisify(execFile);
 
@@ -329,7 +342,7 @@ async function montaje(slug, buf, medida, motivos) {
     input: Buffer.from(`<svg width="${W}" height="24" xmlns="http://www.w3.org/2000/svg">
       <text x="4" y="17" font-family="monospace" font-size="14" fill="#000">${refs.length
         ? 'REFERENCIAS REALES DE ESTE SLUG — ¿es el mismo producto que hay arriba?'
-        : 'sin referencias en ' + path.relative(RAIZ, dirRef) + ' (vuelve a correr preparar-cta.mjs)'}</text>
+        : 'sin fotos de referencia en ' + path.relative(RAIZ, dirRef) + ' — deja ahi 3 fotos reales de este slug y se podra comparar'}</text>
     </svg>`), left: 0, top: H,
   });
 

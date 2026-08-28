@@ -36,7 +36,6 @@
     "check:animaciones": "node scripts/comprobar-animaciones.mjs",
     "auditar:animaciones": "node scripts/auditar-animaciones.mjs",
     "check:cta": "node scripts/comprobar-cta.mjs",
-    "preparar:cta": "node scripts/preparar-cta.mjs",
     "integrar:cta": "node scripts/integrar-cta.mjs"
   },
   "dependencies": {
