@@ -37,7 +37,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import sharp from 'sharp';
-import { medirCentro, juzgar, legibilidad, juzgarLegibilidad, autocomprobar, RATIO_OBJETIVO, ZONA } from './comprobar-cta.mjs';
+import { medirCentro, juzgar, juzgarBruto, legibilidad, juzgarLegibilidad, autocomprobar, UMBRALES, RATIO_OBJETIVO, ZONA } from './comprobar-cta.mjs';
 import { CTA_SLOTS } from './lib/cta-slots.mjs';
 
 const ejecutar = promisify(execFile);
@@ -129,10 +129,25 @@ for (const nombre of archivos) {
   const slug = nombre.replace(/\.[^.]+$/, '');
   if (!catalogo.has(slug)) { huerfanos.push(nombre); continue; }
 
-  const buf = await fs.readFile(path.join(ENTRADA, nombre));
+  const bruto = await fs.readFile(path.join(ENTRADA, nombre));
+  const brutoMeta = await sharp(bruto).metadata();
+  const medidaBruto = { width: brutoMeta.width, height: brutoMeta.height, ratio: brutoMeta.width / brutoMeta.height };
+  const motivosBruto = juzgarBruto(medidaBruto);
+
+  // SE RECORTA ANTES DE JUZGAR EL CENTRO. higgsfield no da 2.55:1 —su mas ancha es
+  // 21:9— asi que el bruto viene mas estrecho. Medir el centro del bruto seria medir
+  // una franja que nadie va a ver: lo que decide si el titular se lee es el recorte
+  // publicado, y ese es el que se mide, el que se enseña en el montaje y el que se
+  // escribe. Un solo recorte, una sola verdad.
+  const posicion = RECORTE[slug] ?? 'attention';
+  const buf = motivosBruto.length ? bruto : await sharp(bruto)
+    .resize(MASTER, Math.round(MASTER / RATIO_OBJETIVO), { fit: 'cover', position: posicion })
+    .png().toBuffer();
+
   const medida = await medirCentro(buf);
   const leg = await legibilidad(buf);
-  const motivos = [...juzgar(medida), ...juzgarLegibilidad(leg)];
+  const motivos = [...motivosBruto, ...juzgar(medida, { anchoMin: UMBRALES.ANCHO_PUBLICADO }), ...juzgarLegibilidad(leg)];
+  medida.bruto = `${brutoMeta.width}x${brutoMeta.height} ${medidaBruto.ratio.toFixed(2)}:1`;
   medida.leg = leg;
 
   await montaje(slug, buf, medida, motivos);
@@ -155,7 +170,7 @@ console.log('');
 
 for (const a of aprobadas) {
   console.log(`  ok    ${a.slug.padEnd(30)} ${a.medida.width}x${a.medida.height}`
-    + ` ${a.medida.ratio.toFixed(2)}:1  media ${a.medida.media.toFixed(1)}  sigma ${a.medida.sigma.toFixed(1)}`
+    + ` ${a.medida.ratio.toFixed(2)}:1  media ${a.medida.media.toFixed(1)}  sigma ${a.medida.sigma.toFixed(1)}  <- ${a.medida.bruto}`
     + `  texto ${a.medida.leg['1440'].peor.toFixed(1)}:1 / ${a.medida.leg['390'].peor.toFixed(1)}:1`);
 }
 for (const r of rechazadas) {
@@ -207,11 +222,10 @@ await fs.mkdir(DESTINO, { recursive: true });
 const escritos = [];
 
 for (const a of aprobadas) {
-  const posicion = RECORTE[a.slug] ?? 'attention';
-  if (RECORTE[a.slug]) console.log(`  EXCEPCION nombrada: ${a.slug} se recorta con '${posicion}'`);
+  if (RECORTE[a.slug]) console.log(`  EXCEPCION nombrada: ${a.slug} se recorto con '${RECORTE[a.slug]}'`);
 
-  const alto = Math.round(MASTER / RATIO_OBJETIVO);
-  const master = sharp(a.buf).resize(MASTER, alto, { fit: 'cover', position: posicion });
+  // a.buf ya viene recortado a 2.55:1 y a MASTER de ancho desde el juicio.
+  const master = sharp(a.buf);
 
   let avif = null, calidad = null;
   for (const q of CALIDADES) {
@@ -226,7 +240,7 @@ for (const a of aprobadas) {
   const pesos = [`${MASTER}w ${(avif.length / 1024).toFixed(0)}KB`];
   for (const w of ANCHOS.filter((w) => w !== MASTER)) {
     const buf = await sharp(a.buf)
-      .resize(w, Math.round(w / RATIO_OBJETIVO), { fit: 'cover', position: posicion })
+      .resize(w, Math.round(w / RATIO_OBJETIVO), { fit: 'cover' })
       .avif({ quality: calidad }).toBuffer();
     const p = path.join(DESTINO, `${a.slug}-p-${w}.avif`);
     await fs.writeFile(p, buf);

@@ -68,6 +68,19 @@ export const UMBRALES = {
   RATIO_MIN: 2.45,
   RATIO_MAX: 2.65,
   /**
+   * Relacion admisible de lo que VUELVE del generador, antes de recortar.
+   *
+   * higgsfield no ofrece 2.55:1: la mas ancha es 21:9 = 2,333. Las instrucciones ya
+   * decian «o la mas ancha disponible y recortar», asi que el bruto entra mas
+   * estrecho y se recorta al 2,55 objetivo, que a 21:9 son 7,6% del alto.
+   *
+   * El limite de abajo no es un capricho: recortar un 1:1 a 2,55 se lleva el 61% del
+   * alto y lo que se publica ya no es la foto que se juzgo. A 2,25 se pierde como
+   * mucho un 12%.
+   */
+  RATIO_BRUTO_MIN: 2.25,
+  RATIO_BRUTO_MAX: 3.0,
+  /**
    * Ancho minimo de lo que VUELVE de Higgsfield, no de lo que se publica.
    *
    * Se pide 3000 para tener pixeles de sobra al recortar a 2.55:1 y bajar al master
@@ -235,6 +248,27 @@ export function juzgarLegibilidad(leg) {
       motivos.push(`a ${v}px el titular no se lee: ${r.peor.toFixed(1)}:1 en el 5% mas claro`
         + ` del fondo (minimo ${CONTRASTE_MIN}:1)`);
     }
+  }
+  return motivos;
+}
+
+/**
+ * Juicio de la imagen TAL COMO VUELVE del generador, antes de recortar.
+ *
+ * Aqui solo se mira si hay materia prima suficiente: pixeles y una relacion de la
+ * que se pueda sacar un 2,55 sin cambiar la foto. El centro NO se mide aqui — se
+ * mide sobre el recorte, que es lo que ve el visitante. Medir el bruto seria juzgar
+ * una franja de imagen que nadie va a ver.
+ */
+export function juzgarBruto(m) {
+  const U = UMBRALES;
+  const motivos = [];
+  if (m.width < U.ANCHO_MIN) {
+    motivos.push(`ancho ${m.width} px, minimo ${U.ANCHO_MIN} para recortar con holgura`);
+  }
+  if (m.ratio < U.RATIO_BRUTO_MIN || m.ratio > U.RATIO_BRUTO_MAX) {
+    motivos.push(`relacion ${m.ratio.toFixed(2)}:1 fuera de ${U.RATIO_BRUTO_MIN}-${U.RATIO_BRUTO_MAX}:1`
+      + `: recortarla a ${RATIO_OBJETIVO}:1 cambiaria la foto`);
   }
   return motivos;
 }
