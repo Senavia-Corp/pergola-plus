@@ -1,0 +1,85 @@
+/* Lo propio de la ficha de producto recompuesta.
+ *
+ * Son ~40 lineas y no hay ni un layout nuevo: las secciones que se inyectan
+ * (`intro-location`, `why-choose-section`, `product-grid-list`) ya tienen su CSS en
+ * el de Webflow, y reutilizarlo es lo unico que garantiza que se vean como el resto
+ * del sitio. Aqui solo va lo que no existia: los destinos de ancla, los chips del
+ * hero convertidos en enlaces, los pies de la galeria y el `padding` del bloque de
+ * comparacion.
+ *
+ * NUNCA EN public/css/pergola-plus-florida.webflow.css. Ese fichero es salida del
+ * export y lo reescribe `scripts/parchear-css.mjs`; una regla escrita ahi desaparece
+ * en la siguiente pasada. Mismo criterio que faq.css, tarjetas.css y resenas.css.
+ */
+
+/* -----------------------------------------------------------------------------
+   Destinos de ancla
+
+   `nav.menu` es `position: fixed` (webflow.css:499) con `height: 85px`, asi que el
+   destino de un ancla sin compensar queda DEBAJO del nav. Ojo: `.navbar` declara
+   `position: static` en la linea 162 y engaña — el que fija es `.menu`.
+
+   110 px no es un numero nuevo: es el que el sitio ya usa, con su motivo escrito al
+   lado, en src/styles/blog.css:662. 85 de nav + 25 de aire.
+
+   Y NINGUN MANEJADOR DE SCROLL SUAVE. Un `<a href="#x">` con handler propio deja DOS
+   entradas en el historial y rompe el boton «atras»; ya paso en este repo. El
+   comportamiento nativo con `scroll-margin-top` hace el trabajo entero.
+   -------------------------------------------------------------------------- */
+#features,
+#how-it-works,
+#specs,
+#faq,
+#compare {
+  scroll-margin-top: 110px;
+}
+
+/* -----------------------------------------------------------------------------
+   Los tres chips del hero, que ahora son enlaces
+
+   Sustituyen a la barra de anclas que pedia el encargo: misma funcion de sumario,
+   cero markup nuevo. `.tagline-item-product` ya trae el fondo, el color y el
+   `display: flex`; lo unico que aporta el `<a>` es el subrayado del navegador.
+   -------------------------------------------------------------------------- */
+a.tagline-item-product {
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+a.tagline-item-product:hover {
+  transform: translateY(-2px);
+}
+
+/* -----------------------------------------------------------------------------
+   Los pies de la galeria
+
+   La galeria va sobre `--primary`, asi que el pie es crema. `font-size` y
+   `line-height` copian a `.why-choose-item-text`, que es el texto pequeño del sitio.
+   -------------------------------------------------------------------------- */
+.pp-galeria-pie {
+  color: var(--secundary, #fffbf0);
+  margin-top: 0.75rem;
+  font-size: 13px;
+  line-height: 140%;
+}
+
+/* -----------------------------------------------------------------------------
+   «Comparar las cubiertas»
+
+   Ocupa el hueco de `div.services` y va detras del CTA final. El `padding` es el de
+   toda seccion del sitio (`8rem 2rem`); la rejilla y la cabecera son clases que ya
+   existen.
+   -------------------------------------------------------------------------- */
+.pp-comparar {
+  padding: 8rem 2rem;
+}
+
+.pp-comparar .product-grid-list {
+  margin-top: 3rem;
+}
+
+@media screen and (max-width: 767px) {
+  .pp-comparar {
+    padding: 4rem 1rem;
+  }
+}

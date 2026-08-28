@@ -1,0 +1,71 @@
+---
+/**
+ * Las preguntas que suben de la biblioteca al bloque de preguntas de la ficha.
+ *
+ * La ficha traia cinco, verbatim dentro del fragmento migrado. Estas tres —el
+ * mantenimiento, la seguridad del sensor de lluvia y la vida del motor— ya estaban
+ * escritas y traducidas en `src/i18n/faqs.es.ts` y no salian en ninguna pagina de
+ * producto. Es el trabajo mas barato del rediseño: no hay que redactar, hay que traer.
+ *
+ * SE RENDERIZAN DESDE `FAQS_COPY` Y NO SE INYECTAN EN EL FRAGMENTO, y no es una
+ * preferencia de estilo. El diccionario de `faqs.es.ts` es ANIDADO a proposito para
+ * que el cosechador de `comprobar-i18n.mjs` no lo recoja, asi que el traductor plano
+ * del fragmento (`traducirHtml`) NO encontraria estas cadenas: inyectarlas como HTML
+ * crudo las dejaria en ingles en /es/. Rendirizandolas aqui salen en el idioma que se
+ * pida, sin una sola linea de diccionario nueva.
+ *
+ * VAN DENTRO DE `div.div-block-10`, detras de los cinco `collection-item-faq` y
+ * DELANTE del puente a la biblioteca. El orden del DOM tiene que ser el mismo que el
+ * de `mainEntity` en el `FAQPage`, y el punto de corte del fragmento
+ * (`partirTrasFaq`) cae justo ahi.
+ *
+ * NO SE AÑADE UN CUARTO HIJO A `.pp-faq-2col`: esa rejilla depende de tener
+ * EXACTAMENTE tres hijos —foto, cabecera y lista— y un cuarto cae en la fila 4 y
+ * descentra el texto frente a la foto. Ver src/lib/faq-ficha.ts.
+ *
+ * EL MARKUP ES EL MIGRADO, CLASE POR CLASE. El acordeon lo mueve IX2 por selector de
+ * clase (`.faq_trigger`, eventos e-37/e-38), asi que reproducir `faq_item`,
+ * `faq_trigger`, `faq_question`, `faq_content` y `faq_answer` es lo que hace que
+ * estas tres se comporten como las otras cinco sin cablear nada.
+ */
+import { PROMOVIDAS } from '../data/faqs';
+import { porId, type Idioma } from '../i18n/faqs.es';
+
+interface Props {
+  /** El slug de la ficha. Si no tiene promovidas, el componente no pinta nada. */
+  tema: string;
+  idioma?: Idioma;
+}
+
+const { tema, idioma = 'en' } = Astro.props;
+const pares = porId(idioma, PROMOVIDAS[tema] ?? []);
+---
+
+{pares.length > 0 && (
+  <div class="collection-list-wrapper-faq w-dyn-list pp-faq-promovidas">
+    <div role="list" class="collection-list-faq w-dyn-items">
+      {pares.map((p) => (
+        <div role="listitem" class="collection-item-faq w-dyn-item">
+          <div class="faq_item">
+            <div class="faq_trigger">
+              <h3 class="faq_question">{p.pregunta}</h3>
+              <img loading="lazy" src="/images/Arrow-faq.svg" alt="" class="faq_icon" />
+            </div>
+            <div class="faq_content">
+              <div class="faq_answer">{p.respuesta}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  /* Las cinco migradas y estas tres son DOS `.collection-list-faq` hermanas, y ese
+     flex de columna solo separa a sus propios hijos: sin esto, la quinta y la sexta
+     pregunta quedarian pegadas mientras el resto guarda 1rem. */
+  .pp-faq-promovidas {
+    margin-top: 1rem;
+  }
+</style>

@@ -1,0 +1,200 @@
+---
+/**
+ * «Especificaciones, huecos incluidos» — la seccion 8 de la ficha de producto.
+ *
+ * ES LA SECCION QUE MAS OBJECIONES CIERRA Y LA DE MAS RIESGO LEGAL, y las dos cosas
+ * salen del mismo sitio: publica lo que se puede sostener y DECLARA lo que no se
+ * publica todavia. Cinco de las seis preguntas que F0 midio sin responder —medidas,
+ * precio, garantia, viento y financiacion— piden un dato que el repo no tiene. La
+ * unica manera honesta de cerrarlas hoy es decir que no se publican, y decir por que.
+ *
+ * POR QUE MARKUP NUEVO Y NO UNO DE LOS BLOQUES MIGRADOS. Ninguno de ellos puede
+ * expresar dos listas distintas —lo afirmado y lo que falta—, y meter los huecos en
+ * una rejilla de «caracteristicas» los disfrazaria de ventajas, que es exactamente lo
+ * contrario de lo que hace falta.
+ *
+ * LAS CLASES LLEVAN PREFIJO `pp-` Y VIVEN AQUI, nunca en el CSS de Webflow, que es
+ * salida del export y lo reescribe scripts/parchear-css.mjs.
+ *
+ * NADA DE `Product.offers` NI DE PRECIO EN EL GRAFO. «Mid five figures upward» es una
+ * banda cualitativa, no un `price`; src/lib/jsonld.ts lo prohibe por escrito. El
+ * reparto entre lo que se pinta y lo que se declara vive en
+ * src/data/especificaciones.ts, no aqui.
+ *
+ * SE MONTA EN LAS DOS PLANTILLAS. La ficha inglesa la genera
+ * scripts/generar-detalle.mjs y la española esta escrita a mano en
+ * src/pages/es/products/[slug].astro: un montaje hecho solo en un lado deja al otro
+ * sin la seccion, sin error y sin que ninguna puerta lo diga.
+ */
+import { ESPECIFICACIONES } from '../data/especificaciones';
+import { SPECS_COPY, type Idioma } from '../i18n/especificaciones.es';
+
+interface Props {
+  /** El slug de la ficha. Tiene que estar en ESPECIFICACIONES. */
+  slug: string;
+  idioma?: Idioma;
+}
+
+const { slug, idioma = 'en' } = Astro.props;
+
+const ficha = ESPECIFICACIONES[slug];
+if (!ficha) throw new Error(`[especificaciones] "${slug}" no tiene seccion de especificaciones`);
+const copy = SPECS_COPY[idioma][slug];
+if (!copy) throw new Error(`[especificaciones] "${slug}" no tiene copy en ${idioma}`);
+
+/** Los enlaces de blog, agrupados por el ancla de la que cuelgan. */
+const enlacesDe = (ancla: string) => ficha.enlaces
+  .filter((e) => e.junto === ancla)
+  .map((e) => ({ ruta: e.ruta, texto: copy.enlaces[e.id] ?? e.id }));
+---
+
+<section id="specs" class="pp-specs">
+  <div class="w-layout-blockcontainer container w-container">
+    <div class="pp-specs-contenido" data-pp-reveal>
+      <div class="pp-specs-cabecera">
+        <h2>{copy.titulo}</h2>
+        <p>{copy.entradilla}</p>
+        {enlacesDe('entradilla').map((e) => (
+          <p class="pp-specs-enlace"><a href={e.ruta}>{e.texto}</a></p>
+        ))}
+      </div>
+
+      {/* <dl> y no una rejilla de <h3>: `h1`, `h2` y `h3` llevan
+          `text-transform: capitalize` en ingles, asi que «In a power cut» saldria
+          «In A Power Cut». Y una etiqueta con su valor es literalmente una lista de
+          definiciones. */}
+      <dl class="pp-specs-lista">
+        {ficha.filas.map((id) => (
+          <div class="pp-specs-fila">
+            <dt>{copy.filas[id]!.etiqueta}</dt>
+            <dd>
+              {copy.filas[id]!.valor}
+              {enlacesDe(id).map((e) => (
+                <span class="pp-specs-enlace"><a href={e.ruta}>{e.texto}</a></span>
+              ))}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="pp-specs-huecos">
+        <h3>{copy.huecosTitulo}</h3>
+        <p>{copy.huecosEntradilla}</p>
+        <ul>
+          {ficha.huecos.map((id) => (
+            <li>
+              {copy.huecos[id]}
+              {enlacesDe(id).map((e) => (
+                <span class="pp-specs-enlace"><a href={e.ruta}>{e.texto}</a></span>
+              ))}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Fondo oscuro: lo pide la alternancia de la pagina (va entre la seccion de
+     colores, clara, y las reseñas, crema) y ademas separa la parte tecnica del FAQ
+     que viene despues. El padding es el de toda seccion del sitio. */
+  .pp-specs {
+    background-color: var(--primary, #3a545b);
+    color: var(--white, #fff);
+    padding: 8rem 2rem;
+  }
+
+  .pp-specs-cabecera {
+    max-width: 750px;
+  }
+
+  .pp-specs-cabecera h2 {
+    margin-bottom: 1rem;
+  }
+
+  .pp-specs-lista {
+    margin: 3rem 0 0;
+    padding: 0;
+  }
+
+  /* Dos columnas en escritorio: la etiqueta a la izquierda, el valor a la derecha.
+     Debajo de 767 px se apilan, que es lo unico legible en un movil. */
+  .pp-specs-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 0.5rem 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--white, #fff) 25%, transparent);
+  }
+
+  .pp-specs-fila:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--white, #fff) 25%, transparent);
+  }
+
+  .pp-specs-fila dt {
+    font-weight: 500;
+  }
+
+  .pp-specs-fila dd {
+    margin: 0;
+    line-height: 150%;
+  }
+
+  /* El bloque de huecos declarados. Va en crema sobre el oscuro para que se lea como
+     una lista distinta y no como «mas especificaciones». */
+  .pp-specs-huecos {
+    background-color: color-mix(in srgb, var(--white, #fff) 8%, transparent);
+    border-radius: 8px;
+    margin-top: 3rem;
+    padding: 2rem;
+  }
+
+  .pp-specs-huecos h3 {
+    margin-bottom: 0.5rem;
+    font-size: 18px;
+  }
+
+  .pp-specs-huecos p {
+    max-width: 750px;
+    margin: 0 0 1.5rem;
+  }
+
+  .pp-specs-huecos ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .pp-specs-huecos li {
+    line-height: 150%;
+    margin-bottom: 1rem;
+  }
+
+  .pp-specs-huecos li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Los enlaces al blog. Van al lado del hueco que tapan, no en un carrusel al 87 %
+     del scroll, y con ancla descriptiva: cuatro «Read more» no valen nada. */
+  .pp-specs-enlace {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 14px;
+  }
+
+  .pp-specs-enlace a {
+    color: var(--secundary, #fffbf0);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .pp-specs {
+      padding: 4rem 1rem;
+    }
+
+    .pp-specs-fila {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

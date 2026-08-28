@@ -1876,10 +1876,15 @@
     {
       "ruta": "/products/motorized-louvered-pergolas",
       "idsV": 32,
-      "idsG": 31,
+      "idsG": 30,
       "faltan": [],
-      "sobran": [],
-      "declarados": [],
+      "sobran": [
+        "a36f2a1e-9f59-c2af-809a-f51186a9ca93"
+      ],
+      "declarados": [
+        "af395482-435a-2143-5385-d4f1e6bdca74",
+        "af395482-435a-2143-5385-d4f1e6bdca7b"
+      ],
       "delShell": [
         "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
@@ -1899,8 +1904,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 1767,
-      "deltaTexto": 0.023161551823972205
+      "palabrasG": 2623,
+      "deltaTexto": 0.5188187608569774
     },
     {
       "ruta": "/products/motorized-screens",

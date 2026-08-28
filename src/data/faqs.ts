@@ -45,6 +45,30 @@ export const TEMAS_FICHA = new Set<Tema>([
   'deck-builders', 'fence-solutions', 'full-outdoor-remodel',
 ]);
 
+/**
+ * Preguntas de la biblioteca que ADEMAS se pintan en la ficha de ese tema.
+ *
+ * La ficha migrada trae cinco preguntas verbatim en su HTML; estas suben desde la
+ * biblioteca, donde ya estan escritas y traducidas. Esa es la mitad barata del
+ * rediseño: no hay que redactar nada, hay que traerlo.
+ *
+ * ESTA LISTA LA LEEN DOS SITIOS Y ESE ES EL PUNTO: el componente que las pinta
+ * (src/components/FaqPromovidas.astro) y el `FAQPage` del JSON-LD. Google exige que
+ * las preguntas del markup sean EXACTAMENTE las que se ven en la pagina, asi que
+ * quitar un `id` de aqui tiene que quitarlo de los dos a la vez. Con dos listas, un
+ * dia declararian cosas distintas y el markup pasaria a ser spam.
+ *
+ * Las dos que NO suben —`pergola-lamas-que-angulo` y `material-lamas-sin-luz`— son
+ * la materia prima de la seccion «Como funciona». Reparto cerrado, cero duplicacion.
+ */
+export const PROMOVIDAS: Record<string, string[]> = {
+  'motorized-louvered-pergolas': [
+    'material-lamas-mecanismo',
+    'material-sensor-lluvia-falla',
+    'pergola-lamas-cuanto-duran',
+  ],
+};
+
 export interface Faq {
   /**
    * Slug estable. Es el ancla de la URL (#faq-<id>) y la clave del copy.

@@ -24,8 +24,7 @@ const html = fragmentos['../../contenido-migrado/services/' + item.slug + '.html
 if (!html) throw new Error('sin fragmento para services/' + item.slug);
 // El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el
 // fragmento se parte ahi. Ver src/lib/faq-ficha.ts.
-const faq = partirTrasFaq(html, '${col.dir}/' + item.slug);
-
+const faq = partirTrasFaq(html, 'services/' + item.slug);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
@@ -34,14 +33,16 @@ const faq = partirTrasFaq(html, '${col.dir}/' + item.slug);
 // El nombre sale del <h1> de la pagina, no de un campo aparte: asi no puede
 // contradecir lo que el visitante lee.
 const site = Astro.site!.href;
-const ruta = '/services/' + item.slug;
+// La barra final NO es cosmetica: es la forma que sirve Astro y la que declara la
+// canonica. Sin ella, `Product.url` y las migas apuntaban a una URL que redirige.
+const ruta = '/services/' + item.slug + '/';
 // Las barras van dobladas porque esto se escribe DENTRO de una plantilla de cadena:
 // con una sola, \s llega al fichero como "s" y la expresion deja de coincidir — que
 // es lo que paso en el primer intento y dejo el nombre cayendo al title.
 const nombre = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? item.title)
   .replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
 const migas = breadcrumbs(site, [
-  ["Our Services","/services"],
+  ["Our Services","/services/"],
   [nombre, ruta],
 ] as [string, string][]);
 const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '', ruta }), migas);

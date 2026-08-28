@@ -1,0 +1,102 @@
+---
+/**
+ * «Un proyecto real» — la seccion 9 de la ficha de producto, CONDICIONAL.
+ *
+ * HOY NO RENDERIZA EN NINGUNA FICHA DE LAMAS, y eso es correcto: ninguno de los 13
+ * proyectos esta etiquetado «Motorized Louvered Pergolas». La condicion de render es
+ * que exista al menos un proyecto con la etiqueta de esa ficha; con cero, no se pinta
+ * nada. Sin estado vacio, sin «proximamente» y sin caso inventado — misma regla que
+ * `ReseñasGoogle.astro`, y por el mismo motivo.
+ *
+ * QUIEN LO ACTIVE TIENE QUE LEER ESTO. El dia que un proyecto quede etiquetado, esta
+ * seccion NO se suma a la pagina: SUSTITUYE al bloque de video. La ficha alterna
+ * claro y oscuro sin un solo par repetido, y hoy hay 7 bloques claros contra 7
+ * no-claros entre el hero y el pie. Añadir uno rompe esa paridad y obliga a mover
+ * otro; las dos inserciones evidentes se probaron y las dos rompen. La buena es que
+ * ocupe el turno oscuro del video, en la posicion 10, y que el video se retire: los
+ * dos hacen el mismo trabajo (demostrar obra propia), el video es un `<iframe>` de
+ * cdn.embedly.com —la unica dependencia externa que le queda a esta pagina— y un
+ * proyecto propio con ciudad y sistema es mejor prueba que un video generico.
+ *
+ * EL ESPAÑOL SALE DE `PROYECTOS_ES`, no del diccionario del fragmento: el titulo y el
+ * texto de la tarjeta son los del proyecto, y esa traduccion ya existe. Si algun dia
+ * se etiqueta un proyecto que no esta traducido, la tarjeta se queda fuera de /es/ en
+ * vez de salir en ingles, igual que hace el listado del blog.
+ */
+import { proyectosDeFicha } from '../lib/proyectos-ficha';
+import { PROYECTOS_ES } from '../i18n/proyectos.es';
+
+interface Props {
+  /** El slug de la ficha de producto. */
+  slug: string;
+  idioma?: 'en' | 'es';
+  /** Titular y entradilla de la seccion, en el idioma de la pagina. */
+  titulo: string;
+  entradilla: string;
+}
+
+const { slug, idioma = 'en', titulo, entradilla } = Astro.props;
+
+// El HTML de la galeria se importa en crudo, igual que los fragmentos de las fichas.
+// Es salida generada y por tanto la unica fuente donde vive la etiqueta de producto.
+const galeria = Object.values(import.meta.glob(
+  '../contenido-migrado/estaticas/project-gallery.html',
+  { query: '?raw', import: 'default', eager: true },
+))[0] as string;
+
+const tarjetas = proyectosDeFicha(galeria, slug)
+  .map((t) => {
+    if (idioma !== 'es') return { ...t, ruta: `/project/${t.slug}` };
+    const es = PROYECTOS_ES[t.slug];
+    if (!es) return null;
+    return { ...t, ruta: `/es/project/${t.slug}/`, titulo: es.nombre, texto: es.description };
+  })
+  .filter((t) => t !== null);
+---
+
+{tarjetas.length > 0 && (
+  <section class="pp-proyecto-ficha">
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="header-feature-section" data-pp-reveal>
+        <h2>{titulo}</h2>
+        <div>{entradilla}</div>
+      </div>
+      <div role="list" class="projects-grid-list w-dyn-items">
+        {tarjetas.map((t) => (
+          <div role="listitem" class="projects-grid-item w-dyn-item">
+            <a href={t.ruta} class="projects-card-page w-inline-block">
+              <img src={t.imagen} loading="lazy" alt={t.alt} class="projects-card-image" />
+              <div class="projects-card-body-page">
+                <div class="box-card-body-projects">
+                  {t.etiquetas.map((e) => (
+                    <div class="box-detail-projects"><div>{e}</div></div>
+                  ))}
+                </div>
+                <h3 class="projects-card-h3">{t.titulo}</h3>
+                <div class="projects-card-text">{t.texto}</div>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  /* La rejilla y la tarjeta son clases del sitio (`projects-grid-list`,
+     `projects-card-page`), asi que aqui solo va el hueco de la seccion. */
+  .pp-proyecto-ficha {
+    padding: 8rem 2rem;
+  }
+
+  .pp-proyecto-ficha .projects-grid-list {
+    margin-top: 3rem;
+  }
+
+  @media screen and (max-width: 767px) {
+    .pp-proyecto-ficha {
+      padding: 4rem 1rem;
+    }
+  }
+</style>

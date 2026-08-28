@@ -26,7 +26,15 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
   'motorized-louvered-pergolas': {
     nombre: 'Pérgolas de lamas motorizadas',
     title: 'Pérgolas de lamas motorizadas | Sur de Florida',
-    description: 'Lamas de aluminio orientables con sensores de lluvia y viento, integración domótica y certificación NOA, instaladas en el sur de Florida.',
+    // La descripcion española afirmaba «certificación NOA» y la INGLESA de la misma
+    // pagina no afirma ninguna certificacion. Medido con grep sobre el build: en toda
+    // la ficha no hay ni una cifra de mph, ni de psf, ni un numero de aprobacion. Con
+    // la seccion de especificaciones declarando «numero de NOA: pendiente», esa
+    // afirmacion quedaba contradicha en la propia pagina — y en el snippet de Google,
+    // que es lo primero que se lee. Se sustituye por lo que si se sostiene, y esto
+    // VUELVE ATRAS el dia que el cliente aporte el numero. 137 caracteres, en rango y
+    // unica entre las diez.
+    description: 'Lamas de aluminio orientables con sensor de lluvia y viento, integración domótica y cálculo para las cargas de viento del sur de Florida.',
     dic: {
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
@@ -34,14 +42,47 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Motorized louvered roof pergola with white aluminum louvers open over a poolside deck at a waterfront home in Palm Beach Gardens, Florida.':
         'Pérgola de techo de lamas motorizadas, con lamas de aluminio blancas abiertas, sobre la zona de piscina de una vivienda frente al agua en Palm Beach Gardens, Florida.',
-      // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
-      // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
-      'Louvered roof pergola contractors in South Florida installing motorized aluminum pergolas with smart controls, rain sensors, and modern outdoor living design.':
-        'Especialistas en pérgolas de techo de lamas en el sur de Florida instalando pérgolas de aluminio motorizadas con control inteligente, sensor de lluvia y diseño exterior actual.',
+      // LOS ALT DE LAS FOTOS. Hasta el rediseño, el hero y la portada del FAQ
+      // compartian LITERALMENTE la misma cadena, la de la intro era prosa de producto
+      // que no describia su fotografia, y las diez de galeria llevaban alt="". Ahora
+      // cada foto describe lo que se ve en ella.
+      //
+      // SIN ESTAS ENTRADAS EL ALT SE QUEDA EN INGLES EN /es/ Y NO LO DICE NADIE:
+      // comprobar-i18n.mjs cuenta nodos de texto, no atributos, y comprobar-seo.mjs
+      // solo exige que el atributo exista. La cobertura seguiria en verde.
+      'Freestanding motorized louvered pergola with a graphite aluminum frame, louvers half open over a paver-and-turf terrace with lounge seating and a fire table.':
+        'Pérgola de lamas motorizadas exenta, con estructura de aluminio grafito y las lamas entreabiertas sobre una terraza de losas con juntas de césped, con sillones y mesa de fuego.',
+      'White louvered pergola attached to a yellow stucco home, louvers closed flat over a poolside dining and lounge terrace.':
+        'Pérgola de lamas blanca adosada a una casa de estuco amarillo, con las lamas cerradas en plano sobre una terraza de comedor y estar junto a la piscina.',
+      'Freestanding louvered pergola shading a lounge set beside a pool, louvers closed flat, with a clipped hedge and potted plants around the deck.':
+        'Pérgola de lamas exenta dando sombra a un salón exterior junto a la piscina, con las lamas cerradas en plano, un seto recortado y macetas alrededor de la terraza.',
+      'Freestanding louvered pergola with a dark bronze fascia and white aluminum louvers, open over a lounge set on a paver terrace against a clipped ficus hedge.':
+        'Pérgola de lamas exenta, con fascia bronce oscuro y lamas de aluminio blancas abiertas, sobre un salón exterior en una terraza de losas junto a un seto de ficus recortado.',
+      'Close-up from below of the louver drive: a white rack-and-pinion gear on the dark gutter beam that rotates the aluminum blades.':
+        'Primer plano desde abajo del accionamiento de las lamas: el piñón y la cremallera blancos sobre la viga-canalón oscura que hacen girar las lamas de aluminio.',
+      'White aluminum louvered roof attached to a two-storey white stucco home, louvers angled to throw striped shade over a covered dining terrace.':
+        'Techo de lamas de aluminio blanco adosado a una casa de estuco blanco de dos plantas, con las lamas inclinadas proyectando sombra rayada sobre un comedor exterior cubierto.',
+      'Bronze louvered pergola attached to a tile-roof home, louvers open over a travertine pool deck, with the gutter downspout running down inside the post.':
+        'Pérgola de lamas bronce adosada a una casa con tejado de teja, con las lamas abiertas sobre una terraza de travertino junto a la piscina y la bajante del canalón por dentro del poste.',
+      'Louvered roof section built alongside an existing solid patio cover, louvers fully open to the sky over a brick paver dining patio.':
+        'Tramo de techo de lamas construido junto a una cubierta sólida existente, con las lamas completamente abiertas al cielo sobre un patio de adoquín con comedor.',
+      'Freestanding louvered pergola on a deck at the pool edge, white louvers open, framed by a ficus hedge and palms.':
+        'Pérgola de lamas exenta sobre tarima al borde de la piscina, con las lamas blancas abiertas, entre un seto de ficus y palmeras.',
+      'White louvered pergola attached to a yellow stucco home, shading an outdoor dining and grill area beside the pool.':
+        'Pérgola de lamas blanca adosada a una casa de estuco amarillo, dando sombra a la zona de comedor y parrilla junto a la piscina.',
+      'White louvered pergola turning the corner of a home, louvers open to the sky, with an electrical fixture and its cabling mounted on the beam.':
+        'Pérgola de lamas blanca doblando la esquina de la casa, con las lamas abiertas al cielo y un herraje eléctrico con su cableado montado sobre la viga.',
+      'Rain sensor and wind vane bolted to the gutter beam of a white louvered pergola — the hardware that closes the roof on its own.':
+        'Sensor de lluvia y anemómetro atornillados a la viga-canalón de una pérgola de lamas blanca: el herraje que cierra el techo solo.',
       'Motorized Louvered Pergolas': 'Pérgolas de lamas motorizadas',
       'Sun or Shade on Demand': 'Sol o sombra cuando quiera',
       'Smart Home Integrated': 'Integrada con la domótica',
-      'NOA &amp; FPA Certified': 'Certificación NOA y FPA',
+      // El chip decia «NOA &amp; FPA Certified». Se suavizo a lo que si se puede
+      // sostener —que la estructura se CALCULA para la normativa de viento, que es
+      // proceso y no resultado— porque el sitio no puede dar el numero de aprobacion.
+      // REVERTIBLE: en cuanto el cliente lo aporte, vuelve el texto de antes y el
+      // numero entra como una fila mas de la seccion de especificaciones.
+      'Engineered to Florida Wind Code': 'Calculada para el viento de Florida',
       'Louvered Roof Pergola Contractors in South Florida': 'Especialistas en pérgolas de techo de lamas en el sur de Florida',
       'Pergola Plus designs and installs premium louvered roof pergolas across Miami-Dade, Broward, and Palm Beach County. Our custom aluminum systems feature motorized louvers that provide precise control over sunlight, ventilation, and rain protection—engineered specifically for the South Florida climate. We serve cities including Boca Raton, Fort Lauderdale, Weston, Delray Beach, and Palm Beach Gardens, delivering durable, architecturally refined outdoor living solutions.':
         'Pergola Plus diseña e instala pérgolas de techo de lamas de gama alta en Miami-Dade, Broward y Palm Beach. Nuestros sistemas de aluminio a medida llevan lamas motorizadas que dan control preciso sobre el sol, la ventilación y la lluvia, calculados para el clima del sur de Florida. Trabajamos en Boca Ratón, Fort Lauderdale, Weston, Delray Beach y Palm Beach Gardens, entre otras, con soluciones duraderas y de buen diseño.',
@@ -75,19 +116,108 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Motorized Louvered Pergolas FAQs': 'Preguntas sobre pérgolas de lamas motorizadas',
       'Questions about smart shade in Miami or Broward? Learn how our louvered pergolas offer custom rain and sun control.':
         '¿Dudas sobre sombra inteligente en Miami o Broward? Así funciona el control de sol y lluvia de nuestras pérgolas de lamas.',
-      '1. How do louvered pergolas work?': '1. ¿Cómo funciona una pérgola de lamas?',
+      // Las cinco preguntas de la ficha, SIN el «1. » que traia el markup migrado.
+      // No es un cambio de estilo: src/data/faqs.ts documenta que `origen: 'ficha'`
+      // significa que el texto TIENE que cuadrar con el bloque de la ficha, y la
+      // biblioteca las guarda sin numerar — o sea que la correspondencia estaba rota,
+      // en los dos idiomas, y quitar el prefijo la repara. Estas cinco cadenas son
+      // ahora identicas, letra por letra, a las de src/i18n/faqs.es.ts.
+      'How do louvered pergolas work?': '¿Cómo funciona una pérgola de lamas?',
       'Motorized louvered pergolas use adjustable aluminum roof slats controlled via remote or app, allowing you to instantly adjust shade, sunlight, and patio airflow.':
         'Llevan lamas de aluminio orientables en el techo, que se manejan con mando o desde el móvil. Así ajusta al momento la sombra, la luz y la ventilación del patio.',
-      '2. Are they safe in hurricanes?': '2. ¿Son seguras en un huracán?',
+      'Are they safe in hurricanes?': '¿Son seguras en un huracán?',
       'Yes. Our smart louvered roof systems are heavily engineered for Miami’s wind-load codes, delivering maximum structural strength and safety during severe storms.':
         'Sí. Nuestros techos de lamas se calculan para la normativa de carga de viento de Miami, con la resistencia estructural que exige una tormenta seria.',
-      '3. Do they have rain sensors?': '3. ¿Llevan sensor de lluvia?',
+      'Do they have rain sensors?': '¿Llevan sensor de lluvia?',
       'Yes! Equipped with smart weather sensors, the automated roof closes instantly at the first drop of rain, protecting your outdoor furniture and patio year-round.':
         'Sí. Con sensores meteorológicos, el techo se cierra solo a la primera gota, protegiendo los muebles y el patio durante todo el año.',
-      '4. Will the coastal salt rust it?': '4. ¿El salitre la va a oxidar?',
+      'Will the coastal salt rust it?': '¿El salitre la va a oxidar?',
       'Never. We use marine-grade powder-coated extruded aluminum, guaranteeing your motorized pergola remains rust-free and pristine even in harsh oceanfront locations.':
         'No. Usamos aluminio extruido con recubrimiento en polvo de grado marino, así que la pérgola no se oxida ni pierde aspecto ni en primera línea de playa.',
-      '5. How fast is the installation?': '5. ¿Cuánto se tarda en instalarla?',
+      'How fast is the installation?': '¿Cuánto se tarda en instalarla?',
+
+      // --- Antetitulo de la intro (bloque 2) --------------------------------
+      'About Pergola Plus': 'Quiénes somos',
+
+      // --- Bloque 4 · «Configuraciones que construimos» ----------------------
+      // Los cuatro puntos salen de las fotos, una a una: adosada frente a exenta y
+      // las dos familias de acabado. Ni un voladizo en pies, ni un ancho de lama.
+      'Configurations': 'Configuraciones',
+      'Two Ways We Mount It, Two Finish Families': 'Dos formas de montarla, dos familias de acabado',
+      'Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze, or white and champagne. Everything after that is engineering for your site.':
+        'Cada techo de lamas que construimos se dibuja para una casa concreta. Las dos decisiones que cambian la forma del proyecto son dónde se apoya y cómo se acaba: adosado a la estructura de la casa, o exento sobre un deck o una piscina. A partir de ahí, la estructura va en bronce oscuro, o en blanco y champán. Lo demás es cálculo para su parcela.',
+      'Attached to the House': 'Adosada a la casa',
+      'Freestanding Over Deck or Pool': 'Exenta sobre deck o piscina',
+      'Dark Bronze Powder-Coat Finish': 'Acabado en bronce oscuro',
+      'White or Champagne Powder-Coat Finish': 'Acabado en blanco o champán',
+      'See How It Compares': 'Compare las cubiertas',
+
+      // --- Bloque 5 · «Como funciona: lamas, motor y desague» -----------------
+      // Las cuatro celdas salen de cuatro preguntas ya escritas y ya traducidas de
+      // src/i18n/faqs.es.ts. El hedge «segun el sistema» del recorrido es obligatorio.
+      'How It Works': 'Cómo funciona',
+      'What Happens Inside The Roof': 'Qué pasa dentro del techo',
+      'A louvered roof is a mechanism, not a finish. Four things decide whether you are still happy with it in ten years: how far the louvers actually turn, what the roof does when the power goes, where the water ends up, and whether the motor can be reached. Here is each one.':
+        'Un techo de lamas es un mecanismo, no un acabado. Hay cuatro cosas que deciden si dentro de diez años sigue contento con él: cuánto giran de verdad las lamas, qué hace el techo cuando se va la luz, dónde acaba el agua, y si se puede llegar al motor. Vamos una por una.',
+      'Full Rotation, Any Position': 'Giro completo, cualquier posición',
+      'The louvers turn through about 140 to 170 degrees depending on the system, which is what takes you from open sky to a closed roof and lets you stop anywhere in between. In practice you use three: closed for rain, part-open for filtered light, open in the evening.':
+        'Las lamas giran del orden de 140 a 170 grados según el sistema, que es lo que permite pasar de cielo abierto a techo cerrado y parar en cualquier punto intermedio. En la práctica se usan tres posiciones: cerrada para la lluvia, entreabierta para luz tamizada, y abierta al atardecer.',
+      'When The Power Goes Out': 'Si se va la luz',
+      'The louvers hold their last position. They do not fall open, and they do not close on their own. Systems can be specified with a manual override or a battery backup so you can still close the roof during an outage — worth having where the outage and the storm arrive together.':
+        'Las lamas se quedan en la última posición. Ni se abren solas ni se cierran solas. El sistema puede llevar accionamiento manual de emergencia o batería de respaldo para poder cerrar el techo durante un corte, algo que conviene tener en una zona donde el corte y la tormenta llegan juntos.',
+      'Where The Water Goes': 'Por dónde se va el agua',
+      'Closed, the louvers interlock and the water runs into an integrated gutter and down inside the posts. Keeping that channel and the post drainage clear is the whole maintenance story: a blocked channel is the most common cause of water where it should not be. Do not pressure wash into the drive.':
+        'Cerradas, las lamas encajan entre sí y el agua va a un canalón integrado y baja por dentro de los pilares. Mantener ese canal y el drenaje de los pilares limpios es todo el mantenimiento que hay: un canal atascado es la causa más habitual de que aparezca agua donde no debe. No meta hidrolimpiadora en el accionamiento.',
+      'The Motor Is Serviceable': 'El motor se puede sustituir',
+      'The motor is a serviceable component, not a sealed part of the structure. It is designed to be reached and swapped without dismantling the roof. How long it lasts depends on cycles and on whether water is getting where it should not — which is why the drainage above matters.':
+        'El motor es un componente sustituible, no una pieza sellada de la estructura. Está pensado para llegar a él y cambiarlo sin desmontar el techo. Cuánto dure depende de los ciclos y de si le está entrando agua donde no debe, que es justo por lo que importa el drenaje de arriba.',
+      'See The Specifications': 'Ver las especificaciones',
+      'See The Questions': 'Ver las preguntas',
+
+      // --- Bloque 6 · los pies de la galeria ---------------------------------
+      // Ciudad y fecha NO se inventan: si el cliente no las aporta, el pie las omite.
+      // Un pie sin ciudad sigue siendo infinitamente mejor que alt="".
+      'Attached, dark bronze frame, louvers open at the edge of the pool':
+        'Adosada, marco en bronce oscuro, lamas abiertas al borde de la piscina',
+      'Attached to a white soffit, louvers open over a paver patio and outdoor dining area':
+        'Adosada a un sofito blanco, lamas abiertas sobre un patio de adoquín con comedor exterior',
+      'Freestanding, champagne frame, white louvers, poolside against a clipped hedge':
+        'Exenta, marco champán, lamas blancas, junto a la piscina contra un seto recortado',
+      'Attached, white frame, over the patio of a yellow stucco house':
+        'Adosada, marco blanco, sobre el patio de una casa de estuco amarillo',
+      'Attached, white frame, louvers open, turning the corner of the house':
+        'Adosada, marco blanco, lamas abiertas, doblando la esquina de la casa',
+      'Rain sensor and wind vane on the gutter beam: the hardware that closes the roof':
+        'Sensor de lluvia y anemómetro sobre la viga-canalón: el herraje que cierra el techo',
+
+      // --- Bloque 10 · el titular del video ---------------------------------
+      // La cadena vieja («Contractors Proudly Serving South Florida») sigue viva en
+      // otras 6 fichas y por eso su clave se queda en comun.es.ts. Aqui solo entra la
+      // nueva: en español, la vieja colapsaba con el H2 de las zonas de servicio y
+      // dejaba un <h2> duplicado que check:i18n no puede cazar.
+      'Watch It Open, Watch It Close': 'Véala abrirse y cerrarse',
+
+      // --- Bloque 13 · la entradilla del proceso ----------------------------
+      // La cadena vieja esta en 48 ficheros migrados: su clave se queda en comun.es.ts.
+      'We build to current code so your structure is safe, and we back it with the service, the installation and the finish we would want on our own house. Permitting timelines vary by municipality, but most projects run several weeks from approval to completion, and the installation itself is usually done in a few days once the materials are ready. It is all run by the same team that handles our':
+        'Construimos conforme a la normativa vigente para que su estructura sea segura, y la respaldamos con el servicio, el montaje y el acabado que querríamos en nuestra propia casa. Los plazos de permiso cambian según el municipio, pero la mayoría de proyectos tarda varias semanas desde la aprobación hasta el final, y el montaje en sí suele resolverse en pocos días cuando el material ya está. De todo ello se encarga el mismo equipo de',
+      'pergola design and construction': 'diseño y construcción de pérgolas',
+
+      // --- Bloque 14 · el CTA final, que ahora es unico -----------------------
+      // La cadena vieja del parrafo esta en 99 ficheros migrados; el H2 tambien, y por
+      // eso NO se toca: lo que se cambia es el boton, para que los dos compartan la
+      // palabra «presupuesto», que es lo que pedia el hallazgo de F0.
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the louvered roof around both.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos su espacio, vemos cómo lo usa y planificamos el techo de lamas en torno a las dos cosas.',
+      'Request Your Estimate': 'Solicite su presupuesto',
+
+      // --- Bloque 15 · «Comparar las cubiertas» -----------------------------
+      // Las cuatro tarjetas no llevan copy nuevo: ya existen en /products y ya estan
+      // traducidas. Lo unico propio de esta ficha es el titular y la entradilla.
+      'Other Roofs': 'Otras cubiertas',
+      'Compare The Four Pergola Roofs': 'Compare las cuatro cubiertas',
+      'A louvered roof is the one that moves. If you would rather have a roof that never moves, one that lets the light through, or one that pays for itself, these are the other three we build.':
+        'El techo de lamas es el que se mueve. Si prefiere una cubierta que no se mueva nunca, una que deje pasar la luz o una que se pague sola, éstas son las otras tres que construimos.',
       'Once custom fabrication and permitting are complete, our expert installers assemble your smart pergola in just a few days with minimal disruption to your property.':
         'Una vez fabricada a medida y con el permiso concedido, nuestro equipo la monta en unos pocos días y con las mínimas molestias.',
     },

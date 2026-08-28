@@ -2941,6 +2941,20 @@ export const traducidas = (idioma: Idioma) =>
   idioma === 'en' ? FAQS : FAQS.filter((f) => FAQS_COPY.es[f.id]);
 
 /**
+ * Los pares P/R de unos `id` concretos, en el idioma pedido.
+ *
+ * Misma fuente que pinta el componente, para que el `FAQPage` del JSON-LD no pueda
+ * declarar una pregunta que la pagina no muestra. Lanza si falta el copy: publicar
+ * un par a medias es peor que no publicarlo.
+ */
+export const porId = (idioma: Idioma, ids: string[]) =>
+  ids.map((id) => {
+    const c = FAQS_COPY[idioma][id];
+    if (!c) throw new Error(`[faqs] "${id}" no tiene copy en ${idioma}`);
+    return { pregunta: c.pregunta, respuesta: c.respuesta };
+  });
+
+/**
  * Las preguntas que entran en el JSON-LD, en el idioma pedido.
  *
  * NO van las 95 (ni las ~245 de manana): un FAQPage completo son ~76 KB en crudo

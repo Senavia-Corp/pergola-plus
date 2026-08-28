@@ -37,6 +37,7 @@ import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_FALTANT
 import { parseCSV } from './lib/csv.mjs';
 import { PROYECTOS, ITEMS as ITEMS_PROPIOS, ficha } from './lib/proyectos-destacados.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
+import { rutaOg } from './generar-og.mjs';
 
 // Mapa de imagenes del CMS + inventario de lo que hay en public/images/.
 const MAPA = JSON.parse(await fs.readFile(path.resolve(import.meta.dirname, '../src/lib/img-map.json'), 'utf8'));
@@ -44,6 +45,20 @@ const LOCALES = new Set(await fs.readdir(path.resolve(import.meta.dirname, '../p
 const sinResolverGlobal = new Set();
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
+
+/**
+ * Los derivados 1200x630 que existen en public/images/og/, por nombre de archivo.
+ *
+ * Se lee el disco en vez de mantener una lista: lo que no se ha generado no esta en
+ * la carpeta, no entra en `ogImage` y esa pagina se queda como estaba. Mismo criterio
+ * que CTA_POR_RUTA en scripts/lib/transformar.mjs, y por el mismo motivo — un mapa a
+ * mano puede nombrar una imagen que no existe y dejar la pagina pidiendo un 404.
+ *
+ * Los genera `node scripts/generar-og.mjs`, y TIENEN que estar en git:
+ * `check:imagenes` lo comprueba con `git ls-files` porque Vercel construye desde un
+ * clon.
+ */
+const OG = new Set(await fs.readdir(path.join(RAIZ, 'public/images/og')).catch(() => []));
 const VIVO = path.join(RAIZ, 'docs/vivo');
 const FRAG = path.join(RAIZ, 'src/contenido-migrado');
 const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
@@ -65,13 +80,13 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
  * project, brands, countries, pergolas-contractors y articles.
  */
 const COLECCIONES = [
-  { dir: 'products', ruta: 'products', faq: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products' },
-  { dir: 'services', ruta: 'services', faq: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services' },
+  { dir: 'products', ruta: 'products', faq: true, ficha: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products/' },
+  { dir: 'services', ruta: 'services', faq: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
-  { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery' },
-  { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands' },
-  { dir: 'countries', ruta: 'countries', csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work' },
-  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work' },
+  { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery/' },
+  { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
+  { dir: 'countries', ruta: 'countries', csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
+  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
   { dir: 'articles', ruta: 'articles', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
 ];
 
@@ -197,10 +212,16 @@ for (const col of COLECCIONES) {
     //      todas con el mismo <title>Pergola Plus Florida</title>;
     //   3. lo que traia la pagina en vivo.
     const propio = SEO_FALTANTE[`${col.dir}/${slug}`] ?? {};
+    // `og:image` no existia en NINGUNA de las 217 paginas construidas —medido— y
+    // `ogImage` llegaba `null` en los diez productos, asi que `producto()` tampoco
+    // podia emitir `image` en el JSON-LD. El derivado sale del MISMO hero que ve el
+    // visitante, asi que la tarjeta que se comparte no puede enseñar otra cosa.
+    const og = col.ficha && OG.has(path.basename(rutaOg(slug))) ? rutaOg(slug) : null;
     items.push({
       slug, ...m, ...s,
       title: (SEO_DESDE_CMS && s.tituloSeo) || propio.title || m.title,
       description: (SEO_DESDE_CMS && s.descripcionSeo) || propio.description || m.description,
+      ogImage: og ?? m.ogImage,
     });
   }
 
@@ -225,12 +246,72 @@ for (const col of COLECCIONES) {
   items.sort((a, b) => a.slug.localeCompare(b.slug));
   await fs.writeFile(path.join(FRAG, col.dir, '_items.json'), JSON.stringify(items, null, 2));
 
+  // La ficha de producto recompuesta: tres componentes en el hueco del primer CTA,
+  // las preguntas promovidas dentro del bloque de FAQ y un `FAQPage` en el grafo.
+  //
+  // Va gobernado por `col.ficha` y NO por `col.faq`: services tambien pinta cinco
+  // preguntas, pero las suyas siguen numeradas en el markup migrado («1. »), y un
+  // `FAQPage` cuyo `name` no coincide LETRA POR LETRA con lo que la pagina enseña es
+  // markup desincronizado — que a ojos de Google es spam, no un descuido.
+  const impFicha = col.ficha ? [
+    "import EspecificacionesFicha from '../../components/EspecificacionesFicha.astro';",
+    "import ProyectoDeFicha from '../../components/ProyectoDeFicha.astro';",
+    "import ReseñasGoogle from '../../components/ReseñasGoogle.astro';",
+    "import FaqPromovidas from '../../components/FaqPromovidas.astro';",
+    "import { ESPECIFICACIONES } from '../../data/especificaciones';",
+    "import { filasDe } from '../../i18n/especificaciones.es';",
+    "import { PROMOVIDAS } from '../../data/faqs';",
+    "import { porId } from '../../i18n/faqs.es';",
+    '',
+  ].join('\n') : '';
+
+  const bloqueFicha = col.ficha ? [
+    '',
+    '// LA ASERCION NO ES ADORNO. La marca la escribe scripts/lib/transformar.mjs y la',
+    '// lista de fichas con especificaciones vive en src/data/especificaciones.ts: son',
+    '// dos ficheros que no pueden importarse entre si —uno es .mjs de un script, el',
+    '// otro .ts del build—, asi que la unica forma de que la duplicacion no se rompa en',
+    '// silencio es comprobarla aqui. Sin esto, un cambio en el transformador publicaria',
+    '// la ficha sin especificaciones, sin proyecto y sin reseñas, sin un solo error.',
+    'const ficha = ESPECIFICACIONES[item.slug] ?? null;',
+    'if (Boolean(ficha) !== html.includes(MARCA_SECCIONES)) {',
+    "  throw new Error('[ficha] ' + item.slug + ': ' + (ficha",
+    "    ? 'tiene especificaciones pero el fragmento no trae la marca de secciones'",
+    "    : 'el fragmento trae la marca de secciones y la ficha no tiene especificaciones'));",
+    '}',
+    "const secciones = ficha ? partirEnMarca(html, item.slug) : { antes: '', despues: html };",
+  ].join('\n') : '';
+
+  const cuerpoFaq = col.ficha ? 'secciones.despues' : 'html';
+
+  const grafoFicha = col.ficha ? [
+    '',
+    '// Los pares P/R que la pagina PINTA: los cinco del fragmento, leidos del propio',
+    '// HTML que se va a servir, y los que sube FaqPromovidas desde la biblioteca.',
+    '// Nunca una copia — una copia se desincroniza y entonces el markup es spam.',
+    'const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];',
+    "const pares = ficha ? [...paresFaq(secciones.despues, item.slug), ...porId('en', promovidas)] : [];",
+    '// `grafo` filtra con Boolean y `{ mainEntity: [] }` es truthy: un FAQPage vacio se',
+    '// publicaria. Por eso el recuento va ANTES de llamar, no despues.',
+    'if (ficha && pares.length !== 5 + promovidas.length) {',
+    "  throw new Error('[faq] ' + item.slug + ': ' + pares.length + ' pares extraidos, '",
+    "    + (5 + promovidas.length) + ' esperados');",
+    '}',
+    "const filas = ficha ? filasDe('en', item.slug, ficha.enGrafo) : [];",
+  ].join('\n') : '';
+
+  const nodoProducto = col.ficha
+    ? "producto(site, { nombre, descripcion: item.description ?? '', ruta, imagen: item.ogImage ?? null,\n"
+      + "  material: ficha?.material ? filasDe('en', item.slug, [ficha.material])[0]!.valor : null,\n"
+      + '  propiedades: filas.map((f) => ({ nombre: f.etiqueta, valor: f.valor })) })'
+    : "producto(site, { nombre, descripcion: item.description ?? '', ruta, imagen: item.ogImage ?? null })";
+
   // La plantilla Astro: una por coleccion, con getStaticPaths sobre los items.
   const astro = `---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
-import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
-${col.faq ? "import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\nimport { partirTrasFaq } from '../../lib/faq-ficha';\n" : ''}
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio${col.ficha ? ', faqPage' : ''} } from '../../lib/jsonld';
+${col.faq ? `import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\nimport { partirTrasFaq${col.ficha ? ', partirEnMarca, paresFaq, MARCA_SECCIONES' : ''} } from '../../lib/faq-ficha';\n` : ''}${impFicha}
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
 // El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
@@ -247,9 +328,8 @@ export function getStaticPaths() {
 
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];
-if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);
-${col.faq ? "// El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el\n// fragmento se parte ahi. Ver src/lib/faq-ficha.ts.\nconst faq = partirTrasFaq(html, '${col.dir}/' + item.slug);\n" : ''}
-
+if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);${bloqueFicha}
+${col.faq ? `// El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el\n// fragmento se parte ahi. Ver src/lib/faq-ficha.ts.\nconst faq = partirTrasFaq(${cuerpoFaq}, '${col.dir}/' + item.slug);\n` : ''}
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
 // src/lib/jsonld.ts y todos estan publicados en el propio sitio.
@@ -257,7 +337,9 @@ ${col.faq ? "// El enlace a la biblioteca va DENTRO de la lista de preguntas, as
 // El nombre sale del <h1> de la pagina, no de un campo aparte: asi no puede
 // contradecir lo que el visitante lee.
 const site = Astro.site!.href;
-const ruta = '/${col.ruta}/' + item.slug;
+// La barra final NO es cosmetica: es la forma que sirve Astro y la que declara la
+// canonica. Sin ella, \`Product.url\` y las migas apuntaban a una URL que redirige.
+const ruta = '/${col.ruta}/' + item.slug + '/';
 // Las barras van dobladas porque esto se escribe DENTRO de una plantilla de cadena:
 // con una sola, \\s llega al fichero como "s" y la expresion deja de coincidir — que
 // es lo que paso en el primer intento y dejo el nombre cayendo al title.
@@ -265,13 +347,13 @@ const nombre = (html.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/)?.[1] ?? item.title)
   .replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
 const migas = breadcrumbs(site, [
 ${col.miga ? `  ${JSON.stringify([col.miga, col.migaRuta])},\n` : ''}  [nombre, ruta],
-] as [string, string][]);
+] as [string, string][]);${grafoFicha}
 const jsonLd = grafo(${{
-    producto: "producto(site, { nombre, descripcion: item.description ?? '', ruta, imagen: item.ogImage ?? null })",
+    producto: nodoProducto,
     servicio: "servicio(site, { nombre, descripcion: item.description ?? '', ruta })",
     area: "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre })",
     ninguno: 'null',
-  }[col.ld ?? 'ninguno']}, migas);
+  }[col.ld ?? 'ninguno']},${col.ficha ? '\n  ficha ? faqPage(pares) : null,' : ''} migas);
 ---
 
 <BaseLayout
@@ -282,8 +364,18 @@ const jsonLd = grafo(${{
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
-${col.faq
-    ? '  <Fragment set:html={faq.antes} />\n  <FaqFichaEnlace tema={item.slug} />\n  <Fragment set:html={faq.despues} />\n'
+${col.ficha
+    ? '  <Fragment set:html={secciones.antes} />\n'
+      + '  {ficha && <EspecificacionesFicha slug={item.slug} />}\n'
+      + '  {/* Condicional: hoy no hay ni un proyecto etiquetado para este producto, asi\n'
+      + '      que no pinta nada. Ver src/lib/proyectos-ficha.ts. */}\n'
+      + '  {ficha && <ProyectoDeFicha slug={item.slug} titulo="One We Built"\n'
+      + '    entradilla="A project of ours with this roof, from our own gallery." />}\n'
+      + '  {ficha && <ReseñasGoogle />}\n'
+    : ''}${col.faq
+    ? '  <Fragment set:html={faq.antes} />\n'
+      + (col.ficha ? '  <FaqPromovidas tema={item.slug} />\n' : '')
+      + '  <FaqFichaEnlace tema={item.slug} />\n  <Fragment set:html={faq.despues} />\n'
     : '  <Fragment set:html={html} />\n'}</BaseLayout>
 `;
 

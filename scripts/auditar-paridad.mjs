@@ -60,6 +60,16 @@ const PROPIAS = {
         '.divider-right -> la tarjeta del formulario es markup propio y entra con [data-pp-reveal]',
     },
   },
+  '/products/motorized-louvered-pergolas': {
+    razon:
+      'ficha recompuesta: el bloque `services` sale entero y su hueco lo ocupa «Comparar las cubiertas». Era el peor bloque de la pagina —1.211 px al 62 % del scroll ofreciendo pavimentos, calzadas y vallas en plena decision de compra— y ademas tapaba el agujero real que midio F0: CERO enlaces visibles a una ficha hermana, frente a 12 al blog. Los dos ids siguen vivos en estaticas/index.html, asi que el selector de animaciones.css no se queda huerfano',
+    permitidos: {
+      'af395482-435a-2143-5385-d4f1e6bdca74':
+        '.header-services -> el bloque de servicios se retira de esta ficha. El unico enlace que valia la pena, /services/pergola-design-construction, se repone en la entradilla del proceso: sin eso el enlazado a servicio pasaba de 7 a 0',
+      'af395482-435a-2143-5385-d4f1e6bdca7b':
+        '.wrapper-services -> la rejilla de las 7 tarjetas de servicio, con el mismo bloque. Su turno OSCURO lo cubre ahora la seccion de especificaciones, que se monta como componente y por tanto no lleva data-w-id de Webflow: entra con [data-pp-reveal]',
+    },
+  },
   '/resources/blog': {
     razon: 'listado reconstruido desde el CSV del CMS; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2',
     permitidos: {

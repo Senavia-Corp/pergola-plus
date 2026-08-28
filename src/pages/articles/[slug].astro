@@ -21,7 +21,6 @@ const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/articles/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para articles/' + item.slug);
 
-
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
 // src/lib/jsonld.ts y todos estan publicados en el propio sitio.
@@ -29,7 +28,9 @@ if (!html) throw new Error('sin fragmento para articles/' + item.slug);
 // El nombre sale del <h1> de la pagina, no de un campo aparte: asi no puede
 // contradecir lo que el visitante lee.
 const site = Astro.site!.href;
-const ruta = '/articles/' + item.slug;
+// La barra final NO es cosmetica: es la forma que sirve Astro y la que declara la
+// canonica. Sin ella, `Product.url` y las migas apuntaban a una URL que redirige.
+const ruta = '/articles/' + item.slug + '/';
 // Las barras van dobladas porque esto se escribe DENTRO de una plantilla de cadena:
 // con una sola, \s llega al fichero como "s" y la expresion deja de coincidir — que
 // es lo que paso en el primer intento y dejo el nombre cayendo al title.

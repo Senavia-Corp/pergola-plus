@@ -32,6 +32,11 @@ import '../styles/tarjetas.css';
 // tiene que resolverse DESPUES de las dos. Y antes de cotizacion.css, que sigue
 // siendo la ultima por lo que explica su propio comentario.
 import '../styles/blog-carrusel.css';
+// Lo propio de la ficha de producto recompuesta: los cinco destinos de ancla, los
+// chips del hero convertidos en enlaces, los pies de la galeria y el bloque de
+// comparacion. Va DESPUES de tarjetas.css porque solo le añade separacion a
+// `.product-grid-list`, que aquella ya estiliza.
+import '../styles/ficha-producto.css';
 // El formulario multipaso de /contact-us/get-a-quote. VA LA ULTIMA por lo mismo:
 // tiene que ganarle al `.w-input:focus { outline: 0 }` de webflow.css, que hoy
 // deja los campos de ese formulario SIN anillo de foco.
@@ -114,6 +119,13 @@ const indexable = import.meta.env.PUBLIC_ES_PRODUCCION === '1' && !noindex;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
+// `og:image` tiene que ser ABSOLUTA: los rastreadores de las redes sociales no
+// resuelven rutas relativas y se quedan sin tarjeta. Se absolutiza sobre `site`, que
+// es la misma pieza que decide la canonica — asi que en un build provisional apunta a
+// localhost, igual que todo lo demas, y eso es lo correcto: esas paginas van
+// `noindex` y sin sitemap. Una URL ya absoluta pasa intacta por `new URL`.
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+
 // El idioma sale de la ruta: todo lo que cuelgue de /es/ es español. Sin esto el
 // <html lang="en"> mentiria en la version española, y lang es lo que usan los
 // lectores de pantalla para elegir voz y los buscadores para segmentar.
@@ -159,8 +171,8 @@ const xDefault = alternativas.length > 1
     <meta content={description} name="twitter:description" />
     <meta property="og:type" content={ogType} />
     <meta content="summary_large_image" name="twitter:card" />
-    {ogImage && <meta content={ogImage} property="og:image" />}
-    {ogImage && <meta content={ogImage} name="twitter:image" />}
+    {ogImageUrl && <meta content={ogImageUrl} property="og:image" />}
+    {ogImageUrl && <meta content={ogImageUrl} name="twitter:image" />}
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     {!indexable && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />

@@ -25,6 +25,42 @@ export const COMUN_ES: Record<string, string> = {
 
   // --- Enlaces y botones recurrentes ---
   'Explore More →': 'Ver más →',
+
+  // --- Las cuatro tarjetas de «Comparar las cubiertas» -------------------------
+  //
+  // El bloque de comparacion inyecta en la ficha de producto COPIAS de las tarjetas
+  // de /products, y su titular, su alt y su texto de enlace no estaban traducidos en
+  // ningun sitio que la ficha cargue: los cuatro `h3` SI existen traducidos, pero en
+  // `paginas.es.ts`, que solo usa /es/products.
+  //
+  // VAN EN `comun.es.ts` Y NO EN EL DICCIONARIO DEL PRODUCTO a proposito: el bloque
+  // sera el mismo cuando esto se replique a las otras nueve fichas, asi que aqui se
+  // resuelve una vez para las diez. En el diccionario de la ficha habria que
+  // acordarse cada vez, y a la tercera se olvida.
+  //
+  // Y hay un numero detras: la ficha española va hoy al 100 % de cobertura con ~220
+  // nodos, o sea un margen de unos 4 nodos hasta el 98 % que exige check:i18n.
+  // Cuatro `h3` sin traducir se lo comen entero. Los cuatro `alt` son peores: no los
+  // mira ninguna puerta, asi que se publicarian en ingles sin que nadie avise.
+  'Modern Insulated Roof Pergolas': 'Pérgolas modernas de techo aislado',
+  'Custom Open-Air Aluminum Pergolas': 'Pérgolas abiertas de aluminio a medida',
+  'Modern Polycarbonate Pergola Systems': 'Pérgolas modernas de policarbonato',
+  'Solar-Integrated Shade Structures': 'Estructuras de sombra con solar integrada',
+  'Engineered insulated roof pergolas designed for heat reduction and long-term performance in South Florida outdoor living spaces.':
+    'Pérgolas de techo aislado calculadas para bajar el calor y rendir a largo plazo en los exteriores del sur de Florida.',
+  'Modern open-air aluminum pergolas designed and built in South Florida for luxury residential outdoor environments.':
+    'Pérgolas abiertas de aluminio, diseñadas y construidas en el sur de Florida para exteriores residenciales de gama alta.',
+  'Custom polycarbonate pergola systems installed in South Florida, providing natural light and weather protection for modern patios.':
+    'Pérgolas de policarbonato a medida instaladas en el sur de Florida, que dejan pasar la luz natural y protegen de la intemperie en patios actuales.',
+  'Engineered solar roof structures combining shade and energy efficiency for South Florida residential properties.':
+    'Estructuras de techo solar calculadas, que combinan sombra y eficiencia energética en viviendas del sur de Florida.',
+  // El texto VISIBLE del enlace de cada tarjeta. En /products las cuatro dicen
+  // «Explore More →», que como texto de ancla no vale nada y como lista de enlaces
+  // para un lector de pantalla es peor. En las copias inyectadas dice el producto.
+  'Insulated Solid Roof Pergolas': 'Pérgolas de techo aislado',
+  'Open-Air Aluminum Pergolas': 'Pérgolas abiertas de aluminio',
+  'Polycarbonate Roof Pergolas': 'Pérgolas con techo de policarbonato',
+  'Solar-Integrated Pergolas': 'Pérgolas con solar integrada',
   'Read More →': 'Leer más →',
   'More about us': 'Más sobre nosotros',
   'More About Us': 'Más sobre nosotros',

@@ -1,9 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/products/_items.json';
-import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio, faqPage } from '../../lib/jsonld';
 import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq } from '../../lib/faq-ficha';
+import { partirTrasFaq, partirEnMarca, paresFaq, MARCA_SECCIONES } from '../../lib/faq-ficha';
+import EspecificacionesFicha from '../../components/EspecificacionesFicha.astro';
+import ProyectoDeFicha from '../../components/ProyectoDeFicha.astro';
+import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
+import FaqPromovidas from '../../components/FaqPromovidas.astro';
+import { ESPECIFICACIONES } from '../../data/especificaciones';
+import { filasDe } from '../../i18n/especificaciones.es';
+import { PROMOVIDAS } from '../../data/faqs';
+import { porId } from '../../i18n/faqs.es';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -22,10 +30,22 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/products/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para products/' + item.slug);
+// LA ASERCION NO ES ADORNO. La marca la escribe scripts/lib/transformar.mjs y la
+// lista de fichas con especificaciones vive en src/data/especificaciones.ts: son
+// dos ficheros que no pueden importarse entre si —uno es .mjs de un script, el
+// otro .ts del build—, asi que la unica forma de que la duplicacion no se rompa en
+// silencio es comprobarla aqui. Sin esto, un cambio en el transformador publicaria
+// la ficha sin especificaciones, sin proyecto y sin reseñas, sin un solo error.
+const ficha = ESPECIFICACIONES[item.slug] ?? null;
+if (Boolean(ficha) !== html.includes(MARCA_SECCIONES)) {
+  throw new Error('[ficha] ' + item.slug + ': ' + (ficha
+    ? 'tiene especificaciones pero el fragmento no trae la marca de secciones'
+    : 'el fragmento trae la marca de secciones y la ficha no tiene especificaciones'));
+}
+const secciones = ficha ? partirEnMarca(html, item.slug) : { antes: '', despues: html };
 // El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el
 // fragmento se parte ahi. Ver src/lib/faq-ficha.ts.
-const faq = partirTrasFaq(html, '${col.dir}/' + item.slug);
-
+const faq = partirTrasFaq(secciones.despues, 'products/' + item.slug);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
@@ -34,17 +54,34 @@ const faq = partirTrasFaq(html, '${col.dir}/' + item.slug);
 // El nombre sale del <h1> de la pagina, no de un campo aparte: asi no puede
 // contradecir lo que el visitante lee.
 const site = Astro.site!.href;
-const ruta = '/products/' + item.slug;
+// La barra final NO es cosmetica: es la forma que sirve Astro y la que declara la
+// canonica. Sin ella, `Product.url` y las migas apuntaban a una URL que redirige.
+const ruta = '/products/' + item.slug + '/';
 // Las barras van dobladas porque esto se escribe DENTRO de una plantilla de cadena:
 // con una sola, \s llega al fichero como "s" y la expresion deja de coincidir — que
 // es lo que paso en el primer intento y dejo el nombre cayendo al title.
 const nombre = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? item.title)
   .replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
 const migas = breadcrumbs(site, [
-  ["Our Products","/products"],
+  ["Our Products","/products/"],
   [nombre, ruta],
 ] as [string, string][]);
-const jsonLd = grafo(producto(site, { nombre, descripcion: item.description ?? '', ruta, imagen: item.ogImage ?? null }), migas);
+// Los pares P/R que la pagina PINTA: los cinco del fragmento, leidos del propio
+// HTML que se va a servir, y los que sube FaqPromovidas desde la biblioteca.
+// Nunca una copia — una copia se desincroniza y entonces el markup es spam.
+const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];
+const pares = ficha ? [...paresFaq(secciones.despues, item.slug), ...porId('en', promovidas)] : [];
+// `grafo` filtra con Boolean y `{ mainEntity: [] }` es truthy: un FAQPage vacio se
+// publicaria. Por eso el recuento va ANTES de llamar, no despues.
+if (ficha && pares.length !== 5 + promovidas.length) {
+  throw new Error('[faq] ' + item.slug + ': ' + pares.length + ' pares extraidos, '
+    + (5 + promovidas.length) + ' esperados');
+}
+const filas = ficha ? filasDe('en', item.slug, ficha.enGrafo) : [];
+const jsonLd = grafo(producto(site, { nombre, descripcion: item.description ?? '', ruta, imagen: item.ogImage ?? null,
+  material: ficha?.material ? filasDe('en', item.slug, [ficha.material])[0]!.valor : null,
+  propiedades: filas.map((f) => ({ nombre: f.etiqueta, valor: f.valor })) }),
+  ficha ? faqPage(pares) : null, migas);
 ---
 
 <BaseLayout
@@ -55,7 +92,15 @@ const jsonLd = grafo(producto(site, { nombre, descripcion: item.description ?? '
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
+  <Fragment set:html={secciones.antes} />
+  {ficha && <EspecificacionesFicha slug={item.slug} />}
+  {/* Condicional: hoy no hay ni un proyecto etiquetado para este producto, asi
+      que no pinta nada. Ver src/lib/proyectos-ficha.ts. */}
+  {ficha && <ProyectoDeFicha slug={item.slug} titulo="One We Built"
+    entradilla="A project of ours with this roof, from our own gallery." />}
+  {ficha && <ReseñasGoogle />}
   <Fragment set:html={faq.antes} />
+  <FaqPromovidas tema={item.slug} />
   <FaqFichaEnlace tema={item.slug} />
   <Fragment set:html={faq.despues} />
 </BaseLayout>

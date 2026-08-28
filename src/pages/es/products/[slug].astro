@@ -5,14 +5,28 @@ import { traducirHtml } from '../../../i18n';
 import { PRODUCTOS_ES } from '../../../i18n/productos.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
 import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq } from '../../../lib/faq-ficha';
-import { grafo, breadcrumbs, producto } from '../../../lib/jsonld';
+import FaqPromovidas from '../../../components/FaqPromovidas.astro';
+import EspecificacionesFicha from '../../../components/EspecificacionesFicha.astro';
+import ProyectoDeFicha from '../../../components/ProyectoDeFicha.astro';
+import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
+import { partirTrasFaq, partirEnMarca, paresFaq, MARCA_SECCIONES } from '../../../lib/faq-ficha';
+import { grafo, breadcrumbs, producto, faqPage } from '../../../lib/jsonld';
+import { ESPECIFICACIONES } from '../../../data/especificaciones';
+import { filasDe } from '../../../i18n/especificaciones.es';
+import { PROMOVIDAS } from '../../../data/faqs';
+import { porId } from '../../../i18n/faqs.es';
 
 // Las fichas de producto en español.
 //
 // Mismo patrón que /es/services/[slug]: el fragmento y los metadatos (wfPage,
 // anti-FOUC) salen de los mismos ficheros que la versión inglesa, así que no pueden
 // divergir. Lo único propio es el diccionario y el <head>.
+//
+// ESTA PLANTILLA ESTÁ ESCRITA A MANO Y EL GENERADOR NO LA TOCA. Su gemela inglesa la
+// escribe scripts/generar-detalle.mjs, así que TODO montaje de componente y TODO
+// cambio del grafo hay que hacerlo en los dos sitios. Un cambio aplicado sólo en el
+// lado generado deja a /es/ con la página vieja y el schema viejo, sin dar error y
+// sin que ninguna puerta lo diga.
 //
 // Solo se generan las que tienen diccionario. Un producto sin traducir no existe en
 // /es/, no lleva hreflang y no entra en el sitemap.
@@ -42,9 +56,33 @@ if (faltan.length) {
   for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
 }
 
+// La ficha recompuesta. La aserción comprueba que la marca del transformador y la
+// lista de src/data/especificaciones.ts siguen diciendo lo mismo: son dos ficheros
+// que no pueden importarse entre sí, y si divergen la página se publicaría sin las
+// tres secciones y sin un solo error.
+const ficha = ESPECIFICACIONES[item.slug] ?? null;
+if (Boolean(ficha) !== html.includes(MARCA_SECCIONES)) {
+  throw new Error(`[ficha] es/${item.slug}: ${ficha
+    ? 'tiene especificaciones pero el fragmento no trae la marca de secciones'
+    : 'el fragmento trae la marca de secciones y la ficha no tiene especificaciones'}`);
+}
+const secciones = ficha ? partirEnMarca(html, `es/products/${item.slug}`) : { antes: '', despues: html };
+
 // El enlace a la biblioteca va DENTRO de la lista de preguntas. Se parte el html
 // YA TRADUCIDO: partir el original dejaria la mitad de la ficha sin traducir.
-const faq = partirTrasFaq(html, 'es/products/' + item.slug);
+const faq = partirTrasFaq(secciones.despues, 'es/products/' + item.slug);
+
+// Los pares P/R del grafo se leen del HTML **traducido**, jamás del original: son los
+// mismos nodos de texto que lee el visitante, y publicar un FAQPage inglés en una
+// página española es exactamente la infracción que este nodo existe para evitar.
+const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];
+const pares = ficha ? [...paresFaq(secciones.despues, item.slug), ...porId('es', promovidas)] : [];
+// `grafo` filtra con Boolean y `{ mainEntity: [] }` es truthy: un FAQPage vacío se
+// publicaría. Por eso el recuento va ANTES de llamar, no después.
+if (ficha && pares.length !== 5 + promovidas.length) {
+  throw new Error(`[faq] es/${item.slug}: ${pares.length} pares extraidos, ${5 + promovidas.length} esperados`);
+}
+const filas = ficha ? filasDe('es', item.slug, ficha.enGrafo) : [];
 
 const site = Astro.site!.href;
 const ruta = `/es/products/${item.slug}/`;
@@ -54,8 +92,11 @@ const jsonLd = grafo(
     descripcion: traduccion.description,
     ruta,
     imagen: item.ogImage ?? null,
+    material: ficha?.material ? filasDe('es', item.slug, [ficha.material])[0]!.valor : null,
+    propiedades: filas.map((f) => ({ nombre: f.etiqueta, valor: f.valor })),
   }),
-  breadcrumbs(site, [['Nuestros productos', '/es/products/'], [traduccion.nombre, ruta]]),
+  ficha ? faqPage(pares) : null,
+  breadcrumbs(site, [['Nuestros productos', '/es/products/'], [traduccion.nombre, ruta]], 'es'),
 );
 ---
 
@@ -67,7 +108,15 @@ const jsonLd = grafo(
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
+  <Fragment set:html={secciones.antes} />
+  {ficha && <EspecificacionesFicha slug={item.slug} idioma="es" />}
+  {/* Condicional: hoy no hay ni un proyecto etiquetado para este producto, así que
+      no pinta nada. Ver src/lib/proyectos-ficha.ts. */}
+  {ficha && <ProyectoDeFicha slug={item.slug} idioma="es" titulo="Un proyecto real"
+    entradilla="Un proyecto nuestro con este techo, de nuestra propia galería." />}
+  {ficha && <ReseñasGoogle />}
   <Fragment set:html={faq.antes} />
+  <FaqPromovidas tema={item.slug} idioma="es" />
   <FaqFichaEnlace tema={item.slug} idioma="es" />
   <Fragment set:html={faq.despues} />
 </BaseLayout>
