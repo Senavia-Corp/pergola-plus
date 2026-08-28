@@ -69,6 +69,10 @@ const PROPIAS = {
       'af395482-435a-2143-5385-d4f1e6bdca7b':
         '.wrapper-services -> la rejilla de las 7 tarjetas de servicio, con el mismo bloque. Su turno OSCURO lo cubre ahora la seccion de especificaciones, que se monta como componente y por tanto no lleva data-w-id de Webflow: entra con [data-pp-reveal]',
     },
+    anadidos: {
+      'a36f2a1e-9f59-c2af-809a-f51186a9ca93':
+        '.why-choose-content -> la seccion «Como funciona» (§5) es un clon de `why-choose-section`, que YA existe en el CSS de Webflow y en 29 fragmentos vivos, pero en ninguna ficha de producto. Se clona CON su data-w-id a proposito: animaciones.css lo selecciona por atributo, asi que el bloque hereda su entrada sin una linea de CSS nueva. Que el vivo no lo tuviera es exactamente el cambio, no una fuga',
+    },
   },
   '/resources/blog': {
     razon: 'listado reconstruido desde el CSV del CMS; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2',
@@ -211,7 +215,16 @@ for (const ruta of rutas) {
   const declaracionesObsoletas = propia
     ? Object.keys(propia.permitidos).filter((x) => !ausentes.includes(x))
     : [];
-  const sobran = [...ig].filter((x) => !iv.has(x));
+  // Simetrico de `permitidos`: un bloque NUEVO trae ids que el vivo no tenia, y eso es
+  // tan deliberado como una ausencia. Sin declararlos, «sobrantes» se queda clavado en
+  // un numero distinto de cero y deja de avisar del dia que se cuele un id por error.
+  const anadidos = [...ig].filter((x) => !iv.has(x));
+  const sobran = anadidos.filter((x) => !propia?.anadidos?.[x]);
+  const sobranDeclarados = anadidos.filter((x) => propia?.anadidos?.[x]);
+  // Un id declarado como anadido que ya NO esta significa que la declaracion sobra.
+  const anadidosObsoletos = propia?.anadidos
+    ? Object.keys(propia.anadidos).filter((x) => !anadidos.includes(x))
+    : [];
 
   const fv = foucIds(viv), fg = foucIds(gen);
   const foucAusentes = [...fv].filter((x) => !fg.has(x));
@@ -243,6 +256,7 @@ for (const ruta of rutas) {
   filas.push({
     ruta,
     idsV: iv.size, idsG: ig.size, faltan, sobran, declarados, delShell, declaracionesObsoletas,
+    sobranDeclarados, anadidosObsoletos,
     foucV: fv.size, foucG: fg.size, foucFaltan, foucRetirados, foucDeclaracionesObsoletas,
     tituloIgual: titulo(viv) === titulo(gen),
     tituloV: titulo(viv), tituloG: titulo(gen),
@@ -266,6 +280,7 @@ const suma = (k) => filas.reduce((s, f) => s + (f[k]?.length ?? 0), 0);
 console.log(`  data-w-id faltantes ....... ${suma('faltan')}`);
 console.log(`  data-w-id sobrantes ....... ${suma('sobran')}`);
 console.log(`  data-w-id ausentes DECLARADOS ... ${suma('declarados')}  (paginas de autoria propia)`);
+console.log(`  data-w-id ANADIDOS declarados ... ${suma('sobranDeclarados')}  (bloques nuevos que el vivo no tenia)`);
 for (const [id, razon] of Object.entries(PROPIAS_SHELL)) {
   const n = filas.filter((f) => f.delShell?.includes(id)).length;
   console.log(`  retirados del shell ....... ${n} paginas · ${id.slice(0, 8)}…  ${razon}`);
@@ -304,6 +319,19 @@ if (conDeclarados.length) {
     console.log(`\n  ${f.ruta}\n     ${PROPIAS[f.ruta].razon}`);
     for (const id of f.declarados) console.log(`     · ${id.slice(0, 8)}…  ${PROPIAS[f.ruta].permitidos[id]}`);
   }
+}
+const conAnadidos = filas.filter((f) => f.sobranDeclarados?.length);
+if (conAnadidos.length) {
+  console.log('\n--- ANADIDOS DECLARADOS ---');
+  for (const f of conAnadidos) {
+    console.log(`\n  ${f.ruta}`);
+    for (const id of f.sobranDeclarados) console.log(`     + ${id.slice(0, 8)}…  ${PROPIAS[f.ruta].anadidos[id]}`);
+  }
+}
+const anadObs = filas.filter((f) => f.anadidosObsoletos?.length);
+if (anadObs.length) {
+  console.log('\n  !! anadidos declarados que ya no estan (el bloque se fue):');
+  for (const f of anadObs) for (const id of f.anadidosObsoletos) console.log(`     ${f.ruta} · ${id}`);
 }
 const obsoletas = filas.filter((f) => f.declaracionesObsoletas?.length);
 if (obsoletas.length) {
