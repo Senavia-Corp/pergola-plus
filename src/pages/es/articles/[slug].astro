@@ -37,7 +37,7 @@ if (faltan.length) {
 
 const site = Astro.site!.href;
 const ruta = `/es/articles/${item.slug}/`;
-const jsonLd = grafo(null, breadcrumbs(site, [[traduccion.nombre, ruta]]));
+const jsonLd = grafo(null, breadcrumbs(site, [[traduccion.nombre, ruta]], 'es'));
 ---
 
 <BaseLayout

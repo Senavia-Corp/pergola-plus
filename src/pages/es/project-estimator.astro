@@ -10,7 +10,7 @@ import { grafo, breadcrumbs } from '../../lib/jsonld';
 // divergir. El slug se queda en ingles, como en el resto del sitio.
 
 const jsonLd = grafo(
-  breadcrumbs(Astro.site!.href, [['Calculador de presupuesto', '/es/project-estimator']]),
+  breadcrumbs(Astro.site!.href, [['Calculador de presupuesto', '/es/project-estimator']], 'es'),
 );
 ---
 

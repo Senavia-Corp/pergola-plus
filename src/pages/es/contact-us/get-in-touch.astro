@@ -24,7 +24,7 @@ import { grafo, localBusiness, breadcrumbs } from '../../../lib/jsonld';
 const site = Astro.site!.href;
 const jsonLd = grafo(
   localBusiness(site),
-  breadcrumbs(site, [['Contacte con Pergola Plus Florida', '/es/contact-us/get-in-touch']]),
+  breadcrumbs(site, [['Contacte con Pergola Plus Florida', '/es/contact-us/get-in-touch']], 'es'),
 );
 ---
 

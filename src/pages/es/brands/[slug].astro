@@ -41,7 +41,7 @@ const site = Astro.site!.href;
 const ruta = `/es/brands/${item.slug}/`;
 const jsonLd = grafo(
   null,
-  breadcrumbs(site, [['Nuestras marcas', '/es/about-us/brands/'], [traduccion.nombre, ruta]]),
+  breadcrumbs(site, [['Nuestras marcas', '/es/about-us/brands/'], [traduccion.nombre, ruta]], 'es'),
 );
 ---
 

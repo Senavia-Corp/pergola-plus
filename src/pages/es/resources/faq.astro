@@ -36,7 +36,7 @@ const url = new URL('/es/resources/faq', site).href;
   jsonLd={grafo(
     collectionPage({ url, nombre: 'Biblioteca de preguntas de Pergola Plus', descripcion: DESCRIPCION, idioma: 'es' }),
     faqPage(destacadas('es')),
-    breadcrumbs(site.href, [['Preguntas frecuentes', '/es/resources/faq']]),
+    breadcrumbs(site.href, [['Preguntas frecuentes', '/es/resources/faq']], 'es'),
   )}
 >
   <FaqBiblioteca

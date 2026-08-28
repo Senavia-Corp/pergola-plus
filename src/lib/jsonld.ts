@@ -83,13 +83,25 @@ export function localBusiness(site: string) {
 export const refNegocio = (site: string) => ({ '@id': absoluta(site, '/#negocio') });
 
 /**
+ * El primer escalon de las migas, por idioma.
+ *
+ * Iba fijo en `['Home', '/']`, asi que las paginas de /es/ publicaban un primer
+ * tramo EN INGLES y hacia la home INGLESA, teniendo /es/ traducida y en el mapa de
+ * rutas. No lo caza ninguna puerta: el grafo es valido, solo que miente.
+ */
+const RAIZ_MIGA: Record<'en' | 'es', [string, string]> = {
+  en: ['Home', '/'],
+  es: ['Inicio', '/es/'],
+};
+
+/**
  * Migas. Se construyen desde la RUTA, asi que no pueden contradecir la navegacion.
  * `tramos` son los pares [nombre, ruta] desde la raiz, sin incluir la home.
  */
-export function breadcrumbs(site: string, tramos: [string, string][]) {
+export function breadcrumbs(site: string, tramos: [string, string][], idioma: 'en' | 'es' = 'en') {
   return {
     '@type': 'BreadcrumbList',
-    itemListElement: [['Home', '/'] as [string, string], ...tramos].map(([nombre, ruta], i) => ({
+    itemListElement: [RAIZ_MIGA[idioma], ...tramos].map(([nombre, ruta], i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: nombre,
@@ -110,7 +122,27 @@ export function servicio(site: string, opciones: { nombre: string; descripcion: 
 }
 
 export function producto(site: string, opciones: {
-  nombre: string; descripcion: string; ruta: string; imagen?: string | null;
+  nombre: string;
+  descripcion: string;
+  ruta: string;
+  imagen?: string | null;
+  /**
+   * Material de la estructura. TIENE que ser una cadena que la pagina PINTE, palabra
+   * por palabra: un campo que el visitante no ve es la misma infraccion que un
+   * `FAQPage` desincronizado, solo que sin puerta que lo cace.
+   */
+  material?: string | null;
+  /**
+   * Pares etiqueta/valor de la seccion de especificaciones. Misma regla que
+   * `material`: solo entra lo que se pinta, y con la redaccion exacta con que se
+   * pinta. Sale de src/data/especificaciones.ts, que es una fuente y dos salidas.
+   *
+   * Lo que NO entra, y por que: el precio («mid five figures upward» es una banda
+   * cualitativa, no un `price` — seria `offers` por la puerta de atras), el plazo
+   * (ya lo declara el `FAQPage` por la respuesta 5 de la propia ficha) y los condados
+   * y la licencia (son hechos del NEGOCIO, no del producto).
+   */
+  propiedades?: { nombre: string; valor: string }[] | null;
 }) {
   return {
     '@type': 'Product',
@@ -122,6 +154,14 @@ export function producto(site: string, opciones: {
     // inventado en JSON-LD es motivo de penalizacion.
     brand: { '@type': 'Brand', name: NEGOCIO.nombre },
     ...(opciones.imagen ? { image: absoluta(site, opciones.imagen) } : {}),
+    ...(opciones.material ? { material: opciones.material } : {}),
+    ...(opciones.propiedades?.length
+      ? {
+        additionalProperty: opciones.propiedades.map((p) => ({
+          '@type': 'PropertyValue', name: p.nombre, value: p.valor,
+        })),
+      }
+      : {}),
   };
 }
 
@@ -141,7 +181,8 @@ export function areaDeServicio(site: string, opciones: {
 }
 
 /**
- * FAQPage con las 10 preguntas reales de /resources/faq.
+ * FAQPage con los pares P/R que la pagina PINTA. Lo usan la biblioteca de preguntas
+ * (/resources/faq) y las fichas de producto que llevan bloque de preguntas.
  *
  * Google exige que las preguntas y respuestas del markup sean EXACTAMENTE las que
  * se ven en la pagina. Por eso se extraen del propio HTML en tiempo de build en vez

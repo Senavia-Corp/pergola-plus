@@ -50,7 +50,7 @@ const site = Astro.site!.href;
 const ruta = `/es/services/${item.slug}/`;
 const jsonLd = grafo(
   servicio(site, { nombre: traduccion.nombre, descripcion: traduccion.description, ruta }),
-  breadcrumbs(site, [['Nuestros servicios', '/es/services/'], [traduccion.nombre, ruta]]),
+  breadcrumbs(site, [['Nuestros servicios', '/es/services/'], [traduccion.nombre, ruta]], 'es'),
 );
 ---
 

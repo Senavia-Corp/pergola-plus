@@ -55,7 +55,7 @@ const site = Astro.site!.href;
 const esContacto = p.en.startsWith('/contact-us/');
 const jsonLd = grafo(
   esContacto && p.en === '/contact-us/get-in-touch' ? localBusiness(site) : null,
-  breadcrumbs(site, [[p.title.split('|')[0]!.trim(), p.es]]),
+  breadcrumbs(site, [[p.title.split('|')[0]!.trim(), p.es]], 'es'),
 );
 ---
 
