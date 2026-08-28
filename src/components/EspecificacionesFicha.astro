@@ -178,7 +178,6 @@ const enlacesDe = (ancla: string) => ficha.enlaces
      del scroll, y con ancla descriptiva: cuatro «Read more» no valen nada. */
   .pp-specs-enlace {
     display: block;
-    margin-top: 0.5rem;
     font-size: 14px;
   }
 
@@ -186,6 +185,14 @@ const enlacesDe = (ancla: string) => ficha.enlaces
     color: var(--secundary, #fffbf0);
     text-decoration: underline;
     text-underline-offset: 3px;
+    /* 44px de alto de PULSACION, no de texto.
+       A 14px el enlace media 17px de alto. WCAG 2.2 AA (SC 2.5.8) pide 24x24 y
+       estos NO se acogen a la excepcion de «enlace en linea»: cada uno va solo en
+       su bloque, sin texto hermano que le imponga el interlineado. `inline-flex`
+       ensancha la caja sin ensanchar el subrayado, que sigue midiendo el texto. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 
   @media screen and (max-width: 767px) {
