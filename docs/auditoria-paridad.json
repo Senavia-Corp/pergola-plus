@@ -25,8 +25,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1993,
-      "palabrasG": 2128,
-      "deltaTexto": 0.0677370797792273
+      "palabrasG": 2132,
+      "deltaTexto": 0.06974410436527848
     },
     {
       "ruta": "/about-us/about-us",
@@ -1841,8 +1841,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1595,
-      "palabrasG": 1631,
-      "deltaTexto": 0.0225705329153605
+      "palabrasG": 1635,
+      "deltaTexto": 0.025078369905956112
     },
     {
       "ruta": "/products/carports",
@@ -1870,8 +1870,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 1680,
-      "deltaTexto": 0.02127659574468085
+      "palabrasG": 1684,
+      "deltaTexto": 0.02370820668693009
     },
     {
       "ruta": "/products/motorized-louvered-pergolas",
@@ -1899,8 +1899,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 1763,
-      "deltaTexto": 0.020845396641574986
+      "palabrasG": 1767,
+      "deltaTexto": 0.023161551823972205
     },
     {
       "ruta": "/products/motorized-screens",
@@ -1928,8 +1928,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1626,
-      "palabrasG": 1661,
-      "deltaTexto": 0.02152521525215252
+      "palabrasG": 1665,
+      "deltaTexto": 0.023985239852398525
     },
     {
       "ruta": "/products/open-air-pergolas",
@@ -1957,8 +1957,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1664,
-      "palabrasG": 1699,
-      "deltaTexto": 0.021033653846153848
+      "palabrasG": 1703,
+      "deltaTexto": 0.0234375
     },
     {
       "ruta": "/products/polycarbonate-pergolas",
@@ -1986,8 +1986,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1624,
-      "palabrasG": 1660,
-      "deltaTexto": 0.022167487684729065
+      "palabrasG": 1664,
+      "deltaTexto": 0.024630541871921183
     },
     {
       "ruta": "/products/screen-enclosures",
@@ -2015,8 +2015,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1578,
-      "palabrasG": 1613,
-      "deltaTexto": 0.022179974651457542
+      "palabrasG": 1617,
+      "deltaTexto": 0.024714828897338403
     },
     {
       "ruta": "/products/solar-pergolas",
@@ -2044,8 +2044,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1637,
-      "palabrasG": 1673,
-      "deltaTexto": 0.021991447770311544
+      "palabrasG": 1677,
+      "deltaTexto": 0.02443494196701283
     },
     {
       "ruta": "/products/solid-roof-pergolas",
@@ -2073,8 +2073,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1651,
-      "palabrasG": 1688,
-      "deltaTexto": 0.022410660205935795
+      "palabrasG": 1692,
+      "deltaTexto": 0.02483343428225318
     },
     {
       "ruta": "/products/sukkha",
@@ -2102,8 +2102,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1588,
-      "palabrasG": 1624,
-      "deltaTexto": 0.022670025188916875
+      "palabrasG": 1628,
+      "deltaTexto": 0.02518891687657431
     },
     {
       "ruta": "/project-gallery",
@@ -2444,8 +2444,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 991,
-      "palabrasG": 12367,
-      "deltaTexto": 11.479313824419778
+      "palabrasG": 12430,
+      "deltaTexto": 11.542885973763875
     },
     {
       "ruta": "/resources/warranties",
@@ -2496,8 +2496,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 847,
-      "palabrasG": 875,
-      "deltaTexto": 0.03305785123966942
+      "palabrasG": 879,
+      "deltaTexto": 0.03778040141676505
     },
     {
       "ruta": "/services/concrete",
@@ -2616,7 +2616,7 @@
       "deltaTexto": 0.025182239893969515
     },
     {
-      "ruta": "/services/patio-remodeling",
+      "ruta": "/services/full-outdoor-remodel",
       "idsV": 33,
       "idsG": 32,
       "faltan": [],
@@ -2636,13 +2636,13 @@
       "foucDeclaracionesObsoletas": [],
       "tituloIgual": false,
       "tituloV": "Pergola Plus Florida",
-      "tituloG": "Patio Remodeling in South Florida",
+      "tituloG": "Full Outdoor Remodel | South Florida",
       "descIgual": false,
       "rotos": [],
       "externos": 0,
       "palabrasV": 1489,
-      "palabrasG": 1527,
-      "deltaTexto": 0.02552048354600403
+      "palabrasG": 1645,
+      "deltaTexto": 0.10476830087306917
     },
     {
       "ruta": "/services/pavers",
