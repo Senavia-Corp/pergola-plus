@@ -72,15 +72,24 @@ const secciones = ficha ? partirEnMarca(html, `es/products/${item.slug}`) : { an
 // YA TRADUCIDO: partir el original dejaria la mitad de la ficha sin traducir.
 const faq = partirTrasFaq(secciones.despues, 'es/products/' + item.slug);
 
-// Los pares P/R del grafo se leen del HTML **traducido**, jamás del original: son los
-// mismos nodos de texto que lee el visitante, y publicar un FAQPage inglés en una
-// página española es exactamente la infracción que este nodo existe para evitar.
+// Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado
+// nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento
+// migrado son copy de marketing del cliente y ya NO suben: la sección de
+// especificaciones de esta misma página dice por escrito que no publica garantías ni
+// cifras de viento, así que promoverlas a dato estructurado sería afirmarle a Google
+// exactamente lo que la página se niega a afirmar. Lo detectó F4a.
+// El texto sigue VISIBLE en la página: es del cliente y no se toca sin su permiso.
+//
+// Y se leen del HTML **traducido**, jamás del original: son los mismos nodos de texto
+// que lee el visitante, y publicar un FAQPage inglés en una página española es
+// exactamente la infracción que este nodo existe para evitar.
 const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];
-const pares = ficha ? [...paresFaq(secciones.despues, item.slug), ...porId('es', promovidas)] : [];
-// `grafo` filtra con Boolean y `{ mainEntity: [] }` es truthy: un FAQPage vacío se
-// publicaría. Por eso el recuento va ANTES de llamar, no después.
-if (ficha && pares.length !== 5 + promovidas.length) {
-  throw new Error(`[faq] es/${item.slug}: ${pares.length} pares extraidos, ${5 + promovidas.length} esperados`);
+// `paresFaq` se sigue llamando por su ASERCIÓN —lanza si el markup migrado cambia—,
+// no por su valor. Perder esa comprobación sería cambiar un defecto por otro.
+const migradas = ficha ? paresFaq(secciones.despues, item.slug) : [];
+const pares = ficha ? porId('es', promovidas) : [];
+if (ficha && (migradas.length !== 5 || pares.length !== promovidas.length)) {
+  throw new Error(`[faq] es/${item.slug}: ${migradas.length} migradas y ${pares.length} promovidas; esperaba 5 y ${promovidas.length}`);
 }
 const filas = ficha ? filasDe('es', item.slug, ficha.enGrafo) : [];
 
@@ -95,7 +104,7 @@ const jsonLd = grafo(
     material: ficha?.material ? filasDe('es', item.slug, [ficha.material])[0]!.valor : null,
     propiedades: filas.map((f) => ({ nombre: f.etiqueta, valor: f.valor })),
   }),
-  ficha ? faqPage(pares) : null,
+  pares.length ? faqPage(pares) : null,
   breadcrumbs(site, [['Nuestros productos', '/es/products/'], [traduccion.nombre, ruta]], 'es'),
 );
 ---

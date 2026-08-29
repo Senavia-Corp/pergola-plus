@@ -286,16 +286,21 @@ for (const col of COLECCIONES) {
 
   const grafoFicha = col.ficha ? [
     '',
-    '// Los pares P/R que la pagina PINTA: los cinco del fragmento, leidos del propio',
-    '// HTML que se va a servir, y los que sube FaqPromovidas desde la biblioteca.',
-    '// Nunca una copia — una copia se desincroniza y entonces el markup es spam.',
+    '// Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado',
+    '// nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento',
+    '// migrado son copy de marketing del cliente y ya NO suben: la seccion de',
+    '// especificaciones de esta misma pagina dice por escrito que no publica garantias',
+    '// ni cifras de viento, asi que promoverlas a dato estructurado seria afirmarle a',
+    '// Google exactamente lo que la pagina se niega a afirmar. Lo detecto F4a.',
+    '// El texto sigue VISIBLE en la pagina: es del cliente y no se toca sin su permiso.',
     'const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];',
-    "const pares = ficha ? [...paresFaq(secciones.despues, item.slug), ...porId('en', promovidas)] : [];",
-    '// `grafo` filtra con Boolean y `{ mainEntity: [] }` es truthy: un FAQPage vacio se',
-    '// publicaria. Por eso el recuento va ANTES de llamar, no despues.',
-    'if (ficha && pares.length !== 5 + promovidas.length) {',
-    "  throw new Error('[faq] ' + item.slug + ': ' + pares.length + ' pares extraidos, '",
-    "    + (5 + promovidas.length) + ' esperados');",
+    '// `paresFaq` se sigue llamando por su ASERCION —lanza si el markup migrado cambia—,',
+    '// no por su valor. Perder esa comprobacion seria cambiar un defecto por otro.',
+    'const migradas = ficha ? paresFaq(secciones.despues, item.slug) : [];',
+    "const pares = ficha ? porId('en', promovidas) : [];",
+    'if (ficha && (migradas.length !== 5 || pares.length !== promovidas.length)) {',
+    "  throw new Error('[faq] ' + item.slug + ': ' + migradas.length + ' migradas y '",
+    "    + pares.length + ' promovidas; esperaba 5 y ' + promovidas.length);",
     '}',
     "const filas = ficha ? filasDe('en', item.slug, ficha.enGrafo) : [];",
   ].join('\n') : '';
@@ -353,7 +358,7 @@ const jsonLd = grafo(${{
     servicio: "servicio(site, { nombre, descripcion: item.description ?? '', ruta })",
     area: "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre })",
     ninguno: 'null',
-  }[col.ld ?? 'ninguno']},${col.ficha ? '\n  ficha ? faqPage(pares) : null,' : ''} migas);
+  }[col.ld ?? 'ninguno']},${col.ficha ? '\n  pares.length ? faqPage(pares) : null,' : ''} migas);
 ---
 
 <BaseLayout
