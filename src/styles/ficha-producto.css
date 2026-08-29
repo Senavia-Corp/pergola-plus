@@ -83,3 +83,29 @@ a.tagline-item-product:hover {
     padding: 4rem 1rem;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   La medida de la prosa en la seccion de especificaciones
+
+   Medido a 1440 px, contando solo texto que ENVUELVE de verdad (una linea suelta no
+   sufre de medida, por ancha que sea su caja — ese fue mi primer falso positivo):
+
+     .pp-specs-huecos li   1166 px   167 caracteres/linea   sobre 4 lineas
+     .pp-specs-lista  dd    812 px   116 caracteres/linea   sobre 5 lineas
+
+   El rango legible es 45-75 caracteres, 90 como techo. A 167 el ojo pierde el
+   principio de la linea siguiente, y es la sensacion de «esto no se ha maquetado»
+   mas facil de notar y mas barata de arreglar.
+
+   `ch` y no `px` a proposito: la medida es una cuenta de caracteres, asi que la
+   unidad que la expresa se ajusta sola si algun dia cambia el cuerpo. A 390 px las
+   dos cajas miden 358 px (51 car/linea), muy por debajo del tope: esta regla no
+   toca el movil, solo recorta el escritorio.
+
+   La celda NO se centra ni se estrecha su columna del grid: el `dd` sigue empezando
+   donde empieza su columna, que es lo que mantiene alineada la tabla.
+   -------------------------------------------------------------------------- */
+.pp-specs-lista dd,
+.pp-specs-huecos li {
+  max-width: 68ch;
+}

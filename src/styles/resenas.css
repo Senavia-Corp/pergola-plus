@@ -21,6 +21,19 @@
   margin-bottom: 2.5rem;
 }
 
+/* Sin textos de resena no hay carrusel, la cabecera se queda de ULTIMO HIJO y sus
+   2,5rem de margen inferior cuelgan sobre nada: medido, 120 px de crema muerto al
+   pie de la seccion (40 del margen + 80 del padding propio), en /, en
+   /about-us/testimonials y en la ficha. Se lee como si algo no hubiera cargado, que
+   es justo lo contrario de lo que una seccion de prueba social tiene que transmitir.
+
+   `:last-child` y no una clase nueva a proposito: es auto-corregible. El dia que
+   entren resenas con texto, el carrusel se pinta, la cabecera deja de ser ultimo
+   hijo y el margen vuelve solo. Nadie tiene que acordarse de quitar esta regla. */
+.resenas-cabecera:last-child {
+  margin-bottom: 0;
+}
+
 .resenas-cabecera h2 {
   margin: 0 0 0.5rem;
 }

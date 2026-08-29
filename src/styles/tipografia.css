@@ -1,0 +1,39 @@
+/* Acabado tipografico del sitio. Lo que no depende de una pagina concreta.
+ *
+ * NO va en fuentes.css: ese lo GENERA scripts/bajar-fuentes.mjs y una regla escrita
+ * ahi desaparece en la siguiente pasada. Mismo criterio que documenta
+ * ficha-producto.css sobre el CSS exportado de Webflow.
+ */
+
+/* -----------------------------------------------------------------------------
+   Encabezados sin ultima linea huerfana
+
+   Medido sobre la ficha piloto, a 390 y 1440, en los dos idiomas: 8 encabezados
+   partian dejando una sola palabra colgando en la ultima linea. Es el defecto que
+   mas delata un acabado descuidado, y el espanol lo sufre mas —sus encabezados de
+   seccion llegan a 65 caracteres frente a 45 del ingles, asi que parten donde el
+   ingles no parte—.
+
+   POR QUE ES SEGURO EN LAS 216 PAGINAS. `text-wrap: balance` NO cambia el numero de
+   lineas: reparte las mismas palabras entre las mismas lineas buscando que queden
+   parejas. No puede desbordar —no toca el ancho— ni puede mover la altura. Se
+   verifico midiendo el alto del documento antes y despues en varios tipos de pagina:
+   identico.
+
+   Los navegadores lo ignoran por encima de ~6 lineas, que es justo el caso en que no
+   hace falta. Y donde no esta soportado, simplemente no se aplica: el texto parte
+   como hoy.
+
+   Solo h1-h3 y a proposito: en un parrafo largo `balance` no aporta y cuesta
+   reflujo. Para la entradilla del hero, que es prosa corta que si se beneficia,
+   `pretty` —que solo evita la huerfana— es lo correcto. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.text-block-2,
+.pp-specs-cabecera p {
+  text-wrap: pretty;
+}
