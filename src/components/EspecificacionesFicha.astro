@@ -168,8 +168,12 @@ const enlacesDe = (ancla: string) => ficha.enlaces
     font-size: 18px;
   }
 
+  /* El `max-width` de la medida NO va aqui: vive junto al de `dd` y `li` en
+     src/styles/ficha-producto.css, que es donde esta medido y razonado. Un 750 px
+     aqui ganaba por especificidad (Astro le pone [data-astro-cid-…] a la regla del
+     componente) y dejaba esta entradilla en 106 car/linea a 1440 mientras sus
+     vecinas bajaban a 90. */
   .pp-specs-huecos p {
-    max-width: 750px;
     margin: 0 0 1.5rem;
   }
 

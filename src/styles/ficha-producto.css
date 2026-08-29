@@ -108,6 +108,17 @@ a.tagline-item-product:hover {
   margin-top: 3rem;
 }
 
+/* La salida del bloque. Centrada bajo la rejilla porque su cabecera tambien lo esta
+   (`.header-feature-section`), y con el mismo aire que separa la rejilla del titular.
+
+   Existe porque este bloque es lo ultimo del cuerpo y mide 4,5 pantallas de movil:
+   sin boton, quien salia de aqui no tenia donde pulsar hasta el pie, al 96,2 %, en un
+   enlace de 72x17 px. Ver el paso 14 de scripts/lib/transformar.mjs. */
+.pp-comparar-salida {
+  margin-top: 3rem;
+  text-align: center;
+}
+
 @media screen and (max-width: 767px) {
   .pp-comparar {
     padding: 4rem 1rem;
@@ -134,9 +145,24 @@ a.tagline-item-product:hover {
 
    La celda NO se centra ni se estrecha su columna del grid: el `dd` sigue empezando
    donde empieza su columna, que es lo que mantiene alineada la tabla.
+
+   LAS DOS ENTRADILLAS SE AÑADIERON DESPUES, y la primera medicion no las miraba: la
+   del bloque (`.pp-specs-cabecera > p`) no tenia tope ninguno y salia a 112 car/linea
+   a 1440, y la de los huecos (`.pp-specs-huecos > p`) tenia 750 px y salia a 106.
+   Son las DOS frases que mas trabajo hacen de toda la seccion —«si esta pidiendo tres
+   presupuestos, esta es la parte que los otros dos no le van a poner por escrito» y
+   «estos son los numeros que un comprador deberia pedirle a tres contratistas»— y
+   eran las peor maquetadas de la pagina. Se pasan al mismo tope que el resto.
+
+El `:not(.pp-specs-enlace)` no sobra: los enlaces de blog de la entradilla son
+   tambien `<p>` hijos directos de la cabecera. Estrechar un enlace de una linea no
+   arregla nada —una linea suelta no sufre de medida— y su caja es la DIANA de
+   pulsacion de 44 px, que es lo ultimo que conviene tocar por un motivo tipografico.
    -------------------------------------------------------------------------- */
 .pp-specs-lista dd,
-.pp-specs-huecos li {
+.pp-specs-huecos li,
+.pp-specs-cabecera > p:not(.pp-specs-enlace),
+.pp-specs-huecos > p {
   max-width: 68ch;
 }
 

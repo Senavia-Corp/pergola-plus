@@ -1742,10 +1742,13 @@ const SECCION_COMO_FUNCIONA =
  * frente a 12 al blog y 8 a «sobre nosotros». Las diez fichas compiten por el mismo
  * racimo de consultas y ninguna le dice a Google cual es cual.
  *
- * Va DELANTE del CTA final. Estuvo detras hasta F4c, que lo midio: el CTA ocupa 0,47
- * pantallas de movil y este bloque 4,52 —9,6 veces mas—, con cuatro enlaces salientes y
- * ningun CTA propio, asi que lo ultimo que decia el cuerpo no era la peticion. El motivo
- * de fondo esta en el paso 14 de recomponerFicha.
+ * Va DETRAS del CTA final: ofrecer cuatro productos alternativos ANTES de la peticion
+ * es invitar a irse, y ademas el CTA es el bloque de FOTO que separa `process` (claro)
+ * de este (claro) — sin el en medio la pagina encadena dos claros. Ver el paso 14, que
+ * lleva la medida de las dos ordenaciones.
+ *
+ * Lo que SI cambio F4c: ahora cierra con su propio boton. Sin el, estas 4,5 pantallas
+ * eran lo ultimo del cuerpo y no tenian salida — lo siguiente pulsable estaba en el pie.
  */
 const SECCION_COMPARAR = TARJETAS_COMPARAR === null ? null
   // La cabecera reutiliza `.header-feature-section` (centrada, 850 px) y la rejilla
@@ -1760,6 +1763,12 @@ const SECCION_COMPARAR = TARJETAS_COMPARAR === null ? null
   + '<div>A louvered roof is the one that moves. If you would rather have a roof that never moves, one that lets the light through, or one that pays for itself, these are the other three we build.</div>'
   + '</div>'
   + `<div role="list" class="product-grid-list w-dyn-items">${TARJETAS_COMPARAR}</div>`
+  // La salida. Mismo texto y mismo destino que el boton del CTA de cierre, o sea CERO
+  // copy nuevo y cero traduccion nueva: la cadena ya esta en el `dic` de la ficha.
+  // `.button w-button` es la clase del sitio, asi que hereda tamaño, color y foco.
+  + '<div class="pp-comparar-salida">'
+  + '<a href="/contact-us/get-a-quote" class="button w-button">Request Your Estimate</a>'
+  + '</div>'
   + '</div></section>';
 
 /** Los pies y los `alt` de la galeria, por NOMBRE DE ARCHIVO y nunca por posicion. */
@@ -2041,34 +2050,43 @@ function recomponerFichaLamas(s) {
     '<div>Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the louvered roof around both.</div>',
     'la entradilla del CTA final');
 
-  // --- 14. «Comparar las cubiertas», DELANTE del CTA ------------------------------
+  // --- 14. «Comparar las cubiertas», detras del CTA y CON SALIDA PROPIA -----------
   //
-  // Iba detras hasta F4c, con el argumento de que ofrecer cuatro productos alternativos
-  // ANTES de la peticion es invitar a irse. La medida dice lo contrario, y por un motivo
-  // que el argumento no tenia en cuenta: el CTA (§14) ocupa 0,47 pantallas de movil y el
-  // comparativo (§15) ocupa 4,52 —9,6 veces mas, la seccion mas grande de la ficha—, con
-  // CUATRO enlaces salientes y NINGUN CTA propio. O sea que lo ultimo que decia el cuerpo
-  // no era la peticion: eran 4,5 pantallas explicando otros tres techos, y al salir de
-  // ahi lo siguiente pulsable estaba en el pie, al 96,2 %, en una diana de 72x17 px.
+  // F4c (H-3) midio un problema real: el CTA ocupa 0,47 pantallas de movil y este
+  // bloque 4,52 —9,6 veces mas, la seccion mas grande de la ficha—, con cuatro enlaces
+  // salientes y, hasta ahora, ningun CTA propio. O sea que quien llegaba convencido al
+  // CTA y dudaba medio segundo caia en 4,5 pantallas que le explicaban otros tres
+  // techos, y al salir de ahi lo siguiente pulsable estaba en el pie, al 96,2 %, en una
+  // diana de 72x17 px.
   //
-  // Delante, el bloque hace el trabajo que de verdad tiene: la comparativa es una
-  // OBJECION («¿no querre mejor techo fijo?») y las objeciones se resuelven antes de
-  // pedir, no despues. Y el CTA pasa a ser lo ultimo del cuerpo.
+  // F4c daba dos arreglos. PROBE EL PRIMERO —mover este bloque delante del CTA— Y HAY
+  // QUE NO REPETIRLO: rompe la alternancia de fondos de la pagina. Medido sobre dist a
+  // 1440, muestreando el pixel real de cada banda:
   //
-  // Es un cambio de ORDEN: no se toca ni una palabra del contenido de los dos bloques.
+  //     orden publicado   service-areas FOTO · process claro · CTA foto · comparar claro · pie oscuro
+  //                       -> cero pares repetidos
+  //     con el bloque delante   … process claro · comparar CLARO · CTA foto · pie OSCURO
+  //                       -> DOS pares repetidos, y 3.170 px seguidos de fondo claro sin
+  //                          una sola frontera: el titular del comparativo aparece flotando
+  //                          en mitad de un vacio de dos pantallas.
   //
-  // Va aqui, al final, porque el paso 9 ya borro el PRIMER `call-to-action-footer`: en
-  // este punto queda exactamente uno en la pagina y el ancla es inequivoca. Antes del
-  // paso 9 habria dos y `cambiar` lanzaria, que es lo que tiene que hacer.
+  // La alternancia sin un solo par repetido es una invariante de esta ficha y esta
+  // escrita en src/components/ProyectoDeFicha.astro. El CTA es FOTO y es justo lo que
+  // separa `process` de `comparar`: quitarlo de en medio junta dos claros por un lado y
+  // deja foto contra oscuro por el otro.
+  //
+  // Asi que se aplica el SEGUNDO arreglo de F4c, que cuesta menos y no toca el ritmo:
+  // el bloque se queda detras y se cierra con el mismo boton que el CTA —mismo texto,
+  // mismo destino, ya traducido—, de modo que las 4,5 pantallas ya no son un callejon.
+  // Y el hueco que H-2 media entre el pico de conviccion (pantalla 11,4) y la peticion
+  // (18,03) ya lo cierra el boton del final de §8, en EspecificacionesFicha.astro.
   if (SECCION_COMPARAR === null) {
     throw new Error(
       '[lamas] no he podido leer estaticas/products.html, asi que no hay tarjetas de\n'
       + '  comparacion. La ficha se publicaria sin el unico enlace a una ficha hermana.',
     );
   }
-  return cambiar(s, '<section class="call-to-action-footer">',
-    SECCION_COMPARAR + '<section class="call-to-action-footer">',
-    'el comparativo delante del CTA de cierre');
+  return s + SECCION_COMPARAR;
 }
 
 /**
