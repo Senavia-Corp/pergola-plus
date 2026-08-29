@@ -63,6 +63,21 @@ a.tagline-item-product:hover {
   line-height: 140%;
 }
 
+/* Y el pie tiene que ir DEBAJO de la foto, no a su lado.
+ *
+ * `.cms-item-gallery` es `display: flex` en FILA (el migrado de Webflow), asi que la
+ * foto y el pie se repartian el ancho como dos columnas: medido a 1440, la foto
+ * ocupaba 439 px y el texto se salia 178 px por la derecha, en crudo sobre el fondo
+ * oscuro. El `margin-top` de aqui arriba no hacia absolutamente nada en una fila.
+ *
+ * `:has()` y no una clase nueva: acota EXACTAMENTE a los items que llevan pie —los de
+ * esta ficha— sin tocar las galerias de las otras nueve, que no tienen pie y donde un
+ * cambio de direccion no esta verificado. */
+.cms-item-gallery:has(.pp-galeria-pie) {
+  flex-direction: column;
+  align-items: stretch;
+}
+
 /* -----------------------------------------------------------------------------
    «Comparar las cubiertas»
 
@@ -108,4 +123,29 @@ a.tagline-item-product:hover {
 .pp-specs-lista dd,
 .pp-specs-huecos li {
   max-width: 68ch;
+}
+
+/* -----------------------------------------------------------------------------
+   La foto de «How It Works», a altura completa
+
+   `webflow.css:1091` da a `.why-choose-image` `height: 80%` con
+   `inset: auto 0% 0% auto` — o sea, anclada ABAJO. El 20 % que falta aparece como
+   una banda blanca ARRIBA: medido, 188 px sobre una seccion de 939.
+
+   Se corrige aqui y no en el CSS de Webflow porque ese fichero es salida del export
+   y lo reescribe scripts/parchear-css.mjs.
+
+   ACOTADO A `#how-it-works` a proposito: `.why-choose-section` vive en 29 fragmentos
+   mas (25 pergolas-contractors, 3 countries, 1 estatica) que no he revisado. El id
+   solo lo lleva esta seccion de la ficha.
+
+   Y dentro de una media query de min-width porque a <=767 px el propio Webflow pasa
+   la imagen a `position: relative; width: 100%; height: auto` para apilarla: forzar
+   ahi `height: 100%` la referiria al padre y romperia el movil.
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 768px) {
+  #how-it-works .why-choose-image {
+    height: 100%;
+    inset: 0 0 0 auto;
+  }
 }

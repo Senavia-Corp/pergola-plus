@@ -37,3 +37,40 @@ h3 {
 .pp-specs-cabecera p {
   text-wrap: pretty;
 }
+
+/* -----------------------------------------------------------------------------
+   Ningun enlace cae al azul del navegador
+
+   Medido: 82 enlaces en solo 7 rutas calculaban `rgb(0, 0, 238)`, el azul por
+   defecto del user-agent. El mas visible es el de prosa de «How We Build It»
+   (`steps-left`), que no lleva clase y por eso no hereda nada del sitio.
+
+   `inherit` y NO un color de marca fijo, y esto es lo que decide la regla: parte de
+   esos enlaces estan sobre el teal oscuro del nav (`rgb(58, 84, 91)`), donde un
+   `--primary` seria practicamente invisible. Con `inherit` cada enlace toma el color
+   del texto que lo rodea, asi que el contraste lo hereda ya resuelto.
+
+   Specificity (0,0,1), la mas baja que existe para un elemento: CUALQUIER regla con
+   clase la pisa. Por eso no puede romper ningun enlace ya estilado del sitio.
+   -------------------------------------------------------------------------- */
+a {
+  color: inherit;
+}
+
+/* Los enlaces DE PROSA si llevan color de marca: dentro de un parrafo tienen que
+   leerse como enlace, y ahi el fondo siempre es claro. `--primary` sobre blanco da
+   8,5:1, muy por encima del 4,5:1 que pide WCAG AA.
+
+   `:not([class])` acota a los enlaces de texto corrido: los del sitio que son
+   botones o tarjetas llevan clase y no entran aqui. */
+.steps-left a:not([class]),
+.text-block-2 a:not([class]),
+.why-choose-item-text a:not([class]),
+.pp-specs-contenido a:not([class]),
+p a:not([class]),
+dd a:not([class]),
+li a:not([class]) {
+  color: var(--primary, #3a545b);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
