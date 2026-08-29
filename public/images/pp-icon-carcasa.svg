@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" role="img">
+  <g transform="translate(-2.23 -2.78) scale(1.0892)" fill="none" stroke="#3a545b" stroke-width="2.94" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9h36v11H7z"/>
+    <circle cx="25" cy="14.5" r="3.4"/>
+    <path d="M13 25v17"/><path d="M37 25v17"/>
+    <path d="M13 42h24"/>
+  </g>
+</svg>

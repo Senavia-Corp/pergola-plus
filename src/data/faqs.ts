@@ -81,6 +81,15 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'solid-roof-techo-visto',
     'solid-roof-desague-oculto',
   ],
+  // Las tres de cortinas ya estaban escritas y traducidas, y las tres dicen algo que
+  // le baja el ticket a quien las publica: que hacen falta menos de las que se piden,
+  // que de noche la privacidad se invierte y que no son una persiana de huracan. Por
+  // eso son exactamente las que suben.
+  'motorized-screens': [
+    'material-cortinas-viento',
+    'material-cortinas-privacidad',
+    'pergola-cortinas-cuantas',
+  ],
 };
 
 export interface Faq {

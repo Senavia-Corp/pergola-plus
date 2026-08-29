@@ -121,6 +121,38 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
       { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
     ],
   },
+
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Cortinas motorizadas
+  //
+  // NO HAY FILA DE INVERSION CON CIFRA, y no es un olvido. El estimador lleva las
+  // cortinas como EXTRA y con `fuente: 'mercado'`, que el propio modulo define como
+  // «necesita firma» (`requiereFirma = fuente !== 'publicada'`). Una banda de mercado
+  // detras del aviso legal del estimador es una cosa; la misma banda como fila de
+  // especificacion de producto es otra. Hasta que la firme el cliente, la fila dice
+  // lo que si se sostiene y enlaza el estimador.
+  // ──────────────────────────────────────────────────────────────────────────────
+  'motorized-screens': {
+    filas: [
+      'malla', 'control', 'viento', 'obstaculo', 'carcasa', 'montaje',
+      'retrofit', 'material', 'acabado', 'plazo', 'inversion', 'donde',
+    ],
+    enGrafo: [
+      'malla', 'control', 'viento', 'obstaculo', 'carcasa', 'montaje',
+      'retrofit', 'material', 'acabado',
+    ],
+    material: 'material',
+    // `tejido` es un hueco PROPIO de este producto: el factor de apertura de la malla
+    // es el numero que de verdad separa dos cortinas que parecen iguales, y no lo
+    // publica nadie aqui.
+    huecos: ['tejido', 'viento', 'medidas', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
 };
 
 /**

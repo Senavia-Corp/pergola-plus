@@ -597,6 +597,112 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cortinas motorizadas para patios | Sur de Florida',
     description: 'Cortinas retráctiles con mando o app, detección de obstáculos y carcasa oculta, integradas en pérgolas y porches.',
     dic: {
+      // ── Chip del hero ─────────────────────────────────────────────────────────
+      'Wind Sensor Retracts Them':
+        'El sensor de viento las recoge',
+
+      // ── Los alt de las cuatro fotos grandes ───────────────────────────────────
+      'Motorized screens lowered across the open side of a covered patio, dark mesh dimming the view out to a pool and palms.':
+        'Cortinas motorizadas bajadas por el lado abierto de un patio cubierto, con la malla oscura atenuando la vista a la piscina y las palmeras.',
+      'Inside a lanai with the motorized screens down, the dark mesh keeping the view through to the pool deck and the planting beyond.':
+        'Desde dentro de un porche con las cortinas motorizadas bajadas, la malla oscura deja ver la zona de piscina y la plantación del fondo.',
+      'Motorized screens run the length of a two-storey home, lowered over the covered walkway beside a lap pool.':
+        'Cortinas motorizadas a lo largo de toda una casa de dos plantas, bajadas sobre el paso cubierto junto a una piscina de nado.',
+      'Motorized screens lowered along a covered terrace, with the pool and the seating area visible through the mesh.':
+        'Cortinas motorizadas bajadas a lo largo de una terraza cubierta, con la piscina y la zona de estar visibles a través de la malla.',
+
+      // ── §4 · Cuántas hacen falta ──────────────────────────────────────────────
+      'How Many You Actually Need':
+        'Cuántas hacen falta de verdad',
+      'Most spaces need one or two screens, not four. The side the afternoon sun comes from and the side facing a neighbour or a road are the ones that change how the space feels; screening every opening turns an outdoor room into a box and costs four times as much. We measure the openings, ask which hours you actually use it, and start with the worst side.':
+        'La mayoría de los espacios necesitan una o dos cortinas, no cuatro. El lado por donde entra el sol de la tarde y el que da al vecino o a la calle son los que cambian cómo se siente el espacio; cerrar todos los huecos convierte una sala exterior en una caja y cuesta cuatro veces más. Medimos los huecos, preguntamos a qué horas lo usa de verdad y empezamos por el lado peor.',
+      'The Afternoon-Sun Side':
+        'El lado del sol de la tarde',
+      'The Side Facing A Neighbour':
+        'El lado que da al vecino',
+      'Into A New Pergola Bay':
+        'En un vano de pérgola nuevo',
+      'Retrofitted To What You Have':
+        'Añadidas a lo que ya tiene',
+
+      // ── §5 · Lo que puede y lo que no ─────────────────────────────────────────
+      'What A Screen Can And Cannot Do':
+        'Lo que una cortina puede y lo que no',
+      'A motorized screen is fabric on a roller, and that is the whole honest answer. Four things decide whether it does what you wanted: what the mesh does to light, what happens when it blows, what happens when something is in the way, and where it goes when it is up.':
+        'Una cortina motorizada es tejido sobre un rodillo, y esa es toda la respuesta honesta. Hay cuatro cosas que deciden si hace lo que usted quería: qué le hace la malla a la luz, qué pasa cuando sopla viento, qué pasa cuando hay algo en medio y dónde se mete cuando está recogida.',
+      'What The Mesh Does To Light':
+        'Qué le hace la malla a la luz',
+      'Mesh works by contrast: it hides whichever side is darker. In daylight you see out and people outside do not see in. After dark, with the light on inside, that reverses — which surprises people who bought screens for evening privacy. If that is what you want, you want a blackout or a dense fabric on that opening, and we will say so before you buy it.':
+        'La malla funciona por contraste: oculta el lado que esté más oscuro. De día usted ve hacia fuera y desde fuera no se ve hacia dentro. De noche, con la luz encendida, eso se invierte, y sorprende a quien compró las cortinas pensando en la privacidad de la noche. Si es eso lo que busca, lo que quiere en ese hueco es un tejido opaco o muy tupido, y se lo decimos antes de que lo compre.',
+      'What Happens When It Blows':
+        'Qué pasa cuando sopla viento',
+      'Every system has a wind speed above which the screen should be retracted, and it can be set to retract itself on a wind sensor. This is the part worth reading twice: a screen is a comfort and shade product, not a hurricane shutter. Anyone who tells you otherwise is selling you the wrong thing for the storm.':
+        'Todo sistema tiene una velocidad de viento por encima de la cual hay que recoger la cortina, y se puede dejar programado que se recoja sola con un sensor de viento. Esta parte conviene leerla dos veces: una cortina es un producto de confort y de sombra, no una persiana de huracán. Quien le diga lo contrario le está vendiendo lo que no es para la tormenta.',
+      'If Something Is In The Way':
+        'Si hay algo en medio',
+      'Sensors stop the screen on its way down when it meets an obstruction, which is what makes it safe around children, pets and furniture you did not move. It is a standard feature, not an upgrade, and it is the reason a motorized screen is safer than the crank-and-hope alternative.':
+        'Los sensores paran la cortina mientras baja cuando se encuentra un obstáculo, y eso es lo que la hace segura con niños, mascotas y muebles que no movió. Viene de serie, no es un extra, y es la razón por la que una cortina motorizada es más segura que la de manivela y a ver qué pasa.',
+      'Where It Goes When It Is Up':
+        'Dónde se mete cuando está recogida',
+      'Into a concealed aluminium cassette, with the fabric running in side tracks. Retracted, the whole system reads as a beam: no rolled bundle hanging in the opening, no visible hardware. On a retrofit this is the part that decides feasibility — the cassette and the tracks need somewhere solid to land.':
+        'En un cajón de aluminio oculto, con el tejido corriendo por guías laterales. Recogida, el conjunto se lee como una viga: ni un rollo colgando en el hueco ni herrajes a la vista. En una instalación posterior esta es la parte que decide si se puede: el cajón y las guías necesitan dónde anclarse.',
+
+      // ── Pies de galería ───────────────────────────────────────────────────────
+      'Lowered along the full length of a covered lanai':
+        'Bajadas a lo largo de todo un porche cubierto',
+      'Retracted at dusk: the opening reads as a clean beam':
+        'Recogidas al anochecer: el hueco se lee como una viga limpia',
+      'A long run beside a lap pool, screens down':
+        'Un tramo largo junto a una piscina de nado, con las cortinas bajadas',
+      'From inside, with the mesh half down':
+        'Desde dentro, con la malla a media altura',
+      'Screens up over a kidney pool and paver deck':
+        'Cortinas recogidas sobre una piscina de riñón y una terraza de losas',
+      'Under a gable roof, screens closing the far side':
+        'Bajo un techo a dos aguas, con las cortinas cerrando el lado del fondo',
+
+      // ── Los alt de la galería ─────────────────────────────────────────────────
+      'Motorized screens lowered along the full length of a covered lanai on a white house, with lawn in front and the pool deck behind the mesh.':
+        'Cortinas motorizadas bajadas a lo largo de todo un porche cubierto en una casa blanca, con césped delante y la zona de piscina detrás de la malla.',
+      'Covered patio at dusk with the screens fully retracted into their housings, warm interior lighting showing through the open bays and hydrangeas in the foreground.':
+        'Patio cubierto al anochecer con las cortinas totalmente recogidas en sus cajones, la luz cálida del interior asomando por los vanos abiertos y hortensias en primer plano.',
+      'Motorized screens lowered along a two-storey home beside a lap pool, the dark mesh shading the whole covered walkway.':
+        'Cortinas motorizadas bajadas a lo largo de una casa de dos plantas junto a una piscina de nado, con la malla oscura dando sombra a todo el paso cubierto.',
+      'Interior of a lanai with a motorized screen partway down, wicker seating in the foreground and the pool visible through the mesh.':
+        'Interior de un porche con una cortina motorizada a media bajada, sillones de mimbre en primer plano y la piscina visible a través de la malla.',
+      'Screened lanai with the mesh retracted, looking across a kidney-shaped pool and paver deck with a thatched bar to one side.':
+        'Porche con la malla recogida, mirando hacia una piscina de riñón y una terraza de losas, con una barra de techo de paja a un lado.',
+      'Motorized screens closing the far side of a gable-roofed outdoor room, with wicker sofas and an ottoman on a paver terrace.':
+        'Cortinas motorizadas cerrando el lado del fondo de una sala exterior con techo a dos aguas, con sofás de mimbre y un puf en una terraza de losas.',
+      'Freestanding pergola with a motorized screen lowered on one side and fixed slatted panels on the other, over a paved dining terrace.':
+        'Pérgola exenta con una cortina motorizada bajada por un lado y celosías fijas por el otro, sobre una terraza de comedor pavimentada.',
+      'Motorized screens across a lit lanai after dark, the warm interior showing through the mesh from outside.':
+        'Cortinas motorizadas en un porche iluminado de noche, con el interior cálido asomando a través de la malla desde fuera.',
+
+      // ── Vídeo, CTA y comparativo ──────────────────────────────────────────────
+      'Watch Them Come Down':
+        'Véalas bajar',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure the openings, ask which hours you actually use the space, and start with the side that is costing you.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos los huecos, preguntamos a qué horas usa el espacio de verdad y empezamos por el lado que le está costando.',
+      'Other Ways To Close A Space':
+        'Otras formas de cerrar un espacio',
+      'Screens, Enclosures Or A Roof':
+        'Cortinas, cerramientos o un techo',
+      'A motorized screen closes a side and rolls away. If you want the whole space enclosed permanently, a roof that opens and shuts, a roof that never moves, or a structure of its own, these are the other four we build.':
+        'Una cortina motorizada cierra un lado y se recoge. Si lo que quiere es cerrar el espacio entero de forma permanente, un techo que se abra y se cierre, uno que no se mueva nunca o una estructura propia, estos son los otros cuatro que construimos.',
+
+      // ── Las cinco preguntas del FAQ, ya sin numerar ───────────────────────────
+      'How are screens controlled?':
+        '¿Cómo se controlan las cortinas?',
+      'Can they withstand strong winds?':
+        '¿Aguantan vientos fuertes?',
+      'Do they reduce patio heat?':
+        '¿Bajan el calor del patio?',
+      'Are they hidden when not in use?':
+        '¿Quedan ocultas cuando no se usan?',
+      'Can you add them to my pergola?':
+        '¿Se pueden añadir a mi pérgola?',
+
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

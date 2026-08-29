@@ -192,6 +192,54 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         estimador: 'Price your own project with our estimator',
       },
     },
+
+    'motorized-screens': {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: «Weather-Resistant Mesh Options» de la carta del cliente y la
+        // pregunta `material-cortinas-privacidad`. Sin factor de apertura: eso es hueco.
+        malla: { etiqueta: 'Mesh', valor: 'Solar mesh that cuts glare and heat while you still see out, or a denser fabric where the opening needs privacy' },
+        // Fuente: la respuesta 1 de la ficha y «Smart Home Compatibility».
+        control: { etiqueta: 'Control', valor: 'Remote, wall switch or the smart home app' },
+        // Fuente: la pregunta `material-cortinas-viento`, en su formulacion exacta. El
+        // «no es una persiana de huracan» NO se quita: es lo unico honesto que se puede
+        // decir sin el numero, y el numero es un hueco.
+        viento: { etiqueta: 'In wind', valor: 'Every system has a wind speed above which it should be retracted, and it can retract itself on a wind sensor. It is a shade product, not a hurricane shutter' },
+        // Fuente: «Obstacle Detection Technology» de la carta del cliente.
+        obstaculo: { etiqueta: 'Obstacle detection', valor: 'Sensors stop the screen on the way down if something is in the way' },
+        // Fuente: «Concealed Housing Design» y la respuesta 4 de la ficha.
+        carcasa: { etiqueta: 'Housing', valor: 'Retracts into a concealed aluminum cassette, with the fabric running in side tracks' },
+        // Fuente: las fotos de obra, abiertas una a una, y «Custom Sizing & Configurations».
+        montaje: { etiqueta: 'Where they go', valor: 'Into a pergola bay, a lanai opening or a covered patio, new or existing' },
+        // Fuente: la pregunta `pergola-cortinas-instalar-despues`.
+        retrofit: { etiqueta: 'Retrofit', valor: 'Often possible on a structure you already have: it needs somewhere solid for the cassette and the tracks, a straight opening, and a power route' },
+        material: { etiqueta: 'Housing material', valor: 'Powder-coated aluminum housing and tracks' },
+        // Fuente: «Customize housing and track colors» de la carta del cliente.
+        acabado: { etiqueta: 'Finish', valor: 'Housing and track colours from the powder-coat palette, to disappear into the structure' },
+        plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
+        // SIN CIFRA A PROPOSITO: el estimador lleva las cortinas como extra y con
+        // `fuente: 'mercado'`, que su propio modulo marca como «necesita firma».
+        inversion: { etiqueta: 'Investment', valor: 'Priced per opening, by width and drop and by the fabric — our estimator gives a working range before you call anyone' },
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        tejido: 'The openness factor of the mesh, and the fabric reference. That single number is what separates two screens that look identical on a photograph, and we are not printing one until it is the one on your quote.',
+        viento: 'The rated wind speed of the system we would put on your opening. It exists, it is on the manufacturer data sheet for that model, and it belongs there rather than in a headline.',
+        medidas: 'Maximum width and drop for a single screen. Every opening is measured; we do not publish a catalogue maximum.',
+        garantia: 'Warranty term, and how it splits between motor, fabric and housing. Those are three different warranties and we are not going to blur them into one word.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+      },
+      enlaces: {
+        plazo: 'How long a pergola installation takes in Florida',
+        coste: 'What a pergola actually costs in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
   },
 
   es: {
@@ -269,6 +317,41 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         compensa: '¿Compensa un techo de lamas en Florida?',
         plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
         permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
+        coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    'motorized-screens': {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        malla: { etiqueta: 'Malla', valor: 'Malla solar que corta el reflejo y el calor dejándole ver hacia fuera, o un tejido más tupido donde el hueco pida privacidad' },
+        control: { etiqueta: 'Control', valor: 'Control remoto, interruptor de pared o la app de domótica' },
+        viento: { etiqueta: 'Con viento', valor: 'Cada sistema tiene una velocidad de viento por encima de la cual hay que recogerlo, y puede recogerse solo con un sensor de viento. Es un producto de sombra, no una persiana de huracán' },
+        obstaculo: { etiqueta: 'Detección de obstáculos', valor: 'Los sensores paran la cortina al bajar si hay algo en medio' },
+        carcasa: { etiqueta: 'Carcasa', valor: 'Se recoge en un cajón de aluminio oculto, con el tejido corriendo por guías laterales' },
+        montaje: { etiqueta: 'Dónde van', valor: 'En un vano de pérgola, en la abertura de un porche o en un patio cubierto, nuevo o existente' },
+        retrofit: { etiqueta: 'Instalación posterior', valor: 'Muchas veces se puede sobre lo que ya tiene: hace falta dónde anclar el cajón y las guías, un hueco recto y por dónde llevar la corriente' },
+        material: { etiqueta: 'Material de la carcasa', valor: 'Cajón y guías de aluminio con recubrimiento en polvo' },
+        acabado: { etiqueta: 'Acabado', valor: 'Colores de cajón y guías de la carta de recubrimiento en polvo, para que desaparezcan en la estructura' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; el montaje en sí, unos pocos días cuando el material ya está' },
+        inversion: { etiqueta: 'Inversión', valor: 'Se cotiza por hueco, según el ancho, la caída y el tejido — nuestro estimador da una banda de trabajo antes de que llame a nadie' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        tejido: 'El factor de apertura de la malla y la referencia del tejido. Ese número es lo que separa dos cortinas que en una foto parecen iguales, y no vamos a publicar uno hasta que sea el de su presupuesto.',
+        viento: 'La velocidad de viento homologada del sistema que pondríamos en su hueco. Existe, está en la ficha técnica del fabricante de ese modelo, y su sitio es esa ficha y no un titular.',
+        medidas: 'Ancho y caída máximos de una sola cortina. Cada hueco se mide; no publicamos un máximo de catálogo.',
+        garantia: 'Años de garantía, y cómo se reparte entre motor, tejido y carcasa. Son tres garantías distintas y no las vamos a resumir en una palabra.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+      },
+      enlaces: {
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
         coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
         huracan: 'Qué hace que una pérgola aguante un huracán aquí',
         estimador: 'Ponga precio a su proyecto con nuestro estimador',

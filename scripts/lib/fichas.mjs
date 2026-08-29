@@ -362,6 +362,113 @@ export const FICHAS = {
       texto: 'A solid roof is the one that never moves. If you would rather have a roof that opens, one that lets the light through, or one that pays for itself, these are the other three we build.',
     },
   },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Cortinas motorizadas
+  // ══════════════════════════════════════════════════════════════════════════════
+  'motorized-screens': {
+    cms: '/cms-img/products/motorized-screens',
+    galeria: { prefijo: 'gallery-motorized-screen-installers-south-florida-', diapositivas: 10 },
+
+    // «Coastal Wind Rated» NO se suaviza por prudencia: se quita porque la biblioteca
+    // de este mismo sitio dice lo contrario. `material-cortinas-viento`: «Each system
+    // has a rated wind speed ABOVE WHICH IT SHOULD BE RETRACTED… Screens are a comfort
+    // and shade product, NOT A HURRICANE SHUTTER». Un chip que dice «homologada para
+    // viento de costa» encima de una §8 que declara que no publicamos la cifra, y a
+    // dos pantallas de una respuesta que dice que hay que recogerlas, es la
+    // contradiccion mas cara de las diez fichas. Se sustituye por el MECANISMO real.
+    chips: [
+      { viejo: 'Instant Bug Protection', nuevo: 'Instant Bug Protection', destino: '#features' },
+      { viejo: 'Retracts Invisibly', nuevo: 'Retracts Invisibly', destino: '#how-it-works' },
+      { viejo: 'Coastal Wind Rated', nuevo: 'Wind Sensor Retracts Them', destino: '#specs' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Motorized screen installers in South Florida providing retractable patio screens for shade, privacy, and smart outdoor automation." loading="lazy" src="/images/cliente/motorized-screens.avif"',
+        nuevo: 'alt="Motorized screens lowered across the open side of a covered patio, dark mesh dimming the view out to a pool and palms." loading="lazy" src="/images/cliente/motorized-screens.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-motorized-screen-installers-south-florida.avif" alt="Motorized screen installers in South Florida providing retractable patio screens for shade, privacy, and smart outdoor automation."',
+        nuevo: '<img src="{CMS}/cover-motorized-screen-installers-south-florida.avif" alt="Inside a lanai with the motorized screens down, the dark mesh keeping the view through to the pool deck and the planting beyond."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Motorized screen installers in South Florida providing retractable patio screens for shade, privacy, wind control, and smart outdoor automation." loading="lazy" src="{CMS}/intro-motorized-screen-installers-in-south-florida.jpg"',
+        nuevo: 'alt="Motorized screens run the length of a two-storey home, lowered over the covered walkway beside a lap pool." loading="lazy" src="{CMS}/intro-motorized-screen-installers-in-south-florida.jpg"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-motorized-screen-and-retractable-patio.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-motorized-screen-and-retractable-patio.avif" loading="lazy" alt="Motorized screens lowered along a covered terrace, with the pool and the seating area visible through the mesh."' },
+    ],
+
+    // §4 no habla de montaje: habla de CUANTAS. Sale de `pergola-cortinas-cuantas`, y
+    // es el consejo que ningun competidor da porque le baja el ticket: «Most spaces
+    // need one or two… Screening every opening turns an outdoor room into a box and
+    // costs four times as much».
+    configuraciones: {
+      foto: '10',
+      alt: 'Freestanding pergola with a motorized screen lowered on one side and fixed slatted panels on the other, over a paved dining terrace.',
+      rotulo: 'Configurations',
+      titulo: 'How Many You Actually Need',
+      texto: 'Most spaces need one or two screens, not four. The side the afternoon sun comes from and the side facing a neighbour or a road are the ones that change how the space feels; screening every opening turns an outdoor room into a box and costs four times as much. We measure the openings, ask which hours you actually use it, and start with the worst side.',
+      bullets: ['The Afternoon-Sun Side', 'The Side Facing A Neighbour',
+        'Into A New Pergola Bay', 'Retrofitted To What You Have'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    comoFunciona: {
+      foto: '08',
+      alt: 'Motorized screens across a lit lanai after dark, the warm interior showing through the mesh from outside.',
+      rotulo: 'How It Works',
+      titulo: 'What A Screen Can And Cannot Do',
+      texto: 'A motorized screen is fabric on a roller, and that is the whole honest answer. Four things decide whether it does what you wanted: what the mesh does to light, what happens when it blows, what happens when something is in the way, and where it goes when it is up.',
+      celdas: [
+        ['/images/pp-icon-malla.svg', 'What The Mesh Does To Light',
+          'Mesh works by contrast: it hides whichever side is darker. In daylight you see out and people outside do not see in. After dark, with the light on inside, that reverses — which surprises people who bought screens for evening privacy. If that is what you want, you want a blackout or a dense fabric on that opening, and we will say so before you buy it.'],
+        ['/images/pp-icon-viento.svg', 'What Happens When It Blows',
+          'Every system has a wind speed above which the screen should be retracted, and it can be set to retract itself on a wind sensor. This is the part worth reading twice: a screen is a comfort and shade product, not a hurricane shutter. Anyone who tells you otherwise is selling you the wrong thing for the storm.'],
+        ['/images/pp-icon-obstaculo.svg', 'If Something Is In The Way',
+          'Sensors stop the screen on its way down when it meets an obstruction, which is what makes it safe around children, pets and furniture you did not move. It is a standard feature, not an upgrade, and it is the reason a motorized screen is safer than the crank-and-hope alternative.'],
+        ['/images/pp-icon-carcasa.svg', 'Where It Goes When It Is Up',
+          'Into a concealed aluminium cassette, with the fabric running in side tracks. Retracted, the whole system reads as a beam: no rolled bundle hanging in the opening, no visible hardware. On a retrofit this is the part that decides feasibility — the cassette and the tracks need somewhere solid to land.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    pies: {
+      '01': ['Lowered along the full length of a covered lanai',
+        'Motorized screens lowered along the full length of a covered lanai on a white house, with lawn in front and the pool deck behind the mesh.'],
+      '02': ['Retracted at dusk: the opening reads as a clean beam',
+        'Covered patio at dusk with the screens fully retracted into their housings, warm interior lighting showing through the open bays and hydrangeas in the foreground.'],
+      '03': ['A long run beside a lap pool, screens down',
+        'Motorized screens lowered along a two-storey home beside a lap pool, the dark mesh shading the whole covered walkway.'],
+      '04': ['From inside, with the mesh half down',
+        'Interior of a lanai with a motorized screen partway down, wicker seating in the foreground and the pool visible through the mesh.'],
+      '05': ['Screens up over a kidney pool and paver deck',
+        'Screened lanai with the mesh retracted, looking across a kidney-shaped pool and paver deck with a thatched bar to one side.'],
+      '09': ['Under a gable roof, screens closing the far side',
+        'Motorized screens closing the far side of a gable-roofed outdoor room, with wicker sofas and an ottoman on a paver terrace.'],
+    },
+
+    faqNumeradas: [
+      'How are screens controlled?',
+      'Can they withstand strong winds?',
+      'Do they reduce patio heat?',
+      'Are they hidden when not in use?',
+      'Can you add them to my pergola?',
+    ],
+
+    video: 'Watch Them Come Down',
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure the openings, ask which hours you actually use the space, and start with the side that is costing you.',
+
+    comparar: {
+      productos: ['enclosure', 'louvered', 'insulated', 'cabana'],
+      rotulo: 'Other Ways To Close A Space',
+      titulo: 'Screens, Enclosures Or A Roof',
+      texto: 'A motorized screen closes a side and rolls away. If you want the whole space enclosed permanently, a roof that opens and shuts, a roof that never moves, or a structure of its own, these are the other four we build.',
+    },
+  },
 };
 
 /** La ruta de una foto de galeria de esa ficha. */
