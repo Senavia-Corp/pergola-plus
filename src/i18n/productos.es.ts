@@ -325,8 +325,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Solid insulated roof pergola with a warm wood-grain soffit and recessed lighting over a waterfront outdoor kitchen in Jupiter, Florida.':
-        'Pérgola de techo macizo aislado, con cara inferior en veta de madera y focos empotrados, sobre una cocina exterior frente al agua en Jupiter, Florida.',
+      'Attached solid roof pergola with a dark bronze frame and a flat insulated panel roof with a ceiling fan, spanning a paver patio with a built-in outdoor kitchen, seen across the pool.':
+        'Pérgola de techo macizo adosada, con estructura de aluminio bronce oscuro y techo de panel aislado liso con ventilador de techo, sobre un patio adoquinado con cocina exterior de obra, vista desde el otro lado de la piscina.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Insulated roof pergola builders in South Florida designing custom aluminum patio covers engineered for heat reduction and all-weather protection.':
@@ -499,8 +499,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Open-air white aluminum pergola with an open rafter grid and visible sky above a paver patio in Parkland, Florida.':
-        'Pérgola abierta de aluminio blanco, con retícula de vigas y el cielo a la vista, sobre un patio adoquinado en Parkland, Florida.',
+      'Open-air pergola with a dark bronze rafter grid open to the sky, attached along the upper floor of a Mediterranean-style house with arched windows and a barrel-tile roof.':
+        'Pérgola abierta con retícula de vigas bronce oscuro y el cielo a la vista, adosada a lo largo de la planta alta de una casa de estilo mediterráneo con ventanas de arco y tejado de teja árabe.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Open-air pergola builders in South Florida creating architectural aluminum pergolas that define outdoor living spaces with modern design.':
@@ -817,8 +817,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Aluminum pool screen enclosure with charcoal mesh over a swimming pool and lake view in Coral Springs, Florida.':
-        'Cerramiento de piscina en aluminio con malla color carbón sobre la piscina, con vista al lago, en Coral Springs, Florida.',
+      'Looking up into the frame of an aluminum screen enclosure: dark trusses and bolted joints crossing the sky, with the screen mesh stretched between them.':
+        'Vista desde abajo hacia la estructura de un cerramiento de aluminio: vigas oscuras y uniones atornilladas cruzando el cielo, con la malla tensada entre ellas.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant engineering.':

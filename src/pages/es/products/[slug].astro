@@ -119,11 +119,13 @@ const jsonLd = grafo(
 >
   <Fragment set:html={secciones.antes} />
   {ficha && <EspecificacionesFicha slug={item.slug} idioma="es" />}
-  {/* Condicional: hoy no hay ni un proyecto etiquetado para este producto, así que
-      no pinta nada. Ver src/lib/proyectos-ficha.ts. */}
+  {ficha && <ReseñasGoogle />}
+  {/* Condicional: solo pinta donde hay proyecto etiquetado (hoy 4 de 10).
+      VA DETRÁS DE LAS RESEÑAS Y NO DELANTE: ocupa el turno OSCURO que deja el
+      vídeo retirado, que es lo que mantiene la alternancia claro/oscuro.
+      Ver ProyectoDeFicha.astro y src/lib/proyectos-ficha.ts. */}
   {ficha && <ProyectoDeFicha slug={item.slug} idioma="es" titulo="Un proyecto real"
     entradilla="Un proyecto nuestro con este techo, de nuestra propia galería." />}
-  {ficha && <ReseñasGoogle />}
   <Fragment set:html={faq.antes} />
   <FaqPromovidas tema={item.slug} idioma="es" />
   <FaqFichaEnlace tema={item.slug} idioma="es" />

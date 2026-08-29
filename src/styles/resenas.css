@@ -275,12 +275,19 @@
   transform: scale(1.35);
 }
 
+/* 68ch y no 620px: a 0,8125rem esos 620 px salian a ~100 caracteres por linea en
+   espanol (la cadena son 114 caracteres), y el resto del sitio esta capado a 68ch
+   —ficha-producto.css:166/211/227 y blog.css:641—. La unidad importa: es una cuenta
+   de caracteres, asi que se ajusta sola si cambia el cuerpo.
+
+   NO toca el carrusel: este parrafo es hermano POSTERIOR al envoltorio del slider
+   (ReseñasGoogle.astro), centrado con `margin: … auto`. Medido antes y despues. */
 .resenas-orden {
   text-align: center;
   color: var(--terceary, #61767c);
   font-size: 0.8125rem;
   margin: 1.5rem auto 0;
-  max-width: 620px;
+  max-width: 68ch;
 }
 
 @media (prefers-reduced-motion: reduce) {

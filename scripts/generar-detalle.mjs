@@ -372,11 +372,13 @@ const jsonLd = grafo(${{
 ${col.ficha
     ? '  <Fragment set:html={secciones.antes} />\n'
       + '  {ficha && <EspecificacionesFicha slug={item.slug} />}\n'
-      + '  {/* Condicional: hoy no hay ni un proyecto etiquetado para este producto, asi\n'
-      + '      que no pinta nada. Ver src/lib/proyectos-ficha.ts. */}\n'
+      + '  {ficha && <ReseñasGoogle />}\n'
+      + '  {/* Condicional: solo pinta donde hay proyecto etiquetado (hoy 4 de 10).\n'
+      + '      VA DETRAS DE LAS RESEÑAS Y NO DELANTE: ocupa el turno OSCURO que deja\n'
+      + '      el video retirado, que es lo que mantiene la alternancia claro/oscuro.\n'
+      + '      Ver ProyectoDeFicha.astro y src/lib/proyectos-ficha.ts. */}\n'
       + '  {ficha && <ProyectoDeFicha slug={item.slug} titulo="One We Built"\n'
       + '    entradilla="A project of ours with this roof, from our own gallery." />}\n'
-      + '  {ficha && <ReseñasGoogle />}\n'
     : ''}${col.faq
     ? '  <Fragment set:html={faq.antes} />\n'
       + (col.ficha ? '  <FaqPromovidas tema={item.slug} />\n' : '')

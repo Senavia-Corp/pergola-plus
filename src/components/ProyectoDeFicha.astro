@@ -8,15 +8,23 @@
  * nada. Sin estado vacio, sin «proximamente» y sin caso inventado — misma regla que
  * `ReseñasGoogle.astro`, y por el mismo motivo.
  *
- * QUIEN LO ACTIVE TIENE QUE LEER ESTO. El dia que un proyecto quede etiquetado, esta
- * seccion NO se suma a la pagina: SUSTITUYE al bloque de video. La ficha alterna
- * claro y oscuro sin un solo par repetido, y hoy hay 7 bloques claros contra 7
- * no-claros entre el hero y el pie. Añadir uno rompe esa paridad y obliga a mover
- * otro; las dos inserciones evidentes se probaron y las dos rompen. La buena es que
- * ocupe el turno oscuro del video, en la posicion 10, y que el video se retire: los
- * dos hacen el mismo trabajo (demostrar obra propia), el video es un `<iframe>` de
- * cdn.embedly.com —la unica dependencia externa que le queda a esta pagina— y un
+ * OCUPA EL TURNO OSCURO DEL VIDEO, Y ESO SON DOS COSAS, NO UNA. Esta seccion no se
+ * suma a la pagina: SUSTITUYE al bloque de video. El video se retira con
+ * `video: false` en el registro de fichas Y esta seccion se coloca DONDE ESTABA —
+ * detras de las reseñas, no delante— con su mismo fondo `--primary`. Los dos hacen
+ * el mismo trabajo (demostrar obra propia), el video es un `<iframe>` de
+ * cdn.embedly.com —la unica dependencia externa que le quedaba a esta pagina— y un
  * proyecto propio con ciudad y sistema es mejor prueba que un video generico.
+ *
+ * SE HIZO SOLO LA PRIMERA MITAD Y SE PUBLICO ASI. Con la seccion delante de las
+ * reseñas y sin fondo, las cuatro fichas con proyecto etiquetado encadenaban
+ * #specs oscuro > esta clara > reseñas clara > #faq claro: hasta 4.879 px sin una
+ * frontera, en solid-roof. Las 17 puertas estaban verdes. Medido muestreando el
+ * pixel real de cada banda sobre dist, no leyendo el CSS: esta seccion y
+ * `.resenas` parecen neutras en el codigo y en pantalla son claras.
+ *
+ * LO QUE NO PUEDE PASAR: que una ficha traiga video Y proyecto etiquetado. Serian
+ * dos bandas oscuras seguidas. Lo vigila `scripts/comprobar-ritmo.mjs`.
  *
  * EL ESPAÑOL SALE DE `PROYECTOS_ES`, no del diccionario del fragmento: el titulo y el
  * texto de la tarjeta son los del proyecto, y esa traduccion ya existe. Si algun dia
@@ -51,7 +59,12 @@ const tarjetas = proyectosDeFicha(galeria, slug)
     if (!es) return null;
     return { ...t, ruta: `/es/project/${t.slug}/`, titulo: es.nombre, texto: es.description };
   })
-  .filter((t) => t !== null);
+  .filter((t) => t !== null)
+  // DOS Y NO LAS QUE HAYA: el titular dice «One We Built» / «Un proyecto real», en
+  // singular, y `solid-roof-pergolas` tiene NUEVE proyectos etiquetados — 3.024 px
+  // de seccion bajo un titular que promete uno. Dos es una fila entera de la rejilla
+  // de dos columnas, asi que no deja huecos, y las demas siguen en /project-gallery/.
+  .slice(0, 2);
 ---
 
 {tarjetas.length > 0 && (
@@ -86,8 +99,31 @@ const tarjetas = proyectosDeFicha(galeria, slug)
 <style>
   /* La rejilla y la tarjeta son clases del sitio (`projects-grid-list`,
      `projects-card-page`), asi que aqui solo va el hueco de la seccion. */
+  /* El turno OSCURO que deja el video, con su mismo fondo y su mismo hueco
+     (`.video-section` es `background-color: var(--primary); padding: 8rem 2rem`).
+     La pareja fondo+color es la que ya usa `.pp-specs`, la otra seccion nuestra
+     que va en oscuro. */
   .pp-proyecto-ficha {
+    background-color: var(--primary, #3a545b);
+    color: var(--white, #fff);
     padding: 8rem 2rem;
+  }
+
+  /* LA TARJETA HAY QUE RESCATARLA. `.projects-card-body-page` es `--primary` en el
+     CSS del sitio —medido en pantalla: rgb(58,84,91)— porque en /project-gallery/
+     va sobre fondo claro. Sobre esta seccion, ahora del mismo color, el cuerpo de
+     la tarjeta se disolveria en el fondo y solo quedaria la foto flotando. Se
+     invierte a crema DENTRO DE ESTA SECCION Y SOLO AQUI, con el mismo recurso de
+     «panel crema sobre primary» que usa `.pp-specs`. */
+  .pp-proyecto-ficha .projects-card-body-page {
+    background-color: var(--secundary, #fffbf0);
+    color: var(--primary, #3a545b);
+  }
+
+  /* Y las etiquetas, que eran crema sobre crema en cuanto se invierte el cuerpo. */
+  .pp-proyecto-ficha .box-detail-projects {
+    background-color: var(--primary, #3a545b);
+    color: var(--white, #fff);
   }
 
   .pp-proyecto-ficha .projects-grid-list {

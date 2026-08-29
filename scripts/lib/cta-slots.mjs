@@ -60,13 +60,22 @@ export const CTA_SLOTS = {
   },
   'solid-roof-pergolas': {
     alt:
-      'Solid insulated roof pergola with a warm wood-grain soffit and recessed '
-      + 'lighting over a waterfront outdoor kitchen in Jupiter, Florida.',
+      // Reescrito mirando el recorte publicado. El anterior era el prompt de IA:
+      // decia «warm wood-grain soffit» (el techo de esta foto es de panel liso y
+      // claro), «waterfront» (es una piscina en un patio vallado) y «Jupiter,
+      // Florida» (la ciudad no se puede saber mirando la foto). Manda la foto.
+      'Attached solid roof pergola with a dark bronze frame and a flat insulated '
+      + 'panel roof with a ceiling fan, spanning a paver patio with a built-in '
+      + 'outdoor kitchen, seen across the pool.',
   },
   'open-air-pergolas': {
     alt:
-      'Open-air white aluminum pergola with an open rafter grid and visible sky '
-      + 'above a paver patio in Parkland, Florida.',
+      // Reescrito mirando el recorte publicado. El anterior era el prompt de IA:
+      // decia «white aluminum» (la estructura es bronce oscuro), «above a paver
+      // patio» (lo que se ve es la fachada) y «Parkland, Florida» (inventada).
+      'Open-air pergola with a dark bronze rafter grid open to the sky, attached '
+      + 'along the upper floor of a Mediterranean-style house with arched windows '
+      + 'and a barrel-tile roof.',
   },
   'polycarbonate-pergolas': {
     alt:
@@ -85,8 +94,11 @@ export const CTA_SLOTS = {
   },
   'screen-enclosures': {
     alt:
-      'Aluminum pool screen enclosure with charcoal mesh over a swimming pool and '
-      + 'lake view in Coral Springs, Florida.',
+      // Reescrito mirando el recorte publicado. El anterior era el prompt de IA:
+      // prometia piscina y vista al lago —el recorte es un contrapicado y no se ve
+      // ninguna de las dos— y «Coral Springs, Florida», que es inventada.
+      'Looking up into the frame of an aluminum screen enclosure: dark trusses and '
+      + 'bolted joints crossing the sky, with the screen mesh stretched between them.',
   },
   'carports': {
     alt:
