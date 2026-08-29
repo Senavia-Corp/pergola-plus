@@ -10,7 +10,7 @@
     "build": "astro build && node scripts/rutas-vercel.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:cta && npm run check:estimador && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:resenas && npm run check:iconos && npm run check:correo",
+    "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:cta && npm run check:estimador && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:resenas && npm run check:iconos && npm run check:ritmo && npm run check:correo",
     "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
@@ -38,7 +38,8 @@
     "check:cta": "node scripts/comprobar-cta.mjs",
     "integrar:cta": "node scripts/integrar-cta.mjs",
     "check:resenas": "node scripts/comprobar-resenas.mjs",
-    "check:iconos": "node scripts/comprobar-iconos.mjs"
+    "check:iconos": "node scripts/comprobar-iconos.mjs",
+    "check:ritmo": "node scripts/comprobar-ritmo.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.5",
