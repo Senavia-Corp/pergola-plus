@@ -290,3 +290,19 @@
     transition: none;
   }
 }
+
+/* El aviso de maqueta. Deliberadamente feo: es un andamio, no parte del diseño, y
+   tiene que cantar. Desaparece solo —no hay que acordarse de quitarlo— en cuanto
+   getReviews() devuelva resenas reales o el build sea de produccion. */
+.resenas-maqueta {
+  max-width: 46rem;
+  margin: 0 auto 1.5rem;
+  padding: 0.6rem 1rem;
+  border: 2px dashed #b45309;
+  border-radius: 6px;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 13px;
+  line-height: 140%;
+  text-align: center;
+}

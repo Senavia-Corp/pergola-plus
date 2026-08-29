@@ -31,6 +31,7 @@
  * — el mismo principio que el listado del blog.
  */
 import datos from '../data/reviews-google.json';
+import plantillas from '../data/reviews-plantilla.json';
 
 export interface Resena {
   /** Id estable de Google. Sirve de `key` y para detectar altas/bajas entre snapshots. */
@@ -95,7 +96,47 @@ const SNAPSHOT = datos as unknown as Snapshot;
  * buenas. Aqui no se filtra ninguna: salen todas las que traiga el snapshot.
  */
 export function getReviews(): Resena[] {
-  return [...SNAPSHOT.resenas].sort((a, b) => b.fechaISO.localeCompare(a.fechaISO));
+  if (SNAPSHOT.resenas.length) {
+    return [...SNAPSHOT.resenas].sort((a, b) => b.fechaISO.localeCompare(a.fechaISO));
+  }
+  return getPlantillas();
+}
+
+/**
+ * Las tarjetas de MAQUETA del carrusel, o lista vacia.
+ *
+ * Existen para poder ver el carrusel montado antes de que este enchufada la API de
+ * Google Business Profile. NO son resenas y no pueden publicarse.
+ *
+ * FALLA CERRADO, que es el mismo criterio que ya usa el sitio con `robots.txt` y con
+ * las canonicas: hacen falta las DOS condiciones para que aparezcan —que no sea un
+ * build de produccion Y que no haya ni una resena real—. Con `PUBLIC_ES_PRODUCCION=1`
+ * devuelve lista vacia y el componente vuelve exactamente al comportamiento de hoy.
+ *
+ * `=== '1'` invertido a proposito: cualquier valor que no sea exactamente `'1'`
+ * —vacio, `true`, `si`, sin definir— cuenta como NO produccion, o sea que el error
+ * por defecto es enseñar plantillas en un preview, nunca publicarlas.
+ *
+ * NO ALIMENTAN LA NOTA. `getResumen()` y `getResumenPublico()` leen
+ * `SNAPSHOT.resenas` directamente y no pasan por aqui, asi que la media publicada
+ * sigue siendo el 5,0 sobre 27 transcrito de la ficha publica, con su fecha y su
+ * procedencia. Si estas contaran, la pagina anunciaria una media inventada sobre 4
+ * — que es exactamente el fallo que este rodeo existe para evitar.
+ *
+ * El texto de cada plantilla empieza por «PLANTILLA» / «MOCKUP» a proposito: en la
+ * web de un contratista con licencia, un testimonio inventado y verosimil es un
+ * problema legal —la FTC lo sanciona por infraccion desde octubre de 2024—, y una
+ * captura de pantalla sobrevive al recuerdo de quien la hizo.
+ */
+function getPlantillas(): Resena[] {
+  if (import.meta.env.PUBLIC_ES_PRODUCCION === '1') return [];
+  const p = (plantillas as unknown as { resenas: Resena[] }).resenas ?? [];
+  return [...p].sort((a, b) => b.fechaISO.localeCompare(a.fechaISO));
+}
+
+/** true si lo que se esta pintando son maquetas y no resenas. Para avisarlo en pantalla. */
+export function esPlantilla(): boolean {
+  return SNAPSHOT.resenas.length === 0 && getPlantillas().length > 0;
 }
 
 /** Nombre y ficha de Google del negocio. */

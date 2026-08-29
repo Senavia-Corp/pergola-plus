@@ -31,7 +31,7 @@
  * expone a accion manual. Las estrellas ya salen solas desde la ficha de Business
  * Profile. Ver la cabecera de src/lib/jsonld.ts, que documenta esa decision.
  */
-import { getReviews, getPerfil, getResumen, getResumenPublico } from '../lib/reviews';
+import { getReviews, getPerfil, getResumen, getResumenPublico, esPlantilla } from '../lib/reviews';
 import { idiomaDeRuta } from '../i18n';
 import { RESENAS } from '../i18n/resenas';
 import '../styles/resenas.css';
@@ -41,6 +41,7 @@ const perfil = getPerfil();
 const resumen = getResumen();
 /** No null solo cuando la nota sale de la ficha publica y NO de resenas cargadas. */
 const soloNota = getResumenPublico();
+const maqueta = esPlantilla();
 
 const idioma = idiomaDeRuta(Astro.url.pathname);
 const t = RESENAS[idioma];
@@ -110,6 +111,18 @@ const iniciales = (nombre: string) =>
           Cuelga de `resenas.length` y no de la condicion de arriba: un carrusel de
           cero slides es peor que ningun carrusel — Carrusel.astro se lo salta, los
           puntos no se pintan y quedan dos flechas sin nada detras. */}
+      {maqueta && (
+        <p class="resenas-maqueta" role="status">
+          {/* Visible A PROPOSITO y sin traducir: quien abre el preview —el cliente
+              incluido— tiene que saber en la primera mirada que esas tarjetas no son
+              testimonios. Un aviso solo en el codigo no sobrevive a una captura de
+              pantalla. Con PUBLIC_ES_PRODUCCION=1 no se renderiza ni esto ni el
+              carrusel: getReviews() devuelve lista vacia. */}
+          Maqueta: tarjetas de ejemplo para ver el carrusel. No son reseñas y no se
+          publican. Se sustituyen solas al conectar Google Business Profile.
+        </p>
+      )}
+
       {resenas.length > 0 && (
       <div fs-slider-instance="fs-slider-resenas" class="fs-slider-resenas_instance">
         <div fs-slider-element="list-wrapper" class="fs-slider-resenas_list-wrapper">

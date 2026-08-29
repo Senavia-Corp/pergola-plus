@@ -1,0 +1,68 @@
+{
+  "_comentario": [
+    "PLANTILLAS DE MAQUETA. No son resenas. No pueden publicarse.",
+    "",
+    "Existen para UNA sola cosa: poder ver el carrusel montado —tarjetas, flechas,",
+    "puntos, alturas desiguales, textos largos y cortos, respuesta del dueno— antes de",
+    "que este enchufada la API de Google Business Profile.",
+    "",
+    "POR QUE EL TEXTO DICE «PLANTILLA» Y NO PARECE UNA RESENA DE VERDAD, a proposito:",
+    "una resena de cliente inventada en la web de un contratista con licencia no es un",
+    "detalle de copy. En EE. UU. las resenas y testimonios falsos estan sancionados por",
+    "la FTC (16 CFR Part 465, en vigor desde octubre de 2024) con multa civil por",
+    "infraccion. Un texto verosimil aqui podria acabar en una captura, en un anuncio o",
+    "en el sitio en vivo sin que nadie recuerde de donde salio. Uno que grita PLANTILLA",
+    "en la primera palabra, no.",
+    "",
+    "COMO DESAPARECEN: getReviews() en src/lib/reviews.ts solo las devuelve cuando",
+    "PUBLIC_ES_PRODUCCION !== '1' Y no hay ni una resena real. En cuanto corra",
+    "scripts/traer-resenas.mjs, las reales mandan y esto no se vuelve a leer.",
+    "Ademas scripts/comprobar-resenas.mjs tumba el build si asomaran en produccion.",
+    "",
+    "NO ALIMENTAN LA NOTA. getResumen() lee SNAPSHOT.resenas, no esto, asi que la",
+    "media sigue siendo el 5,0 sobre 27 leido de la ficha publica el 18-ago-2026.",
+    "Si estas plantillas contaran, la pagina anunciaria una media inventada sobre 4."
+  ],
+  "resenas": [
+    {
+      "id": "plantilla-1",
+      "autor": "PLANTILLA · tarjeta corta",
+      "rating": 5,
+      "fechaISO": "2026-07-14",
+      "texto": "PLANTILLA DE MAQUETA — no es una resena. Texto corto, para ver como queda una tarjeta con poca altura al lado de otra larga.",
+      "idioma": "es",
+      "respuestaDueño": null,
+      "urlOrigen": "#plantilla"
+    },
+    {
+      "id": "plantilla-2",
+      "autor": "PLANTILLA · tarjeta larga",
+      "rating": 5,
+      "fechaISO": "2026-06-02",
+      "texto": "PLANTILLA DE MAQUETA — no es una resena. Este texto es largo a proposito para comprobar donde corta la tarjeta, si el carrusel iguala las alturas o las deja desiguales, y que pasa con las comillas y con una linea que llega hasta el borde de la caja sin dejar viuda.",
+      "idioma": "es",
+      "respuestaDueño": null,
+      "urlOrigen": "#plantilla"
+    },
+    {
+      "id": "plantilla-3",
+      "autor": "PLANTILLA · con respuesta",
+      "rating": 4,
+      "fechaISO": "2026-04-21",
+      "texto": "PLANTILLA DE MAQUETA — no es una resena. Lleva cuatro estrellas y respuesta del negocio para ver los dos casos que el componente sabe pintar y que con datos reales tardarian en aparecer.",
+      "idioma": "es",
+      "respuestaDueño": "PLANTILLA DE MAQUETA — respuesta de ejemplo del negocio, para ver el bloque anidado dentro de la tarjeta.",
+      "urlOrigen": "#plantilla"
+    },
+    {
+      "id": "plantilla-4",
+      "autor": "PLANTILLA · en ingles",
+      "rating": 5,
+      "fechaISO": "2026-02-09",
+      "texto": "MOCKUP PLACEHOLDER — not a review. English text, to check that a card keeps lang=\"en\" while the page is in Spanish, which is what the component promises.",
+      "idioma": "en",
+      "respuestaDueño": null,
+      "urlOrigen": "#plantilla"
+    }
+  ]
+}
