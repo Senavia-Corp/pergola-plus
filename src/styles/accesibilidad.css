@@ -33,6 +33,7 @@
 .location-card-link,
 .pp-bbb,
 .product-card-link-page,
+.resenas-ficha,
 .warraty-card-link {
   position: relative;
 }
@@ -43,6 +44,7 @@
 .location-card-link::after,
 .pp-bbb::after,
 .product-card-link-page::after,
+.resenas-ficha::after,
 .warraty-card-link::after {
   content: '';
   position: absolute;
@@ -97,6 +99,36 @@ textarea:focus-visible,
 .footer a:focus-visible,
 .hero-video-main a:focus-visible,
 .product-card-page a:focus-visible {
+  outline-color: var(--secundary, #fffbf0);
+}
+
+/* -----------------------------------------------------------------------------
+   2b · Los campos de formulario, que hoy no tienen anillo NINGUNO
+
+   `public/css/webflow.css:370` declara `.w-input:focus { outline: 0 }` con (0,2,0),
+   y la regla general de arriba —`input:focus-visible`— es (0,1,1): PIERDE. El
+   resultado medido es que `#footer-email` era la unica parada de tabulacion del
+   sitio sin un solo indicador de foco, en las 216 paginas que llevan `.w-input`.
+
+   `cotizacion.css:709` ya resolvio esto, pero acotado a `.form-quote`, asi que solo
+   cubria el formulario de presupuesto. Esto lo lleva al resto sin tocar aquel.
+
+   La forma `input.w-input` es (0,2,1) a proposito: gana a (0,2,0) por el elemento,
+   sin depender del orden de carga de las hojas. Un `.w-input:focus-visible` a secas
+   empataria a (0,2,0) y quedaria a merced de cual se cargue despues.
+   -------------------------------------------------------------------------- */
+input.w-input:focus-visible,
+textarea.w-input:focus-visible,
+select.w-select:focus-visible {
+  outline: 3px solid var(--primary, #3a545b);
+  outline-offset: 2px;
+}
+
+/* En el pie el fondo es oscuro y el teal se pierde, igual que ya pasa con sus
+   enlaces tres reglas mas arriba. */
+.footer input.w-input:focus-visible,
+.footer textarea.w-input:focus-visible,
+.footer select.w-select:focus-visible {
   outline-color: var(--secundary, #fffbf0);
 }
 

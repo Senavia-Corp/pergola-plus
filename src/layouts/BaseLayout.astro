@@ -7,6 +7,7 @@ import Agenda from '../components/Agenda.astro';
 import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 // Va PRIMERO: define los @font-face, y el CSS migrado que viene después ya usa Inter.
 import '../styles/fuentes.css';
+import '../styles/tipografia.css';
 import '../styles/i18n.css';
 import '../styles/accesibilidad.css';
 // El marquee de logos vive DENTRO del fragmento migrado, no en un componente
@@ -248,7 +249,23 @@ const xDefault = alternativas.length > 1
     </div>
 
     <Nav />
-    <slot />
+    {/* El <main> es hermano de <Nav> y <Footer>, NUNCA su padre: Nav.astro recorre
+        `document.body.children` para poner `inert` a los hermanos con el menu
+        abierto, y envolverlo romperia ese barrido.
+
+        Cierra dos cosas de una vez, las dos medidas por F4b:
+          · `landmark-main` de accesslint, y el enlace de salto que exige.
+          · El anillo de foco de accesibilidad.css, cuya regla `main a:focus-visible`
+            llevaba siendo CODIGO MUERTO en las 216 paginas —no habia un solo <main>
+            en el sitio—, con lo que 11 de 73 paradas de tabulacion caian al anillo
+            del navegador. Con el envoltorio: 11 -> 0.
+
+        La cascada aguanta sola: `main a:focus-visible` es (0,1,2) y el override
+        `.product-card-page a:focus-visible` es (0,2,1), asi que sigue ganando.
+        Delta de altura medido: 0 px. */}
+    <main>
+      <slot />
+    </main>
     <Footer />
 
     {/* Cablea las flechas de los carruseles, que la migracion dejo muertas al no
