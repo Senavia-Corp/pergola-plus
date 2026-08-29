@@ -149,3 +149,39 @@ a.tagline-item-product:hover {
     inset: 0 0 0 auto;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   El velo del CTA de cierre
+
+   `.image-call-to-action` es una FOTO a sangre y el titular, la entradilla y los dos
+   botones van en BLANCO encima, sin nada que garantice el contraste: lo unico que
+   sostiene hoy la legibilidad es que el cielo de esa foto concreta sea gris. Cambiar
+   la imagen —o que el navegador sirva otra variante del srcset— lo rompe en silencio.
+
+   Son 207 paginas con este bloque, asi que el velo va aqui y no en una regla por
+   pagina. Es aditivo: no cambia layout, no cambia altura, no toca la foto.
+
+   Degradado y no un plano uniforme: la parte alta queda mas clara para no apagar la
+   foto entera, y baja donde estan la entradilla y los botones, que es donde el texto
+   es mas pequeño y mas necesita el fondo.
+
+   `z-index: 1` lo pone por encima de la <img> (que es `position: absolute` con
+   `z-index: auto`) y por debajo del contenido. `pointer-events: none` para que los
+   dos botones sigan siendo clicables.
+   -------------------------------------------------------------------------- */
+.call-to-action-footer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(20, 32, 36, 0.22) 0%, rgba(20, 32, 36, 0.55) 100%);
+  pointer-events: none;
+}
+
+/* El contenido tiene que quedar POR ENCIMA del velo. `.wrapper-call-to-action` trae
+   `z-index: 2` del CSS migrado pero es `position: static`, donde el z-index no hace
+   nada: sin esto, el velo taparia el texto que viene a proteger. */
+.call-to-action-footer .wrapper-call-to-action {
+  position: relative;
+  z-index: 2;
+}
