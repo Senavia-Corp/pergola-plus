@@ -291,18 +291,16 @@
   }
 }
 
-/* El aviso de maqueta. Deliberadamente feo: es un andamio, no parte del diseño, y
-   tiene que cantar. Desaparece solo —no hay que acordarse de quitarlo— en cuanto
-   getReviews() devuelva resenas reales o el build sea de produccion. */
+/* El aviso de maqueta. Discreto a proposito: tiene que constar sin arruinar la
+   demo que el cliente esta mirando. El propio texto de relleno en latin ya dice lo
+   que es; esto solo lo deja por escrito. Desaparece solo en cuanto getReviews()
+   devuelva resenas reales o el build sea de produccion. */
 .resenas-maqueta {
-  max-width: 46rem;
-  margin: 0 auto 1.5rem;
-  padding: 0.6rem 1rem;
-  border: 2px dashed #b45309;
-  border-radius: 6px;
-  background: #fff7ed;
-  color: #7c2d12;
-  font-size: 13px;
-  line-height: 140%;
+  margin: 0 auto 1.25rem;
+  color: var(--terceary, #61767c);
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-align: center;
+  text-transform: uppercase;
+  opacity: 0.75;
 }

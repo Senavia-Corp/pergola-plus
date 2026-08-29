@@ -35,8 +35,22 @@ import { raizHtml } from './lib/dist.mjs';
 const DIST = await raizHtml();
 const ES_PRODUCCION = process.env.PUBLIC_ES_PRODUCCION === '1';
 
-/** Las marcas que lleva toda plantilla. Si cambian en el JSON, cambian aqui. */
-const MARCAS = ['PLANTILLA DE MAQUETA', 'MOCKUP PLACEHOLDER', 'plantilla-1', 'plantilla-2'];
+/**
+ * La marca es ESTRUCTURAL, no textual.
+ *
+ * La primera version buscaba las cadenas «PLANTILLA DE MAQUETA» y «MOCKUP
+ * PLACEHOLDER» dentro del HTML. Duro exactamente hasta que el relleno paso a ser
+ * lorem ipsum: la puerta se quedo mirando unas palabras que ya no existian y habria
+ * salido en VERDE con la maqueta publicada.
+ *
+ * Lo que de verdad define «hay maqueta publicada» no es una palabra: es que se
+ * pinten SLIDES DE CARRUSEL sin que haya ni una resena real en el snapshot. Eso no
+ * cambia aunque el relleno se reescriba mañana en otro idioma.
+ */
+const SLIDE = /<div[^>]*fs-slider-element="slide"[^>]*fs-slider-resenas_slide/;
+const RESENAS_REALES = JSON.parse(
+  await fs.readFile(new URL('../src/data/reviews-google.json', import.meta.url), 'utf8'),
+).resenas.length;
 /* El ELEMENTO, no el nombre de la clase a secas: Astro incrusta el CSS en el HTML,
    asi que `resenas-maqueta` aparece en las 217 paginas dentro de un <style> aunque no
    se pinte ni un aviso. Buscar la clase pelada daba 39 falsos positivos — y una
@@ -64,7 +78,7 @@ const conMarca = [];
 const conAviso = [];
 for (const rel of htmls) {
   const html = await fs.readFile(path.join(DIST, rel), 'utf8');
-  if (MARCAS.some((m) => html.includes(m))) conMarca.push(rel);
+  if (RESENAS_REALES === 0 && SLIDE.test(html)) conMarca.push(rel);
   if (html.includes(AVISO)) conAviso.push(rel);
 }
 
@@ -82,17 +96,17 @@ if (ES_PRODUCCION) {
     'toda pagina con tarjetas de maqueta lleva su aviso visible', mudas);
 }
 
-// En los DOS modos: la cifra que se publica no puede venir de las plantillas.
-// Las cuatro plantillas dan media 4,75 sobre 4; la nota real es 5 sobre 27.
+// En los DOS modos: la cifra publicada no puede salir del recuento de la maqueta.
+// La maqueta tiene 4 tarjetas; la nota real es 5,0 sobre 27. Si alguna pagina con
+// maqueta anunciara «(4)», significaria que getResumen() se ha puesto a contar
+// tarjetas de relleno — que es el fallo caro que el rodeo de getPlantillas() evita.
 const sospechosas = [];
-for (const rel of htmls) {
+for (const rel of conMarca) {
   const html = await fs.readFile(path.join(DIST, rel), 'utf8');
-  if (!html.includes('resenas-nota') && !html.includes('resenas-total')) continue;
-  // El total publicado no puede ser el numero de plantillas.
-  if (/\(\s*4\s*\)/.test(html) && MARCAS.some((m) => html.includes(m))) sospechosas.push(rel);
+  if (/resenas-total[^>]*>\(\s*4\s*\)/.test(html)) sospechosas.push(rel);
 }
 decir(sospechosas.length === 0,
-  'la nota agregada no sale del recuento de plantillas', sospechosas);
+  'la nota agregada no sale del recuento de la maqueta', sospechosas);
 
 console.log(fallos ? `\n${fallos} fallo(s).\n` : '\nsin fallos.\n');
 process.exit(fallos ? 1 : 0);
