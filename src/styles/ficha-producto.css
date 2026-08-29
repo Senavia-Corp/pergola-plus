@@ -194,21 +194,28 @@ El `:not(.pp-specs-enlace)` no sobra: los enlaces de blog de la entradilla son
 
    Los centrados siguen centrados: `max-width` con `margin-inline: auto` conserva la
    composicion de `.header-feature-section`, que es la que usan §15 y las cabeceras.
+
+   EL `:not([class])` NO SOBRA, y esto lo aprendi rompiendolo: `.wrapper-hero-product`
+   tiene TRES hijos `div` —la fila de chips (`tagline-product`), el parrafo y la fila
+   de botones (`wrapper-buttons`)— y el parrafo es el unico sin clase. Sin el `:not`,
+   el tope estrechaba tambien la fila de chips y la hacia envolver a dos lineas en las
+   fichas de chip largo. Lo mismo pasaba con `.process-cta` dentro del CTA y con
+   `.title-deco` dentro de la cabecera del comparativo.
    -------------------------------------------------------------------------- */
-.wrapper-hero-product > div,
-.header-gallery-page > div,
-.header-faq > div,
-.box-call-to-action > div,
-#features .header-feature-section > div,
-#compare .header-feature-section > div {
+.wrapper-hero-product > div:not([class]),
+.header-gallery-page > div:not([class]),
+.header-faq > div:not([class]),
+.box-call-to-action > div:not([class]),
+#features .header-feature-section > div:not([class]),
+#compare .header-feature-section > div:not([class]) {
   max-width: 68ch;
 }
 
-.header-gallery-page > div,
-.header-faq > div,
-.box-call-to-action > div,
-#features .header-feature-section > div,
-#compare .header-feature-section > div {
+.header-gallery-page > div:not([class]),
+.header-faq > div:not([class]),
+.box-call-to-action > div:not([class]),
+#features .header-feature-section > div:not([class]),
+#compare .header-feature-section > div:not([class]) {
   margin-inline: auto;
 }
 
