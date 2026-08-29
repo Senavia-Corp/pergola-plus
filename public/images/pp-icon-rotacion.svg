@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" role="img">
-  <g fill="none" stroke="#3a545b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+  <g transform="translate(-5.75 -1.97) scale(1.2178)" fill="none" stroke="#3a545b" stroke-width="2.63" stroke-linecap="round" stroke-linejoin="round">
     <path d="M38.9 14.2A15.8 15.8 0 1 0 40.8 25"/>
     <polyline points="32.6 13.1 39.6 14.6 41.1 7.6"/>
     <line x1="18.5" y1="20.5" x2="31.5" y2="17.6"/>
