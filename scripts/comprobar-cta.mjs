@@ -263,8 +263,25 @@ export function juzgarLegibilidad(leg) {
 export function juzgarBruto(m) {
   const U = UMBRALES;
   const motivos = [];
-  if (m.width < U.ANCHO_MIN) {
-    motivos.push(`ancho ${m.width} px, minimo ${U.ANCHO_MIN} para recortar con holgura`);
+  // ANCHO_MIN es holgura PARA RECORTAR, y solo tiene sentido si hay que recortar.
+  // Nacio para el bruto del generador, que entra a 21:9 porque higgsfield no ofrece
+  // 2,55 y hay que quitarle un 7,6% del alto.
+  //
+  // Una FOTOGRAFIA que ya llega dentro de la ventana publicable no se recorta: se
+  // publica tal cual. Exigirle 3000 px de holgura para un recorte que no existe
+  // dejaba fuera material perfectamente valido — la foto del cliente
+  // `images/cliente/motorized-louvered.avif` a 2500x980 y 2,55:1 exactos, que supera
+  // por 100 px el ancho del master que se publica.
+  //
+  // Lo que NO se afloja: si no hay recorte, sigue teniendo que cumplir
+  // ANCHO_PUBLICADO, que es el ancho real que se sirve. Y la relacion, el brillo del
+  // centro y el sigma se comprueban igual que siempre.
+  const yaEsPublicable = m.ratio >= U.RATIO_MIN && m.ratio <= U.RATIO_MAX;
+  const anchoQueToca = yaEsPublicable ? U.ANCHO_PUBLICADO : U.ANCHO_MIN;
+  if (m.width < anchoQueToca) {
+    motivos.push(`ancho ${m.width} px, minimo ${anchoQueToca}`
+      + (yaEsPublicable ? ' (ya viene a 2,55:1: no hay recorte, se publica tal cual)'
+        : ' para recortar con holgura'));
   }
   if (m.ratio < U.RATIO_BRUTO_MIN || m.ratio > U.RATIO_BRUTO_MAX) {
     motivos.push(`relacion ${m.ratio.toFixed(2)}:1 fuera de ${U.RATIO_BRUTO_MIN}-${U.RATIO_BRUTO_MAX}:1`
