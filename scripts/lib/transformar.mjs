@@ -17,6 +17,13 @@
  *   - el texto, con sus entidades
  */
 
+// Lo PROPIO de cada ficha de producto recompuesta —chips, fotos, copy de las secciones
+// nuevas, pies de galeria— vive en fichas.mjs. Aqui solo esta el MOLDE. Ver el
+// comentario de cabecera de ese fichero para por que estan separados.
+import { FICHAS, FICHAS_RECOMPUESTAS, DATA_PRODUCT, ANCLA_TARJETA, foto } from './fichas.mjs';
+
+export { FICHAS_RECOMPUESTAS };
+
 /** Archivo del export -> ruta del sitio. Confirmado contra el sitio en vivo. */
 export const RUTAS = {
   'index.html': '/',
@@ -1489,8 +1496,6 @@ function duplicarMarqueeFotos(html) {
  * no-claros entre el hero y el pie — por eso `blog` (claro) TIENE que salir cuando
  * entra «Comparar» (claro), o aparece el primer par claro-claro de esta pagina.
  */
-const RUTA_LAMAS = '/products/motorized-louvered-pergolas';
-
 /**
  * Donde se parte el fragmento para montar §8 (especificaciones), §9 (proyecto
  * destacado, condicional) y §11 (reseñas). Ocupa el hueco del PRIMER
@@ -1500,13 +1505,6 @@ const RUTA_LAMAS = '/products/motorized-louvered-pergolas';
  * algun dia alguien se salta el corte: un comentario no se ve, un `<div>` vacio si.
  */
 export const MARCA_SECCIONES = '<!--pp-secciones-ficha-->';
-
-/** Las fichas que llevan este rediseño. La gemela en TypeScript es ESPECIFICACIONES. */
-export const FICHAS_RECOMPUESTAS = new Set(['motorized-louvered-pergolas']);
-
-/** Rutas de las fotos de esta ficha, para no repetir la cadena larga nueve veces. */
-const CMS = '/cms-img/products/motorized-louvered-pergolas';
-const foto = (n) => `${CMS}/gallery-louvered-roof-pergola-contractors-south-florida-${n}.avif`;
 
 /**
  * Recorta el bloque de nivel superior que abre en `ancla`, contando profundidad de
@@ -1549,68 +1547,50 @@ function cambiar(s, viejo, nuevo, contexto, veces = 1) {
 }
 
 /**
- * Las cuatro tarjetas de cubierta hermanas, SACADAS DE /products.
+ * Las tarjetas de producto hermanas, SACADAS DE /products.
  *
- * No se copian a mano aqui: se leen del fragmento que ya las sirve, asi que la foto,
- * el titular y el texto no pueden divergir de los de /products — que es justo el
- * fallo que este repo persigue con `check:generadores`.
+ * No se copian a mano: se leen del fragmento que ya las sirve, asi que la foto, el
+ * titular y el texto no pueden divergir de los de /products — que es justo el fallo que
+ * este repo persigue con `check:generadores`.
  *
- * LOS VALORES DE `data-product` NO SON LOS SLUGS. Los reales son
- * `cabana · carport · enclosure · insulated · louvered · open · polycarbonate ·
- * screen · solar · sukkha`. Un selector escrito con `open-air` o `solid-roof`
- * devolveria dos tarjetas de cuatro SIN dar error, que es como se pierde media
- * seccion sin enterarse. Por eso se pide el juego entero y se lanza si falta uno.
+ * LOS VALORES DE `data-product` NO SON LOS SLUGS (ver DATA_PRODUCT en fichas.mjs). Un
+ * selector escrito con `open-air` o `solid-roof` devolveria dos tarjetas de cuatro SIN
+ * dar error, que es como se pierde media seccion sin enterarse. Por eso se pide el
+ * juego entero y se lanza si falta uno.
  *
- * El ORDEN es el del criterio de decanibalizacion, no el de /products: primero la
- * cubierta fija (la consulta «louvered vs solid roof» es la que de verdad compite),
- * luego la abierta (se lleva la consulta de precio), luego la translucida, y la solar
- * al final porque entra por completar el cuadro, no por competir.
+ * Se lee UNA VEZ y se cachea: las diez fichas piden tarjetas del mismo fichero.
  */
-const COMPARAR = ['insulated', 'open', 'polycarbonate', 'solar'];
-
-/**
- * `Explore More →` cuatro veces seguidas no vale nada como texto de ancla y es un
- * desastre para quien lista los enlaces con un lector de pantalla. Se cambia el texto
- * VISIBLE, no un `aria-label`: el nombre accesible tiene que contener el texto
- * visible (WCAG 2.5.3), asi que poner un `aria-label` distinto seria cambiar un
- * problema por otro. Y el `h3` de la tarjeta esta FUERA del `<a>` —lo estira un
- * `::after` de `tarjetas.css`—, o sea que el ancla que ve Google es solo esta cadena.
- */
-const ANCLA_TARJETA = {
-  insulated: 'Insulated Solid Roof Pergolas',
-  open: 'Open-Air Aluminum Pergolas',
-  polycarbonate: 'Polycarbonate Roof Pergolas',
-  solar: 'Solar-Integrated Pergolas',
-};
-
-const TARJETAS_COMPARAR = await (async () => {
+const PRODUCTS_HTML = await (async () => {
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
   const ruta = fileURLToPath(new URL('../../src/contenido-migrado/estaticas/products.html', import.meta.url));
-  let html;
-  try { html = await readFile(ruta, 'utf8'); } catch { return null; }
+  try { return await readFile(ruta, 'utf8'); } catch { return null; }
+})();
+
+function tarjetasComparar(productos) {
+  if (PRODUCTS_HTML === null) return null;
   const salida = [];
-  for (const producto of COMPARAR) {
+  for (const producto of productos) {
     const marca = `<div data-product="${producto}" class="product-card-page">`;
-    const i = html.indexOf(marca);
+    const i = PRODUCTS_HTML.indexOf(marca);
     if (i < 0) {
       throw new Error(
-        `[lamas] no encuentro la tarjeta data-product="${producto}" en estaticas/products.html.\n`
+        `[ficha] no encuentro la tarjeta data-product="${producto}" en estaticas/products.html.\n`
         + '  Los valores reales son cabana, carport, enclosure, insulated, louvered,\n'
         + '  open, polycarbonate, screen, solar y sukkha — NO los slugs.',
       );
     }
-    let tarjeta = recorte(html, marca, 'div', `tarjeta ${producto}`).html;
-    tarjeta = cambiar(
-      tarjeta,
-      '<div>Explore More →</div>',
-      `<div>${ANCLA_TARJETA[producto]}</div>`,
-      `ancla de la tarjeta ${producto}`,
-    );
+    const ancla = ANCLA_TARJETA[producto];
+    if (!ancla) {
+      throw new Error(`[ficha] la tarjeta "${producto}" no tiene texto de ancla en ANCLA_TARJETA`);
+    }
+    let tarjeta = recorte(PRODUCTS_HTML, marca, 'div', `tarjeta ${producto}`).html;
+    tarjeta = cambiar(tarjeta, '<div>Explore More →</div>', `<div>${ancla}</div>`,
+      `ancla de la tarjeta ${producto}`);
     salida.push(`<div role="listitem" class="product-grid-item w-dyn-item">${tarjeta}</div>`);
   }
   return salida.join('');
-})();
+}
 
 /**
  * §4 «Configuraciones que construimos» — CLON de `section.intro-location`.
@@ -1626,37 +1606,35 @@ const TARJETAS_COMPARAR = await (async () => {
  * escritorio pero `flex` con `flex-flow: wrap-reverse` por debajo de 991 px: invertir
  * el orden del DOM para poner la foto a la derecha voltearia tambien la pila en movil.
  *
- * Los cuatro bullets salen de LAS FOTOS, una a una, y de nada mas: adosada frente a
- * exenta, y las dos familias de acabado. Ni un voladizo en pies, ni un numero de
- * modulos, ni un ancho de lama, ni una luz maxima: nada de eso esta medido en el repo.
+ * Los bullets salen de LAS FOTOS, una a una, y de nada mas. Los cuatro llevan el MISMO
+ * icono y `alt=""` a proposito: los cuatro iconos blancos del repo significan «con
+ * licencia», «experiencia», «diseño a medida» y «materiales premium», ninguno dice
+ * «adosada» ni «bronce», y poner el de «licensed & insured» junto a «acabado en
+ * blanco» no es decorar, es despistar. Una marca de lista repetida es lo que estos
+ * puntos son de verdad.
  */
-const SECCION_CONFIGURACIONES =
-  '<section class="intro-location"><div class="w-layout-blockcontainer container w-container">'
-  + '<div class="wrapper-intro-city">'
-  + '<div data-w-id="6e40fb1b-9056-3dcb-7088-c614f3e8faa0" class="intro-column-left">'
-  + `<img alt="Freestanding louvered pergola with a dark bronze fascia and white aluminum louvers, open over a lounge set on a paver terrace against a clipped ficus hedge." loading="lazy" src="${foto('04')}" class="intro-img-city"/>`
-  + '</div>'
-  + '<div data-w-id="6e40fb1b-9056-3dcb-7088-c614f3e8faa2" class="intro-column-right">'
-  // Sin `color-deco`: `.title-deco` no declara color propio y `.intro-column-right`
-  // ya fija `color: var(--white)`. Añadirlo lo pintaria en crema y cantaria.
-  + '<div class="title-deco">Configurations</div>'
-  + '<h2>Two Ways We Mount It, Two Finish Families</h2>'
-  + '<div>Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze or white. Everything after that is engineering for your site.</div>'
-  + '<ul role="list" class="list-item-about">'
-  // Los cuatro llevan el MISMO icono y `alt=""` a proposito. Los cuatro iconos
-  // blancos del repo significan «con licencia», «experiencia», «diseño a medida» y
-  // «materiales premium»: ninguno dice «adosada» ni «bronce», y poner el de
-  // «licensed & insured» junto a «acabado en blanco» no es decorar, es despistar.
-  // Una marca de lista repetida es lo que estos cuatro puntos son de verdad.
-  + ['Attached to the House', 'Freestanding Over Deck or Pool',
-    'Dark Bronze Powder-Coat Finish', 'White Powder-Coat Finish']
-    .map((t) => '<li class="list-item-about-page">'
+const seccionConfiguraciones = (ficha) => {
+  const c = ficha.configuraciones;
+  return '<section class="intro-location"><div class="w-layout-blockcontainer container w-container">'
+    + '<div class="wrapper-intro-city">'
+    + '<div data-w-id="6e40fb1b-9056-3dcb-7088-c614f3e8faa0" class="intro-column-left">'
+    + `<img alt="${c.alt}" loading="lazy" src="${foto(ficha, c.foto)}" class="intro-img-city"/>`
+    + '</div>'
+    + '<div data-w-id="6e40fb1b-9056-3dcb-7088-c614f3e8faa2" class="intro-column-right">'
+    // Sin `color-deco`: `.title-deco` no declara color propio y `.intro-column-right`
+    // ya fija `color: var(--white)`. Añadirlo lo pintaria en crema y cantaria.
+    + `<div class="title-deco">${c.rotulo}</div>`
+    + `<h2>${c.titulo}</h2>`
+    + `<div>${c.texto}</div>`
+    + '<ul role="list" class="list-item-about">'
+    + c.bullets.map((t) => '<li class="list-item-about-page">'
       + '<img loading="lazy" src="/images/Check-List-pergola-white.svg" alt="" class="icon-intro"/>'
       + `<div class="intro-links">${t}</div></li>`).join('')
-  + '</ul>'
-  + '<div class="wrapper-buttons">'
-  + '<a href="#compare" class="button secundary w-button">See How It Compares</a>'
-  + '</div></div></div></div></section>';
+    + '</ul>'
+    + '<div class="wrapper-buttons">'
+    + `<a href="${c.boton.destino}" class="button secundary w-button">${c.boton.texto}</a>`
+    + '</div></div></div></div></section>';
+};
 
 /**
  * §5 «Como funciona» — `section.why-choose-section`.
@@ -1666,139 +1644,114 @@ const SECCION_CONFIGURACIONES =
  * Se usa aqui y no un segundo clon de `intro-location` por dos motivos medidos:
  * `intro-location` es OSCURO por CSS y encadenaria tres bloques oscuros, y
  * `why-choose-section` no declara `background-color`, o sea que ya es claro; y su
- * rejilla 2x2 con icono es exactamente la forma de cuatro hechos mecanicos.
+ * rejilla 2x2 con icono es exactamente la forma de cuatro hechos.
  *
- * LOS CUATRO ICONOS SON PROPIOS, dibujados para estos cuatro hechos. Antes se
+ * LOS ICONOS SON PROPIOS, dibujados para los hechos que acompañan. Antes se
  * reutilizaban `Icon-1`, `Icon-2`, `Icon-4` y `pergola-contractor-experience-…`, que
  * significan «con licencia», «experiencia», «diseño a medida» y «materiales premium»:
- * ninguno decia nada de rotacion, corte de luz, agua ni motor. En pantalla salia un
- * DIPLOMA para «Full Rotation», un BOLIGRAFO para «When The Power Goes Out» y un
- * MALETIN para «The Motor Is Serviceable». Se veian —eso era cierto— pero no
- * significaban lo que ponia al lado.
+ * en pantalla salia un DIPLOMA para «Full Rotation», un BOLIGRAFO para «When The Power
+ * Goes Out» y un MALETIN para «The Motor Is Serviceable». Se veian —eso era cierto—
+ * pero no significaban lo que ponia al lado.
  *
- * Los nuevos igualan el juego del sitio a proposito: `viewBox="0 0 50 50"` y el mismo
- * `#3a545b` (= `--primary`), oscuro sobre el fondo claro de esta seccion. Son de
- * TRAZO (`stroke-width: 3.2`) y no de relleno; el peso se ajusto comparando a 50 px
- * REALES contra los antiguos, que es el tamaño al que los pinta `.why-choose-icon`.
- * El color va en atributos y no en `class="cls-N"` con `<style>`, que es la trampa
- * que en este repo ya dejo SVGs invisibles dos veces.
+ * El contrato del icono, y es MECANIZABLE: `viewBox="0 0 50 50"`, trazo sin relleno,
+ * `stroke="#3a545b"` (= `--primary`) EN ATRIBUTOS, grosor RENDERIZADO 3,2 —o sea
+ * `stroke-width = 3.2 / escala`— y el contenido al 85 % de la caja, centrado, via
+ * `transform` sobre el `<g>` y nunca tocando el `viewBox`. El color va en atributos y
+ * no en `class="cls-N"` con `<style>`, que es la trampa que en este repo ya dejo SVGs
+ * invisibles dos veces y que ninguna puerta caza.
  *
  * NO son de `process`: esos son `fill: #fffbf0` y solo se ven porque `.icon-process`
- * les pone detras una baldosa oscura. `.why-choose-icon` es solo `height: 50px`, sin
- * baldosa, asi que ahi serian cuatro cuadrados invisibles de 50 px sin que ninguna
- * puerta lo notara. Van con `alt=""`: son decoracion junto a un `<h3>` que ya lo dice
- * todo, y describirlos obligaria al lector de pantalla a oir dos veces lo mismo.
+ * les pone detras una baldosa oscura. `.why-choose-icon` (`:1127`) es solo
+ * `height: 50px`, sin baldosa. Van con `alt=""`: son decoracion junto a un `<h3>` que
+ * ya lo dice todo, y describirlos obligaria al lector de pantalla a oir dos veces lo
+ * mismo.
  *
  * EL SEGUNDO BOTON NO VA A LA BIBLIOTECA DE PREGUNTAS, y no es un descuido. El
  * reescritor de enlaces al español (`astro.config.mjs`) usa `href="(\/[^"#?]*)"` y
- * DESCARTA todo href con `?`: un `/resources/faq?t=motorized-louvered-pergolas` en el
- * fragmento dejaria a la ficha española enlazando la biblioteca INGLESA. Es la trampa
- * que ya documenta `src/lib/faq-ficha.ts`. El puente con filtro por tema lo pone
- * `FaqFichaEnlace`, que calcula el href con el idioma en la mano; aqui basta el salto
- * a las preguntas de la propia pagina.
- *
- * Los cuatro hechos salen de cuatro preguntas YA ESCRITAS Y YA TRADUCIDAS de
- * `src/i18n/faqs.es.ts` (`pergola-lamas-que-angulo`, `material-lamas-sin-luz`,
- * `material-lamas-mecanismo`, `pergola-lamas-cuanto-duran`). El hedge «depending on
- * the system» del recorrido es OBLIGATORIO: 140-170 grados es un rango del sector, no
- * una especificacion de nuestro producto, y sin el se convierte en una cifra afirmada.
+ * DESCARTA todo href con `?`: un `/resources/faq?t=<slug>` en el fragmento dejaria a la
+ * ficha española enlazando la biblioteca INGLESA. El puente con filtro por tema lo pone
+ * `FaqFichaEnlace`, que calcula el href con el idioma en la mano.
  */
-const CELDAS_COMO_FUNCIONA = [
-  ['/images/pp-icon-rotacion.svg', 'Full Rotation, Any Position',
-    'The louvers turn through about 140 to 170 degrees depending on the system, which is what takes you from open sky to a closed roof and lets you stop anywhere in between. In practice you use three: closed for rain, part-open for filtered light, open in the evening.'],
-  ['/images/pp-icon-respaldo.svg', 'When The Power Goes Out',
-    'The louvers hold their last position. They do not fall open, and they do not close on their own. Systems can be specified with a manual override or a battery backup so you can still close the roof during an outage — worth having where the outage and the storm arrive together.'],
-  ['/images/pp-icon-desague.svg', 'Where The Water Goes',
-    'Closed, the louvers interlock and the water runs into an integrated gutter and down inside the posts. Keeping that channel and the post drainage clear is the whole maintenance story: a blocked channel is the most common cause of water where it should not be. Do not pressure wash into the drive.'],
-  ['/images/pp-icon-motor.svg', 'The Motor Is Serviceable',
-    'The motor is a serviceable component, not a sealed part of the structure. It is designed to be reached and swapped without dismantling the roof. How long it lasts depends on cycles and on whether water is getting where it should not — which is why the drainage above matters.'],
-];
-
-const SECCION_COMO_FUNCIONA =
-  '<section id="how-it-works" class="why-choose-section">'
-  + '<div class="w-layout-blockcontainer container w-container">'
-  + '<div data-w-id="a36f2a1e-9f59-c2af-809a-f51186a9ca93" class="why-choose-content">'
-  + '<div class="title-deco">How It Works</div>'
-  + '<h2 class="heading">What Happens Inside The Roof</h2>'
-  + '<div class="text-block-2">A louvered roof is a mechanism, not a finish. Four things decide whether you are still happy with it in ten years: how far the louvers actually turn, what the roof does when the power goes, where the water ends up, and whether the motor can be reached. Here is each one.</div>'
-  + '<div class="why-choose-grid">'
-  + CELDAS_COMO_FUNCIONA.map(([icono, titulo, texto]) =>
-    '<div class="why-choose-item"><div class="header-item">'
-    + `<img loading="lazy" src="${icono}" alt="" class="why-choose-icon"/>`
-    + `<h3 class="why-choose-item-title">${titulo}</h3></div>`
-    + `<div class="why-choose-item-text">${texto}</div></div>`).join('')
-  + '</div>'
-  + '<div class="why-choose-actions">'
-  + '<a href="#specs" class="button secundary w-button">See The Specifications</a>'
-  + '<a href="#faq" class="button tertiary w-button">See The Questions</a>'
-  + '</div></div></div>'
-  + `<img alt="Close-up from below of the louver drive: a white rack-and-pinion gear on the dark gutter beam that rotates the aluminum blades." loading="lazy" src="${foto('06')}" class="why-choose-image"/>`
-  + '</section>';
+const seccionComoFunciona = (ficha) => {
+  const c = ficha.comoFunciona;
+  return '<section id="how-it-works" class="why-choose-section">'
+    + '<div class="w-layout-blockcontainer container w-container">'
+    + '<div data-w-id="a36f2a1e-9f59-c2af-809a-f51186a9ca93" class="why-choose-content">'
+    + `<div class="title-deco">${c.rotulo}</div>`
+    + `<h2 class="heading">${c.titulo}</h2>`
+    + `<div class="text-block-2">${c.texto}</div>`
+    + '<div class="why-choose-grid">'
+    + c.celdas.map(([icono, titulo, texto]) =>
+      '<div class="why-choose-item"><div class="header-item">'
+      + `<img loading="lazy" src="${icono}" alt="" class="why-choose-icon"/>`
+      + `<h3 class="why-choose-item-title">${titulo}</h3></div>`
+      + `<div class="why-choose-item-text">${texto}</div></div>`).join('')
+    + '</div>'
+    + '<div class="why-choose-actions">'
+    + c.botones.map((b) => `<a href="${b.destino}" class="button ${b.clase} w-button">${b.texto}</a>`).join('')
+    + '</div></div></div>'
+    + `<img alt="${c.alt}" loading="lazy" src="${foto(ficha, c.foto)}" class="why-choose-image"/>`
+    + '</section>';
+};
 
 /**
- * §15 «Comparar las cubiertas» — ocupa el hueco de `div.services`.
+ * §15 «Comparar» — ocupa el hueco de `div.services`.
  *
  * F0 midio el agujero: CERO enlaces visibles a una ficha hermana desde esta pagina,
  * frente a 12 al blog y 8 a «sobre nosotros». Las diez fichas compiten por el mismo
  * racimo de consultas y ninguna le dice a Google cual es cual.
  *
- * Va DETRAS del CTA final: ofrecer cuatro productos alternativos ANTES de la peticion
- * es invitar a irse, y ademas el CTA es el bloque de FOTO que separa `process` (claro)
- * de este (claro) — sin el en medio la pagina encadena dos claros. Ver el paso 14, que
+ * Va DETRAS del CTA final: ofrecer productos alternativos ANTES de la peticion es
+ * invitar a irse, y ademas el CTA es el bloque de FOTO que separa `process` (claro) de
+ * este (claro) — sin el en medio la pagina encadena dos claros. Ver el paso 14, que
  * lleva la medida de las dos ordenaciones.
  *
  * Lo que SI cambio F4c: ahora cierra con su propio boton. Sin el, estas 4,5 pantallas
  * eran lo ultimo del cuerpo y no tenian salida — lo siguiente pulsable estaba en el pie.
+ *
+ * La cabecera reutiliza `.header-feature-section` (centrada, 850 px) y la rejilla
+ * `.product-grid-list`, que ya baja a una columna por debajo de 991 px. Lo unico propio
+ * es el `padding` de la seccion, en src/styles/ficha-producto.css.
  */
-const SECCION_COMPARAR = TARJETAS_COMPARAR === null ? null
-  // La cabecera reutiliza `.header-feature-section` (centrada, 850 px) y la rejilla
-  // `.product-grid-list`, que ya baja a una columna por debajo de 991 px. Lo unico
-  // propio es el `padding` de la seccion, en src/styles/ficha-producto.css: montar un
-  // grid nuevo seria escribir CSS para algo que el sitio ya sabe hacer.
-  : '<section id="compare" class="pp-comparar">'
-  + '<div class="w-layout-blockcontainer container w-container">'
-  + '<div class="header-feature-section">'
-  + '<div class="title-deco">Other Roofs</div>'
-  + '<h2>Compare The Four Pergola Roofs</h2>'
-  + '<div>A louvered roof is the one that moves. If you would rather have a roof that never moves, one that lets the light through, or one that pays for itself, these are the other three we build.</div>'
-  + '</div>'
-  + `<div role="list" class="product-grid-list w-dyn-items">${TARJETAS_COMPARAR}</div>`
-  // La salida. Mismo texto y mismo destino que el boton del CTA de cierre, o sea CERO
-  // copy nuevo y cero traduccion nueva: la cadena ya esta en el `dic` de la ficha.
-  // `.button w-button` es la clase del sitio, asi que hereda tamaño, color y foco.
-  + '<div class="pp-comparar-salida">'
-  + '<a href="/contact-us/get-a-quote" class="button w-button">Request Your Estimate</a>'
-  + '</div>'
-  + '</div></section>';
-
-/** Los pies y los `alt` de la galeria, por NOMBRE DE ARCHIVO y nunca por posicion. */
-const GALERIA = {
-  // El orden del DOM no es 01→10, es 03, 08, 04, 02, 05, 10, 09, 07, 06, 01. Por eso
-  // el `altDerivado` de img-map.json numeraba «gallery image 10» para el fichero -01:
-  // numero por posicion. Ese texto no se pinta nunca y no describe nada; estos si.
-  '01': ['Attached, dark bronze frame, louvers open at the edge of the pool',
-    'Bronze louvered pergola attached to a tile-roof home, louvers open over a travertine pool deck, with the gutter downspout running down inside the post.'],
-  '03': ['Attached to a white soffit, louvers open over a paver patio and outdoor dining area',
-    'Louvered roof section built alongside an existing solid patio cover, louvers fully open to the sky over a brick paver dining patio.'],
-  '07': ['Freestanding, white louvers, poolside against a clipped hedge',
-    'Freestanding louvered pergola on a deck at the pool edge, white louvers open, framed by a ficus hedge and palms.'],
-  '08': ['Attached, white frame, over the patio of a yellow stucco house',
-    'White louvered pergola attached to a yellow stucco home, shading an outdoor dining and grill area beside the pool.'],
-  '09': ['Attached, white frame, louvers open, turning the corner of the house',
-    'White louvered pergola turning the corner of a home, louvers open to the sky, with an electrical fixture and its cabling mounted on the beam.'],
-  '10': ['Rain sensor and wind vane on the gutter beam: the hardware that closes the roof',
-    'Rain sensor and wind vane bolted to the gutter beam of a white louvered pergola — the hardware that closes the roof on its own.'],
+const seccionComparar = (ficha) => {
+  const c = ficha.comparar;
+  const tarjetas = tarjetasComparar(c.productos);
+  if (tarjetas === null) return null;
+  return '<section id="compare" class="pp-comparar">'
+    + '<div class="w-layout-blockcontainer container w-container">'
+    + '<div class="header-feature-section">'
+    + `<div class="title-deco">${c.rotulo}</div>`
+    + `<h2>${c.titulo}</h2>`
+    + `<div>${c.texto}</div>`
+    + '</div>'
+    + `<div role="list" class="product-grid-list w-dyn-items">${tarjetas}</div>`
+    // La salida. Mismo texto y mismo destino que el boton del CTA de cierre, o sea CERO
+    // copy nuevo y cero traduccion nueva: la cadena ya esta en el `dic` de la ficha.
+    + '<div class="pp-comparar-salida">'
+    + '<a href="/contact-us/get-a-quote" class="button w-button">Request Your Estimate</a>'
+    + '</div>'
+    + '</div></section>';
 };
 
 /** Apertura de cada foto de la galeria. Diez identicas; se trocea por aqui. */
 const DIAPOSITIVA = '<div fs-slider-element="slide" role="listitem" class="cms-item-gallery w-dyn-item w-dyn-repeater-item">';
 
 /**
- * Recompone la ficha de lamas motorizadas. Devuelve el HTML tal cual si la ruta es
- * otra: es una funcion con ambito de pagina, y ese es el punto.
+ * Recompone una ficha de producto. Devuelve el HTML tal cual si el slug no esta en el
+ * registro: es una funcion con ambito de pagina, y ese es el punto.
+ *
+ * LOS CATORCE PASOS SON EL MOLDE y son iguales para las diez fichas; lo que cambia de
+ * una a otra sale de `FICHAS[slug]` (scripts/lib/fichas.mjs). Los literales que se
+ * buscan aqui son markup MIGRADO, compartido por los diez fragmentos: por eso viven en
+ * el molde y no en el registro. Si Webflow los cambia, `cambiar()` lanza en la primera
+ * ficha que se genere en vez de publicar diez paginas a medias.
  */
-function recomponerFichaLamas(s) {
-  // --- 1. Hero: los tres chips pasan a ser enlaces, y el tercero cambia de texto ---
+function recomponerFicha(s, slug) {
+  const ficha = FICHAS[slug];
+  if (!ficha) return s;
+  const enFicha = (t) => t.replaceAll('{CMS}', ficha.cms);
+
+  // --- 1. Hero: los chips pasan a ser enlaces ------------------------------------
   //
   // La barra de anclas que pedia el encargo NO entra: no cierra ninguna de las 17
   // objeciones medidas, en movil se convierte en otro carrusel que auditar y va
@@ -1807,50 +1760,29 @@ function recomponerFichaLamas(s) {
   // suave: un `<a href="#x">` con handler propio deja DOS entradas en el historial y
   // rompe el boton atras — ya paso en este repo. `scroll-margin-top` hace el trabajo.
   //
-  // «NOA & FPA Certified» — DECISION DEL CLIENTE, 28-ago-2026, y es REVERTIBLE.
-  // La pagina afirmaba una certificacion sin un solo numero: ni mph, ni psf, ni
-  // numero de aprobacion de Miami-Dade (medido con grep sobre el build: cero). Con la
-  // seccion de especificaciones al lado declarando «numero de NOA: pendiente», la
-  // contradiccion quedaba a la vista. Se sustituye por lo que SI se sostiene —que la
-  // estructura se CALCULA para la normativa de viento— que es proceso, no resultado.
-  // EN CUANTO EL CLIENTE APORTE EL NUMERO DE NOA, esto vuelve a
-  // `NOA &amp; FPA Certified` y el numero entra como una fila mas de §8.
-  const CHIPS_VIEJOS =
-    '<div class="tagline-item-product"><img src="/images/Check-List-pergola.svg" loading="lazy" alt="" class="icon-tagline"/><div>Sun or Shade on Demand</div></div>'
-    + '<div class="tagline-item-product"><img src="/images/Check-List-pergola.svg" loading="lazy" alt="" class="icon-tagline"/><div>Smart Home Integrated</div></div>'
-    + '<div class="tagline-item-product"><img src="/images/Check-List-pergola.svg" loading="lazy" alt="" class="icon-tagline"/><div>NOA &amp; FPA Certified</div></div>';
+  // Donde el texto cambia es DECISION DEL CLIENTE y va anotada en el registro, ficha
+  // por ficha, con su motivo y su vuelta atras.
+  const tagline = (t) => '<div class="tagline-item-product">'
+    + '<img src="/images/Check-List-pergola.svg" loading="lazy" alt="" class="icon-tagline"/>'
+    + `<div>${t}</div></div>`;
   const chip = (destino, texto) =>
     `<a href="${destino}" class="tagline-item-product">`
     + '<img src="/images/Check-List-pergola.svg" loading="lazy" alt="" class="icon-tagline"/>'
     + `<div>${texto}</div></a>`;
-  s = cambiar(s, CHIPS_VIEJOS,
-    chip('#how-it-works', 'Sun or Shade on Demand')
-    + chip('#features', 'Smart Home Integrated')
-    + chip('#specs', 'Engineered to Florida Wind Code'),
-    'los tres chips del hero');
+  s = cambiar(s,
+    ficha.chips.map((c) => tagline(c.viejo)).join(''),
+    ficha.chips.map((c) => chip(c.destino, c.nuevo)).join(''),
+    'los chips del hero');
 
-  // --- 2. Los tres `alt` que estaban repetidos o no describian la foto -----------
+  // --- 2. Los `alt` que estaban repetidos o no describian la foto ----------------
   //
   // El hero y la portada del FAQ compartian LITERALMENTE la misma cadena, y la de la
   // intro es prosa de producto que no describe su fotografia. `comprobar-i18n.mjs` NO
   // mira atributos, asi que un `alt` sin entrada en el diccionario se publica en
-  // ingles en /es/ y no lo dice nadie: los tres nuevos van en PRODUCTOS_ES[...].dic.
-  s = cambiar(s,
-    'alt="Louvered roof pergola contractors in South Florida installing motorized aluminum pergolas with smart controls, rain sensors, and modern outdoor living design." loading="lazy" src="/images/cliente/motorized-louvered.avif"',
-    'alt="Freestanding motorized louvered pergola with a graphite aluminum frame, louvers half open over a paver-and-turf terrace with lounge seating and a fire table." loading="lazy" src="/images/cliente/motorized-louvered.avif"',
-    'el alt del hero');
-  s = cambiar(s,
-    `<img src="${CMS}/cover-louvered-roof-pergola-contractors-south-florida.avif" alt="Louvered roof pergola contractors in South Florida installing motorized aluminum pergolas with smart controls, rain sensors, and modern outdoor living design."`,
-    `<img src="${CMS}/cover-louvered-roof-pergola-contractors-south-florida.avif" alt="White louvered pergola attached to a yellow stucco home, louvers closed flat over a poolside dining and lounge terrace."`,
-    'el alt de la portada del FAQ');
-  s = cambiar(s,
-    'alt="Louvered roof pergola contractors in South Florida installing custom motorized aluminum pergolas engineered for sun control, rain protection, and coastal durability."',
-    'alt="Freestanding louvered pergola shading a lounge set beside a pool, louvers closed flat, with a clipped hedge and potted plants around the deck."',
-    'el alt de la intro');
-  s = cambiar(s,
-    `<img src="${CMS}/swatch-louvered-roof-pergola-builders-south-florida.avif" loading="lazy" alt=""`,
-    `<img src="${CMS}/swatch-louvered-roof-pergola-builders-south-florida.avif" loading="lazy" alt="White aluminum louvered roof attached to a two-storey white stucco home, louvers angled to throw striped shade over a covered dining terrace."`,
-    'el alt del falso «swatch»');
+  // ingles en /es/ y no lo dice nadie: los nuevos van en PRODUCTOS_ES[...].dic.
+  for (const a of ficha.alts) {
+    s = cambiar(s, enFicha(a.viejo), enFicha(a.nuevo), a.contexto);
+  }
 
   // --- 3. Intro: el antetitulo que la ficha no lleva y la pagina de ciudad si ----
   s = cambiar(s,
@@ -1876,41 +1808,48 @@ function recomponerFichaLamas(s) {
   // es la etiqueta de apertura entera de la galeria y no `class="feature"`, que casa
   // tambien con `item-feature`, `wrapper-feature`, `content-feature` y seis mas.
   const ANCLA_GALERIA = '<div class="gallery-section-page">';
-  s = cambiar(s, ANCLA_GALERIA, SECCION_CONFIGURACIONES + SECCION_COMO_FUNCIONA + ANCLA_GALERIA,
+  s = cambiar(s, ANCLA_GALERIA,
+    seccionConfiguraciones(ficha) + seccionComoFunciona(ficha) + ANCLA_GALERIA,
     'la insercion de configuraciones y como funciona');
 
-  // --- 6. La galeria: de diez fotos mudas a seis obras con pie -------------------
+  // --- 6. La galeria: de fotos mudas a obras con pie -----------------------------
   //
-  // Bajan a seis y no es una poda por gusto. `g04` y `g06` pasan a §4 y §5, y una foto
-  // en dos secciones de la misma pagina es peor que una menos. `g02` sale porque es
-  // obra sin rematar con manguera y juguetes en el encuadre —en la unica prueba de
-  // obra de un contratista de gama alta cuesta mas de lo que aporta— y `g05` porque es
-  // el MISMO jardin que la foto de la intro, que ya sale a todo el ancho mas arriba.
+  // Solo sobreviven las que tienen pie en el registro. Las que se van, se van por un
+  // motivo escrito ahi: una foto que ya sale en §4 o §5 repetida abajo es peor que una
+  // menos, y una obra sin rematar en la unica prueba visual de un contratista de gama
+  // alta cuesta mas de lo que aporta.
   //
-  // Las diez llevaban `alt=""`: la unica prueba visual de obra propia declarada
+  // Todas llevaban `alt=""`: la unica prueba visual de obra propia declarada
   // decorativa para lectores de pantalla y para Google. `check:seo` pasaba en verde
   // porque solo exige que el atributo EXISTA.
   {
     const galeria = recorte(s, ANCLA_GALERIA, 'div', 'la galeria');
     const trozos = galeria.html.split(DIAPOSITIVA);
-    if (trozos.length !== 11) {
-      throw new Error(`[lamas] la galeria tiene ${trozos.length - 1} diapositivas y esperaba 10`);
+    if (trozos.length !== ficha.galeria.diapositivas + 1) {
+      throw new Error(
+        `[ficha] ${slug}: la galeria tiene ${trozos.length - 1} diapositivas y el registro`
+        + ` declara ${ficha.galeria.diapositivas}`,
+      );
     }
     // El ULTIMO trozo arrastra ademas la cola de la galeria (el `w-dyn-empty` y los
     // cierres), asi que cada diapositiva se separa de lo que venga detras por su
     // propio `</a></div>` en vez de darse por hecho que el trozo es solo la foto. Sin
     // esto, retirar la ultima foto se llevaria la cola del bloque.
     const CIERRE = '</a></div>';
+    // La clave es la cadena EXACTA que sigue al prefijo en el nombre del fichero, no un
+    // numero: `sukkha` numera `-1`…`-8` y las demas `-01`…`-10`, y un `\d\d` fijo
+    // dejaria a esa ficha sin un solo pie, lanzando en la primera diapositiva.
+    const reFoto = new RegExp(`${ficha.galeria.prefijo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^.\/"]+)\\.avif`);
     let nueva = trozos[0];
     let puestas = 0;
     for (const trozo of trozos.slice(1)) {
       const corte = trozo.indexOf(CIERRE);
-      if (corte < 0) throw new Error('[lamas] una diapositiva de la galeria no cierra como se espera');
+      if (corte < 0) throw new Error(`[ficha] ${slug}: una diapositiva de la galeria no cierra como se espera`);
       const diapo = trozo.slice(0, corte + CIERRE.length);
       const cola = trozo.slice(corte + CIERRE.length);
-      const n = diapo.match(/gallery-louvered-roof-pergola-contractors-south-florida-(\d\d)\.avif/)?.[1];
-      if (!n) throw new Error('[lamas] una diapositiva de la galeria no dice de que foto es');
-      const copy = GALERIA[n];
+      const n = diapo.match(reFoto)?.[1];
+      if (!n) throw new Error(`[ficha] ${slug}: una diapositiva de la galeria no dice de que foto es`);
+      const copy = ficha.pies[n];
       if (!copy) { nueva += cola; continue; }
       const [pie, alt] = copy;
       const conAlt = cambiar(diapo, ' alt="" class="lightbox-img"',
@@ -1923,45 +1862,58 @@ function recomponerFichaLamas(s) {
         + cola;
       puestas++;
     }
-    if (puestas !== Object.keys(GALERIA).length) {
-      throw new Error(`[lamas] la galeria se ha quedado con ${puestas} fotos y esperaba ${Object.keys(GALERIA).length}`);
+    if (puestas !== Object.keys(ficha.pies).length) {
+      throw new Error(
+        `[ficha] ${slug}: la galeria se ha quedado con ${puestas} fotos y el registro`
+        + ` declara ${Object.keys(ficha.pies).length}. Una clave de \`pies\` no casa con`
+        + ' ningun nombre de fichero.',
+      );
     }
     s = s.slice(0, galeria.inicio) + nueva + s.slice(galeria.fin);
   }
 
-  // --- 7. El FAQ: se quita la numeracion y se abre hueco para las tres que suben --
+  // --- 7. El FAQ: se quita la numeracion y se abre hueco para las que suben ------
   //
   // NO ES UN CAPRICHO DE ESTILO, ES UNA REPARACION. `src/data/faqs.ts` documenta que
   // `origen: 'ficha'` significa que el texto TIENE que seguir cuadrando con el bloque
-  // de 5 preguntas de la ficha — y la biblioteca (`src/i18n/faqs.es.ts`) las guarda
+  // de 5 preguntas de esa ficha — y la biblioteca (`src/i18n/faqs.es.ts`) las guarda
   // SIN numerar. O sea que la correspondencia esta rota HOY, en los dos idiomas, y
-  // quitar el prefijo la repara. Las diez cadenas resultantes ya existen traducidas.
-  for (const [n, pregunta] of [
-    ['1', 'How do louvered pergolas work?'],
-    ['2', 'Are they safe in hurricanes?'],
-    ['3', 'Do they have rain sensors?'],
-    ['4', 'Will the coastal salt rust it?'],
-    ['5', 'How fast is the installation?'],
-  ]) {
-    s = cambiar(s, `<h3 class="faq_question">${n}. ${pregunta}</h3>`,
-      `<h3 class="faq_question">${pregunta}</h3>`, `la pregunta ${n} del FAQ`);
-  }
+  // quitar el prefijo la repara.
+  ficha.faqNumeradas.forEach((pregunta, i) => {
+    s = cambiar(s, `<h3 class="faq_question">${i + 1}. ${pregunta}</h3>`,
+      `<h3 class="faq_question">${pregunta}</h3>`, `la pregunta ${i + 1} del FAQ`);
+  });
 
   // --- 8. El video: retitulado, y sin los dos botones de presupuesto -------------
   //
-  // El H2 hablaba de la empresa y de la region, no del producto, y EN ESPAÑOL
+  // CONDICIONAL, y se comprueba en las DOS direcciones. `cabanas`, `screen-enclosures`
+  // y `sukkha` no traen `video-section`: declarar video donde no lo hay lanzaria en
+  // `cambiar`, pero al reves —no declararlo donde SI lo hay— publicaria la ficha con el
+  // titular generico y los dos botones de mas, en silencio. Por eso la ausencia se
+  // afirma, no se deduce.
+  //
+  // El H2 viejo hablaba de la empresa y de la region, no del producto, y EN ESPAÑOL
   // colapsaba en la misma cadena que el H2 de `service-areas`
   // («Damos servicio en todo el sur de Florida»), produciendo un `<h2>` duplicado que
-  // `check:i18n` NO puede cazar: las dos cadenas estan traducidas y la cobertura es
-  // del 100 %. Es un fallo de destino, no de cobertura.
+  // `check:i18n` NO puede cazar: las dos cadenas estan traducidas y la cobertura es del
+  // 100 %. Es un fallo de destino, no de cobertura.
   //
-  // La cadena vieja sigue viva en OTRAS 6 fichas de producto, asi que su clave se
-  // queda en `comun.es.ts`: borrarla las dejaria en ingles.
-  s = cambiar(s, '<h2>Contractors Proudly Serving South Florida</h2>',
-    '<h2>Watch It Open, Watch It Close</h2>', 'el titular del video');
-  s = cambiar(s,
-    '<div class="video-cta"><a href="/contact-us/get-a-quote" class="button secundary w-button">Get A Quote</a><a href="/contact-us/schedule-a-visit" class="button tertiary w-button">Schedule A Visit</a></div>',
-    '', 'los dos botones del video');
+  // La cadena vieja sigue viva en otras fichas, asi que su clave se queda en
+  // `comun.es.ts`: borrarla las dejaria en ingles.
+  const H2_VIDEO = '<h2>Contractors Proudly Serving South Florida</h2>';
+  const hayVideo = s.includes('<div class="video-section');
+  if (hayVideo !== Boolean(ficha.video)) {
+    throw new Error(
+      `[ficha] ${slug}: el fragmento ${hayVideo ? 'SI' : 'NO'} trae video-section y el registro`
+      + ` dice que ${ficha.video ? 'SI' : 'NO'}. Uno de los dos miente.`,
+    );
+  }
+  if (ficha.video) {
+    s = cambiar(s, H2_VIDEO, `<h2>${ficha.video}</h2>`, 'el titular del video');
+    s = cambiar(s,
+      '<div class="video-cta"><a href="/contact-us/get-a-quote" class="button secundary w-button">Get A Quote</a><a href="/contact-us/schedule-a-visit" class="button tertiary w-button">Schedule A Visit</a></div>',
+      '', 'los dos botones del video');
+  }
 
   // --- 9. Fuera el PRIMER CTA; en su hueco, la marca de las tres secciones -------
   //
@@ -1974,7 +1926,7 @@ function recomponerFichaLamas(s) {
     s = s.slice(0, cta.inicio) + MARCA_SECCIONES + s.slice(cta.fin);
   }
 
-  // --- 10. Fuera `services` y `blog`; «Comparar» al final ------------------------
+  // --- 10. Fuera `services` y `blog` --------------------------------------------
   //
   // `services`: 1.211 px al 62 % del scroll ofreciendo pavimentos, calzadas, hormigon,
   // tarimas y vallas en plena decision de compra. No es enlazado interno, es una fuga.
@@ -2015,6 +1967,9 @@ function recomponerFichaLamas(s) {
   // NINGUNA duracion por paso: el repo da un total, no un desglose, y cuatro plazos
   // por paso serian cuatro cifras inventadas.
   //
+  // El texto es el MISMO en las diez fichas a proposito: habla del proceso de la
+  // empresa, no del producto. Por eso vive aqui y no en el registro.
+  //
   // El enlace al servicio va al FINAL de la frase a proposito: asi el nodo de texto
   // que queda detras del `</a>` es un punto, que ni cuenta para la cobertura de i18n
   // ni necesita traduccion.
@@ -2047,46 +2002,45 @@ function recomponerFichaLamas(s) {
     'el boton primario del CTA final');
   s = cambiar(s,
     '<div>Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.</div>',
-    '<div>Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the louvered roof around both.</div>',
+    `<div>${ficha.ctaEntradilla}</div>`,
     'la entradilla del CTA final');
 
-  // --- 14. «Comparar las cubiertas», detras del CTA y CON SALIDA PROPIA -----------
+  // --- 14. «Comparar», detras del CTA y CON SALIDA PROPIA ------------------------
   //
   // F4c (H-3) midio un problema real: el CTA ocupa 0,47 pantallas de movil y este
   // bloque 4,52 —9,6 veces mas, la seccion mas grande de la ficha—, con cuatro enlaces
   // salientes y, hasta ahora, ningun CTA propio. O sea que quien llegaba convencido al
-  // CTA y dudaba medio segundo caia en 4,5 pantallas que le explicaban otros tres
-  // techos, y al salir de ahi lo siguiente pulsable estaba en el pie, al 96,2 %, en una
-  // diana de 72x17 px.
+  // CTA y dudaba medio segundo caia en 4,5 pantallas que le explicaban otros productos,
+  // y al salir de ahi lo siguiente pulsable estaba en el pie, al 96,2 %, en una diana
+  // de 72x17 px.
   //
   // F4c daba dos arreglos. PROBE EL PRIMERO —mover este bloque delante del CTA— Y HAY
-  // QUE NO REPETIRLO: rompe la alternancia de fondos de la pagina. Medido sobre dist a
-  // 1440, muestreando el pixel real de cada banda:
+  // QUE NO REPETIRLO: rompe la alternancia de fondos. Medido sobre dist a 1440,
+  // muestreando el pixel real de cada banda:
   //
   //     orden publicado   service-areas FOTO · process claro · CTA foto · comparar claro · pie oscuro
   //                       -> cero pares repetidos
   //     con el bloque delante   … process claro · comparar CLARO · CTA foto · pie OSCURO
   //                       -> DOS pares repetidos, y 3.170 px seguidos de fondo claro sin
-  //                          una sola frontera: el titular del comparativo aparece flotando
-  //                          en mitad de un vacio de dos pantallas.
+  //                          una sola frontera: el titular del comparativo aparecia
+  //                          flotando en mitad de un vacio de dos pantallas.
   //
   // La alternancia sin un solo par repetido es una invariante de esta ficha y esta
   // escrita en src/components/ProyectoDeFicha.astro. El CTA es FOTO y es justo lo que
-  // separa `process` de `comparar`: quitarlo de en medio junta dos claros por un lado y
-  // deja foto contra oscuro por el otro.
+  // separa `process` de `comparar`.
   //
-  // Asi que se aplica el SEGUNDO arreglo de F4c, que cuesta menos y no toca el ritmo:
-  // el bloque se queda detras y se cierra con el mismo boton que el CTA —mismo texto,
-  // mismo destino, ya traducido—, de modo que las 4,5 pantallas ya no son un callejon.
-  // Y el hueco que H-2 media entre el pico de conviccion (pantalla 11,4) y la peticion
-  // (18,03) ya lo cierra el boton del final de §8, en EspecificacionesFicha.astro.
-  if (SECCION_COMPARAR === null) {
+  // Asi que se aplica el SEGUNDO arreglo de F4c: el bloque se queda detras y se cierra
+  // con el mismo boton que el CTA. Y el hueco que H-2 media entre el pico de conviccion
+  // (pantalla 11,4) y la peticion (18,03) ya lo cierra el boton del final de §8, en
+  // EspecificacionesFicha.astro.
+  const comparar = seccionComparar(ficha);
+  if (comparar === null) {
     throw new Error(
-      '[lamas] no he podido leer estaticas/products.html, asi que no hay tarjetas de\n'
-      + '  comparacion. La ficha se publicaria sin el unico enlace a una ficha hermana.',
+      `[ficha] ${slug}: no he podido leer estaticas/products.html, asi que no hay tarjetas\n`
+      + '  de comparacion. La ficha se publicaria sin el unico enlace a una ficha hermana.',
     );
   }
-  return s + SECCION_COMPARAR;
+  return s + comparar;
 }
 
 /**
@@ -2463,10 +2417,10 @@ export function transformar(html, ruta) {
     );
   }
 
-  // 6e. La ficha de lamas motorizadas, recompuesta. Va DESPUES del paso 6d porque
+  // 6e. La ficha de producto, recompuesta si esta en el registro. Va DESPUES del 6d porque
   //     reescribe el `alt` de la portada que ese paso acaba de insertar, y ANTES del
   //     paso 7 porque las secciones nuevas no traen <script> ni <style> que marcar.
-  if (ruta === RUTA_LAMAS) s = recomponerFichaLamas(s);
+  if (ruta?.startsWith('/products/')) s = recomponerFicha(s, ruta.slice('/products/'.length));
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las
