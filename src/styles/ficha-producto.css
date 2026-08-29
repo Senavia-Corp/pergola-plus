@@ -167,6 +167,60 @@ El `:not(.pp-specs-enlace)` no sobra: los enlaces de blog de la entradilla son
 }
 
 /* -----------------------------------------------------------------------------
+   La misma medida, en la prosa que viene del migrado
+
+   Salio al ampliar la sonda: la regla de 68ch cubria §8, pero los parrafos de
+   entradilla de las demas secciones no los miraba nadie. Medido a 1440 contando
+   caracteres de la linea mas larga, y solo en texto que ENVUELVE de verdad:
+
+     .wrapper-hero-product > div      994 px   153 car/linea
+     #compare  (nuestro)              828 px   130
+     #features                        818 px   123
+     .header-gallery-page > div       723 px   107
+     .faq_answer                      676 px   104
+     .header-faq > div                668 px   101
+     .box-call-to-action > div        627 px    97
+
+   El del hero es el peor de la pagina y es lo PRIMERO que se lee. Los cinco estan en
+   los dos idiomas y en las diez fichas: es un defecto de sitio, no de una entrega.
+
+   Se acota a los bloques de la ficha de producto —los tres ids los pone la propia
+   recomposicion, asi que la regla no alcanza a paginas que no he mirado— mas la
+   cabecera de galeria y el hero de producto, que solo existen aqui.
+
+   `ch` y no `px`, igual que en §8: la medida es una cuenta de caracteres, asi que la
+   unidad que la expresa se ajusta sola si cambia el cuerpo. A 390 px estas cajas ya
+   miden menos de 60 car/linea, o sea que esto no toca el movil.
+
+   Los centrados siguen centrados: `max-width` con `margin-inline: auto` conserva la
+   composicion de `.header-feature-section`, que es la que usan §15 y las cabeceras.
+   -------------------------------------------------------------------------- */
+.wrapper-hero-product > div,
+.header-gallery-page > div,
+.header-faq > div,
+.box-call-to-action > div,
+#features .header-feature-section > div,
+#compare .header-feature-section > div {
+  max-width: 68ch;
+}
+
+.header-gallery-page > div,
+.header-faq > div,
+.box-call-to-action > div,
+#features .header-feature-section > div,
+#compare .header-feature-section > div {
+  margin-inline: auto;
+}
+
+/* Las respuestas del acordeon. NO se les toca la altura ni el `overflow`: IX2 anima
+   `height` sobre `.faq_content`, y el texto mas estrecho es mas alto, que es
+   exactamente lo que ese animador resuelve solo. Solo se estrecha la caja. */
+.pp-faq-2col .faq_answer,
+#faq .faq_answer {
+  max-width: 68ch;
+}
+
+/* -----------------------------------------------------------------------------
    La foto de «How It Works», a altura completa
 
    `webflow.css:1091` da a `.why-choose-image` `height: 80%` con
