@@ -565,6 +565,98 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cabañas de aluminio a medida | Sur de Florida',
     description: 'Cabañas de aluminio de inspiración resort, calculadas para resistir huracanes, con cortinas motorizadas y techo aislado opcionales.',
     dic: {
+      'Engineered to Florida Wind Code':
+        'Calculada para la normativa de viento de Florida',
+      'Aluminum: It Will Not Rust':
+        'Aluminio: no se oxida',
+      'Design visualisations of the cabanas we build: how the structure, the roof, the screens and the drapery come together. Photographs of completed cabanas are on our project gallery.':
+        'Visualizaciones de diseño de las cabañas que construimos: cómo encajan la estructura, el techo, las celosías y el cortinaje. Las fotografías de cabañas terminadas están en nuestra galería de proyectos.',
+      'Design visualisation of a poolside aluminum cabana with a solid roof, drawn curtains at the corners and a lounge set beneath.':
+        'Visualización de diseño de una cabaña de aluminio junto a la piscina, con techo macizo, cortinas recogidas en las esquinas y un salón debajo.',
+      'Design visualisation of an aluminum cabana with a slatted back wall and white curtains, set on a terrace beside a pool.':
+        'Visualización de diseño de una cabaña de aluminio con pared trasera de celosía y cortinas blancas, en una terraza junto a la piscina.',
+      'Design visualisation of a freestanding aluminum cabana with a finished ceiling and recessed lighting, open on all four sides.':
+        'Visualización de diseño de una cabaña de aluminio exenta con techo acabado y focos empotrados, abierta por los cuatro lados.',
+      'Design visualisation of an aluminum cabana with a wood-look ceiling, lit from within at dusk beside a pool.':
+        'Visualización de diseño de una cabaña de aluminio con techo tipo madera, iluminada por dentro al anochecer junto a la piscina.',
+      'It Is Priced Like A Small Building':
+        'Se cotiza como un edificio pequeño',
+      'A cabana is not a shade cover with walls. It carries a solid roof, usually some form of wall or screen, and almost always power — which is why it costs more than an open pergola of the same footprint and why the decisions that matter are the ones a pergola never has to make: how enclosed, how serviced, and whether water goes into it.':
+        'Una cabaña no es una cubierta de sombra con paredes. Lleva techo macizo, casi siempre algún tipo de pared o celosía, y casi siempre corriente, y por eso cuesta más que una pérgola abierta de la misma superficie. Las decisiones que importan son las que una pérgola nunca tiene que tomar: cuánto se cierra, qué instalaciones lleva y si entra agua.',
+      'Solid Or Insulated Roof':
+        'Techo macizo o aislado',
+      'Screens, Panels Or Drapery':
+        'Celosías, paneles o cortinaje',
+      'Power, Lighting And Fans':
+        'Corriente, luz y ventiladores',
+      'Plumbed, If You Want It Plumbed':
+        'Con fontanería, si la quiere',
+      'Design visualisation of a freestanding aluminum cabana beside a pool, with a slatted privacy wall on one side and a lounge beneath.':
+        'Visualización de diseño de una cabaña de aluminio exenta junto a la piscina, con una celosía de privacidad en un lado y un salón debajo.',
+      'The Four Decisions A Cabana Makes That A Pergola Does Not':
+        'Las cuatro decisiones que toma una cabaña y una pérgola no',
+      'Everything else on this site is a roof. A cabana is closer to a small building, and that changes four things: what it costs and why, how you close it, whether it is plumbed, and what you keep in it.':
+        'Todo lo demás en este sitio es un techo. Una cabaña se parece más a un edificio pequeño, y eso cambia cuatro cosas: cuánto cuesta y por qué, cómo se cierra, si lleva fontanería y qué guarda dentro.',
+      'Why It Costs More Than A Pergola':
+        'Por qué cuesta más que una pérgola',
+      'It is priced like a small building rather than like a shade cover: solid roof, often walls or screens, and usually power. Expect it above a comparable open pergola of the same footprint. Size, roof type and whether it is plumbed move the number more than the finish does.':
+        'Se cotiza como un edificio pequeño y no como una cubierta de sombra: techo macizo, muchas veces paredes o celosías, y normalmente corriente. Cuente con que esté por encima de una pérgola abierta comparable de la misma superficie. El tamaño, el tipo de techo y si lleva fontanería mueven la cifra más que el acabado.',
+      'How You Close It':
+        'Cómo se cierra',
+      'Motorised screens, fixed decorative panels, partial walls or outdoor-grade drapery — usually a combination, and usually not on all four sides. Which side gets which is decided by where the sun and the neighbours are, the same conversation as on a screen, only here it also changes how the structure reads.':
+        'Cortinas motorizadas, paneles decorativos fijos, paredes parciales o cortinaje de exterior; normalmente una combinación, y normalmente no en los cuatro lados. Qué lleva cada lado lo decide dónde están el sol y los vecinos, la misma conversación que con una cortina, solo que aquí además cambia cómo se lee la estructura.',
+      'Whether It Is Plumbed':
+        'Si lleva fontanería',
+      'A shower or a bathroom is a common request next to a pool and it changes the project: plumbing permits, a drainage connection, and ventilation requirements for a bathroom. Running supply and waste before the surrounding hardscape goes down is far cheaper than opening it up afterwards — so this is a decision for now, not later.':
+        'Una ducha o un baño es una petición habitual junto a la piscina y cambia el proyecto: permisos de fontanería, conexión de desagüe y requisitos de ventilación si es baño. Pasar la acometida y el desagüe antes de que se coloque el pavimento de alrededor sale mucho más barato que abrirlo después, así que esta es una decisión de ahora y no de luego.',
+      'What You Keep In It':
+        'Qué guarda dentro',
+      'A cabana can double as pool equipment storage and it is a good use of the volume, but keep that side separate and ventilated: pool chemicals and salt systems corrode metal and electronics in an enclosed space. A louvered or screened door on that bay handles it without giving up the look.':
+        'Una cabaña puede hacer también de cuarto de máquinas de la piscina, y es un buen uso del volumen, pero ese lado va separado y ventilado: los productos químicos y los cloradores salinos corroen el metal y la electrónica en un espacio cerrado. Una puerta de lamas o con malla en ese vano lo resuelve sin renunciar al aspecto.',
+      'Design visualisation of an aluminum cabana with a finished ceiling and recessed downlights over a poolside lounge.':
+        'Visualización de diseño de una cabaña de aluminio con techo acabado y focos empotrados sobre un salón junto a la piscina.',
+      'Visualisation: open on four sides, curtains at the corners':
+        'Visualización: abierta por los cuatro lados, cortinas en las esquinas',
+      'Visualisation: slatted back wall, lounge beneath':
+        'Visualización: pared trasera de celosía, salón debajo',
+      'Visualisation: decorative panel and fire table':
+        'Visualización: panel decorativo y mesa de fuego',
+      'Visualisation: dining under a finished ceiling':
+        'Visualización: comedor bajo un techo acabado',
+      'Visualisation: waterfront, curtains drawn back':
+        'Visualización: frente al agua, con las cortinas recogidas',
+      'Visualisation: louvered roof over the lounge':
+        'Visualización: techo de lamas sobre el salón',
+      'Design visualisation of an aluminum cabana open on all four sides, with drapery gathered at the corner posts beside a pool.':
+        'Visualización de diseño de una cabaña de aluminio abierta por los cuatro lados, con cortinaje recogido en los pilares de esquina junto a la piscina.',
+      'Design visualisation of a cabana with a slatted timber-look back wall and a lounge set beneath a solid roof.':
+        'Visualización de diseño de una cabaña con pared trasera de celosía con textura de madera y un salón bajo un techo macizo.',
+      'Design visualisation of a cabana with a decorative cut panel to one side, a fire table and seating under a wood-look ceiling.':
+        'Visualización de diseño de una cabaña con un panel decorativo calado en un lateral, una mesa de fuego y asientos bajo un techo tipo madera.',
+      'Design visualisation of a cabana over an outdoor dining table, with a finished ceiling and recessed downlights.':
+        'Visualización de diseño de una cabaña sobre una mesa de comedor exterior, con techo acabado y focos empotrados.',
+      'Design visualisation of a cabana on a waterfront terrace, curtains drawn back at the posts and a lounge facing the water.':
+        'Visualización de diseño de una cabaña en una terraza frente al agua, con las cortinas recogidas en los pilares y un salón mirando al agua.',
+      'Design visualisation of a cabana with a louvered roof section over a lounge, planting massed around the base.':
+        'Visualización de diseño de una cabaña con una sección de techo de lamas sobre el salón, con plantación agrupada en la base.',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll look at the space, work out how enclosed and how serviced you actually want it, and price it before anything is drawn.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Miramos el espacio, vemos cuánto quiere cerrarlo de verdad y qué instalaciones quiere, y lo cotizamos antes de dibujar nada.',
+      'Other Structures':
+        'Otras estructuras',
+      'Other Structures We Build':
+        'Otras estructuras que construimos',
+      'A cabana is a small building. If what you want is a roof over a space you already have, a side that closes, or the whole area screened, these are the other four we build.':
+        'Una cabaña es un edificio pequeño. Si lo que quiere es un techo sobre un espacio que ya tiene, un lado que se cierre o toda la zona con mosquitero, estos son los otros cuatro que construimos.',
+      'Are aluminum cabanas permanent?':
+        '¿Las cabañas de aluminio son permanentes?',
+      'Can I add motorized screens?':
+        '¿Puedo añadir cortinas motorizadas?',
+      'Are they hurricane-resistant?':
+        '¿Resisten huracanes?',
+      'What maintenance is required?':
+        '¿Qué mantenimiento necesitan?',
+      'Can I add LED lights and fans?':
+        '¿Puedo añadir luces LED y ventiladores?',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -1288,6 +1380,94 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas solares | Sur de Florida',
     description: 'Estructuras preparadas para fotovoltaica: refuerzo de carga, cableado oculto y drenaje integrado, con orientación estudiada.',
     dic: {
+      'Shade That Also Generates':
+        'Sombra que además genera',
+      'Engineered For The Extra Load':
+        'Calculada para la carga extra',
+      'Design visualisation of a solar pergola: photovoltaic panels forming the roof of a slim aluminum frame over a garden terrace.':
+        'Visualización de diseño de una pérgola solar: paneles fotovoltaicos formando la cubierta de una estructura de aluminio esbelta sobre una terraza ajardinada.',
+      'Design visualisation of a solar pergola seen from below, the panel roof carried on a slender frame over a lounge.':
+        'Visualización de diseño de una pérgola solar vista desde abajo, con la cubierta de paneles sobre una estructura esbelta encima de un salón exterior.',
+      'Design visualisation: a solar panel roof on an aluminum frame shading a terrace, with the array angled to the sun.':
+        'Visualización de diseño: una cubierta de paneles solares sobre estructura de aluminio dando sombra a una terraza, con el campo inclinado hacia el sol.',
+      'Design visualisation of a solar pergola over a paved lounge area, the panels forming a continuous roof plane.':
+        'Visualización de diseño de una pérgola solar sobre una zona de estar pavimentada, con los paneles formando un plano de cubierta continuo.',
+      'Start With The Consumption, Not The Roof':
+        'Empiece por el consumo, no por el techo',
+      'A solar pergola is two projects in one, and they are usually planned in the wrong order. The array scales with roof area and orientation, so the useful conversation starts with what you actually consume — the pool pump, the lighting, the car — and works back to the size of the structure. Where it lands and how the panels are mounted follow from that, not the other way round.':
+        'Una pérgola solar son dos proyectos en uno, y casi siempre se planifican en el orden equivocado. El campo va con la superficie de cubierta y la orientación, así que la conversación útil empieza por lo que usted consume de verdad —la bomba de la piscina, la iluminación, el coche— y desde ahí se va hacia atrás hasta el tamaño de la estructura. Dónde se apoya y cómo se montan los paneles salen de eso, y no al revés.',
+      'Sized From What You Consume':
+        'Dimensionada según su consumo',
+      'Oriented For The Array':
+        'Orientada para el campo solar',
+      'Attached Or Freestanding':
+        'Adosada o exenta',
+      'Sealed Panels Or Open Rails':
+        'Paneles sellados o rieles abiertos',
+      'Design visualisation: a solar pergola over a lounge terrace at dusk, the underside lit by integrated strip lighting.':
+        'Visualización de diseño: una pérgola solar sobre una terraza de estar al anochecer, con la cara inferior iluminada por tiras LED integradas.',
+      'What A Solar Pergola Realistically Does':
+        'Lo que hace de verdad una pérgola solar',
+      'A solar roof is a structure and an electrical installation at the same time, and the four things worth knowing are the ones that decide whether it does what you hoped: how much it produces, whether it stays dry underneath, what it adds to the structure, and what extra approvals it needs.':
+        'Una cubierta solar es a la vez una estructura y una instalación eléctrica, y las cuatro cosas que conviene saber son las que deciden si hace lo que usted esperaba: cuánto produce, si debajo se está seco, qué le añade a la estructura y qué aprobaciones extra necesita.',
+      'How Much It Realistically Produces':
+        'Cuánto produce de verdad',
+      'It scales with roof area and orientation, not with ambition. A pergola-sized array is typically a useful supplement — pool pump, lighting, topping up a car — rather than a whole-house system. That is not a small thing, but it is a different thing, and the design conversation should start with your consumption rather than with the roof.':
+        'Va con la superficie de cubierta y la orientación, no con la ilusión que se le ponga. Un campo del tamaño de una pérgola suele ser un complemento útil —bomba de piscina, iluminación, recargar el coche— y no un sistema para toda la casa. No es poca cosa, pero es otra cosa, y la conversación de diseño debería empezar por su consumo y no por la cubierta.',
+      'Whether It Is Dry Underneath':
+        'Si debajo se está seco',
+      'Shaded, always: the panels are opaque. Dry depends entirely on how they are mounted. Panels laid with sealed joints and a gutter behave like a solid roof; panels on rails with gaps between them do not. If you want a dry lounge under there, it has to be specified up front, not assumed.':
+        'Con sombra, siempre: los paneles son opacos. Que esté seco depende por completo de cómo se monten. Los paneles colocados con juntas selladas y canalón se comportan como una cubierta maciza; los paneles sobre rieles con separación entre ellos, no. Si quiere un salón seco ahí debajo, hay que especificarlo desde el principio, no darlo por hecho.',
+      'What It Adds To The Structure':
+        'Lo que le añade a la estructura',
+      'Dead load from the array and uplift on every panel, both of which the frame has to be engineered for from the start. This is why a solar pergola is not an ordinary pergola with panels added afterwards, and why retrofitting an array onto a structure that was not drawn for one is usually the expensive answer.':
+        'El peso propio del campo y la succión sobre cada panel, y la estructura tiene que estar calculada para las dos cosas desde el principio. Por eso una pérgola solar no es una pérgola normal con paneles puestos encima después, y por eso montar un campo sobre una estructura que no se dibujó para ello suele ser la respuesta cara.',
+      'The Approvals It Also Needs':
+        'Las aprobaciones que además lleva',
+      'On top of the structural and electrical permits, a grid-tied array needs an interconnection agreement with your utility and, in many jurisdictions, a separate solar review. It is not difficult, but it is a second track running alongside the build, and knowing that up front is what keeps the timeline honest.':
+        'Además de los permisos de estructura y de electricidad, un campo conectado a red necesita un acuerdo de interconexión con su compañía eléctrica y, en muchos municipios, una revisión solar aparte. No es difícil, pero es una vía paralela a la obra, y saberlo desde el principio es lo que mantiene el plazo honesto.',
+      'Design visualisation of a solar pergola after dark, the panel roof over a lit lounge with planting around it.':
+        'Visualización de diseño de una pérgola solar de noche, con la cubierta de paneles sobre un salón iluminado y plantación alrededor.',
+      'Visualisation: the array as the roof plane':
+        'Visualización: el campo solar como plano de cubierta',
+      'Visualisation: panels angled towards the sun':
+        'Visualización: paneles inclinados hacia el sol',
+      'Visualisation: seen from below, panels and frame':
+        'Visualización: vista desde abajo, paneles y estructura',
+      'Visualisation: the structure lit after dark':
+        'Visualización: la estructura iluminada de noche',
+      'Visualisation: a solar canopy over parking':
+        'Visualización: una marquesina solar sobre el aparcamiento',
+      'Visualisation: array, terrace and planting':
+        'Visualización: campo solar, terraza y plantación',
+      'Design visualisation of a solar pergola in which the photovoltaic panels form the entire roof plane over a garden terrace.':
+        'Visualización de diseño de una pérgola solar en la que los paneles fotovoltaicos forman todo el plano de cubierta sobre una terraza ajardinada.',
+      'Design visualisation showing a solar pergola with the panel roof tilted towards the sun above a paved seating area.':
+        'Visualización de diseño de una pérgola solar con la cubierta de paneles inclinada hacia el sol sobre una zona de estar pavimentada.',
+      'Design visualisation looking up at the underside of a solar pergola, the panels carried on a slim aluminum frame.':
+        'Visualización de diseño mirando hacia la cara inferior de una pérgola solar, con los paneles sobre una estructura de aluminio esbelta.',
+      'Design visualisation of a solar pergola at night, integrated strip lighting along the beams over a lounge setting.':
+        'Visualización de diseño de una pérgola solar de noche, con tiras LED integradas en las vigas sobre un salón exterior.',
+      'Design visualisation of a solar canopy over a parking area, the panel roof spanning two bays with cars beneath.':
+        'Visualización de diseño de una marquesina solar sobre una zona de aparcamiento, con la cubierta de paneles salvando dos plazas con coches debajo.',
+      'Design visualisation of a solar pergola over a terrace, with the panel roof above and tropical planting around the posts.':
+        'Visualización de diseño de una pérgola solar sobre una terraza, con la cubierta de paneles encima y plantación tropical alrededor de los pilares.',
+      'What A Solar Roof Involves':
+        'Lo que implica una cubierta solar',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll start with what you actually consume, work back to the roof area that would cover it, and tell you what the structure has to do.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Empezamos por lo que consume de verdad, vamos hacia atrás hasta la superficie de cubierta que lo cubriría, y le decimos qué tiene que hacer la estructura.',
+      'A solar roof shades the space and generates while it does it. If you want a roof that opens, one that never moves, one that lets the light through, or an open frame, these are the other four we build.':
+        'Una cubierta solar da sombra al espacio y genera mientras lo hace. Si quiere un techo que se abra, uno que no se mueva nunca, uno que deje pasar la luz o una estructura abierta, estos son los otros cuatro que construimos.',
+      'Can a pergola hold solar panels?':
+        '¿Una pérgola aguanta paneles solares?',
+      'Is the frame strong enough?':
+        '¿La estructura es lo bastante fuerte?',
+      'Is the lounge area waterproof?':
+        '¿La zona de estar queda estanca?',
+      'Do you orient it for max sun?':
+        '¿La orientan para aprovechar el sol?',
+      'Do you handle all the permits?':
+        '¿Se encargan de todos los permisos?',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

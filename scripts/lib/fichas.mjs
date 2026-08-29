@@ -1002,6 +1002,244 @@ export const FICHAS = {
       texto: 'The Sukkha 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.',
     },
   },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Pergolas solares
+  //
+  // ⚠️ LAS CATORCE IMAGENES DE ESTE PRODUCTO SON RENDERS 3D, NO FOTOGRAFIA DE OBRA.
+  //
+  // Comprobado a resolucion completa sobre `gallery-…-07`: plantas clonadas con la
+  // misma malla repetida, tiras LED emisivas perfectamente uniformes, pared de fondo
+  // sin textura, atrezo de libreria 3D (el mismo cuenco de frutos secos en varias) y
+  // cero imperfeccion optica de lente real. No hay UNA sola foto de obra en la carpeta.
+  //
+  // POR ESO LOS PIES DESCRIBEN LA IMAGEN Y NUNCA AFIRMAN QUE SEA OBRA NUESTRA. Ni
+  // «instalada en», ni ciudad, ni «un proyecto de». La cabecera de galeria que trae el
+  // cliente ya es prudente por casualidad —dice «Explore solar-ready roof structures»,
+  // no «projects»— asi que no hay que tocarla; en `cabanas`, que si dice «projects»,
+  // hubo que hacerlo.
+  //
+  // La regla es la que este repo ya escribio en scripts/lib/cta-slots.mjs: generar con
+  // IA se reserva a lo NO probatorio, nunca a algo que el visitante vaya a leer como
+  // «una obra que hicimos». LO QUE ESTO NECESITA ES FOTOGRAFIA REAL DEL CLIENTE, y
+  // hasta que llegue la ficha se sostiene con el texto, que si esta documentado.
+  // ══════════════════════════════════════════════════════════════════════════════
+  'solar-pergolas': {
+    cms: '/cms-img/products/solar-pergolas',
+    galeria: { prefijo: 'gallery-solar-roof-structure-contractors-south-florida-', diapositivas: 10 },
+
+    // «Shade That Pays Back» promete un retorno sin un solo numero, y la propia
+    // pregunta `pergola-solar-cuanto-produce` dice que un array de tamaño pergola es
+    // «un complemento util —bomba de piscina, iluminacion, recarga de coche— y no un
+    // sistema para toda la casa». Se sustituye por lo que si se sostiene.
+    chips: [
+      { viejo: 'Shade That Pays Back', nuevo: 'Shade That Also Generates', destino: '#how-it-works' },
+      { viejo: 'Concealed Wiring', nuevo: 'Concealed Wiring', destino: '#features' },
+      { viejo: 'Eco-Friendly Luxury', nuevo: 'Engineered For The Extra Load', destino: '#specs' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Solar roof structure contractors in South Florida designing engineered aluminum structures ready for solar panel integration and shaded outdoor living." loading="lazy" src="{CMS}/hero-solar-roof-structure-south-florida.avif"',
+        nuevo: 'alt="Design visualisation of a solar pergola: photovoltaic panels forming the roof of a slim aluminum frame over a garden terrace." loading="lazy" src="{CMS}/hero-solar-roof-structure-south-florida.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-solar-roof-structure-contractors-south-florida.avif" alt="Solar roof structure contractors in South Florida designing engineered aluminum structures ready for solar panel integration and shaded outdoor living."',
+        nuevo: '<img src="{CMS}/cover-solar-roof-structure-contractors-south-florida.avif" alt="Design visualisation of a solar pergola seen from below, the panel roof carried on a slender frame over a lounge."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Solar roof structure contractors in South Florida designing engineered aluminum structures ready for solar panel integration and shaded outdoor living." loading="lazy" src="{CMS}/intro-solar-roof-structure-contractors-south-florida.avif"',
+        nuevo: 'alt="Design visualisation: a solar panel roof on an aluminum frame shading a terrace, with the array angled to the sun." loading="lazy" src="{CMS}/intro-solar-roof-structure-contractors-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-solar-pergola-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-solar-pergola-south-florida.avif" loading="lazy" alt="Design visualisation of a solar pergola over a paved lounge area, the panels forming a continuous roof plane."' },
+    ],
+
+    configuraciones: {
+      foto: '04',
+      alt: 'Design visualisation: a solar pergola over a lounge terrace at dusk, the underside lit by integrated strip lighting.',
+      rotulo: 'Configurations',
+      titulo: 'Start With The Consumption, Not The Roof',
+      texto: 'A solar pergola is two projects in one, and they are usually planned in the wrong order. The array scales with roof area and orientation, so the useful conversation starts with what you actually consume — the pool pump, the lighting, the car — and works back to the size of the structure. Where it lands and how the panels are mounted follow from that, not the other way round.',
+      bullets: ['Sized From What You Consume', 'Oriented For The Array',
+        'Attached Or Freestanding', 'Sealed Panels Or Open Rails'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    comoFunciona: {
+      foto: '07',
+      alt: 'Design visualisation of a solar pergola after dark, the panel roof over a lit lounge with planting around it.',
+      rotulo: 'How It Works',
+      titulo: 'What A Solar Pergola Realistically Does',
+      texto: 'A solar roof is a structure and an electrical installation at the same time, and the four things worth knowing are the ones that decide whether it does what you hoped: how much it produces, whether it stays dry underneath, what it adds to the structure, and what extra approvals it needs.',
+      celdas: [
+        ['/images/pp-icon-produccion.svg', 'How Much It Realistically Produces',
+          'It scales with roof area and orientation, not with ambition. A pergola-sized array is typically a useful supplement — pool pump, lighting, topping up a car — rather than a whole-house system. That is not a small thing, but it is a different thing, and the design conversation should start with your consumption rather than with the roof.'],
+        ['/images/pp-icon-agua.svg', 'Whether It Is Dry Underneath',
+          'Shaded, always: the panels are opaque. Dry depends entirely on how they are mounted. Panels laid with sealed joints and a gutter behave like a solid roof; panels on rails with gaps between them do not. If you want a dry lounge under there, it has to be specified up front, not assumed.'],
+        ['/images/pp-icon-panel.svg', 'What It Adds To The Structure',
+          'Dead load from the array and uplift on every panel, both of which the frame has to be engineered for from the start. This is why a solar pergola is not an ordinary pergola with panels added afterwards, and why retrofitting an array onto a structure that was not drawn for one is usually the expensive answer.'],
+        ['/images/pp-icon-permiso.svg', 'The Approvals It Also Needs',
+          'On top of the structural and electrical permits, a grid-tied array needs an interconnection agreement with your utility and, in many jurisdictions, a separate solar review. It is not difficult, but it is a second track running alongside the build, and knowing that up front is what keeps the timeline honest.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Los pies DESCRIBEN LA IMAGEN. Ninguno dice donde esta ni de quien es, porque
+    // ninguna de estas imagenes es una obra: son visualizaciones. Ver la cabecera.
+    pies: {
+      '01': ['Visualisation: the array as the roof plane',
+        'Design visualisation of a solar pergola in which the photovoltaic panels form the entire roof plane over a garden terrace.'],
+      '03': ['Visualisation: panels angled towards the sun',
+        'Design visualisation showing a solar pergola with the panel roof tilted towards the sun above a paved seating area.'],
+      '05': ['Visualisation: seen from below, panels and frame',
+        'Design visualisation looking up at the underside of a solar pergola, the panels carried on a slim aluminum frame.'],
+      '06': ['Visualisation: the structure lit after dark',
+        'Design visualisation of a solar pergola at night, integrated strip lighting along the beams over a lounge setting.'],
+      '09': ['Visualisation: a solar canopy over parking',
+        'Design visualisation of a solar canopy over a parking area, the panel roof spanning two bays with cars beneath.'],
+      '10': ['Visualisation: array, terrace and planting',
+        'Design visualisation of a solar pergola over a terrace, with the panel roof above and tropical planting around the posts.'],
+    },
+
+    faqNumeradas: [
+      'Can a pergola hold solar panels?',
+      'Is the frame strong enough?',
+      'Is the lounge area waterproof?',
+      'Do you orient it for max sun?',
+      'Do you handle all the permits?',
+    ],
+
+    video: 'What A Solar Roof Involves',
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll start with what you actually consume, work back to the roof area that would cover it, and tell you what the structure has to do.',
+
+    comparar: {
+      productos: ['louvered', 'insulated', 'polycarbonate', 'open'],
+      rotulo: 'Other Roofs',
+      titulo: 'Compare The Four Pergola Roofs',
+      texto: 'A solar roof shades the space and generates while it does it. If you want a roof that opens, one that never moves, one that lets the light through, or an open frame, these are the other four we build.',
+    },
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Cabañas
+  //
+  // ⚠️ CASI TODAS LAS IMAGENES DE ESTE PRODUCTO SON GENERADAS, NO FOTOGRAFIA DE OBRA.
+  //
+  // Hoja de contactos de las catorce: doce tienen los tells de una generacion —luz
+  // dorada imposible repetida, fondos de «casa de lujo generica» intercambiables,
+  // cortinas con caida fisicamente rara, plantacion tropical clonada— y solo dos leen
+  // como fotografia real, entre ellas la misma obra que sale en la portada de la ficha
+  // de cubierta maciza (la pergola exenta con el sillon colgante).
+  //
+  // Su cabecera de galeria SI afirma autoria —«Explore luxury aluminum cabana
+  // PROJECTS»— sobre imagenes que no son obra, asi que se cambia. Es la misma clase de
+  // decision que los chips: documentada y REVERTIBLE en cuanto lleguen fotos reales.
+  // ══════════════════════════════════════════════════════════════════════════════
+  cabanas: {
+    cms: '/cms-img/products/cabanas',
+    galeria: { prefijo: 'gallery-aluminum-cabana-contractors-south-florida-', diapositivas: 10 },
+
+    // «Hurricane-Resistant» y «100% Rust-Proof» son una homologacion y un absoluto, los
+    // dos sin cifra. El primero es el mismo caso que el «Category 5 Reinforced» del
+    // Sukkha; el segundo se sustituye por lo que dice la propia respuesta 4 de la ficha.
+    chips: [
+      { viejo: 'Resort-Style Luxury', nuevo: 'Resort-Style Luxury', destino: '#features' },
+      { viejo: 'Hurricane-Resistant', nuevo: 'Engineered to Florida Wind Code', destino: '#specs' },
+      { viejo: '100% Rust-Proof', nuevo: 'Aluminum: It Will Not Rust', destino: '#how-it-works' },
+    ],
+
+    textos: [
+      { contexto: 'la entradilla de la galeria, que decia «projects»',
+        viejo: 'Explore luxury aluminum cabana projects that transform backyards into private resort-style retreats. See how structure, shade, and design come together seamlessly.',
+        nuevo: 'Design visualisations of the cabanas we build: how the structure, the roof, the screens and the drapery come together. Photographs of completed cabanas are on our project gallery.' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Aluminum cabana contractors in South Florida building luxury backyard cabanas engineered for shade, privacy, and resort-style outdoor living." loading="lazy" src="{CMS}/hero-custom-poolside-cabana-south-florida.avif"',
+        nuevo: 'alt="Design visualisation of a poolside aluminum cabana with a solid roof, drawn curtains at the corners and a lounge set beneath." loading="lazy" src="{CMS}/hero-custom-poolside-cabana-south-florida.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-aluminum-cabana-contractors-south-florida.avif" alt="Aluminum cabana contractors in South Florida building luxury backyard cabanas engineered for shade, privacy, and resort-style outdoor living."',
+        nuevo: '<img src="{CMS}/cover-aluminum-cabana-contractors-south-florida.avif" alt="Design visualisation of an aluminum cabana with a slatted back wall and white curtains, set on a terrace beside a pool."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Aluminum cabana contractors in South Florida building luxury backyard cabanas engineered for shade, privacy, and high-end outdoor living." loading="lazy" src="{CMS}/intro-aluminum-cabana-contractors-south-florida.avif"',
+        nuevo: 'alt="Design visualisation of a freestanding aluminum cabana with a finished ceiling and recessed lighting, open on all four sides." loading="lazy" src="{CMS}/intro-aluminum-cabana-contractors-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-custom-pergola-cabana-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-custom-pergola-cabana-south-florida.avif" loading="lazy" alt="Design visualisation of an aluminum cabana with a wood-look ceiling, lit from within at dusk beside a pool."' },
+    ],
+
+    configuraciones: {
+      foto: '10',
+      alt: 'Design visualisation of a freestanding aluminum cabana beside a pool, with a slatted privacy wall on one side and a lounge beneath.',
+      rotulo: 'Configurations',
+      titulo: 'It Is Priced Like A Small Building',
+      texto: 'A cabana is not a shade cover with walls. It carries a solid roof, usually some form of wall or screen, and almost always power — which is why it costs more than an open pergola of the same footprint and why the decisions that matter are the ones a pergola never has to make: how enclosed, how serviced, and whether water goes into it.',
+      bullets: ['Solid Or Insulated Roof', 'Screens, Panels Or Drapery',
+        'Power, Lighting And Fans', 'Plumbed, If You Want It Plumbed'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    comoFunciona: {
+      foto: '06',
+      alt: 'Design visualisation of an aluminum cabana with a finished ceiling and recessed downlights over a poolside lounge.',
+      rotulo: 'How It Works',
+      titulo: 'The Four Decisions A Cabana Makes That A Pergola Does Not',
+      texto: 'Everything else on this site is a roof. A cabana is closer to a small building, and that changes four things: what it costs and why, how you close it, whether it is plumbed, and what you keep in it.',
+      celdas: [
+        ['/images/pp-icon-panel.svg', 'Why It Costs More Than A Pergola',
+          'It is priced like a small building rather than like a shade cover: solid roof, often walls or screens, and usually power. Expect it above a comparable open pergola of the same footprint. Size, roof type and whether it is plumbed move the number more than the finish does.'],
+        ['/images/pp-icon-privacidad.svg', 'How You Close It',
+          'Motorised screens, fixed decorative panels, partial walls or outdoor-grade drapery — usually a combination, and usually not on all four sides. Which side gets which is decided by where the sun and the neighbours are, the same conversation as on a screen, only here it also changes how the structure reads.'],
+        ['/images/pp-icon-agua.svg', 'Whether It Is Plumbed',
+          'A shower or a bathroom is a common request next to a pool and it changes the project: plumbing permits, a drainage connection, and ventilation requirements for a bathroom. Running supply and waste before the surrounding hardscape goes down is far cheaper than opening it up afterwards — so this is a decision for now, not later.'],
+        ['/images/pp-icon-carcasa.svg', 'What You Keep In It',
+          'A cabana can double as pool equipment storage and it is a good use of the volume, but keep that side separate and ventilated: pool chemicals and salt systems corrode metal and electronics in an enclosed space. A louvered or screened door on that bay handles it without giving up the look.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Pies que DESCRIBEN la imagen. Ninguno afirma que sea obra construida.
+    pies: {
+      '01': ['Visualisation: open on four sides, curtains at the corners',
+        'Design visualisation of an aluminum cabana open on all four sides, with drapery gathered at the corner posts beside a pool.'],
+      '02': ['Visualisation: slatted back wall, lounge beneath',
+        'Design visualisation of a cabana with a slatted timber-look back wall and a lounge set beneath a solid roof.'],
+      '03': ['Visualisation: decorative panel and fire table',
+        'Design visualisation of a cabana with a decorative cut panel to one side, a fire table and seating under a wood-look ceiling.'],
+      '05': ['Visualisation: dining under a finished ceiling',
+        'Design visualisation of a cabana over an outdoor dining table, with a finished ceiling and recessed downlights.'],
+      '07': ['Visualisation: waterfront, curtains drawn back',
+        'Design visualisation of a cabana on a waterfront terrace, curtains drawn back at the posts and a lounge facing the water.'],
+      '08': ['Visualisation: louvered roof over the lounge',
+        'Design visualisation of a cabana with a louvered roof section over a lounge, planting massed around the base.'],
+    },
+
+    faqNumeradas: [
+      'Are aluminum cabanas permanent?',
+      'Can I add motorized screens?',
+      'Are they hurricane-resistant?',
+      'What maintenance is required?',
+      'Can I add LED lights and fans?',
+    ],
+
+    video: null,
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll look at the space, work out how enclosed and how serviced you actually want it, and price it before anything is drawn.',
+
+    comparar: {
+      productos: ['louvered', 'insulated', 'screen', 'enclosure'],
+      rotulo: 'Other Structures',
+      titulo: 'Other Structures We Build',
+      texto: 'A cabana is a small building. If what you want is a roof over a space you already have, a side that closes, or the whole area screened, these are the other four we build.',
+    },
+  },
 };
 
 /** La ruta de una foto de galeria de esa ficha. */

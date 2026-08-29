@@ -251,6 +251,37 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
       { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
     ],
   },
+
+  // El estimador deja este producto con `tarifa: null` y lo razona: «el solar depende
+  // del vataje y de la interconexion con la electrica». Sin cifra, entonces.
+  'solar-pergolas': {
+    filas: ['produccion', 'estanqueidad', 'carga', 'aprobaciones', 'montaje',
+      'material', 'acabado', 'cableado', 'plazo', 'inversion', 'donde'],
+    enGrafo: ['produccion', 'estanqueidad', 'carga', 'montaje', 'material', 'acabado', 'cableado'],
+    material: 'material',
+    huecos: ['vataje', 'viento', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'aprobaciones' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
+
+  cabanas: {
+    filas: ['tipo', 'techo', 'cerramiento', 'instalaciones', 'fontaneria', 'almacen',
+      'material', 'acabado', 'permiso', 'plazo', 'inversion', 'donde'],
+    enGrafo: ['tipo', 'techo', 'cerramiento', 'instalaciones', 'fontaneria', 'material', 'acabado'],
+    material: 'material',
+    huecos: ['medidas', 'viento', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'permiso' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
 };
 
 /**

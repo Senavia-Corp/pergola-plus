@@ -122,6 +122,18 @@ export const PROMOVIDAS: Record<string, string[]> = {
   sukkha: [
     'pergola-sukkha-diferencia-detalle',
   ],
+  // Las tres propias del tema, y las tres rebajan la expectativa: cuanto produce de
+  // verdad, si de verdad esta seco debajo y que aprobaciones extra lleva.
+  'solar-pergolas': [
+    'pergola-solar-cuanto-produce',
+    'pergola-solar-sombra-debajo',
+    'permiso-generador-solar',
+  ],
+  cabanas: [
+    'precio-cuanto-cuesta-cabana',
+    'pergola-cabana-bano',
+    'pergola-cabana-almacen',
+  ],
 };
 
 export interface Faq {

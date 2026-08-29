@@ -1784,6 +1784,17 @@ function recomponerFicha(s, slug) {
     s = cambiar(s, enFicha(a.viejo), enFicha(a.nuevo), a.contexto);
   }
 
+  // --- 2b. Sustituciones de texto con AMBITO DE PAGINA --------------------------
+  //
+  // Existen porque `TEXTOS_CLIENTE` es GLOBAL: se aplica a toda pagina sin filtro de
+  // ruta, asi que una cadena que hay que cambiar SOLO en una ficha no puede pasar por
+  // ahi. `Request your free Estimate` esta en 99 fragmentos y `How We Build It` en 48.
+  //
+  // Se usan poco y con motivo escrito al lado, ficha por ficha.
+  for (const t of ficha.textos ?? []) {
+    s = cambiar(s, enFicha(t.viejo), enFicha(t.nuevo), t.contexto);
+  }
+
   // --- 3. Intro: el antetitulo que la ficha no lleva y la pagina de ciudad si ----
   s = cambiar(s,
     '<div data-w-id="6e40fb1b-9056-3dcb-7088-c614f3e8faa2" class="intro-column-right"><h2>',
