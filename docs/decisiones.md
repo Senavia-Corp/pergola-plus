@@ -958,3 +958,127 @@ hace trabajo real: una imagen más clara que ésa hunde el párrafo. La medida q
 dentro de la puerta y suspende por debajo de **3:1**, que es el mínimo para texto
 grande —por ahí el titular deja de leerse—; el número del párrafo se imprime siempre
 pero no suspende, porque una puerta que suspende a la referencia no mide calidad.
+
+## §9 no se suma a la ficha: ocupa el turno del vídeo, y eso son dos cosas
+
+`ProyectoDeFicha.astro` lo llevaba escrito desde el día que se creó: la sección
+«One We Built» **sustituye** al bloque de vídeo, y añadirla «obliga a mover otro».
+Se hizo la primera mitad —el vídeo se retira con `video: false` en el registro— y
+no la segunda. Con la sección **delante** de las reseñas y **sin fondo**, las
+cuatro fichas con proyecto etiquetado quedaron así:
+
+```
+#specs OSCURO > §9 clara > reseñas clara > #faq claro
+```
+
+Medido a 1440 sobre `dist`, muestreando el píxel real a media banda:
+
+| | racha clara |
+|---|---:|
+| `solid-roof-pergolas` | **4.879 px** |
+| `cabanas` | 2.767 px |
+| `carports` | 2.587 px |
+| `sukkha` | 2.492 px |
+
+**Las 17 puertas estaban verdes**, en los dos modos, y así se publicó. Ninguna
+miraba el orden de las bandas ni su color. El defecto no salió de una puerta:
+salió de muestrear el píxel.
+
+**Por qué no se ve leyendo el CSS.** `.pp-proyecto-ficha` y `.section-faq-page` no
+declaran `background-color`: en el código parecen neutras y en pantalla heredan el
+`--white` del cuerpo. `.resenas` sí declara, pero `--secundary` (#fffbf0) es crema.
+Tres bandas que el CSS presenta como distintas y el ojo lee como una sola.
+
+**El arreglo es el que dice el propio componente**: la sección va **detrás** de las
+reseñas —el hueco exacto que dejó el vídeo— y con el fondo del vídeo,
+`--primary`. Queda idéntico al piloto: `#specs OSCURO > reseñas claro > §9 OSCURO >
+#faq claro`.
+
+### La tarjeta hubo que rescatarla, y eso no se veía venir
+
+`.projects-card-body-page` **ya es `--primary`** en el CSS del sitio —medido en
+pantalla, `rgb(58,84,91)`—, porque en `/project-gallery/` va sobre fondo claro.
+Sobre la sección oscura el cuerpo de la tarjeta se disolvía en el fondo y solo
+quedaba la foto flotando con texto debajo. Se invierte a crema **dentro de §9 y
+solo ahí**, con el mismo recurso de «panel crema sobre primary» que ya usa
+`.pp-specs`. La alternativa de un solo `--terceary` para la sección se descartó:
+baja el contraste del titular de 8,9:1 a 4,81:1 y mete un tercer tono de banda en
+un sitio que tiene dos.
+
+### Y el titular decía «One We Built» sobre nueve tarjetas
+
+`solid-roof-pergolas` tenía **nueve** proyectos etiquetados: 3.024 px de sección
+bajo un titular en singular, en los dos idiomas — y ésos son los que llevaban la
+racha de 2.500 a 4.879. Se capa a **dos**, que es una fila entera de la rejilla de
+dos columnas, así que no deja huecos. Las otras siete siguen en
+`/project-gallery/`. El tope va en el componente y no en `proyectosDeFicha()`, que
+es una consulta: es decisión de presentación.
+
+### `screen-enclosures` no tiene arreglo de CSS, y hay que decirlo
+
+Encadena **reseñas clara > #faq claro**, 1.813 px, y no lo reportó nadie. No es un
+color mal puesto: **le falta una banda**. Entre `#specs` (oscuro) y `service-areas`
+(foto oscura) solo tiene esas dos, y dos bandas entre dos oscuras no pueden
+alternar — la primera tiene que ser clara, la segunda oscura, y la segunda choca
+con la de detrás. No trae `video-section` en su fragmento y ningún proyecto de la
+galería lleva su etiqueta. Se cierra sola el día que el cliente etiquete un
+proyecto de cerramientos; hasta entonces va **perdonada y con el motivo escrito**
+en `comprobar-ritmo.mjs`.
+
+### La puerta
+
+`check:ritmo` lee los hijos de `section.body-page` de las 20 fichas y resuelve el
+tono de cada banda **contra el CSS construido**, resolviendo las `var()` de
+`:root` — no contra una tabla escrita a mano, que se quedaría vieja el día que
+alguien cambie un token. Estática y sin navegador, igual que
+`comprobar-carruseles.mjs` y por el mismo motivo. Los 20 mapas se comprobaron
+contra el píxel pintado con Playwright y coinciden.
+
+Lleva **autocomprobación**, que es lo que separa una puerta verde de una puerta
+muda: si `color()` dejara de entender el CSS, todo saldría `claro` y esto pasaría
+en verde sin haber medido nada. Cada ficha tiene por construcción bandas oscuras y
+una foto, y eso se exige antes de juzgar.
+
+## Los cuatro fondos de CTA que «pasaban» no eran esos cuatro
+
+El traspaso anterior dejó una tabla de medidas con un veredicto por foto. **No
+reproduce.** Remedidas las seis fotos de cliente con la propia puerta del repo
+—`medirCentro` + `legibilidad` de `comprobar-cta.mjs`—, deslizando la ventana de
+2500×980 (2,55:1) en 17 posiciones sobre el máster de 2500×1406:
+
+| Ficha | Tabla anterior | Medido |
+|---|---|---|
+| `solid-roof-pergolas` | ✅ cualquiera | ✅ los 17 offsets · mejor y=338, media 133,5 |
+| `sukkha` | ✅ cualquiera | ✅ solo y=0..182 |
+| `screen-enclosures` | ❌ suspende | ✅ y=78..390 |
+| `open-air-pergolas` | ❌ suspende | ✅ solo y=0..52 |
+| `motorized-screens` | ✅ cualquiera | ❌ ningún recorte (máx. 94,8 < 110) |
+| `polycarbonate-pergolas` | ⚠️ solo abajo | ❌ ningún recorte (mín. 183,4 > 160) |
+
+**El método está validado contra la única verdad que existe**: el recorte superior
+de la foto del piloto da media 120,9 y el AVIF ya publicado da 121,0. Un decimal.
+Cuatro de los seis veredictos anteriores estaban del revés.
+
+### De las cuatro que pasan la medida entran tres
+
+`sukkha` se descarta **mirando el montaje**, que es exactamente para lo que
+existe. La página vende el **Sukkha 3000** —«sistema automatizado», lo dice su
+propia entradilla— y la foto es un sukkah blanco de evento vestido con flores y
+guirnaldas: producto distinto. La puerta mide recorte y legibilidad y **no sabe de
+qué producto es la foto**; eso lo pone un humano. Vuelve el día que el cliente
+confirme que esa estructura es un 3000.
+
+### Los `alt` eran prompts de IA, y se notaba al mirar la foto
+
+Los tres que entran se reescribieron **mirando el recorte publicado**:
+
+| Decía | Es |
+|---|---|
+| «warm wood-grain soffit … waterfront … in Jupiter» | techo de panel liso, piscina en patio vallado, ciudad desconocida |
+| «white aluminum … above a paver patio … in Parkland» | estructura bronce oscuro, lo que se ve es la fachada |
+| «over a swimming pool and lake view … in Coral Springs» | contrapicado: ni piscina ni lago, solo la estructura contra el cielo |
+
+Y **el par español va indexado por la cadena inglesa**: cambiar `cta-slots.mjs`
+sin cambiar `productos.es.ts` deja el `alt` en inglés en `/es/` y no lo dice
+ninguna puerta — `comprobar-i18n.mjs` cuenta nodos de texto y `comprobar-seo.mjs`
+solo exige que el atributo exista.
