@@ -1668,11 +1668,23 @@ const SECCION_CONFIGURACIONES =
  * `why-choose-section` no declara `background-color`, o sea que ya es claro; y su
  * rejilla 2x2 con icono es exactamente la forma de cuatro hechos mecanicos.
  *
- * LOS CUATRO ICONOS SON LOS DE ESTE COMPONENTE, NO LOS DE `process`. Medido sobre los
- * SVG: `Icon-1`, `Icon-2`, `Icon-4` y `pergola-contractor-experience-…` llevan
- * `fill: #3a545b`, que es `--primary`, o sea oscuro sobre el fondo claro de esta
- * seccion. Los de `process` son `fill: #fffbf0` y solo se ven porque `.icon-process`
- * les pone detras una baldosa oscura; `.why-choose-icon` es solo `height: 50px`, sin
+ * LOS CUATRO ICONOS SON PROPIOS, dibujados para estos cuatro hechos. Antes se
+ * reutilizaban `Icon-1`, `Icon-2`, `Icon-4` y `pergola-contractor-experience-…`, que
+ * significan «con licencia», «experiencia», «diseño a medida» y «materiales premium»:
+ * ninguno decia nada de rotacion, corte de luz, agua ni motor. En pantalla salia un
+ * DIPLOMA para «Full Rotation», un BOLIGRAFO para «When The Power Goes Out» y un
+ * MALETIN para «The Motor Is Serviceable». Se veian —eso era cierto— pero no
+ * significaban lo que ponia al lado.
+ *
+ * Los nuevos igualan el juego del sitio a proposito: `viewBox="0 0 50 50"` y el mismo
+ * `#3a545b` (= `--primary`), oscuro sobre el fondo claro de esta seccion. Son de
+ * TRAZO (`stroke-width: 3.2`) y no de relleno; el peso se ajusto comparando a 50 px
+ * REALES contra los antiguos, que es el tamaño al que los pinta `.why-choose-icon`.
+ * El color va en atributos y no en `class="cls-N"` con `<style>`, que es la trampa
+ * que en este repo ya dejo SVGs invisibles dos veces.
+ *
+ * NO son de `process`: esos son `fill: #fffbf0` y solo se ven porque `.icon-process`
+ * les pone detras una baldosa oscura. `.why-choose-icon` es solo `height: 50px`, sin
  * baldosa, asi que ahi serian cuatro cuadrados invisibles de 50 px sin que ninguna
  * puerta lo notara. Van con `alt=""`: son decoracion junto a un `<h3>` que ya lo dice
  * todo, y describirlos obligaria al lector de pantalla a oir dos veces lo mismo.
@@ -1692,13 +1704,13 @@ const SECCION_CONFIGURACIONES =
  * una especificacion de nuestro producto, y sin el se convierte en una cifra afirmada.
  */
 const CELDAS_COMO_FUNCIONA = [
-  ['/images/Icon-1.svg', 'Full Rotation, Any Position',
+  ['/images/pp-icon-rotacion.svg', 'Full Rotation, Any Position',
     'The louvers turn through about 140 to 170 degrees depending on the system, which is what takes you from open sky to a closed roof and lets you stop anywhere in between. In practice you use three: closed for rain, part-open for filtered light, open in the evening.'],
-  ['/images/Icon-2.svg', 'When The Power Goes Out',
+  ['/images/pp-icon-respaldo.svg', 'When The Power Goes Out',
     'The louvers hold their last position. They do not fall open, and they do not close on their own. Systems can be specified with a manual override or a battery backup so you can still close the roof during an outage — worth having where the outage and the storm arrive together.'],
-  ['/images/Icon-4.svg', 'Where The Water Goes',
+  ['/images/pp-icon-desague.svg', 'Where The Water Goes',
     'Closed, the louvers interlock and the water runs into an integrated gutter and down inside the posts. Keeping that channel and the post drainage clear is the whole maintenance story: a blocked channel is the most common cause of water where it should not be. Do not pressure wash into the drive.'],
-  ['/images/pergola-contractor-experience-south-florida-icon.svg', 'The Motor Is Serviceable',
+  ['/images/pp-icon-motor.svg', 'The Motor Is Serviceable',
     'The motor is a serviceable component, not a sealed part of the structure. It is designed to be reached and swapped without dismantling the roof. How long it lasts depends on cycles and on whether water is getting where it should not — which is why the drainage above matters.'],
 ];
 
