@@ -144,12 +144,12 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // las dos familias de acabado. Ni un voladizo en pies, ni un ancho de lama.
       'Configurations': 'Configuraciones',
       'Two Ways We Mount It, Two Finish Families': 'Dos formas de montarla, dos familias de acabado',
-      'Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze, or white and champagne. Everything after that is engineering for your site.':
-        'Cada techo de lamas que construimos se dibuja para una casa concreta. Las dos decisiones que cambian la forma del proyecto son dónde se apoya y cómo se acaba: adosado a la estructura de la casa, o exento sobre un deck o una piscina. A partir de ahí, la estructura va en bronce oscuro, o en blanco y champán. Lo demás es cálculo para su parcela.',
+      'Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze or white. Everything after that is engineering for your site.':
+        'Cada techo de lamas que construimos se dibuja para una casa concreta. Las dos decisiones que cambian la forma del proyecto son dónde se apoya y cómo se acaba: adosado a la estructura de la casa, o exento sobre un deck o una piscina. A partir de ahí, la estructura va en bronce oscuro o en blanco. Lo demás es cálculo para su parcela.',
       'Attached to the House': 'Adosada a la casa',
       'Freestanding Over Deck or Pool': 'Exenta sobre deck o piscina',
       'Dark Bronze Powder-Coat Finish': 'Acabado en bronce oscuro',
-      'White or Champagne Powder-Coat Finish': 'Acabado en blanco o champán',
+      'White Powder-Coat Finish': 'Acabado en blanco',
       'See How It Compares': 'Compare las cubiertas',
 
       // --- Bloque 5 · «Como funciona: lamas, motor y desague» -----------------
@@ -181,8 +181,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Adosada, marco en bronce oscuro, lamas abiertas al borde de la piscina',
       'Attached to a white soffit, louvers open over a paver patio and outdoor dining area':
         'Adosada a un sofito blanco, lamas abiertas sobre un patio de adoquín con comedor exterior',
-      'Freestanding, champagne frame, white louvers, poolside against a clipped hedge':
-        'Exenta, marco champán, lamas blancas, junto a la piscina contra un seto recortado',
+      'Freestanding, white louvers, poolside against a clipped hedge':
+        'Exenta, lamas blancas, junto a la piscina contra un seto recortado',
       'Attached, white frame, over the patio of a yellow stucco house':
         'Adosada, marco blanco, sobre el patio de una casa de estuco amarillo',
       'Attached, white frame, louvers open, turning the corner of the house':

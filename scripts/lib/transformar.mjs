@@ -1641,7 +1641,7 @@ const SECCION_CONFIGURACIONES =
   // ya fija `color: var(--white)`. Añadirlo lo pintaria en crema y cantaria.
   + '<div class="title-deco">Configurations</div>'
   + '<h2>Two Ways We Mount It, Two Finish Families</h2>'
-  + '<div>Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze, or white and champagne. Everything after that is engineering for your site.</div>'
+  + '<div>Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze or white. Everything after that is engineering for your site.</div>'
   + '<ul role="list" class="list-item-about">'
   // Los cuatro llevan el MISMO icono y `alt=""` a proposito. Los cuatro iconos
   // blancos del repo significan «con licencia», «experiencia», «diseño a medida» y
@@ -1649,7 +1649,7 @@ const SECCION_CONFIGURACIONES =
   // «licensed & insured» junto a «acabado en blanco» no es decorar, es despistar.
   // Una marca de lista repetida es lo que estos cuatro puntos son de verdad.
   + ['Attached to the House', 'Freestanding Over Deck or Pool',
-    'Dark Bronze Powder-Coat Finish', 'White or Champagne Powder-Coat Finish']
+    'Dark Bronze Powder-Coat Finish', 'White Powder-Coat Finish']
     .map((t) => '<li class="list-item-about-page">'
       + '<img loading="lazy" src="/images/Check-List-pergola-white.svg" alt="" class="icon-intro"/>'
       + `<div class="intro-links">${t}</div></li>`).join('')
@@ -1758,7 +1758,7 @@ const GALERIA = {
     'Bronze louvered pergola attached to a tile-roof home, louvers open over a travertine pool deck, with the gutter downspout running down inside the post.'],
   '03': ['Attached to a white soffit, louvers open over a paver patio and outdoor dining area',
     'Louvered roof section built alongside an existing solid patio cover, louvers fully open to the sky over a brick paver dining patio.'],
-  '07': ['Freestanding, champagne frame, white louvers, poolside against a clipped hedge',
+  '07': ['Freestanding, white louvers, poolside against a clipped hedge',
     'Freestanding louvered pergola on a deck at the pool edge, white louvers open, framed by a ficus hedge and palms.'],
   '08': ['Attached, white frame, over the patio of a yellow stucco house',
     'White louvered pergola attached to a yellow stucco home, shading an outdoor dining and grill area beside the pool.'],

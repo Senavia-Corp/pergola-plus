@@ -63,8 +63,11 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         // `Product.material`, y por eso tiene que coincidir palabra por palabra con
         // lo que se pinta. Sin aleacion, sin temple y sin espesor: eso es un hueco.
         material: { etiqueta: 'Frame material', valor: 'Marine-grade powder-coated extruded aluminum' },
-        // Fuente: las fotos (bronce oscuro, blanco, champan) y `div.color-section`.
-        acabado: { etiqueta: 'Frame finish', valor: 'Dark bronze, white or champagne, from the powder-coat palette and wood-grain textures' },
+        // Fuente: las fotos (bronce oscuro, blanco) y `div.color-section`. «Champan» NO:
+        // no esta en la carta (white, desert sand, almond sand, adobe clay, spanish brown,
+        // bronze cedar), no lo dice el cliente en docs/vivo/, y ningun alt de foto lo ve.
+        // Lo introdujo c0a1e1c y lo quito F4a: citaba esta paleta como su propia fuente.
+        acabado: { etiqueta: 'Frame finish', valor: 'Dark bronze or white, from the powder-coat palette and wood-grain textures' },
         // Fuente: el bloque `feature` + la pregunta `material-sensor-lluvia-falla`.
         sensores: { etiqueta: 'Weather sensors', valor: 'Rain and wind sensors close the louvers automatically, and the automation can be switched off' },
         domotica: { etiqueta: 'Smart home', valor: 'Integrates with the main smart home platforms for voice control and scheduling' },
@@ -113,7 +116,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         // Coincide palabra por palabra con la respuesta 4 traducida de la ficha, que
         // es de donde sale `Product.material` en español.
         material: { etiqueta: 'Material de la estructura', valor: 'Aluminio extruido con recubrimiento en polvo de grado marino' },
-        acabado: { etiqueta: 'Acabado de la estructura', valor: 'Bronce oscuro, blanco o champán, de la carta de recubrimiento en polvo y las texturas tipo madera' },
+        acabado: { etiqueta: 'Acabado de la estructura', valor: 'Bronce oscuro o blanco, de la carta de recubrimiento en polvo y las texturas tipo madera' },
         sensores: { etiqueta: 'Sensores', valor: 'Los sensores de lluvia y viento cierran las lamas solos, y la automatización se puede desactivar' },
         domotica: { etiqueta: 'Domótica', valor: 'Se integra con las principales plataformas domóticas, para voz y programación' },
         desague: { etiqueta: 'Desagüe', valor: 'Lamas que encajan entre sí, canalón integrado y bajante oculta por dentro de los pilares' },
