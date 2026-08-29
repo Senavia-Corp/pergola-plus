@@ -53,6 +53,28 @@ const TARJETA = 'class="projects-grid-item w-dyn-item">';
  * leer tiene que romper el build, no desaparecer de la seccion en silencio. Es la
  * misma regla que `partirTrasFaq`.
  */
+/**
+ * Entidades HTML -> texto.
+ *
+ * Los campos se sacan con expresion regular del HTML CRUDO de la galeria, asi que
+ * llegan tal cual: `ECLIPSE Cabanas &amp; FORTE Pergola`. Astro los vuelve a escapar
+ * al pintarlos con `{t.titulo}` —`&amp;amp;`— y lo que se ve es `&amp;`; con el
+ * `text-transform: capitalize` de `.projects-card-h3` encima, `&Amp;`. Salio mirando
+ * la captura de §9, no de una puerta: tres tarjetas de las diez lo llevaban.
+ *
+ * La misma correccion que hace `[slug].astro` con el <h1> del fragmento, y por lo
+ * mismo: quien lee HTML con regex tiene que deshacer el escapado a mano.
+ */
+const decodificar = (s: string) => s
+  .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+  .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
+  .replace(/&nbsp;/g, '\u00a0')
+  .replace(/&quot;/g, '"')
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  // `&amp;` va LA ULTIMA: al reves, `&amp;lt;` se convertiria en `<`.
+  .replace(/&amp;/g, '&');
+
 export function tarjetasProyecto(html: string): TarjetaProyecto[] {
   const trozos = html.split(TARJETA).slice(1);
   if (!trozos.length) {
@@ -67,10 +89,10 @@ export function tarjetasProyecto(html: string): TarjetaProyecto[] {
     return {
       slug: campo(/href="\/project\/([^"]+)"/, 'slug'),
       imagen: campo(/<img src="([^"]+)"[^>]*class="projects-card-image"/, 'imagen'),
-      alt: campo(/<img[^>]*\salt="([^"]*)"[^>]*class="projects-card-image"/, 'alt'),
-      titulo: campo(/<h3 class="projects-card-h3">([\s\S]*?)<\/h3>/, 'titulo'),
-      texto: campo(/<div class="projects-card-text">([\s\S]*?)<\/div>/, 'texto'),
-      etiquetas: [...trozo.matchAll(/<div class="box-detail-projects"><div>([^<]*)<\/div>/g)].map((m) => m[1]!),
+      alt: decodificar(campo(/<img[^>]*\salt="([^"]*)"[^>]*class="projects-card-image"/, 'alt')),
+      titulo: decodificar(campo(/<h3 class="projects-card-h3">([\s\S]*?)<\/h3>/, 'titulo')),
+      texto: decodificar(campo(/<div class="projects-card-text">([\s\S]*?)<\/div>/, 'texto')),
+      etiquetas: [...trozo.matchAll(/<div class="box-detail-projects"><div>([^<]*)<\/div>/g)].map((m) => decodificar(m[1]!)),
     };
   });
 }
