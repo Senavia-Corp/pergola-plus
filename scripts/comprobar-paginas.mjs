@@ -196,10 +196,22 @@ decir(
       conCarrusel.push(rel);
     }
   }
+  // Sin resenas reales el carrusel SOLO puede ser la maqueta de
+  // src/data/reviews-plantilla.json, y solo si cada pagina que lo pinta lleva su
+  // aviso visible. La regla no se afloja: lo que se prohibe sigue siendo un carrusel
+  // sin resenas Y SIN DECIRLO, que es lo indistinguible de un testimonio inventado.
+  //
+  // Que ademas no pueda publicarse lo comprueba check:resenas con
+  // PUBLIC_ES_PRODUCCION=1, donde `conCarrusel` tiene que ser cero.
+  const mudas = [];
+  for (const rel of conCarrusel) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    if (!html.includes('class="resenas-maqueta"')) mudas.push(rel);
+  }
   decir(
-    nResenas > 0 || conCarrusel.length === 0,
-    `sin resenas en el snapshot no se pinta ningun carrusel de resenas (${conCarrusel.length} paginas lo pintan)`,
-    conCarrusel,
+    nResenas > 0 || mudas.length === 0,
+    `sin resenas en el snapshot, todo carrusel es maqueta declarada (${conCarrusel.length} lo pintan, ${mudas.length} sin avisar)`,
+    mudas,
   );
 
   // Y si algun dia hay resenas, cada una tiene que traer su origen: una cita sin

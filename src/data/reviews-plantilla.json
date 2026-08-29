@@ -21,7 +21,11 @@
     "",
     "NO ALIMENTAN LA NOTA. getResumen() lee SNAPSHOT.resenas, no esto, asi que la",
     "media sigue siendo el 5,0 sobre 27 leido de la ficha publica el 18-ago-2026.",
-    "Si estas plantillas contaran, la pagina anunciaria una media inventada sobre 4."
+    "Si estas plantillas contaran, la pagina anunciaria una media inventada sobre 4.",
+    "",
+    "urlOrigen apunta a la FICHA REAL de Google, no a un ancla: `#plantilla` no existe",
+    "en la pagina y check:paginas lo cazo — 32 anclas rotas en 10 paginas. Y para una",
+    "maqueta es lo honesto: el enlace lleva donde llevaria de verdad."
   ],
   "resenas": [
     {
@@ -32,7 +36,7 @@
       "texto": "PLANTILLA DE MAQUETA — no es una resena. Texto corto, para ver como queda una tarjeta con poca altura al lado de otra larga.",
       "idioma": "es",
       "respuestaDueño": null,
-      "urlOrigen": "#plantilla"
+      "urlOrigen": "https://maps.app.goo.gl/jsRrfKeuB4SJDSFP8"
     },
     {
       "id": "plantilla-2",
@@ -42,7 +46,7 @@
       "texto": "PLANTILLA DE MAQUETA — no es una resena. Este texto es largo a proposito para comprobar donde corta la tarjeta, si el carrusel iguala las alturas o las deja desiguales, y que pasa con las comillas y con una linea que llega hasta el borde de la caja sin dejar viuda.",
       "idioma": "es",
       "respuestaDueño": null,
-      "urlOrigen": "#plantilla"
+      "urlOrigen": "https://maps.app.goo.gl/jsRrfKeuB4SJDSFP8"
     },
     {
       "id": "plantilla-3",
@@ -52,7 +56,7 @@
       "texto": "PLANTILLA DE MAQUETA — no es una resena. Lleva cuatro estrellas y respuesta del negocio para ver los dos casos que el componente sabe pintar y que con datos reales tardarian en aparecer.",
       "idioma": "es",
       "respuestaDueño": "PLANTILLA DE MAQUETA — respuesta de ejemplo del negocio, para ver el bloque anidado dentro de la tarjeta.",
-      "urlOrigen": "#plantilla"
+      "urlOrigen": "https://maps.app.goo.gl/jsRrfKeuB4SJDSFP8"
     },
     {
       "id": "plantilla-4",
@@ -62,7 +66,7 @@
       "texto": "MOCKUP PLACEHOLDER — not a review. English text, to check that a card keeps lang=\"en\" while the page is in Spanish, which is what the component promises.",
       "idioma": "en",
       "respuestaDueño": null,
-      "urlOrigen": "#plantilla"
+      "urlOrigen": "https://maps.app.goo.gl/jsRrfKeuB4SJDSFP8"
     }
   ]
 }

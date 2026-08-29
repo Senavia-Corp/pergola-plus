@@ -185,3 +185,25 @@ a.tagline-item-product:hover {
   position: relative;
   z-index: 2;
 }
+
+/* -----------------------------------------------------------------------------
+   Aire entre el texto y la foto de «How It Works»
+
+   `.why-choose-content` es `width: 50%` y `.why-choose-image` ocupa el 50 % derecho,
+   asi que la caja del texto TERMINA exactamente donde empieza la foto: hueco medido
+   0 px, a 1440, a 1200 y a 992. Solo parecia que habia aire porque las lineas no
+   llegaban a llenar el ancho — el `.title-deco` («How It Works»), que si llega, se
+   apoyaba literalmente en el borde de la imagen.
+
+   `clamp` y no un valor fijo: a 992 px la columna es de 496 px y 72 px de margen se
+   comerian el texto; a 1440 un margen de 32 px se queda corto al lado de una foto a
+   sangre. Escala entre los dos.
+
+   Solo por encima de 767 px: por debajo, Webflow apila la imagen y el margen
+   derecho no separaria nada, solo estrecharia el texto.
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 768px) {
+  #how-it-works .why-choose-content {
+    padding-right: clamp(2rem, 4vw, 4.5rem);
+  }
+}
