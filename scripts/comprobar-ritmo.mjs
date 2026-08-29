@@ -27,8 +27,16 @@
  *
  * Esto es estatico, sin navegador: se leen los hijos de `section.body-page` de cada
  * ficha construida y se resuelve el tono de cada uno contra el CSS CONSTRUIDO, no
- * contra una tabla escrita a mano que se quedaria vieja. Comprobado contra el pixel
- * pintado con Playwright: los 20 mapas coinciden.
+ * contra una tabla escrita a mano que se quedaria vieja.
+ *
+ * Contrastado con el pixel pintado (Playwright, 1440, muestreando los dos canalones
+ * a 25/50/75 % del alto de cada banda): coinciden banda a banda en claro/oscuro y en
+ * los pares que salen. La UNICA diferencia es que la sonda de pixel lee
+ * `why-choose-section` como foto —su contenido llega hasta los canalones y el
+ * muestreo ve variacion— mientras que aqui sale claro, que es lo que declara su
+ * fondo. No cambia ningun veredicto: va entre dos bandas oscuras en las diez fichas,
+ * asi que ni una ni otra lectura produce par repetido. Esta puerta resuelve el FONDO
+ * de la banda, que es lo que decide su turno; el contenido de encima no.
  *
  * ponytail: sin navegador, igual que comprobar-carruseles.mjs y por el mismo motivo.
  * Meter Playwright en una puerta son ~300 MB y un navegador mas que mantener, y el
