@@ -69,3 +69,6 @@ auditoria-imagenes/comparativas/
 # Montajes de revision de los fondos de CTA. Se regeneran con integrar-cta.mjs y
 # solo sirven para mirarlos una vez, igual que comparativas/.
 auditoria-imagenes/cta/
+
+# Montajes de iconos: salida de integrar-iconos.mjs, se regenera.
+auditoria-imagenes/iconos/
