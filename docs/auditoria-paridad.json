@@ -27,8 +27,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1993,
-      "palabrasG": 2338,
-      "deltaTexto": 0.1731058705469142
+      "palabrasG": 2132,
+      "deltaTexto": 0.06974410436527848
     },
     {
       "ruta": "/about-us/about-us",
@@ -146,8 +146,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 399,
-      "palabrasG": 675,
-      "deltaTexto": 0.6917293233082706
+      "palabrasG": 469,
+      "deltaTexto": 0.17543859649122806
     },
     {
       "ruta": "/about-us/where-we-work",
@@ -432,8 +432,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 738,
-      "palabrasG": 1014,
-      "deltaTexto": 0.37398373983739835
+      "palabrasG": 808,
+      "deltaTexto": 0.0948509485094851
     },
     {
       "ruta": "/contact-us/schedule-a-visit",
@@ -2042,8 +2042,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 2836,
-      "deltaTexto": 0.6421540243196294
+      "palabrasG": 2630,
+      "deltaTexto": 0.5228720324261725
     },
     {
       "ruta": "/products/motorized-screens",
@@ -2233,8 +2233,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1651,
-      "palabrasG": 3104,
-      "deltaTexto": 0.8800726832222895
+      "palabrasG": 2898,
+      "deltaTexto": 0.7552998182919443
     },
     {
       "ruta": "/products/sukkha",
