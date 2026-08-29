@@ -179,6 +179,31 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
       { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
     ],
   },
+
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Pergolas de estructura abierta
+  //
+  // `lluvia` es una fila AFIRMADA que dice que el producto no hace algo. Va en el
+  // grafo a proposito: es tan especificacion como las demas, y es la que evita la
+  // llamada de agosto.
+  // ──────────────────────────────────────────────────────────────────────────────
+  'open-air-pergolas': {
+    filas: [
+      'sombra', 'lluvia', 'montaje', 'material', 'acabado', 'iluminacion',
+      'privacidad', 'mantenimiento', 'plazo', 'inversion', 'donde',
+    ],
+    enGrafo: ['sombra', 'lluvia', 'montaje', 'material', 'acabado', 'iluminacion', 'privacidad', 'mantenimiento'],
+    material: 'material',
+    huecos: ['medidas', 'viento', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'compensa', ruta: '/post/is-a-louvered-roof-pergola-worth-it-in-florida', junto: 'sombra' },
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'plazo' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
 };
 
 /**

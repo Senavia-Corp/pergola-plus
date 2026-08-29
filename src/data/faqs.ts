@@ -99,6 +99,13 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'material-policarbonato-ruido',
     'pergola-policarbonato-vs-macizo',
   ],
+  // Solo DOS: el tema no tiene mas preguntas propias, y las cinco migradas son
+  // «Definitely», «Yes» y «Yes». Dos verdaderas valen mas que tres con una prestada:
+  // la lista no tiene que medir lo mismo en las diez fichas.
+  'open-air-pergolas': [
+    'pergola-cuanta-sombra',
+    'pergola-lluvia-abierta',
+  ],
 };
 
 export interface Faq {

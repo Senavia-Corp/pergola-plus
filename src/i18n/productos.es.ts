@@ -391,6 +391,110 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas abiertas de aluminio | Sur de Florida',
     description: 'Pérgolas de aluminio de estructura abierta que definen el patio sin cortar la brisa ni las vistas al cielo, sin mantenimiento.',
     dic: {
+      // ── Chips del hero ────────────────────────────────────────────────────────
+      'Open To The Breeze':
+        'Abierta a la brisa',
+      'No Staining, No Rot':
+        'Sin barnizar y sin pudrirse',
+
+      // ── Los alt de las cuatro fotos grandes ───────────────────────────────────
+      'Open-slat aluminum pergola in dark bronze attached along a white Mediterranean home, its rafters throwing striped shade over the pool terrace.':
+        'Pérgola de aluminio de lamas abiertas en bronce oscuro, adosada a lo largo de una casa mediterránea blanca, con sus travesaños proyectando sombra rayada sobre la terraza de la piscina.',
+      'Sand-coloured open-slat pergola attached over a terrace with a wall-mounted television, framed by palms against a pink stucco house.':
+        'Pérgola de lamas abiertas color arena adosada sobre una terraza con televisión en la pared, enmarcada por palmeras contra una casa de estuco rosa.',
+      'White open-slat pergola attached to a brick home over a grill deck, the rafters casting a striped shadow across the lawn beyond.':
+        'Pérgola blanca de lamas abiertas adosada a una casa de ladrillo sobre una terraza con parrilla, con los travesaños proyectando una sombra rayada sobre el césped del fondo.',
+      'White open-slat pergola over an outdoor kitchen and dining table by a pool, with string lights run between the rafters.':
+        'Pérgola blanca de lamas abiertas sobre una cocina exterior y una mesa de comedor junto a la piscina, con guirnaldas de luces tendidas entre los travesaños.',
+
+      // ── §4 ────────────────────────────────────────────────────────────────────
+      'Two Ways We Mount It, And What You Add To It':
+        'Dos formas de montarla, y qué se le añade',
+      'An open-air pergola is a frame, and what you put in the frame is most of the decision. Where it lands comes first — attached to the house, or freestanding out on the deck or the lawn. After that it is the slats themselves, the privacy screen on the side that needs one, and whether the lighting runs inside the beams. Everything else is engineering for your site.':
+        'Una pérgola de estructura abierta es un marco, y lo que se pone en ese marco es casi toda la decisión. Primero, dónde se apoya: adosada a la casa o exenta, en la terraza o en el césped. Después vienen las propias lamas, la celosía en el lado que la necesite y si la iluminación va por dentro de las vigas. Todo lo demás es cálculo para su parcela.',
+      'Attached to the House':
+        'Adosada a la casa',
+      'Freestanding Over Deck or Lawn':
+        'Exenta sobre terraza o césped',
+      'Slatted Privacy Screen':
+        'Celosía de privacidad',
+      'Lighting Run Inside The Beams':
+        'Iluminación por dentro de las vigas',
+
+      // ── §5 ────────────────────────────────────────────────────────────────────
+      'What An Open Roof Gives You, And What It Does Not':
+        'Lo que le da un techo abierto, y lo que no',
+      'An open-air pergola is the one with nothing over you. That is the whole point and it is also the whole trade. Four things decide whether it is the right one: how much shade it actually casts, what happens when it rains, where the lighting goes, and what it is made of.':
+        'La pérgola de estructura abierta es la que no tiene nada encima. Ese es todo su sentido y es también todo el intercambio. Hay cuatro cosas que deciden si es la suya: cuánta sombra da de verdad, qué pasa cuando llueve, por dónde va la iluminación y de qué está hecha.',
+      'How Much Shade It Actually Casts':
+        'Cuánta sombra da de verdad',
+      'Less than people expect at midday and more in the morning and the evening, because fixed slats block sun by angle rather than by coverage. Slat depth and spacing set that trade-off, and we size them for the direction your patio faces. If you want reliable shade at two in the afternoon in July, say so now — that is a louvered roof, not this one.':
+        'Menos de lo que la gente espera al mediodía y más por la mañana y por la tarde, porque las lamas fijas cortan el sol por ángulo y no por cobertura. El canto y la separación de las lamas fijan ese equilibrio, y los dimensionamos según hacia dónde da su patio. Si lo que quiere es sombra segura a las dos de la tarde en julio, dígalo ahora: eso es un techo de lamas orientables, no este.',
+      'What Happens When It Rains':
+        'Qué pasa cuando llueve',
+      'It sheds nothing. An open slat roof is not a rain roof, and that is the trade you make for the light and the airflow. If you want to keep using the space through a Florida afternoon storm, the answer is a louvered roof that closes, an insulated solid roof, or a retractable. We would rather lose the sale here than have you find out in August.':
+        'No para nada de agua. Un techo de lamas abierto no es un techo de lluvia, y ese es el intercambio que hace por la luz y la ventilación. Si quiere seguir usando el espacio durante una tormenta de tarde en Florida, la respuesta es un techo de lamas que se cierre, una cubierta maciza aislada o un toldo retráctil. Preferimos perder la venta aquí a que se entere usted en agosto.',
+      'Where The Lighting Goes':
+        'Por dónde va la iluminación',
+      'Inside the beams. The structural sections take the wiring, so integrated LED runs along the rafters instead of being clipped underneath, and the space works after dark without a single visible cable. It is decided at the drawing stage, because the runs have to be in before the frame goes up.':
+        'Por dentro de las vigas. Los perfiles estructurales llevan el cableado, así que el LED integrado corre por los travesaños en vez de ir grapado por debajo, y el espacio funciona de noche sin un solo cable a la vista. Se decide en la fase de planos, porque los tendidos tienen que estar antes de montar la estructura.',
+      'It Is A Permitted Structure':
+        'Es una estructura con permiso',
+      'Extruded, powder-coated aluminium, engineered and permitted for its own address. It does not rot, it does not warp and it never needs staining — which is the real answer to the maintenance question, rather than the word "zero". The post bases and caps are where the architectural detail lives.':
+        'Aluminio extruido con recubrimiento en polvo, calculado y permisado para su propia dirección. No se pudre, no se alabea y nunca hay que barnizarlo, que es la respuesta de verdad a la pregunta del mantenimiento, mejor que la palabra «cero». Las bases y los remates de los pilares son donde vive el detalle arquitectónico.',
+
+      // ── Pies de galería ───────────────────────────────────────────────────────
+      'A long attached run over the lounge and fire bowl':
+        'Un tramo largo adosado sobre el salón y el brasero',
+      'Dark bronze, with a slatted screen behind the kitchen':
+        'Bronce oscuro, con una celosía detrás de la cocina',
+      'Attached to the house, over the trellis and the planters':
+        'Adosada a la casa, sobre el enrejado y las macetas',
+      'Looking up: rafters, trellis and the tile roof behind':
+        'Mirando hacia arriba: travesaños, enrejado y el tejado de teja detrás',
+      'Freestanding by the pool, against the bamboo hedge':
+        'Exenta junto a la piscina, contra el seto de bambú',
+      'White, with privacy screens along the lap pool':
+        'Blanca, con celosías a lo largo de la piscina de nado',
+
+      // ── Los alt de la galería ─────────────────────────────────────────────────
+      'Long white open-slat pergola attached over a lounge terrace with a fire bowl and a pool table, on patterned tile against a pink stucco house.':
+        'Pérgola blanca de lamas abiertas, larga y adosada, sobre una terraza de estar con brasero y mesa de billar, en pavimento con dibujo contra una casa de estuco rosa.',
+      'Dark bronze open-slat pergola over an outdoor kitchen, with a slatted privacy screen closing the side against a tall modern house.':
+        'Pérgola de lamas abiertas en bronce oscuro sobre una cocina exterior, con una celosía cerrando el lateral contra una casa moderna de gran altura.',
+      'Dark wood-look open-slat pergola attached to a white home above French doors, with garden trellis panels and planted pots below.':
+        'Pérgola de lamas abiertas con textura tipo madera oscura, adosada a una casa blanca sobre las puertas francesas, con paneles de enrejado y macetas debajo.',
+      'Looking up at the rafters of a dark open-slat pergola against a white stucco wall, with trellis panels and hanging glass ornaments.':
+        'Vista hacia arriba de los travesaños de una pérgola oscura de lamas abiertas contra una pared de estuco blanco, con paneles de enrejado y adornos de vidrio colgando.',
+      'Freestanding dark open-slat pergola sheltering a sofa beside a pool, backed by a tall bamboo hedge.':
+        'Pérgola exenta de lamas abiertas en color oscuro cubriendo un sofá junto a la piscina, con un seto alto de bambú detrás.',
+      'White open-slat pergola with slatted privacy screens running alongside a lap pool, planters at the base of the posts.':
+        'Pérgola blanca de lamas abiertas con celosías de privacidad a lo largo de una piscina de nado, con maceteros al pie de los pilares.',
+      'Freestanding white open-slat pergola with a louvered privacy screen on one side, over a fire table on a lawn.':
+        'Pérgola blanca exenta de lamas abiertas con una celosía de privacidad en un lado, sobre una mesa de fuego en el césped.',
+      'Dark open-slat pergola attached to a grey house over a timber deck, seen from below with the rafters against the sky.':
+        'Pérgola oscura de lamas abiertas adosada a una casa gris sobre una terraza de madera, vista desde abajo con los travesaños recortados contra el cielo.',
+
+      // ── Vídeo, CTA y comparativo ──────────────────────────────────────────────
+      'Shade Without A Roof':
+        'Sombra sin techo',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at which way it faces, and size the slats around the hours you actually use it.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos su espacio, miramos hacia dónde da y dimensionamos las lamas según las horas a las que lo usa de verdad.',
+      'An open-air pergola is the one with nothing over you. If you want a roof that closes when it rains, one that never moves, one that lets the light through, or one that pays for itself, these are the other four we build.':
+        'La pérgola de estructura abierta es la que no tiene nada encima. Si quiere un techo que se cierre cuando llueve, uno que no se mueva nunca, uno que deje pasar la luz o uno que se pague solo, estos son los otros cuatro que construimos.',
+
+      // ── Las cinco preguntas del FAQ, ya sin numerar ───────────────────────────
+      'Why choose an open-air pergola?':
+        '¿Por qué elegir una pérgola de estructura abierta?',
+      'Are they made of wood or metal?':
+        '¿Son de madera o de metal?',
+      'Can I add custom LED lighting?':
+        '¿Puedo añadir iluminación LED a medida?',
+      'Do they boost property value?':
+        '¿Revalorizan la vivienda?',
+      'Are they built to Florida code?':
+        '¿Se construyen según la normativa de Florida?',
+
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

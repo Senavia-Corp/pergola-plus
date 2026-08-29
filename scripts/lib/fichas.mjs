@@ -578,6 +578,114 @@ export const FICHAS = {
       texto: 'A polycarbonate roof keeps the space bright and dry. If you would rather have a roof that is quieter and cooler underneath, one that opens and shuts, or one with nothing over you at all, these are the other three we build.',
     },
   },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Pergolas de estructura abierta
+  // ══════════════════════════════════════════════════════════════════════════════
+  'open-air-pergolas': {
+    cms: '/cms-img/products/open-air-pergolas',
+    galeria: { prefijo: 'gallery-open-air-pergola-builders-south-florida-', diapositivas: 10 },
+
+    // «Maximum Cooling Airflow» y «Zero Maintenance» son un superlativo y un absoluto,
+    // los dos sin cifra. El segundo ademas lo desmiente a medias la propia respuesta 2
+    // de la ficha, que dice lo que SI se sostiene: el aluminio no se pudre, no se
+    // alabea y no hay que barnizarlo. Eso no es cero mantenimiento, es no tener ESE
+    // mantenimiento — y dicho asi es mas creible y sigue siendo la ventaja.
+    chips: [
+      { viejo: 'Timeless Elegance', nuevo: 'Timeless Elegance', destino: '#features' },
+      { viejo: 'Maximum Cooling Airflow', nuevo: 'Open To The Breeze', destino: '#how-it-works' },
+      { viejo: 'Zero Maintenance', nuevo: 'No Staining, No Rot', destino: '#specs' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Open-air pergola builders in South Florida creating architectural aluminum pergolas that define outdoor living spaces with modern design." loading="lazy" src="/images/cliente/open-air-pergolas.avif"',
+        nuevo: 'alt="Open-slat aluminum pergola in dark bronze attached along a white Mediterranean home, its rafters throwing striped shade over the pool terrace." loading="lazy" src="/images/cliente/open-air-pergolas.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-open-air-pergola-builders-south-florida.avif" alt="Open-air pergola builders in South Florida creating architectural aluminum pergolas that define outdoor living spaces with modern design."',
+        nuevo: '<img src="{CMS}/cover-open-air-pergola-builders-south-florida.avif" alt="Sand-coloured open-slat pergola attached over a terrace with a wall-mounted television, framed by palms against a pink stucco house."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Open-air pergola builders in South Florida creating architectural aluminum pergolas that enhance outdoor spaces with shade, airflow, and modern design." loading="lazy" src="{CMS}/intro-open-air-pergola-builders-south-florida.avif"',
+        nuevo: 'alt="White open-slat pergola attached to a brick home over a grill deck, the rafters casting a striped shadow across the lawn beyond." loading="lazy" src="{CMS}/intro-open-air-pergola-builders-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-luxury-pergola-builders-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-luxury-pergola-builders-south-florida.avif" loading="lazy" alt="White open-slat pergola over an outdoor kitchen and dining table by a pool, with string lights run between the rafters."' },
+    ],
+
+    configuraciones: {
+      foto: '10',
+      alt: 'Freestanding white open-slat pergola with a louvered privacy screen on one side, over a fire table on a lawn.',
+      rotulo: 'Configurations',
+      titulo: 'Two Ways We Mount It, And What You Add To It',
+      texto: 'An open-air pergola is a frame, and what you put in the frame is most of the decision. Where it lands comes first — attached to the house, or freestanding out on the deck or the lawn. After that it is the slats themselves, the privacy screen on the side that needs one, and whether the lighting runs inside the beams. Everything else is engineering for your site.',
+      bullets: ['Attached to the House', 'Freestanding Over Deck or Lawn',
+        'Slatted Privacy Screen', 'Lighting Run Inside The Beams'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    // El segundo hecho es el que decide la compra, y dice que NO. `pergola-lluvia-abierta`:
+    // «an open slat roof sheds nothing. That is the trade for the light and airflow».
+    // Publicarlo aqui pierde alguna venta y gana las que importan: el que lo descubre
+    // despues del montaje no vuelve.
+    comoFunciona: {
+      foto: '07',
+      alt: 'Dark open-slat pergola attached to a grey house over a timber deck, seen from below with the rafters against the sky.',
+      rotulo: 'How It Works',
+      titulo: 'What An Open Roof Gives You, And What It Does Not',
+      texto: 'An open-air pergola is the one with nothing over you. That is the whole point and it is also the whole trade. Four things decide whether it is the right one: how much shade it actually casts, what happens when it rains, where the lighting goes, and what it is made of.',
+      celdas: [
+        ['/images/pp-icon-sombra.svg', 'How Much Shade It Actually Casts',
+          'Less than people expect at midday and more in the morning and the evening, because fixed slats block sun by angle rather than by coverage. Slat depth and spacing set that trade-off, and we size them for the direction your patio faces. If you want reliable shade at two in the afternoon in July, say so now — that is a louvered roof, not this one.'],
+        ['/images/pp-icon-lluvia.svg', 'What Happens When It Rains',
+          'It sheds nothing. An open slat roof is not a rain roof, and that is the trade you make for the light and the airflow. If you want to keep using the space through a Florida afternoon storm, the answer is a louvered roof that closes, an insulated solid roof, or a retractable. We would rather lose the sale here than have you find out in August.'],
+        ['/images/pp-icon-cableado.svg', 'Where The Lighting Goes',
+          'Inside the beams. The structural sections take the wiring, so integrated LED runs along the rafters instead of being clipped underneath, and the space works after dark without a single visible cable. It is decided at the drawing stage, because the runs have to be in before the frame goes up.'],
+        ['/images/pp-icon-permiso.svg', 'It Is A Permitted Structure',
+          'Extruded, powder-coated aluminium, engineered and permitted for its own address. It does not rot, it does not warp and it never needs staining — which is the real answer to the maintenance question, rather than the word "zero". The post bases and caps are where the architectural detail lives.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Seis obras. Se van cuatro: la `-02` ES LA FOTO DEL HERO (distancia de Hamming 1)
+    // y la `-08` ES LA DE LA INTRO (distancia 0) — publicarlas abajo las enseñaria dos
+    // veces en la misma pagina—, y la `-07` y la `-10` pasan a §5 y §4.
+    pies: {
+      '01': ['A long attached run over the lounge and fire bowl',
+        'Long white open-slat pergola attached over a lounge terrace with a fire bowl and a pool table, on patterned tile against a pink stucco house.'],
+      '03': ['Dark bronze, with a slatted screen behind the kitchen',
+        'Dark bronze open-slat pergola over an outdoor kitchen, with a slatted privacy screen closing the side against a tall modern house.'],
+      '04': ['Attached to the house, over the trellis and the planters',
+        'Dark wood-look open-slat pergola attached to a white home above French doors, with garden trellis panels and planted pots below.'],
+      '05': ['Looking up: rafters, trellis and the tile roof behind',
+        'Looking up at the rafters of a dark open-slat pergola against a white stucco wall, with trellis panels and hanging glass ornaments.'],
+      '06': ['Freestanding by the pool, against the bamboo hedge',
+        'Freestanding dark open-slat pergola sheltering a sofa beside a pool, backed by a tall bamboo hedge.'],
+      '09': ['White, with privacy screens along the lap pool',
+        'White open-slat pergola with slatted privacy screens running alongside a lap pool, planters at the base of the posts.'],
+    },
+
+    faqNumeradas: [
+      'Why choose an open-air pergola?',
+      'Are they made of wood or metal?',
+      'Can I add custom LED lighting?',
+      'Do they boost property value?',
+      'Are they built to Florida code?',
+    ],
+
+    video: 'Shade Without A Roof',
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at which way it faces, and size the slats around the hours you actually use it.',
+
+    comparar: {
+      productos: ['louvered', 'insulated', 'polycarbonate', 'solar'],
+      rotulo: 'Other Roofs',
+      titulo: 'Compare The Four Pergola Roofs',
+      texto: 'An open-air pergola is the one with nothing over you. If you want a roof that closes when it rains, one that never moves, one that lets the light through, or one that pays for itself, these are the other four we build.',
+    },
+  },
 };
 
 /** La ruta de una foto de galeria de esa ficha. */

@@ -289,6 +289,54 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         estimador: 'Price your own project with our estimator',
       },
     },
+
+    'open-air-pergolas': {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: la pregunta `pergola-cuanta-sombra`. Sin porcentaje de sombra: eso
+        // depende del reparto de lamas y de la orientacion, y no lo publica nadie.
+        sombra: { etiqueta: 'Shade', valor: 'Fixed slats block sun by angle: less at midday, more morning and evening. Depth and spacing are sized for the direction your patio faces' },
+        // Fuente: la pregunta `pergola-lluvia-abierta`, verbatim en su sentido. Es una
+        // fila que dice que NO, y es la mas util de la seccion.
+        lluvia: { etiqueta: 'In the rain', valor: 'It sheds nothing. An open slat roof is not a rain roof — that is the trade for the light and the airflow' },
+        montaje: { etiqueta: 'Mounting', valor: 'Attached to the house, or freestanding over a deck or a lawn' },
+        // Fuente: la respuesta 2 de la ficha, TEXTUAL en su sustancia.
+        material: { etiqueta: 'Frame material', valor: 'Extruded powder-coated aluminum, never wood' },
+        acabado: { etiqueta: 'Frame finish', valor: 'From the powder-coat palette, plain or in a wood-look texture' },
+        // Fuente: «Integrated Lighting Options» del cliente y la respuesta 3.
+        iluminacion: { etiqueta: 'Lighting', valor: 'LED can be integrated into the beams and rafters, with the wiring inside the structure' },
+        // Fuente: las fotos de obra, en las que aparece en cuatro de las diez.
+        privacidad: { etiqueta: 'Privacy screens', valor: 'Slatted screens can close one or more sides where the space needs it' },
+        // Fuente: la respuesta 2 de la ficha. «Cero mantenimiento» NO: lo que se
+        // sostiene es que no se pudre, no se alabea y no hay que barnizarlo.
+        mantenimiento: { etiqueta: 'Maintenance', valor: 'It does not rot, warp or need staining. An occasional rinse is the routine' },
+        plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
+        // Fuente: la GUIA DE COSTES PUBLICADA POR LA EMPRESA, /post/pergola-cost-south-florida:
+        // «1. Open-Air Aluminum Pergola — Estimated Range: $85 – $110 per sq ft installed».
+        // Misma cifra que el estimador con `fuente: 'publicada'`. El «estimated» se queda.
+        inversion: { etiqueta: 'Investment', valor: 'An estimated $85 to $110 per square foot installed, from our own published South Florida cost guide' },
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        medidas: 'Maximum clear span, slat depth and slat spacing for your layout. We size every frame from the structural calculation for your site, and we do not publish a catalogue span.',
+        viento: 'Design wind speed, design pressure and the Miami-Dade NOA number. Each structure is engineered and permitted for its own address; we are not publishing a single figure until it is the one on your drawings.',
+        aleacion: 'Aluminium alloy, temper and wall thickness. This is what separates two pergolas that look identical, and it belongs on the engineering, not in a marketing line.',
+        garantia: 'Warranty term, and how it splits between structure and finish. Those are two different warranties and we are not going to blur them into one word.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+      },
+      enlaces: {
+        compensa: 'Is a louvered roof worth it in Florida?',
+        plazo: 'How long a pergola installation takes in Florida',
+        permiso: 'When a pergola needs a permit in South Florida',
+        coste: 'What a pergola actually costs in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
   },
 
   es: {
@@ -434,6 +482,42 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
       },
       enlaces: {
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
+        coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    'open-air-pergolas': {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        sombra: { etiqueta: 'Sombra', valor: 'Las lamas fijas cortan el sol por ángulo: menos al mediodía, más por la mañana y por la tarde. El canto y la separación se dimensionan según hacia dónde da su patio' },
+        lluvia: { etiqueta: 'Con lluvia', valor: 'No para nada de agua. Un techo de lamas abierto no es un techo de lluvia: ese es el intercambio por la luz y la ventilación' },
+        montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa, o exenta sobre una terraza o el césped' },
+        material: { etiqueta: 'Material de la estructura', valor: 'Aluminio extruido con recubrimiento en polvo, nunca madera' },
+        acabado: { etiqueta: 'Acabado de la estructura', valor: 'De la carta de recubrimiento en polvo, liso o con textura tipo madera' },
+        iluminacion: { etiqueta: 'Iluminación', valor: 'Se puede integrar LED en las vigas y en los travesaños, con el cableado por dentro de la estructura' },
+        privacidad: { etiqueta: 'Celosías', valor: 'Se pueden cerrar uno o más lados con celosías donde el espacio lo pida' },
+        mantenimiento: { etiqueta: 'Mantenimiento', valor: 'No se pudre, no se alabea y no hay que barnizarla. Un enjuague de vez en cuando es toda la rutina' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; el montaje en sí, unos pocos días cuando el material ya está' },
+        inversion: { etiqueta: 'Inversión', valor: 'Una banda estimada de 85 a 110 dólares por pie cuadrado instalado, de nuestra propia guía de costes del sur de Florida' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        medidas: 'Luz máxima sin columna intermedia, canto de lama y separación para su distribución. Cada estructura se dimensiona a partir del cálculo de su parcela, y no publicamos una luz de catálogo.',
+        viento: 'Velocidad de viento de diseño, presión de diseño y número de NOA de Miami-Dade. Cada estructura se calcula y se permisa para su propia dirección; no vamos a publicar ni una cifra hasta que sea la de sus planos.',
+        aleacion: 'Aleación del aluminio, temple y espesor de pared. Es lo que separa dos pérgolas que parecen iguales, y su sitio es el cálculo, no una línea de marketing.',
+        garantia: 'Años de garantía, y cómo se reparte entre estructura y acabado. Son dos garantías distintas y no las vamos a resumir en una palabra.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+      },
+      enlaces: {
+        compensa: '¿Compensa un techo de lamas en Florida?',
         plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
         permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
         coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
