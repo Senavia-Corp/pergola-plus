@@ -348,7 +348,12 @@ export const FICHAS = {
       'Are they permitted in Broward?',
     ],
 
-    video: 'See It From Underneath',
+    // SE RETIRA. Esta es la unica ficha con proyectos etiquetados de las cinco hechas
+    // —nueve—, asi que §9 «One We Built» renderiza, y ProyectoDeFicha.astro dice por
+    // escrito que §9 SUSTITUYE al video en vez de sumarse. Con los dos, la pagina
+    // encadenaba dos bloques oscuros y perdia la alternancia. Y de paso se va el
+    // <iframe> de cdn.embedly.com, la unica dependencia externa que le quedaba.
+    video: false,
 
     ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the roof and its ceiling around both.',
 

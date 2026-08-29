@@ -1913,15 +1913,31 @@ function recomponerFicha(s, slug) {
   //
   // La cadena vieja sigue viva en otras fichas, asi que su clave se queda en
   // `comun.es.ts`: borrarla las dejaria en ingles.
+  // El campo `video` del registro tiene TRES estados y no dos, y la diferencia importa:
+  //
+  //   null      el fragmento NO trae video-section  (cabanas, screen-enclosures, sukkha)
+  //   false     lo trae y SE RETIRA, porque §9 «One We Built» ocupa su turno oscuro
+  //   'Titular' lo trae y se conserva, retitulado
+  //
+  // El caso `false` lo pide por escrito src/components/ProyectoDeFicha.astro: el dia
+  // que un proyecto quede etiquetado, §9 no se SUMA a la pagina, SUSTITUYE al video.
+  // La ficha alterna claro y oscuro sin un solo par repetido, y añadir un bloque rompe
+  // esa alternancia. Los dos hacen el mismo trabajo —demostrar obra propia—, el video
+  // es un <iframe> de cdn.embedly.com (la unica dependencia externa que le queda a la
+  // pagina) y un proyecto propio con ciudad y sistema es mejor prueba que un generico.
   const H2_VIDEO = '<h2>Contractors Proudly Serving South Florida</h2>';
   const hayVideo = s.includes('<div class="video-section');
-  if (hayVideo !== Boolean(ficha.video)) {
+  const declarado = ficha.video !== null;
+  if (hayVideo !== declarado) {
     throw new Error(
       `[ficha] ${slug}: el fragmento ${hayVideo ? 'SI' : 'NO'} trae video-section y el registro`
-      + ` dice que ${ficha.video ? 'SI' : 'NO'}. Uno de los dos miente.`,
+      + ` dice que ${declarado ? 'SI' : 'NO'}. Uno de los dos miente.`,
     );
   }
-  if (ficha.video) {
+  if (ficha.video === false) {
+    const b = recorte(s, '<div class="video-section', 'div', 'el bloque de video');
+    s = s.slice(0, b.inicio) + s.slice(b.fin);
+  } else if (ficha.video) {
     s = cambiar(s, H2_VIDEO, `<h2>${ficha.video}</h2>`, 'el titular del video');
     s = cambiar(s,
       '<div class="video-cta"><a href="/contact-us/get-a-quote" class="button secundary w-button">Get A Quote</a><a href="/contact-us/schedule-a-visit" class="button tertiary w-button">Schedule A Visit</a></div>',
