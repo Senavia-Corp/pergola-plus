@@ -234,6 +234,134 @@ export const FICHAS = {
       texto: 'A louvered roof is the one that moves. If you would rather have a roof that never moves, one that lets the light through, or one that pays for itself, these are the other three we build.',
     },
   },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Cubierta maciza aislada
+  // ══════════════════════════════════════════════════════════════════════════════
+  'solid-roof-pergolas': {
+    cms: '/cms-img/products/solid-roof-pergolas',
+    galeria: {
+      prefijo: 'gallery-insulated-roof-pergola-builders-south-florida-',
+      diapositivas: 10,
+    },
+
+    // «Cools Patio Drastically» era un superlativo sin una sola cifra, y quedaba a una
+    // pantalla de una §8 que dice por escrito que no publica ninguna. Se sustituye por
+    // el MECANISMO, que es lo que si se sostiene: el panel lleva un nucleo aislante y
+    // por eso debajo se esta mas fresco. Fuente: la pregunta `material-techo-aislado`
+    // («keeps the underside cooler than a bare metal roof») y la carta del cliente
+    // («high-density insulated panels significantly minimize radiant heat»). El dia
+    // que haya un delta de temperatura medido, vuelve con el numero.
+    //
+    // Los otros dos son hechos comprobables —se ven en las fotos y los dice el
+    // cliente— y se quedan tal cual.
+    chips: [
+      { viejo: 'Cools Patio Drastically', nuevo: 'Insulated Panel, Cooler Underneath', destino: '#how-it-works' },
+      { viejo: 'Ready for Fans &amp; TVs', nuevo: 'Ready for Fans &amp; TVs', destino: '#features' },
+      { viejo: 'Hidden Gutter System', nuevo: 'Hidden Gutter System', destino: '#specs' },
+    ],
+
+    // El hero y la portada del FAQ traian LITERALMENTE la misma cadena, igual que en el
+    // piloto; la intro y el «swatch» venian con `alt=""`.
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Insulated roof pergola builders in South Florida designing custom aluminum patio covers engineered for heat reduction and all-weather protection." loading="lazy" src="/images/cliente/solid-roof-pergolas.avif"',
+        nuevo: 'alt="Attached insulated roof pergola with a dark bronze frame and ceiling fans, shading an outdoor kitchen and dining terrace beside a pool." loading="lazy" src="/images/cliente/solid-roof-pergolas.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-insulated-roof-pergola-builders-south-florida.avif" alt="Insulated roof pergola builders in South Florida designing custom aluminum patio covers engineered for heat reduction and all-weather protection."',
+        nuevo: '<img src="{CMS}/cover-insulated-roof-pergola-builders-south-florida.avif" alt="Freestanding insulated roof pergola with a dark bronze frame over a lawn terrace, with a hanging wicker chair and tropical planting around it."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Insulated roof pergola builders in South Florida designing custom aluminum patio covers for maximum shade, heat reduction, and year-round outdoor comfort." loading="lazy" src="{CMS}/intro-insulated-roof-pergola-builders-south-florida.avif"',
+        nuevo: 'alt="Underside of an insulated roof: a wood-look slatted ceiling with a large fan and recessed downlights, looking out over a lake through a slatted privacy screen." loading="lazy" src="{CMS}/intro-insulated-roof-pergola-builders-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-insulated-roof-pergola-contractors-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-insulated-roof-pergola-contractors-south-florida.avif" loading="lazy" alt="Attached insulated roof with a warm wood-look soffit and a dark bronze fascia, over an outdoor kitchen on a travertine terrace by the water."' },
+    ],
+
+    // §4. Los dos ejes salen de LAS FOTOS y de la carta del cliente, y de nada mas:
+    // adosada frente a exenta (cinco y cuatro fotos respectivamente), y las dos
+    // familias de techo —liso de la carta o con textura tipo madera, que el cliente
+    // llama «Textured Wood-Like Finishes»—. Ni una luz maxima, ni un espesor de panel,
+    // ni un numero de modulos: nada de eso esta medido en el repo.
+    configuraciones: {
+      foto: '06',
+      alt: 'Freestanding insulated roof pergola with a dark bronze frame and a plain light ceiling, over a paved terrace with lounge seating on a lawn.',
+      rotulo: 'Configurations',
+      titulo: 'Two Ways We Mount It, Two Ceilings',
+      texto: 'Every solid roof we build is drawn for one house. The two decisions that change the project are where it lands and what you see when you look up: attached to the structure of the house, or freestanding over a patio or a lawn. From there the ceiling is either plain from the powder-coat palette or a wood-look texture. Everything after that is engineering for your site.',
+      bullets: ['Attached to the House', 'Freestanding Over Patio or Lawn',
+        'Plain Powder-Coat Ceiling', 'Wood-Look Textured Ceiling'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    // §5. Los cuatro hechos salen de cuatro preguntas de la biblioteca, tres de ellas
+    // escritas en esta sesion porque el tema solo tenia UNA propia. Ninguno afirma un
+    // resultado normativo ni una cifra: el panel, el cableado, el agua y el permiso.
+    comoFunciona: {
+      foto: '09',
+      alt: 'Insulated roof attached to a house over an outdoor kitchen and dining table, with dark slatted privacy screens on two sides and a wood-look ceiling.',
+      rotulo: 'How It Works',
+      titulo: 'What The Roof Is Actually Made Of',
+      texto: 'A solid roof is not a lid. Four things decide whether you are still happy with it in ten years: what is inside the panel, where the wiring runs, where the rain goes, and what it takes to get it permitted. Here is each one.',
+      celdas: [
+        ['/images/pp-icon-panel.svg', 'What Is Inside The Panel',
+          'An insulating core bonded between two aluminium skins. That is what makes the panel structural and thermally useful at the same time: it spans without a visible frame underneath, and it keeps the underside cooler than a bare metal roof would. It is also why the ceiling can be a finished surface instead of the back of a sheet.'],
+        ['/images/pp-icon-cableado.svg', 'Where The Wiring Runs',
+          'Inside the panels. The channels are part of the roof, so ceiling fans, recessed lighting and outlets mount into a finished ceiling rather than being surface-run afterwards. This is the difference you notice from below, and it is decided at the drawing stage — not once the roof is up.'],
+        ['/images/pp-icon-desague.svg', 'Where The Rain Goes',
+          'The panels interlock and the roof drains into a gutter built into the beam, so nothing is bolted on afterwards and nothing runs down the face of the structure. Keeping that channel clear is most of the maintenance story: a blocked gutter is the usual reason water turns up where it should not.'],
+        ['/images/pp-icon-permiso.svg', 'It Is A Permitted Structure',
+          'A solid roof is a permanent load-bearing structure, so it is permitted — that is not a hurdle, it is the point. We do the structural engineering and run the approval, and the roof is sized from the calculation for your address rather than from a catalogue span.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Seis obras, todas distintas entre si. Se van cuatro y cada una por su motivo:
+    //   `10` es LA MISMA FOTO QUE EL HERO —distancia de Hamming 0 entre las dos, solo
+    //        cambia la compresion—, asi que publicarla abajo la enseñaria dos veces;
+    //   `06` y `09` pasan a §4 y §5;
+    //   la diapositiva restante no esta en la carpeta de este producto: apunta a
+    //        /cms-img/services/pergola-design-construction/. Sin pie declarado, sale.
+    pies: {
+      '01': ['Attached, flat white ceiling, three fans over the pool terrace',
+        'Attached insulated patio cover with a flat white ceiling and three ceiling fans, running the length of a travertine pool terrace with a lake behind.'],
+      '02': ['Freestanding over the lawn, dark bronze frame beside the pool',
+        'Freestanding insulated roof pergola with a dark bronze frame on a lawn beside a pool, sheltering a hanging wicker chair and a daybed among tropical planting.'],
+      '03': ['Attached, wood-look soffit and dark fascia, over the outdoor kitchen',
+        'Attached insulated roof with a warm wood-look soffit and a dark bronze fascia, covering an outdoor kitchen and lounge on a travertine terrace by the water.'],
+      '04': ['The same roof from the terrace: bar, grill and the canal behind',
+        'Wide view of an insulated roof over a waterfront outdoor kitchen, with a bar, stools and travertine paving, and moored boats along the canal behind.'],
+      '05': ['Freestanding, light ceiling, against a slatted screen wall',
+        'Freestanding insulated roof pergola with a light ceiling and a ceiling fan, over a paved lounge area set against a slatted screen wall on a lawn.'],
+      '08': ['Attached, with the screen lowered down the open side',
+        'Attached insulated roof against a stucco house with a motorised screen lowered across the open side, shading a lounge area next to a clipped hedge.'],
+    },
+
+    faqNumeradas: [
+      'Does the solid roof block heat?',
+      'Are they fully waterproof?',
+      'Can I add a ceiling fan or TV?',
+      'What maintenance is needed?',
+      'Are they permitted in Broward?',
+    ],
+
+    video: 'See It From Underneath',
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the roof and its ceiling around both.',
+
+    // El orden es el del criterio de decanibalizacion: primero la que de verdad
+    // compite —«louvered vs solid roof» es LA consulta—, luego la abierta (se lleva la
+    // consulta de precio), la translucida y la solar al final.
+    comparar: {
+      productos: ['louvered', 'open', 'polycarbonate', 'solar'],
+      rotulo: 'Other Roofs',
+      titulo: 'Compare The Four Pergola Roofs',
+      texto: 'A solid roof is the one that never moves. If you would rather have a roof that opens, one that lets the light through, or one that pays for itself, these are the other three we build.',
+    },
+  },
 };
 
 /** La ruta de una foto de galeria de esa ficha. */

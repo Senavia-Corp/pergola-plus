@@ -27,8 +27,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1993,
-      "palabrasG": 2132,
-      "deltaTexto": 0.06974410436527848
+      "palabrasG": 2338,
+      "deltaTexto": 0.1731058705469142
     },
     {
       "ruta": "/about-us/about-us",
@@ -146,8 +146,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 399,
-      "palabrasG": 469,
-      "deltaTexto": 0.17543859649122806
+      "palabrasG": 675,
+      "deltaTexto": 0.6917293233082706
     },
     {
       "ruta": "/about-us/where-we-work",
@@ -432,8 +432,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 738,
-      "palabrasG": 808,
-      "deltaTexto": 0.0948509485094851
+      "palabrasG": 1014,
+      "deltaTexto": 0.37398373983739835
     },
     {
       "ruta": "/contact-us/schedule-a-visit",
@@ -2042,8 +2042,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 2623,
-      "deltaTexto": 0.5188187608569774
+      "palabrasG": 2836,
+      "deltaTexto": 0.6421540243196294
     },
     {
       "ruta": "/products/motorized-screens",
@@ -2203,15 +2203,20 @@
     {
       "ruta": "/products/solid-roof-pergolas",
       "idsV": 32,
-      "idsG": 31,
+      "idsG": 30,
       "faltan": [],
       "sobran": [],
-      "declarados": [],
+      "declarados": [
+        "af395482-435a-2143-5385-d4f1e6bdca74",
+        "af395482-435a-2143-5385-d4f1e6bdca7b"
+      ],
       "delShell": [
         "e3bb8397-af45-2730-f4b9-60600b55ee46"
       ],
       "declaracionesObsoletas": [],
-      "sobranDeclarados": [],
+      "sobranDeclarados": [
+        "a36f2a1e-9f59-c2af-809a-f51186a9ca93"
+      ],
       "anadidosObsoletos": [],
       "foucV": 2,
       "foucG": 0,
@@ -2228,8 +2233,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1651,
-      "palabrasG": 1692,
-      "deltaTexto": 0.02483343428225318
+      "palabrasG": 3104,
+      "deltaTexto": 0.8800726832222895
     },
     {
       "ruta": "/products/sukkha",
@@ -2627,8 +2632,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 991,
-      "palabrasG": 12430,
-      "deltaTexto": 11.542885973763875
+      "palabrasG": 12612,
+      "deltaTexto": 11.726538849646822
     },
     {
       "ruta": "/resources/warranties",

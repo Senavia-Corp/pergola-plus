@@ -1075,6 +1075,34 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
         'An insulating core bonded between two aluminium skins, which is what makes the panel both structural and thermally useful. It spans without a visible frame underneath, keeps the underside cooler than a bare metal roof, and gives you a clean flat ceiling to mount a fan or a light to.',
       'claves': 'insulated panel core foam sandwich ceiling fan mount span',
     },
+    // Fuente: la carta de caracteristicas del cliente, «Skylight Integration
+    // Capabilities: incorporate specialized weather-tight skylights into the solid
+    // roof design». Sin medidas ni numero de unidades: eso no lo dice nadie.
+    'material-techo-aislado-lucernario': {
+      'pregunta': 'Can you put a skylight in a solid roof?',
+      'respuesta':
+        'Yes. Weather-tight skylights can be designed into the panel layout, which is the usual answer when a solid roof would otherwise leave a room or a window darker than it was. Where they go is a design decision taken with the structure, not something added afterwards, so it belongs in the drawing stage.',
+      'claves': 'skylight solid roof daylight panel layout',
+    },
+    // Fuente: «Integrated Ceiling Finishes … concealing wiring and structural
+    // elements» y «Custom Lighting & Fan Integration» de la carta del cliente, mas la
+    // pregunta `solid-roof-ventilador-tv`. Lo que se ve en las fotos: ventiladores,
+    // focos empotrados y un techo continuo sin estructura vista.
+    'solid-roof-techo-visto': {
+      'pregunta': 'What does the ceiling look like from underneath?',
+      'respuesta':
+        'A finished, continuous ceiling, not the underside of a metal deck. The panels carry internal channels for the wiring, so ceiling fans, recessed lighting and outlets are mounted into the ceiling instead of surface-run, and the structure stays hidden. The finish can be plain from the powder-coat palette or a wood-look texture.',
+      'claves': 'ceiling finish wiring fan recessed lighting wood look',
+    },
+    // Fuente: el chip del cliente «Hidden Gutter System» y la respuesta
+    // `solid-roof-estanqueidad` («interlock to form a sealed, waterproof roof with
+    // built-in gutters»), reescrita para quitarle el «Absolutely» y el «total».
+    'solid-roof-desague-oculto': {
+      'pregunta': 'Where does the rain go?',
+      'respuesta':
+        'The panels interlock and the roof drains into a gutter built into the beam, so there is no separate gutter bolted on afterwards and nothing runs down the face of the structure. Keeping that channel clear is most of the maintenance: a blocked gutter is the usual reason water turns up where it should not.',
+      'claves': 'drainage gutter beam rain runoff maintenance',
+    },
     'material-mosquitera-tipos': {
       'pregunta': 'What screen mesh options are there?',
       'respuesta':
@@ -2443,6 +2471,24 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
       'pregunta': '¿Qué lleva dentro un panel de cubierta maciza aislada?',
       'respuesta': 'Un núcleo aislante encolado entre dos chapas de aluminio, y eso es lo que hace el panel estructural y térmicamente útil a la vez. Salva la luz sin estructura vista por debajo, mantiene la cara de abajo más fresca que una cubierta de metal desnudo, y le deja un techo plano y limpio donde colgar un ventilador o una luz.',
       'claves': 'panel aislado nucleo sandwich techo ventilador luz',
+    },
+    'material-techo-aislado-lucernario': {
+      'pregunta': '¿Se le puede poner un tragaluz a una cubierta maciza?',
+      'respuesta':
+        'Sí. Se pueden diseñar tragaluces estancos dentro del reparto de paneles, que suele ser la respuesta cuando una cubierta maciza dejaría más oscura una habitación o una ventana que antes tenían luz. Dónde van es una decisión de diseño que se toma con la estructura, no algo que se añade después, así que entra en la fase de planos.',
+      'claves': 'tragaluz cubierta maciza luz natural reparto paneles',
+    },
+    'solid-roof-techo-visto': {
+      'pregunta': '¿Cómo se ve el techo por debajo?',
+      'respuesta':
+        'Como un techo acabado y continuo, no como el reverso de una chapa. Los paneles llevan canales por dentro para el cableado, así que los ventiladores, los focos empotrados y los enchufes van montados en el propio techo en vez de por fuera, y la estructura queda oculta. El acabado puede ser liso, de la carta de recubrimiento en polvo, o con textura tipo madera.',
+      'claves': 'techo acabado cableado ventilador focos textura madera',
+    },
+    'solid-roof-desague-oculto': {
+      'pregunta': '¿Por dónde se va el agua de lluvia?',
+      'respuesta':
+        'Los paneles encajan entre sí y la cubierta desagua por un canalón integrado en la viga, así que no hay un canalón atornillado por fuera ni agua bajando por la cara de la estructura. Mantener ese canal limpio es casi todo el mantenimiento: un canalón atascado es el motivo habitual de que aparezca agua donde no toca.',
+      'claves': 'desague canalon viga lluvia mantenimiento',
     },
     'material-mosquitera-tipos': {
       'pregunta': '¿Qué tipos de malla hay?',

@@ -67,6 +67,20 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'material-sensor-lluvia-falla',
     'pergola-lamas-cuanto-duran',
   ],
+  // Las tres de cubierta maciza son NUEVAS de esta sesion, y hay un motivo: la
+  // biblioteca solo tenia UNA propia para este tema (`material-techo-aislado`) frente
+  // a las cinco del piloto. Las otras cinco del tema son copy del cliente
+  // (`origen: 'ficha'`) en el registro que F4a desmonto —«Absolutely», «Virtually
+  // none», «never rust», «pristine»— y promover eso a `FAQPage` seria afirmarle a
+  // Google exactamente lo que la §8 de esta misma pagina se niega a afirmar.
+  //
+  // El criterio es el ORIGEN, nunca el vocabulario: filtrar por palabras no funciona,
+  // porque el español dice lo mismo mas calmado y se escapa entero.
+  'solid-roof-pergolas': [
+    'material-techo-aislado',
+    'solid-roof-techo-visto',
+    'solid-roof-desague-oculto',
+  ],
 };
 
 export interface Faq {
@@ -291,6 +305,9 @@ export const FAQS: Faq[] = [
   { id: 'material-policarbonato-vida', chip: 'materiales', tema: 'polycarbonate-pergolas', origen: 'nueva' },
   { id: 'material-policarbonato-ruido', chip: 'materiales', tema: 'polycarbonate-pergolas', origen: 'nueva' },
   { id: 'material-techo-aislado', chip: 'materiales', tema: 'solid-roof-pergolas', origen: 'nueva' },
+  { id: 'material-techo-aislado-lucernario', chip: 'materiales', tema: 'solid-roof-pergolas', origen: 'nueva' },
+  { id: 'solid-roof-techo-visto', chip: 'materiales', tema: 'solid-roof-pergolas', origen: 'nueva' },
+  { id: 'solid-roof-desague-oculto', chip: 'materiales', tema: 'solid-roof-pergolas', origen: 'nueva' },
   { id: 'material-mosquitera-tipos', chip: 'materiales', tema: 'screen-enclosures', origen: 'nueva' },
   { id: 'material-mosquitera-duracion', chip: 'materiales', tema: 'screen-enclosures', origen: 'nueva' },
   { id: 'material-lamas-mecanismo', chip: 'materiales', tema: 'motorized-louvered-pergolas', origen: 'nueva' },

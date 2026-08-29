@@ -74,6 +74,20 @@ const PROPIAS = {
         '.why-choose-content -> la seccion «Como funciona» (§5) es un clon de `why-choose-section`, que YA existe en el CSS de Webflow y en 29 fragmentos vivos, pero en ninguna ficha de producto. Se clona CON su data-w-id a proposito: animaciones.css lo selecciona por atributo, asi que el bloque hereda su entrada sin una linea de CSS nueva. Que el vivo no lo tuviera es exactamente el cambio, no una fuga',
     },
   },
+  '/products/solid-roof-pergolas': {
+    razon:
+      'ficha recompuesta, mismo molde que la de lamas: el bloque `services` sale entero y su hueco lo ocupa «Comparar las cubiertas». Los dos ids de servicios siguen vivos en estaticas/index.html, asi que el selector de animaciones.css no se queda huerfano',
+    permitidos: {
+      'af395482-435a-2143-5385-d4f1e6bdca74':
+        '.header-services -> el bloque de servicios se retira de esta ficha. El unico enlace que valia la pena, /services/pergola-design-construction, se repone en la entradilla del proceso',
+      'af395482-435a-2143-5385-d4f1e6bdca7b':
+        '.wrapper-services -> la rejilla de las 7 tarjetas de servicio, con el mismo bloque. Su turno OSCURO lo cubre ahora la seccion de especificaciones, que se monta como componente y por tanto no lleva data-w-id de Webflow: entra con [data-pp-reveal]',
+    },
+    anadidos: {
+      'a36f2a1e-9f59-c2af-809a-f51186a9ca93':
+        '.why-choose-content -> la seccion «Como funciona» (§5) es un clon de `why-choose-section`, que YA existe en el CSS de Webflow y en 29 fragmentos vivos, pero en ninguna ficha de producto. Se clona CON su data-w-id a proposito: animaciones.css lo selecciona por atributo, asi que el bloque hereda su entrada sin una linea de CSS nueva',
+    },
+  },
   '/resources/blog': {
     razon: 'listado reconstruido desde el CSV del CMS; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2',
     permitidos: {

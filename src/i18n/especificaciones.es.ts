@@ -118,6 +118,78 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         permiso: 'When a pergola needs a permit in South Florida',
         coste: 'What a pergola actually costs in South Florida',
         huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
+
+    'solid-roof-pergolas': {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: la pregunta `material-techo-aislado`. Sin espesor del nucleo, sin
+        // valor R y sin densidad: nada de eso esta en el repo ni lo dice el cliente.
+        panel: { etiqueta: 'Roof panel', valor: 'An insulating core bonded between two aluminum skins, which is what makes the panel structural and thermally useful at the same time' },
+        // Fuente: las nueve fotos de obra, abiertas una a una. Cinco adosadas y cuatro
+        // exentas; nada mas se puede afirmar del montaje.
+        montaje: { etiqueta: 'Mounting', valor: 'Attached to the house, or freestanding over a patio or a lawn' },
+        // Fuente: la pregunta `solid-roof-mantenimiento` («premium powder-coated
+        // aluminum»). Sin aleacion, sin temple y sin espesor: eso es un hueco. Y sin
+        // «grado marino», que es lo que afirma la ficha de lamas y aqui no dice nadie.
+        material: { etiqueta: 'Frame material', valor: 'Powder-coated aluminum throughout, frame and panels' },
+        // Fuente: `div.color-section` de la propia pagina (white, desert sand, almond
+        // sand, adobe clay, spanish brown, bronze cedar) y «Textured Wood-Like
+        // Finishes» de la carta del cliente. Los nombres NO se inventan y NO se
+        // traducen como referencia de pedido.
+        acabado: { etiqueta: 'Frame finish', valor: 'From the powder-coat palette, plain or in a wood-look texture' },
+        // Fuente: «Integrated Ceiling Finishes» del cliente y la pregunta
+        // `solid-roof-techo-visto`. Es lo que se ve en las fotos: techo continuo, sin
+        // estructura vista por debajo.
+        techo: { etiqueta: 'Ceiling', valor: 'A finished, continuous ceiling: the structure and the wiring stay hidden above the panels' },
+        // Fuente: el chip del cliente «Hidden Gutter System» y la pregunta
+        // `solid-roof-desague-oculto`.
+        desague: { etiqueta: 'Drainage', valor: 'Interlocking panels draining into a gutter built into the beam, with nothing bolted on afterwards' },
+        // Fuente: «Custom Lighting & Fan Integration» del cliente y la pregunta
+        // `solid-roof-ventilador-tv`. Sin numero de circuitos ni de puntos de luz.
+        instalaciones: { etiqueta: 'Fans, lighting and outlets', valor: 'Internal channels take the wiring, so fans, recessed lighting and outlets mount into the ceiling instead of being surface-run' },
+        // Fuente: «Skylight Integration Capabilities» del cliente. Sin medidas y sin
+        // numero de unidades: eso no lo dice nadie.
+        lucernarios: { etiqueta: 'Skylights', valor: 'Weather-tight skylights can be designed into the panel layout, decided with the structure rather than added afterwards' },
+        // Fuente: la pregunta `solid-roof-permiso-broward`. Se afirma el PROCESO —que
+        // lo tramitamos y que va con calculo—, nunca un resultado normativo.
+        permiso: { etiqueta: 'Permitting', valor: 'A permanent load-bearing structure, so it is permitted: we do the structural engineering and run the approval' },
+        // Fuente: la pregunta `solid-roof-mantenimiento`, reescrita. La original decia
+        // «Virtually none… will never rust, rot, or fade… keeps them pristine», que es
+        // el registro que la seccion de huecos pasa cinco pantallas desmontando.
+        mantenimiento: { etiqueta: 'Maintenance', valor: 'Powder-coated aluminum does not rust or rot; keeping the gutter channel clear is most of the routine' },
+        // Fuente: la pregunta `plazo-diseno-montaje`. El repo da un TOTAL, no un
+        // desglose por fase: cuatro plazos por paso serian cuatro cifras inventadas.
+        plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
+        // Fuente: la GUIA DE COSTES PUBLICADA POR LA PROPIA EMPRESA,
+        // /post/pergola-cost-south-florida, «3. Insulated Roof Pergola — Estimated
+        // Range: $95 – $130 per sq ft installed». Es la misma cifra que usa el
+        // estimador (src/data/estimador.ts, `fuente: 'publicada'`). El hedge
+        // «estimated» del original se conserva: sin el pasa de guia a presupuesto.
+        inversion: { etiqueta: 'Investment', valor: 'An estimated $95 to $130 per square foot installed, from our own published South Florida cost guide' },
+        // Fuente: NEGOCIO.condados (src/lib/jsonld.ts) y el pie del sitio.
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        medidas: 'Maximum clear span and module sizes. We size every roof from the structural calculation for your site, and we do not publish a catalogue span.',
+        viento: 'Design wind speed, design pressure and the Miami-Dade NOA number. Each structure is engineered and permitted for its own address; we are not publishing a single figure until it is the one on your drawings.',
+        aleacion: 'Aluminium alloy, temper and panel thickness. This is what separates two roofs that look identical, and it belongs on the engineering, not in a marketing line.',
+        garantia: 'Warranty term, and how it splits between structure, panels and finish. Those are three different warranties and we are not going to blur them into one word.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+      },
+      enlaces: {
+        compensa: 'Is a louvered roof worth it in Florida?',
+        plazo: 'How long a pergola installation takes in Florida',
+        permiso: 'When a pergola needs a permit in South Florida',
+        coste: 'What a pergola actually costs in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
       },
     },
   },
@@ -158,6 +230,48 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
         coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
         huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    'solid-roof-pergolas': {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        panel: { etiqueta: 'Panel de cubierta', valor: 'Un núcleo aislante encolado entre dos chapas de aluminio, que es lo que hace el panel estructural y térmicamente útil a la vez' },
+        montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa, o exenta sobre el patio o el césped' },
+        material: { etiqueta: 'Material de la estructura', valor: 'Aluminio con recubrimiento en polvo, estructura y paneles' },
+        acabado: { etiqueta: 'Acabado de la estructura', valor: 'De la carta de recubrimiento en polvo, liso o con textura tipo madera' },
+        techo: { etiqueta: 'Techo', valor: 'Un techo acabado y continuo: la estructura y el cableado quedan ocultos por encima de los paneles' },
+        desague: { etiqueta: 'Desagüe', valor: 'Paneles que encajan entre sí y desaguan por un canalón integrado en la viga, sin nada atornillado por fuera' },
+        instalaciones: { etiqueta: 'Ventiladores, luz y enchufes', valor: 'Canales interiores para el cableado, así que los ventiladores, los focos empotrados y los enchufes van montados en el techo y no por fuera' },
+        lucernarios: { etiqueta: 'Tragaluces', valor: 'Se pueden diseñar tragaluces estancos dentro del reparto de paneles, decididos con la estructura y no añadidos después' },
+        permiso: { etiqueta: 'Permisos', valor: 'Es una estructura permanente que trabaja: lleva permiso, y nosotros hacemos el cálculo estructural y tramitamos la aprobación' },
+        mantenimiento: { etiqueta: 'Mantenimiento', valor: 'El aluminio con recubrimiento en polvo no se oxida ni se pudre; mantener limpio el canalón es casi toda la rutina' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; el montaje en sí, unos pocos días cuando el material ya está' },
+        // Misma fuente que en inglés: la guía de costes publicada por la empresa. El
+        // «estimada» traduce el «estimated» del original y no se quita: sin él, la
+        // banda pasa de guía a presupuesto.
+        inversion: { etiqueta: 'Inversión', valor: 'Una banda estimada de 95 a 130 dólares por pie cuadrado instalado, de nuestra propia guía de costes del sur de Florida' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        medidas: 'Luz máxima sin columna intermedia y medidas de módulo. Cada cubierta se dimensiona a partir del cálculo estructural de su parcela, y no publicamos una luz de catálogo.',
+        viento: 'Velocidad de viento de diseño, presión de diseño y número de NOA de Miami-Dade. Cada estructura se calcula y se permisa para su propia dirección; no vamos a publicar ni una cifra hasta que sea la de sus planos.',
+        aleacion: 'Aleación del aluminio, temple y espesor del panel. Es lo que separa dos cubiertas que parecen iguales, y su sitio es el cálculo, no una línea de marketing.',
+        garantia: 'Años de garantía, y cómo se reparte entre estructura, paneles y acabado. Son tres garantías distintas y no las vamos a resumir en una palabra.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+      },
+      enlaces: {
+        compensa: '¿Compensa un techo de lamas en Florida?',
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
+        coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
       },
     },
   },

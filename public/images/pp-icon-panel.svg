@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" role="img">
+  <g transform="translate(-2.23 -2.25) scale(1.0892)" fill="none" stroke="#3a545b" stroke-width="2.94" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 14h36"/>
+    <path d="M7 20h36"/>
+    <path d="M7 30h36"/>
+    <path d="M7 36h36"/>
+    <path d="M12 30l6-10"/>
+    <path d="M23 30l6-10"/>
+    <path d="M34 30l6-10"/>
+  </g>
+</svg>

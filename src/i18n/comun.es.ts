@@ -9,6 +9,74 @@
  * Las claves son el texto EXACTO del fragmento migrado, entidades incluidas.
  */
 export const COMUN_ES: Record<string, string> = {
+  // ── Las tarjetas del bloque comparativo de cada ficha ────────────────────────
+  //
+  // `recomponerFicha` saca estas tarjetas de estaticas/products.html —para que la
+  // foto, el titular y el texto no puedan divergir de los de /products— y las diez
+  // fichas se reparten las diez tarjetas. Asi que las diez cadenas se traducen UNA
+  // vez, aqui, y no ficha por ficha: la de lamas sale en las otras nueve, la de
+  // cabañas en las que la comparan, y asi.
+  //
+  // El `<h3>` va FUERA del `<a>` (lo estira un `::after` de tarjetas.css), de modo
+  // que son dos cadenas distintas por tarjeta: el titular y el texto de ancla.
+  'Custom Motorized Louvered Pergola Systems':
+    'Sistemas de pérgola de lamas motorizadas a medida',
+  'Luxury Custom Outdoor Cabanas':
+    'Cabañas exteriores de lujo a medida',
+  'Custom Screen Enclosures for Outdoor Living':
+    'Cerramientos con mosquitero a medida para vivir fuera',
+  'Integrated Motorized Screen Systems':
+    'Sistemas integrados de cortinas motorizadas',
+  'Engineered Aluminum Carport Structures':
+    'Estructuras de cochera de aluminio calculadas',
+  'Sukkha 3000 Premium Louvered System':
+    'Sukkha 3000, sistema de lamas premium',
+  'The Sukkha 3000 System':
+    'El sistema Sukkha 3000',
+  'Poolside Aluminum Cabanas':
+    'Cabañas de aluminio junto a la piscina',
+  'Pool And Patio Screen Enclosures':
+    'Cerramientos con mosquitero para piscina y patio',
+  'Motorized Retractable Screens':
+    'Cortinas motorizadas retráctiles',
+
+
+  // ── Fichas de producto recompuestas ─────────────────────────────────────────
+  //
+  // Estas cadenas las escribe `recomponerFicha` (scripts/lib/transformar.mjs) y son
+  // IGUALES en las diez fichas: los rotulos de seccion, los botones de salto y la
+  // entradilla del proceso. Vivian en el `dic` del piloto, o sea en un diccionario
+  // POR PRODUCTO, y eso obligaba a reescribir las mismas doce traducciones en cada
+  // ficha nueva — nueve oportunidades de que una se quede en ingles sin que ninguna
+  // puerta lo diga, porque `comprobar-i18n.mjs` mide COBERTURA y una cadena repetida
+  // que falta en una sola pagina no la mueve.
+  //
+  // Aqui son globales, que es lo que de verdad son. Lo PROPIO de cada producto —los
+  // chips, los titulares, los pies de galeria, el copy de §4 y §5— sigue en
+  // productos.es.ts, que es donde tiene que estar.
+  'About Pergola Plus':
+    'Quiénes somos',
+  'Configurations':
+    'Configuraciones',
+  'See How It Compares':
+    'Compare las cubiertas',
+  'How It Works':
+    'Cómo funciona',
+  'See The Specifications':
+    'Ver las especificaciones',
+  'See The Questions':
+    'Ver las preguntas',
+  'Request Your Estimate':
+    'Solicite su presupuesto',
+  'Other Roofs':
+    'Otras cubiertas',
+  'Compare The Four Pergola Roofs':
+    'Compare las cuatro cubiertas',
+  'pergola design and construction':
+    'diseño y construcción de pérgolas',
+  'We build to current code so your structure is safe, and we back it with the service, the installation and the finish we would want on our own house. Permitting timelines vary by municipality, but most projects run several weeks from approval to completion, and the installation itself is usually done in a few days once the materials are ready. It is all run by the same team that handles our':
+    'Construimos conforme a la normativa vigente para que su estructura sea segura, y la respaldamos con el servicio, el montaje y el acabado que querríamos en nuestra propia casa. Los plazos de permiso cambian según el municipio, pero la mayoría de proyectos tarda varias semanas desde la aprobación hasta el final, y el montaje en sí suele resolverse en pocos días cuando el material ya está. De todo ello se encarga el mismo equipo de',
+
   // --- CTA final, en ~100 páginas ---
   'Request your free Estimate': 'Solicite su presupuesto gratis',
   'Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.':

@@ -137,12 +137,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'How fast is the installation?': '¿Cuánto se tarda en instalarla?',
 
       // --- Antetitulo de la intro (bloque 2) --------------------------------
-      'About Pergola Plus': 'Quiénes somos',
 
       // --- Bloque 4 · «Configuraciones que construimos» ----------------------
       // Los cuatro puntos salen de las fotos, una a una: adosada frente a exenta y
       // las dos familias de acabado. Ni un voladizo en pies, ni un ancho de lama.
-      'Configurations': 'Configuraciones',
       'Two Ways We Mount It, Two Finish Families': 'Dos formas de montarla, dos familias de acabado',
       'Every louvered roof we build is drawn for one house. The two decisions that change the shape of the project are where it lands and how it is finished: attached to the structure of the house, or freestanding over a deck or a pool. From there the frame goes dark bronze or white. Everything after that is engineering for your site.':
         'Cada techo de lamas que construimos se dibuja para una casa concreta. Las dos decisiones que cambian la forma del proyecto son dónde se apoya y cómo se acaba: adosado a la estructura de la casa, o exento sobre un deck o una piscina. A partir de ahí, la estructura va en bronce oscuro o en blanco. Lo demás es cálculo para su parcela.',
@@ -150,12 +148,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Freestanding Over Deck or Pool': 'Exenta sobre deck o piscina',
       'Dark Bronze Powder-Coat Finish': 'Acabado en bronce oscuro',
       'White Powder-Coat Finish': 'Acabado en blanco',
-      'See How It Compares': 'Compare las cubiertas',
 
       // --- Bloque 5 · «Como funciona: lamas, motor y desague» -----------------
       // Las cuatro celdas salen de cuatro preguntas ya escritas y ya traducidas de
       // src/i18n/faqs.es.ts. El hedge «segun el sistema» del recorrido es obligatorio.
-      'How It Works': 'Cómo funciona',
       'What Happens Inside The Roof': 'Qué pasa dentro del techo',
       'A louvered roof is a mechanism, not a finish. Four things decide whether you are still happy with it in ten years: how far the louvers actually turn, what the roof does when the power goes, where the water ends up, and whether the motor can be reached. Here is each one.':
         'Un techo de lamas es un mecanismo, no un acabado. Hay cuatro cosas que deciden si dentro de diez años sigue contento con él: cuánto giran de verdad las lamas, qué hace el techo cuando se va la luz, dónde acaba el agua, y si se puede llegar al motor. Vamos una por una.',
@@ -171,8 +167,6 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'The Motor Is Serviceable': 'El motor se puede sustituir',
       'The motor is a serviceable component, not a sealed part of the structure. It is designed to be reached and swapped without dismantling the roof. How long it lasts depends on cycles and on whether water is getting where it should not — which is why the drainage above matters.':
         'El motor es un componente sustituible, no una pieza sellada de la estructura. Está pensado para llegar a él y cambiarlo sin desmontar el techo. Cuánto dure depende de los ciclos y de si le está entrando agua donde no debe, que es justo por lo que importa el drenaje de arriba.',
-      'See The Specifications': 'Ver las especificaciones',
-      'See The Questions': 'Ver las preguntas',
 
       // --- Bloque 6 · los pies de la galeria ---------------------------------
       // Ciudad y fecha NO se inventan: si el cliente no las aporta, el pie las omite.
@@ -199,9 +193,6 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
 
       // --- Bloque 13 · la entradilla del proceso ----------------------------
       // La cadena vieja esta en 48 ficheros migrados: su clave se queda en comun.es.ts.
-      'We build to current code so your structure is safe, and we back it with the service, the installation and the finish we would want on our own house. Permitting timelines vary by municipality, but most projects run several weeks from approval to completion, and the installation itself is usually done in a few days once the materials are ready. It is all run by the same team that handles our':
-        'Construimos conforme a la normativa vigente para que su estructura sea segura, y la respaldamos con el servicio, el montaje y el acabado que querríamos en nuestra propia casa. Los plazos de permiso cambian según el municipio, pero la mayoría de proyectos tarda varias semanas desde la aprobación hasta el final, y el montaje en sí suele resolverse en pocos días cuando el material ya está. De todo ello se encarga el mismo equipo de',
-      'pergola design and construction': 'diseño y construcción de pérgolas',
 
       // --- Bloque 14 · el CTA final, que ahora es unico -----------------------
       // La cadena vieja del parrafo esta en 99 ficheros migrados; el H2 tambien, y por
@@ -209,13 +200,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // palabra «presupuesto», que es lo que pedia el hallazgo de F0.
       'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the louvered roof around both.':
         'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos su espacio, vemos cómo lo usa y planificamos el techo de lamas en torno a las dos cosas.',
-      'Request Your Estimate': 'Solicite su presupuesto',
 
       // --- Bloque 15 · «Comparar las cubiertas» -----------------------------
       // Las cuatro tarjetas no llevan copy nuevo: ya existen en /products y ya estan
       // traducidas. Lo unico propio de esta ficha es el titular y la entradilla.
-      'Other Roofs': 'Otras cubiertas',
-      'Compare The Four Pergola Roofs': 'Compare las cuatro cubiertas',
       'A louvered roof is the one that moves. If you would rather have a roof that never moves, one that lets the light through, or one that pays for itself, these are the other three we build.':
         'El techo de lamas es el que se mueve. Si prefiere una cubierta que no se mueva nunca, una que deje pasar la luz o una que se pague sola, éstas son las otras tres que construimos.',
       'Once custom fabrication and permitting are complete, our expert installers assemble your smart pergola in just a few days with minimal disruption to your property.':
@@ -228,6 +216,111 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas de techo aislado | Sur de Florida',
     description: 'Paneles aislantes que cortan el calor radiante, con canalón oculto y preparación para ventiladores y televisión.',
     dic: {
+      // ── Los chips del hero ────────────────────────────────────────────────────
+      'Insulated Panel, Cooler Underneath':
+        'Panel aislante, más fresco debajo',
+
+      // ── Los alt de las cuatro fotos grandes ───────────────────────────────────
+      // SIN ESTAS ENTRADAS EL ALT SE QUEDA EN INGLÉS EN /es/ Y NO LO DICE NADIE:
+      // comprobar-i18n.mjs cuenta nodos de texto, no atributos, y comprobar-seo.mjs
+      // solo exige que el atributo exista. La cobertura seguiría en verde.
+      'Attached insulated roof pergola with a dark bronze frame and ceiling fans, shading an outdoor kitchen and dining terrace beside a pool.':
+        'Pérgola de cubierta maciza aislada adosada, con estructura de aluminio bronce oscuro y ventiladores de techo, dando sombra a una cocina exterior y una zona de comedor junto a la piscina.',
+      'Freestanding insulated roof pergola with a dark bronze frame over a lawn terrace, with a hanging wicker chair and tropical planting around it.':
+        'Pérgola de cubierta maciza aislada exenta, con estructura bronce oscuro sobre una terraza en el césped, con un sillón colgante de mimbre y plantación tropical alrededor.',
+      'Underside of an insulated roof: a wood-look slatted ceiling with a large fan and recessed downlights, looking out over a lake through a slatted privacy screen.':
+        'Cara inferior de una cubierta maciza aislada: techo de listones con textura tipo madera, un ventilador grande y focos empotrados, con vista al lago a través de una celosía.',
+      'Attached insulated roof with a warm wood-look soffit and a dark bronze fascia, over an outdoor kitchen on a travertine terrace by the water.':
+        'Cubierta maciza aislada adosada, con sofito de textura tipo madera y fascia bronce oscuro, sobre una cocina exterior en una terraza de travertino junto al agua.',
+
+      // ── §4 · Configuraciones ──────────────────────────────────────────────────
+      'Two Ways We Mount It, Two Ceilings':
+        'Dos formas de montarla, dos techos',
+      'Every solid roof we build is drawn for one house. The two decisions that change the project are where it lands and what you see when you look up: attached to the structure of the house, or freestanding over a patio or a lawn. From there the ceiling is either plain from the powder-coat palette or a wood-look texture. Everything after that is engineering for your site.':
+        'Cada cubierta maciza que construimos se dibuja para una casa concreta. Las dos decisiones que cambian el proyecto son dónde se apoya y qué se ve al mirar hacia arriba: adosada a la estructura de la casa, o exenta sobre el patio o el césped. A partir de ahí, el techo es liso, de la carta de recubrimiento en polvo, o con textura tipo madera. Todo lo demás es cálculo para su parcela.',
+      'Attached to the House':
+        'Adosada a la casa',
+      'Freestanding Over Patio or Lawn':
+        'Exenta sobre patio o césped',
+      'Plain Powder-Coat Ceiling':
+        'Techo liso con recubrimiento en polvo',
+      'Wood-Look Textured Ceiling':
+        'Techo con textura tipo madera',
+
+      // ── §5 · Cómo funciona ────────────────────────────────────────────────────
+      'What The Roof Is Actually Made Of':
+        'De qué está hecha la cubierta, de verdad',
+      'A solid roof is not a lid. Four things decide whether you are still happy with it in ten years: what is inside the panel, where the wiring runs, where the rain goes, and what it takes to get it permitted. Here is each one.':
+        'Una cubierta maciza no es una tapa. Hay cuatro cosas que deciden si dentro de diez años sigue contento con ella: qué lleva dentro el panel, por dónde va el cableado, por dónde se va el agua y qué hace falta para permisarla. Vamos una por una.',
+      'What Is Inside The Panel':
+        'Qué lleva dentro el panel',
+      'An insulating core bonded between two aluminium skins. That is what makes the panel structural and thermally useful at the same time: it spans without a visible frame underneath, and it keeps the underside cooler than a bare metal roof would. It is also why the ceiling can be a finished surface instead of the back of a sheet.':
+        'Un núcleo aislante encolado entre dos chapas de aluminio. Eso es lo que hace el panel estructural y térmicamente útil a la vez: salva la luz sin estructura vista por debajo y mantiene la cara de abajo más fresca de lo que estaría con una cubierta de metal desnudo. Y es también la razón de que el techo pueda ser una superficie acabada y no el reverso de una chapa.',
+      'Where The Wiring Runs':
+        'Por dónde va el cableado',
+      'Inside the panels. The channels are part of the roof, so ceiling fans, recessed lighting and outlets mount into a finished ceiling rather than being surface-run afterwards. This is the difference you notice from below, and it is decided at the drawing stage — not once the roof is up.':
+        'Por dentro de los paneles. Los canales son parte de la cubierta, así que los ventiladores de techo, los focos empotrados y los enchufes van montados en un techo acabado en vez de ir por fuera después. Es la diferencia que se nota desde abajo, y se decide en la fase de planos, no con la cubierta ya puesta.',
+      'Where The Rain Goes':
+        'Por dónde se va el agua',
+      'The panels interlock and the roof drains into a gutter built into the beam, so nothing is bolted on afterwards and nothing runs down the face of the structure. Keeping that channel clear is most of the maintenance story: a blocked gutter is the usual reason water turns up where it should not.':
+        'Los paneles encajan entre sí y la cubierta desagua por un canalón integrado en la viga, así que no hay nada atornillado por fuera ni agua bajando por la cara de la estructura. Mantener ese canal limpio es casi todo el mantenimiento: un canalón atascado es el motivo habitual de que aparezca agua donde no toca.',
+      'It Is A Permitted Structure':
+        'Es una estructura con permiso',
+      'A solid roof is a permanent load-bearing structure, so it is permitted — that is not a hurdle, it is the point. We do the structural engineering and run the approval, and the roof is sized from the calculation for your address rather than from a catalogue span.':
+        'Una cubierta maciza es una estructura permanente que trabaja, así que lleva permiso, y eso no es un obstáculo: es justamente el argumento. Nosotros hacemos el cálculo estructural y tramitamos la aprobación, y la cubierta se dimensiona a partir del cálculo de su dirección y no de una luz de catálogo.',
+
+      // ── Los pies de la galería ────────────────────────────────────────────────
+      'Attached, flat white ceiling, three fans over the pool terrace':
+        'Adosada, techo blanco liso, tres ventiladores sobre la terraza de la piscina',
+      'Freestanding over the lawn, dark bronze frame beside the pool':
+        'Exenta sobre el césped, estructura bronce oscuro junto a la piscina',
+      'Attached, wood-look soffit and dark fascia, over the outdoor kitchen':
+        'Adosada, sofito tipo madera y fascia oscura, sobre la cocina exterior',
+      'The same roof from the terrace: bar, grill and the canal behind':
+        'La misma cubierta desde la terraza: barra, parrilla y el canal detrás',
+      'Freestanding, light ceiling, against a slatted screen wall':
+        'Exenta, techo claro, contra una pared de celosía',
+      'Attached, with the screen lowered down the open side':
+        'Adosada, con la cortina bajada por el lado abierto',
+
+      // ── Los alt de la galería ─────────────────────────────────────────────────
+      'Attached insulated patio cover with a flat white ceiling and three ceiling fans, running the length of a travertine pool terrace with a lake behind.':
+        'Cubierta maciza aislada adosada, con techo blanco liso y tres ventiladores, recorriendo a lo largo una terraza de travertino junto a la piscina, con un lago detrás.',
+      'Freestanding insulated roof pergola with a dark bronze frame on a lawn beside a pool, sheltering a hanging wicker chair and a daybed among tropical planting.':
+        'Pérgola de cubierta maciza aislada exenta, con estructura bronce oscuro sobre el césped junto a la piscina, cubriendo un sillón colgante de mimbre y un diván entre plantación tropical.',
+      'Attached insulated roof with a warm wood-look soffit and a dark bronze fascia, covering an outdoor kitchen and lounge on a travertine terrace by the water.':
+        'Cubierta maciza aislada adosada, con sofito de textura tipo madera y fascia bronce oscuro, cubriendo una cocina exterior y un salón en una terraza de travertino junto al agua.',
+      'Wide view of an insulated roof over a waterfront outdoor kitchen, with a bar, stools and travertine paving, and moored boats along the canal behind.':
+        'Vista amplia de una cubierta maciza aislada sobre una cocina exterior frente al agua, con barra, taburetes y pavimento de travertino, y barcos amarrados en el canal detrás.',
+      'Freestanding insulated roof pergola with a light ceiling and a ceiling fan, over a paved lounge area set against a slatted screen wall on a lawn.':
+        'Pérgola de cubierta maciza aislada exenta, con techo claro y ventilador, sobre una zona de estar pavimentada apoyada en una pared de celosía, en el césped.',
+      'Attached insulated roof against a stucco house with a motorised screen lowered across the open side, shading a lounge area next to a clipped hedge.':
+        'Cubierta maciza aislada adosada a una casa de estuco, con una cortina motorizada bajada por el lado abierto, dando sombra a una zona de estar junto a un seto recortado.',
+      'Insulated roof attached to a house over an outdoor kitchen and dining table, with dark slatted privacy screens on two sides and a wood-look ceiling.':
+        'Cubierta maciza aislada adosada a la casa sobre una cocina exterior y una mesa de comedor, con celosías oscuras de privacidad en dos lados y techo con textura tipo madera.',
+      'Freestanding insulated roof pergola with a dark bronze frame and a plain light ceiling, over a paved terrace with lounge seating on a lawn.':
+        'Pérgola de cubierta maciza aislada exenta, con estructura bronce oscuro y techo claro liso, sobre una terraza pavimentada con sillones, en el césped.',
+
+      // ── El vídeo, el CTA y el bloque comparativo ───────────────────────────────
+      'See It From Underneath':
+        'Véala desde abajo',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the roof and its ceiling around both.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos su espacio, vemos cómo lo usa y planificamos la cubierta y su techo a partir de las dos cosas.',
+      'A solid roof is the one that never moves. If you would rather have a roof that opens, one that lets the light through, or one that pays for itself, these are the other three we build.':
+        'La cubierta maciza es la que no se mueve nunca. Si prefiere un techo que se abra, uno que deje pasar la luz o uno que se pague solo, estos son los otros tres que construimos.',
+
+      // ── Las cinco preguntas del FAQ, ya sin numerar ───────────────────────────
+      'Does the solid roof block heat?':
+        '¿La cubierta maciza corta el calor?',
+      'Are they fully waterproof?':
+        '¿Son totalmente estancas?',
+      'Can I add a ceiling fan or TV?':
+        '¿Puedo poner un ventilador de techo o una tele?',
+      'What maintenance is needed?':
+        '¿Qué mantenimiento necesita?',
+      'Are they permitted in Broward?':
+        '¿Llevan permiso en Broward?',
+
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

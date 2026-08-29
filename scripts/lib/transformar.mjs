@@ -1836,10 +1836,22 @@ function recomponerFicha(s, slug) {
     // propio `</a></div>` en vez de darse por hecho que el trozo es solo la foto. Sin
     // esto, retirar la ultima foto se llevaria la cola del bloque.
     const CIERRE = '</a></div>';
-    // La clave es la cadena EXACTA que sigue al prefijo en el nombre del fichero, no un
-    // numero: `sukkha` numera `-1`…`-8` y las demas `-01`…`-10`, y un `\d\d` fijo
-    // dejaria a esa ficha sin un solo pie, lanzando en la primera diapositiva.
-    const reFoto = new RegExp(`${ficha.galeria.prefijo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^.\/"]+)\\.avif`);
+    // La clave del pie es lo que queda del NOMBRE DE FICHERO tras quitarle el prefijo
+    // de la ficha, y el nombre entero si ese prefijo no aplica. Dos motivos medidos:
+    //
+    //   - `sukkha` numera sus fotos `-1`…`-8` y las demas `-01`…`-10`, asi que un
+    //     `\d\d` fijo dejaria a esa ficha sin un solo pie;
+    //   - la galeria de `solid-roof-pergolas` trae una diapositiva que NO esta en su
+    //     carpeta: apunta a /cms-img/services/pergola-design-construction/. El CMS
+    //     mezcla carpetas y el markup no avisa. Con la clave por prefijo a secas, esa
+    //     foto reventaba el generador.
+    //
+    // Una diapositiva sin pie declarado NO es un error: se retira de la galeria, que es
+    // como se hace la poda. El recuento de abajo es el que caza una clave mal escrita.
+    const clave = (src) => {
+      const base = src.split('/').pop().replace(/\.avif$/, '');
+      return base.startsWith(ficha.galeria.prefijo) ? base.slice(ficha.galeria.prefijo.length) : base;
+    };
     let nueva = trozos[0];
     let puestas = 0;
     for (const trozo of trozos.slice(1)) {
@@ -1847,8 +1859,9 @@ function recomponerFicha(s, slug) {
       if (corte < 0) throw new Error(`[ficha] ${slug}: una diapositiva de la galeria no cierra como se espera`);
       const diapo = trozo.slice(0, corte + CIERRE.length);
       const cola = trozo.slice(corte + CIERRE.length);
-      const n = diapo.match(reFoto)?.[1];
-      if (!n) throw new Error(`[ficha] ${slug}: una diapositiva de la galeria no dice de que foto es`);
+      const src = diapo.match(/src="([^"]+\.avif)"/)?.[1];
+      if (!src) throw new Error(`[ficha] ${slug}: una diapositiva de la galeria no dice de que foto es`);
+      const n = clave(src);
       const copy = ficha.pies[n];
       if (!copy) { nueva += cola; continue; }
       const [pie, alt] = copy;

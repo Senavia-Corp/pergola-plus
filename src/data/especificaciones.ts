@@ -78,6 +78,47 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
       { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'plazo' },
       { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
       { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+      // F4c (H-6): el sitio PUBLICA una tarifa para este producto y la ficha era menos
+      // concreta que su propia web. El estimador es ademas el CTA de menor friccion que
+      // tiene el sitio —«ponle precio tu mismo, sin dar el telefono»— y hasta ahora solo
+      // se enlazaba desde el desplegable del nav, que es `display:none` en movil.
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Cubierta maciza aislada
+  //
+  // ESTA §8 TIENE MENOS FILAS QUE LA DEL PILOTO Y MAS HUECOS, y no es un descuido:
+  // es lo que la fuente da. Aqui hay una cifra dura que el piloto no tiene —la tarifa
+  // por pie cuadrado, publicada por la propia empresa en su guia de costes de 2026— y
+  // en cambio no hay giro de lamas ni comportamiento en apagon, porque esta cubierta no
+  // se mueve. Doce filas en una ficha y once en otra es la diferencia entre los dos
+  // productos, no entre dos niveles de esfuerzo.
+  // ──────────────────────────────────────────────────────────────────────────────
+  'solid-roof-pergolas': {
+    filas: [
+      'panel', 'montaje', 'material', 'acabado', 'techo', 'desague',
+      'instalaciones', 'lucernarios', 'permiso', 'mantenimiento', 'plazo',
+      'inversion', 'donde',
+    ],
+    enGrafo: [
+      'panel', 'montaje', 'material', 'acabado', 'techo', 'desague',
+      'instalaciones', 'lucernarios', 'mantenimiento',
+    ],
+    material: 'material',
+    // Los mismos cinco huecos que el piloto MENOS `medidas` —aqui la luz sin columna
+    // depende del panel y se dimensiona igual de a medida, asi que se mantiene— y sin
+    // cambios en el resto: son huecos del negocio, no del producto. `financiacion` y
+    // `garantia` son identicos en las diez fichas hasta que el cliente los aporte.
+    huecos: ['medidas', 'viento', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'compensa', ruta: '/post/is-a-louvered-roof-pergola-worth-it-in-florida', junto: 'entradilla' },
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'permiso' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
     ],
   },
 };
