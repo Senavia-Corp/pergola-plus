@@ -40,8 +40,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Motorized louvered roof pergola with white aluminum louvers open over a poolside deck at a waterfront home in Palm Beach Gardens, Florida.':
-        'Pérgola de techo de lamas motorizadas, con lamas de aluminio blancas abiertas, sobre la zona de piscina de una vivienda frente al agua en Palm Beach Gardens, Florida.',
+      'Freestanding motorized louvered pergola with a dark bronze aluminum frame and sand-coloured louvers angled part-open, seen from below against the sky over a lounge terrace, with a clipped hedge and a tile-roof house behind.':
+        'Pérgola de lamas motorizadas exenta, con estructura de aluminio bronce oscuro y lamas color arena entreabiertas, vista desde abajo contra el cielo sobre una terraza de estar, con un seto recortado y una casa de teja detrás.',
       // LOS ALT DE LAS FOTOS. Hasta el rediseño, el hero y la portada del FAQ
       // compartian LITERALMENTE la misma cadena, la de la intro era prosa de producto
       // que no describia su fotografia, y las diez de galeria llevaban alt="". Ahora

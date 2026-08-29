@@ -37,6 +37,23 @@ export interface CopyEspecificaciones {
   /** Rotulo y entradilla del bloque de huecos declarados. */
   huecosTitulo: string;
   huecosEntradilla: string;
+  /**
+   * El boton que cierra la seccion, y por que existe.
+   *
+   * F4c midio el hueco: el pico de conviccion del lector esta en la pantalla 11,4
+   * —donde estan el rango de inversion y el numero de licencia— y el siguiente CTA
+   * del cuerpo estaba en la 18,03. SEIS PANTALLAS Y MEDIA de movil despues, gastadas
+   * en repetir lo ya dicho. Este es el unico punto de la ficha donde el CTA es la
+   * continuacion natural del parrafo anterior en vez de una interrupcion: la
+   * entradilla de los huecos acaba de decir «estos son los numeros que un comprador
+   * deberia pedirle a tres contratistas», y el boton dice «pidanoslos».
+   *
+   * POR QUE VA EN EL COPY Y NO FIJO EN EL COMPONENTE: el texto nombra el numero de
+   * huecos que declara cada ficha, y ese numero cambia por producto. Un «pregunte-
+   * nos estos cinco» en una ficha con tres huecos es una cifra equivocada, que es
+   * exactamente el tipo de descuido que esta seccion existe para no cometer.
+   */
+  ctaTexto: string;
   filas: Record<string, CopyFila>;
   /** Cada hueco es una frase: que es y por que no esta. */
   huecos: Record<string, string>;
@@ -51,6 +68,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
       huecosTitulo: 'Not published yet',
       huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
       filas: {
         // Fuente: la pregunta `pergola-lamas-que-angulo`. El hedge «depending on the
         // system» va DENTRO del valor y no se quita: 140-170 es un rango del sector,
@@ -110,6 +128,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, ésta es la parte que los otros dos no le van a poner por escrito.',
       huecosTitulo: 'Todavía no publicado',
       huecosEntradilla: 'Éstos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
       filas: {
         giro: { etiqueta: 'Giro de las lamas', valor: 'Del orden de 140 a 170 grados, según el sistema' },
         montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa, o exenta sobre deck o piscina' },

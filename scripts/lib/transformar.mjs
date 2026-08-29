@@ -1742,9 +1742,10 @@ const SECCION_COMO_FUNCIONA =
  * frente a 12 al blog y 8 a «sobre nosotros». Las diez fichas compiten por el mismo
  * racimo de consultas y ninguna le dice a Google cual es cual.
  *
- * Va DESPUES del CTA final a proposito. Ofrecer cuatro productos alternativos ANTES
- * de la peticion es invitar a irse; detras, es lo que el sitio le debe a quien acaba
- * de decidir que esta cubierta no es la suya.
+ * Va DELANTE del CTA final. Estuvo detras hasta F4c, que lo midio: el CTA ocupa 0,47
+ * pantallas de movil y este bloque 4,52 —9,6 veces mas—, con cuatro enlaces salientes y
+ * ningun CTA propio, asi que lo ultimo que decia el cuerpo no era la peticion. El motivo
+ * de fondo esta en el paso 14 de recomponerFicha.
  */
 const SECCION_COMPARAR = TARJETAS_COMPARAR === null ? null
   // La cabecera reutiliza `.header-feature-section` (centrada, 850 px) y la rejilla
@@ -2040,14 +2041,34 @@ function recomponerFichaLamas(s) {
     '<div>Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at how you use it, and plan the louvered roof around both.</div>',
     'la entradilla del CTA final');
 
-  // --- 14. «Comparar las cubiertas», detras del CTA -------------------------------
+  // --- 14. «Comparar las cubiertas», DELANTE del CTA ------------------------------
+  //
+  // Iba detras hasta F4c, con el argumento de que ofrecer cuatro productos alternativos
+  // ANTES de la peticion es invitar a irse. La medida dice lo contrario, y por un motivo
+  // que el argumento no tenia en cuenta: el CTA (§14) ocupa 0,47 pantallas de movil y el
+  // comparativo (§15) ocupa 4,52 —9,6 veces mas, la seccion mas grande de la ficha—, con
+  // CUATRO enlaces salientes y NINGUN CTA propio. O sea que lo ultimo que decia el cuerpo
+  // no era la peticion: eran 4,5 pantallas explicando otros tres techos, y al salir de
+  // ahi lo siguiente pulsable estaba en el pie, al 96,2 %, en una diana de 72x17 px.
+  //
+  // Delante, el bloque hace el trabajo que de verdad tiene: la comparativa es una
+  // OBJECION («¿no querre mejor techo fijo?») y las objeciones se resuelven antes de
+  // pedir, no despues. Y el CTA pasa a ser lo ultimo del cuerpo.
+  //
+  // Es un cambio de ORDEN: no se toca ni una palabra del contenido de los dos bloques.
+  //
+  // Va aqui, al final, porque el paso 9 ya borro el PRIMER `call-to-action-footer`: en
+  // este punto queda exactamente uno en la pagina y el ancla es inequivoca. Antes del
+  // paso 9 habria dos y `cambiar` lanzaria, que es lo que tiene que hacer.
   if (SECCION_COMPARAR === null) {
     throw new Error(
       '[lamas] no he podido leer estaticas/products.html, asi que no hay tarjetas de\n'
       + '  comparacion. La ficha se publicaria sin el unico enlace a una ficha hermana.',
     );
   }
-  return s + SECCION_COMPARAR;
+  return cambiar(s, '<section class="call-to-action-footer">',
+    SECCION_COMPARAR + '<section class="call-to-action-footer">',
+    'el comparativo delante del CTA de cierre');
 }
 
 /**

@@ -48,8 +48,15 @@ export const CTA_SLOTS = {
   // ── Productos ────────────────────────────────────────────────────────────────
   'motorized-louvered-pergolas': {
     alt:
-      'Motorized louvered roof pergola with white aluminum louvers open over a '
-      + 'poolside deck at a waterfront home in Palm Beach Gardens, Florida.',
+      // Reescrito mirando el recorte publicado, no el prompt que lo genero. El texto
+      // anterior —«white aluminum louvers … poolside deck … waterfront home in Palm
+      // Beach Gardens»— era el prompt de IA que esta cabecera dice haber retirado, y
+      // se quedo publicado como `alt` de una FOTO DEL CLIENTE que no muestra nada de
+      // eso: la estructura es bronce oscuro, las lamas color arena, no hay piscina, no
+      // hay frente al agua, y la ciudad no se puede saber. Manda la foto.
+      'Freestanding motorized louvered pergola with a dark bronze aluminum frame and '
+      + 'sand-coloured louvers angled part-open, seen from below against the sky over a '
+      + 'lounge terrace, with a clipped hedge and a tile-roof house behind.',
   },
   'solid-roof-pergolas': {
     alt:

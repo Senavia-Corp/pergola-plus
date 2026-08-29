@@ -36,6 +36,7 @@ interface Props {
 }
 
 const { slug, idioma = 'en' } = Astro.props;
+const rutaPresupuesto = idioma === 'es' ? '/es/contact-us/get-a-quote/' : '/contact-us/get-a-quote';
 
 const ficha = ESPECIFICACIONES[slug];
 if (!ficha) throw new Error(`[especificaciones] "${slug}" no tiene seccion de especificaciones`);
@@ -46,6 +47,10 @@ if (!copy) throw new Error(`[especificaciones] "${slug}" no tiene copy en ${idio
 const enlacesDe = (ancla: string) => ficha.enlaces
   .filter((e) => e.junto === ancla)
   .map((e) => ({ ruta: e.ruta, texto: copy.enlaces[e.id] ?? e.id }));
+
+// El destino se calcula AQUI, con el idioma en la mano, igual que en
+// FaqFichaEnlace. No puede salir del reescritor de enlaces de astro.config.mjs:
+// ese solo toca el HTML del fragmento migrado, y esto es un componente.
 ---
 
 <section id="specs" class="pp-specs">
@@ -91,6 +96,14 @@ const enlacesDe = (ancla: string) => ficha.enlaces
           ))}
         </ul>
       </div>
+
+      {/* El CTA que F4c pedia: el lector acaba de leer «estos son los numeros que un
+          comprador deberia pedirle a tres contratistas», y aqui se los pide. Es el
+          unico punto de la ficha donde el boton continua el parrafo anterior en vez
+          de interrumpirlo. Ver el comentario de `ctaTexto` en especificaciones.es.ts. */}
+      <p class="pp-specs-cta">
+        <a href={rutaPresupuesto}>{copy.ctaTexto}</a>
+      </p>
     </div>
   </div>
 </section>
@@ -193,6 +206,39 @@ const enlacesDe = (ancla: string) => ficha.enlaces
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+  }
+
+  /* El boton de cierre. Va en crema sobre el fondo oscuro de la seccion, o sea el
+     inverso de `.pp-faq-puente-a`, que es crema sobre claro. Mismo radio, mismo
+     peso y mismo relleno para que se lean como el mismo boton del sitio.
+
+     `inline-flex` con `min-height: 44px` por lo mismo que los enlaces de blog de
+     aqui arriba: WCAG 2.2 AA (SC 2.5.8) pide 24x24 de PULSACION y este enlace va
+     solo en su bloque, sin texto hermano que le imponga el interlineado. */
+  .pp-specs-cta {
+    margin-top: 3rem;
+  }
+
+  .pp-specs-cta a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.85rem 1.6rem;
+    border: 1px solid var(--secundary, #fffbf0);
+    border-radius: 999px;
+    color: var(--secundary, #fffbf0);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .pp-specs-cta a:hover {
+    background-color: var(--secundary, #fffbf0);
+    color: var(--primary, #3a545b);
+  }
+
+  .pp-specs-cta a:focus-visible {
+    outline: 2px solid var(--secundary, #fffbf0);
+    outline-offset: 3px;
   }
 
   @media screen and (max-width: 767px) {
