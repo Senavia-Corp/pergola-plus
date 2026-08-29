@@ -56,7 +56,22 @@ a.tagline-item-product:hover {
    La galeria va sobre `--primary`, asi que el pie es crema. `font-size` y
    `line-height` copian a `.why-choose-item-text`, que es el texto pequeño del sitio.
    -------------------------------------------------------------------------- */
+/* Los pies van OCULTOS: decision de diseño, no descuido.
+ *
+ * NO SE PIERDE NADA PARA UN LECTOR DE PANTALLA, y esto se comprobo antes de
+ * ocultarlos: los 6 items de la galeria llevan `alt` descriptivo propio, y ese alt
+ * dice lo mismo o mas que el pie —«Louvered roof section built alongside an existing
+ * solid patio cover, louvers fully open to the sky» frente a «Attached to a white
+ * soffit, louvers open over a paver patio»—. Cero items sin alt. Ocultar el pie con
+ * `display: none` lo saca tambien del arbol de accesibilidad, asi que no queda una
+ * descripcion duplicada anunciandose dos veces.
+ *
+ * Se conservan las reglas de debajo y el `flex-direction: column`: si algun dia se
+ * vuelven a enseñar, basta quitar este `display: none` y vuelven bien colocados,
+ * debajo de su foto y a su ancho. Sin eso volverian al defecto de origen —el pie
+ * como segunda columna, saliendose 178 px por la derecha—. */
 .pp-galeria-pie {
+  display: none;
   color: var(--secundary, #fffbf0);
   margin-top: 0.75rem;
   font-size: 13px;
