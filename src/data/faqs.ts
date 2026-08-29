@@ -90,6 +90,15 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'material-cortinas-privacidad',
     'pergola-cortinas-cuantas',
   ],
+  // Las tres propias del tema, y las tres dicen algo que el folleto callaba: que la
+  // capa UV solo funciona por una cara, que llueve mas ruidoso que una cubierta maciza
+  // y cuando conviene la otra. Ninguna de las cinco migradas sube: son «Yes», «No»,
+  // «Absolutely» y «Yes!».
+  'polycarbonate-pergolas': [
+    'material-policarbonato-vida',
+    'material-policarbonato-ruido',
+    'pergola-policarbonato-vs-macizo',
+  ],
 };
 
 export interface Faq {

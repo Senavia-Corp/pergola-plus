@@ -102,6 +102,19 @@ const PROPIAS = {
         '.why-choose-content -> §5 es un clon de `why-choose-section`, que ya existe en el CSS de Webflow y en 29 fragmentos vivos pero en ninguna ficha de producto. Se clona CON su data-w-id: animaciones.css lo selecciona por atributo',
     },
   },
+  '/products/polycarbonate-pergolas': {
+    razon: 'ficha recompuesta, mismo molde: `services` sale entero y su hueco lo ocupa el bloque comparativo',
+    permitidos: {
+      'af395482-435a-2143-5385-d4f1e6bdca74':
+        '.header-services -> el bloque de servicios se retira; el enlace a /services/pergola-design-construction se repone en la entradilla del proceso',
+      'af395482-435a-2143-5385-d4f1e6bdca7b':
+        '.wrapper-services -> la rejilla de las 7 tarjetas. Su turno OSCURO lo cubre la seccion de especificaciones, que entra con [data-pp-reveal]',
+    },
+    anadidos: {
+      'a36f2a1e-9f59-c2af-809a-f51186a9ca93':
+        '.why-choose-content -> §5 es un clon de `why-choose-section`, clonado CON su data-w-id porque animaciones.css selecciona por atributo',
+    },
+  },
   '/resources/blog': {
     razon: 'listado reconstruido desde el CSV del CMS; el revelado lo hace [data-pp-reveal] con animation-timeline, no IX2',
     permitidos: {

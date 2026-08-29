@@ -153,6 +153,32 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
       { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
     ],
   },
+
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Pergolas de policarbonato
+  //
+  // El estimador da 90-120 $/pie2 para este producto pero con `fuente: 'mercado'` y
+  // una nota que dice de donde sale («derivada de la open-air publicada; el mercado de
+  // kits prefabricados no aplica»). O sea: es una derivacion razonada, no una cifra
+  // publicada. `requiereFirma` la marca como pendiente de firma, asi que aqui no lleva
+  // numero — solo las cuatro con `fuente: 'publicada'` lo llevan.
+  // ──────────────────────────────────────────────────────────────────────────────
+  'polycarbonate-pergolas': {
+    filas: [
+      'panel', 'uv', 'luz', 'ruido', 'montaje', 'estructura', 'acabado',
+      'desague', 'plazo', 'inversion', 'donde',
+    ],
+    enGrafo: ['panel', 'uv', 'luz', 'ruido', 'montaje', 'estructura', 'acabado', 'desague'],
+    material: 'estructura',
+    huecos: ['espesor', 'viento', 'garantia', 'medidas', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'plazo' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
 };
 
 /**

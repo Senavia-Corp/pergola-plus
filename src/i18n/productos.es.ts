@@ -840,6 +840,106 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Pérgolas con techo de policarbonato | Sur de Florida',
     description: 'Paneles translúcidos que bloquean el 99% de los UV, resisten impactos y dejan pasar la luz, sobre estructura de aluminio reforzada.',
     dic: {
+      // ── Chips del hero ────────────────────────────────────────────────────────
+      'Watertight Panel Roof':
+        'Cubierta de panel estanca',
+      'Multiwall Polycarbonate Panels':
+        'Paneles de policarbonato de pared múltiple',
+
+      // ── Los alt de las cuatro fotos grandes ───────────────────────────────────
+      'Polycarbonate pergola with a pale translucent roof on a grey aluminum frame, throwing diffuse light over a terrace against a stucco house.':
+        'Pérgola de policarbonato con cubierta translúcida clara sobre estructura de aluminio gris, repartiendo luz difusa por una terraza junto a una casa de estuco.',
+      'White-framed polycarbonate pergola over an outdoor kitchen and bar on a composite deck, backed by a clipped hedge.':
+        'Pérgola de policarbonato con estructura blanca sobre una cocina exterior y una barra en una terraza de composite, con un seto recortado detrás.',
+      'Dark-framed polycarbonate pergola beside a slatted privacy screen, its translucent roof lighting a paved side terrace.':
+        'Pérgola de policarbonato con estructura oscura junto a una celosía de privacidad, con su cubierta translúcida iluminando una terraza lateral pavimentada.',
+      'Dark aluminum frame with white posts carrying a translucent polycarbonate roof over a patio with French doors.':
+        'Estructura de aluminio oscuro con pilares blancos sosteniendo una cubierta translúcida de policarbonato sobre un patio con puertas francesas.',
+
+      // ── §4 ────────────────────────────────────────────────────────────────────
+      'Two Ways We Mount It, And How Much Light You Let Through':
+        'Dos formas de montarla, y cuánta luz deja pasar',
+      'Every polycarbonate roof we build is drawn for one house. Where it lands is the first decision — attached to the structure, or freestanding over a deck or a patio. The second is the panel: the tint sets how much light comes through and how much heat comes with it, and the frame colour decides whether the structure reads light or dark against your house.':
+        'Cada cubierta de policarbonato que construimos se dibuja para una casa concreta. Dónde se apoya es la primera decisión: adosada a la estructura, o exenta sobre una terraza o un patio. La segunda es el panel: el tinte fija cuánta luz entra y cuánto calor viene con ella, y el color de la estructura decide si se lee clara u oscura contra su casa.',
+      'Attached to the House':
+        'Adosada a la casa',
+      'Freestanding Over Deck or Patio':
+        'Exenta sobre terraza o patio',
+      'Panel Tint To Suit The Light':
+        'Tinte del panel según la luz',
+      'Frame Colour From The Palette':
+        'Color de estructura de la carta',
+
+      // ── §5 ────────────────────────────────────────────────────────────────────
+      'What A Translucent Roof Really Does':
+        'Lo que hace de verdad una cubierta translúcida',
+      'A polycarbonate roof buys you light that a solid roof cannot. Four things decide whether that trade is the right one for your patio: how the UV layer works, what the panel is actually made of, what it sounds like in the rain, and where the water ends up.':
+        'Una cubierta de policarbonato le compra una luz que una cubierta maciza no puede dar. Hay cuatro cosas que deciden si ese intercambio le conviene a su patio: cómo funciona la capa UV, de qué está hecho el panel de verdad, cómo suena con lluvia y por dónde acaba yéndose el agua.',
+      'The UV Layer, And Which Way It Faces':
+        'La capa UV, y hacia qué lado va',
+      'Quality panels carry a co-extruded UV layer and a manufacturer warranty measured in years against yellowing and loss of light. The part nobody mentions: the layer only works facing out. Orientation at installation matters as much as the panel you buy, which is why this is not a job to hand to whoever is cheapest that week.':
+        'Los paneles buenos llevan una capa UV coextruida y una garantía del fabricante, medida en años, contra el amarilleo y la pérdida de luz. La parte que nadie menciona: la capa solo funciona hacia fuera. La orientación en el montaje importa tanto como el panel que compre, y por eso este no es un trabajo para dárselo al más barato de la semana.',
+      'Multiwall, Not A Single Sheet':
+        'Pared múltiple, no una lámina',
+      'A multiwall panel is two skins with air chambers between them, not one flat sheet. The chambers are what make it stiffer, quieter and better at slowing heat than the single-skin material sold in kit form. It is also the reason the roof reads as a soft diffuse light rather than a hard glare.':
+        'Un panel de pared múltiple son dos caras con cámaras de aire entre ellas, no una lámina lisa. Las cámaras son las que lo hacen más rígido, más silencioso y mejor frenando el calor que el material de una sola cara que se vende en kit. Y son también la razón de que la cubierta dé una luz suave y difusa en vez de un reflejo duro.',
+      'It Is Louder In The Rain':
+        'Con lluvia suena más',
+      'Noticeably louder than an insulated solid roof, and we would rather you heard it here. It is a thin panel and rain drums on it; multiwall is quieter than single-skin because the chambers damp the impact. If you want to hold a conversation through a Florida downpour, this is the wrong roof and we will tell you so.':
+        'Bastante más que una cubierta maciza aislada, y preferimos que se entere aquí. Es un panel fino y la lluvia repica en él; la pared múltiple suena menos que la de una sola cara porque las cámaras amortiguan el impacto. Si quiere poder conversar durante un aguacero de Florida, esta no es la cubierta, y se lo vamos a decir.',
+      'Where The Water Goes':
+        'Por dónde se va el agua',
+      'The panels sit in a gutter profile built into the frame, so the roof drains at its edge rather than dripping down the line of every joint. It is the same engineered aluminium structure we put under an open-air pergola: the panel changes, the frame does not.':
+        'Los paneles apoyan en un perfil-canalón integrado en la estructura, así que la cubierta desagua por su borde en vez de gotear por la línea de cada junta. Es la misma estructura de aluminio calculada que ponemos bajo una pérgola de estructura abierta: cambia el panel, no la estructura.',
+
+      // ── Pies de galería ───────────────────────────────────────────────────────
+      'Dark frame over the grill run, against a white wall':
+        'Estructura oscura sobre la zona de parrilla, contra una pared blanca',
+      'Over the side garden, between the palms':
+        'Sobre el jardín lateral, entre las palmeras',
+      'White frame over a raised bar and counter':
+        'Estructura blanca sobre una barra elevada',
+      'Close up from below: panel, rafter and sky':
+        'De cerca desde abajo: panel, viga y cielo',
+      'A long attached run over a brick-house patio':
+        'Un tramo largo adosado sobre el patio de una casa de ladrillo',
+
+      // ── Los alt de la galería ─────────────────────────────────────────────────
+      'Dark-framed polycarbonate roof over an outdoor grill run, set against a white wall on a paver-and-turf terrace.':
+        'Cubierta de policarbonato con estructura oscura sobre una zona de parrilla exterior, contra una pared blanca, en una terraza de losas con juntas de césped.',
+      'Polycarbonate roof on a dark frame covering a planted side entrance, framed by travellers palms and tropical planting.':
+        'Cubierta de policarbonato sobre estructura oscura cubriendo una entrada lateral ajardinada, enmarcada por palmeras del viajero y plantación tropical.',
+      'White-framed polycarbonate pergola over a raised outdoor bar and counter, attached to a two-storey stucco home.':
+        'Pérgola de policarbonato con estructura blanca sobre una barra exterior elevada, adosada a una casa de estuco de dos plantas.',
+      'Close view from below of translucent polycarbonate panels on dark rafters, with cloud and blue sky showing through the roof.':
+        'Vista cercana desde abajo de los paneles translúcidos de policarbonato sobre vigas oscuras, con nubes y cielo azul asomando a través de la cubierta.',
+      'Long polycarbonate roof attached along the back of a brick house, covering a patio with a hanging chair and seating.':
+        'Cubierta de policarbonato larga adosada a la parte trasera de una casa de ladrillo, cubriendo un patio con un sillón colgante y asientos.',
+      'White-framed polycarbonate pergola over an outdoor kitchen on a composite deck, the translucent roof keeping the whole space bright.':
+        'Pérgola de policarbonato con estructura blanca sobre una cocina exterior en una terraza de composite, con la cubierta translúcida manteniendo todo el espacio luminoso.',
+      'Seen from below: translucent polycarbonate panels on a dark frame with a ceiling fan, daylight coming through the roof.':
+        'Vista desde abajo: paneles translúcidos de policarbonato sobre estructura oscura con un ventilador de techo, con la luz del día entrando por la cubierta.',
+
+      // ── Vídeo, CTA y comparativo ──────────────────────────────────────────────
+      'Light Through The Roof':
+        'La luz a través de la cubierta',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at which way it faces, and pick the panel around how much light you actually want.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos su espacio, miramos hacia dónde da y elegimos el panel según la luz que de verdad quiere.',
+      'A polycarbonate roof keeps the space bright and dry. If you would rather have a roof that is quieter and cooler underneath, one that opens and shuts, or one with nothing over you at all, these are the other three we build.':
+        'Una cubierta de policarbonato mantiene el espacio luminoso y seco. Si prefiere una que suene menos y esté más fresca por debajo, una que se abra y se cierre, o una sin nada encima, estos son los otros tres que construimos.',
+
+      // ── Las cinco preguntas del FAQ, ya sin numerar ───────────────────────────
+      'Do polycarbonate roofs block UV?':
+        '¿Los techos de policarbonato bloquean los UV?',
+      'Will the panels turn yellow?':
+        '¿Los paneles se ponen amarillos?',
+      'Can they survive severe storms?':
+        '¿Aguantan tormentas fuertes?',
+      'Do they keep the patio dry?':
+        '¿Mantienen el patio seco?',
+      'Are the panel tints custom?':
+        '¿Los tintes del panel son a medida?',
+
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

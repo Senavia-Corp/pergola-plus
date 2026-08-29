@@ -469,6 +469,115 @@ export const FICHAS = {
       texto: 'A motorized screen closes a side and rolls away. If you want the whole space enclosed permanently, a roof that opens and shuts, a roof that never moves, or a structure of its own, these are the other four we build.',
     },
   },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Pergolas de policarbonato
+  // ══════════════════════════════════════════════════════════════════════════════
+  'polycarbonate-pergolas': {
+    cms: '/cms-img/products/polycarbonate-pergolas',
+    galeria: { prefijo: 'gallery-polycarbonate-pergola-contractors-south-florida-', diapositivas: 10 },
+
+    // Dos de los tres chips eran absolutos sin cifra, y en Florida uno de ellos ademas
+    // suena a homologacion: «Impact-Resistant» es lo que dicen las ventanas y puertas
+    // con NOA. Sin numero de aprobacion detras, afirmarlo en el hero de una pagina cuya
+    // §8 declara que no publica ninguna cifra de viento es la contradiccion de F4a otra
+    // vez. Se sustituyen por lo que SI se sostiene: la construccion del panel.
+    // «Advanced UV Protection» se queda: es vago, pero el cliente publica su respaldo
+    // («block 99% of harmful rays») y no afirma ninguna norma.
+    chips: [
+      { viejo: '100% Waterproof Patio', nuevo: 'Watertight Panel Roof', destino: '#how-it-works' },
+      { viejo: 'Advanced UV Protection', nuevo: 'Advanced UV Protection', destino: '#features' },
+      { viejo: 'Impact-Resistant Roofing', nuevo: 'Multiwall Polycarbonate Panels', destino: '#specs' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Polycarbonate pergola contractors in South Florida installing UV-protected translucent roofing systems for patios and poolside outdoor spaces." loading="lazy" src="/images/cliente/polycarbonate-pergola.avif"',
+        nuevo: 'alt="Polycarbonate pergola with a pale translucent roof on a grey aluminum frame, throwing diffuse light over a terrace against a stucco house." loading="lazy" src="/images/cliente/polycarbonate-pergola.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-polycarbonate-pergola-contractors-south-florida.avif" alt="Polycarbonate pergola contractors in South Florida installing UV-protected translucent roofing systems for patios and poolside outdoor spaces."',
+        nuevo: '<img src="{CMS}/cover-polycarbonate-pergola-contractors-south-florida.avif" alt="White-framed polycarbonate pergola over an outdoor kitchen and bar on a composite deck, backed by a clipped hedge."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Polycarbonate pergola contractors in South Florida installing UV-protected translucent roofing systems for patios, pools, and modern outdoor living spaces." loading="lazy" src="{CMS}/intro-polycarbonate-pergola-contractors-south-florida-01.avif"',
+        nuevo: 'alt="Dark-framed polycarbonate pergola beside a slatted privacy screen, its translucent roof lighting a paved side terrace." loading="lazy" src="{CMS}/intro-polycarbonate-pergola-contractors-south-florida-01.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-polycarbonate-pergola-contractors-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-polycarbonate-pergola-contractors-south-florida.avif" loading="lazy" alt="Dark aluminum frame with white posts carrying a translucent polycarbonate roof over a patio with French doors."' },
+    ],
+
+    configuraciones: {
+      foto: '05',
+      alt: 'White-framed polycarbonate pergola over an outdoor kitchen on a composite deck, the translucent roof keeping the whole space bright.',
+      rotulo: 'Configurations',
+      titulo: 'Two Ways We Mount It, And How Much Light You Let Through',
+      texto: 'Every polycarbonate roof we build is drawn for one house. Where it lands is the first decision — attached to the structure, or freestanding over a deck or a patio. The second is the panel: the tint sets how much light comes through and how much heat comes with it, and the frame colour decides whether the structure reads light or dark against your house.',
+      bullets: ['Attached to the House', 'Freestanding Over Deck or Patio',
+        'Panel Tint To Suit The Light', 'Frame Colour From The Palette'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    // Los cuatro hechos salen de las tres preguntas propias del tema y de la carta del
+    // cliente. Dos de ellos le restan al producto —el ruido de la lluvia y el hecho de
+    // que la capa UV solo funciona por una cara— y por eso son los que valen: son las
+    // dos cosas que un comprador descubre despues, no antes.
+    comoFunciona: {
+      foto: '08',
+      alt: 'Seen from below: translucent polycarbonate panels on a dark frame with a ceiling fan, daylight coming through the roof.',
+      rotulo: 'How It Works',
+      titulo: 'What A Translucent Roof Really Does',
+      texto: 'A polycarbonate roof buys you light that a solid roof cannot. Four things decide whether that trade is the right one for your patio: how the UV layer works, what the panel is actually made of, what it sounds like in the rain, and where the water ends up.',
+      celdas: [
+        ['/images/pp-icon-uv.svg', 'The UV Layer, And Which Way It Faces',
+          'Quality panels carry a co-extruded UV layer and a manufacturer warranty measured in years against yellowing and loss of light. The part nobody mentions: the layer only works facing out. Orientation at installation matters as much as the panel you buy, which is why this is not a job to hand to whoever is cheapest that week.'],
+        ['/images/pp-icon-panel.svg', 'Multiwall, Not A Single Sheet',
+          'A multiwall panel is two skins with air chambers between them, not one flat sheet. The chambers are what make it stiffer, quieter and better at slowing heat than the single-skin material sold in kit form. It is also the reason the roof reads as a soft diffuse light rather than a hard glare.'],
+        ['/images/pp-icon-ruido.svg', 'It Is Louder In The Rain',
+          'Noticeably louder than an insulated solid roof, and we would rather you heard it here. It is a thin panel and rain drums on it; multiwall is quieter than single-skin because the chambers damp the impact. If you want to hold a conversation through a Florida downpour, this is the wrong roof and we will tell you so.'],
+        ['/images/pp-icon-desague.svg', 'Where The Water Goes',
+          'The panels sit in a gutter profile built into the frame, so the roof drains at its edge rather than dripping down the line of every joint. It is the same engineered aluminium structure we put under an open-air pergola: the panel changes, the frame does not.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Cinco obras. Se van cinco: la `-01` es la MISMA foto que la intro (sale tres
+    // veces en el fragmento), la `-03` es practicamente la del «swatch» (distancia de
+    // Hamming 1), la `-05` y la `-08` pasan a §4 y §5, y la ultima diapositiva no es de
+    // este producto: apunta a /images/cliente/custom-pergolas-and-patio-covers.avif.
+    pies: {
+      '02': ['Dark frame over the grill run, against a white wall',
+        'Dark-framed polycarbonate roof over an outdoor grill run, set against a white wall on a paver-and-turf terrace.'],
+      '04': ['Over the side garden, between the palms',
+        'Polycarbonate roof on a dark frame covering a planted side entrance, framed by travellers palms and tropical planting.'],
+      '07': ['White frame over a raised bar and counter',
+        'White-framed polycarbonate pergola over a raised outdoor bar and counter, attached to a two-storey stucco home.'],
+      '09': ['Close up from below: panel, rafter and sky',
+        'Close view from below of translucent polycarbonate panels on dark rafters, with cloud and blue sky showing through the roof.'],
+      '10': ['A long attached run over a brick-house patio',
+        'Long polycarbonate roof attached along the back of a brick house, covering a patio with a hanging chair and seating.'],
+    },
+
+    faqNumeradas: [
+      'Do polycarbonate roofs block UV?',
+      'Will the panels turn yellow?',
+      'Can they survive severe storms?',
+      'Do they keep the patio dry?',
+      'Are the panel tints custom?',
+    ],
+
+    video: 'Light Through The Roof',
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure your space, look at which way it faces, and pick the panel around how much light you actually want.',
+
+    comparar: {
+      productos: ['insulated', 'louvered', 'open', 'solar'],
+      rotulo: 'Other Roofs',
+      titulo: 'Compare The Four Pergola Roofs',
+      texto: 'A polycarbonate roof keeps the space bright and dry. If you would rather have a roof that is quieter and cooler underneath, one that opens and shuts, or one with nothing over you at all, these are the other three we build.',
+    },
+  },
 };
 
 /** La ruta de una foto de galeria de esa ficha. */

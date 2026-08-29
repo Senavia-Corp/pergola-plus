@@ -240,6 +240,55 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         estimador: 'Price your own project with our estimator',
       },
     },
+
+    'polycarbonate-pergolas': {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: la pregunta `material-policarbonato-ruido` («Multiwall panels are
+        // quieter than single-skin, because the air chambers damp the impact»).
+        panel: { etiqueta: 'Panel', valor: 'Multiwall polycarbonate: two skins with air chambers between them, not a single flat sheet' },
+        // Fuente: la pregunta `material-policarbonato-vida`. El «solo funciona hacia
+        // fuera» NO se quita: es el dato que decide si el panel dura lo que dice.
+        uv: { etiqueta: 'UV layer', valor: 'A co-extruded UV layer with a manufacturer warranty against yellowing. It only works facing out, so orientation at installation matters' },
+        // Fuente: «UV-Blocking Translucent Panels» y «Thermal Reflective Coating
+        // Options» de la carta del cliente. El 99 % lo publica el cliente en su propia
+        // respuesta 1, asi que se cita como suyo y no se repite como afirmacion nuestra.
+        luz: { etiqueta: 'Light and heat', valor: 'Daylight through, with tint levels to set how much; a thermal reflective coating is available where the heat matters more than the brightness' },
+        // Fuente: la pregunta `material-policarbonato-ruido`, verbatim en su sentido.
+        ruido: { etiqueta: 'In the rain', valor: 'Louder than an insulated solid roof: it is a thin panel and rain drums on it. Multiwall damps it, but it does not remove it' },
+        montaje: { etiqueta: 'Mounting', valor: 'Attached to the house, or freestanding over a deck or a patio' },
+        // Fuente: «Aluminum Reinforced Frame» del cliente y la nota de
+        // src/data/estimador.ts: es la MISMA estructura que la open-air.
+        estructura: { etiqueta: 'Frame', valor: 'Powder-coated extruded aluminum, the same engineered structure we put under an open-air pergola' },
+        // Fuente: `div.color-section` de la propia pagina y «Custom Tint & Finish
+        // Options» del cliente.
+        acabado: { etiqueta: 'Finish', valor: 'Frame colours from the powder-coat palette, with panel tints chosen to match' },
+        desague: { etiqueta: 'Drainage', valor: 'The panels sit in a gutter profile built into the frame, so the roof drains at its edge' },
+        plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
+        // SIN CIFRA: el estimador la da como derivada de la open-air, con
+        // `fuente: 'mercado'`, y su propio modulo la marca como pendiente de firma.
+        inversion: { etiqueta: 'Investment', valor: 'Between an open-air pergola and an insulated roof: the frame is the same, the panel is the difference. Our estimator gives a working range' },
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        espesor: 'Panel thickness, wall count and the light transmission figure for the tint you choose. Those three decide what the roof actually does, and they are on the panel data sheet rather than in a headline.',
+        viento: 'Design wind speed, design pressure and the Miami-Dade NOA number. Each structure is engineered and permitted for its own address; we are not publishing a single figure until it is the one on your drawings.',
+        garantia: 'Warranty term, and how it splits between the frame and the panel. Those are two different warranties from two different manufacturers and we are not going to blur them into one word.',
+        medidas: 'Maximum clear span and panel run. We size every roof from the structural calculation for your site, and we do not publish a catalogue span.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+      },
+      enlaces: {
+        plazo: 'How long a pergola installation takes in Florida',
+        permiso: 'When a pergola needs a permit in South Florida',
+        coste: 'What a pergola actually costs in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
   },
 
   es: {
@@ -352,6 +401,41 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       },
       enlaces: {
         plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    'polycarbonate-pergolas': {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        panel: { etiqueta: 'Panel', valor: 'Policarbonato de pared múltiple: dos caras con cámaras de aire entre ellas, no una lámina lisa' },
+        uv: { etiqueta: 'Capa UV', valor: 'Una capa UV coextruida con garantía del fabricante contra el amarilleo. Solo funciona hacia fuera, así que la orientación en el montaje importa' },
+        luz: { etiqueta: 'Luz y calor', valor: 'Deja pasar la luz del día, con niveles de tinte para decidir cuánta; hay revestimiento térmico reflectante cuando pesa más el calor que la claridad' },
+        ruido: { etiqueta: 'Con lluvia', valor: 'Más ruidoso que una cubierta maciza aislada: es un panel fino y la lluvia repica en él. La pared múltiple lo amortigua, pero no lo quita' },
+        montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa, o exenta sobre una terraza o un patio' },
+        estructura: { etiqueta: 'Estructura', valor: 'Aluminio extruido con recubrimiento en polvo, la misma estructura calculada que ponemos bajo una pérgola de estructura abierta' },
+        acabado: { etiqueta: 'Acabado', valor: 'Colores de estructura de la carta de recubrimiento en polvo, con el tinte del panel elegido a juego' },
+        desague: { etiqueta: 'Desagüe', valor: 'Los paneles apoyan en un perfil-canalón integrado en la estructura, así que la cubierta desagua por su borde' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; el montaje en sí, unos pocos días cuando el material ya está' },
+        inversion: { etiqueta: 'Inversión', valor: 'Entre una pérgola de estructura abierta y una cubierta maciza aislada: la estructura es la misma, el panel es la diferencia. Nuestro estimador da una banda de trabajo' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        espesor: 'Espesor del panel, número de paredes y transmisión de luz del tinte que elija. Esas tres cosas deciden lo que hace de verdad la cubierta, y están en la ficha técnica del panel, no en un titular.',
+        viento: 'Velocidad de viento de diseño, presión de diseño y número de NOA de Miami-Dade. Cada estructura se calcula y se permisa para su propia dirección; no vamos a publicar ni una cifra hasta que sea la de sus planos.',
+        garantia: 'Años de garantía, y cómo se reparte entre la estructura y el panel. Son dos garantías distintas de dos fabricantes distintos y no las vamos a resumir en una palabra.',
+        medidas: 'Luz máxima sin columna intermedia y longitud de panel. Cada cubierta se dimensiona a partir del cálculo estructural de su parcela, y no publicamos una luz de catálogo.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+      },
+      enlaces: {
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
         coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
         huracan: 'Qué hace que una pérgola aguante un huracán aquí',
         estimador: 'Ponga precio a su proyecto con nuestro estimador',
