@@ -1566,7 +1566,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Most of what we build is drawn from nothing for one house. This one is not, and the difference is worth understanding before you compare quotes: four things come with the system rather than with the project.':
         'Casi todo lo que construimos se dibuja desde cero para una casa concreta. Este no, y la diferencia conviene entenderla antes de comparar presupuestos: hay cuatro cosas que vienen con el sistema y no con el proyecto.',
       'A Known Configuration':
-        'Una configuración conocida',
+        'Configuración ya definida',
       'It suits projects that want a defined, engineered system rather than a fully bespoke one-off — faster to specify, faster to permit, and priced accordingly. If your space has unusual geometry or an awkward tie-in to the house, a bespoke structure is usually the better answer, and we will tell you which one you are looking at.':
         'Le va bien a los proyectos que quieren un sistema definido y ya calculado en vez de una pieza única del todo a medida: se especifica antes, se permisa antes y se cotiza en consecuencia. Si su espacio tiene una geometría rara o un encuentro complicado con la casa, lo normal es que la respuesta buena sea una estructura a medida, y le vamos a decir cuál de las dos está mirando.',
       'Automation Built In, Not Added':

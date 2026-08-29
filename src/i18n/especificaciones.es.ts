@@ -302,7 +302,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         sombra: { etiqueta: 'Shade', valor: 'Fixed slats block sun by angle: less at midday, more morning and evening. Depth and spacing are sized for the direction your patio faces' },
         // Fuente: la pregunta `pergola-lluvia-abierta`, verbatim en su sentido. Es una
         // fila que dice que NO, y es la mas util de la seccion.
-        lluvia: { etiqueta: 'In the rain', valor: 'It sheds nothing. An open slat roof is not a rain roof — that is the trade for the light and the airflow' },
+        lluvia: { etiqueta: 'In the rain', valor: 'It sheds nothing. An open slat roof is not a rain roof: that is the trade for the light and the air' },
         montaje: { etiqueta: 'Mounting', valor: 'Attached to the house, or freestanding over a deck or a lawn' },
         // Fuente: la respuesta 2 de la ficha, TEXTUAL en su sustancia.
         material: { etiqueta: 'Frame material', valor: 'Extruded powder-coated aluminum, never wood' },
