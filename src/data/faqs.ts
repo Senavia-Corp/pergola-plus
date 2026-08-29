@@ -106,6 +106,22 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'pergola-cuanta-sombra',
     'pergola-lluvia-abierta',
   ],
+  carports: [
+    'pergola-carport-coche',
+    'pergola-carport-granizo',
+  ],
+  // Este tema tiene DIEZ preguntas propias, la biblioteca mas rica del sitio. Suben las
+  // tres que un comprador no sabe que tiene que preguntar: si vale como barrera de
+  // piscina, que malla va en cada cara y cuando conviene remallar en vez de sustituir.
+  'screen-enclosures': [
+    'permiso-piscina-barrera',
+    'material-mosquitera-tipos',
+    'precio-reparar-vs-sustituir',
+  ],
+  // Solo una: es la unica propia del tema, y dice cuando NO es el producto adecuado.
+  sukkha: [
+    'pergola-sukkha-diferencia-detalle',
+  ],
 };
 
 export interface Faq {

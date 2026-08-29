@@ -337,6 +337,124 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         estimador: 'Price your own project with our estimator',
       },
     },
+
+    carports: {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: la pregunta `pergola-carport-coche`.
+        altura: { etiqueta: 'Clear height', valor: 'Specified from what you actually park, roof racks included, not from a catalogue figure' },
+        // Fuente: la pregunta `pergola-carport-granizo`. El «no es un garaje» se queda.
+        protege: { etiqueta: 'What it protects against', valor: 'Sun above all — constant UV is what fades paint and cracks a dashboard — plus rain and falling debris. It is not a garage and it does not stop wind-driven rain' },
+        // Fuente: «High-Performance Roofing Systems» de la carta del cliente.
+        techo: { etiqueta: 'Roof options', valor: 'Insulated, solid or polycarbonate, on the same engineered aluminum frame' },
+        // Fuente: «Integrated Gutter & Drainage System» del cliente.
+        desague: { etiqueta: 'Drainage', valor: 'Concealed internal drainage routed away from the vehicles and the driveway' },
+        montaje: { etiqueta: 'Mounting', valor: 'Attached to the house, or freestanding over the drive. Post placement is set by how the doors open' },
+        material: { etiqueta: 'Frame material', valor: 'Engineered structural aluminum, powder-coated' },
+        acabado: { etiqueta: 'Finish', valor: 'From the powder-coat palette, plain or in a wood-look texture, matched to the house' },
+        // Fuente: las fotos de obra, en las que salen en seis de las diez.
+        privacidad: { etiqueta: 'Side screens', valor: 'Slatted screens can close one or both open sides for privacy from the street or a neighbour' },
+        plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
+        inversion: { etiqueta: 'Investment', valor: 'Priced by the span and the roof you choose. Our estimator gives a working range before you call anyone' },
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        medidas: 'Maximum clear span and bay sizes. We size every structure from the calculation for your site, and we do not publish a catalogue span.',
+        viento: 'Design wind speed, design pressure and the Miami-Dade NOA number. Each structure is engineered and permitted for its own address; we are not publishing a single figure until it is the one on your drawings.',
+        aleacion: 'Aluminium alloy, temper and wall thickness. This is what separates two structures that look identical, and it belongs on the engineering, not in a marketing line.',
+        garantia: 'Warranty term, and how it splits between structure, finish and any moving parts. Those are different warranties and we are not going to blur them into one word.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+      },
+      enlaces: {
+        plazo: 'How long a pergola installation takes in Florida',
+        permiso: 'When a pergola needs a permit in South Florida',
+        coste: 'What a pergola actually costs in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
+
+    'screen-enclosures': {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: la pregunta `pergola-cerramiento-mansarda`.
+        forma: { etiqueta: 'Roof shape', valor: 'Mansard, gable or dome. The shape sets the headroom, how it sheds water across a span, and most of the price' },
+        // Fuente: la pregunta `material-mosquitera-tipos`.
+        malla: { etiqueta: 'Mesh', valor: 'Fibreglass insect mesh, tighter no-see-um for waterfront lots, solar screen against heat and glare, or pet-resistant on the lower panels. They can be mixed on one cage' },
+        // Fuente: la pregunta `permiso-piscina-barrera`.
+        barrera: { etiqueta: 'As a pool barrier', valor: 'It can qualify under Florida pool safety law if it fully surrounds the pool and the doors are self-closing and self-latching at the required height. Decided at design' },
+        puertas: { etiqueta: 'Doors', valor: 'Fitted with self-closing hardware where the enclosure is doing barrier duty; a pet door goes in a framed panel rather than in the mesh' },
+        // Fuente: la pregunta `precio-reparar-vs-sustituir`.
+        reparacion: { etiqueta: 'Rescreen or replace', valor: 'If the frame is sound and the footings are intact, rescreening is far cheaper and is the right call. Replacement is for a frame corroded at the base or failing fasteners' },
+        material: { etiqueta: 'Frame material', valor: 'Engineered structural aluminum, powder-coated' },
+        acabado: { etiqueta: 'Finish', valor: 'White or bronze framing from the powder-coat palette' },
+        permiso: { etiqueta: 'Permitting', valor: 'A permitted structure: we do the structural engineering and run the approval' },
+        plazo: { etiqueta: 'Timeline', valor: 'Fabrication is the long pole — the frame is cut to your pool geometry, so nothing is off the shelf. Erecting and screening a typical residential cage is a matter of days once material arrives' },
+        inversion: { etiqueta: 'Investment', valor: 'Priced mostly by enclosed volume and roof span, because those set the aluminum sizing. Our estimator gives a working range' },
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        viento: 'Design wind speed, design pressure and the Miami-Dade NOA number. Each structure is engineered and permitted for its own address; we are not publishing a single figure until it is the one on your drawings.',
+        aleacion: 'Aluminium alloy, temper and wall thickness. This is what separates two structures that look identical, and it belongs on the engineering, not in a marketing line.',
+        garantia: 'Warranty term, and how it splits between structure, finish and any moving parts. Those are different warranties and we are not going to blur them into one word.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+        medidas: 'Maximum span and enclosure height. Every cage is cut to your pool geometry, and we do not publish a catalogue maximum.',
+      },
+      enlaces: {
+        plazo: 'How long a pergola installation takes in Florida',
+        permiso: 'When a pergola needs a permit in South Florida',
+        coste: 'What a pergola actually costs in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
+
+    sukkha: {
+      titulo: 'Specifications, Including The Gaps',
+      entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
+      huecosTitulo: 'Not published yet',
+      huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
+      ctaTexto: 'Ask us these five',
+      filas: {
+        // Fuente: la pregunta `pergola-sukkha-diferencia-detalle`.
+        sistema: { etiqueta: 'System, not a one-off', valor: 'A defined, engineered configuration rather than a bespoke structure drawn from nothing: faster to specify, faster to permit, and priced accordingly' },
+        // Fuente: «Custom Configuration Capabilities» de la carta del cliente.
+        configuracion: { etiqueta: 'What you choose', valor: 'Layout, size, finish and which integrated features you want. The engineering is already done' },
+        // Fuente: «Integrated Automation Technology» del cliente.
+        automatizacion: { etiqueta: 'Automation', valor: 'Designed around motorised elements, lighting and controls rather than having them retrofitted afterwards' },
+        // Fuente: «Architectural Fascia Enhancements» del cliente.
+        fascia: { etiqueta: 'Fascia', valor: 'Wrap options close over the hardware, so the profile reads as a clean line rather than as a mechanism with covers' },
+        material: { etiqueta: 'Frame material', valor: 'Premium-grade aluminum, engineered to resist corrosion and structural fatigue' },
+        acabado: { etiqueta: 'Finish', valor: 'From the powder-coat palette, with the fascia wrap chosen to match' },
+        permiso: { etiqueta: 'Permitting', valor: 'A permanent structure: we do the calculation and run the approval for the address it goes on' },
+        plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
+        // SIN CIFRA, y el estimador lo razona: «el Sukkha es un sistema propietario sin
+        // comparable de mercado: cualquier banda seria inventada».
+        inversion: { etiqueta: 'Investment', valor: 'Quoted per project. It is a proprietary system with no market comparable, so we are not publishing a band we would have to invent' },
+        donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
+      },
+      huecos: {
+        viento: 'Design wind speed, design pressure and the Miami-Dade NOA number. Each structure is engineered and permitted for its own address; we are not publishing a single figure until it is the one on your drawings.',
+        aleacion: 'Aluminium alloy, temper and wall thickness. This is what separates two structures that look identical, and it belongs on the engineering, not in a marketing line.',
+        garantia: 'Warranty term, and how it splits between structure, finish and any moving parts. Those are different warranties and we are not going to blur them into one word.',
+        financiacion: 'Financing terms. Ask us: we would rather tell you on the phone than publish a rate that changes.',
+        medidas: 'Maximum span and module sizes for the system. Each structure is sized from the calculation for your site.',
+      },
+      enlaces: {
+        plazo: 'How long a pergola installation takes in Florida',
+        permiso: 'When a pergola needs a permit in South Florida',
+        huracan: 'What makes a pergola hurricane-resistant here',
+        estimador: 'Price your own project with our estimator',
+      },
+    },
   },
 
   es: {
@@ -521,6 +639,109 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
         permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
         coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    carports: {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        altura: { etiqueta: 'Altura libre', valor: 'Se define por lo que usted aparca de verdad, bacas incluidas, y no por una cifra de catálogo' },
+        protege: { etiqueta: 'De qué protege', valor: 'Del sol sobre todo —el UV constante es lo que descolora la pintura y agrieta el salpicadero—, y de la lluvia y lo que cae. No es un garaje y no para la lluvia con viento' },
+        techo: { etiqueta: 'Opciones de techo', valor: 'Aislado, macizo o de policarbonato, sobre la misma estructura de aluminio calculada' },
+        desague: { etiqueta: 'Desagüe', valor: 'Drenaje interior oculto que lleva el agua lejos de los coches y de la entrada' },
+        montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa o exenta sobre la entrada. La posición de los pilares la marca cómo se abren las puertas del coche' },
+        material: { etiqueta: 'Material de la estructura', valor: 'Aluminio estructural calculado, con recubrimiento en polvo' },
+        acabado: { etiqueta: 'Acabado', valor: 'De la carta de recubrimiento en polvo, liso o con textura tipo madera, a juego con la casa' },
+        privacidad: { etiqueta: 'Celosías laterales', valor: 'Se pueden cerrar uno o los dos lados abiertos con celosías, para ganar privacidad frente a la calle o al vecino' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; el montaje en sí, unos pocos días cuando el material ya está' },
+        inversion: { etiqueta: 'Inversión', valor: 'Se cotiza por la luz que salva y por el techo que elija. Nuestro estimador da una banda de trabajo antes de que llame a nadie' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        medidas: 'Luz máxima y medidas de vano. Cada estructura se dimensiona a partir del cálculo de su parcela, y no publicamos una luz de catálogo.',
+        viento: 'Velocidad de viento de diseño, presión de diseño y número de NOA de Miami-Dade. Cada estructura se calcula y se permisa para su propia dirección; no vamos a publicar ni una cifra hasta que sea la de sus planos.',
+        aleacion: 'Aleación del aluminio, temple y espesor de pared. Es lo que separa dos estructuras que parecen iguales, y su sitio es el cálculo, no una línea de marketing.',
+        garantia: 'Años de garantía, y cómo se reparte entre estructura, acabado y las partes móviles. Son garantías distintas y no las vamos a resumir en una palabra.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+      },
+      enlaces: {
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
+        coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    'screen-enclosures': {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        forma: { etiqueta: 'Forma del techo', valor: 'Mansarda, a dos aguas o cúpula. La forma fija la altura libre, cómo evacúa el agua en luces grandes y casi todo el precio' },
+        malla: { etiqueta: 'Mosquitero', valor: 'Fibra de vidrio estándar, malla fina antimosquito para parcelas frente al agua, malla solar contra el calor y el reflejo, o malla resistente a mascotas en los paños bajos. Se pueden mezclar en la misma jaula' },
+        barrera: { etiqueta: 'Como barrera de piscina', valor: 'Puede cumplir con la ley de seguridad de piscinas de Florida si rodea la piscina por completo y las puertas cierran y enclavan solas a la altura exigida. Se decide en el diseño' },
+        puertas: { etiqueta: 'Puertas', valor: 'Con herrajes de cierre automático cuando el cerramiento hace de barrera; la puerta para mascotas va en un paño con marco y no en la propia malla' },
+        reparacion: { etiqueta: 'Remallar o sustituir', valor: 'Si la estructura está sana y las zapatas intactas, remallar sale mucho más barato y es lo que toca. Sustituir es para una estructura corroída en la base o con la tornillería fallando' },
+        material: { etiqueta: 'Material de la estructura', valor: 'Aluminio estructural calculado, con recubrimiento en polvo' },
+        acabado: { etiqueta: 'Acabado', valor: 'Estructura blanca o bronce, de la carta de recubrimiento en polvo' },
+        permiso: { etiqueta: 'Permisos', valor: 'Es una estructura con permiso: nosotros hacemos el cálculo estructural y tramitamos la aprobación' },
+        plazo: { etiqueta: 'Plazo', valor: 'Lo largo es la fabricación: la estructura se corta a la geometría de su piscina, así que nada es de catálogo. Montar y mallar una jaula residencial normal son días desde que llega el material' },
+        inversion: { etiqueta: 'Inversión', valor: 'Se cotiza sobre todo por el volumen cerrado y la luz del techo, porque son los que fijan el dimensionado del aluminio. Nuestro estimador da una banda de trabajo' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        viento: 'Velocidad de viento de diseño, presión de diseño y número de NOA de Miami-Dade. Cada estructura se calcula y se permisa para su propia dirección; no vamos a publicar ni una cifra hasta que sea la de sus planos.',
+        aleacion: 'Aleación del aluminio, temple y espesor de pared. Es lo que separa dos estructuras que parecen iguales, y su sitio es el cálculo, no una línea de marketing.',
+        garantia: 'Años de garantía, y cómo se reparte entre estructura, acabado y las partes móviles. Son garantías distintas y no las vamos a resumir en una palabra.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+        medidas: 'Luz máxima y altura del cerramiento. Cada jaula se corta a la geometría de su piscina, y no publicamos un máximo de catálogo.',
+      },
+      enlaces: {
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
+        coste: 'Lo que cuesta de verdad una pérgola en el sur de Florida',
+        huracan: 'Qué hace que una pérgola aguante un huracán aquí',
+        estimador: 'Ponga precio a su proyecto con nuestro estimador',
+      },
+    },
+
+    sukkha: {
+      titulo: 'Especificaciones, huecos incluidos',
+      entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
+      huecosTitulo: 'Todavía no publicado',
+      huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
+      ctaTexto: 'Pregúntenos estos cinco',
+      filas: {
+        sistema: { etiqueta: 'Sistema, no una pieza única', valor: 'Una configuración definida y ya calculada, en vez de una estructura dibujada desde cero: se especifica antes, se permisa antes y se cotiza en consecuencia' },
+        configuracion: { etiqueta: 'Qué elige usted', valor: 'Distribución, tamaño, acabado y qué funciones integradas quiere. La ingeniería ya está hecha' },
+        automatizacion: { etiqueta: 'Automatización', valor: 'El sistema está pensado alrededor de los elementos motorizados, la iluminación y los controles, en vez de añadirlos después' },
+        fascia: { etiqueta: 'Fascia', valor: 'Los remates cierran sobre los herrajes, así que el perfil se lee como una línea limpia y no como un mecanismo con tapas' },
+        material: { etiqueta: 'Material de la estructura', valor: 'Aluminio de alta gama, calculado para resistir la corrosión y la fatiga estructural' },
+        acabado: { etiqueta: 'Acabado', valor: 'De la carta de recubrimiento en polvo, con la fascia elegida a juego' },
+        permiso: { etiqueta: 'Permisos', valor: 'Es una estructura permanente: hacemos el cálculo y tramitamos la aprobación para la dirección en la que va' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; el montaje en sí, unos pocos días cuando el material ya está' },
+        inversion: { etiqueta: 'Inversión', valor: 'Se cotiza por proyecto. Es un sistema propietario sin comparable de mercado, así que no vamos a publicar una banda que tendríamos que inventarnos' },
+        donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
+      },
+      huecos: {
+        viento: 'Velocidad de viento de diseño, presión de diseño y número de NOA de Miami-Dade. Cada estructura se calcula y se permisa para su propia dirección; no vamos a publicar ni una cifra hasta que sea la de sus planos.',
+        aleacion: 'Aleación del aluminio, temple y espesor de pared. Es lo que separa dos estructuras que parecen iguales, y su sitio es el cálculo, no una línea de marketing.',
+        garantia: 'Años de garantía, y cómo se reparte entre estructura, acabado y las partes móviles. Son garantías distintas y no las vamos a resumir en una palabra.',
+        financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
+        medidas: 'Luz máxima y medidas de módulo del sistema. Cada estructura se dimensiona a partir del cálculo de su parcela.',
+      },
+      enlaces: {
+        plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
+        permiso: 'Cuándo lleva permiso una pérgola en el sur de Florida',
         huracan: 'Qué hace que una pérgola aguante un huracán aquí',
         estimador: 'Ponga precio a su proyecto con nuestro estimador',
       },

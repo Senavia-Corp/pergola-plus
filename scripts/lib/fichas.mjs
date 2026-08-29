@@ -691,6 +691,317 @@ export const FICHAS = {
       texto: 'An open-air pergola is the one with nothing over you. If you want a roof that closes when it rains, one that never moves, one that lets the light through, or one that pays for itself, these are the other four we build.',
     },
   },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Cocheras de aluminio
+  // ══════════════════════════════════════════════════════════════════════════════
+  'carports': {
+    cms: '/cms-img/products/carports',
+    galeria: { prefijo: 'gallery-aluminum-carport-builders-south-florida-', diapositivas: 10 },
+
+    // «Wind-Code Compliant» afirma cumplimiento normativo sin un solo numero, y va a
+    // una pantalla de una §8 que declara que no publicamos ni la velocidad de diseño ni
+    // el NOA. Misma decision que el «NOA & FPA Certified» del piloto y misma redaccion:
+    // se afirma el PROCESO —que la estructura se calcula para la normativa— y no el
+    // resultado. Vuelve en cuanto el cliente aporte el numero.
+    chips: [
+      { viejo: 'Premium Sun Protection', nuevo: 'Premium Sun Protection', destino: '#how-it-works' },
+      { viejo: 'Custom Home Integration', nuevo: 'Custom Home Integration', destino: '#features' },
+      { viejo: 'Wind-Code Compliant', nuevo: 'Engineered to Florida Wind Code', destino: '#specs' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Aluminum carport builders in South Florida constructing custom vehicle protection structures engineered for sun, rain, and high-wind conditions." loading="lazy" src="{CMS}/hero-aluminum-carport-south-florida.avif"',
+        nuevo: 'alt="Aluminum carport with a warm wood-look soffit and a slatted side screen over a stamped concrete driveway, attached to a stone-fronted home." loading="lazy" src="{CMS}/hero-aluminum-carport-south-florida.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-aluminum-carport-builders-south-florida.avif" alt="Aluminum carport builders in South Florida constructing custom vehicle protection structures engineered for sun, rain, and high-wind conditions."',
+        nuevo: '<img src="{CMS}/cover-aluminum-carport-builders-south-florida.avif" alt="Carport with a dark bronze frame and wood-look soffit over a stamped driveway, with a slatted screen closing the side towards the neighbour."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Aluminum carport builders in South Florida constructing custom vehicle protection structures engineered for sun exposure, heavy rain, and coastal conditions." loading="lazy" src="{CMS}/intro-aluminum-carport-builders-south-florida.avif"',
+        nuevo: 'alt="Aluminum carport seen from the driveway, its slatted screens closing two sides and the wood-look ceiling lit by recessed downlights." loading="lazy" src="{CMS}/intro-aluminum-carport-builders-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-picture-8.jpg" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-picture-8.jpg" loading="lazy" alt="Aluminum carport with a wood-look soffit and slatted screen, seen from the driveway of a single-storey Florida home."' },
+    ],
+
+    configuraciones: {
+      foto: '10',
+      alt: 'Dark aluminum carport spanning the entry of a two-storey white home, its flat roof aligned with the roofline behind.',
+      rotulo: 'Configurations',
+      titulo: 'It Has To Fit The Car And The House',
+      texto: 'A carport is the one structure on this site that has to satisfy two things at once: the vehicle that goes under it and the elevation it is attached to. Clear height is decided by what you actually park, not by a catalogue; post placement is decided by how you open the doors. After that it is the ceiling, the side screens and whether the roofline reads as part of the house.',
+      bullets: ['Clear Height For Your Vehicle', 'Posts Placed Around The Doors',
+        'Slatted Screens On The Open Sides', 'Roofline Matched To The House'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    comoFunciona: {
+      foto: '03',
+      alt: 'Close view of a carport slatted screen in wood-look aluminum, with a weatherproof outdoor socket and switch mounted on the post beside it.',
+      rotulo: 'How It Works',
+      titulo: 'What A Carport Protects Against, And What It Does Not',
+      texto: 'A carport is a roof on posts, and the honest version of what that buys you is narrower than the brochure. Four things decide whether it is worth it: whether your vehicle fits, what it actually protects against, where the water goes, and which roof you put on it.',
+      celdas: [
+        ['/images/pp-icon-altura.svg', 'Whether Your Vehicle Fits',
+          'Measure height, not just length. A sedan is easy; a lifted truck, a van with a roof rack or an RV needs clear height specified up front, and roof-mounted accessories are what usually catch people out. Post placement matters as much: it is decided by how you open the doors, not by where the slab happens to end.'],
+        ['/images/pp-icon-uv.svg', 'What It Actually Protects Against',
+          'Sun, mainly, and that is not trivial: constant UV is what fades paint and cracks a dashboard. A solid roof also keeps rain and falling debris off. What an open carport does not do is stop wind-driven rain, and it is not a garage — if you want the car sealed away, this is the wrong structure and we will say so.'],
+        ['/images/pp-icon-desague.svg', 'Where The Water Goes',
+          'Into drainage built inside the structure, routed away from the vehicles and the driveway. That is the difference between a carport and a lean-to: nothing sheets off the front edge onto the car you just walked around, and there is no pooling at the foot of the posts.'],
+        ['/images/pp-icon-panel.svg', 'Which Roof You Put On It',
+          'Insulated, solid or polycarbonate — the same three roofs we build over a patio, sized for a driveway. Insulated is the coolest and quietest, solid is the plain workhorse, polycarbonate keeps the light. The frame underneath is the same engineered aluminium in all three.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Se van cuatro: la `-05` ES la foto de la intro (distancia de Hamming 0), la `-03`
+    // y la `-10` pasan a §5 y §4, y la `-07` es otro angulo de la misma obra que el hero.
+    pies: {
+      '01': ['The slatted screen straight on, from the driveway',
+        'Wood-look aluminum slatted screen closing the side of a carport, seen straight on from a stamped concrete driveway.'],
+      '02': ['Attached to the house, with the drive running under it',
+        'Aluminum carport attached to a single-storey home, its dark frame and wood-look soffit spanning a stamped concrete driveway.'],
+      '04': ['From underneath, looking out to the water',
+        'Underside of a carport roof in wood-look aluminum, looking out past the posts to a canal and moored boats.'],
+      '06': ['Between the palms, on the approach to the house',
+        'Aluminum carport on the approach to a home, framed by palms, with a slatted screen on the far side.'],
+      '08': ['White frame on a modern waterfront house',
+        'Slim white aluminum carport attached to a modern waterfront home, a saloon car parked under it beside the seawall.'],
+      '09': ['A double bay, with the drive laid in slabs',
+        'White aluminum carport over a double parking bay with two dark cars, on a driveway laid in large concrete slabs between palms.'],
+    },
+
+    faqNumeradas: [
+      'Do carports block UV sun rays?',
+      'Are they built for high winds?',
+      'Can the design match my home?',
+      'Will the aluminum carport rust?',
+      'Do I need a building permit?',
+    ],
+
+    // Hay UN proyecto etiquetado «Aluminum Carports», asi que §9 renderiza y sustituye
+    // al video. Ver ProyectoDeFicha.astro y el paso 8 de recomponerFicha.
+    video: false,
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure the driveway, measure what you park on it, and draw the structure around both.',
+
+    comparar: {
+      productos: ['insulated', 'polycarbonate', 'cabana', 'louvered'],
+      rotulo: 'Other Structures',
+      titulo: 'Other Structures We Build',
+      texto: 'A carport is a roof for the driveway. The same engineered frames and the same roofs go over a patio, a pool deck or a lounge — these are the four we build most often.',
+    },
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Cerramientos con mosquitero
+  // ══════════════════════════════════════════════════════════════════════════════
+  'screen-enclosures': {
+    cms: '/cms-img/products/screen-enclosures',
+    galeria: { prefijo: 'gallery-screen-enclosure-contractors-south-florida-', diapositivas: 10 },
+
+    // «Extreme Weather Rated» es una homologacion afirmada sin numero. Se sustituye por
+    // el proceso, igual que en el piloto y en cocheras.
+    chips: [
+      { viejo: 'Expands Living Space', nuevo: 'Expands Living Space', destino: '#features' },
+      { viejo: 'High-Visibility Mesh', nuevo: 'High-Visibility Mesh', destino: '#how-it-works' },
+      { viejo: 'Extreme Weather Rated', nuevo: 'Engineered to Florida Wind Code', destino: '#specs' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant engineering." loading="lazy" src="/images/cliente/screen-enclosure.avif"',
+        nuevo: 'alt="Looking up inside a screen enclosure: the dark aluminum framing radiating from the ridge with cloud and blue sky through the mesh." loading="lazy" src="/images/cliente/screen-enclosure.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-screen-enclosure-contractors-south-florida.avif" alt="Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant engineering."',
+        nuevo: '<img src="{CMS}/cover-screen-enclosure-contractors-south-florida.avif" alt="Screen enclosure over a pool and spa beside a lit house at dusk, the white framing running the length of the lanai."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant structural engineering." loading="lazy" src="{CMS}/intro-screen-enclosure-contractors-south-florida.avif"',
+        nuevo: 'alt="Screen enclosure with a high mansard roof over a pool and spa, opening onto a lake through the mesh." loading="lazy" src="{CMS}/intro-screen-enclosure-contractors-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-pool-screen-enclosure-contractors-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-pool-screen-enclosure-contractors-south-florida.avif" loading="lazy" alt="Pool screen enclosure in dark aluminum seen from the deck, with travertine paving and a lake beyond the mesh."' },
+    ],
+
+    // §4 sale de `pergola-cerramiento-mansarda`: la forma del techo es la decision que
+    // de verdad mueve el precio y la altura, y es la que nadie explica.
+    configuraciones: {
+      foto: '04',
+      alt: 'Screen enclosure with a curved mansard roof over a pool and spa, opening to a lake through the mesh.',
+      rotulo: 'Configurations',
+      titulo: 'Mansard, Gable Or Dome',
+      texto: 'The shape of the roof is the decision that moves everything else. A flat or mansard cage sits lower, costs less and suits a patio; a gable or a dome gains headroom over a pool and sheds water better across a big span. Local wind requirements sometimes make the choice for you. Everything after that — mesh, doors, kickplates — is fitted to the shape you land on.',
+      bullets: ['Mansard, Low And Economical', 'Gable Or Dome For Headroom',
+        'Mesh Chosen Per Face', 'Doors And Kickplates To Suit'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    comoFunciona: {
+      foto: '02',
+      alt: 'Screen enclosure over a pool with the lake behind, its dark framing dividing the view into panels.',
+      rotulo: 'How It Works',
+      titulo: 'What The Cage Actually Buys You',
+      texto: 'A screen enclosure is aluminium and mesh, and the four things worth knowing before you sign are the ones a quote will not tell you: which mesh goes where, which panels wear out first, whether it counts as a pool barrier, and what it does and does not keep out.',
+      celdas: [
+        ['/images/pp-icon-malla.svg', 'Which Mesh Goes Where',
+          'Standard fibreglass insect mesh, tighter no-see-um mesh for coastal and waterfront lots, solar screen that cuts heat and glare at the cost of some view, and heavy pet-resistant mesh for the lower panels. They can be mixed on the same cage, and mixing them is usually the right answer rather than paying for the expensive one everywhere.'],
+        ['/images/pp-icon-uv.svg', 'Which Panels Go First',
+          'Sun is what ages mesh, so the south and west faces go first and the shaded ones outlast them by years. Expect to rescreen the exposed faces well before the whole cage. Individual panels are replaceable without touching the frame, which is the part that decides whether this is a repair or a replacement in ten years.'],
+        ['/images/pp-icon-barrera.svg', 'Whether It Counts As A Pool Barrier',
+          'It can. Florida pool safety law accepts an enclosure that fully surrounds the pool and meets the barrier requirements, including self-closing and self-latching doors with the latch at the required height. Whether yours qualifies is decided at design, not afterwards, so raise it before the drawings are done.'],
+        ['/images/pp-icon-forma.svg', 'What It Keeps Out, And What It Does Not',
+          'Leaves and larger debris, yes, and that is the saving most owners notice: less skimming and less pump load. Pollen is fine enough to pass straight through insect mesh. A tighter no-see-um mesh catches more of it, at the cost of some airflow — which is the trade, and there is no mesh that does both.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    pies: {
+      '01': ['A long lanai enclosure beside the pool at dusk',
+        'Screen enclosure running the length of a lanai beside a pool and spa, with the house lit from inside at dusk.'],
+      '03': ['High cage over the pool, open to the lake',
+        'Tall screen enclosure over a pool and spa, its framing dividing a view out over a lake and low planting.'],
+      '05': ['Over the pool and the covered terrace together',
+        'Screen enclosure spanning both a pool and the covered terrace beside it, on a home with a tile roof and palms.'],
+      '06': ['From the deck, with the framing overhead',
+        'Inside a screen enclosure looking up at the aluminum framing over a pool, with palms and a lake showing through the mesh.'],
+      '08': ['A wide cage over pool, spa and fire table',
+        'Wide screen enclosure over a pool, spa and fire table on a travertine deck, with a lake behind the mesh.'],
+      '10': ['Enclosing the lanai of a two-storey house',
+        'Screen enclosure closing the lanai of a two-storey Florida home, with the pool visible through the mesh from the garden.'],
+    },
+
+    faqNumeradas: [
+      'Do enclosures block the breeze?',
+      'Do they meet hurricane codes?',
+      'Will the screen mesh sag easily?',
+      'Are building permits required?',
+      'Can you fit my complex pool?',
+    ],
+
+    video: null,
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll measure the pool and the deck, ask how you use the space, and pick the roof shape and the mesh around both.',
+
+    comparar: {
+      productos: ['screen', 'louvered', 'insulated', 'cabana'],
+      rotulo: 'Other Ways To Close A Space',
+      titulo: 'Enclosures, Screens Or A Roof',
+      texto: 'An enclosure closes the whole space in mesh, permanently. If you would rather close one side at a time, put a roof over part of it, or build a structure of its own, these are the other four we build.',
+    },
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // Sukkha 3000
+  // ══════════════════════════════════════════════════════════════════════════════
+  sukkha: {
+    cms: '/cms-img/products/sukkha',
+    // OCHO diapositivas, no diez, y numeradas `-1`…`-8` en vez de `-01`…`-10`. Es la
+    // unica ficha que se sale del molde en las dos cosas a la vez.
+    galeria: { prefijo: 'gallery-sukkha-3000-outdoor-structure-builders-south-florida-', diapositivas: 8 },
+
+    // «Category 5 Reinforced» es la afirmacion mas fuerte de las diez fichas: nombra una
+    // CATEGORIA DE HURACAN. En todo docs/vivo no hay ni una cifra de viento, ni un NOA,
+    // ni una presion de diseño, y la §8 de esta misma pagina lo declara como hueco. Es
+    // exactamente el defecto que F4a marco en rojo, en su version mas expuesta. Se
+    // sustituye por lo que si se sostiene —que es un sistema calculado y permisado— y
+    // vuelve, con la categoria y todo, el dia que exista el numero que la respalde.
+    chips: [
+      { viejo: 'Bespoke Luxury Design', nuevo: 'Bespoke Luxury Design', destino: '#features' },
+      { viejo: 'Category 5 Reinforced', nuevo: 'Engineered And Permitted', destino: '#specs' },
+      { viejo: 'Smart-Home Automated', nuevo: 'Smart-Home Automated', destino: '#how-it-works' },
+    ],
+
+    alts: [
+      { contexto: 'el alt del hero',
+        viejo: 'alt="Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design." loading="lazy" src="/images/cliente/sukkah.avif"',
+        nuevo: 'alt="Sukkha 3000 structure over a laid table for a celebration, string lights and greenery along the beams under a reed mat roof." loading="lazy" src="/images/cliente/sukkah.avif"' },
+      { contexto: 'el alt de la portada del FAQ',
+        viejo: '<img src="{CMS}/cover-sukkha-3000-outdoor-structure-builders-south-florida.avif" alt="Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design."',
+        nuevo: '<img src="{CMS}/cover-sukkha-3000-outdoor-structure-builders-south-florida.avif" alt="Sukkha 3000 structure enclosing a paved terrace in glass and dark aluminum, with a dining table set under the slatted roof."' },
+      { contexto: 'el alt de la intro',
+        viejo: 'alt="Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation, durability, and modern architectural design." loading="lazy" src="{CMS}/intro-sukkha-3000-outdoor-structure-builders-south-florida.avif"',
+        nuevo: 'alt="Reed mat roof of a Sukkha 3000 seen from below, hung with vine garlands and pendant lights between dark aluminum beams." loading="lazy" src="{CMS}/intro-sukkha-3000-outdoor-structure-builders-south-florida.avif"' },
+      { contexto: 'el alt del falso «swatch»',
+        viejo: '<img src="{CMS}/swatch-sukkha-outdoor-structure-builders-south-florida.avif" loading="lazy" alt=""',
+        nuevo: '<img src="{CMS}/swatch-sukkha-outdoor-structure-builders-south-florida.avif" loading="lazy" alt="Sukkha 3000 structure in dark aluminum against a stone-faced house, its glazed sides open onto a bluestone terrace."' },
+    ],
+
+    configuraciones: {
+      foto: '5',
+      alt: 'Sukkha 3000 structure with glazed sides and a reed mat roof over a dining terrace, hung with garlands and lights.',
+      rotulo: 'Configurations',
+      titulo: 'A Defined System, Not A One-Off',
+      texto: 'The Sukkha 3000 is a system with a known configuration rather than a bespoke structure drawn from nothing, and that is the whole proposition: it specifies faster, it permits faster, and it is priced accordingly. What you choose inside it is the layout, the size, the finish and which of the integrated features you want. What you do not choose is the engineering, because it is already done.',
+      bullets: ['Layout And Size To The Space', 'Finish From The Palette',
+        'Integrated Automation And Lighting', 'Fascia Wrap Over The Hardware'],
+      boton: { destino: '#compare', texto: 'See How It Compares' },
+    },
+
+    comoFunciona: {
+      foto: '3',
+      alt: 'Inside a Sukkha 3000: dark beams carrying a reed mat roof, with glazed walls and a paved floor.',
+      rotulo: 'How It Works',
+      titulo: 'What Makes It A System',
+      texto: 'Most of what we build is drawn from nothing for one house. This one is not, and the difference is worth understanding before you compare quotes: four things come with the system rather than with the project.',
+      celdas: [
+        ['/images/pp-icon-sistema.svg', 'A Known Configuration',
+          'It suits projects that want a defined, engineered system rather than a fully bespoke one-off — faster to specify, faster to permit, and priced accordingly. If your space has unusual geometry or an awkward tie-in to the house, a bespoke structure is usually the better answer, and we will tell you which one you are looking at.'],
+        ['/images/pp-icon-automatizacion.svg', 'Automation Built In, Not Added',
+          'The system is designed around motorised elements, lighting and controls rather than having them retrofitted afterwards. That is why the runs are already accounted for: nothing is chased in later and nothing is surface-clipped to a beam that was not expecting it.'],
+        ['/images/pp-icon-carcasa.svg', 'The Hardware Is Wrapped',
+          'Fascia wrap options close over the hardware, which is what keeps the profile reading as a clean architectural line rather than as a mechanism with covers. It is the detail that separates a specified system from an assembly of parts.'],
+        ['/images/pp-icon-permiso.svg', 'Engineered And Permitted',
+          'Premium-grade aluminium, engineered to resist corrosion and structural fatigue, and permitted for the address it is going on. We do the calculation and run the approval, the same as on everything else we build.'],
+      ],
+      botones: [
+        { destino: '#specs', clase: 'secundary', texto: 'See The Specifications' },
+        { destino: '#faq', clase: 'tertiary', texto: 'See The Questions' },
+      ],
+    },
+
+    // Seis de las ocho. Se van la `-6` (casi la misma que el hero) y la `-3`, que pasa
+    // a §5; la `-5` va a §4.
+    pies: {
+      '1': ['Glazed sides open onto the terrace, roof mat above',
+        'Sukkha 3000 with glazed sides folded open onto a paved terrace, a dining table set beneath the reed mat roof.'],
+      '2': ['Under the mat: beams, garlands and pendant lights',
+        'Looking up inside a Sukkha 3000 at the reed mat roof, hung with vine garlands and pendant lights between dark beams.'],
+      '4': ['The run of the structure along the house',
+        'Sukkha 3000 running along the side of a house, its dark aluminum frame and glazed panels enclosing a long paved terrace.'],
+      '7': ['Open at the end, looking out to the garden',
+        'Interior of a Sukkha 3000 looking out through the open end to a garden, with a table and chairs on stone paving.'],
+      '8': ['The structure from the garden, roof mat in place',
+        'Sukkha 3000 seen from the lawn, its dark frame and glazed walls set against a house, with the reed mat roof in place.'],
+      '5': ['Set for a meal under the garlands',
+        'Table laid for a meal inside a Sukkha 3000, under a reed mat roof hung with vine garlands and warm lights.'],
+    },
+
+    faqNumeradas: [
+      'What makes Sukkha 3000 unique?',
+      'Is the design customizable?',
+      'Can it withstand hurricanes?',
+      'Does it support smart home tech?',
+      'Is it a permanent structure?',
+    ],
+
+    video: null,
+
+    ctaEntradilla: 'Meet with our exterior designers for a free consultation. We&#x27;ll look at the space, tell you whether the system fits it or whether a bespoke structure would serve you better, and price both.',
+
+    comparar: {
+      productos: ['louvered', 'insulated', 'open', 'cabana'],
+      rotulo: 'Other Structures',
+      titulo: 'Other Structures We Build',
+      texto: 'The Sukkha 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.',
+    },
+  },
 };
 
 /** La ruta de una foto de galeria de esa ficha. */

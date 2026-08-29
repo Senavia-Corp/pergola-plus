@@ -204,6 +204,53 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
       { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
     ],
   },
+
+  carports: {
+    filas: ['altura', 'protege', 'techo', 'desague', 'montaje', 'material', 'acabado',
+      'privacidad', 'plazo', 'inversion', 'donde'],
+    enGrafo: ['altura', 'protege', 'techo', 'desague', 'montaje', 'material', 'acabado', 'privacidad'],
+    material: 'material',
+    huecos: ['medidas', 'viento', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'plazo' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
+
+  'screen-enclosures': {
+    filas: ['forma', 'malla', 'barrera', 'puertas', 'reparacion', 'material', 'acabado',
+      'permiso', 'plazo', 'inversion', 'donde'],
+    enGrafo: ['forma', 'malla', 'barrera', 'puertas', 'reparacion', 'material', 'acabado'],
+    material: 'material',
+    huecos: ['viento', 'medidas', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'permiso' },
+      { id: 'coste', ruta: '/post/pergola-cost-south-florida', junto: 'inversion' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
+
+  // El estimador deja este producto con `tarifa: null` y lo razona: «el Sukkha es un
+  // sistema propietario sin comparable de mercado: cualquier banda seria inventada».
+  // Asi que aqui no hay fila de inversion con cifra ni la va a haber sin el cliente.
+  sukkha: {
+    filas: ['sistema', 'configuracion', 'automatizacion', 'fascia', 'material',
+      'acabado', 'permiso', 'plazo', 'inversion', 'donde'],
+    enGrafo: ['sistema', 'configuracion', 'automatizacion', 'fascia', 'material', 'acabado'],
+    material: 'material',
+    huecos: ['viento', 'medidas', 'aleacion', 'garantia', 'financiacion'],
+    enlaces: [
+      { id: 'plazo', ruta: '/post/how-long-pergola-installation-florida', junto: 'plazo' },
+      { id: 'permiso', ruta: '/post/pergola-permit-south-florida', junto: 'permiso' },
+      { id: 'estimador', ruta: '/project-estimator', junto: 'inversion' },
+      { id: 'huracan', ruta: '/post/hurricane-resistant-pergolas-south-florida', junto: 'viento' },
+    ],
+  },
 };
 
 /**

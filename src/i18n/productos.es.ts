@@ -633,6 +633,94 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cerramientos con mosquitero | Sur de Florida',
     description: 'Cerramientos calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción resistente a mascotas.',
     dic: {
+      'Engineered to Florida Wind Code':
+        'Calculado para la normativa de viento de Florida',
+      'Looking up inside a screen enclosure: the dark aluminum framing radiating from the ridge with cloud and blue sky through the mesh.':
+        'Vista hacia arriba dentro de un cerramiento: la estructura de aluminio oscuro saliendo de la cumbrera, con nubes y cielo azul a través de la malla.',
+      'Screen enclosure over a pool and spa beside a lit house at dusk, the white framing running the length of the lanai.':
+        'Cerramiento con mosquitero sobre una piscina y un spa junto a una casa iluminada al anochecer, con la estructura blanca recorriendo todo el porche.',
+      'Screen enclosure with a high mansard roof over a pool and spa, opening onto a lake through the mesh.':
+        'Cerramiento con techo de mansarda alto sobre una piscina y un spa, abierto a un lago a través de la malla.',
+      'Pool screen enclosure in dark aluminum seen from the deck, with travertine paving and a lake beyond the mesh.':
+        'Cerramiento de piscina en aluminio oscuro visto desde la terraza, con pavimento de travertino y un lago detrás de la malla.',
+      'Mansard, Gable Or Dome':
+        'Mansarda, dos aguas o cúpula',
+      'The shape of the roof is the decision that moves everything else. A flat or mansard cage sits lower, costs less and suits a patio; a gable or a dome gains headroom over a pool and sheds water better across a big span. Local wind requirements sometimes make the choice for you. Everything after that — mesh, doors, kickplates — is fitted to the shape you land on.':
+        'La forma del techo es la decisión que mueve todo lo demás. Una jaula plana o de mansarda queda más baja, cuesta menos y le va bien a un patio; una a dos aguas o de cúpula gana altura sobre la piscina y evacúa mejor el agua en luces grandes. A veces la exigencia de viento de su zona elige por usted. Todo lo que viene después —malla, puertas, zócalos— se ajusta a la forma que salga.',
+      'Mansard, Low And Economical':
+        'Mansarda, baja y económica',
+      'Gable Or Dome For Headroom':
+        'Dos aguas o cúpula, para ganar altura',
+      'Mesh Chosen Per Face':
+        'Malla elegida cara por cara',
+      'Doors And Kickplates To Suit':
+        'Puertas y zócalos a medida',
+      'Screen enclosure with a curved mansard roof over a pool and spa, opening to a lake through the mesh.':
+        'Cerramiento con techo de mansarda curva sobre una piscina y un spa, abierto a un lago a través de la malla.',
+      'What The Cage Actually Buys You':
+        'Lo que le compra de verdad la jaula',
+      'A screen enclosure is aluminium and mesh, and the four things worth knowing before you sign are the ones a quote will not tell you: which mesh goes where, which panels wear out first, whether it counts as a pool barrier, and what it does and does not keep out.':
+        'Un cerramiento con mosquitero es aluminio y malla, y las cuatro cosas que conviene saber antes de firmar son las que un presupuesto no le dice: qué malla va en cada sitio, qué paños se gastan primero, si vale como barrera de piscina y qué deja fuera y qué no.',
+      'Which Mesh Goes Where':
+        'Qué malla va en cada sitio',
+      'Standard fibreglass insect mesh, tighter no-see-um mesh for coastal and waterfront lots, solar screen that cuts heat and glare at the cost of some view, and heavy pet-resistant mesh for the lower panels. They can be mixed on the same cage, and mixing them is usually the right answer rather than paying for the expensive one everywhere.':
+        'Malla estándar de fibra de vidrio contra insectos, malla fina antimosquito para parcelas de costa y frente al agua, malla solar que corta el calor y el reflejo a cambio de algo de vista, y malla reforzada resistente a mascotas en los paños bajos. Se pueden mezclar en la misma jaula, y mezclarlas suele ser la respuesta correcta en vez de pagar la cara en todas partes.',
+      'Which Panels Go First':
+        'Qué paños se gastan primero',
+      'Sun is what ages mesh, so the south and west faces go first and the shaded ones outlast them by years. Expect to rescreen the exposed faces well before the whole cage. Individual panels are replaceable without touching the frame, which is the part that decides whether this is a repair or a replacement in ten years.':
+        'Lo que envejece la malla es el sol, así que las caras sur y oeste se van primero y las de sombra les sacan años. Cuente con remallar las caras expuestas mucho antes que la jaula entera. Los paños se cambian de uno en uno sin tocar la estructura, y eso es lo que decide si dentro de diez años esto es una reparación o una sustitución.',
+      'Whether It Counts As A Pool Barrier':
+        'Si vale como barrera de piscina',
+      'It can. Florida pool safety law accepts an enclosure that fully surrounds the pool and meets the barrier requirements, including self-closing and self-latching doors with the latch at the required height. Whether yours qualifies is decided at design, not afterwards, so raise it before the drawings are done.':
+        'Puede valer. La ley de seguridad de piscinas de Florida admite un cerramiento que rodee la piscina por completo y cumpla los requisitos de barrera, incluidas puertas de cierre y enclavamiento automáticos con el pestillo a la altura exigida. Si el suyo cumple se decide en el diseño y no después, así que sáquelo antes de que estén los planos.',
+      'What It Keeps Out, And What It Does Not':
+        'Qué deja fuera y qué no',
+      'Leaves and larger debris, yes, and that is the saving most owners notice: less skimming and less pump load. Pollen is fine enough to pass straight through insect mesh. A tighter no-see-um mesh catches more of it, at the cost of some airflow — which is the trade, and there is no mesh that does both.':
+        'Hojas y suciedad gruesa sí, y ese es el ahorro que casi todo el mundo nota: menos recoger con la red y menos trabajo de bomba. El polen es tan fino que pasa directamente a través de la malla antiinsectos. Una malla antimosquito más tupida retiene más, a cambio de algo de ventilación: ese es el intercambio, y no hay malla que haga las dos cosas.',
+      'Screen enclosure over a pool with the lake behind, its dark framing dividing the view into panels.':
+        'Cerramiento con mosquitero sobre una piscina con el lago detrás, con su estructura oscura dividiendo la vista en paños.',
+      'A long lanai enclosure beside the pool at dusk':
+        'Un cerramiento largo de porche junto a la piscina al anochecer',
+      'High cage over the pool, open to the lake':
+        'Jaula alta sobre la piscina, abierta al lago',
+      'Over the pool and the covered terrace together':
+        'Sobre la piscina y la terraza cubierta a la vez',
+      'From the deck, with the framing overhead':
+        'Desde la terraza, con la estructura por encima',
+      'A wide cage over pool, spa and fire table':
+        'Una jaula amplia sobre piscina, spa y mesa de fuego',
+      'Enclosing the lanai of a two-storey house':
+        'Cerrando el porche de una casa de dos plantas',
+      'Screen enclosure running the length of a lanai beside a pool and spa, with the house lit from inside at dusk.':
+        'Cerramiento con mosquitero recorriendo todo un porche junto a una piscina y un spa, con la casa iluminada por dentro al anochecer.',
+      'Tall screen enclosure over a pool and spa, its framing dividing a view out over a lake and low planting.':
+        'Cerramiento alto sobre una piscina y un spa, con la estructura dividiendo la vista hacia un lago y plantación baja.',
+      'Screen enclosure spanning both a pool and the covered terrace beside it, on a home with a tile roof and palms.':
+        'Cerramiento que cubre a la vez la piscina y la terraza cubierta de al lado, en una casa con tejado de teja y palmeras.',
+      'Inside a screen enclosure looking up at the aluminum framing over a pool, with palms and a lake showing through the mesh.':
+        'Dentro de un cerramiento, mirando hacia arriba a la estructura de aluminio sobre la piscina, con palmeras y un lago asomando por la malla.',
+      'Wide screen enclosure over a pool, spa and fire table on a travertine deck, with a lake behind the mesh.':
+        'Cerramiento amplio sobre una piscina, un spa y una mesa de fuego en una terraza de travertino, con un lago detrás de la malla.',
+      'Screen enclosure closing the lanai of a two-storey Florida home, with the pool visible through the mesh from the garden.':
+        'Cerramiento cerrando el porche de una casa de dos plantas en Florida, con la piscina visible a través de la malla desde el jardín.',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure the pool and the deck, ask how you use the space, and pick the roof shape and the mesh around both.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos la piscina y la terraza, preguntamos cómo usa el espacio y elegimos la forma del techo y la malla a partir de las dos cosas.',
+      'Other Ways To Close A Space':
+        'Otras formas de cerrar un espacio',
+      'Enclosures, Screens Or A Roof':
+        'Cerramientos, cortinas o un techo',
+      'An enclosure closes the whole space in mesh, permanently. If you would rather close one side at a time, put a roof over part of it, or build a structure of its own, these are the other four we build.':
+        'Un cerramiento cierra el espacio entero con malla, de forma permanente. Si prefiere cerrar un lado cada vez, poner techo solo a una parte o levantar una estructura propia, estos son los otros cuatro que construimos.',
+      'Do enclosures block the breeze?':
+        '¿Los cerramientos cortan la brisa?',
+      'Do they meet hurricane codes?':
+        '¿Cumplen la normativa de huracanes?',
+      'Will the screen mesh sag easily?':
+        '¿La malla se descuelga con facilidad?',
+      'Are building permits required?':
+        '¿Hacen falta permisos de obra?',
+      'Can you fit my complex pool?':
+        '¿Pueden adaptarse a mi piscina complicada?',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -876,6 +964,94 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Cocheras de aluminio | Sur de Florida',
     description: 'Cocheras de aluminio calculadas para las cargas de viento de Florida, con drenaje oculto y acabados que se integran con la casa.',
     dic: {
+      'Engineered to Florida Wind Code':
+        'Calculada para la normativa de viento de Florida',
+      'Aluminum carport with a warm wood-look soffit and a slatted side screen over a stamped concrete driveway, attached to a stone-fronted home.':
+        'Cochera de aluminio con sofito de textura tipo madera y celosía lateral sobre una entrada de hormigón estampado, adosada a una casa con frente de piedra.',
+      'Carport with a dark bronze frame and wood-look soffit over a stamped driveway, with a slatted screen closing the side towards the neighbour.':
+        'Cochera con estructura bronce oscuro y sofito tipo madera sobre una entrada estampada, con una celosía cerrando el lado que da al vecino.',
+      'Aluminum carport seen from the driveway, its slatted screens closing two sides and the wood-look ceiling lit by recessed downlights.':
+        'Cochera de aluminio vista desde la entrada, con celosías cerrando dos lados y el techo tipo madera iluminado con focos empotrados.',
+      'Aluminum carport with a wood-look soffit and slatted screen, seen from the driveway of a single-storey Florida home.':
+        'Cochera de aluminio con sofito tipo madera y celosía, vista desde la entrada de una casa de una planta en Florida.',
+      'It Has To Fit The Car And The House':
+        'Tiene que caberle al coche y pegarle a la casa',
+      'A carport is the one structure on this site that has to satisfy two things at once: the vehicle that goes under it and the elevation it is attached to. Clear height is decided by what you actually park, not by a catalogue; post placement is decided by how you open the doors. After that it is the ceiling, the side screens and whether the roofline reads as part of the house.':
+        'Una cochera es la única estructura de este sitio que tiene que contentar a dos cosas a la vez: el vehículo que va debajo y la fachada a la que se pega. La altura libre la decide lo que usted aparca de verdad, no un catálogo; la posición de los pilares la decide cómo abre las puertas. Después vienen el techo, las celosías laterales y si la línea de cubierta se lee como parte de la casa.',
+      'Clear Height For Your Vehicle':
+        'Altura libre para su vehículo',
+      'Posts Placed Around The Doors':
+        'Pilares colocados según las puertas',
+      'Slatted Screens On The Open Sides':
+        'Celosías en los lados abiertos',
+      'Roofline Matched To The House':
+        'Línea de cubierta a juego con la casa',
+      'Close view of a carport slatted screen in wood-look aluminum, with a weatherproof outdoor socket and switch mounted on the post beside it.':
+        'Vista cercana de la celosía de una cochera en aluminio con textura tipo madera, con un enchufe estanco de exterior y un interruptor montados en el pilar de al lado.',
+      'What A Carport Protects Against, And What It Does Not':
+        'De qué protege una cochera, y de qué no',
+      'A carport is a roof on posts, and the honest version of what that buys you is narrower than the brochure. Four things decide whether it is worth it: whether your vehicle fits, what it actually protects against, where the water goes, and which roof you put on it.':
+        'Una cochera es un techo sobre pilares, y la versión honesta de lo que eso le compra es más estrecha que la del folleto. Hay cuatro cosas que deciden si compensa: si le cabe el vehículo, de qué protege de verdad, por dónde se va el agua y qué techo le pone.',
+      'Whether Your Vehicle Fits':
+        'Si le cabe el vehículo',
+      'Measure height, not just length. A sedan is easy; a lifted truck, a van with a roof rack or an RV needs clear height specified up front, and roof-mounted accessories are what usually catch people out. Post placement matters as much: it is decided by how you open the doors, not by where the slab happens to end.':
+        'Mida la altura, no solo el largo. Un sedán es fácil; una camioneta levantada, una van con baca o una casa rodante necesitan que la altura libre se defina desde el principio, y lo que suele pillar a la gente son los accesorios del techo. La posición de los pilares importa igual: la decide cómo abre las puertas, no dónde termina la losa.',
+      'What It Actually Protects Against':
+        'De qué protege de verdad',
+      'Sun, mainly, and that is not trivial: constant UV is what fades paint and cracks a dashboard. A solid roof also keeps rain and falling debris off. What an open carport does not do is stop wind-driven rain, and it is not a garage — if you want the car sealed away, this is the wrong structure and we will say so.':
+        'Del sol, sobre todo, y no es poca cosa: el UV constante es lo que descolora la pintura y agrieta el salpicadero. Un techo macizo además le quita de encima la lluvia y lo que cae. Lo que una cochera abierta no hace es parar la lluvia con viento, y no es un garaje: si lo que quiere es el coche cerrado, esta no es la estructura y se lo vamos a decir.',
+      'Where The Water Goes':
+        'Por dónde se va el agua',
+      'Into drainage built inside the structure, routed away from the vehicles and the driveway. That is the difference between a carport and a lean-to: nothing sheets off the front edge onto the car you just walked around, and there is no pooling at the foot of the posts.':
+        'A un drenaje que va por dentro de la estructura y lleva el agua lejos de los coches y de la entrada. Esa es la diferencia entre una cochera y un cobertizo: no cae una cortina de agua por el borde delantero sobre el coche que acaba de rodear, y no se encharca al pie de los pilares.',
+      'Which Roof You Put On It':
+        'Qué techo le pone',
+      'Insulated, solid or polycarbonate — the same three roofs we build over a patio, sized for a driveway. Insulated is the coolest and quietest, solid is the plain workhorse, polycarbonate keeps the light. The frame underneath is the same engineered aluminium in all three.':
+        'Aislado, macizo o de policarbonato: los mismos tres techos que construimos sobre un patio, dimensionados para una entrada. El aislado es el más fresco y el más silencioso, el macizo es el caballo de batalla y el de policarbonato conserva la luz. La estructura de debajo es el mismo aluminio calculado en los tres.',
+      'The slatted screen straight on, from the driveway':
+        'La celosía de frente, desde la entrada',
+      'Attached to the house, with the drive running under it':
+        'Adosada a la casa, con la entrada pasando por debajo',
+      'From underneath, looking out to the water':
+        'Desde abajo, mirando hacia el agua',
+      'Between the palms, on the approach to the house':
+        'Entre las palmeras, en el acceso a la casa',
+      'White frame on a modern waterfront house':
+        'Estructura blanca en una casa moderna frente al agua',
+      'A double bay, with the drive laid in slabs':
+        'Doble plaza, con la entrada en losas',
+      'Wood-look aluminum slatted screen closing the side of a carport, seen straight on from a stamped concrete driveway.':
+        'Celosía de aluminio con textura tipo madera cerrando el lateral de una cochera, vista de frente desde una entrada de hormigón estampado.',
+      'Aluminum carport attached to a single-storey home, its dark frame and wood-look soffit spanning a stamped concrete driveway.':
+        'Cochera de aluminio adosada a una casa de una planta, con su estructura oscura y sofito tipo madera cubriendo una entrada de hormigón estampado.',
+      'Underside of a carport roof in wood-look aluminum, looking out past the posts to a canal and moored boats.':
+        'Cara inferior del techo de una cochera en aluminio con textura tipo madera, mirando entre los pilares hacia un canal con barcos amarrados.',
+      'Aluminum carport on the approach to a home, framed by palms, with a slatted screen on the far side.':
+        'Cochera de aluminio en el acceso a una casa, enmarcada por palmeras, con una celosía en el lado del fondo.',
+      'Slim white aluminum carport attached to a modern waterfront home, a saloon car parked under it beside the seawall.':
+        'Cochera de aluminio blanca y esbelta adosada a una casa moderna frente al agua, con un sedán aparcado debajo junto al muro de contención.',
+      'White aluminum carport over a double parking bay with two dark cars, on a driveway laid in large concrete slabs between palms.':
+        'Cochera de aluminio blanca sobre una doble plaza con dos coches oscuros, en una entrada de grandes losas de hormigón entre palmeras.',
+      'Dark aluminum carport spanning the entry of a two-storey white home, its flat roof aligned with the roofline behind.':
+        'Cochera de aluminio oscura cubriendo la entrada de una casa blanca de dos plantas, con su techo plano alineado con la línea de cubierta de detrás.',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll measure the driveway, measure what you park on it, and draw the structure around both.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos la entrada, medimos lo que aparca en ella y dibujamos la estructura a partir de las dos cosas.',
+      'Other Structures':
+        'Otras estructuras',
+      'Other Structures We Build':
+        'Otras estructuras que construimos',
+      'A carport is a roof for the driveway. The same engineered frames and the same roofs go over a patio, a pool deck or a lounge — these are the four we build most often.':
+        'Una cochera es un techo para la entrada. Las mismas estructuras calculadas y los mismos techos van sobre un patio, una zona de piscina o un salón exterior: estos son los cuatro que más construimos.',
+      'Do carports block UV sun rays?':
+        '¿Las cocheras bloquean los rayos UV?',
+      'Are they built for high winds?':
+        '¿Están hechas para vientos fuertes?',
+      'Can the design match my home?':
+        '¿El diseño puede pegar con mi casa?',
+      'Will the aluminum carport rust?':
+        '¿La cochera de aluminio se oxida?',
+      'Do I need a building permit?':
+        '¿Necesito permiso de obra?',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -1181,6 +1357,94 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     title: 'Sukkha 3000 | Estructuras exteriores de lujo',
     description: 'El sistema Sukkha 3000: ingeniería modular, aluminio de alto rendimiento, diseño minimalista y automatización integrada.',
     dic: {
+      'Engineered And Permitted':
+        'Calculada y permisada',
+      'Sukkha 3000 structure over a laid table for a celebration, string lights and greenery along the beams under a reed mat roof.':
+        'Estructura Sukkha 3000 sobre una mesa puesta para una celebración, con guirnaldas de luces y vegetación en las vigas bajo un techo de esterilla de caña.',
+      'Sukkha 3000 structure enclosing a paved terrace in glass and dark aluminum, with a dining table set under the slatted roof.':
+        'Estructura Sukkha 3000 cerrando una terraza pavimentada con vidrio y aluminio oscuro, con una mesa de comedor puesta bajo el techo de listones.',
+      'Reed mat roof of a Sukkha 3000 seen from below, hung with vine garlands and pendant lights between dark aluminum beams.':
+        'Techo de esterilla de caña de un Sukkha 3000 visto desde abajo, con guirnaldas de vid y lámparas colgantes entre vigas de aluminio oscuro.',
+      'Sukkha 3000 structure in dark aluminum against a stone-faced house, its glazed sides open onto a bluestone terrace.':
+        'Estructura Sukkha 3000 en aluminio oscuro contra una casa con frente de piedra, con sus laterales acristalados abiertos a una terraza de piedra azul.',
+      'A Defined System, Not A One-Off':
+        'Un sistema definido, no una pieza única',
+      'The Sukkha 3000 is a system with a known configuration rather than a bespoke structure drawn from nothing, and that is the whole proposition: it specifies faster, it permits faster, and it is priced accordingly. What you choose inside it is the layout, the size, the finish and which of the integrated features you want. What you do not choose is the engineering, because it is already done.':
+        'El Sukkha 3000 es un sistema con una configuración conocida, no una estructura a medida dibujada desde cero, y esa es toda la propuesta: se especifica antes, se permisa antes y se cotiza en consecuencia. Lo que usted elige dentro es la distribución, el tamaño, el acabado y cuáles de las funciones integradas quiere. Lo que no elige es la ingeniería, porque ya está hecha.',
+      'Layout And Size To The Space':
+        'Distribución y tamaño según el espacio',
+      'Finish From The Palette':
+        'Acabado de la carta',
+      'Integrated Automation And Lighting':
+        'Automatización e iluminación integradas',
+      'Fascia Wrap Over The Hardware':
+        'Fascia que cubre los herrajes',
+      'Sukkha 3000 structure with glazed sides and a reed mat roof over a dining terrace, hung with garlands and lights.':
+        'Estructura Sukkha 3000 con laterales acristalados y techo de esterilla de caña sobre una terraza de comedor, con guirnaldas y luces colgando.',
+      'What Makes It A System':
+        'Qué lo hace un sistema',
+      'Most of what we build is drawn from nothing for one house. This one is not, and the difference is worth understanding before you compare quotes: four things come with the system rather than with the project.':
+        'Casi todo lo que construimos se dibuja desde cero para una casa concreta. Este no, y la diferencia conviene entenderla antes de comparar presupuestos: hay cuatro cosas que vienen con el sistema y no con el proyecto.',
+      'A Known Configuration':
+        'Una configuración conocida',
+      'It suits projects that want a defined, engineered system rather than a fully bespoke one-off — faster to specify, faster to permit, and priced accordingly. If your space has unusual geometry or an awkward tie-in to the house, a bespoke structure is usually the better answer, and we will tell you which one you are looking at.':
+        'Le va bien a los proyectos que quieren un sistema definido y ya calculado en vez de una pieza única del todo a medida: se especifica antes, se permisa antes y se cotiza en consecuencia. Si su espacio tiene una geometría rara o un encuentro complicado con la casa, lo normal es que la respuesta buena sea una estructura a medida, y le vamos a decir cuál de las dos está mirando.',
+      'Automation Built In, Not Added':
+        'Automatización de origen, no añadida',
+      'The system is designed around motorised elements, lighting and controls rather than having them retrofitted afterwards. That is why the runs are already accounted for: nothing is chased in later and nothing is surface-clipped to a beam that was not expecting it.':
+        'El sistema está diseñado alrededor de los elementos motorizados, la iluminación y los controles, en vez de añadirlos después. Por eso los tendidos ya están previstos: no hay que regatear nada más tarde ni grapar nada por fuera a una viga que no lo esperaba.',
+      'The Hardware Is Wrapped':
+        'Los herrajes van cubiertos',
+      'Fascia wrap options close over the hardware, which is what keeps the profile reading as a clean architectural line rather than as a mechanism with covers. It is the detail that separates a specified system from an assembly of parts.':
+        'Los remates de fascia cierran sobre los herrajes, y eso es lo que mantiene el perfil leyéndose como una línea arquitectónica limpia y no como un mecanismo con tapas. Es el detalle que separa un sistema especificado de un montaje de piezas.',
+      'Engineered And Permitted, ':
+        'Calculada y permisada, ',
+      'Premium-grade aluminium, engineered to resist corrosion and structural fatigue, and permitted for the address it is going on. We do the calculation and run the approval, the same as on everything else we build.':
+        'Aluminio de alta gama, calculado para resistir la corrosión y la fatiga estructural, y permisado para la dirección en la que va. Nosotros hacemos el cálculo y tramitamos la aprobación, igual que en todo lo demás que construimos.',
+      'Inside a Sukkha 3000: dark beams carrying a reed mat roof, with glazed walls and a paved floor.':
+        'Dentro de un Sukkha 3000: vigas oscuras sosteniendo un techo de esterilla de caña, con paredes acristaladas y suelo pavimentado.',
+      'Glazed sides open onto the terrace, roof mat above':
+        'Laterales acristalados abiertos a la terraza, con la esterilla encima',
+      'Under the mat: beams, garlands and pendant lights':
+        'Bajo la esterilla: vigas, guirnaldas y lámparas colgantes',
+      'The run of the structure along the house':
+        'El recorrido de la estructura a lo largo de la casa',
+      'Open at the end, looking out to the garden':
+        'Abierta por el testero, mirando al jardín',
+      'The structure from the garden, roof mat in place':
+        'La estructura desde el jardín, con la esterilla puesta',
+      'Set for a meal under the garlands':
+        'Puesta para comer bajo las guirnaldas',
+      'Sukkha 3000 with glazed sides folded open onto a paved terrace, a dining table set beneath the reed mat roof.':
+        'Sukkha 3000 con los laterales acristalados plegados y abiertos a una terraza pavimentada, con una mesa de comedor puesta bajo el techo de esterilla.',
+      'Looking up inside a Sukkha 3000 at the reed mat roof, hung with vine garlands and pendant lights between dark beams.':
+        'Mirando hacia arriba dentro de un Sukkha 3000 al techo de esterilla de caña, con guirnaldas de vid y lámparas colgantes entre vigas oscuras.',
+      'Sukkha 3000 running along the side of a house, its dark aluminum frame and glazed panels enclosing a long paved terrace.':
+        'Sukkha 3000 recorriendo el lateral de una casa, con su estructura de aluminio oscuro y paneles acristalados cerrando una terraza pavimentada larga.',
+      'Interior of a Sukkha 3000 looking out through the open end to a garden, with a table and chairs on stone paving.':
+        'Interior de un Sukkha 3000 mirando por el testero abierto hacia un jardín, con mesa y sillas sobre pavimento de piedra.',
+      'Sukkha 3000 seen from the lawn, its dark frame and glazed walls set against a house, with the reed mat roof in place.':
+        'Sukkha 3000 visto desde el césped, con su estructura oscura y paredes acristaladas contra una casa, y el techo de esterilla puesto.',
+      'Table laid for a meal inside a Sukkha 3000, under a reed mat roof hung with vine garlands and warm lights.':
+        'Mesa puesta para comer dentro de un Sukkha 3000, bajo un techo de esterilla con guirnaldas de vid y luces cálidas.',
+      'Meet with our exterior designers for a free consultation. We&#x27;ll look at the space, tell you whether the system fits it or whether a bespoke structure would serve you better, and price both.':
+        'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Miramos el espacio, le decimos si el sistema le encaja o si le serviría mejor una estructura a medida, y le cotizamos las dos.',
+      'Other Structures':
+        'Otras estructuras',
+      'Other Structures We Build':
+        'Otras estructuras que construimos',
+      'The Sukkha 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.':
+        'El Sukkha 3000 es un sistema definido. Si su espacio pide algo dibujado desde cero —un techo que se abra, uno que no se mueva nunca, una estructura abierta o una pieza propia—, estos son los cuatro que más construimos.',
+      'What makes Sukkha 3000 unique?':
+        '¿Qué hace único al Sukkha 3000?',
+      'Is the design customizable?':
+        '¿Se puede personalizar el diseño?',
+      'Can it withstand hurricanes?':
+        '¿Aguanta huracanes?',
+      'Does it support smart home tech?':
+        '¿Admite domótica?',
+      'Is it a permanent structure?':
+        '¿Es una estructura permanente?',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

@@ -60,22 +60,51 @@ const vestir = (svg, k, tx, ty) => svg
   .replace('<g ', `<g transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${k.toFixed(4)})" `)
   .replace(/stroke-width="[-\d.]+"/, `stroke-width="${(CONTRATO.TRAZO / k).toFixed(2)}"`);
 
-/** Normaliza al 85 % centrado. Itera porque el trazo no escala con la geometria. */
+/**
+ * Normaliza al 85 % centrado. Itera porque el trazo no escala con la geometria.
+ *
+ * SE RECENTRA EN CADA VUELTA, y no al final. La primera version escalaba respecto al
+ * ORIGEN y solo centraba al terminar: con un dibujo centrado en (25,25) y una escala
+ * de 2,7 el contenido se iba FUERA del viewBox, el render lo recortaba, y lo que se
+ * media era el recorte —siempre ~50, o sea el borde de la caja—. La realimentacion
+ * quedaba ciega y el bucle se estancaba: un icono se quedo en el 77,4 % y `check:iconos`
+ * lo caza, pero el script lo escribia igual una y otra vez sin converger.
+ *
+ * Recentrando dentro del bucle, lo que se mide es siempre el dibujo entero.
+ */
 async function normalizar(svg) {
   const base = desnudar(svg);
   const objetivo = CONTRATO.OCUPACION * CONTRATO.LADO;
+  const centrado = async (k) => {
+    // Medir con la escala aplicada y el contenido traido al centro, para que nada
+    // caiga fuera del viewBox y el recorte no falsee la medida.
+    const previa = await medirTinta(vestir(base, k, 0, 0));
+    if (!previa) throw new Error('el SVG no pinta un solo pixel');
+    const svgCentrado = vestir(base, k, CONTRATO.LADO / 2 - previa.cx, CONTRATO.LADO / 2 - previa.cy);
+    return { svg: svgCentrado, t: await medirTinta(svgCentrado) };
+  };
   let k = 1;
-  for (let vuelta = 0; vuelta < 8; vuelta++) {
-    const t = await medirTinta(vestir(base, k, 0, 0));
-    if (!t) throw new Error('el SVG no pinta un solo pixel');
-    const lado = Math.max(t.ancho, t.alto);
-    if (Math.abs(lado - objetivo) < 0.02) break;
+  let ultimo = await centrado(k);
+  for (let vuelta = 0; vuelta < 12; vuelta++) {
+    const lado = Math.max(ultimo.t.ancho, ultimo.t.alto);
+    if (Math.abs(lado - objetivo) < 0.05) break;
     k *= objetivo / lado;
+    ultimo = await centrado(k);
   }
-  // El centrado se resuelve al final y de una vez: con la escala ya fija, el
-  // desplazamiento es una resta.
-  const t = await medirTinta(vestir(base, k, 0, 0));
-  return vestir(base, k, CONTRATO.LADO / 2 - t.cx, CONTRATO.LADO / 2 - t.cy);
+  // Afinado final del centro. `centrado()` calcula el desplazamiento a partir de una
+  // medida hecha SIN centrar, que con escalas grandes viene recortada por el viewBox y
+  // deja un resto de decimas. Aqui se mide lo que de verdad se va a escribir y se
+  // corrige sobre eso; dos pasadas bastan.
+  let tx = CONTRATO.LADO / 2, ty = CONTRATO.LADO / 2;
+  const previa = await medirTinta(vestir(base, k, 0, 0));
+  tx -= previa.cx; ty -= previa.cy;
+  for (let vuelta = 0; vuelta < 3; vuelta++) {
+    const t = await medirTinta(vestir(base, k, tx, ty));
+    const dx = CONTRATO.LADO / 2 - t.cx, dy = CONTRATO.LADO / 2 - t.cy;
+    if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) break;
+    tx += dx; ty += dy;
+  }
+  return vestir(base, k, tx, ty);
 }
 
 /** Los cuatro iconos que usa cada ficha, para montar la fila que se aprueba. */
