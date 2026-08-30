@@ -21,6 +21,7 @@
 // nuevas, pies de galeria— vive en fichas.mjs. Aqui solo esta el MOLDE. Ver el
 // comentario de cabecera de ese fichero para por que estan separados.
 import { FICHAS, FICHAS_RECOMPUESTAS, DATA_PRODUCT, ANCLA_TARJETA, foto } from './fichas.mjs';
+import { ALT_SERVICIOS, PODA_GALERIA, altDeProducto, esFoto } from './servicios.mjs';
 
 export { FICHAS_RECOMPUESTAS };
 
@@ -2084,6 +2085,105 @@ function recomponerFicha(s, slug) {
 }
 
 /**
+ * Las siete paginas de servicio. El registro esta en `scripts/lib/servicios.mjs`.
+ *
+ * TRES PASOS, y ninguno inventa contenido. Por que no son los catorce de
+ * `recomponerFicha` esta escrito en la cabecera de `servicios.mjs`.
+ *
+ * 1. Se va la `<section></section>` del export. Es markup muerto —cero hijos, 0 px:
+ *    no hay regla CSS para un `section` pelado, solo para `.section`— y sale una vez
+ *    por fragmento en los siete, en ninguna otra pagina del sitio. NO es cosmetica:
+ *    `check:ritmo` lee los hijos DIRECTOS de `section.body-page` y esa banda fantasma
+ *    le cuenta como clara, justo delante de `feature`, que tambien lo es. Con ella
+ *    dentro el mapa es `OccOcOcFc` y la puerta falla en las catorce; sin ella queda
+ *    `O c O c O c F c`, que es lo que se ve en pantalla. Por eso este paso va ANTES
+ *    de ampliar la puerta a servicios, y no despues.
+ *
+ * 2. Se podan las diapositivas que repiten una foto que la pagina ya ensena.
+ *
+ * 3. Se rellena todo `alt=""` de FOTO. El texto no se escribe aqui: se resuelve, en
+ *    este orden, contra tres fuentes que YA existen —el `alt` de la misma foto en
+ *    otro punto de la pagina, el registro de los catorce de hero/intro, y los `pies`
+ *    de la ficha de producto de la que sale la foto—. Ver `servicios.mjs`.
+ *
+ *    Y LANZA SI QUEDA UNA MUDA. `check:seo` no puede cazarlo: su asercion es que el
+ *    `<img>` TENGA `alt`, y `alt=""` lo tiene. Es exactamente como las diez fichas de
+ *    producto publicaron su galeria entera muda sin que ninguna puerta dijera nada.
+ */
+function recomponerServicio(s, slug) {
+  // --- 1. La seccion muerta del export -----------------------------------------
+  s = cambiar(s, '<section></section>', '', `${slug}: la seccion vacia del export`);
+
+  // --- 2. La poda ---------------------------------------------------------------
+  //
+  // La diapositiva se corta por su propia apertura y su `</a></div>`, no dando por
+  // hecho que el trozo llega hasta la siguiente: la ultima arrastra la cola del
+  // carrusel y cortarla por ahi se llevaria el cierre del bloque. Mismo cuidado que
+  // el paso 6 de `recomponerFicha`, y por el mismo motivo.
+  for (const src of PODA_GALERIA[slug] ?? []) {
+    const APERTURA = '<div fs-slider-element="slide"';
+    const CIERRE = '</a></div>';
+    const trozos = s.split(APERTURA);
+    let quitadas = 0;
+    let nueva = trozos[0];
+    for (const trozo of trozos.slice(1)) {
+      const corte = trozo.indexOf(CIERRE);
+      if (corte < 0) throw new Error(`[servicio] ${slug}: una diapositiva no cierra como se espera`);
+      const diapo = trozo.slice(0, corte + CIERRE.length);
+      if (diapo.includes(`src="${src}"`) && diapo.includes('fs-slider-gallery-section_image')) {
+        nueva += trozo.slice(corte + CIERRE.length);
+        quitadas++;
+      } else {
+        nueva += APERTURA + trozo;
+      }
+    }
+    if (quitadas !== 1) {
+      throw new Error(
+        `[servicio] ${slug}: esperaba podar 1 diapositiva de ${src} y he podado ${quitadas}.\n`
+        + '  Si la foto ya no esta duplicada, quita su entrada de PODA_GALERIA.',
+      );
+    }
+    s = nueva;
+  }
+
+  // --- 3. Los `alt` --------------------------------------------------------------
+  //
+  // El mapa se construye ANTES de tocar nada: son los `alt` que ya trae la pagina, y
+  // la rejilla `feature` los tiene escritos por el cliente para las mismas cinco
+  // fotos que sirve el carrusel.
+  const escritos = new Map();
+  for (const img of s.match(/<img\b[^>]*>/g) ?? []) {
+    const src = img.match(/\ssrc="([^"]+)"/)?.[1];
+    const alt = img.match(/\salt="([^"]*)"/)?.[1];
+    if (src && alt) escritos.set(src, alt);
+  }
+
+  const mudas = [];
+  s = s.replace(/<img\b[^>]*>/g, (img) => {
+    if (!/\salt=""/.test(img)) return img;
+    const src = img.match(/\ssrc="([^"]+)"/)?.[1];
+    if (!src || !esFoto(src)) return img;                 // los .svg decorativos se quedan
+    const base = src.split('/').pop().replace(/\.avif$/, '');
+    const alt = escritos.get(src) ?? ALT_SERVICIOS[base] ?? altDeProducto(src, FICHAS);
+    if (!alt) { mudas.push(src); return img; }
+    // Las comillas dobles romperian el atributo; las entidades se quedan como estan
+    // porque Astro las vuelve a escapar y saldria `&amp;` en pantalla.
+    return img.replace(' alt=""', ` alt="${alt.replace(/"/g, '&quot;')}"`);
+  });
+
+  if (mudas.length) {
+    throw new Error(
+      `[servicio] ${slug}: ${mudas.length} foto(s) se quedarian con alt="" y check:seo`
+      + ' pasaria en verde igual.\n  Sin descripcion: '
+      + mudas.map((m) => m.split('/').pop()).join(', ')
+      + '\n  Escribe su `alt` en ALT_SERVICIOS (scripts/lib/servicios.mjs) MIRANDO LA FOTO.',
+    );
+  }
+
+  return s;
+}
+
+/**
  * `ruta` es opcional y solo la usa el paso 6b, para no dejar un enlace a si misma
  * en la pagina de testimonios. Las paginas de detalle no la pasan: ninguna es esa.
  */
@@ -2461,6 +2561,10 @@ export function transformar(html, ruta) {
   //     reescribe el `alt` de la portada que ese paso acaba de insertar, y ANTES del
   //     paso 7 porque las secciones nuevas no traen <script> ni <style> que marcar.
   if (ruta?.startsWith('/products/')) s = recomponerFicha(s, ruta.slice('/products/'.length));
+
+  // 6f. Las paginas de servicio. Va aqui por el mismo motivo que 6e: despues del 6d,
+  //     que inserta la portada del FAQ con su `alt`, y antes del 7.
+  if (ruta?.startsWith('/services/')) s = recomponerServicio(s, ruta.slice('/services/'.length));
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las
