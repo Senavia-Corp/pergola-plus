@@ -31,6 +31,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
+import { clasesDeCita } from '../src/lib/resenas-tramos.mjs';
 
 const DIST = await raizHtml();
 const ES_PRODUCCION = process.env.PUBLIC_ES_PRODUCCION === '1';
@@ -148,6 +149,53 @@ if (PARCIAL) {
     `la cifra publicada es la del perfil (${TOTAL_PERFIL}), no el numero de tarjetas`, cifraMal);
   decir(afirmaTodas.length === 0,
     'con snapshot parcial ninguna pagina afirma «no se filtra ninguna»', afirmaTodas);
+}
+
+/* ── TRAMOS DE LA CITA ─────────────────────────────────────────────────────────
+ *
+ * Que la cita corta lleve su clase no es cosmetico y por eso se comprueba en la
+ * SALIDA. Todas las tarjetas se estiran hasta la mas alta, asi que sin ese
+ * tratamiento la resena de 20 caracteres volvia a dejar 228px en blanco de sus
+ * 258 —el 88% de la tarjeta— y la fila se veia rota. Es ademas la clase de
+ * regresion que no da error ni rompe ningun build: alguien reescribe el markup
+ * del blockquote, se lleva el `class:list` por delante y la pagina sigue
+ * construyendo perfectamente, solo que fea.
+ *
+ * Se cuenta por COMBINACION exacta de clases, no «hay alguna destacada»: contar
+ * apariciones sueltas dejaria pasar que todas las citas cayeran en el mismo tramo.
+ */
+if (RESENAS_REALES > 0) {
+  const esperado = new Map();
+  for (const r of SNAPSHOT.resenas) {
+    const clave = ['resena-texto', ...clasesDeCita(r.texto)].join(' ');
+    esperado.set(clave, (esperado.get(clave) ?? 0) + 1);
+  }
+
+  // Una pagina cualquiera de las que publican el carrusel: todas llevan las mismas.
+  let muestra = null;
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    if (SLIDE.test(html)) { muestra = { rel, html }; break; }
+  }
+
+  if (!muestra) {
+    decir(false, 'hay una pagina con el carrusel donde comprobar los tramos de la cita');
+  } else {
+    const visto = new Map();
+    for (const m of muestra.html.matchAll(/class="(resena-texto[^"]*)"/g)) {
+      visto.set(m[1], (visto.get(m[1]) ?? 0) + 1);
+    }
+    const desajustes = [];
+    for (const [clave, n] of esperado) {
+      const hay = visto.get(clave) ?? 0;
+      if (hay !== n) desajustes.push(`«${clave}»: esperadas ${n}, en la salida ${hay}`);
+    }
+    for (const clave of visto.keys()) {
+      if (!esperado.has(clave)) desajustes.push(`«${clave}» sobra en la salida`);
+    }
+    decir(desajustes.length === 0,
+      `cada cita lleva la clase de su tramo de longitud (${muestra.rel})`, desajustes);
+  }
 }
 
 console.log(fallos ? `\n${fallos} fallo(s).\n` : '\nsin fallos.\n');

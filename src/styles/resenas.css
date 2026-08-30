@@ -116,6 +116,10 @@
 .fs-slider-resenas_slide {
   flex: 0 0 100%;
   min-width: 0;
+  /* Contenedor de consulta para que la cita corta se dimensione contra el ancho de
+     la tarjeta (ver .resena-texto--una-frase). `inline-size` y no `size`: el alto lo
+     sigue decidiendo la fila, que es lo que mantiene las tarjetas iguales. */
+  container-type: inline-size;
   /* El slide es flex para que la tarjeta pueda estirarse hasta el alto de la
      fila. Con `height:100%` a secas dependeria de que el slide tuviera altura
      resuelta, que en una fila flex no esta garantizado en todos los motores. */
@@ -198,12 +202,78 @@
   margin: 0;
   line-height: 1.65;
   /* Las resenas de Google no tienen limite de largo y una muy larga estiraria su
-     tarjeta hasta descuadrar la fila entera. Se recorta a 10 lineas; el texto
-     completo esta a un clic, en el enlace a Google que lleva debajo. */
+     tarjeta hasta descuadrar la fila entera. El texto completo esta a un clic, en
+     el enlace a Google que lleva debajo.
+
+     BAJADO DE 10 A 6 LINEAS, y no es cosmetico: el techo de este recorte ES la
+     altura de la fila, porque todas las tarjetas se estiran hasta la mas alta. A
+     10 lineas la fila medía 450px y la resena de 20 caracteres dejaba 228px en
+     blanco. A 6 la fila baja a ~370 y ese hueco se encoge para TODAS a la vez.
+     Recortar la mas larga es lo unico que ayuda a las cortas. */
   display: -webkit-box;
-  -webkit-line-clamp: 10;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* La cita CORTA, centrada y a cuerpo grande.
+ *
+ * La marca la pone el componente contando caracteres (los umbrales y el porque,
+ * en src/lib/resenas-tramos.mjs): en un sitio estatico la longitud se conoce al
+ * construir, asi que no hace falta ni JS ni medir en el navegador.
+ *
+ * Centrada en vertical y no pegada arriba: el hueco sobrante existe igual —20
+ * caracteres no llenan media tarjeta ni con el cuerpo al triple—, pero repartido
+ * arriba y abajo se lee como una cita destacada y no como un texto que se corto.
+ * Es la misma decision de siempre: lo que no se puede eliminar, se declara.
+ */
+.resena-texto--destacada {
+  display: flex;
+  align-items: center;
+}
+
+.resena-texto--destacada p {
+  /* Al ancho de la tarjeta, por lo mismo que la de una frase: con un cuerpo fijo la
+     cita de 55 caracteres caia en 3 lineas a 401px y en 2 a 438px, y el hueco de esa
+     tarjeta saltaba de 106 a 137 solo por cambiar de punto de ruptura. El clamp es
+     una red, no el mecanismo: en los anchos reales (390-438px) nunca llega a topar. */
+  font-size: clamp(1.125rem, 5.5cqw, 1.625rem);
+  line-height: 1.4;
+  color: var(--primary, #3a545b);
+  /* Sin recorte: por definicion no llega ni a 3 lineas. */
+  -webkit-line-clamp: none;
+  display: block;
+}
+
+/* Una sola frase: el cuerpo sube hasta que la cita ocupa dos lineas y su mancha
+   iguala a la de las vecinas. Ver MUY_CORTA en src/lib/resenas-tramos.mjs.
+ *
+ * `cqw` y no `rem` ni `vw`: lo que decide en cuantas lineas cae una frase es el
+ * ancho de LA TARJETA, no el de la ventana. Con un cuerpo fijo la misma frase caia
+ * en dos lineas a 3 tarjetas por vista (401px) y en UNA sola a 2 por vista (438px),
+ * asi que el hueco reaparecia justo en tablet: 157px contra los 106 de sus vecinas.
+ * Atado al contenedor, la proporcion se mantiene en los tres puntos de ruptura sin
+ * una media query por cada uno. El contenedor se declara en el slide, abajo. */
+.resena-texto--una-frase p {
+  font-size: clamp(1.75rem, 8cqw, 2.25rem);
+  line-height: 1.3;
+}
+
+/* La comilla es DECORACION y va en ::before del blockquote, no en el texto: si
+   fuera un caracter mas del <p> un lector de pantalla lo leeria dentro de la cita
+   y la comilla de cierre nunca llega. */
+.resena-texto--destacada::before {
+  /* La barra + cadena vacia es el texto ALTERNATIVO del contenido generado: sin
+     ella algunos lectores de pantalla anuncian la comilla dentro de la cita, y el
+     <blockquote> ya dice que es una cita. Donde no se soporta se ignora la parte
+     alternativa y se pinta igual. */
+  content: '\201C' / '';
+  font-size: 3.5rem;
+  line-height: 0.8;
+  color: var(--primary, #3a545b);
+  opacity: 0.18;
+  margin-right: 0.25rem;
+  align-self: flex-start;
 }
 
 .resena-respuesta {
