@@ -340,6 +340,12 @@ for (const col of COLECCIONES) {
     '// migrado son copy de marketing del cliente y ya NO suben: promoverlas a dato',
     '// estructurado seria afirmarle a Google en nombre del negocio algo que nadie ha',
     '// verificado. Lo detecto F4a. El criterio es el ORIGEN, nunca el vocabulario.',
+    ...(col.ficha ? [
+      '// Y en esta coleccion hay un motivo mas concreto: la seccion de especificaciones',
+      '// de esta misma pagina dice por escrito que no publica garantias ni cifras de',
+      '// viento, asi que subir esas cinco seria afirmar justo lo que la pagina se niega',
+      '// a afirmar veinte lineas mas arriba.',
+    ] : []),
     '// El texto sigue VISIBLE en la pagina: es del cliente y no se toca sin su permiso.',
     `const promovidas = ${si}(PROMOVIDAS[item.slug] ?? [])${noSi};`,
     '// `paresFaq` se sigue llamando por su ASERCION —lanza si el markup migrado cambia—,',

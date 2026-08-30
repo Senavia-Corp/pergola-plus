@@ -3,13 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/products/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio, faqPage } from '../../lib/jsonld';
 import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq, partirEnMarca, paresFaq, MARCA_SECCIONES } from '../../lib/faq-ficha';
+import { partirTrasFaq, partirEnMarca, MARCA_SECCIONES, paresFaq } from '../../lib/faq-ficha';
 import EspecificacionesFicha from '../../components/EspecificacionesFicha.astro';
 import ProyectoDeFicha from '../../components/ProyectoDeFicha.astro';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
-import FaqPromovidas from '../../components/FaqPromovidas.astro';
 import { ESPECIFICACIONES } from '../../data/especificaciones';
 import { filasDe } from '../../i18n/especificaciones.es';
+import FaqPromovidas from '../../components/FaqPromovidas.astro';
 import { PROMOVIDAS } from '../../data/faqs';
 import { porId } from '../../i18n/faqs.es';
 
@@ -68,10 +68,13 @@ const migas = breadcrumbs(site, [
 ] as [string, string][]);
 // Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado
 // nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento
-// migrado son copy de marketing del cliente y ya NO suben: la seccion de
-// especificaciones de esta misma pagina dice por escrito que no publica garantias
-// ni cifras de viento, asi que promoverlas a dato estructurado seria afirmarle a
-// Google exactamente lo que la pagina se niega a afirmar. Lo detecto F4a.
+// migrado son copy de marketing del cliente y ya NO suben: promoverlas a dato
+// estructurado seria afirmarle a Google en nombre del negocio algo que nadie ha
+// verificado. Lo detecto F4a. El criterio es el ORIGEN, nunca el vocabulario.
+// Y en esta coleccion hay un motivo mas concreto: la seccion de especificaciones
+// de esta misma pagina dice por escrito que no publica garantias ni cifras de
+// viento, asi que subir esas cinco seria afirmar justo lo que la pagina se niega
+// a afirmar veinte lineas mas arriba.
 // El texto sigue VISIBLE en la pagina: es del cliente y no se toca sin su permiso.
 const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];
 // `paresFaq` se sigue llamando por su ASERCION —lanza si el markup migrado cambia—,
