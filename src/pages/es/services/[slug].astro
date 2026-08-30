@@ -5,8 +5,11 @@ import { traducirHtml } from '../../../i18n';
 import { SERVICIOS_ES } from '../../../i18n/servicios.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
 import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq } from '../../../lib/faq-ficha';
-import { grafo, breadcrumbs, servicio } from '../../../lib/jsonld';
+import FaqPromovidas from '../../../components/FaqPromovidas.astro';
+import { partirTrasFaq, paresFaq } from '../../../lib/faq-ficha';
+import { grafo, breadcrumbs, servicio, faqPage } from '../../../lib/jsonld';
+import { PROMOVIDAS } from '../../../data/faqs';
+import { porId } from '../../../i18n/faqs.es';
 
 // Las páginas de servicio en español.
 //
@@ -46,10 +49,29 @@ if (faltan.length) {
 // YA TRADUCIDO: partir el original dejaria la mitad de la ficha sin traducir.
 const faq = partirTrasFaq(html, 'es/services/' + item.slug);
 
+// Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado
+// nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento
+// migrado son copy de marketing del cliente y NO suben: el criterio es el ORIGEN y
+// nunca el vocabulario — filtrar por palabras no funciona porque el español dice lo
+// mismo más calmado y se escapa entero.
+//
+// `pergola-design-construction` no tiene entrada en PROMOVIDAS y eso es correcto:
+// sus cinco preguntas son las cinco del cliente. Con la lista vacía, FaqPromovidas
+// no pinta nada y el grafo se queda sin `FAQPage`.
+const promovidas = PROMOVIDAS[item.slug] ?? [];
+// `paresFaq` se sigue llamando por su ASERCIÓN —lanza si el markup migrado cambia—,
+// no por su valor. Perder esa comprobación sería cambiar un defecto por otro.
+const migradas = paresFaq(html, item.slug);
+const pares = porId('es', promovidas);
+if (migradas.length !== 5 || pares.length !== promovidas.length) {
+  throw new Error(`[faq] es/services/${item.slug}: ${migradas.length} migradas y ${pares.length} promovidas; esperaba 5 y ${promovidas.length}`);
+}
+
 const site = Astro.site!.href;
 const ruta = `/es/services/${item.slug}/`;
 const jsonLd = grafo(
   servicio(site, { nombre: traduccion.nombre, descripcion: traduccion.description, ruta }),
+  pares.length ? faqPage(pares) : null,
   breadcrumbs(site, [['Nuestros servicios', '/es/services/'], [traduccion.nombre, ruta]], 'es'),
 );
 ---
@@ -63,6 +85,7 @@ const jsonLd = grafo(
   jsonLd={jsonLd}
 >
   <Fragment set:html={faq.antes} />
+  <FaqPromovidas tema={item.slug} idioma="es" />
   <FaqFichaEnlace tema={item.slug} idioma="es" />
   <Fragment set:html={faq.despues} />
 </BaseLayout>

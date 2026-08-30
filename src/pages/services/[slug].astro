@@ -1,9 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/services/_items.json';
-import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio, faqPage } from '../../lib/jsonld';
 import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq } from '../../lib/faq-ficha';
+import { partirTrasFaq, paresFaq } from '../../lib/faq-ficha';
+import FaqPromovidas from '../../components/FaqPromovidas.astro';
+import { PROMOVIDAS } from '../../data/faqs';
+import { porId } from '../../i18n/faqs.es';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -45,7 +48,23 @@ const migas = breadcrumbs(site, [
   ["Our Services","/services/"],
   [nombre, ruta],
 ] as [string, string][]);
-const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '', ruta }), migas);
+// Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado
+// nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento
+// migrado son copy de marketing del cliente y ya NO suben: promoverlas a dato
+// estructurado seria afirmarle a Google en nombre del negocio algo que nadie ha
+// verificado. Lo detecto F4a. El criterio es el ORIGEN, nunca el vocabulario.
+// El texto sigue VISIBLE en la pagina: es del cliente y no se toca sin su permiso.
+const promovidas = (PROMOVIDAS[item.slug] ?? []);
+// `paresFaq` se sigue llamando por su ASERCION —lanza si el markup migrado cambia—,
+// no por su valor. Perder esa comprobacion seria cambiar un defecto por otro.
+const migradas = paresFaq(html, item.slug);
+const pares = porId('en', promovidas);
+if ((migradas.length !== 5 || pares.length !== promovidas.length)) {
+  throw new Error('[faq] ' + item.slug + ': ' + migradas.length + ' migradas y '
+    + pares.length + ' promovidas; esperaba 5 y ' + promovidas.length);
+}
+const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '', ruta }),
+  pares.length ? faqPage(pares) : null, migas);
 ---
 
 <BaseLayout
@@ -57,6 +76,7 @@ const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '
   jsonLd={jsonLd}
 >
   <Fragment set:html={faq.antes} />
+  <FaqPromovidas tema={item.slug} />
   <FaqFichaEnlace tema={item.slug} />
   <Fragment set:html={faq.despues} />
 </BaseLayout>

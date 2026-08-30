@@ -134,6 +134,69 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'pergola-cabana-bano',
     'pergola-cabana-almacen',
   ],
+
+  // ── Servicios ────────────────────────────────────────────────────────────────
+  //
+  // Mismo criterio que arriba y por el mismo motivo: manda el `origen`, nunca el
+  // vocabulario. Filtrar por palabras no funciona porque el español dice lo mismo mas
+  // calmado y se escapa entero. De las 63 preguntas etiquetadas por servicio, 30 son
+  // `origen: 'nueva'` y 35 son copy del cliente (`origen: 'ficha'`); solo suben las
+  // primeras.
+  //
+  // `pergola-design-construction` NO TIENE ENTRADA, y no es un olvido: sus CINCO
+  // preguntas son las cinco del cliente y no hay ni una propia. Cero promovidas es la
+  // respuesta correcta —`FaqPromovidas` no pinta nada y el grafo no lleva `FAQPage`—,
+  // no un hueco que rellenar con la de otro tema.
+  //
+  // Y como en producto, la lista no tiene que medir tres en los siete: se sube lo que
+  // hay, y se prefiere lo que le baja el ticket a quien lo publica.
+
+  // Las tres que un comprador no sabe que tiene que preguntar. La primera dice que
+  // cuando un patio se hunde la culpa es de la base y no del adoquin — o sea, de quien
+  // lo puso.
+  pavers: [
+    'obra-adoquin-hundimiento',
+    'obra-adoquin-sellado',
+    'obra-adoquin-piscina-caliente',
+  ],
+  // La tercera avisa de que mover el vado depende del ayuntamiento y no de nosotros.
+  driveways: [
+    'obra-adoquin-entrada-coche',
+    'obra-entrada-manchas-aceite',
+    'obra-entrada-acera',
+  ],
+  // La primera admite por escrito que el hormigon SIEMPRE agrieta y que lo unico que
+  // se controla es donde; la tercera manda al cliente al adoquin cuando le conviene
+  // mas. Las dos dicen algo en contra de quien las publica, que es justo por lo que
+  // suben.
+  concrete: [
+    'obra-hormigon-grietas',
+    'obra-hormigon-pisar',
+    'obra-hormigon-vs-adoquin-cual',
+  ],
+  // Las tres propias del tema, ni una mas: no hay de donde elegir y no hace falta.
+  'deck-builders': [
+    'obra-deck-material-cual',
+    'obra-deck-sobre-hormigon',
+    'obra-pergola-sobre-deck',
+  ],
+  // `obra-valla-piscina-normativa` nombra los requisitos SIN publicar una sola cifra
+  // («altura minima», «separacion maxima», «por encima de cierta altura»), que es la
+  // unica forma de hablar de normativa aqui: la §8 de las fichas dice por escrito que
+  // este sitio no publica cifras que no pueda respaldar. Y la de huracanes dice que
+  // las vallas macizas son las que caen — teniendo vallas macizas en catalogo.
+  'fence-solutions': [
+    'obra-valla-piscina-normativa',
+    'obra-valla-huracan',
+    'obra-valla-aluminio-vs-pvc',
+  ],
+  // La de en medio es la que vende este servicio de verdad —en que orden va la obra—
+  // y la ultima avisa de que el jardin no se puede usar mientras dura.
+  'full-outdoor-remodel': [
+    'obra-drenaje-patio',
+    'obra-patio-por-donde-empezar',
+    'obra-patio-cuanto-dura-obra',
+  ],
 };
 
 export interface Faq {

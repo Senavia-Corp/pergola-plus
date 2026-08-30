@@ -80,8 +80,8 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
  * project, brands, countries, pergolas-contractors y articles.
  */
 const COLECCIONES = [
-  { dir: 'products', ruta: 'products', faq: true, ficha: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products/' },
-  { dir: 'services', ruta: 'services', faq: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
+  { dir: 'products', ruta: 'products', faq: true, ficha: true, promovidas: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products/' },
+  { dir: 'services', ruta: 'services', faq: true, promovidas: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
   { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery/' },
   { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
@@ -246,24 +246,46 @@ for (const col of COLECCIONES) {
   items.sort((a, b) => a.slug.localeCompare(b.slug));
   await fs.writeFile(path.join(FRAG, col.dir, '_items.json'), JSON.stringify(items, null, 2));
 
-  // La ficha de producto recompuesta: tres componentes en el hueco del primer CTA,
-  // las preguntas promovidas dentro del bloque de FAQ y un `FAQPage` en el grafo.
+  // DOS BANDERAS, Y LA DISTINCION IMPORTA.
   //
-  // Va gobernado por `col.ficha` y NO por `col.faq`: services tambien pinta cinco
-  // preguntas, pero las suyas siguen numeradas en el markup migrado («1. »), y un
-  // `FAQPage` cuyo `name` no coincide LETRA POR LETRA con lo que la pagina enseña es
-  // markup desincronizado — que a ojos de Google es spam, no un descuido.
-  const impFicha = col.ficha ? [
-    "import EspecificacionesFicha from '../../components/EspecificacionesFicha.astro';",
-    "import ProyectoDeFicha from '../../components/ProyectoDeFicha.astro';",
-    "import ReseñasGoogle from '../../components/ReseñasGoogle.astro';",
-    "import FaqPromovidas from '../../components/FaqPromovidas.astro';",
-    "import { ESPECIFICACIONES } from '../../data/especificaciones';",
-    "import { filasDe } from '../../i18n/especificaciones.es';",
-    "import { PROMOVIDAS } from '../../data/faqs';",
-    "import { porId } from '../../i18n/faqs.es';",
+  //   `col.ficha`      la ficha de producto recompuesta: tres componentes en el hueco
+  //                    del primer CTA (especificaciones, reseñas, proyecto).
+  //   `col.promovidas` solo las preguntas nuestras dentro del bloque de FAQ y su
+  //                    `FAQPage` en el grafo.
+  //
+  // Antes esto era UNA sola bandera y services se quedaba fuera de las dos, con este
+  // motivo escrito: «services tambien pinta cinco preguntas, pero las suyas siguen
+  // numeradas en el markup migrado («1. »)». MEDIDO EL 29-08-2026: no lo estan. Cero
+  // preguntas numeradas en los siete servicios y en los diez productos, y `limpiar()`
+  // (src/lib/faq-ficha.ts) quita el prefijo de todas formas — su propio comentario lo
+  // anticipa: «cuando el fragmento deje de estar numerado, este replace simplemente no
+  // encuentra nada». El bloqueo ya no existe.
+  //
+  // Lo que SI sigue en pie es el porque de la regla: un `FAQPage` cuyo `name` no
+  // coincida LETRA POR LETRA con lo que la pagina enseña es markup desincronizado, y a
+  // ojos de Google eso es spam. Por eso al grafo sube EXACTAMENTE lo que pinta
+  // `FaqPromovidas`, que lee la misma lista: `PROMOVIDAS`.
+  //
+  // Y a services le llega solo la mitad de FAQ porque la otra no tiene dato de origen:
+  // un servicio no tiene material, acabado ni dimensiones que poner en §8, y «One We
+  // Built» duplicaria la banda `projects` que las siete YA traen (ver la cabecera de
+  // scripts/lib/servicios.mjs).
+  const promovidas = col.ficha || col.promovidas;
+  const impFicha = [
+    ...(col.ficha ? [
+      "import EspecificacionesFicha from '../../components/EspecificacionesFicha.astro';",
+      "import ProyectoDeFicha from '../../components/ProyectoDeFicha.astro';",
+      "import ReseñasGoogle from '../../components/ReseñasGoogle.astro';",
+      "import { ESPECIFICACIONES } from '../../data/especificaciones';",
+      "import { filasDe } from '../../i18n/especificaciones.es';",
+    ] : []),
+    ...(promovidas ? [
+      "import FaqPromovidas from '../../components/FaqPromovidas.astro';",
+      "import { PROMOVIDAS } from '../../data/faqs';",
+      "import { porId } from '../../i18n/faqs.es';",
+    ] : []),
     '',
-  ].join('\n') : '';
+  ].join('\n');
 
   const bloqueFicha = col.ficha ? [
     '',
@@ -284,25 +306,28 @@ for (const col of COLECCIONES) {
 
   const cuerpoFaq = col.ficha ? 'secciones.despues' : 'html';
 
-  const grafoFicha = col.ficha ? [
+  // La guarda `ficha ?` solo tiene sentido donde HAY registro de especificaciones. En
+  // services no lo hay, asi que ahi la condicion es constante.
+  const si = col.ficha ? 'ficha ? ' : '';
+  const noSi = col.ficha ? ' : []' : '';
+  const grafoFicha = promovidas ? [
     '',
     '// Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado',
     '// nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento',
-    '// migrado son copy de marketing del cliente y ya NO suben: la seccion de',
-    '// especificaciones de esta misma pagina dice por escrito que no publica garantias',
-    '// ni cifras de viento, asi que promoverlas a dato estructurado seria afirmarle a',
-    '// Google exactamente lo que la pagina se niega a afirmar. Lo detecto F4a.',
+    '// migrado son copy de marketing del cliente y ya NO suben: promoverlas a dato',
+    '// estructurado seria afirmarle a Google en nombre del negocio algo que nadie ha',
+    '// verificado. Lo detecto F4a. El criterio es el ORIGEN, nunca el vocabulario.',
     '// El texto sigue VISIBLE en la pagina: es del cliente y no se toca sin su permiso.',
-    'const promovidas = ficha ? (PROMOVIDAS[item.slug] ?? []) : [];',
+    `const promovidas = ${si}(PROMOVIDAS[item.slug] ?? [])${noSi};`,
     '// `paresFaq` se sigue llamando por su ASERCION —lanza si el markup migrado cambia—,',
     '// no por su valor. Perder esa comprobacion seria cambiar un defecto por otro.',
-    'const migradas = ficha ? paresFaq(secciones.despues, item.slug) : [];',
-    "const pares = ficha ? porId('en', promovidas) : [];",
-    'if (ficha && (migradas.length !== 5 || pares.length !== promovidas.length)) {',
+    `const migradas = ${si}paresFaq(${col.ficha ? 'secciones.despues' : 'html'}, item.slug)${noSi};`,
+    `const pares = ${si}porId('en', promovidas)${noSi};`,
+    `if (${col.ficha ? 'ficha && ' : ''}(migradas.length !== 5 || pares.length !== promovidas.length)) {`,
     "  throw new Error('[faq] ' + item.slug + ': ' + migradas.length + ' migradas y '",
     "    + pares.length + ' promovidas; esperaba 5 y ' + promovidas.length);",
     '}',
-    "const filas = ficha ? filasDe('en', item.slug, ficha.enGrafo) : [];",
+    ...(col.ficha ? ["const filas = ficha ? filasDe('en', item.slug, ficha.enGrafo) : [];"] : []),
   ].join('\n') : '';
 
   const nodoProducto = col.ficha
@@ -315,8 +340,8 @@ for (const col of COLECCIONES) {
   const astro = `---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
-import { grafo, breadcrumbs, producto, servicio, areaDeServicio${col.ficha ? ', faqPage' : ''} } from '../../lib/jsonld';
-${col.faq ? `import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\nimport { partirTrasFaq${col.ficha ? ', partirEnMarca, paresFaq, MARCA_SECCIONES' : ''} } from '../../lib/faq-ficha';\n` : ''}${impFicha}
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio${promovidas ? ', faqPage' : ''} } from '../../lib/jsonld';
+${col.faq ? `import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\nimport { partirTrasFaq${col.ficha ? ', partirEnMarca, MARCA_SECCIONES' : ''}${promovidas ? ', paresFaq' : ''} } from '../../lib/faq-ficha';\n` : ''}${impFicha}
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
 // El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
@@ -358,7 +383,7 @@ const jsonLd = grafo(${{
     servicio: "servicio(site, { nombre, descripcion: item.description ?? '', ruta })",
     area: "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre })",
     ninguno: 'null',
-  }[col.ld ?? 'ninguno']},${col.ficha ? '\n  pares.length ? faqPage(pares) : null,' : ''} migas);
+  }[col.ld ?? 'ninguno']},${promovidas ? '\n  pares.length ? faqPage(pares) : null,' : ''} migas);
 ---
 
 <BaseLayout
@@ -381,7 +406,7 @@ ${col.ficha
       + '    entradilla="A project of ours with this roof, from our own gallery." />}\n'
     : ''}${col.faq
     ? '  <Fragment set:html={faq.antes} />\n'
-      + (col.ficha ? '  <FaqPromovidas tema={item.slug} />\n' : '')
+      + (promovidas ? '  <FaqPromovidas tema={item.slug} />\n' : '')
       + '  <FaqFichaEnlace tema={item.slug} />\n  <Fragment set:html={faq.despues} />\n'
     : '  <Fragment set:html={html} />\n'}</BaseLayout>
 `;
