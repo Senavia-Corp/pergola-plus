@@ -68,27 +68,8 @@
   line-height: 1;
 }
 
-/*
- * El enlace a la ficha de Google.
- *
- * `min-height` + el padding NO son estetica: medido con Playwright a 390 y con
- * `scrollIntoView({block:'center'})` antes de preguntar —sin eso la caja miente—,
- * la diana real era de 189x18. El minimo de WCAG 2.2 AA (2.5.8) son 24x24, y la
- * excepcion de «enlace dentro de una frase» no aplica: este va suelto, en su propia
- * linea, debajo del resumen.
- *
- * No es un defecto de las paginas de servicio: sale igual en la home, en el
- * estimador y en las 20 fichas de producto, o sea en TODA pagina que monte
- * `ReseñasGoogle`. Se arregla aqui, que es donde vive, y se arregla para todas.
- *
- * El padding va vertical y no horizontal a proposito: el subrayado tiene que seguir
- * midiendo lo que mide el texto.
- */
 .resenas-ficha {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding-block: 3px;
+  display: inline-block;
   color: var(--primary, #3a545b);
   font-weight: 600;
   text-decoration: underline;
