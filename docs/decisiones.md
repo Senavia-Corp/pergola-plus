@@ -1082,3 +1082,56 @@ Y **el par español va indexado por la cadena inglesa**: cambiar `cta-slots.mjs`
 sin cambiar `productos.es.ts` deja el `alt` en inglés en `/es/` y no lo dice
 ninguna puerta — `comprobar-i18n.mjs` cuenta nodos de texto y `comprobar-seo.mjs`
 solo exige que el atributo exista.
+
+## A un servicio le aplica UNO de los catorce pasos de la ficha, y decirlo es la decisión
+
+Las siete páginas de servicio tenían que recibir lo que recibieron las diez de
+producto. De los ocho elementos de aquel tratamiento, **tres no tienen
+equivalente**, y forzarlos habría sido inventar:
+
+- **§8 especificaciones** — un servicio no tiene material, acabado ni
+  dimensiones. No hay dato de origen; solo quedaba escribirlo.
+- **§9 «One We Built»** — las siete YA traen una banda `projects` con diez
+  proyectos reales. Y aunque no la trajeran, las etiquetas del CMS son de
+  PRODUCTO —«Solid Roof Pergolas», «Cabanas», «Sukkah», «Aluminum Carports»—:
+  **ninguna de servicio** con la que filtrar.
+- **Comparativo** — compara los diez productos entre sí.
+
+Por eso `recomponerServicio` no es `recomponerFicha` con banderas: son tres pasos
+propios. Y `col.ficha` se partió en dos —`ficha` y `promovidas`— para que a
+services le llegue la mitad que sí aplica.
+
+### El motivo que bloqueaba las preguntas estaba caducado
+
+`generar-detalle.mjs` justificaba dejar services fuera así: «las suyas siguen
+numeradas en el markup migrado («1. »)». **Medido: cero preguntas numeradas** en
+los siete servicios y en los diez productos — y `limpiar()` quita el prefijo de
+todas formas, con un comentario que lo anticipaba palabra por palabra. Un motivo
+escrito no caduca solo: hay que releerlo contra el repo antes de obedecerlo.
+
+Suben 18 preguntas en seis servicios. `pergola-design-construction` sube CERO
+porque sus cinco son copy del cliente, y cero es la respuesta correcta, no un
+hueco que rellenar con la de otro tema. El criterio sigue siendo el `origen`.
+
+### Los `alt` de galería no se escribieron: se derivan
+
+La galería del carrusel son **exactamente las mismas cinco fotos que la rejilla
+`feature`**, que ya las lleva descritas por el cliente. Escribir un texto nuevo
+para la misma foto era garantizar que un día dijeran cosas distintas. El paso 6f
+las resuelve por `src` contra tres fuentes que ya existen, y **lanza si queda una
+muda** — que es lo que ninguna puerta hacía: `check:seo` solo exige que el
+atributo EXISTA, y `alt=""` lo tiene.
+
+Escritos a mano solo los 14 de hero/intro y 7 huérfanas, mirando la foto.
+
+### Y una puerta que mide lo que no es, también miente
+
+Al ampliar `check:ritmo` a servicios había que arreglar una asunción: la costura
+daba por hecho que `body-page` va entre dos fotos. En producto vale; en servicio
+NO, porque `hero-service` declara `--secundary` y es una banda clara.
+
+Al medirla salieron **32 fallos falsos**: `call-to-action-footer` y `hero-product`
+sacan su foto de un `<img>` a sangre, no de un `background-image`, así que el
+resolvedor —que lee el CSS— los ve claros cuando en pantalla son fotos. De ahí
+`soloDeclarado`, que devuelve `null` cuando la banda no declara fondo. Se mide
+donde hay algo que medir y se afirma donde no.
