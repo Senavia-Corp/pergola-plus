@@ -515,6 +515,125 @@ decir(
   valoresDivergentes,
 );
 
+// --- los ATRIBUTOS visibles, que hasta ahora no miraba nadie -----------------
+//
+// EL AGUJERO, MEDIDO. `traducirHtml` SI traduce `alt`, `aria-label` y `placeholder`
+// (src/i18n/index.ts), pero por coincidencia EXACTA con la cadena inglesa: lo que no
+// encuentra lo deja en ingles y NO lo mete en `faltan`. Y `faltan` es lo unico que
+// alimenta la cobertura de mas arriba, que ademas solo cuenta nodos de texto.
+// Resultado: un `alt` sin par se publica en ingles en /es/ y las dos puertas que
+// podrian verlo pasan en verde — `check:seo` porque solo exige que el atributo
+// EXISTA, y esta porque no miraba atributos. Es el A1 de F4a-veracidad.md.
+//
+// SE COMPARA CONTRA LA GEMELA INGLESA, no contra el diccionario: la pregunta no es
+// «¿existe traduccion?» sino «¿se aplico?». Un atributo que sale IGUAL en las dos
+// paginas y parece prosa inglesa es un atributo sin traducir.
+//
+// ───────────────────────────────────────────────────────────────────────────────
+// POR QUE LA PUERTA DURA ES SOLO EL CUERPO DE /es/services/ Y EL RESTO ES CENSO
+//
+// Cuando se escribio esto habia 313 cadenas unicas sin traducir en las 108 paginas
+// de /es/. Las 73 de los cuerpos de servicio se arreglaron en esta tanda y son las
+// que aqui se exigen a cero. Las demas viven en el menu mega, el pie y las secciones
+// que esta tanda no toca (blog, proyectos, contratistas, productos…), y ponerlas en
+// verde no es trabajo de aqui.
+//
+// La alternativa mala habria sido no medirlas: entonces «el sitio esta traducido»
+// vuelve a pasar por cierto. Se cuentan, se imprimen por seccion y quedan escritas.
+// La alternativa peor habria sido una lista de 240 excepciones que nadie relee.
+const ATRIBUTOS = ['alt', 'aria-label', 'placeholder'];
+const NO_SE_TRADUCEN = [
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/,                    // correo
+  /^\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,         // telefono
+  /^https?:\/\//,                                   // URL
+  /^(Pergola Plus Florida|Pergola Plus Corp\.|FORTE Plus|Sukkha 3000|Senavia Corp\.)$/,
+];
+
+/** Los atributos visibles de un HTML, sin repetir. */
+const atributosDe = (html) => {
+  const v = new Set();
+  for (const etiqueta of html.match(/<[a-z][a-z0-9]*\s[^>]*>/gi) ?? []) {
+    for (const a of ATRIBUTOS) {
+      const m = etiqueta.match(new RegExp(`\\s${a}="([^"]+)"`));
+      if (m) v.add(m[1]);
+    }
+  }
+  return v;
+};
+
+/**
+ * El cuerpo: entre el ultimo `</nav>` y el `<footer`.
+ *
+ * El menu mega y el pie son IDENTICOS en las 217 paginas, asi que un `alt` suyo sin
+ * traducir no es un defecto de la pagina de servicio: es uno del armazon, y sale 108
+ * veces en el censo. Mezclarlos haria imposible exigir cero en ningun sitio.
+ */
+const soloCuerpo = (html) => {
+  const a = html.lastIndexOf('</nav>');
+  const b = html.lastIndexOf('<footer');
+  return a >= 0 && b > a ? html.slice(a, b) : html;
+};
+
+const quedaEnIngles = async (rel, recorte) => {
+  const relEn = rel.replace(/^es\//, '');
+  const [hEs, hEn] = await Promise.all([
+    fs.readFile(path.join(DIST, rel), 'utf8'),
+    fs.readFile(path.join(DIST, relEn), 'utf8').catch(() => null),
+  ]);
+  if (!hEn) return null;
+  const ingles = atributosDe(recorte(hEn));
+  const fuera = [];
+  let mirados = 0;
+  for (const v of atributosDe(recorte(hEs))) {
+    mirados++;
+    // Prosa: 4+ letras seguidas y al menos dos palabras. Un «FORTE» o un «2025» no.
+    if (!/[a-z]{4}/i.test(v) || v.trim().split(/\s+/).length < 2) continue;
+    if (NO_SE_TRADUCEN.some((re) => re.test(v.trim()))) continue;
+    if (!ingles.has(v)) continue;               // distinto del ingles: esta traducido
+    fuera.push(v);
+  }
+  return { fuera, mirados };
+};
+
+// 1. La puerta dura: el cuerpo de las siete paginas de servicio, a cero.
+const servicios = es.filter((rel) => ruta(rel).startsWith('/es/services/') && ruta(rel) !== '/es/services/');
+const sinTraducir = [];
+let atrsMirados = 0;
+for (const rel of servicios) {
+  const r = await quedaEnIngles(rel, soloCuerpo);
+  if (!r) continue;
+  atrsMirados += r.mirados;
+  for (const v of r.fuera) sinTraducir.push(`${ruta(rel)}  "${v.slice(0, 74)}${v.length > 74 ? '…' : ''}"`);
+}
+// Autocomprobacion: si el extractor dejara de casar el markup, la lista saldria vacia
+// y esto pasaria en verde sin haber mirado un solo atributo.
+decir(servicios.length === 7 && atrsMirados > 100,
+  `${atrsMirados} atributos mirados en el cuerpo de ${servicios.length} paginas /es/services/`,
+  ['sin esto, una lista vacia significaria «no he extraido nada», no «esta todo traducido»']);
+decir(sinTraducir.length === 0,
+  'ningun alt/aria-label/placeholder del cuerpo de /es/services/ se queda en ingles',
+  sinTraducir);
+
+// 2. El censo del resto. NO es puerta: es el numero que impide que «el sitio esta
+//    traducido» vuelva a pasar por cierto.
+const censo = {};
+const unicasFuera = new Set();
+for (const rel of es) {
+  if (servicios.includes(rel)) continue;
+  const r = await quedaEnIngles(rel, (h) => h);
+  if (!r || !r.fuera.length) continue;
+  const seccion = ruta(rel).split('/')[2] || '(home)';
+  censo[seccion] = (censo[seccion] ?? 0) + r.fuera.length;
+  for (const v of r.fuera) unicasFuera.add(v);
+}
+if (unicasFuera.size) {
+  const orden = Object.entries(censo).sort((a, b) => b[1] - a[1]);
+  console.log(`\n  ---  ${unicasFuera.size} cadenas unicas siguen en ingles en atributos de /es/, FUERA de esta puerta`);
+  console.log(`         (menu mega y pie incluidos, que salen en las ${es.length} paginas)`);
+  for (const [k, n] of orden) console.log(`         ${String(n).padStart(4)}  /es/${k}`);
+  console.log('         Cerrarlo es una tanda propia. Mientras tanto, esta contado.');
+}
+
 // --- cuanto queda ----------------------------------------------------------
 // El informe importa tanto como la puerta: sin este numero, «el sitio esta en
 // espanol» pasa por cierto cuando lo estan 7 paginas de 107.

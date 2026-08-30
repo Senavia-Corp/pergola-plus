@@ -27,12 +27,31 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Adoquinado de lujo | Sur de Florida',
     description: 'Patios, bordes de piscina y entradas de coche adoquinados sobre bases calculadas, con el drenaje que pide la lluvia de Florida.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Structural base preparation for luxury paver installation in South Florida residential property.':
+        'Preparación de la base estructural para una instalación de adoquín de alto nivel en una propiedad residencial del sur de Florida.',
+      'Premium concrete paver patio installed at luxury South Florida residence.':
+        'Patio de adoquín de hormigón de primera instalado en una residencia de lujo del sur de Florida.',
+      'Luxury paver driveway with engineered drainage system in South Florida.':
+        'Entrada de coches de adoquín de alto nivel con sistema de drenaje calculado, en el sur de Florida.',
+      'Reinforced edge restraint system for premium paver installation in Florida.':
+        'Sistema de confinamiento de borde reforzado para una instalación de adoquín de primera en Florida.',
+      'Custom paver patio integrated with pergola and pool in South Florida home.':
+        'Patio de adoquín a medida integrado con pérgola y piscina en una casa del sur de Florida.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Newly installed large-format paver patio with tight uniform joints and a linear drain in Boca Raton, Florida.':
-        'Patio de adoquín de gran formato recién instalado, con juntas apretadas y uniformes y sumidero lineal, en Boca Raton, Florida.',
+      'Large-format paver patio laid in a grid with planted turf joints, running up to the wall of a home beside a pool.':
+        'Patio de adoquín de gran formato en retícula, con juntas plantadas de césped, hasta el muro de una casa junto a la piscina.',
+      // Los `alt` del hero y de la portada de intro, que llegaban vacíos. Los escribe
+      // el paso 6f (scripts/lib/servicios.mjs) mirando la foto.
+      'Large-format grey paver patio laid in a grid with planted turf joints, beside a pool.':
+        'Patio de adoquín gris de gran formato en retícula, con juntas plantadas de césped, junto a la piscina.',
+      'Herringbone paver driveway in mixed greys running up to a modern two-story home, with a linear trench drain across it.':
+        'Entrada de coches en adoquín gris en espiga que sube hasta una casa moderna de dos plantas, con un sumidero lineal atravesándola.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Luxury paver patio installation at modern South Florida residence with pool integration.':
@@ -90,12 +109,59 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Diseño y construcción de pérgolas | Sur de Florida',
     description: 'Pérgolas de aluminio a medida con cálculo estructural y permisos, pensadas para el calor, la humedad y el viento de Florida.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Polycarbonate roof on a dark frame covering a planted side entrance, framed by travellers palms and tropical planting.':
+        'Cubierta de policarbonato sobre estructura oscura cubriendo una entrada lateral ajardinada, enmarcada por palmeras del viajero y plantación tropical.',
+      'Freestanding dark open-slat pergola sheltering a sofa beside a pool, backed by a tall bamboo hedge.':
+        'Pérgola exenta de lamas abiertas en color oscuro cubriendo un sofá junto a la piscina, con un seto alto de bambú detrás.',
+      'Dark wood-look open-slat pergola attached to a white home above French doors, with garden trellis panels and planted pots below.':
+        'Pérgola de lamas abiertas con textura tipo madera oscura, adosada a una casa blanca sobre las puertas francesas, con paneles de enrejado y macetas debajo.',
+      'Bronze louvered pergola attached to a tile-roof home, louvers open over a travertine pool deck, with the gutter downspout running down inside the post.':
+        'Pérgola de lamas bronce adosada a una casa con tejado de teja, con las lamas abiertas sobre una terraza de travertino junto a la piscina y la bajante del canalón por dentro del poste.',
+      'White louvered pergola attached to a yellow stucco home, shading an outdoor dining and grill area beside the pool.':
+        'Pérgola de lamas blanca adosada a una casa de estuco amarillo, dando sombra a la zona de comedor y parrilla junto a la piscina.',
+      'Freestanding insulated roof pergola with a dark bronze frame on a lawn beside a pool, sheltering a hanging wicker chair and a daybed among tropical planting.':
+        'Pérgola de cubierta maciza aislada exenta, con estructura bronce oscuro sobre el césped junto a la piscina, cubriendo un sillón colgante de mimbre y un diván entre plantación tropical.',
+      'Attached insulated roof with a warm wood-look soffit and a dark bronze fascia, covering an outdoor kitchen and lounge on a travertine terrace by the water.':
+        'Cubierta maciza aislada adosada, con sofito de textura tipo madera y fascia bronce oscuro, cubriendo una cocina exterior y un salón en una terraza de travertino junto al agua.',
+      'Wide view of an insulated roof over a waterfront outdoor kitchen, with a bar, stools and travertine paving, and moored boats along the canal behind.':
+        'Vista amplia de una cubierta maciza aislada sobre una cocina exterior frente al agua, con barra, taburetes y pavimento de travertino, y barcos amarrados en el canal detrás.',
+      'Custom aluminum pergola integrated into modern South Florida home architecture.':
+        'Pérgola de aluminio a medida integrada en la arquitectura de una casa actual del sur de Florida.',
+      'Custom engineered aluminum pergola installed on luxury South Florida residence with structural reinforced columns.':
+        'Pérgola de aluminio calculada a medida, instalada en una residencia de lujo del sur de Florida con columnas reforzadas.',
+      'Luxury pergola integrated with outdoor kitchen and deck in South Florida residence.':
+        'Pérgola de alto nivel integrada con cocina exterior y deck en una residencia del sur de Florida.',
+      'Modern aluminum louvered pergola installed in a tropical South Florida backyard with pool.':
+        'Pérgola de lamas de aluminio actual, instalada en un patio tropical con piscina en el sur de Florida.',
+      'Weather-resistant aluminum pergola designed for South Florida climate conditions.':
+        'Pérgola de aluminio resistente a la intemperie, pensada para el clima del sur de Florida.',
+      'Dark bronze pergola with a slatted roof and a matching louvered privacy screen in a narrow side yard, over paver-and-turf paving.':
+        'Pérgola en bronce oscuro con techo de listones y un panel de lamas a juego para privacidad, en un pasillo lateral estrecho, sobre pavimento de adoquín y césped.',
+      'Looking up at a translucent polycarbonate roof on a dark frame, with two ceiling fans below and palms showing through the panels.':
+        'Vista hacia arriba de un techo traslúcido de policarbonato sobre estructura oscura, con dos ventiladores debajo y las palmeras asomando a través de los paneles.',
+      'Cream open-slat pergola over a poolside terrace, with striped loungers and an ornate stone screen at one end.':
+        'Pérgola color crema de listones abiertos sobre una terraza junto a la piscina, con camastros de rayas y una celosía de piedra labrada en un extremo.',
+      'Louvered pergola attached to a tile-roof home, shading a paver pool deck behind a safety fence.':
+        'Pérgola de lamas adosada a una casa con techo de teja, dando sombra a una terraza de adoquín junto a la piscina, detrás de una valla de seguridad.',
+      'Dark-framed pergola with white louvers over a paved terrace with a lounge set, against a tall clipped hedge.':
+        'Pérgola de estructura oscura con lamas blancas sobre una terraza pavimentada con juego de estar, contra un seto alto recortado.',
+      'Close-up of white louvers part-open on a dark beam, with the drive gear that turns them.':
+        'Detalle de las lamas blancas entreabiertas sobre una viga oscura, con el mecanismo que las gira.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Custom engineered aluminum louvered pergola integrated into a contemporary waterfront home in West Palm Beach, Florida.':
-        'Pérgola de lamas de aluminio calculada a medida e integrada en una vivienda contemporánea frente al agua en West Palm Beach, Florida.',
+      'White aluminum patio cover with a louvered section beside a solid roof section, running along the back of a home above a pool deck.':
+        'Cubierta de patio en aluminio blanco, con un tramo de lamas junto a otro de techo macizo, recorriendo la parte trasera de una casa sobre la terraza de la piscina.',
+      // Los `alt` del hero y de la portada de intro, que llegaban vacíos. Los escribe
+      // el paso 6f (scripts/lib/servicios.mjs) mirando la foto.
+      'White aluminum patio cover with a louvered section and a solid roof section, attached to a home above a pool deck and a stacked-stone bar.':
+        'Cubierta de patio en aluminio blanco, con un tramo de lamas y otro de techo macizo, adosada a la casa sobre la terraza de la piscina y una barra de piedra apilada.',
+      'Under a covered patio: wood-grain slatted ceiling, ceiling fan, a louvered privacy screen and a dining table for eight.':
+        'Bajo la cubierta del patio: techo de listones con veta de madera, ventilador, panel de lamas para privacidad y mesa de comedor para ocho.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Completed custom aluminum pergola installation at luxury South Florida residence with integrated lighting and modern architectural design.':
@@ -149,6 +215,23 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Entradas de coche a medida | Sur de Florida',
     description: 'Entradas adoquinadas sobre bases reforzadas, con las pendientes y el drenaje calculados para las lluvias de Florida.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Reinforced structural base preparation for luxury driveway installation in South Florida.':
+        'Preparación de la base estructural reforzada para una entrada de coches de alto nivel en el sur de Florida.',
+      'Luxury paver driveway installed at upscale South Florida residence.':
+        'Entrada de coches de adoquín de alto nivel instalada en una residencia de categoría del sur de Florida.',
+      'Luxury driveway with engineered drainage system in South Florida.':
+        'Entrada de coches de alto nivel con sistema de drenaje calculado, en el sur de Florida.',
+      'Custom designed paver driveway complementing modern South Florida home.':
+        'Entrada de coches de adoquín diseñada a medida, a juego con una casa actual del sur de Florida.',
+      'Fully permitted luxury driveway installation in South Florida residential property.':
+        'Entrada de coches de alto nivel instalada con todos los permisos en una propiedad residencial del sur de Florida.',
+      'Grey brick-paver driveway curving up to a single-story home behind a lawn and palms.':
+        'Entrada de coches de adoquín gris que describe una curva hasta una casa de una planta, tras el césped y las palmeras.',
+      'Wide motor court in light grey pavers opening in front of a two-story home with stone columns and a metal roof.':
+        'Amplia explanada de acceso en adoquín gris claro que se abre ante una casa de dos plantas con columnas de piedra y cubierta metálica.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -208,6 +291,21 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Hormigón estructural | Sur de Florida',
     description: 'Losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y adoquinado, con permisos en regla.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Professional grading and site preparation for concrete installation in South Florida.':
+        'Nivelación y preparación del terreno, hechas por profesionales, para una obra de hormigón en el sur de Florida.',
+      'Reinforced concrete slab engineered for luxury pergola installation in South Florida.':
+        'Losa de hormigón armado calculada para una pérgola de alto nivel en el sur de Florida.',
+      'Code-compliant concrete foundation installation in South Florida residential property.':
+        'Cimentación de hormigón ejecutada conforme al código en una propiedad residencial del sur de Florida.',
+      'Concrete patio engineered with drainage control for South Florida climate.':
+        'Patio de hormigón calculado con control de drenaje para el clima del sur de Florida.',
+      'Concrete foundation supporting pergola and paver patio in South Florida residence.':
+        'Cimentación de hormigón que sostiene la pérgola y el patio de adoquín de una residencia del sur de Florida.',
+      'Finished concrete patio with saw-cut joints, a lounge set and potted plants against sliding glass doors.':
+        'Patio de hormigón terminado con juntas aserradas, juego de estar y macetas frente a las puertas corredizas de vidrio.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -268,6 +366,21 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Constructores de decks a medida | Sur de Florida',
     description: 'Decks de composite y aluminio calculados para el ambiente costero, con permisos e instalación profesional.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Reinforced structural framing for luxury composite deck in South Florida.':
+        'Estructura reforzada para un deck de compuesto de alto nivel en el sur de Florida.',
+      'Premium composite and aluminum deck installation in South Florida luxury home.':
+        'Deck de compuesto y aluminio de primera instalado en una casa de lujo del sur de Florida.',
+      'Weather-resistant composite deck designed for South Florida climate.':
+        'Deck de compuesto resistente a la intemperie, pensado para el clima del sur de Florida.',
+      'Custom multi-level deck integrated with modern South Florida home architecture.':
+        'Deck a medida de varios niveles, integrado en la arquitectura de una casa actual del sur de Florida.',
+      'Fully permitted composite deck installation in South Florida residential property.':
+        'Deck de compuesto instalado con todos los permisos en una propiedad residencial del sur de Florida.',
+      'Raised grey composite deck with black cable railing, wet from rain, looking out over dense tropical planting.':
+        'Deck elevado de compuesto gris con barandal de cable negro, mojado por la lluvia, asomado a una vegetación tropical densa.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -327,6 +440,19 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Instalación de vallado | Sur de Florida',
     description: 'Vallado de aluminio y cerramientos de privacidad calculados para resistir el viento y la corrosión de la costa, con permisos y visto bueno de la HOA.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Reinforced fence post installation designed for Florida wind resistance.':
+        'Postes de valla reforzados, pensados para aguantar el viento de Florida.',
+      'Architectural aluminum fence complementing modern South Florida home.':
+        'Valla de aluminio de línea arquitectónica, a juego con una casa actual del sur de Florida.',
+      'Custom privacy fence installed around luxury South Florida backyard.':
+        'Valla de privacidad a medida instalada alrededor de un patio de lujo del sur de Florida.',
+      'Fully permitted aluminum fence installation in South Florida residential property.':
+        'Valla de aluminio instalada con todos los permisos en una propiedad residencial del sur de Florida.',
+      'Black horizontal-slat fence with a matching sliding driveway gate meeting the paver apron at the street.':
+        'Valla de lamas horizontales negras con portón corredizo a juego, que llega al adoquín de la entrada junto a la calle.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
@@ -388,6 +514,25 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
     title: 'Remodelación exterior integral | Sur de Florida',
     description: 'Remodelamos el exterior entero: patio, adoquinado, hormigón, decks, vallado, pérgolas, cortinas motorizadas, iluminación y drenaje en un solo proyecto.',
     dic: {
+      // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
+      // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
+      // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
+      'Structural outdoor renovation with reinforced base at South Florida luxury home.':
+        'Reforma exterior estructural con base reforzada en una casa de lujo del sur de Florida.',
+      'Luxury paver work during a full outdoor remodel at a South Florida residence.':
+        'Trabajo de adoquín de alto nivel durante una reforma exterior completa en una residencia del sur de Florida.',
+      'Full outdoor remodel with integrated aluminum pergola in South Florida.':
+        'Reforma exterior completa con pérgola de aluminio integrada, en el sur de Florida.',
+      'Custom outdoor remodeling design integrated with modern South Florida home.':
+        'Diseño de reforma exterior a medida, integrado en una casa actual del sur de Florida.',
+      'Fully permitted outdoor remodeling project in South Florida luxury home.':
+        'Reforma exterior ejecutada con todos los permisos en una casa de lujo del sur de Florida.',
+      'Aerial view of an oceanfront residential community: lawn, curving walkways, a pool with loungers and two shade cabanas, and the coast road beyond.':
+        'Vista aérea de un conjunto residencial frente al mar: césped, andadores curvos, piscina con camastros y dos cabañas de sombra, y la avenida costera al fondo.',
+      'Dark louvered pergola with integrated lighting over an outdoor kitchen and bar, on a composite deck beside a pool at dusk.':
+        'Pérgola de lamas oscura con iluminación integrada sobre una cocina exterior con barra, en un deck de compuesto junto a la piscina, al atardecer.',
+      'Freestanding dark-framed pergola at dusk with its screens lowered and lit strips overhead, sheltering a lounge set, a fire table and an outdoor kitchen beside a pool.':
+        'Pérgola exenta de estructura oscura al atardecer, con las cortinas bajadas y tiras de luz arriba, cobijando un juego de estar, una mesa de fuego y una cocina exterior junto a la piscina.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira

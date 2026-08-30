@@ -491,4 +491,60 @@ export const COMUN_ES: Record<string, string> = {
     'De Fort Lauderdale a Weston, instalamos pérgolas de aluminio, techos de lamas motorizados, cubiertas de patio y sistemas completos de exterior por todo el condado de Broward. Cada proyecto se hace para durar, para verse bien y para rendir.',
   'We design and build pergolas, patio roofs, and outdoor shading systems throughout Palm Beach County, using high-grade materials that hold strong in Florida’s coastal environment.':
     'Diseñamos y construimos pérgolas, techos de patio y sistemas de sombra por todo el condado de Palm Beach, con materiales de calidad que aguantan el ambiente costero de Florida.',
+
+  // ── Los `alt` que las SIETE paginas de servicio comparten ────────────────────
+  //
+  // Van aqui y no en servicios.es.ts porque son literalmente la misma cadena en las
+  // siete: los cuatro iconos de `intro-location`, las diez tarjetas de la banda
+  // `projects` y los cuatro pasos de `process`. Repetirlos por servicio serian siete
+  // copias de la misma traduccion, que es como se desincronizan.
+  //
+  // Y hay una razon para que aparezcan AHORA: hasta esta tanda nadie comprobaba los
+  // atributos de /es/, asi que estos salian en ingles en las siete paginas españolas
+  // sin que ninguna puerta lo dijera. Lo caza `check:i18n` desde este mismo commit.
+  //
+  // Los nombres de producto —FORTE, FORTE Plus, ECLIPSE— y los de ciudad NO se
+  // traducen. Los de ciudad porque son la direccion de una obra real.
+  'Licensed and insured aluminum pergola contractor serving South Florida with certified installation and code-compliant outdoor structures.':
+    'Contratista de pérgolas de aluminio con licencia y seguro en el sur de Florida, con instalación certificada y estructuras que cumplen el código.',
+  'Over 10 years of experience designing and installing custom pergolas, louvered roofs, and outdoor shade systems in South Florida.':
+    'Más de diez años diseñando e instalando pérgolas a medida, techos de lamas y sistemas de sombra en el sur de Florida.',
+  'Premium aluminum pergolas installed by experienced South Florida contractors using high-grade materials and expert craftsmanship.':
+    'Pérgolas de aluminio instaladas por contratistas con oficio en el sur de Florida, con materiales de primera.',
+  'Custom design-build pergola systems tailored to South Florida homes, engineered for durability, performance, and architectural integration.':
+    'Pérgolas de diseño y obra a medida para casas del sur de Florida, calculadas para durar, rendir e integrarse en la arquitectura.',
+
+  // Las diez tarjetas de la banda `projects`. Son obras reales con su ciudad.
+  // El CMS guarda DOS variantes de este `alt`, con y sin «Custom» delante: la de la
+  // home y las paginas de contratista lleva el prefijo y la de servicio no. Como la
+  // clave es la cadena exacta, hacen falta las dos o una de las dos se queda en
+  // ingles — y hasta esta tanda era justo lo que pasaba en las siete de servicio.
+  'FORTE aluminum pergolas installed in Greenacres pool patio, engineered for South Florida residential outdoor living.':
+    'Pérgolas FORTE de aluminio instaladas en un patio de piscina en Greenacres, para vivir el exterior en el sur de Florida.',
+  'FORTE Plus aluminum pergolas installed at a luxury oceanfront estate in Hillsboro Beach, engineered for South Florida coastal durability.':
+    'Pérgolas de aluminio FORTE Plus instaladas en una finca de lujo frente al mar en Hillsboro Beach, calculadas para aguantar la costa del sur de Florida.',
+  'Attached FORTE Plus aluminum pergola installed on the Intracoastal in Boca Raton, engineered for South Florida coastal performance.':
+    'Pérgola de aluminio FORTE Plus adosada, instalada sobre el Intracoastal en Boca Raton, calculada para el ambiente costero del sur de Florida.',
+  'FORTE aluminum pergola with privacy wall and TV mount installed in Delray Beach, designed for South Florida outdoor entertainment spaces.':
+    'Pérgola de aluminio FORTE con muro de privacidad y soporte de televisor, instalada en Delray Beach para espacios de entretenimiento al aire libre.',
+  'ECLIPSE cabanas and FORTE pergola installed for hospitality project in Riviera Beach, engineered for South Florida commercial use.':
+    'Cabañas ECLIPSE y pérgola FORTE instaladas en un proyecto hotelero en Riviera Beach, calculadas para uso comercial en el sur de Florida.',
+  'FORTE Plus aluminum pergola with outdoor kitchen installed in Delray Beach, engineered for South Florida luxury homes.':
+    'Pérgola de aluminio FORTE Plus con cocina exterior, instalada en Delray Beach para casas de alto nivel del sur de Florida.',
+  'FORTE aluminum pergola with partial privacy wall installed in Palm Beach Gardens, designed for South Florida residential outdoor living.':
+    'Pérgola de aluminio FORTE con muro de privacidad parcial, instalada en Palm Beach Gardens para la vida al aire libre en el sur de Florida.',
+  'FORTE aluminum pergola with motorized shade screen installed in Delray Beach, engineered for South Florida residential outdoor living.':
+    'Pérgola de aluminio FORTE con cortina de sombra motorizada, instalada en Delray Beach para la vida al aire libre en el sur de Florida.',
+  'FORTE Plus aluminum carport installed in Pompano Beach, South Florida. Engineered residential structure built to meet Florida building codes and coastal conditions.':
+    'Cochera de aluminio FORTE Plus instalada en Pompano Beach, sur de Florida. Estructura residencial calculada para cumplir el código de edificación de Florida y aguantar la costa.',
+
+  // Los cuatro pasos de `process`.
+  'On-site property visit by licensed South Florida pergola contractor to assess measurements, layout, and project requirements.':
+    'Visita a la propiedad de un contratista de pérgolas con licencia del sur de Florida, para tomar medidas y ver el reparto y lo que pide la obra.',
+  'Custom aluminum pergola design process tailored to South Florida homes by experienced design-build contractors.':
+    'Proceso de diseño de pérgolas de aluminio a medida para casas del sur de Florida, con contratistas de diseño y obra con experiencia.',
+  'Professional pergola installation in South Florida using engineered aluminum systems and code-compliant construction standards.':
+    'Instalación profesional de pérgolas en el sur de Florida, con sistemas de aluminio calculados y construcción que cumple el código.',
+  'Completed custom pergola project installed in South Florida, delivering durable shade and refined outdoor living performance.':
+    'Proyecto de pérgola a medida terminado en el sur de Florida, con sombra que dura y un exterior que rinde.',
 };

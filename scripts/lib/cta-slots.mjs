@@ -117,20 +117,27 @@ export const CTA_SLOTS = {
   },
 
   // ── Servicios ────────────────────────────────────────────────────────────────
+  // Reescrito MIRANDO EL RECORTE PUBLICADO (29-08-2026). Decia «louvered pergola …
+  // waterfront … in West Palm Beach»: no hay agua a la vista, la ciudad se la invento
+  // el prompt, y no es solo de lamas — hay un tramo de lamas Y otro de techo macizo,
+  // que es justo lo que vende esta pagina.
   'pergola-design-construction': {
     alt:
-      'Custom engineered aluminum louvered pergola integrated into a contemporary '
-      + 'waterfront home in West Palm Beach, Florida.',
+      'White aluminum patio cover with a louvered section beside a solid roof '
+      + 'section, running along the back of a home above a pool deck.',
   },
   'full-outdoor-remodel': {
     alt:
       'Full outdoor remodel with large-format pavers, a louvered pergola and an '
       + 'outdoor kitchen in Delray Beach, Florida.',
   },
+  // Idem. Decia «tight uniform joints and a linear drain in Boca Raton»: las juntas
+  // NO son apretadas, van plantadas de cesped, y no hay ningun sumidero lineal en el
+  // encuadre — el de la foto de intro si lo tiene, y de ahi debio salir el prompt.
   'pavers': {
     alt:
-      'Newly installed large-format paver patio with tight uniform joints and a '
-      + 'linear drain in Boca Raton, Florida.',
+      'Large-format paver patio laid in a grid with planted turf joints, running up '
+      + 'to the wall of a home beside a pool.',
   },
   'driveways': {
     alt:
