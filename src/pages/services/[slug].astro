@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/services/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio, faqPage } from '../../lib/jsonld';
 import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq, paresFaq } from '../../lib/faq-ficha';
+import { partirTrasFaq, partirEnMarca, MARCA_RESENAS, paresFaq } from '../../lib/faq-ficha';
+import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import FaqPromovidas from '../../components/FaqPromovidas.astro';
 import { PROMOVIDAS } from '../../data/faqs';
 import { porId } from '../../i18n/faqs.es';
@@ -28,6 +29,12 @@ if (!html) throw new Error('sin fragmento para services/' + item.slug);
 // El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el
 // fragmento se parte ahi. Ver src/lib/faq-ficha.ts.
 const faq = partirTrasFaq(html, 'services/' + item.slug);
+// La marca la escribe el paso 6f de scripts/lib/transformar.mjs, que es un .mjs y
+// no puede importar este .ts: `partirEnMarca` LANZA si no esta, y esa es toda la
+// comprobacion que mantiene los dos ficheros de acuerdo.
+// Se corta `faq.despues` y no el html entero: la banda `reviews` viene DESPUES
+// del FAQ en las siete (…faq · projects · process · service-areas · reviews).
+const resenas = partirEnMarca(faq.despues, item.slug, MARCA_RESENAS);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
@@ -78,5 +85,10 @@ const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '
   <Fragment set:html={faq.antes} />
   <FaqPromovidas tema={item.slug} />
   <FaqFichaEnlace tema={item.slug} />
-  <Fragment set:html={faq.despues} />
+  <Fragment set:html={resenas.antes} />
+  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a
+      testimonios. Como banda propia serian dos claras seguidas antes del
+      CTA del pie y check:ritmo lo cazaria. Ver MARCA_RESENAS. */}
+  <ReseñasGoogle />
+  <Fragment set:html={resenas.despues} />
 </BaseLayout>

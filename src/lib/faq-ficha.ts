@@ -81,15 +81,29 @@ export function partirTrasFaq(html: string, ficha: string): FaqPartido {
 export const MARCA_SECCIONES = '<!--pp-secciones-ficha-->';
 
 /**
+ * Donde va `ReseñasGoogle` DENTRO de la banda `reviews` de una pagina de servicio.
+ *
+ * Y «dentro» no es un detalle de maquetacion, es la razon de que exista esta marca.
+ * En producto el componente ocupa una banda propia; aqui no puede: las siete paginas
+ * alternan `O c O c O c F c` sin un solo par repetido, y una banda clara mas entre
+ * `reviews` (clara) y el CTA del pie dejaria dos claras seguidas. Metiendolo dentro
+ * de la banda que ya existe, el ritmo no se mueve y no se pierde nada — el titular y
+ * el enlace real a /about-us/testimonials siguen ahi, con las reseñas en medio.
+ *
+ * La marca la escribe el paso 6f de `scripts/lib/transformar.mjs`.
+ */
+export const MARCA_RESENAS = '<!--pp-resenas-servicio-->';
+
+/**
  * Parte el fragmento por la marca. Lanza si no esta: una seccion que desaparece en
  * silencio es el fallo que este fichero existe para evitar.
  */
-export function partirEnMarca(html: string, ficha: string): FaqPartido {
-  const i = html.indexOf(MARCA_SECCIONES);
+export function partirEnMarca(html: string, ficha: string, marca = MARCA_SECCIONES): FaqPartido {
+  const i = html.indexOf(marca);
   if (i < 0) {
-    throw new Error(`[faq-ficha] ${ficha}: no encuentro la marca ${MARCA_SECCIONES} en el fragmento`);
+    throw new Error(`[faq-ficha] ${ficha}: no encuentro la marca ${marca} en el fragmento`);
   }
-  return { antes: html.slice(0, i), despues: html.slice(i + MARCA_SECCIONES.length) };
+  return { antes: html.slice(0, i), despues: html.slice(i + marca.length) };
 }
 
 /**

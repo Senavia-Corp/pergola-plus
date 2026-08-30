@@ -6,7 +6,8 @@ import { SERVICIOS_ES } from '../../../i18n/servicios.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
 import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
 import FaqPromovidas from '../../../components/FaqPromovidas.astro';
-import { partirTrasFaq, paresFaq } from '../../../lib/faq-ficha';
+import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
+import { partirTrasFaq, partirEnMarca, paresFaq, MARCA_RESENAS } from '../../../lib/faq-ficha';
 import { grafo, breadcrumbs, servicio, faqPage } from '../../../lib/jsonld';
 import { PROMOVIDAS } from '../../../data/faqs';
 import { porId } from '../../../i18n/faqs.es';
@@ -49,6 +50,13 @@ if (faltan.length) {
 // YA TRADUCIDO: partir el original dejaria la mitad de la ficha sin traducir.
 const faq = partirTrasFaq(html, 'es/services/' + item.slug);
 
+// El hueco de `ReseñasGoogle` dentro de la banda `reviews`. Se corta `faq.despues` y
+// no el html entero: la banda viene DESPUÉS del FAQ (…faq · projects · process ·
+// service-areas · reviews). La marca la escribe el paso 6f de transformar.mjs, que es
+// un .mjs y no puede importar ese .ts: `partirEnMarca` LANZA si no está, y esa es
+// toda la comprobación que mantiene los dos ficheros de acuerdo.
+const resenas = partirEnMarca(faq.despues, 'es/services/' + item.slug, MARCA_RESENAS);
+
 // Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado
 // nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento
 // migrado son copy de marketing del cliente y NO suben: el criterio es el ORIGEN y
@@ -87,5 +95,10 @@ const jsonLd = grafo(
   <Fragment set:html={faq.antes} />
   <FaqPromovidas tema={item.slug} idioma="es" />
   <FaqFichaEnlace tema={item.slug} idioma="es" />
-  <Fragment set:html={faq.despues} />
+  <Fragment set:html={resenas.antes} />
+  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a testimonios. Como
+      banda propia serían dos claras seguidas antes del CTA del pie y check:ritmo lo
+      cazaría. Ver MARCA_RESENAS en src/lib/faq-ficha.ts. */}
+  <ReseñasGoogle />
+  <Fragment set:html={resenas.despues} />
 </BaseLayout>

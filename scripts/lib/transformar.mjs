@@ -1222,6 +1222,16 @@ const ELFSIGHT_RESENAS =
 const RESENAS = '/about-us/testimonials';
 
 /**
+ * El enlace que el paso 6b deja en el hueco del widget de Elfsight. El paso 6f lo usa
+ * de ancla para saber donde va `ReseñasGoogle` dentro de la banda `reviews`: es unico
+ * en el fragmento y cae dentro de `.reviews` en los siete servicios (medido).
+ */
+const ENLACE_RESENAS = `<a href="${RESENAS}" class="button w-button">Read Client Reviews</a>`;
+
+/** Donde va `ReseñasGoogle`. Contrato compartido con src/lib/faq-ficha.ts. */
+const MARCA_RESENAS = '<!--pp-resenas-servicio-->';
+
+/**
  * La portada del CMS de cada ficha de detalle: /products/<slug> -> { src, alt }.
  *
  * Sale de img-map.json y no de leer la carpeta porque ahi esta el alt REDACTADO por
@@ -2180,6 +2190,18 @@ function recomponerServicio(s, slug) {
     );
   }
 
+  // --- 4. El hueco de las reseñas ------------------------------------------------
+  //
+  // Marca, no markup: aqui solo se dice DONDE, y quien pinta es la plantilla. El
+  // ancla es el enlace a testimonios que el paso 6b acaba de poner —unico en el
+  // fragmento y dentro de `.reviews` en los siete, medido—, asi que `ReseñasGoogle`
+  // cae entre el titular de la banda y ese boton.
+  //
+  // Va DENTRO de la banda que ya existe y no como banda propia: ver MARCA_RESENAS en
+  // src/lib/faq-ficha.ts. Una banda clara mas entre `reviews` y el CTA del pie serian
+  // dos claras seguidas, y `check:ritmo` lo cazaria — con razon.
+  s = cambiar(s, ENLACE_RESENAS, MARCA_RESENAS + ENLACE_RESENAS, `${slug}: el ancla de las reseñas`);
+
   return s;
 }
 
@@ -2499,12 +2521,7 @@ export function transformar(html, ruta) {
   //
   //     Esto vivia como edicion a mano sobre los fragmentos y un solo
   //     `node scripts/generar-paginas.mjs` se lo llevaba por delante, en silencio.
-  s = s.replaceAll(
-    ELFSIGHT_RESENAS,
-    ruta === RESENAS
-      ? ''
-      : `<a href="${RESENAS}" class="button w-button">Read Client Reviews</a>`,
-  );
+  s = s.replaceAll(ELFSIGHT_RESENAS, ruta === RESENAS ? '' : ENLACE_RESENAS);
 
   // 6c. Los tres diferenciales del hero de la home, retirados por peticion del
   //     cliente. Se comprueba que la sustitucion ocurra: si el markup cambia y este
