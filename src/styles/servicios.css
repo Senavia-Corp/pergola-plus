@@ -1,0 +1,247 @@
+/* =============================================================================
+   La sección «Discover What Our Service Includes» de las 7 páginas de servicio.
+
+   SOLO CSS, Y NO ES PEREZA. El markup viene del export de Webflow y la
+   interacción del acordeón la mueve IX2 enganchando POR CLASE —`.feature-item`,
+   `.feature-header-item`, `.feature-card` aparecen en webflow.js—, no por
+   `data-w-id` (medido: cero ids dentro de `.feature`). Tocar el markup sería
+   arriesgar los 90 eventos que `check:animaciones` cuenta y exige intactos, y
+   además `src/contenido-migrado/` es salida generada: se regenera y se pierde.
+   Con CSS el rediseño sobrevive a la regeneración y no puede romper la paridad.
+
+   ÁMBITO: `.feature-grid` sale EXCLUSIVAMENTE en los 7 fragmentos de servicio
+   (medido) → 14 páginas. Nada de esto alcanza a producto ni al resto del sitio.
+
+   -----------------------------------------------------------------------------
+   QUÉ ESTABA MAL, MEDIDO SOBRE LA PÁGINA EN VIVO A 1440
+
+     columna izquierda   380 x 284
+     tarjeta derecha     570 x 375     <- 91 px de desfase, y eso es la asimetría
+
+   La causa no es un margen mal puesto: las cinco tarjetas van
+   `position: absolute`, así que NO PUEDEN DAR ALTURA a su contenedor. Alguien lo
+   resolvió fijando `min-height: 375px` en la rejilla y `365px` en la tarjeta —
+   dos números a mano que no tienen por qué coincidir con lo que mide la lista, y
+   no coinciden.
+
+   Encima, dentro de la tarjeta la foto iba a `250px` fijos y el pie a lo que
+   pidiera el texto (medido: 113 px con 231 caracteres, 128 px con 300). Así que
+   al cambiar de pestaña saltaba el alto del pie Y el de la tarjeta.
+
+   -----------------------------------------------------------------------------
+   CÓMO SE ARREGLA: QUE LA ALTURA LA DÉ EL CONTENIDO, NO UN NÚMERO
+
+   1. Fuera los dos `min-height`. Con `align-items: stretch` la fila mide lo que
+      mida la lista, y la tarjeta —que ya es `inset: 0 0 0 auto`— se estira justo
+      a ese alto. Simétrico POR CONSTRUCCIÓN: no hay número que mantener.
+   2. Dentro de la tarjeta, la foto pasa a `flex: 1` y el pie a `flex: none`. La
+      diferencia de longitud entre textos la absorbe la foto, que es donde no se
+      nota, en vez del pie, que es donde saltaba.
+
+   La cuadrícula de la izquierda toma prestado el lenguaje del mega-menú —filete
+   de 1 px entre filas, fila activa con tinte del propio `--primary`—, que es la
+   referencia que pidió Sebastian.
+   ============================================================================= */
+
+.feature {
+  /* Los tintes del menú viven dentro de `.menu` (y `--menu-linea` además dentro de
+     una media query), así que aquí no llegan. Se rederivan del mismo `--primary`
+     y con los mismos porcentajes: la sección no introduce un color nuevo. */
+  --svc-linea: #3a545b26;         /* --primary al 15 %, el filete del menú */
+  --svc-tinte: #3a545b14;         /* --primary al 8 %,  el hover del menú   */
+  --svc-tinte-activo: #3a545b1f;  /* --primary al 12 %, el activo del menú  */
+  --svc-transicion: 160ms ease;
+}
+
+/* -----------------------------------------------------------------------------
+   1 · La rejilla: dos columnas que empiezan y terminan a la misma altura
+   -------------------------------------------------------------------------- */
+
+@media screen and (min-width: 992px) {
+  .feature-grid {
+    /* De 950 a 1120: con 380 px de columna, «Fully Permitted & Professionally
+       Installed» llegaba al borde. */
+    max-width: 1120px;
+    /* EL NÚMERO QUE SOBRABA. Reservaba a mano el sitio de una tarjeta absoluta. */
+    min-height: 0;
+    /* Era `center`: con la tarjeta más alta que la lista, la lista quedaba
+       centrada y el desfase se repartía arriba y abajo. Ahora las dos columnas
+       ocupan la fila entera. */
+    align-items: stretch;
+  }
+
+  /* 42 + 54 = 96. El 4 % restante es el canalón, y va como hueco real en vez de
+     como margen para que las dos columnas sigan pegadas a sus bordes. */
+  .feature-list-item {
+    width: 42%;
+  }
+
+  .feature-card {
+    width: 54%;
+    /* El otro número a mano. La tarjeta ya se estira sola con `inset`. */
+    min-height: 0;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   2 · La columna derecha: foto elástica, pie estable
+   -------------------------------------------------------------------------- */
+
+.block-card-img {
+  /* Era `height: 250px`. Ahora se queda con lo que sobre tras el pie, así que la
+     tarjeta cuadra exactamente con la lista sea cual sea el largo del texto. */
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+
+.img-feature {
+  width: 100%;
+  height: 100%;
+  /* `cover` y no `fill`: al variar el alto de la foto entre pestañas, `fill` la
+     deformaría. Se recorta, no se estira. */
+  object-fit: cover;
+  display: block;
+}
+
+.block-text-card {
+  flex: 0 0 auto;
+}
+
+/* -----------------------------------------------------------------------------
+   3 · La columna izquierda, con la cuadrícula del mega-menú
+   -------------------------------------------------------------------------- */
+
+@media screen and (min-width: 992px) {
+  /* El filete va en la FILA y no como `gap` del contenedor, igual que en el menú
+     y por el mismo motivo: así el hover puede pintar la fila entera de borde a
+     borde sin dejar franjas sin cubrir entre elementos. */
+  .feature-list-item .feature-item {
+    border-top: 1px solid var(--svc-linea);
+    /* El relleno se mueve a la cabecera para que la zona pulsable sea la fila
+       completa y no un rectángulo interior. */
+    padding: 0;
+  }
+
+  .feature-list-item .feature-item:last-child {
+    border-bottom: 1px solid var(--svc-linea);
+  }
+
+  /* EL ALTO DE FILA ES LO QUE DIMENSIONA LA FOTO, y por eso no es un capricho.
+     Con la tarjeta atada al alto de la lista, cinco filas apretadas de 55 px daban
+     una lista de 278 px y por tanto una foto de 605x150 — un buzón de 4:1. Con
+     4,75rem la lista mide ~384 px y a la foto le quedan ~256, que es el tamaño que
+     tenía antes de todo esto (250) pero ahora SIN número fijo: si mañana el pie
+     lleva una línea más, la foto cede y las dos columnas siguen cuadrando.
+
+     `min-height` y no `height`: una etiqueta que envuelva a dos líneas crece en vez
+     de desbordar. Hoy ninguna lo hace a 470 px de columna, pero el día que el CMS
+     traiga una más larga, crece. */
+  .feature-header-item {
+    min-height: 4.75rem;
+    padding: .75rem 1.25rem;
+    transition: background-color var(--svc-transicion), box-shadow var(--svc-transicion);
+  }
+
+  .feature-header-item:hover {
+    background-color: var(--svc-tinte);
+  }
+
+  /* La marca del activo. Antes era `rgba(0,0,0,.04)` —un gris que se lee como
+     «esta fila está deshabilitada», no como «esta es la que estás viendo»—. El
+     tinte sale del --primary y la barra de 3 px es la que de verdad dice cuál es,
+     porque el color por sí solo no basta para quien no lo distingue. */
+  .feature-header-item.is-active {
+    background-color: var(--svc-tinte-activo);
+    box-shadow: inset 3px 0 0 var(--primary);
+  }
+
+  .feature-header-item:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: -3px;
+  }
+
+  /* -----------------------------------------------------------------------------
+     4 · El «+», que estaba en el markup y en `display: none`
+     --------------------------------------------------------------------------
+
+     Sin él NADA decía que estas filas se pudieran pulsar: ni cursor, ni icono, ni
+     cambio de estado visible más allá de un gris al 4 %. Las dos líneas ya están
+     en el markup migrado; solo hacía falta encenderlas y girar la vertical para
+     que el activo sea un «−». */
+  .feature-header-item .block-icon-plus {
+    display: flex;
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    opacity: .45;
+    transition: opacity var(--svc-transicion);
+  }
+
+  .feature-header-item:hover .block-icon-plus,
+  .feature-header-item.is-active .block-icon-plus {
+    opacity: 1;
+  }
+
+  .block-icon-plus .line-icon-plus-landscape,
+  .block-icon-plus .line-icon-plus-vertical {
+    background-color: var(--primary);
+    transition: transform var(--svc-transicion);
+  }
+
+  /* Activo = «−»: la vertical se pliega sobre sí misma. */
+  .feature-header-item.is-active .line-icon-plus-vertical {
+    transform: scaleY(0);
+  }
+
+  .feature-header-item {
+    cursor: pointer;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   5 · Móvil (≤991px): el acordeón de verdad, un item encima de otro
+   --------------------------------------------------------------------------
+
+   Aquí el CSS migrado ya apila y pone la tarjeta en `position: relative`. Lo que
+   no hacía era distinguir el item abierto: pintaba TODAS las cabeceras de
+   `var(--gray)`, así que las cinco se veían iguales estuviera abierta la que
+   estuviera. Se cambia por el mismo lenguaje de filete + tinte del escritorio. */
+
+@media screen and (max-width: 991px) {
+  .feature-list-item .feature-item {
+    border-top: 1px solid var(--svc-linea);
+  }
+
+  .feature-list-item .feature-item:last-child {
+    border-bottom: 1px solid var(--svc-linea);
+  }
+
+  .feature-header-item {
+    background-color: transparent;
+    /* Era `height: 50px` fijo: una etiqueta de dos líneas se salía de la caja. */
+    height: auto;
+    min-height: 52px;
+    padding: .875rem 1rem;
+  }
+
+  .feature-header-item.is-active {
+    background-color: var(--svc-tinte-activo);
+    box-shadow: inset 3px 0 0 var(--primary);
+  }
+
+  /* La foto vuelve a alto propio: apilada no hay columna con la que cuadrar. */
+  .block-card-img {
+    flex: 0 0 auto;
+    height: 220px;
+  }
+
+  /* EL «+» SOBRA AQUI, y no es cosa de esta tanda: el CSS migrado lo enciende a
+     ≤991px (`.block-icon-plus { display: flex }`) en un layout donde las CINCO
+     tarjetas estan abiertas a la vez —medido: las cinco con `visibility: visible`
+     y `opacity: 1`—. Un «+» promete un plegado que ahi no existe. Apilado, cada
+     etiqueta es el encabezado de lo que tiene debajo y no necesita icono. */
+  .block-icon-plus {
+    display: none;
+  }
+}

@@ -38,6 +38,10 @@ import '../styles/blog-carrusel.css';
 // comparacion. Va DESPUES de tarjetas.css porque solo le añade separacion a
 // `.product-grid-list`, que aquella ya estiliza.
 import '../styles/ficha-producto.css';
+// La seccion «What Our Service Includes» de las 7 paginas de servicio. Va DESPUES
+// del CSS migrado porque lo corrige: le quita los dos `min-height` a mano que
+// descuadraban las dos columnas y le pone la cuadricula del mega-menu.
+import '../styles/servicios.css';
 // El formulario multipaso de /contact-us/get-a-quote. VA LA ULTIMA por lo mismo:
 // tiene que ganarle al `.w-input:focus { outline: 0 }` de webflow.css, que hoy
 // deja los campos de ese formulario SIN anillo de foco.
