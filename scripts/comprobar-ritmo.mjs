@@ -120,8 +120,19 @@ const color = (v) => {
   return null;
 };
 
-/** foto | oscuro | claro. Sin declaracion propia hereda el cuerpo, que es claro. */
-function tono(clases, rs) {
+/**
+ * foto | oscuro | claro. Sin declaracion propia hereda el cuerpo, que es claro.
+ *
+ * `soloDeclarado` devuelve `null` en vez de 'claro' cuando la banda NO declara fondo
+ * ninguno. Lo usa la costura (punto 3) y no es un matiz: `call-to-action-footer` y
+ * `hero-product` sacan su foto de un `<img>` a sangre, no de un `background-image`,
+ * asi que este resolvedor —que lee el CSS— los ve claros cuando en pantalla son
+ * fotos. Es la misma discrepancia que la cabecera ya documenta para
+ * `why-choose-section`. Dentro de body-page da igual, porque ahi todas las bandas
+ * declaran su fondo; en la costura NO, y tratar una foto como banda clara inventa un
+ * par repetido que no existe.
+ */
+function tono(clases, rs, { soloDeclarado = false } = {}) {
   const casa = (sel) => sel.split(',').some((s) => {
     const t = s.trim();
     // Solo selectores de una sola clase (con o sin sufijo de ambito de Astro): esta
@@ -140,20 +151,25 @@ function tono(clases, rs) {
     }
   }
   if (foto) return 'foto';
-  if (!fondo) return 'claro';                                   // hereda el cuerpo
+  if (!fondo) return soloDeclarado ? null : 'claro';            // hereda el cuerpo
   return 0.2126 * fondo[0] + 0.7152 * fondo[1] + 0.0722 * fondo[2] > 140 ? 'claro' : 'oscuro';
 }
 
 // --- 2. Las bandas de cada ficha ---------------------------------------------
 
 const fichas = [];
-for (const base of ['products', 'es/products']) {
+for (const base of ['products', 'es/products', 'services', 'es/services']) {
   for (const d of await fs.readdir(path.join(DIST, base)).catch(() => [])) {
     const f = path.join(DIST, base, d, 'index.html');
     if (await fs.stat(f).then((s) => s.isFile()).catch(() => false)) fichas.push({ slug: d, ruta: `${base}/${d}`, f });
   }
 }
-decir(fichas.length === 20, `${fichas.length} fichas de producto construidas (esperaba 20)`);
+// 20 productos + 14 servicios. El recuento es parte de la puerta: si un dia se
+// construyen menos, esto lo dice en vez de medir menos paginas en silencio.
+const PRODUCTOS = fichas.filter((f) => f.ruta.includes('products/')).length;
+const SERVICIOS = fichas.filter((f) => f.ruta.includes('services/')).length;
+decir(PRODUCTOS === 20, `${PRODUCTOS} fichas de producto construidas (esperaba 20)`);
+decir(SERVICIOS === 14, `${SERVICIOS} paginas de servicio construidas (esperaba 14)`);
 
 for (const ficha of fichas) {
   const html = await fs.readFile(ficha.f, 'utf8');
@@ -166,6 +182,7 @@ for (const ficha of fichas) {
   // Hijos DIRECTOS de body-page, por profundidad de etiquetas.
   const bandas = [];
   let prof = 0;
+  let finCuerpo = cuerpo.length;                 // donde cierra body-page, para la costura
   for (const m of cuerpo.matchAll(/<(\/?)(section|div|header|footer|main)\b([^>]*)>/g)) {
     const cierra = m[1] === '/';
     const auto = /\/>$/.test(m[0]);
@@ -174,7 +191,7 @@ for (const ficha of fichas) {
       bandas.push({ cl, nombre: (cl[0] ?? m[2]) + ((m[3].match(/id="([^"]*)"/) ?? [])[1] ? '#' + m[3].match(/id="([^"]*)"/)[1] : '') });
     }
     if (!auto) prof += cierra ? -1 : 1;
-    if (prof === 0) break;                                       // se cerro body-page
+    if (prof === 0) { finCuerpo = m.index + m[0].length; break; } // se cerro body-page
   }
   if (bandas.length < 8) { decir(false, `${ficha.ruta}: solo ${bandas.length} bandas, el markup ha cambiado`); continue; }
 
@@ -191,14 +208,37 @@ for (const ficha of fichas) {
     continue;
   }
 
-  // 3. La costura con lo de fuera: body-page va entre el hero (foto) y el CTA del
-  //    pie (foto), asi que basta con que su primera y su ultima banda no sean fotos
-  //    ellas mismas. Si algun dia lo son, este ambito deja de valer y hay que saberlo.
-  const primera = tonos[0], ultima = tonos.at(-1);
-  if (primera.t === 'foto' || ultima.t === 'foto') {
+  // 3. La costura con lo de fuera. Antes esto ASUMIA que body-page va entre dos
+  //    fotos —el hero y el CTA del pie— y se limitaba a comprobar que su primera y su
+  //    ultima banda no fueran fotos ellas mismas. En producto la asuncion vale; EN
+  //    SERVICIO NO: `hero-service` no es una foto, declara `--secundary`, o sea que
+  //    es una banda CLARA. Con la asuncion vieja, un primer hijo claro pegado a ese
+  //    hero habria pasado en verde sin que nadie lo viera.
+  //
+  //    Asi que la costura se MIDE — pero solo donde hay algo que medir. Los vecinos
+  //    que no declaran fondo (`call-to-action-footer`, `hero-product`: su foto es un
+  //    `<img>` a sangre) devuelven `null` y se saltan, porque leerlos como «claros»
+  //    inventaria un par repetido que en pantalla no existe. Para esos sigue valiendo
+  //    la asercion de siempre: la banda del borde no puede ser ella misma una foto.
+  const vecinoPrevio = [...html.slice(0, i).matchAll(/<section\b([^>]*)>/g)].pop();
+  const vecinoPost = cuerpo.slice(finCuerpo).match(/<section\b([^>]*)>/);
+  const clasesDe = (m) => (m ? ((m[1].match(/class="([^"]*)"/) ?? [, ''])[1]).split(/\s+/).filter(Boolean) : []);
+  const costura = [];
+  for (const [cl, lado, banda] of [
+    [clasesDe(vecinoPrevio), 'antes de body-page', tonos[0]],
+    [clasesDe(vecinoPost), 'despues de body-page', tonos.at(-1)],
+  ]) {
+    if (!cl.length) continue;
+    const t = tono(cl, rs, { soloDeclarado: true });
+    if (t && t !== 'foto' && t === banda.t) {
+      costura.push(`costura ${lado}: ${cl[0]} (${t}) pegado a ${banda.nombre} (${banda.t})`);
+    }
+  }
+  const borde = [tonos[0], tonos.at(-1)].filter((b) => b.t === 'foto');
+  if (borde.length) {
     decir(false, `${ficha.ruta}: la costura con el hero/CTA ya no es fiable`,
-      [`primera banda ${primera.nombre} = ${primera.t}, ultima ${ultima.nombre} = ${ultima.t}`,
-        'el ambito de esta puerta (solo body-page) asumia que las dos son planas']);
+      [`banda del borde ${borde.map((b) => b.nombre).join(' y ')} = foto`,
+        'el ambito de esta puerta (solo body-page) asume que las dos son planas']);
   }
 
   const pares = [];
@@ -207,6 +247,7 @@ for (const ficha of fichas) {
       pares.push(`${tonos[k - 1].nombre} + ${tonos[k].nombre} = dos bandas ${tonos[k].t} seguidas`);
     }
   }
+  pares.push(...costura);
   const mapa = tonos.map((t) => (t.t === 'foto' ? 'F' : t.t === 'claro' ? 'c' : 'O')).join('');
   const perdon = PERDONADAS[ficha.slug];
 
