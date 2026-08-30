@@ -88,7 +88,10 @@ const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '
   <Fragment set:html={resenas.antes} />
   {/* DENTRO de la banda `reviews`, entre su titular y el enlace a
       testimonios. Como banda propia serian dos claras seguidas antes del
-      CTA del pie y check:ritmo lo cazaria. Ver MARCA_RESENAS. */}
-  <ReseñasGoogle />
+      CTA del pie y check:ritmo lo cazaria. Ver MARCA_RESENAS.
+
+      `embebido` porque la banda YA trae titular: sin el salian dos
+      titulares seguidos y un panel crema dentro de una banda blanca. */}
+  <ReseñasGoogle embebido />
   <Fragment set:html={resenas.despues} />
 </BaseLayout>

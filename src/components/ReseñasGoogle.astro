@@ -36,6 +36,35 @@ import { idiomaDeRuta } from '../i18n';
 import { RESENAS } from '../i18n/resenas';
 import '../styles/resenas.css';
 
+interface Props {
+  /**
+   * El componente se monta DENTRO de una banda que ya tiene su titular.
+   *
+   * Es el caso de las siete paginas de servicio: la banda `reviews` que viene de
+   * Webflow ya trae «Reviews & testimonials / What Clients Say About Our Work» y su
+   * entradilla. Sin esta bandera salian DOS titulares seguidos diciendo lo mismo
+   * —«What Clients Say About Our Work» y «What our clients say»— y un panel crema
+   * metido dentro de una banda blanca, o sea una caja dentro de otra.
+   *
+   * Con `embebido`:
+   *   · el envoltorio es un <div> y no un <section class="resenas">, asi que no hay
+   *     ni fondo crema ni los 5rem de padding propios;
+   *   · no se pinta el <h2> ni la entradilla, que son los que duplicaban.
+   *
+   * Lo que SI se conserva, porque no lo dice la banda de Webflow y no es adorno: la
+   * nota agregada con su procedencia y su fecha, el enlace a la ficha de Google y —si
+   * hay— el aviso de maqueta, que `check:resenas` exige junto a las tarjetas.
+   *
+   * Sin la bandera nada cambia: en la home, el estimador, contacto, testimonios y las
+   * 20 fichas de producto el componente sigue siendo su propia banda.
+   */
+  embebido?: boolean;
+}
+
+const { embebido = false } = Astro.props;
+
+const Envoltorio = embebido ? 'div' : 'section';
+
 const resenas = getReviews();
 const perfil = getPerfil();
 const resumen = getResumen();
@@ -65,14 +94,20 @@ const iniciales = (nombre: string) =>
     lo hay —la nota y el numero, con su fuente y su fecha— y callarlo no ayuda a
     nadie. Lo que sigue sin existir es el TEXTO de cada resena, y por eso el
     carrusel de abajo sigue colgando de `resenas.length`. */}
+{/* `aria-labelledby` SOLO cuando pintamos el titular: embebido no hay `resenas-titulo`
+    al que apuntar, y una referencia colgando es peor que no tenerla. El nombre
+    accesible lo pone entonces el <h2> de la banda que nos contiene. */}
 {(resenas.length > 0 || soloNota) && (
-  <section class="resenas" aria-labelledby="resenas-titulo">
+  <Envoltorio
+    class={embebido ? 'resenas-embebida' : 'resenas'}
+    aria-labelledby={embebido ? undefined : 'resenas-titulo'}
+  >
     <div class="w-layout-blockcontainer container w-container">
       <div class="resenas-cabecera">
         {/* h2 y nunca h1: check:seo exige un unico h1 por pagina y esta seccion
             se inserta en paginas que ya tienen el suyo. */}
-        <h2 id="resenas-titulo">{t.titulo}</h2>
-        <p class="resenas-entradilla">{t.entradilla}</p>
+        {!embebido && <h2 id="resenas-titulo">{t.titulo}</h2>}
+        {!embebido && <p class="resenas-entradilla">{t.entradilla}</p>}
 
         {resumen && (
           <p class="resenas-resumen">
@@ -215,5 +250,5 @@ const iniciales = (nombre: string) =>
           quien mantiene. */}
       {resenas.length > 0 && <p class="resenas-orden">{t.orden}</p>}
     </div>
-  </section>
+  </Envoltorio>
 )}

@@ -441,8 +441,11 @@ ${col.ficha
         ? '  <Fragment set:html={resenas.antes} />\n'
           + '  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a\n'
           + '      testimonios. Como banda propia serian dos claras seguidas antes del\n'
-          + '      CTA del pie y check:ritmo lo cazaria. Ver MARCA_RESENAS. */}\n'
-          + '  <ReseñasGoogle />\n'
+          + '      CTA del pie y check:ritmo lo cazaria. Ver MARCA_RESENAS.\n'
+          + '\n'
+          + '      `embebido` porque la banda YA trae titular: sin el salian dos\n'
+          + '      titulares seguidos y un panel crema dentro de una banda blanca. */}\n'
+          + '  <ReseñasGoogle embebido />\n'
           + '  <Fragment set:html={resenas.despues} />\n'
         : '  <Fragment set:html={faq.despues} />\n')
     : '  <Fragment set:html={html} />\n'}</BaseLayout>

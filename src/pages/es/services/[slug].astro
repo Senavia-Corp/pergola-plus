@@ -98,7 +98,10 @@ const jsonLd = grafo(
   <Fragment set:html={resenas.antes} />
   {/* DENTRO de la banda `reviews`, entre su titular y el enlace a testimonios. Como
       banda propia serían dos claras seguidas antes del CTA del pie y check:ritmo lo
-      cazaría. Ver MARCA_RESENAS en src/lib/faq-ficha.ts. */}
-  <ReseñasGoogle />
+      cazaría. Ver MARCA_RESENAS en src/lib/faq-ficha.ts.
+
+      `embebido` porque la banda YA trae titular: sin él salían dos titulares
+      seguidos diciendo lo mismo y un panel crema dentro de una banda blanca. */}
+  <ReseñasGoogle embebido />
   <Fragment set:html={resenas.despues} />
 </BaseLayout>

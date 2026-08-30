@@ -16,6 +16,27 @@
   padding: 5rem 0;
 }
 
+/*
+ * El componente montado DENTRO de una banda que ya tiene titular y fondo propios
+ * (las siete paginas de servicio: la banda `reviews` de Webflow).
+ *
+ * SIN fondo y SIN los 5rem: ponerlos dibujaba un panel crema dentro de una banda
+ * blanca —una caja dentro de otra— y ese fue el bug. Solo queda la separacion
+ * respecto al parrafo de la banda que nos precede.
+ *
+ * Y sin `padding-bottom`: debajo va el boton «Read Client Reviews» de la propia
+ * banda, que ya trae el suyo.
+ */
+.resenas-embebida {
+  padding-top: 2.5rem;
+}
+
+/* Embebido, la cabecera ya no lleva titular: solo la nota, su procedencia y el
+   enlace. 2,5rem de separacion con el carrusel eran los de un bloque con h2. */
+.resenas-embebida .resenas-cabecera {
+  margin-bottom: 1.5rem;
+}
+
 .resenas-cabecera {
   text-align: center;
   margin-bottom: 2.5rem;
