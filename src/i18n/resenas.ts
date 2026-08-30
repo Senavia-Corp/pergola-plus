@@ -14,7 +14,7 @@ import type { Idioma } from './index';
 
 type Claves =
   | 'titulo' | 'entradilla' | 'deCinco' | 'verEnGoogle' | 'verFicha'
-  | 'respuestaDe' | 'orden' | 'sinFicha'
+  | 'respuestaDe' | 'orden' | 'ordenParcial' | 'sinFicha'
   | 'soloNota' | 'leerEnGoogle' | 'fuenteFicha';
 
 export const RESENAS: Record<Idioma, Record<Claves, string>> = {
@@ -28,6 +28,11 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     // Aviso de orden. Va en pantalla a proposito: una lista de resenas que no
     // dice como esta ordenada invita a pensar que se han elegido las buenas.
     orden: 'All reviews from our Google Business Profile, newest first. None are filtered out.',
+    // Con el snapshot PARCIAL la frase de arriba seria FALSA: no estan todas. Y es
+    // una afirmacion en pantalla, no un comentario. Esta dice lo que si es cierto y
+    // ademas explica el desajuste que el lector tiene delante — 5 tarjetas debajo de
+    // un «(28)»— en vez de dejarlo sin explicar.
+    ordenParcial: 'The most recent reviews from our Google Business Profile, newest first. The rating and review count above cover every review on the profile.',
     sinFicha: 'Pergola Plus Florida on Google',
     // Lo que se dice cuando tenemos la nota pero todavia no el texto de las
     // resenas. Explica el porque en vez de callarlo: la alternativa era un titulo
@@ -46,6 +51,7 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     verFicha: 'Ver todas las reseñas en Google',
     respuestaDe: 'Respuesta de Pergola Plus Florida',
     orden: 'Todas las reseñas de nuestro perfil de Google Business, de la más reciente a la más antigua. No se filtra ninguna.',
+    ordenParcial: 'Las reseñas más recientes de nuestro perfil de Google Business, de la más reciente a la más antigua. La nota y el número de arriba corresponden a todas las reseñas del perfil.',
     soloNota: 'El texto completo de cada reseña está en nuestro perfil de Google Business.',
     leerEnGoogle: 'Leer nuestras reseñas en Google',
     fuenteFicha: 'leído de la ficha pública de Google',

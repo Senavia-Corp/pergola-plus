@@ -84,6 +84,11 @@ interface Snapshot {
   perfil: Perfil;
   resenas: Resena[];
   resumenPublico?: ResumenPublico | null;
+  /**
+   * `resenas` trae SOLO UNA PARTE de las del perfil (hoy: 5 transcritas a mano de
+   * 28). Ver `esParcial()` para por que existe y que cambia.
+   */
+  parcial?: boolean;
 }
 
 const SNAPSHOT = datos as unknown as Snapshot;
@@ -158,6 +163,12 @@ export function getActualizado(): string | null {
  * ya documenta por que ese campo no existe.
  */
 export function getResumen(): { media: number; total: number } | null {
+  // Con un snapshot PARCIAL la cifra que se publica es la del PERFIL, nunca el
+  // recuento de las tarjetas cargadas. Ver `esParcial()`.
+  if (SNAPSHOT.parcial && SNAPSHOT.resumenPublico) {
+    const { media, total } = SNAPSHOT.resumenPublico;
+    return { media, total };
+  }
   const rs = SNAPSHOT.resenas;
   if (rs.length) {
     return {
@@ -179,6 +190,29 @@ export function getResumen(): { media: number; total: number } | null {
  * procedencia en una pagina de testimonios es exactamente lo que no queremos.
  */
 export function getResumenPublico(): ResumenPublico | null {
-  if (SNAPSHOT.resenas.length) return null;
+  // Mientras el snapshot sea parcial la cifra SIGUE saliendo de la ficha publica,
+  // asi que su procedencia y su fecha tienen que seguir pintandose: un «28» junto a
+  // 5 tarjetas y sin decir de donde sale es justo lo que invita a desconfiar.
+  if (SNAPSHOT.resenas.length && !SNAPSHOT.parcial) return null;
   return SNAPSHOT.resumenPublico ?? null;
+}
+
+/**
+ * true si lo cargado es SOLO UNA PARTE de las resenas del perfil.
+ *
+ * Existe por un fallo que no se ve mirando la pagina. `getResumen()` calculaba la
+ * media sobre `SNAPSHOT.resenas`, asi que el dia que se metieron a mano las 5 mas
+ * recientes la web habria pasado de anunciar «5,0 sobre 28» a «5,0 sobre 5»: 23
+ * resenas del cliente borradas de la pagina, en silencio y sin que ninguna puerta
+ * dijera nada. El flag hace que la cifra publicada siga siendo la del perfil.
+ *
+ * Tambien cambia lo que se DICE en pantalla: con snapshot parcial no se puede
+ * afirmar «todas las resenas, sin filtrar ninguna» (RESENAS.orden), porque no
+ * estan todas. El componente usa `ordenParcial` en su lugar.
+ *
+ * Desaparece solo: `scripts/traer-resenas.mjs` reescribe el fichero entero cuando
+ * la Business Profile API devuelva las 28, y ahi ya no hay nada parcial.
+ */
+export function esParcial(): boolean {
+  return SNAPSHOT.parcial === true && SNAPSHOT.resenas.length > 0;
 }

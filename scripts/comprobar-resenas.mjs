@@ -48,9 +48,15 @@ const ES_PRODUCCION = process.env.PUBLIC_ES_PRODUCCION === '1';
  * cambia aunque el relleno se reescriba mañana en otro idioma.
  */
 const SLIDE = /<div[^>]*fs-slider-element="slide"[^>]*fs-slider-resenas_slide/;
-const RESENAS_REALES = JSON.parse(
+const SNAPSHOT = JSON.parse(
   await fs.readFile(new URL('../src/data/reviews-google.json', import.meta.url), 'utf8'),
-).resenas.length;
+);
+const RESENAS_REALES = SNAPSHOT.resenas.length;
+/* Snapshot PARCIAL: hay resenas de verdad, pero solo una parte de las del perfil.
+   Mientras dure, la cifra que se publica sale de `resumenPublico` y no de contar
+   tarjetas — y eso hay que comprobarlo en la SALIDA, no confiarlo al codigo. */
+const PARCIAL = SNAPSHOT.parcial === true && RESENAS_REALES > 0;
+const TOTAL_PERFIL = SNAPSHOT.resumenPublico?.total ?? null;
 /* El ELEMENTO, no el nombre de la clase a secas: Astro incrusta el CSS en el HTML,
    asi que `resenas-maqueta` aparece en las 217 paginas dentro de un <style> aunque no
    se pinte ni un aviso. Buscar la clase pelada daba 39 falsos positivos — y una
@@ -107,6 +113,42 @@ for (const rel of conMarca) {
 }
 decir(sospechosas.length === 0,
   'la nota agregada no sale del recuento de la maqueta', sospechosas);
+
+/* ── SNAPSHOT PARCIAL ──────────────────────────────────────────────────────────
+ *
+ * Todo lo de arriba cuelga de `RESENAS_REALES === 0`, o sea que en cuanto entro
+ * una sola resena de verdad esta puerta dejo de comprobar NADA. Lo que puede salir
+ * mal con 5 resenas cargadas de un perfil de 28 es distinto y no es cosmetico:
+ *
+ *   1. Que se publique «(5)» en vez de «(28)». getResumen() calculaba la media
+ *      sobre las resenas cargadas, asi que sin el flag `parcial` la web le borra 23
+ *      resenas al cliente sin que se note mirando la pagina.
+ *   2. Que se siga afirmando «no se filtra ninguna» siendo falso. Es una frase EN
+ *      PANTALLA sobre como se eligen las resenas, y la politica de Google pide
+ *      justo eso: decir como se ordenan y filtran.
+ */
+if (PARCIAL) {
+  const conTarjetas = [];
+  const cifraMal = [];
+  const afirmaTodas = [];
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    if (!SLIDE.test(html)) continue;
+    conTarjetas.push(rel);
+    const m = html.match(/class="resenas-total"[^>]*>\((\d+)\)/);
+    if (!m || Number(m[1]) !== TOTAL_PERFIL) {
+      cifraMal.push(`${rel} -> ${m ? `(${m[1]})` : 'sin cifra'}`);
+    }
+    if (/None are filtered out|No se filtra ninguna/.test(html)) afirmaTodas.push(rel);
+  }
+  // Sin paginas que las publiquen no hay nada medido, y eso NO es un aprobado.
+  decir(conTarjetas.length > 0,
+    `hay ${RESENAS_REALES} resenas cargadas y alguna pagina las publica`, []);
+  decir(cifraMal.length === 0,
+    `la cifra publicada es la del perfil (${TOTAL_PERFIL}), no el numero de tarjetas`, cifraMal);
+  decir(afirmaTodas.length === 0,
+    'con snapshot parcial ninguna pagina afirma «no se filtra ninguna»', afirmaTodas);
+}
 
 console.log(fallos ? `\n${fallos} fallo(s).\n` : '\nsin fallos.\n');
 process.exit(fallos ? 1 : 0);

@@ -31,7 +31,7 @@
  * expone a accion manual. Las estrellas ya salen solas desde la ficha de Business
  * Profile. Ver la cabecera de src/lib/jsonld.ts, que documenta esa decision.
  */
-import { getReviews, getPerfil, getResumen, getResumenPublico, esPlantilla } from '../lib/reviews';
+import { getReviews, getPerfil, getResumen, getResumenPublico, esPlantilla, esParcial } from '../lib/reviews';
 import { idiomaDeRuta } from '../i18n';
 import { RESENAS } from '../i18n/resenas';
 import '../styles/resenas.css';
@@ -71,6 +71,9 @@ const resumen = getResumen();
 /** No null solo cuando la nota sale de la ficha publica y NO de resenas cargadas. */
 const soloNota = getResumenPublico();
 const maqueta = esPlantilla();
+/** Hay resenas de verdad, pero solo una parte de las del perfil. Cambia lo que se
+    puede AFIRMAR en pantalla; ver esParcial() en src/lib/reviews.ts. */
+const parcial = esParcial();
 
 const idioma = idiomaDeRuta(Astro.url.pathname);
 const t = RESENAS[idioma];
@@ -124,7 +127,11 @@ const iniciales = (nombre: string) =>
 
         {soloNota && (
           <p class="resenas-solo-nota">
-            {t.soloNota}
+            {/* La frase entera es para el caso «tenemos la nota pero NI UN texto».
+                Con snapshot parcial si hay textos —los de abajo— y decir que estan
+                todos en Google seria raro; lo que sigue haciendo falta es la
+                procedencia de la cifra, que es lo unico que queda. */}
+            {!parcial && t.soloNota}
             {/* La procedencia y la fecha van EN PANTALLA. Una nota agregada sin
                 decir de donde sale ni de cuando es, en una pagina de testimonios,
                 es justo lo que invita a desconfiar de ella. */}
@@ -136,7 +143,10 @@ const iniciales = (nombre: string) =>
 
         {perfil.url && (
           <a class="resenas-ficha" href={perfil.url} target="_blank" rel="noopener nofollow">
-            {soloNota ? t.leerEnGoogle : t.verFicha}
+            {/* Con tarjetas en pantalla el enlace lleva a las QUE FALTAN, asi que
+                «ver todas» es lo que describe el destino. `leerEnGoogle` es para
+                cuando aqui no hay ni una que leer. */}
+            {resenas.length ? t.verFicha : t.leerEnGoogle}
           </a>
         )}
       </div>
@@ -248,7 +258,7 @@ const iniciales = (nombre: string) =>
       {/* La politica de Google pide decir como se ordenan y filtran las resenas.
           Va visible y no en un comentario: es informacion para quien lee, no para
           quien mantiene. */}
-      {resenas.length > 0 && <p class="resenas-orden">{t.orden}</p>}
+      {resenas.length > 0 && <p class="resenas-orden">{parcial ? t.ordenParcial : t.orden}</p>}
     </div>
   </Envoltorio>
 )}
