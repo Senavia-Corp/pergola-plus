@@ -2,10 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import html from '../../contenido-migrado/estaticas/about-us__testimonials.html?raw';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
+import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Testimonials","/about-us/testimonials"]]));
+
+const resenas = partirEnMarca(html, "/about-us/testimonials", MARCA_RESENAS);
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/testimonials.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
@@ -18,6 +21,16 @@ const jsonLd = grafo(breadcrumbs(site, [["Testimonials","/about-us/testimonials"
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
-  <ReseñasGoogle />
+  <Fragment set:html={resenas.antes} />
+  {/* DENTRO de `section.reviews-page`, la ranura que Webflow reservo para
+      el widget de resenas y que al retirarlo quedaba vacia: un div sin
+      contenido con 8rem de padding, o sea media pantalla en blanco entre
+      el hero «Client Reviews» y el CTA — y las tarjetas colgadas al final
+      del documento, DEBAJO del CTA.
+
+      `embebido` porque el titular ya lo pone el <h1> del hero de esta
+      pagina, que dice justo eso. Lo que si se conserva es la nota
+      agregada con su procedencia, el enlace a la ficha y el carrusel. */}
+  <ReseñasGoogle embebido />
+  <Fragment set:html={resenas.despues} />
 </BaseLayout>

@@ -23,9 +23,9 @@ const resenas = partirEnMarca(html, "/", MARCA_RESENAS);
 >
   <Fragment set:html={resenas.antes} />
   {/* DENTRO de la banda `reviews`, entre su titular y el boton a
-      testimonios. `embebido` porque la banda YA trae titular y fondo: como
-      banda propia salian dos secciones de Reviews, la blanca de Webflow
-      vacia y una crema debajo con las tarjetas. */}
+      testimonios. `embebido` porque la banda YA trae titular: como banda
+      propia salian dos secciones de Reviews, la de Webflow vacia y otra
+      debajo con las tarjetas. */}
   <ReseñasGoogle embebido />
   <Fragment set:html={resenas.despues} />
 </BaseLayout>

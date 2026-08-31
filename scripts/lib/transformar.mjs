@@ -1219,7 +1219,7 @@ const ELFSIGHT_RESENAS =
   '<div class="elfsight-app-3da28fc2-41dc-4c2e-ab75-297b8e71f6eb" data-elfsight-app-lazy></div></div>';
 
 /** Destino del enlace que sustituye al embed. */
-const RESENAS = '/about-us/testimonials';
+export const RESENAS = '/about-us/testimonials';
 
 /**
  * El enlace que el paso 6b deja en el hueco del widget de Elfsight, y a la vez el
@@ -2530,7 +2530,17 @@ export function transformar(html, ruta) {
   //     españolas, entre ellas las 50 landing locales y la propia home. El ancla es
   //     la misma linea de arriba, o sea que donde hay banda hay marca por
   //     construccion y no por una lista que alguien tiene que acordarse de ampliar.
-  s = s.replaceAll(ELFSIGHT_RESENAS, ruta === RESENAS ? '' : MARCA_RESENAS + ENLACE_RESENAS);
+  //
+  //     Y EN TESTIMONIOS TAMBIEN VA LA MARCA, solo que sin enlace. Hasta el
+  //     31-08-2026 ahi se emitia cadena vacia, y eso dejaba `<section
+  //     class="reviews-page">` —la ranura donde vivia el widget— con un div vacio
+  //     dentro y sus 8rem de padding inferior: media pantalla en blanco entre el
+  //     hero «Client Reviews» y el CTA del pie, en LA pagina que se titula asi. Las
+  //     resenas se colgaban al final del documento, o sea DEBAJO del CTA. Con la
+  //     marca, `generar-paginas.mjs` las monta dentro de la ranura, que es
+  //     exactamente el hueco que Webflow habia reservado para ellas.
+  //     El enlace sigue sin emitirse aqui: apuntaria a esta misma pagina.
+  s = s.replaceAll(ELFSIGHT_RESENAS, MARCA_RESENAS + (ruta === RESENAS ? '' : ENLACE_RESENAS));
 
   // 6c. Los tres diferenciales del hero de la home, retirados por peticion del
   //     cliente. Se comprueba que la sustitucion ocurra: si el markup cambia y este

@@ -36,25 +36,28 @@
  * que no hay nada que cumplir ahi, y meterselo si que seria decorado — con el coste
  * real de 6,5 KB de HTML por pagina.
  *
- * QUE QUEDA EN ESTA LISTA
+ * QUE QUEDA EN ESTA LISTA: NADA, Y ESO ES EL RESULTADO
  *
- * La EXCEPCION: paginas sin banda que aun asi deben traer el carrusel, y que por
- * tanto lo montan como banda propia (fondo crema, 5rem de padding, con su titular).
+ * Hasta el 31-08-2026 quedaba la EXCEPCION: `/about-us/testimonials`, que se titula
+ * «Client Reviews» y no tiene banda `reviews` —el paso 6b le QUITA el enlace en vez
+ * de ponerselo, porque apuntaria a si misma—, asi que el carrusel se le añadia como
+ * banda propia AL FINAL del documento.
  *
- *   /about-us/testimonials   se titula «Client Reviews» y dice «Real reviews. Real
- *                            craftsmanship». No tiene banda `reviews` porque el paso
- *                            6b le QUITA el enlace en vez de ponerselo —apuntaria a
- *                            si misma—, asi que aqui no hay marca donde embeber y el
- *                            carrusel tiene que ser la seccion.
+ * Y al final del documento es DEBAJO del CTA del pie. Ademas la pagina si tenia un
+ * hueco reservado —`<section class="reviews-page">`, la ranura donde vivia el widget
+ * de Elfsight—, que al retirarlo quedaba con un div vacio y sus 8rem de padding:
+ * media pantalla en blanco entre el hero y el CTA, en la pagina que se titula
+ * «Client Reviews». Las resenas estaban en la pagina, pero por debajo de todo.
  *
- * Las que no estan y aun asi lo llevan, cada una por su motivo:
- *   · `/` y `/contact-us/get-in-touch` salieron de aqui al pasar a embebido. La home
- *     por la marca; contacto no usa el fragmento migrado —su banda la pinta a mano
- *     `src/components/PaginaContacto.astro`— y lo monta ese componente, que sirve a
- *     los dos idiomas de una vez.
- *   · `/project-estimator` y las 10 fichas de producto son de autoria propia o salen
- *     de `scripts/generar-detalle.mjs`, y lo montan ellas. Tampoco tienen banda.
+ * El arreglo no fue moverlas: fue que el paso 6b emita la marca TAMBIEN en esa ruta
+ * —sin el enlace, que sigue apuntando a si misma— y dejar que el mismo mecanismo de
+ * las otras 78 las monte dentro de la ranura. Con eso la lista se queda vacia.
+ *
+ * SE MANTIENE EL FICHERO, no se borra, porque el punto no es la lista: es la
+ * POLITICA de arriba y el porque de que ya no haga falta ninguna lista. `CON_RESENAS`
+ * vacio significa «ninguna pagina necesita el rodeo», que es distinto de que el rodeo
+ * no exista. Si aparece una pagina que promete resenas y no tiene donde embeberlas,
+ * aqui es donde va — y arriba esta escrito que la alternativa preferible es que el
+ * fragmento traiga la marca.
  */
-export const CON_RESENAS = new Set([
-  '/about-us/testimonials',
-]);
+export const CON_RESENAS = new Set([]);

@@ -364,6 +364,51 @@ if (RESENAS_REALES > 0) {
     if (!(i < j && j < fin)) fuera.push(`${rel} -> banda [${i},${fin}], carrusel en ${j}`);
   }
 
+  /* ── LA RANURA DE /about-us/testimonials ───────────────────────────────────
+   *
+   * Esa pagina no tiene banda `reviews` —el paso 6b le quita el enlace, que
+   * apuntaria a si misma— pero SI tiene un hueco reservado: `section.reviews-page`,
+   * donde vivia el widget de Elfsight. Al retirarlo quedaba un div vacio con 8rem
+   * de padding: media pantalla en blanco entre el hero «Client Reviews» y el CTA,
+   * en LA pagina que se titula asi. Y el carrusel se colgaba al final del
+   * documento, o sea DEBAJO del CTA.
+   *
+   * Es el mismo defecto que las bandas huerfanas de arriba, con otro envoltorio, y
+   * se comprueba igual: la ranura existe, trae tarjetas DENTRO, y van por delante
+   * del CTA. Sin la tercera, volver a colgarlas al final pasaria en verde.
+   */
+  const RANURA = '<section class="reviews-page"';
+  const CTA = 'call-to-action-footer';
+  const sinCarrusel = [];
+  const fueraRanura = [];
+  let conRanura = 0;
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    const i = html.indexOf(RANURA);
+    if (i < 0) continue;
+    conRanura++;
+    const fin = finDeBanda(html, i);
+    const slide = html.search(SLIDE);
+    if (slide < 0) { sinCarrusel.push(rel); continue; }
+    if (!(i < slide && slide < fin)) {
+      // Donde ESTA importa, no solo que exista: el defecto de origen era tenerlo en
+      // la pagina pero al final del documento. Se dice si ademas cayo bajo el CTA,
+      // que es como se veia.
+      const cta = html.indexOf(CTA);
+      fueraRanura.push(`${rel} -> ranura [${i},${fin}], carrusel en ${slide}`
+        + (cta >= 0 && slide > cta ? ` (DEBAJO del CTA, que empieza en ${cta})` : ''));
+    }
+  }
+  // Dos aserciones y no tres: la tercera que hubo aqui —«no van debajo del CTA»— era
+  // INALCANZABLE. Un carrusel bajo el CTA falla antes por no estar dentro de la
+  // ranura, asi que aquella linea decia «ok» sin poder fallar nunca. Se probo en rojo
+  // y salio verde: por eso esta el detalle del CTA dentro del mensaje de `fuera`.
+  decir(conRanura > 0, 'hay paginas con ranura de resenas donde comprobar algo', []);
+  decir(sinCarrusel.length === 0,
+    'la ranura `reviews-page` no se sirve vacia: la pagina que promete resenas las trae', sinCarrusel);
+  decir(fueraRanura.length === 0,
+    'el carrusel va DENTRO de la ranura, no colgado al final del documento', fueraRanura);
+
   console.log(`  ---   ${conBanda.length} paginas con banda de resenas`);
 
   // Sin paginas que la traigan no hay nada medido, y eso NO es un aprobado: es

@@ -38,7 +38,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_ESTATICAS, MARCA_RESENAS } from './lib/transformar.mjs';
+import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_ESTATICAS, MARCA_RESENAS, RESENAS } from './lib/transformar.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 // La lista de rutas con carrusel de resenas. Vive fuera porque la leen tambien
 // las paginas espanolas: ver la cabecera de ese fichero.
@@ -297,10 +297,20 @@ ${importaResenas}${importaPartir}${importaLd}${
 >
 ${embebida
     ? '  <Fragment set:html={resenas.antes} />\n'
-      + '  {/* DENTRO de la banda `reviews`, entre su titular y el boton a\n'
-      + '      testimonios. `embebido` porque la banda YA trae titular y fondo: como\n'
-      + '      banda propia salian dos secciones de Reviews, la blanca de Webflow\n'
-      + '      vacia y una crema debajo con las tarjetas. */}\n'
+      + (ruta === RESENAS
+        ? '  {/* DENTRO de `section.reviews-page`, la ranura que Webflow reservo para\n'
+          + '      el widget de resenas y que al retirarlo quedaba vacia: un div sin\n'
+          + '      contenido con 8rem de padding, o sea media pantalla en blanco entre\n'
+          + '      el hero «Client Reviews» y el CTA — y las tarjetas colgadas al final\n'
+          + '      del documento, DEBAJO del CTA.\n'
+          + '\n'
+          + '      `embebido` porque el titular ya lo pone el <h1> del hero de esta\n'
+          + '      pagina, que dice justo eso. Lo que si se conserva es la nota\n'
+          + '      agregada con su procedencia, el enlace a la ficha y el carrusel. */}\n'
+        : '  {/* DENTRO de la banda `reviews`, entre su titular y el boton a\n'
+          + '      testimonios. `embebido` porque la banda YA trae titular: como banda\n'
+          + '      propia salian dos secciones de Reviews, la de Webflow vacia y otra\n'
+          + '      debajo con las tarjetas. */}\n')
       + '  <ReseñasGoogle embebido />\n'
       + '  <Fragment set:html={resenas.despues} />\n'
     : '  <Fragment set:html={html} />\n' + (propia ? '  <ReseñasGoogle />\n' : '')}</BaseLayout>
