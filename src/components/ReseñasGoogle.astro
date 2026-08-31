@@ -143,17 +143,34 @@ const iniciales = (nombre: string) =>
 
         {soloNota && (
           <p class="resenas-solo-nota">
-            {/* La frase entera es para el caso «tenemos la nota pero NI UN texto».
-                Con snapshot parcial si hay textos —los de abajo— y decir que estan
-                todos en Google seria raro; lo que sigue haciendo falta es la
-                procedencia de la cifra, que es lo unico que queda. */}
-            {!parcial && t.soloNota}
-            {/* La procedencia y la fecha van EN PANTALLA. Una nota agregada sin
-                decir de donde sale ni de cuando es, en una pagina de testimonios,
-                es justo lo que invita a desconfiar de ella. */}
-            <span class="resenas-procedencia">
-              {' '}({t.fuenteFicha}, {fecha(soloNota.leidoEl)})
-            </span>
+            {/* La procedencia y la fecha van EN PANTALLA en los dos casos. Una nota
+                agregada sin decir de donde sale ni de cuando es, en una pagina de
+                testimonios, es justo lo que invita a desconfiar de ella.
+
+                LO QUE CAMBIA ES SI HAY FRASE DELANTE. `soloNota` es la frase para el
+                caso «tenemos la nota pero NI UN texto»; con snapshot PARCIAL si hay
+                textos —los de abajo— y decir que estan todos en Google seria falso,
+                asi que no se pinta. Y sin ella el parentesis se quedaba abriendo sin
+                nada que alojar: el parrafo entero era «(read from the public Google
+                profile, August 2026)», un parentesis huerfano a cuerpo de texto.
+
+                Por eso la procedencia tiene dos formas en src/i18n/resenas.ts —una
+                que cierra la frase entre parentesis y otra escrita para ir sola— en
+                vez de un parentesis condicional, que es como se acaba publicando un
+                «(» suelto el dia que cambie la condicion. Lo comprueba
+                `check:resenas` en la salida. */}
+            {parcial ? (
+              <span class="resenas-procedencia">
+                {t.fuenteFichaSuelta}, {fecha(soloNota.leidoEl)}.
+              </span>
+            ) : (
+              <>
+                {t.soloNota}
+                <span class="resenas-procedencia">
+                  {' '}({t.fuenteFicha}, {fecha(soloNota.leidoEl)})
+                </span>
+              </>
+            )}
           </p>
         )}
 

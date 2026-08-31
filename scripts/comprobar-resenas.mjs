@@ -256,6 +256,36 @@ if (RESENAS_REALES > 0) {
       : altos.map((r) => `«${r.sel}» -> -webkit-line-clamp: ${r.n}`));
 }
 
+/* ── LA PROCEDENCIA NO SE QUEDA HUERFANA ───────────────────────────────────────
+ *
+ * `fuenteFicha` esta escrita en minuscula y entre parentesis porque CIERRA la frase
+ * de `soloNota`. Con snapshot parcial esa frase no se pinta —seria falsa—, y hasta
+ * el 31-08-2026 el parentesis se quedaba solo: el parrafo entero era «(read from the
+ * public Google profile, August 2026)», un parentesis abriendo sin nada que alojar,
+ * a cuerpo de texto y en 102 paginas.
+ *
+ * La condicion que lo destapo (`parcial`) va a volver a cambiar —se apaga sola en
+ * cuanto `npm run resenas` traiga las 28— y con ella la rama que se pinta. Por eso el
+ * invariante se comprueba en la SALIDA y no se confia a la rama: la procedencia
+ * empieza por su propio texto, nunca por un parentesis.
+ */
+{
+  const huerfanas = [];
+  const vacias = [];
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    for (const m of html.matchAll(/<p class="resenas-solo-nota">([\s\S]*?)<\/p>/g)) {
+      const texto = m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      if (!texto) vacias.push(rel);
+      else if (texto.startsWith('(')) huerfanas.push(`${rel} -> «${texto.slice(0, 60)}»`);
+    }
+  }
+  decir(huerfanas.length === 0,
+    'la procedencia de la nota no abre parentesis sin frase delante', huerfanas);
+  decir(vacias.length === 0,
+    'ninguna pagina pinta la procedencia de la nota vacia', vacias);
+}
+
 /* ── LA FRASE DEL ORDEN NO SE QUEDA VIEJA ──────────────────────────────────────
  *
  * El orden de pintado paso de fecha a longitud el 31-08-2026 y las dos frases de

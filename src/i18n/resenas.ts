@@ -15,7 +15,7 @@ import type { Idioma } from './index';
 type Claves =
   | 'titulo' | 'entradilla' | 'deCinco' | 'verEnGoogle' | 'verFicha'
   | 'respuestaDe' | 'orden' | 'ordenParcial' | 'sinFicha'
-  | 'soloNota' | 'leerEnGoogle' | 'fuenteFicha';
+  | 'soloNota' | 'leerEnGoogle' | 'fuenteFicha' | 'fuenteFichaSuelta';
 
 export const RESENAS: Record<Idioma, Record<Claves, string>> = {
   en: {
@@ -46,7 +46,16 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     leerEnGoogle: 'Read our reviews on Google',
     // La PROCEDENCIA es rotulo, no dato: vive aqui y no en el JSON, que salia en
     // español dentro de la pagina inglesa.
+    //
+    // DOS FORMAS, y no es floritura. `fuenteFicha` va en minuscula y entre
+    // parentesis porque cierra la frase de `soloNota`. Con snapshot PARCIAL esa
+    // frase no se pinta —seria falsa—, y el parentesis se quedaba solo abriendo
+    // sin nada que alojar: «(read from the public Google profile, August 2026)»
+    // como parrafo entero. `fuenteFichaSuelta` es la misma procedencia escrita
+    // para ir sola. Se declaran las dos en vez de capitalizar la primera por
+    // codigo: donde empieza una mayuscula lo decide el idioma, no un `slice(1)`.
     fuenteFicha: 'read from the public Google profile',
+    fuenteFichaSuelta: 'Rating read from the public Google profile',
   },
   es: {
     titulo: 'Lo que dicen nuestros clientes',
@@ -63,6 +72,7 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     soloNota: 'El texto completo de cada reseña está en nuestro perfil de Google Business.',
     leerEnGoogle: 'Leer nuestras reseñas en Google',
     fuenteFicha: 'leído de la ficha pública de Google',
+    fuenteFichaSuelta: 'Nota leída de la ficha pública de Google',
     sinFicha: 'Pergola Plus Florida en Google',
   },
 };
