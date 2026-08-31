@@ -27,12 +27,17 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     respuestaDe: 'Response from Pergola Plus Florida',
     // Aviso de orden. Va en pantalla a proposito: una lista de resenas que no
     // dice como esta ordenada invita a pensar que se han elegido las buenas.
-    orden: 'All reviews from our Google Business Profile, newest first. None are filtered out.',
+    //
+    // DICE «longest first» PORQUE ESE ES EL ORDEN QUE SE PINTA, decidido en
+    // getReviews() (src/lib/reviews.ts) por maqueta: la tarjeta corta arriba dejaba
+    // un hueco en la primera pantalla. La SELECCION no cambia —no se filtra
+    // ninguna— y por eso esa mitad de la frase se queda igual.
+    orden: 'All reviews from our Google Business Profile, longest first. None are filtered out.',
     // Con el snapshot PARCIAL la frase de arriba seria FALSA: no estan todas. Y es
     // una afirmacion en pantalla, no un comentario. Esta dice lo que si es cierto y
     // ademas explica el desajuste que el lector tiene delante — 5 tarjetas debajo de
     // un «(28)»— en vez de dejarlo sin explicar.
-    ordenParcial: 'The most recent reviews from our Google Business Profile, newest first. The rating and review count above cover every review on the profile.',
+    ordenParcial: 'The most recent reviews from our Google Business Profile, longest first. The rating and review count above cover every review on the profile.',
     sinFicha: 'Pergola Plus Florida on Google',
     // Lo que se dice cuando tenemos la nota pero todavia no el texto de las
     // resenas. Explica el porque en vez de callarlo: la alternativa era un titulo
@@ -50,8 +55,11 @@ export const RESENAS: Record<Idioma, Record<Claves, string>> = {
     verEnGoogle: 'Leer esta reseña en Google',
     verFicha: 'Ver todas las reseñas en Google',
     respuestaDe: 'Respuesta de Pergola Plus Florida',
-    orden: 'Todas las reseñas de nuestro perfil de Google Business, de la más reciente a la más antigua. No se filtra ninguna.',
-    ordenParcial: 'Las reseñas más recientes de nuestro perfil de Google Business, de la más reciente a la más antigua. La nota y el número de arriba corresponden a todas las reseñas del perfil.',
+    // «de la más larga a la más corta» y no «por longitud»: describe lo que el
+    // lector tiene delante sin obligarle a deducir el criterio. Ver el porque del
+    // orden en getReviews() (src/lib/reviews.ts).
+    orden: 'Todas las reseñas de nuestro perfil de Google Business, de la más larga a la más corta. No se filtra ninguna.',
+    ordenParcial: 'Las reseñas más recientes de nuestro perfil de Google Business, de la más larga a la más corta. La nota y el número de arriba corresponden a todas las reseñas del perfil.',
     soloNota: 'El texto completo de cada reseña está en nuestro perfil de Google Business.',
     leerEnGoogle: 'Leer nuestras reseñas en Google',
     fuenteFicha: 'leído de la ficha pública de Google',

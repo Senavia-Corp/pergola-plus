@@ -31,7 +31,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
-import { clasesDeCita } from '../src/lib/resenas-tramos.mjs';
 
 const DIST = await raizHtml();
 const ES_PRODUCCION = process.env.PUBLIC_ES_PRODUCCION === '1';
@@ -151,27 +150,26 @@ if (PARCIAL) {
     'con snapshot parcial ninguna pagina afirma «no se filtra ninguna»', afirmaTodas);
 }
 
-/* ── TRAMOS DE LA CITA ─────────────────────────────────────────────────────────
+/* ── CUERPO Y ORDEN DE LA CITA ─────────────────────────────────────────────────
  *
- * Que la cita corta lleve su clase no es cosmetico y por eso se comprueba en la
- * SALIDA. Todas las tarjetas se estiran hasta la mas alta, asi que sin ese
- * tratamiento la resena de 20 caracteres volvia a dejar 228px en blanco de sus
- * 258 —el 88% de la tarjeta— y la fila se veia rota. Es ademas la clase de
- * regresion que no da error ni rompe ningun build: alguien reescribe el markup
- * del blockquote, se lleva el `class:list` por delante y la pagina sigue
- * construyendo perfectamente, solo que fea.
+ * QUE HABIA AQUI Y POR QUE YA NO. Hasta el 31-08-2026 esto afirmaba que cada cita
+ * llevaba la clase de su TRAMO DE LONGITUD: `src/lib/resenas-tramos.mjs` marcaba
+ * las cortas y el CSS les subia el cuerpo. Ese mecanismo se retiro entero porque
+ * el hueco no era tipografico —todas las tarjetas se estiran hasta la mas alta— y
+ * se sustituyo por estructura: recorte mas bajo y el sobrante repartido por la
+ * tarjeta en vez de acumulado bajo la cita.
  *
- * Se cuenta por COMBINACION exacta de clases, no «hay alguna destacada»: contar
- * apariciones sueltas dejaria pasar que todas las citas cayeran en el mismo tramo.
+ * Una asercion que deja de medir algo y no mide otra cosa es una puerta que
+ * aprueba en vacio, asi que la de los tramos no se borro: se dio la vuelta. Donde
+ * decia «cada cita lleva SU clase», ahora dice «las cinco llevan LA MISMA» — y con
+ * ella van las tres piezas de las que depende que el hueco no vuelva.
+ *
+ * SIN NAVEGADOR, como el resto de puertas del repo: comprobar-carruseles.mjs:31
+ * deja escrito por que (Playwright en CI son ~300 MB y un navegador mas que
+ * mantener). Lo que no se puede medir en pixeles se ata al numero del que depende.
  */
 if (RESENAS_REALES > 0) {
-  const esperado = new Map();
-  for (const r of SNAPSHOT.resenas) {
-    const clave = ['resena-texto', ...clasesDeCita(r.texto)].join(' ');
-    esperado.set(clave, (esperado.get(clave) ?? 0) + 1);
-  }
-
-  // Una pagina cualquiera de las que publican el carrusel: todas llevan las mismas.
+  // Una pagina cualquiera de las que publican el carrusel: todas llevan lo mismo.
   let muestra = null;
   for (const rel of htmls) {
     const html = await fs.readFile(path.join(DIST, rel), 'utf8');
@@ -179,23 +177,95 @@ if (RESENAS_REALES > 0) {
   }
 
   if (!muestra) {
-    decir(false, 'hay una pagina con el carrusel donde comprobar los tramos de la cita');
+    decir(false, 'hay una pagina con el carrusel donde comprobar las citas');
   } else {
-    const visto = new Map();
-    for (const m of muestra.html.matchAll(/class="(resena-texto[^"]*)"/g)) {
-      visto.set(m[1], (visto.get(m[1]) ?? 0) + 1);
+    // 1. UN SOLO CUERPO. El inverso exacto de lo que afirmaba la asercion de los
+    //    tramos: ninguna cita puede llevar un modificador de longitud.
+    const clases = [...muestra.html.matchAll(/class="(resena-texto[^"]*)"/g)].map((m) => m[1]);
+    const distintas = [...new Set(clases)];
+    decir(clases.length === RESENAS_REALES && distintas.length === 1
+          && distintas[0] === 'resena-texto',
+      `las ${RESENAS_REALES} citas comparten cuerpo: una sola clase, sin tramo de longitud (${muestra.rel})`,
+      distintas.length ? distintas.map((c) => `«${c}» x${clases.filter((x) => x === c).length}`)
+                       : ['no hay ninguna cita en la pagina']);
+
+    // 4. EL ORDEN PINTADO ES EL QUE SE AFIRMA. Sin esto, `npm run resenas`
+    //    reescribe el snapshot y la pagina sigue diciendo «longest first» sobre
+    //    el orden que devuelva la API. Es una afirmacion en pantalla sobre como
+    //    se ordenan las resenas: 16 CFR Part 465, sancionada POR INFRACCION.
+    //    Se empareja por AUTOR y no por el texto porque el HTML trae entidades
+    //    (`’` -> `&#8217;`) y la longitud del texto servido no es la del snapshot.
+    const porAutor = new Map(SNAPSHOT.resenas.map((r) => [r.autor, r.texto.length]));
+    const pintados = [...muestra.html.matchAll(/class="resena-nombre">([^<]*)</g)].map((m) => m[1]);
+    const largos = pintados.map((a) => porAutor.get(a));
+    const desconocidos = pintados.filter((a) => !porAutor.has(a));
+    const rompe = [];
+    for (let k = 1; k < largos.length; k++) {
+      if (largos[k - 1] != null && largos[k] != null && largos[k] > largos[k - 1]) {
+        rompe.push(`${pintados[k - 1]} (${largos[k - 1]}) antes que ${pintados[k]} (${largos[k]})`);
+      }
     }
-    const desajustes = [];
-    for (const [clave, n] of esperado) {
-      const hay = visto.get(clave) ?? 0;
-      if (hay !== n) desajustes.push(`«${clave}»: esperadas ${n}, en la salida ${hay}`);
-    }
-    for (const clave of visto.keys()) {
-      if (!esperado.has(clave)) desajustes.push(`«${clave}» sobra en la salida`);
-    }
-    decir(desajustes.length === 0,
-      `cada cita lleva la clase de su tramo de longitud (${muestra.rel})`, desajustes);
+    decir(pintados.length === RESENAS_REALES && !desconocidos.length && !rompe.length,
+      'las tarjetas se pintan de la mas larga a la mas corta, que es lo que dice la pagina',
+      [...desconocidos.map((a) => `autor «${a}» no esta en el snapshot`), ...rompe]);
   }
+
+  // 2 y 3 se comprueban en el CSS CONSTRUIDO: una variante puede volver por ahi
+  //    sin tocar el markup, y el recorte no deja rastro en el HTML.
+  const cssRaiz = path.join(DIST, '_astro');
+  const hojas = (await fs.readdir(cssRaiz).catch(() => []))
+    .filter((f) => f.endsWith('.css'));
+  // Sin hojas no hay nada medido, y eso NO es un aprobado.
+  decir(hojas.length > 0, 'hay CSS construido en _astro/ donde comprobar el recorte', []);
+
+  let css = '';
+  for (const f of hojas) css += await fs.readFile(path.join(cssRaiz, f), 'utf8');
+
+  // 2. NINGUNA VARIANTE POR LONGITUD sobrevive en el CSS.
+  const variantes = [...new Set([...css.matchAll(/\.resena-texto--[\w-]+/g)].map((m) => m[0]))];
+  decir(variantes.length === 0,
+    'no queda ningun selector de tramo (.resena-texto--*) en el CSS construido', variantes);
+
+  // 3. EL RECORTE DE LA CITA SIGUE BAJO. Es el numero del que depende la altura de
+  //    la fila y por tanto el hueco de las cuatro tarjetas cortas. Subirlo a 10 lo
+  //    deshace entero y no rompe ningun build: por eso se afirma aqui.
+  //
+  //    SE BUSCA LA REGLA DE LA CITA, NO «algun -webkit-line-clamp». La primera
+  //    version leia todos los del build y no medía nada: el blog y BaseLayout
+  //    traen los suyos (1, 2 y 3), asi que borrar el recorte de `.resena-texto p`
+  //    entero habria dejado la puerta en VERDE contando los del blog — y un
+  //    recorte legitimo de 8 en otro componente la habria puesto roja sin que
+  //    nada de esta seccion estuviera mal. Se aisla el bloque por su selector.
+  const TOPE = 5;
+  const reglas = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .filter((m) => /\.resena-texto\b/.test(m[1]) && /-webkit-line-clamp/.test(m[2]))
+    .map((m) => ({ sel: m[1].trim(), n: Number(m[2].match(/-webkit-line-clamp: *(\d+)/)[1]) }));
+  const altos = reglas.filter((r) => r.n > TOPE);
+  decir(reglas.length === 1 && altos.length === 0,
+    `la cita se recorta a ${TOPE} lineas o menos (visto: ${reglas.map((r) => r.n).join(', ') || 'NINGUNA regla de recorte para .resena-texto'})`,
+    reglas.length !== 1
+      ? [`esperaba 1 regla de recorte para .resena-texto, hay ${reglas.length}`,
+         ...reglas.map((r) => `«${r.sel}» -> ${r.n}`)]
+      : altos.map((r) => `«${r.sel}» -> -webkit-line-clamp: ${r.n}`));
+}
+
+/* ── LA FRASE DEL ORDEN NO SE QUEDA VIEJA ──────────────────────────────────────
+ *
+ * El orden de pintado paso de fecha a longitud el 31-08-2026 y las dos frases de
+ * `src/i18n/resenas.ts` se reescribieron con el. Esta asercion existe para el caso
+ * de que alguien cambie una y no la otra, o revierta el orden y deje la frase: en
+ * las dos direcciones el resultado es una afirmacion falsa en pantalla sobre como
+ * se ordenan las resenas, en 78 paginas, y ese es el defecto caro de esta seccion.
+ */
+{
+  const VIEJAS = /newest first|de la m(?:á|a)s reciente a la m(?:á|a)s antigua/i;
+  const viejas = [];
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    if (VIEJAS.test(html)) viejas.push(rel);
+  }
+  decir(viejas.length === 0,
+    'ninguna pagina sigue afirmando el orden por fecha («newest first»)', viejas);
 }
 
 /* ── LA BANDA Y EL CARRUSEL ────────────────────────────────────────────────────

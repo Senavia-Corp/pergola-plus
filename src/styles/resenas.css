@@ -9,7 +9,90 @@
  *
  * Se usan los tokens del sitio (--primary, --secundary, --terceary) para no
  * introducir una paleta nueva.
+ *
+ * ══ POR QUE LAS CINCO CITAS COMPARTEN CUERPO (31-08-2026) ══════════════════════
+ *
+ * Hubo aqui un tramo por longitud: `src/lib/resenas-tramos.mjs` marcaba la cita
+ * corta y este fichero le subia el cuerpo con `clamp(…cqw…)` y la centraba. Se
+ * retiro ENTERO —fichero, uso en el componente y asercion de la puerta— y lo que
+ * sigue es lo que lo sustituye, medido sobre dist/ a 1440, 900 y 390.
+ *
+ * EL DIAGNOSTICO NO HA CAMBIADO: `.resena { height: 100% }` dentro de una fila
+ * flex estira todas las tarjetas hasta la mas alta, y la mas alta la fija la cita
+ * mas larga. El hueco de las cortas es SOBRANTE DE FILA, no un problema de
+ * cuerpo, asi que uniformar el tamano sin tocar la estructura lo devolvia entero.
+ * Lo que cambio es de donde se saca el hueco, y son dos palancas:
+ *
+ *   1. EL RECORTE, de 6 lineas a 5. Es la unica palanca que baja la altura de la
+ *      fila, porque la fila la fija la mas larga: recortar la larga es lo unico
+ *      que ayuda a las cortas. Se midieron 4 y 5 (ver el cuadro de abajo); 4
+ *      cierra mas hueco pero deja la resena de 230 caracteres en 4 de sus 6
+ *      lineas, y eso es perder contenido real para ganar 30 px.
+ *
+ *   2. EL SOBRANTE DEJA DE ACUMULARSE DENTRO DE LA CITA. Antes `.resena-texto`
+ *      llevaba `flex: 1` y se comia TODO el sobrante de la tarjeta, concentrado
+ *      en un solo vacio bajo el texto — que es justo lo que se lee como «esto no
+ *      cargo». Ahora la tarjeta es `space-between` y la cita `flex: 0 1 auto`: el
+ *      mismo sobrante se reparte entre autor / nota / cita / enlace, el enlace
+ *      queda anclado abajo en las cinco, y el hueco DENTRO de la cita baja a 0.
+ *
+ * El hueco no desaparece —20 caracteres no llenan una tarjeta de 5 lineas— pero
+ * deja de tener forma de error: en vez de un vacio de 115 px bajo una frase, son
+ * cuatro respiros parejos en una tarjeta mas holgada. Es la misma decision de
+ * siempre: lo que no se puede eliminar, se reparte y se declara.
+ *
+ * LO VIGILA `npm run check:resenas`, que sobre dist/ comprueba que las cinco
+ * citas llevan la misma clase, que no sobrevive ningun selector `resena-texto--`
+ * y que el recorte sigue en 5 o menos. Si vuelve a 10, el hueco vuelve en
+ * silencio y sin romper ningun build: por eso es una asercion y no un comentario.
  */
+
+/* ── LA ESCALA DE ESPACIADO ────────────────────────────────────────────────────
+ *
+ * Cuatro pasos, modulo 16 y razon 2: 16 / 32 / 64 / 128. Antes de esto los huecos
+ * de la banda iban 128 / 88 / 24 / 24 / 48 / 0: los internos eran la mitad que los
+ * de separacion y una sexta parte que los externos, sin escala en medio, asi que
+ * el ojo no agrupaba — y los 0 px entre el pie y el boton eran un defecto liso.
+ *
+ * La escala tiene DOS juegos porque el paso 4 NO ES NUESTRO: es el `padding` de la
+ * banda migrada (`.reviews`, webflow.css:1352) y da un salto seco de 8rem a 3rem en
+ * `max-width: 991px`. Si los pasos internos no saltan con el, el marco deja de ser
+ * el hueco mayor y la banda pierde su borde: medido con un `clamp()` fluido, a
+ * 900px el paso 3 salia 45 contra un marco de 48 —el 94%—, o sea dos huecos
+ * indistinguibles donde tiene que haber jerarquia. Por eso una media query en el
+ * MISMO punto de ruptura de Webflow y no un `vw` que lo aproxime.
+ *
+ * El ritmo de la banda, leido de arriba abajo:
+ *
+ *   a partir de 992px   128 · 64 · [32 · 16 · 16 · 32] · 64 · 128
+ *   por debajo           48 · 32 · [24 · 16 · 16 · 24] · 32 ·  48
+ *
+ * Entre corchetes, la maquinaria del carrusel: nota, tarjetas, flechas, puntos y
+ * pie agrupados en pasos cortos, enmarcados por dos pasos largos —el de la
+ * cabecera de la banda y el del boton— dentro del marco de la seccion. Eso es lo
+ * que hace que el ojo lea UN bloque y no seis piezas sueltas.
+ *
+ * ALCANCE: la escala gobierna la banda EMBEBIDA (`.resenas-embebida`, las 78
+ * paginas con banda migrada). La banda propia —`.resenas`, con sus 5rem y su
+ * cabecera a 2,5rem, en /about-us/testimonials, el estimador, contacto y las 10
+ * fichas— sigue con su ritmo de antes A PROPOSITO: su marco no es el de Webflow,
+ * asi que los pasos no le encajan sin cambiarle tambien el `padding`, y eso mueve
+ * el ritmo de bandas de la ficha que vigila `check:ritmo`. Si algun dia se unifica,
+ * es ahi donde hay que mirar primero.
+ */
+:root {
+  --pp-resenas-paso-1: 1rem;    /* 16  · dentro del carrusel */
+  --pp-resenas-paso-2: 1.5rem;  /* 24  · entre piezas del bloque */
+  --pp-resenas-paso-3: 2rem;    /* 32  · entre bloques */
+  /* paso 4 = el padding de .reviews (48 aqui, 128 arriba). De Webflow, no se toca. */
+}
+
+@media screen and (min-width: 992px) {
+  :root {
+    --pp-resenas-paso-2: 2rem;  /* 32 */
+    --pp-resenas-paso-3: 4rem;  /* 64 */
+  }
+}
 
 .resenas {
   background-color: var(--secundary, #fffbf0);
@@ -28,13 +111,28 @@
  * banda, que ya trae el suyo.
  */
 .resenas-embebida {
-  padding-top: 2.5rem;
+  padding-top: var(--pp-resenas-paso-3);
+}
+
+/* Y el margen de la cabecera migrada se apaga, o los dos se SUMAN.
+   `.header-reviews` (webflow.css:1356) trae `margin-bottom: 3rem`, que no colapsa
+   con el `padding-top` de aqui porque son cajas distintas: medido, 48+64 = 112px
+   entre el parrafo de la banda y la nota a 1440 — mas que el propio marco de la
+   seccion, y peor que los 88 de antes de esta pasada. El hueco lo tiene que
+   declarar UNA sola regla, y es el paso 3 de arriba.
+
+   Se apaga solo dentro de `.reviews`: la cabecera migrada existe en 78 paginas y
+   en las 78 va seguida de este bloque —lo garantiza la asercion «ninguna pagina
+   promete resenas sin traerlas» de check:resenas—, asi que no hay ningun caso en
+   que este margen quede haciendo falta. */
+.reviews .header-reviews {
+  margin-bottom: 0;
 }
 
 /* Embebido, la cabecera ya no lleva titular: solo la nota, su procedencia y el
    enlace. 2,5rem de separacion con el carrusel eran los de un bloque con h2. */
 .resenas-embebida .resenas-cabecera {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--pp-resenas-paso-2);
 }
 
 .resenas-cabecera {
@@ -116,10 +214,9 @@
 .fs-slider-resenas_slide {
   flex: 0 0 100%;
   min-width: 0;
-  /* Contenedor de consulta para que la cita corta se dimensione contra el ancho de
-     la tarjeta (ver .resena-texto--una-frase). `inline-size` y no `size`: el alto lo
-     sigue decidiendo la fila, que es lo que mantiene las tarjetas iguales. */
-  container-type: inline-size;
+  /* Ya no hay `container-type`: existia SOLO para que la cita corta se dimensionara
+     en `cqw`, y con el tramo por longitud retirado no mide nada. Un contenedor de
+     consulta que nadie consulta sigue costando contencion de layout. */
   /* El slide es flex para que la tarjeta pueda estirarse hasta el alto de la
      fila. Con `height:100%` a secas dependeria de que el slide tuviera altura
      resuelta, que en una fila flex no esta garantizado en todos los motores. */
@@ -136,6 +233,14 @@
 
 /* --- La tarjeta ----------------------------------------------------------- */
 
+/* `space-between` y no el `gap` a secas: con la tarjeta estirada a la altura de la
+   fila, ALGUIEN se come el sobrante. Antes era `.resena-texto { flex: 1 }`, o sea
+   un unico vacio bajo la cita — 115 px en la de 20 caracteres, que es lo que se
+   lee como «esto no cargo». Repartido entre los cuatro elementos son ~38 px de
+   respiro cada uno y el enlace queda anclado abajo en las cinco tarjetas, que es
+   ademas lo que las hace parecer una fila y no cinco maquetas distintas.
+   El `gap` sigue siendo el MINIMO: con la tarjeta mas alta (la que fija la fila)
+   no sobra nada y `space-between` no tiene que repartir. */
 .resena {
   background-color: var(--white, #fff);
   border-radius: 12px;
@@ -143,6 +248,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.875rem;
   box-shadow: 0 2px 10px #0000000f;
 }
@@ -191,89 +297,57 @@
   color: var(--terceary, #61767c);
 }
 
+/* La caja de la cita se DECLARA entera, no se hereda.
+ *
+ * `blockquote` trae de webflow.css:268 `margin`, `padding: 10px 20px`,
+ * `border-left: 5px solid #E2E2E2` y —lo importante— `font-size: 18px`. O sea que
+ * el cuerpo de las citas «normales» nunca fue una decision de este fichero: era el
+ * default de Webflow, y la unica razon de que las cinco coincidieran hoy en 18px
+ * seria que nadie ha tocado ese default. Con el tramo por longitud retirado, el
+ * cuerpo unico pasa a ser explicito aqui, que es donde se puede comprobar.
+ *
+ * La barra de la izquierda SE QUEDA: es la afordancia de cita, sale en las cinco y
+ * ya venia en el diseno publicado. Lo que se va es la comilla decorativa `::before`
+ * — solo existia en la variante destacada, asi que dejarla habria sido darle a una
+ * tarjeta de cada dos una segunda marca de cita que las demas no tienen. */
 .resena-texto {
-  /* El navegador mete margen e indentado a blockquote por defecto; aqui la cita
-     es el cuerpo de la tarjeta, no una cita destacada dentro de un texto. */
   margin: 0;
-  flex: 1;
+  /* Ya NO `flex: 1`. Ver el porque en .resena: el sobrante lo reparte la tarjeta,
+     no se acumula aqui dentro. */
+  flex: 0 1 auto;
+  padding: 0 0 0 0.875rem;
+  border-left: 3px solid #3a545b26;
 }
 
 .resena-texto p {
   margin: 0;
+  /* EXPLICITO, no heredado del `blockquote` de Webflow. Las cinco citas al mismo
+     cuerpo: es el invariante que sustituyo al tramo por longitud. */
+  font-size: 1.125rem;
   line-height: 1.65;
+  /* `pretty` evita la ultima linea huerfana y equilibra el borde derecho sin
+     abrir rios, que es lo que el justificado persigue y no consigue a 38
+     caracteres por linea. Medido: ver el informe de la banda. */
+  text-wrap: pretty;
   /* Las resenas de Google no tienen limite de largo y una muy larga estiraria su
      tarjeta hasta descuadrar la fila entera. El texto completo esta a un clic, en
      el enlace a Google que lleva debajo.
 
-     BAJADO DE 10 A 6 LINEAS, y no es cosmetico: el techo de este recorte ES la
-     altura de la fila, porque todas las tarjetas se estiran hasta la mas alta. A
+     BAJADO DE 10 A 6 Y DESPUES A 5, y no es cosmetico: el techo de este recorte ES
+     la altura de la fila, porque todas las tarjetas se estiran hasta la mas alta. A
      10 lineas la fila medía 450px y la resena de 20 caracteres dejaba 228px en
-     blanco. A 6 la fila baja a ~370 y ese hueco se encoge para TODAS a la vez.
-     Recortar la mas larga es lo unico que ayuda a las cortas. */
+     blanco; a 6, 115; a 5, 86. Recortar la mas larga es lo unico que ayuda a las
+     cortas.
+
+     SE MIDIO TAMBIEN 4 y se descarto: baja el hueco a 56 pero deja la resena de
+     230 caracteres en 4 de sus 6 lineas — se pierde media resena real para ganar
+     30px de aire. 5 corta una sola linea de la mas larga y ninguna de las otras
+     cuatro. `check:resenas` afirma que este numero no sube: devuelto a 10, el
+     hueco vuelve sin romper ningun build. */
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* La cita CORTA, centrada y a cuerpo grande.
- *
- * La marca la pone el componente contando caracteres (los umbrales y el porque,
- * en src/lib/resenas-tramos.mjs): en un sitio estatico la longitud se conoce al
- * construir, asi que no hace falta ni JS ni medir en el navegador.
- *
- * Centrada en vertical y no pegada arriba: el hueco sobrante existe igual —20
- * caracteres no llenan media tarjeta ni con el cuerpo al triple—, pero repartido
- * arriba y abajo se lee como una cita destacada y no como un texto que se corto.
- * Es la misma decision de siempre: lo que no se puede eliminar, se declara.
- */
-.resena-texto--destacada {
-  display: flex;
-  align-items: center;
-}
-
-.resena-texto--destacada p {
-  /* Al ancho de la tarjeta, por lo mismo que la de una frase: con un cuerpo fijo la
-     cita de 55 caracteres caia en 3 lineas a 401px y en 2 a 438px, y el hueco de esa
-     tarjeta saltaba de 106 a 137 solo por cambiar de punto de ruptura. El clamp es
-     una red, no el mecanismo: en los anchos reales (390-438px) nunca llega a topar. */
-  font-size: clamp(1.125rem, 5.5cqw, 1.625rem);
-  line-height: 1.4;
-  color: var(--primary, #3a545b);
-  /* Sin recorte: por definicion no llega ni a 3 lineas. */
-  -webkit-line-clamp: none;
-  display: block;
-}
-
-/* Una sola frase: el cuerpo sube hasta que la cita ocupa dos lineas y su mancha
-   iguala a la de las vecinas. Ver MUY_CORTA en src/lib/resenas-tramos.mjs.
- *
- * `cqw` y no `rem` ni `vw`: lo que decide en cuantas lineas cae una frase es el
- * ancho de LA TARJETA, no el de la ventana. Con un cuerpo fijo la misma frase caia
- * en dos lineas a 3 tarjetas por vista (401px) y en UNA sola a 2 por vista (438px),
- * asi que el hueco reaparecia justo en tablet: 157px contra los 106 de sus vecinas.
- * Atado al contenedor, la proporcion se mantiene en los tres puntos de ruptura sin
- * una media query por cada uno. El contenedor se declara en el slide, abajo. */
-.resena-texto--una-frase p {
-  font-size: clamp(1.75rem, 8cqw, 2.25rem);
-  line-height: 1.3;
-}
-
-/* La comilla es DECORACION y va en ::before del blockquote, no en el texto: si
-   fuera un caracter mas del <p> un lector de pantalla lo leeria dentro de la cita
-   y la comilla de cierre nunca llega. */
-.resena-texto--destacada::before {
-  /* La barra + cadena vacia es el texto ALTERNATIVO del contenido generado: sin
-     ella algunos lectores de pantalla anuncian la comilla dentro de la cita, y el
-     <blockquote> ya dice que es una cita. Donde no se soporta se ignora la parte
-     alternativa y se pinta igual. */
-  content: '\201C' / '';
-  font-size: 3.5rem;
-  line-height: 0.8;
-  color: var(--primary, #3a545b);
-  opacity: 0.18;
-  margin-right: 0.25rem;
-  align-self: flex-start;
 }
 
 .resena-respuesta {
@@ -304,11 +378,15 @@
 
 /* --- Flechas y puntos ------------------------------------------------------ */
 
+/* Paso 1: las flechas son maquinaria DEL carrusel, no una pieza aparte, asi que
+   van al paso corto. Ojo al medirlo: del envoltorio de la lista a las flechas hay
+   16, pero del borde de la TARJETA hay 24 — los 8 restantes son el
+   `padding: 0.5rem 0` que la lista lleva DENTRO para que respire la sombra. */
 .fs-slider-resenas_navigation {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: var(--pp-resenas-paso-1);
 }
 
 .fs-slider-resenas_previous,
@@ -349,7 +427,7 @@
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: var(--pp-resenas-paso-1);
 }
 
 .fs-slider-resenas_bullet {
@@ -377,8 +455,30 @@
   text-align: center;
   color: var(--terceary, #61767c);
   font-size: 0.8125rem;
-  margin: 1.5rem auto 0;
+  margin: var(--pp-resenas-paso-2) auto 0;
   max-width: 68ch;
+}
+
+/* ── El boton «Read Client Reviews» de la banda migrada ────────────────────────
+ *
+ * Viene de Webflow dentro de un <div> SIN CLASE que envuelve tambien al carrusel:
+ * `.header-reviews` es la que lleva `text-align: center` y `margin-inline: auto`,
+ * y ese div no hereda nada, asi que el boton caia a la izquierda —a 538px del
+ * centro a 1440— debajo de un bloque centrado. Viene asi del markup migrado.
+ *
+ * Se selecciona por `data-w-id` porque el div no tiene clase y los fragmentos de
+ * `src/contenido-migrado/` son salida generada: editarlos a mano lo revierte
+ * `check:generadores` con un `git checkout`. Es el mismo recurso que ya usa
+ * animaciones.css:108 para este mismo div.
+ *
+ * SE CENTRA EL BOTON, NO EL CONTENEDOR: un `text-align: center` en el div lo
+ * heredarian las tarjetas del carrusel, que cuelgan del MISMO div, y centraria el
+ * texto de las cinco resenas.
+ */
+[data-w-id='d03f876a-fa65-68e5-c8ed-9fd6290b9395'] > .button {
+  display: block;
+  width: fit-content;
+  margin: var(--pp-resenas-paso-3) auto 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

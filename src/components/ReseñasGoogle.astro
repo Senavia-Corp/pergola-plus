@@ -30,13 +30,26 @@
  * mismo es INELEGIBLE para las estrellas del SERP segun la politica de Google y
  * expone a accion manual. Las estrellas ya salen solas desde la ficha de Business
  * Profile. Ver la cabecera de src/lib/jsonld.ts, que documenta esa decision.
+ *
+ * EL ORDEN DE LAS TARJETAS NO ES EL DEL PANEL DE GOOGLE. Se pintan de la mas larga
+ * a la mas corta, y el parrafo de abajo lo DICE en pantalla (`orden` /
+ * `ordenParcial` en src/i18n/resenas.ts, en los dos idiomas). Lo decide
+ * `getReviews()` en src/lib/reviews.ts, que es donde esta el porque; aqui solo se
+ * pinta lo que llega. Cambiar el criterio sin cambiar esa frase deja una
+ * afirmacion falsa sobre como se ordenan las resenas en 78 paginas, que en la web
+ * de un contratista con licencia no es maquetacion: la FTC lo sanciona por
+ * infraccion (16 CFR Part 465). `npm run check:resenas` compara las dos cosas.
+ *
+ * LAS CINCO CITAS COMPARTEN CUERPO. Hubo un tramo por longitud —la cita corta
+ * subia de cuerpo y se centraba— que se retiro el 31-08-2026: el hueco no era
+ * tipografico. Todas las tarjetas se estiran hasta la mas alta, asi que lo que lo
+ * cerro fue estructural y vive en resenas.css (recorte mas bajo + el sobrante
+ * repartido entre los elementos de la tarjeta en vez de acumulado bajo la cita).
+ * El porque completo, con las medidas, esta en la cabecera de ese fichero.
  */
 import { getReviews, getPerfil, getResumen, getResumenPublico, esPlantilla, esParcial } from '../lib/reviews';
 import { idiomaDeRuta } from '../i18n';
 import { RESENAS } from '../i18n/resenas';
-// Los umbrales viven aparte porque la puerta los necesita igual: ver el porque en
-// la cabecera de resenas-tramos.mjs.
-import { clasesDeCita } from '../lib/resenas-tramos.mjs';
 import '../styles/resenas.css';
 
 interface Props {
@@ -203,7 +216,7 @@ const iniciales = (nombre: string) =>
                       traducir»: declarar el idioma es la condicion para no
                       contarla, no una exencion gratis. */}
                   <blockquote
-                    class:list={['resena-texto', ...clasesDeCita(r.texto)]}
+                    class="resena-texto"
                     lang={r.idioma}
                     cite={r.urlOrigen}
                   >

@@ -94,15 +94,36 @@ interface Snapshot {
 const SNAPSHOT = datos as unknown as Snapshot;
 
 /**
- * Las resenas publicadas, de la mas nueva a la mas vieja.
+ * Las resenas publicadas, de la mas larga a la mas corta.
  *
- * El orden es EXPLICITO y el componente lo declara en pantalla, porque una lista
- * de resenas sin decir como esta ordenada invita a pensar que se han elegido las
- * buenas. Aqui no se filtra ninguna: salen todas las que traiga el snapshot.
+ * EL ORDEN ES EXPLICITO Y SE DECLARA EN PANTALLA (`orden` / `ordenParcial` en
+ * src/i18n/resenas.ts), porque una lista de resenas sin decir como esta ordenada
+ * invita a pensar que se han elegido las buenas. Aqui no se filtra ninguna: salen
+ * todas las que traiga el snapshot. Lo que cambia es el orden de PINTADO, no la
+ * seleccion — que sigue siendo «las 5 mas recientes», decidida en el snapshot.
+ *
+ * POR QUE POR LONGITUD. Todas las tarjetas de una fila se estiran hasta la mas
+ * alta, asi que una resena corta arriba deja un hueco visible en la primera
+ * pantalla. Con las largas delante, las tres que se ven de entrada a 1440 son las
+ * que mas llenan su tarjeta. El desempate es por fecha descendente, para que dos
+ * resenas de la misma longitud no bailen entre builds.
+ *
+ * Y POR QUE AQUI Y NO REORDENANDO EL JSON. `scripts/traer-resenas.mjs` reescribe
+ * `reviews-google.json` entero cuando traiga las 28 de verdad: un orden puesto a
+ * mano en el fichero se pierde ahi en silencio, y la pagina seguiria AFIRMANDO
+ * «de la mas larga a la mas corta» mientras sirve el orden de la API. Esa frase
+ * esta en pantalla y es una afirmacion sobre como se ordenan las resenas, o sea
+ * exactamente lo que la FTC sanciona por infraccion (16 CFR Part 465). Ordenando
+ * al renderizar, el fichero puede cambiar y la frase sigue siendo cierta.
+ *
+ * Lo comprueba en la SALIDA `npm run check:resenas`, que empareja los autores en
+ * orden de documento con el snapshot y verifica que la longitud no crece.
  */
 export function getReviews(): Resena[] {
   if (SNAPSHOT.resenas.length) {
-    return [...SNAPSHOT.resenas].sort((a, b) => b.fechaISO.localeCompare(a.fechaISO));
+    return [...SNAPSHOT.resenas].sort(
+      (a, b) => b.texto.length - a.texto.length || b.fechaISO.localeCompare(a.fechaISO),
+    );
   }
   return getPlantillas();
 }
