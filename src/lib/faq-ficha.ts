@@ -106,6 +106,52 @@ export function partirEnMarca(html: string, ficha: string, marca = MARCA_SECCION
   return { antes: html.slice(0, i), despues: html.slice(i + marca.length) };
 }
 
+export interface BandaExtraida {
+  antes: string;
+  banda: string;
+  despues: string;
+}
+
+/**
+ * Saca una banda entera del fragmento, con su etiqueta de cierre.
+ *
+ * PARA QUE. En servicio, el fragmento migrado trae las bandas en el orden
+ * `… faq · projects · process · service-areas · reviews`, con las resenas de
+ * ULTIMAS. En producto van `… specs · resenas · proyecto · faq · service-areas ·
+ * process`, o sea con las resenas a media pagina y tres bandas por debajo. La misma
+ * seccion cerraba una pagina y vivia en el cuerpo de la otra. Esto permite
+ * recolocarlas SIN tocar `src/contenido-migrado/`, que es salida generada y que
+ * `check:generadores` revierte con un `git checkout`.
+ *
+ * SE CUENTA LA PROFUNDIDAD DE LA MISMA ETIQUETA, no se busca el primer cierre: las
+ * bandas de este sitio son `<section>` o `<div>` (`service-areas` es un div) y
+ * llevan decenas de `<div>` anidados dentro. Un `indexOf('</section>')` cortaria por
+ * el primer cierre interior y partiria la pagina por la mitad.
+ *
+ * LANZA si no encuentra la banda o si el markup no cierra. Es el mismo criterio que
+ * `partirEnMarca`: una banda que desaparece en silencio es justo el fallo que este
+ * fichero existe para evitar, y aqui ademas el resultado seria una pagina con las
+ * etiquetas descuadradas.
+ */
+export function extraerBanda(html: string, clase: string, ficha: string): BandaExtraida {
+  const rx = new RegExp(`<(section|div)\\b[^>]*class="${clase}\\b[^"]*"[^>]*>`);
+  const m = rx.exec(html);
+  if (!m) throw new Error(`[faq-ficha] ${ficha}: no encuentro la banda .${clase} en el fragmento`);
+
+  const etiqueta = m[1];
+  const paso = new RegExp(`<(/?)${etiqueta}\\b[^>]*>`, 'g');
+  paso.lastIndex = m.index;
+  let prof = 0;
+  for (let t; (t = paso.exec(html)); ) {
+    prof += t[1] === '/' ? -1 : 1;
+    if (prof === 0) {
+      const fin = t.index + t[0].length;
+      return { antes: html.slice(0, m.index), banda: html.slice(m.index, fin), despues: html.slice(fin) };
+    }
+  }
+  throw new Error(`[faq-ficha] ${ficha}: la banda .${clase} no cierra (<${etiqueta}> descuadrado)`);
+}
+
 /**
  * Los pares P/R que la ficha PINTA de verdad, leidos del mismo HTML que se va a
  * servir.

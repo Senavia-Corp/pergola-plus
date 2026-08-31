@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/services/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio, faqPage } from '../../lib/jsonld';
 import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';
-import { partirTrasFaq, partirEnMarca, MARCA_RESENAS, paresFaq } from '../../lib/faq-ficha';
+import { partirTrasFaq, partirEnMarca, extraerBanda, MARCA_RESENAS, paresFaq } from '../../lib/faq-ficha';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import FaqPromovidas from '../../components/FaqPromovidas.astro';
 import { PROMOVIDAS } from '../../data/faqs';
@@ -30,10 +30,33 @@ if (!html) throw new Error('sin fragmento para services/' + item.slug);
 // fragmento se parte ahi. Ver src/lib/faq-ficha.ts.
 const faq = partirTrasFaq(html, 'services/' + item.slug);
 
+// LAS RESENAS SUBEN DOS BANDAS. El fragmento migrado las trae de ULTIMAS
+// —`… faq · projects · process · service-areas · reviews`— mientras que en producto
+// van a media pagina, con tres bandas por debajo. La misma seccion cerraba una
+// pagina y vivia en el cuerpo de la otra. Aqui se recolocan a
+// `… projects · reviews · service-areas · process`, que es el mismo patron: resenas
+// ANTES de `service-areas` y de `process`.
+//
+// SE PUEDE HACER SIN ROMPER EL RITMO porque `process` y `reviews` son las DOS bandas
+// claras: intercambiar dos claras deja la cadena `OcOcOcFc` identica caracter por
+// caracter, y check:ritmo la comprueba. Mover la banda a un hueco cualquiera si la
+// romperia — cada banda clara de esta pagina esta rodeada de oscuras.
+//
+// Y se hace AQUI y no en `src/contenido-migrado/`, que es salida generada y que
+// `check:generadores` revierte con un `git checkout`.
+const proc = extraerBanda(faq.despues, 'process', item.slug);
+const serv = extraerBanda(proc.despues, 'service-areas', item.slug);
+const banda = extraerBanda(serv.despues, 'reviews', item.slug);
+// Si entre medias apareciera cualquier otra cosa, el orden que damos por supuesto ya
+// no seria el del fragmento y estariamos recolocando a ciegas. Mejor romper el build.
+if (serv.antes.trim() || banda.antes.trim()) {
+  throw new Error('[services] ' + item.slug + ': entre process, service-areas y reviews'
+    + ' hay markup que no esperaba; el orden del fragmento ha cambiado');
+}
 // La marca la escribe el paso 6b de scripts/lib/transformar.mjs, que es un .mjs y
 // no puede importar este .ts: `partirEnMarca` LANZA si no esta, y esa es toda la
 // comprobacion que mantiene los dos ficheros de acuerdo.
-const resenas = partirEnMarca(faq.despues, item.slug, MARCA_RESENAS);
+const resenas = partirEnMarca(banda.banda, item.slug, MARCA_RESENAS);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
@@ -84,10 +107,11 @@ const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '
   <Fragment set:html={faq.antes} />
   <FaqPromovidas tema={item.slug} />
   <FaqFichaEnlace tema={item.slug} />
+  <Fragment set:html={proc.antes} />
   <Fragment set:html={resenas.antes} />
   {/* DENTRO de la banda `reviews`, entre su titular y el enlace a
       testimonios. Como banda propia serian dos secciones de Reviews seguidas:
-      la blanca de Webflow vacia y una crema debajo con las tarjetas. Eso es
+      la blanca de Webflow vacia y otra debajo con las tarjetas. Eso es
       exactamente lo que se reporto en la home y en contacto el 31-08-2026.
 
       Y en services hay una segunda razon, independiente: una banda clara mas
@@ -95,7 +119,12 @@ const jsonLd = grafo(servicio(site, { nombre, descripcion: item.description ?? '
       check:ritmo lo cazaria — con razon.
 
       `embebido` porque la banda YA trae titular: sin el salian dos
-      titulares seguidos y un panel crema dentro de una banda blanca. */}
+      titulares seguidos diciendo lo mismo. */}
   <ReseñasGoogle embebido />
   <Fragment set:html={resenas.despues} />
+  {/* Las dos que antes iban ENCIMA de las resenas. Ver el porque arriba. */}
+  <Fragment set:html={serv.banda} />
+  <Fragment set:html={proc.banda} />
+  {/* El cierre de body-page y el CTA del pie, que venian detras de `reviews`. */}
+  <Fragment set:html={banda.despues} />
 </BaseLayout>

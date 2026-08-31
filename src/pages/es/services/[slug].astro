@@ -7,7 +7,7 @@ import { COMUN_ES } from '../../../i18n/comun.es';
 import FaqFichaEnlace from '../../../components/FaqFichaEnlace.astro';
 import FaqPromovidas from '../../../components/FaqPromovidas.astro';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
-import { partirTrasFaq, partirEnMarca, paresFaq, MARCA_RESENAS } from '../../../lib/faq-ficha';
+import { partirTrasFaq, partirEnMarca, extraerBanda, paresFaq, MARCA_RESENAS } from '../../../lib/faq-ficha';
 import { grafo, breadcrumbs, servicio, faqPage } from '../../../lib/jsonld';
 import { PROMOVIDAS } from '../../../data/faqs';
 import { porId } from '../../../i18n/faqs.es';
@@ -55,7 +55,20 @@ const faq = partirTrasFaq(html, 'es/services/' + item.slug);
 // service-areas · reviews). La marca la escribe el paso 6f de transformar.mjs, que es
 // un .mjs y no puede importar ese .ts: `partirEnMarca` LANZA si no está, y esa es
 // toda la comprobación que mantiene los dos ficheros de acuerdo.
-const resenas = partirEnMarca(faq.despues, 'es/services/' + item.slug, MARCA_RESENAS);
+//
+// LAS RESEÑAS SUBEN DOS BANDAS, igual que en la plantilla inglesa. El fragmento las
+// trae de ÚLTIMAS y en producto van a media página; aquí se recolocan a
+// `… projects · reviews · service-areas · process`. Se puede sin romper el ritmo
+// porque `process` y `reviews` son las DOS bandas claras: intercambiar dos claras
+// deja la cadena `OcOcOcFc` idéntica, y check:ritmo lo comprueba.
+const proc = extraerBanda(faq.despues, 'process', 'es/services/' + item.slug);
+const serv = extraerBanda(proc.despues, 'service-areas', 'es/services/' + item.slug);
+const banda = extraerBanda(serv.despues, 'reviews', 'es/services/' + item.slug);
+if (serv.antes.trim() || banda.antes.trim()) {
+  throw new Error('[es/services] ' + item.slug + ': entre process, service-areas y'
+    + ' reviews hay markup que no esperaba; el orden del fragmento ha cambiado');
+}
+const resenas = partirEnMarca(banda.banda, 'es/services/' + item.slug, MARCA_RESENAS);
 
 // Los pares P/R que suben al FAQPage: SOLO los que hemos redactado y verificado
 // nosotros, que sube FaqPromovidas desde la biblioteca. Las CINCO del fragmento
@@ -95,6 +108,7 @@ const jsonLd = grafo(
   <Fragment set:html={faq.antes} />
   <FaqPromovidas tema={item.slug} idioma="es" />
   <FaqFichaEnlace tema={item.slug} idioma="es" />
+  <Fragment set:html={proc.antes} />
   <Fragment set:html={resenas.antes} />
   {/* DENTRO de la banda `reviews`, entre su titular y el enlace a testimonios. Como
       banda propia serían dos claras seguidas antes del CTA del pie y check:ritmo lo
@@ -104,4 +118,9 @@ const jsonLd = grafo(
       seguidos diciendo lo mismo y un panel crema dentro de una banda blanca. */}
   <ReseñasGoogle embebido />
   <Fragment set:html={resenas.despues} />
+  {/* Las dos que antes iban ENCIMA de las reseñas. */}
+  <Fragment set:html={serv.banda} />
+  <Fragment set:html={proc.banda} />
+  {/* El cierre de body-page y el CTA del pie, que venían detrás de `reviews`. */}
+  <Fragment set:html={banda.despues} />
 </BaseLayout>

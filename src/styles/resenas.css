@@ -87,19 +87,47 @@
   --pp-resenas-paso-1: 1rem;    /* 16  · dentro del carrusel */
   --pp-resenas-paso-2: 1.5rem;  /* 24  · entre piezas del bloque */
   --pp-resenas-paso-3: 2rem;    /* 32  · entre bloques */
-  /* paso 4 = el padding de .reviews (48 aqui, 128 arriba). De Webflow, no se toca. */
+  /* Paso 4, el marco de la seccion. En la banda migrada lo pone `.reviews`
+     (webflow.css:1352) y no se toca; este token existe para que la banda PROPIA
+     use exactamente el mismo, en vez de sus 5rem sueltos de antes. */
+  --pp-resenas-marco: 3rem;     /* 48 */
 }
 
 @media screen and (min-width: 992px) {
   :root {
     --pp-resenas-paso-2: 2rem;  /* 32 */
     --pp-resenas-paso-3: 4rem;  /* 64 */
+    --pp-resenas-marco: 8rem;   /* 128 — el de `.reviews` */
   }
 }
 
+/* ── LOS DOS ENVOLTORIOS DE LA MISMA SECCION ───────────────────────────────────
+ *
+ * Hay UNA banda de resenas, no dos disenos. Lo que cambia entre `.resenas` y
+ * `.resenas-embebida` es de donde sale el TITULAR, y nada mas:
+ *
+ *   .resenas           banda propia, pinta su <h2> y su entradilla.  24 paginas:
+ *                      las 10 fichas de producto x2 idiomas, /about-us/testimonials
+ *                      y /project-estimator.
+ *   .resenas-embebida  va dentro de la banda `reviews` migrada, que ya trae el
+ *                      titular; por eso el componente no lo pinta.  78 paginas.
+ *
+ * FONDO BLANCO EN LAS DOS. La banda propia tuvo `--secundary` (#fffbf0) hasta el
+ * 31-08-2026. Se retiro porque eran dos secciones de resenas con dos aspectos en el
+ * mismo sitio, y la blanca es la que se eligio. `check:ritmo` no se entera: su
+ * `tono()` es binario por luminancia (>140 = claro) y el crema daba 251 contra los
+ * 255 del blanco, o sea que la cadena de bandas de la ficha no se mueve.
+ *
+ * OJO, UN SITIO DONDE SI SE NOTA: en `screen-enclosures` (EN y ES) esta banda va
+ * pegada a `section-faq-page` y las dos son claras. `check:ritmo` ya tenia ese par
+ * PERDONADO con su motivo escrito —le falta una banda, no es arreglable con CSS—,
+ * pero el crema era lo unico que dibujaba la costura. En blanco las dos se leen como
+ * una sola banda larga. Esta anotado tambien en el PERDONADAS de
+ * scripts/comprobar-ritmo.mjs, para que la excepcion no acabe tapando algo peor de
+ * lo que tapaba.
+ */
 .resenas {
-  background-color: var(--secundary, #fffbf0);
-  padding: 5rem 0;
+  padding: var(--pp-resenas-marco) 0;
 }
 
 /*
@@ -132,20 +160,16 @@
   margin-bottom: 0;
 }
 
-/* Embebido, la cabecera ya no lleva titular: solo la nota, su procedencia y el
-   enlace. 2,5rem de separacion con el carrusel eran los de un bloque con h2. */
 /* Menos los 8px que la lista ya pone de su parte. El hueco que se VE va del texto
    al borde de la tarjeta, y entre medias esta el `padding: 0.5rem 0 0.75rem` que la
    lista lleva para que respire la sombra. Sin descontarlo, el paso 2 se pintaba en
    40 (y en 32 por debajo de 992px, donde iguala al paso 3 de arriba y aplana la
    jerarquia justo donde menos sitio hay). Se descuenta aqui y en las flechas. */
-.resenas-embebida .resenas-cabecera {
-  margin-bottom: calc(var(--pp-resenas-paso-2) - 0.5rem);
-}
-
 .resenas-cabecera {
   text-align: center;
-  margin-bottom: 2.5rem;
+  /* La MISMA en los dos envoltorios. Antes la banda propia usaba 2,5rem sueltos y
+     la embebida el paso: dos ritmos para la misma seccion. */
+  margin-bottom: calc(var(--pp-resenas-paso-2) - 0.5rem);
 }
 
 /* Sin textos de resena no hay carrusel, la cabecera se queda de ULTIMO HIJO y sus

@@ -67,7 +67,13 @@ const PERDONADAS = {
     + 'oscura, y la segunda choca con la de detras. Le falta la banda de prueba de obra '
     + 'propia: no trae video-section en su fragmento y ningun proyecto de la galeria '
     + 'lleva su etiqueta. Se cierra sola el dia que el cliente etiquete un proyecto '
-    + 'suyo —entonces §9 renderiza y ESTA EXCEPCION HAY QUE RETIRARLA—, no antes.',
+    + 'suyo —entonces §9 renderiza y ESTA EXCEPCION HAY QUE RETIRARLA—, no antes. '
+    + 'DESDE EL 31-08-2026 ADEMAS SE VE: la banda de resenas era crema (--secundary) y '
+    + 'eso dibujaba la costura entre las dos claras aunque el par existiera. Al pasar '
+    + 'la banda a blanca —para que haya UNA sola seccion de resenas en el sitio— las '
+    + 'dos quedan del mismo blanco y se leen como una banda larga. El par no es nuevo '
+    + 'y el motivo de perdonarlo no ha cambiado; lo que ha cambiado es que ya no hay '
+    + 'nada que lo disimule, asi que esta excepcion cuesta mas de lo que costaba.',
 };
 
 let fallos = 0;
