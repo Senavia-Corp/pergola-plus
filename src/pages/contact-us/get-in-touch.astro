@@ -12,7 +12,6 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PaginaContacto from '../../components/PaginaContacto.astro';
-import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { CONTACTO_EN } from '../../i18n/contacto';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
@@ -31,5 +30,4 @@ const jsonLd = grafo(
   jsonLd={jsonLd}
 >
   <PaginaContacto copia={CONTACTO_EN} />
-  <ReseñasGoogle />
 </BaseLayout>

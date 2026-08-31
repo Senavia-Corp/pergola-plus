@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/countries/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
+import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
+import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -20,6 +22,11 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/countries/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para countries/' + item.slug);
+
+// La marca la escribe el paso 6b de scripts/lib/transformar.mjs, que es un .mjs y
+// no puede importar este .ts: `partirEnMarca` LANZA si no esta, y esa es toda la
+// comprobacion que mantiene los dos ficheros de acuerdo.
+const resenas = partirEnMarca(html, item.slug, MARCA_RESENAS);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
@@ -51,5 +58,18 @@ const jsonLd = grafo(areaDeServicio(site, { nombre, descripcion: item.descriptio
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
+  <Fragment set:html={resenas.antes} />
+  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a
+      testimonios. Como banda propia serian dos secciones de Reviews seguidas:
+      la blanca de Webflow vacia y una crema debajo con las tarjetas. Eso es
+      exactamente lo que se reporto en la home y en contacto el 31-08-2026.
+
+      Y en services hay una segunda razon, independiente: una banda clara mas
+      entre `reviews` (clara) y el CTA del pie dejaria dos claras seguidas, y
+      check:ritmo lo cazaria — con razon.
+
+      `embebido` porque la banda YA trae titular: sin el salian dos
+      titulares seguidos y un panel crema dentro de una banda blanca. */}
+  <ReseñasGoogle embebido />
+  <Fragment set:html={resenas.despues} />
 </BaseLayout>

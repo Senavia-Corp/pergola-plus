@@ -5,6 +5,8 @@ import { traducirHtml } from '../../../i18n';
 import { CONDADOS_ES } from '../../../i18n/condados.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
 import { grafo, breadcrumbs, areaDeServicio } from '../../../lib/jsonld';
+import { partirEnMarca, MARCA_RESENAS } from '../../../lib/faq-ficha';
+import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
 
 // Las páginas de condado en español. Misma estructura que /es/services/[slug].
 //
@@ -36,6 +38,11 @@ if (faltan.length) {
   for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
 }
 
+// Se parte sobre el HTML YA TRADUCIDO y no sobre el original: es el que se sirve, y
+// `traducirHtml` conserva los comentarios. Mismo orden que en es/services/[slug].
+// `partirEnMarca` LANZA si la marca no esta.
+const resenas = partirEnMarca(html, 'es/countries/' + item.slug, MARCA_RESENAS);
+
 const site = Astro.site!.href;
 const ruta = `/es/countries/${item.slug}/`;
 const jsonLd = grafo(
@@ -57,5 +64,14 @@ const jsonLd = grafo(
   wfSite={item.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
+  <Fragment set:html={resenas.antes} />
+  {/* DENTRO de la banda `reviews`, entre su titular y el boton a testimonios.
+      `embebido` porque la banda YA trae titular y fondo propios; como banda
+      propia salian dos secciones de Reviews, la blanca de Webflow vacia y una
+      crema debajo con las tarjetas.
+
+      El texto de cada resena sale en el idioma en que se escribio —no se
+      traduce lo que dijo un cliente—; solo se traducen los rotulos. */}
+  <ReseñasGoogle embebido />
+  <Fragment set:html={resenas.despues} />
 </BaseLayout>

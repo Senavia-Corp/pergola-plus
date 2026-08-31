@@ -18,6 +18,7 @@
  *   por clase: tocar esos atributos les quitaria la entrada por scroll.
  */
 import { rutaEnIdioma, type Idioma } from '../i18n';
+import ReseñasGoogle from './ReseñasGoogle.astro';
 import { CONDADOS, PERFILES, type CopiaContacto } from '../i18n/contacto';
 import '../styles/contacto.css';
 
@@ -252,6 +253,16 @@ const DATOS = [
         <h2><strong>{c.resenas.titulo}</strong></h2>
         <div>{c.resenas.intro}</div>
       </div>
+      {/* DENTRO de la banda y no detras de ella. Colgado al final del documento
+          —como estuvo hasta el 31-08-2026— la pagina enseñaba DOS secciones de
+          Reviews: esta, blanca, con su titular y su boton sobre 16rem de padding
+          vacio, y otra crema mucho mas abajo con las tarjetas.
+
+          `embebido` porque esta banda YA trae titular y fondo: sin el salian dos
+          titulares seguidos y un panel crema dentro de una banda blanca. Es el
+          mismo patron que las siete paginas de servicio. */}
+      <ReseñasGoogle embebido />
+
       <div data-w-id="d03f876a-fa65-68e5-c8ed-9fd6290b9395">
         <a href={ruta('/about-us/testimonials')} class="button w-button">{c.resenas.boton}</a>
       </div>

@@ -1222,14 +1222,25 @@ const ELFSIGHT_RESENAS =
 const RESENAS = '/about-us/testimonials';
 
 /**
- * El enlace que el paso 6b deja en el hueco del widget de Elfsight. El paso 6f lo usa
- * de ancla para saber donde va `ReseñasGoogle` dentro de la banda `reviews`: es unico
- * en el fragmento y cae dentro de `.reviews` en los siete servicios (medido).
+ * El enlace que el paso 6b deja en el hueco del widget de Elfsight, y a la vez el
+ * ancla que dice DONDE va `ReseñasGoogle` dentro de la banda `reviews`.
+ *
+ * Es unico en el fragmento y cae dentro de `.reviews` en los TREINTA Y NUEVE
+ * fragmentos que traen banda, no solo en los siete de servicio: 25
+ * pergolas-contractors, 7 services, 4 estaticas (home, about-us,
+ * industries-we-serve, get-in-touch) y 3 countries. Medido sobre el disco, no
+ * supuesto — el ancla exacta esta en los 39.
  */
 const ENLACE_RESENAS = `<a href="${RESENAS}" class="button w-button">Read Client Reviews</a>`;
 
-/** Donde va `ReseñasGoogle`. Contrato compartido con src/lib/faq-ficha.ts. */
-const MARCA_RESENAS = '<!--pp-resenas-servicio-->';
+/**
+ * Donde va `ReseñasGoogle`. Contrato compartido con src/lib/faq-ficha.ts.
+ *
+ * El nombre dice «servicio» por su origen —nacio para las siete fichas de servicio—
+ * y se conserva porque renombrarlo obligaria a tocar los 39 fragmentos del disco por
+ * una palabra. Hoy la escribe el paso 6b para todo fragmento con banda.
+ */
+export const MARCA_RESENAS = '<!--pp-resenas-servicio-->';
 
 /**
  * La portada del CMS de cada ficha de detalle: /products/<slug> -> { src, alt }.
@@ -2190,17 +2201,8 @@ function recomponerServicio(s, slug) {
     );
   }
 
-  // --- 4. El hueco de las reseñas ------------------------------------------------
-  //
-  // Marca, no markup: aqui solo se dice DONDE, y quien pinta es la plantilla. El
-  // ancla es el enlace a testimonios que el paso 6b acaba de poner —unico en el
-  // fragmento y dentro de `.reviews` en los siete, medido—, asi que `ReseñasGoogle`
-  // cae entre el titular de la banda y ese boton.
-  //
-  // Va DENTRO de la banda que ya existe y no como banda propia: ver MARCA_RESENAS en
-  // src/lib/faq-ficha.ts. Una banda clara mas entre `reviews` y el CTA del pie serian
-  // dos claras seguidas, y `check:ritmo` lo cazaria — con razon.
-  s = cambiar(s, ENLACE_RESENAS, MARCA_RESENAS + ENLACE_RESENAS, `${slug}: el ancla de las reseñas`);
+  // El hueco de las reseñas ya NO se marca aqui: lo hace el paso 6b de transformar(),
+  // que corre para los 39 fragmentos con banda y no solo para estos siete.
 
   return s;
 }
@@ -2521,7 +2523,14 @@ export function transformar(html, ruta) {
   //
   //     Esto vivia como edicion a mano sobre los fragmentos y un solo
   //     `node scripts/generar-paginas.mjs` se lo llevaba por delante, en silencio.
-  s = s.replaceAll(ELFSIGHT_RESENAS, ruta === RESENAS ? '' : ENLACE_RESENAS);
+  //
+  //     LA MARCA VA AQUI, y no en recomponerServicio como hasta el 31-08-2026.
+  //     Emitirla solo para los siete servicios dejaba las OTRAS 32 paginas con banda
+  //     prometiendo resenas y sirviendo un hueco: 60 paginas contando las gemelas
+  //     españolas, entre ellas las 50 landing locales y la propia home. El ancla es
+  //     la misma linea de arriba, o sea que donde hay banda hay marca por
+  //     construccion y no por una lista que alguien tiene que acordarse de ampliar.
+  s = s.replaceAll(ELFSIGHT_RESENAS, ruta === RESENAS ? '' : MARCA_RESENAS + ENLACE_RESENAS);
 
   // 6c. Los tres diferenciales del hero de la home, retirados por peticion del
   //     cliente. Se comprueba que la sustitucion ocurra: si el markup cambia y este

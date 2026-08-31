@@ -38,7 +38,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_ESTATICAS } from './lib/transformar.mjs';
+import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_ESTATICAS, MARCA_RESENAS } from './lib/transformar.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 // La lista de rutas con carrusel de resenas. Vive fuera porque la leen tambien
 // las paginas espanolas: ver la cabecera de ese fichero.
@@ -250,21 +250,44 @@ for (const ruta of RUTAS) {
     nodos.length ? 'jsonLd={jsonLd}' : null,
   ].filter(Boolean).join('\n  ');
 
-  // Carrusel de resenas: va DESPUES del fragmento migrado, nunca dentro. El
-  // fragmento es markup verbatim de Webflow y meterle nada por medio arriesga los
-  // data-w-id de los que dependen las 749 interacciones IX2.
-  const conResenas = CON_RESENAS.has(ruta);
-  const importaResenas = conResenas
+  // Carrusel de resenas. DOS caminos, y el que manda es el FRAGMENTO, no una lista:
+  //
+  //   · si trae MARCA_RESENAS —la escribe el paso 6b de transformar.mjs en todo
+  //     fragmento con banda `reviews`— el carrusel va DENTRO de esa banda, embebido,
+  //     entre su titular y el boton «Read Client Reviews».
+  //   · si no, y la ruta esta en CON_RESENAS, va como banda propia al final. Hoy eso
+  //     es solo /about-us/testimonials, que no tiene banda porque el paso 6b le
+  //     quita el enlace en vez de ponerselo (apuntaria a si misma).
+  //
+  // Antes iba SIEMPRE al final, «nunca dentro», por no arriesgar los data-w-id de
+  // las 749 interacciones IX2. Esa reserva NO aplica a este camino: no se parte el
+  // markup por una heuristica sobre el HTML de Webflow, se parte por un comentario
+  // que puso el propio transformador, y ni un data-w-id se mueve. Lo que si hacia el
+  // camino viejo era dejar la home con la promesa en el byte 71.780 y las tarjetas
+  // en el 94.135 — dos secciones de Reviews, la de Webflow vacia arriba y la crema
+  // abajo. Medido sobre dist el 31-08-2026, y es lo que reporto el cliente.
+  const embebida = frag.includes(MARCA_RESENAS);
+  const propia = !embebida && CON_RESENAS.has(ruta);
+  const importaResenas = embebida || propia
     ? `import ReseñasGoogle from '${rel}components/ReseñasGoogle.astro';\n`
+    : '';
+  const importaPartir = embebida
+    ? `import { partirEnMarca, MARCA_RESENAS } from '${rel}lib/faq-ficha';\n`
+    : '';
+  // `partirEnMarca` LANZA si la marca no esta: esa es toda la comprobacion que
+  // mantiene de acuerdo al transformador (.mjs) y a faq-ficha (.ts), que no pueden
+  // importarse entre si.
+  const bloqueResenas = embebida
+    ? `\nconst resenas = partirEnMarca(html, ${JSON.stringify(ruta)}, MARCA_RESENAS);\n`
     : '';
 
   const salida = `---
 import BaseLayout from '${rel}layouts/BaseLayout.astro';
 import html from '${rel}contenido-migrado/estaticas/${nombre}?raw';
-${importaResenas}${importaLd}${
+${importaResenas}${importaPartir}${importaLd}${
   nodos.length
     ? `\nconst site = Astro.site!.href;\nconst jsonLd = grafo(${nodos.join(', ')});\n`
-    : ''}
+    : ''}${bloqueResenas}
 // Generado por scripts/generar-paginas.mjs desde el HTML real de ${ruta}.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
@@ -272,8 +295,15 @@ ${importaResenas}${importaLd}${
 <BaseLayout
   ${props}
 >
-  <Fragment set:html={html} />
-${conResenas ? '  <ReseñasGoogle />\n' : ''}</BaseLayout>
+${embebida
+    ? '  <Fragment set:html={resenas.antes} />\n'
+      + '  {/* DENTRO de la banda `reviews`, entre su titular y el boton a\n'
+      + '      testimonios. `embebido` porque la banda YA trae titular y fondo: como\n'
+      + '      banda propia salian dos secciones de Reviews, la blanca de Webflow\n'
+      + '      vacia y una crema debajo con las tarjetas. */}\n'
+      + '  <ReseñasGoogle embebido />\n'
+      + '  <Fragment set:html={resenas.despues} />\n'
+    : '  <Fragment set:html={html} />\n' + (propia ? '  <ReseñasGoogle />\n' : '')}</BaseLayout>
 `;
 
   // El fragmento de arriba SI se ha escrito; lo que se salta es la pagina.

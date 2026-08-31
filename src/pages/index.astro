@@ -2,10 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import html from '../contenido-migrado/estaticas/index.html?raw';
 import ReseñasGoogle from '../components/ReseñasGoogle.astro';
+import { partirEnMarca, MARCA_RESENAS } from '../lib/faq-ficha';
 import { grafo, localBusiness, breadcrumbs } from '../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(localBusiness(site));
+
+const resenas = partirEnMarca(html, "/", MARCA_RESENAS);
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
@@ -18,6 +21,11 @@ const jsonLd = grafo(localBusiness(site));
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
-  <ReseñasGoogle />
+  <Fragment set:html={resenas.antes} />
+  {/* DENTRO de la banda `reviews`, entre su titular y el boton a
+      testimonios. `embebido` porque la banda YA trae titular y fondo: como
+      banda propia salian dos secciones de Reviews, la blanca de Webflow
+      vacia y una crema debajo con las tarjetas. */}
+  <ReseñasGoogle embebido />
+  <Fragment set:html={resenas.despues} />
 </BaseLayout>

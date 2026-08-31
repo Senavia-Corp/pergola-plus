@@ -85,8 +85,8 @@ const COLECCIONES = [
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
   { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery/' },
   { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
-  { dir: 'countries', ruta: 'countries', csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
-  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
+  { dir: 'countries', ruta: 'countries', resenas: true, csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
+  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', resenas: true, csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
   { dir: 'articles', ruta: 'articles', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
 ];
 
@@ -274,7 +274,7 @@ for (const col of COLECCIONES) {
   // Un solo sitio decide que se importa de faq-ficha: con dos ternarios encadenados,
   // una coleccion que fuera `ficha` Y `resenas` a la vez importaria `partirEnMarca`
   // dos veces y el .astro no compilaria.
-  const impFaqFicha = ['partirTrasFaq'];
+  const impFaqFicha = col.faq ? ['partirTrasFaq'] : [];
   if (col.ficha || col.resenas) impFaqFicha.push('partirEnMarca');
   if (col.ficha) impFaqFicha.push('MARCA_SECCIONES');
   if (col.resenas) impFaqFicha.push('MARCA_RESENAS');
@@ -317,15 +317,39 @@ for (const col of COLECCIONES) {
 
   // El hueco de las reseñas dentro de la banda `reviews`. Va DENTRO y no como banda
   // propia: ver MARCA_RESENAS en src/lib/faq-ficha.ts.
+  //
+  // SE CORTA LO QUE QUEDA DESPUES DEL FAQ, o el html entero si la coleccion no tiene
+  // FAQ. En services la banda `reviews` viene DESPUES del FAQ
+  // (…faq · projects · process · service-areas · reviews), asi que cortar `html`
+  // dejaria el FAQ en `resenas.antes` y `partirTrasFaq` ya no encontraria su ancla.
+  // En countries y pergolas-contractors no hay FAQ y `faq` ni siquiera se declara.
+  const fuenteResenas = col.faq ? 'faq.despues' : 'html';
   const bloqueResenas = col.resenas ? [
     '',
-    '// La marca la escribe el paso 6f de scripts/lib/transformar.mjs, que es un .mjs y',
+    '// La marca la escribe el paso 6b de scripts/lib/transformar.mjs, que es un .mjs y',
     '// no puede importar este .ts: `partirEnMarca` LANZA si no esta, y esa es toda la',
     '// comprobacion que mantiene los dos ficheros de acuerdo.',
-    '// Se corta `faq.despues` y no el html entero: la banda `reviews` viene DESPUES',
-    '// del FAQ en las siete (…faq · projects · process · service-areas · reviews).',
-    "const resenas = partirEnMarca(faq.despues, item.slug, MARCA_RESENAS);",
+    `const resenas = partirEnMarca(${fuenteResenas}, item.slug, MARCA_RESENAS);`,
   ].join('\n') : '';
+
+  // Lo que se PINTA del hueco de las reseñas. Es una sola cadena y no dos copias
+  // porque la usan las dos ramas de la emision —con FAQ (services) y sin el
+  // (countries, pergolas-contractors)— y dos copias es como se desincronizan.
+  const emisionResenas =
+    '  <Fragment set:html={resenas.antes} />\n'
+    + '  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a\n'
+    + '      testimonios. Como banda propia serian dos secciones de Reviews seguidas:\n'
+    + '      la blanca de Webflow vacia y una crema debajo con las tarjetas. Eso es\n'
+    + '      exactamente lo que se reporto en la home y en contacto el 31-08-2026.\n'
+    + '\n'
+    + '      Y en services hay una segunda razon, independiente: una banda clara mas\n'
+    + '      entre `reviews` (clara) y el CTA del pie dejaria dos claras seguidas, y\n'
+    + '      check:ritmo lo cazaria — con razon.\n'
+    + '\n'
+    + '      `embebido` porque la banda YA trae titular: sin el salian dos\n'
+    + '      titulares seguidos y un panel crema dentro de una banda blanca. */}\n'
+    + '  <ReseñasGoogle embebido />\n'
+    + '  <Fragment set:html={resenas.despues} />\n';
 
   const cuerpoFaq = col.ficha ? 'secciones.despues' : 'html';
 
@@ -370,7 +394,7 @@ for (const col of COLECCIONES) {
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio${promovidas ? ', faqPage' : ''} } from '../../lib/jsonld';
-${col.faq ? `import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\nimport { ${impFaqFicha.join(', ')} } from '../../lib/faq-ficha';\n` : ''}${impFicha}
+${col.faq ? `import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\n` : ''}${col.faq || col.resenas ? `import { ${impFaqFicha.join(', ')} } from '../../lib/faq-ficha';\n` : ''}${impFicha}
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
 // El fragmento HTML de cada item se importa en crudo. En la Fase 3 esta linea
@@ -388,7 +412,7 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 const html = fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);${bloqueFicha}
-${col.faq ? `// El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el\n// fragmento se parte ahi. Ver src/lib/faq-ficha.ts.\nconst faq = partirTrasFaq(${cuerpoFaq}, '${col.dir}/' + item.slug);${bloqueResenas}\n` : ''}
+${col.faq ? `// El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el\n// fragmento se parte ahi. Ver src/lib/faq-ficha.ts.\nconst faq = partirTrasFaq(${cuerpoFaq}, '${col.dir}/' + item.slug);\n` : ''}${bloqueResenas ? bloqueResenas + '\n' : ''}
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de
 // src/lib/jsonld.ts y todos estan publicados en el propio sitio.
@@ -437,18 +461,10 @@ ${col.ficha
     ? '  <Fragment set:html={faq.antes} />\n'
       + (promovidas ? '  <FaqPromovidas tema={item.slug} />\n' : '')
       + '  <FaqFichaEnlace tema={item.slug} />\n'
-      + (col.resenas
-        ? '  <Fragment set:html={resenas.antes} />\n'
-          + '  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a\n'
-          + '      testimonios. Como banda propia serian dos claras seguidas antes del\n'
-          + '      CTA del pie y check:ritmo lo cazaria. Ver MARCA_RESENAS.\n'
-          + '\n'
-          + '      `embebido` porque la banda YA trae titular: sin el salian dos\n'
-          + '      titulares seguidos y un panel crema dentro de una banda blanca. */}\n'
-          + '  <ReseñasGoogle embebido />\n'
-          + '  <Fragment set:html={resenas.despues} />\n'
-        : '  <Fragment set:html={faq.despues} />\n')
-    : '  <Fragment set:html={html} />\n'}</BaseLayout>
+      + (col.resenas ? emisionResenas : '  <Fragment set:html={faq.despues} />\n')
+    : col.resenas
+      ? emisionResenas
+      : '  <Fragment set:html={html} />\n'}</BaseLayout>
 `;
 
   // Los fragmentos y el _items.json de arriba SI se han escrito; lo que se salta

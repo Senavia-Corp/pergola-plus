@@ -5,6 +5,7 @@ import meta from '../../contenido-migrado/estaticas/_meta.json';
 import { traducirHtml } from '../../i18n';
 import { PAGINAS_ES, diccionarioDe, type PaginaEs } from '../../i18n/paginas.es';
 import { CON_RESENAS } from '../../lib/resenas-rutas.mjs';
+import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 // Todas las páginas estáticas traducidas, con UNA ruta.
@@ -49,6 +50,18 @@ if (faltan.length) {
   for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
 }
 
+// El hueco de las reseñas, si el fragmento lo trae. Lo decide el FRAGMENTO y no una
+// lista: la marca la escribe el paso 6b de scripts/lib/transformar.mjs en todo
+// fragmento con banda `reviews`. Se parte sobre el HTML YA TRADUCIDO —es el que se
+// sirve, y `traducirHtml` conserva los comentarios—, igual que en es/services/[slug].
+//
+// `CON_RESENAS` queda para las que NO tienen banda y aun asi deben traer el carrusel:
+// hoy solo /about-us/testimonials.
+const resenas = html.includes(MARCA_RESENAS)
+  ? partirEnMarca(html, 'es' + p.en, MARCA_RESENAS)
+  : null;
+const bandaPropia = !resenas && CON_RESENAS.has(p.en);
+
 // Mismo JSON-LD que la gemela inglesa, en español. El negocio es el MISMO nodo
 // (mismo @id): no son dos empresas, es una con dos idiomas.
 const site = Astro.site!.href;
@@ -70,10 +83,14 @@ const jsonLd = grafo(
   wfSite={m.wfSite ?? undefined}
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
-  {/* Las resenas van en las MISMAS rutas que su gemela inglesa (la lista sale de
-      src/lib/resenas-rutas.mjs, que leen las dos). El texto de cada resena sale
-      en el idioma en que se escribio —no se traduce lo que dijo un cliente—; solo
-      se traducen los rotulos. */}
-  {CON_RESENAS.has(p.en) && <ReseñasGoogle />}
+  {/* Las resenas caen en las MISMAS paginas que en la gemela inglesa porque las
+      decide el mismo fragmento. El texto de cada resena sale en el idioma en que
+      se escribio —no se traduce lo que dijo un cliente—; solo los rotulos.
+
+      `embebido`: la banda `reviews` ya trae titular y fondo. Sin el salian dos
+      secciones de Reviews, la blanca de Webflow vacia y una crema debajo. */}
+  <Fragment set:html={resenas ? resenas.antes : html} />
+  {resenas && <ReseñasGoogle embebido />}
+  {resenas && <Fragment set:html={resenas.despues} />}
+  {bandaPropia && <ReseñasGoogle />}
 </BaseLayout>

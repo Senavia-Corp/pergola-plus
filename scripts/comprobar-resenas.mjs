@@ -198,5 +198,79 @@ if (RESENAS_REALES > 0) {
   }
 }
 
+/* ── LA BANDA Y EL CARRUSEL ────────────────────────────────────────────────────
+ *
+ * QUE SE ROMPIO. El sitio migrado trae de Webflow una banda titulada «Reviews &
+ * Testimonials / What Clients Say About Our Work», con su entradilla y su boton
+ * «Read Client Reviews». Es el hueco donde vivia el widget de Elfsight. Al retirarlo,
+ * 60 paginas —las 50 landing locales, 6 de condado y 4 de about-us— se quedaron
+ * prometiendo resenas y sirviendo aire: la banda declara 8rem de padding arriba y
+ * abajo, o sea media pantalla en blanco bajo un titular que promete testimonios.
+ *
+ * Y donde el carrusel SI estaba —home y contacto— iba colgado al FINAL del documento,
+ * a 22 KB de markup de la promesa. Resultado: DOS secciones de Reviews, la blanca de
+ * Webflow vacia arriba y una crema abajo con las tarjetas. Eso es lo que se reporto.
+ *
+ * POR QUE ESTRUCTURAL Y NO POR TEXTO. El primer diagnostico de esto se hizo buscando
+ * «What Clients Say About Our Work» y su equivalente español. El español —«Lo que
+ * dicen nuestros clientes sobre…»— es tambien el submenu «Casos de exito» del NAV, o
+ * sea que esta en las 108 paginas españolas tengan banda o no: daba 147 paginas con
+ * banda y 117 huerfanas donde hay 78 y 60. Una puerta que se creyera ese texto
+ * denunciaria 57 paginas inocentes y se acabaria ignorando, que es peor que no
+ * tenerla. La banda es un ELEMENTO y se busca como elemento.
+ */
+{
+  const BANDA = '<section class="reviews"';
+  const PROPIA = '<section class="resenas"';
+  const EMBEBIDA = 'class="resenas-embebida"';
+
+  /** Fin de la banda, contando anidamiento: dentro hay mas <section> en algunas. */
+  const finDeBanda = (html, desde) => {
+    let hondo = 0;
+    const rx = /<section\b|<\/section>/g;
+    rx.lastIndex = desde;
+    for (let m; (m = rx.exec(html)); ) {
+      hondo += m[0][1] === '/' ? -1 : 1;
+      if (hondo === 0) return rx.lastIndex;
+    }
+    return -1;
+  };
+
+  const conBanda = [];
+  const huerfanas = [];
+  const dobles = [];
+  const fuera = [];
+
+  for (const rel of htmls) {
+    const html = await fs.readFile(path.join(DIST, rel), 'utf8');
+    const i = html.indexOf(BANDA);
+    if (i < 0) continue;
+    conBanda.push(rel);
+
+    if (html.includes(PROPIA)) dobles.push(rel);
+
+    const j = html.indexOf(EMBEBIDA);
+    if (j < 0 || !SLIDE.test(html)) { huerfanas.push(rel); continue; }
+
+    // Estar en la pagina no basta: la home tenia el carrusel Y la banda vacia.
+    const fin = finDeBanda(html, i);
+    if (!(i < j && j < fin)) fuera.push(`${rel} -> banda [${i},${fin}], carrusel en ${j}`);
+  }
+
+  console.log(`  ---   ${conBanda.length} paginas con banda de resenas`);
+
+  // Sin paginas que la traigan no hay nada medido, y eso NO es un aprobado: es
+  // exactamente como comprobar-imagenes.mjs salio verde con 429 URLs rotas en
+  // produccion. Si la banda desaparece del sitio, esta puerta tiene que enterarse.
+  decir(conBanda.length > 0,
+    'hay paginas con banda de resenas donde comprobar algo', []);
+  decir(huerfanas.length === 0,
+    'ninguna pagina promete resenas sin traerlas', huerfanas);
+  decir(fuera.length === 0,
+    'el carrusel va DENTRO de la banda que lo promete, no al final de la pagina', fuera);
+  decir(dobles.length === 0,
+    'ninguna pagina enseña dos secciones de Reviews (la migrada y la propia)', dobles);
+}
+
 console.log(fallos ? `\n${fallos} fallo(s).\n` : '\nsin fallos.\n');
 process.exit(fallos ? 1 : 0);

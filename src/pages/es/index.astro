@@ -5,6 +5,7 @@ import htmlOriginal from '../../contenido-migrado/estaticas/index.html?raw';
 import { traducirHtml } from '../../i18n';
 import { HOME_ES } from '../../i18n/home.es';
 import { grafo, localBusiness } from '../../lib/jsonld';
+import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 
 // Home en español.
 //
@@ -19,6 +20,10 @@ import { grafo, localBusiness } from '../../lib/jsonld';
 // usa exactamente esos elementos.
 
 const { html, traducidas, faltan } = traducirHtml(htmlOriginal, HOME_ES);
+
+// Se parte sobre el HTML YA TRADUCIDO: es el que se sirve, y `traducirHtml`
+// conserva los comentarios. `partirEnMarca` LANZA si la marca no esta.
+const resenas = partirEnMarca(html, 'es/', MARCA_RESENAS);
 
 // El MISMO nodo de negocio que la home inglesa, con el mismo @id: es el mismo
 // negocio, no dos. Lo que cambia es el idioma de la pagina, no el telefono.
@@ -43,15 +48,20 @@ if (faltan.length) {
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >
-  <Fragment set:html={html} />
+  {/* Las mismas reseñas que la home inglesa, y en el MISMO sitio: dentro de la
+      banda `reviews`, entre su titular y el botón a testimonios. Esta página no
+      pasa por [...ruta].astro —es de autoría propia— así que lo monta ella.
 
-  {/* Las mismas reseñas que la home inglesa. Esta página no pasa por
-      [...ruta].astro —es de autoría propia— así que lo monta ella.
+      Iba al final del documento y por eso la home enseñaba DOS secciones de
+      Reviews: la blanca de Webflow vacía a media página y esta, crema, mucho más
+      abajo. `embebido` la mete dentro y deja una sola.
 
       Las reseñas salen en el idioma en que las escribió cada cliente, también
       aquí: traducir un testimonio lo convierte en algo que esa persona no dijo.
       Solo se traducen los rótulos (src/i18n/resenas.ts). */}
-  <ReseñasGoogle />
+  <Fragment set:html={resenas.antes} />
+  <ReseñasGoogle embebido />
+  <Fragment set:html={resenas.despues} />
 
   {/* Aviso honesto: parte del sitio sigue en inglés. Vale más decirlo que dejar
       que el visitante lo descubra al segundo clic.
