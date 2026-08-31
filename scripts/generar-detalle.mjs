@@ -81,7 +81,12 @@ const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
  */
 const COLECCIONES = [
   { dir: 'products', ruta: 'products', faq: true, ficha: true, promovidas: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products/' },
-  { dir: 'services', ruta: 'services', faq: true, promovidas: true, resenas: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
+  // `reordenarResenas` SOLO aqui: sube la banda `reviews` por delante de
+  // `service-areas` y `process`, para que las resenas caigan donde caen en producto.
+  // No vale para las otras dos colecciones con resenas: `pergolas-contractors` va
+  // `… process · projects · reviews · blog` —sin `service-areas` y con `reviews` sin
+  // ser la ultima—, asi que ahi el reordenado no tiene ni las bandas que mover.
+  { dir: 'services', ruta: 'services', faq: true, promovidas: true, resenas: true, reordenarResenas: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
   { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery/' },
   { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
@@ -278,6 +283,7 @@ for (const col of COLECCIONES) {
   if (col.ficha || col.resenas) impFaqFicha.push('partirEnMarca');
   if (col.ficha) impFaqFicha.push('MARCA_SECCIONES');
   if (col.resenas) impFaqFicha.push('MARCA_RESENAS');
+  if (col.reordenarResenas) impFaqFicha.push('extraerBanda');
   if (promovidas) impFaqFicha.push('paresFaq');
   const impFicha = [
     ...(col.ficha ? [
@@ -324,22 +330,50 @@ for (const col of COLECCIONES) {
   // dejaria el FAQ en `resenas.antes` y `partirTrasFaq` ya no encontraria su ancla.
   // En countries y pergolas-contractors no hay FAQ y `faq` ni siquiera se declara.
   const fuenteResenas = col.faq ? 'faq.despues' : 'html';
+  // Con `reordenarResenas`, la banda se SACA del fragmento y se vuelve a pintar mas
+  // arriba; entonces lo que se parte por la marca es la banda ya extraida.
+  const reorden = col.reordenarResenas ? [
+    '',
+    '// LAS RESENAS SUBEN DOS BANDAS. El fragmento migrado las trae de ULTIMAS',
+    '// —`… faq · projects · process · service-areas · reviews`— mientras que en',
+    '// producto van a media pagina, con tres bandas por debajo. La misma seccion',
+    '// cerraba una pagina y vivia en el cuerpo de la otra. Aqui se recolocan a',
+    '// `… projects · reviews · service-areas · process`: resenas ANTES de',
+    '// `service-areas` y de `process`, como en la ficha de producto.',
+    '//',
+    '// SE PUEDE SIN ROMPER EL RITMO porque `process` y `reviews` son las DOS bandas',
+    '// claras: intercambiar dos claras deja la cadena `OcOcOcFc` identica caracter',
+    '// por caracter, y check:ritmo la comprueba. Mover la banda a un hueco',
+    '// cualquiera si la romperia — cada clara de esta pagina va entre dos oscuras.',
+    `const proc = extraerBanda(${fuenteResenas}, 'process', item.slug);`,
+    "const serv = extraerBanda(proc.despues, 'service-areas', item.slug);",
+    "const banda = extraerBanda(serv.despues, 'reviews', item.slug);",
+    '// Si entre medias apareciera cualquier otra cosa, el orden que damos por supuesto',
+    '// ya no seria el del fragmento y estariamos recolocando a ciegas.',
+    'if (serv.antes.trim() || banda.antes.trim()) {',
+    `  throw new Error('[${col.dir}] ' + item.slug + ': entre process, service-areas y'`,
+    "    + ' reviews hay markup que no esperaba; el orden del fragmento ha cambiado');",
+    '}',
+  ].join('\n') : '';
+  const fuenteMarca = col.reordenarResenas ? 'banda.banda' : fuenteResenas;
   const bloqueResenas = col.resenas ? [
+    ...(reorden ? [reorden] : []),
     '',
     '// La marca la escribe el paso 6b de scripts/lib/transformar.mjs, que es un .mjs y',
     '// no puede importar este .ts: `partirEnMarca` LANZA si no esta, y esa es toda la',
     '// comprobacion que mantiene los dos ficheros de acuerdo.',
-    `const resenas = partirEnMarca(${fuenteResenas}, item.slug, MARCA_RESENAS);`,
+    `const resenas = partirEnMarca(${fuenteMarca}, item.slug, MARCA_RESENAS);`,
   ].join('\n') : '';
 
   // Lo que se PINTA del hueco de las reseñas. Es una sola cadena y no dos copias
   // porque la usan las dos ramas de la emision —con FAQ (services) y sin el
   // (countries, pergolas-contractors)— y dos copias es como se desincronizan.
   const emisionResenas =
-    '  <Fragment set:html={resenas.antes} />\n'
+    (col.reordenarResenas ? '  <Fragment set:html={proc.antes} />\n' : '')
+    + '  <Fragment set:html={resenas.antes} />\n'
     + '  {/* DENTRO de la banda `reviews`, entre su titular y el enlace a\n'
     + '      testimonios. Como banda propia serian dos secciones de Reviews seguidas:\n'
-    + '      la blanca de Webflow vacia y una crema debajo con las tarjetas. Eso es\n'
+    + '      la de Webflow vacia y otra debajo con las tarjetas. Eso es\n'
     + '      exactamente lo que se reporto en la home y en contacto el 31-08-2026.\n'
     + '\n'
     + '      Y en services hay una segunda razon, independiente: una banda clara mas\n'
@@ -347,9 +381,16 @@ for (const col of COLECCIONES) {
     + '      check:ritmo lo cazaria — con razon.\n'
     + '\n'
     + '      `embebido` porque la banda YA trae titular: sin el salian dos\n'
-    + '      titulares seguidos y un panel crema dentro de una banda blanca. */}\n'
+    + '      titulares seguidos diciendo lo mismo. */}\n'
     + '  <ReseñasGoogle embebido />\n'
-    + '  <Fragment set:html={resenas.despues} />\n';
+    + '  <Fragment set:html={resenas.despues} />\n'
+    + (col.reordenarResenas
+      ? '  {/* Las dos que antes iban ENCIMA de las resenas. Ver el porque arriba. */}\n'
+        + '  <Fragment set:html={serv.banda} />\n'
+        + '  <Fragment set:html={proc.banda} />\n'
+        + '  {/* El cierre de body-page y el CTA del pie, que venian tras `reviews`. */}\n'
+        + '  <Fragment set:html={banda.despues} />\n'
+      : '');
 
   const cuerpoFaq = col.ficha ? 'secciones.despues' : 'html';
 
