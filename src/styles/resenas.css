@@ -62,7 +62,10 @@
  * indistinguibles donde tiene que haber jerarquia. Por eso una media query en el
  * MISMO punto de ruptura de Webflow y no un `vw` que lo aproxime.
  *
- * El ritmo de la banda, leido de arriba abajo:
+ * El ritmo de la banda, leido de arriba abajo. Son los huecos VISIBLES, medidos
+ * del borde de la tarjeta y no de su envoltorio: la lista mete su propio relleno
+ * en medio (ver `.fs-slider-resenas_list`), asi que los margenes se declaran
+ * descontandolo. Medirlo contra el envoltorio da 8px menos y engaña.
  *
  *   a partir de 992px   128 · 64 · [32 · 16 · 16 · 32] · 64 · 128
  *   por debajo           48 · 32 · [24 · 16 · 16 · 24] · 32 ·  48
@@ -131,8 +134,13 @@
 
 /* Embebido, la cabecera ya no lleva titular: solo la nota, su procedencia y el
    enlace. 2,5rem de separacion con el carrusel eran los de un bloque con h2. */
+/* Menos los 8px que la lista ya pone de su parte. El hueco que se VE va del texto
+   al borde de la tarjeta, y entre medias esta el `padding: 0.5rem 0 0.75rem` que la
+   lista lleva para que respire la sombra. Sin descontarlo, el paso 2 se pintaba en
+   40 (y en 32 por debajo de 992px, donde iguala al paso 3 de arriba y aplana la
+   jerarquia justo donde menos sitio hay). Se descuenta aqui y en las flechas. */
 .resenas-embebida .resenas-cabecera {
-  margin-bottom: var(--pp-resenas-paso-2);
+  margin-bottom: calc(var(--pp-resenas-paso-2) - 0.5rem);
 }
 
 .resenas-cabecera {
@@ -187,6 +195,16 @@
   line-height: 1;
 }
 
+/* La procedencia de la nota. No tenia NINGUNA regla, asi que caia en el gris de
+   cuerpo (#333) a 16px: mas peso y mas contraste que el dato que anota —la nota
+   sale en #61767c—, y con el salto de parrafo de webflow.css:266 colgando debajo.
+   Es un pie: mismo gris que el resto de secundarios y pegado a su nota. */
+.resenas-solo-nota {
+  margin: 0.25rem 0 1rem;
+  color: var(--terceary, #61767c);
+  font-size: 0.875rem;
+}
+
 .resenas-ficha {
   display: inline-block;
   color: var(--primary, #3a545b);
@@ -207,8 +225,11 @@
      recortara, y descuadraba el carrusel: el relleno entra en el scrollWidth y
      deja el paso de la flecha (419px) por encima del recorrido total (411px),
      asi que la ultima tarjeta no se alcanzaba. La sombra se respira con el
-     padding VERTICAL del wrapper, que no toca el eje que se desplaza. */
-  padding: 0.5rem 0;
+     padding VERTICAL del wrapper, que no toca el eje que se desplaza.
+     Arriba 8 y abajo 12 porque la sombra NO es simetrica: `0 2px 10px` baja 2px,
+     asi que asoma 8 por arriba y 12 por abajo. Con 8 y 8 se recortaba 4px del
+     borde inferior de las cinco tarjetas. */
+  padding: 0.5rem 0 0.75rem;
 }
 
 .fs-slider-resenas_slide {
@@ -245,6 +266,15 @@
   background-color: var(--white, #fff);
   border-radius: 12px;
   padding: 1.75rem;
+  /* `width` Y `height`, las dos. El slide es una fila flex y la tarjeta su unico
+     hijo, asi que sin ancho declarado toma su `max-content` — y solo la cita de 20
+     caracteres queda por debajo del slide. Medido: 240,7px de tarjeta dentro de un
+     slide de 400,7 a 1440 (160 de aire a su derecha), 181 a 900 y 119 a 390.
+     El bug es viejo pero estaba TAPADO: con el tramo por longitud esa cita se
+     pintaba a 32px, su `max-content` pasaba del slide y la tarjeta llenaba. Al
+     igualar el cuerpo a 18px dejo de taparlo. El eje vertical siempre estuvo
+     resuelto por `height`; el horizontal no lo resolvia nadie. */
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -334,16 +364,28 @@
      el enlace a Google que lleva debajo.
 
      BAJADO DE 10 A 6 Y DESPUES A 5, y no es cosmetico: el techo de este recorte ES
-     la altura de la fila, porque todas las tarjetas se estiran hasta la mas alta. A
-     10 lineas la fila medía 450px y la resena de 20 caracteres dejaba 228px en
-     blanco; a 6, 115; a 5, 86. Recortar la mas larga es lo unico que ayuda a las
-     cortas.
+     la altura de la fila, porque todas las tarjetas se estiran hasta la mas alta.
+     Recortar la mas larga es lo unico que ayuda a las cortas.
 
-     SE MIDIO TAMBIEN 4 y se descarto: baja el hueco a 56 pero deja la resena de
-     230 caracteres en 4 de sus 6 lineas — se pierde media resena real para ganar
-     30px de aire. 5 corta una sola linea de la mas larga y ninguna de las otras
-     cuatro. `check:resenas` afirma que este numero no sube: devuelto a 10, el
-     hueco vuelve sin romper ningun build. */
+     LO MEDIDO, sobre dist/ y con la geometria de hoy (la cita de 230 caracteres
+     ocupa 7 lineas a 1440 y 900, y 8 a 390):
+
+       clamp   se ven      alto de la tarjeta        hueco dentro de la cita
+         5     5 de 7      340px (335 a 390)         0 en las cinco tarjetas
+         4     4 de 7      311px (305 a 390)         0 en las cinco tarjetas
+
+     Se eligio 5. Con `space-between` repartiendo el sobrante, el hueco DE LA CITA
+     ya es 0 con los dos, asi que lo unico que compra el 4 son 29px menos de
+     tarjeta a cambio de una tercera linea de una resena real. No compensa.
+
+     OJO AL DECIRLO: 5 no corta «una linea». Corta 2 en escritorio y 3 en movil —
+     el 29% y el 38% del texto. El texto entero esta a un clic, en el enlace a
+     Google de debajo, y por eso el recorte es aceptable; pero no se puede
+     escribir aqui que es indoloro. (La cifra de 228px de hueco a 10 lineas viene
+     de la medicion de 3eca5f5, no de esta pasada.)
+
+     `check:resenas` afirma que este numero no sube: devuelto a 10 el hueco vuelve
+     sin romper ningun build, por eso es una asercion y no un comentario. */
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
@@ -379,14 +421,12 @@
 /* --- Flechas y puntos ------------------------------------------------------ */
 
 /* Paso 1: las flechas son maquinaria DEL carrusel, no una pieza aparte, asi que
-   van al paso corto. Ojo al medirlo: del envoltorio de la lista a las flechas hay
-   16, pero del borde de la TARJETA hay 24 — los 8 restantes son el
-   `padding: 0.5rem 0` que la lista lleva DENTRO para que respire la sombra. */
+   van al paso corto. Menos los 12px de la lista, por lo mismo que la cabecera. */
 .fs-slider-resenas_navigation {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: var(--pp-resenas-paso-1);
+  margin-top: calc(var(--pp-resenas-paso-1) - 0.75rem);
 }
 
 .fs-slider-resenas_previous,
