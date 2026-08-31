@@ -195,8 +195,15 @@ if (RESENAS_REALES > 0) {
     //    se ordenan las resenas: 16 CFR Part 465, sancionada POR INFRACCION.
     //    Se empareja por AUTOR y no por el texto porque el HTML trae entidades
     //    (`’` -> `&#8217;`) y la longitud del texto servido no es la del snapshot.
+    // Se deshacen las cinco entidades que escapa Astro antes de emparejar: un autor
+    // llamado «O'Brien» sale como `O&#39;Brien` en el HTML y no casaria con el
+    // snapshot — la puerta se pondria roja por un apostrofo, no por un defecto.
+    const dentidad = (t) => t
+      .replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
     const porAutor = new Map(SNAPSHOT.resenas.map((r) => [r.autor, r.texto.length]));
-    const pintados = [...muestra.html.matchAll(/class="resena-nombre">([^<]*)</g)].map((m) => m[1]);
+    const pintados = [...muestra.html.matchAll(/class="resena-nombre">([^<]*)</g)]
+      .map((m) => dentidad(m[1]));
     const largos = pintados.map((a) => porAutor.get(a));
     const desconocidos = pintados.filter((a) => !porAutor.has(a));
     const rompe = [];
