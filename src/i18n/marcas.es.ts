@@ -21,8 +21,8 @@ export interface MarcaEs {
 }
 
 export const MARCAS_ES: Record<string, MarcaEs> = {
-  appolo: {
-    nombre: 'Appolo',
+  apollo: {
+    nombre: 'Apollo',
     title: 'Techos de lamas Apollo | Pérgolas motorizadas',
     description:
       'Pérgolas Apollo de lamas motorizadas: control del sol, de la sombra y del aire con mando, app o voz, compatibles con domótica.',

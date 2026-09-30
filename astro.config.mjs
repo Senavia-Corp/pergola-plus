@@ -479,6 +479,11 @@ export default defineConfig({
     // internos ya apuntan a la nueva: esto salva al enlace externo y al guardado.
     '/services/patio-remodeling': { status: 301, destination: '/services/full-outdoor-remodel' },
     '/es/services/patio-remodeling': { status: 301, destination: '/es/services/full-outdoor-remodel' },
+    // «Appolo» era una errata del CMS de Webflow: la marca es Apollo (feedback final de
+    // Daniel, 30-sep-2026). Solo la forma sin barra final: Astro normaliza la clave con
+    // barra a la misma ruta. Ver docs/redirects.md.
+    '/brands/appolo': { status: 301, destination: '/brands/apollo' },
+    '/es/brands/appolo': { status: 301, destination: '/es/brands/apollo' },
   },
 
   // NO anadir View Transitions / ClientRouter: las 749 interacciones IX2 de

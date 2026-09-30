@@ -53,15 +53,17 @@ export const RUTAS = {
  * Enlaces que no llevan a ninguna pagina. Se corrigen en el markup Y se cubren con un
  * redirect 301, por si alguien tiene el enlace guardado.
  *
- * Los dos primeros venian rotos del sitio original. El tercero lo rompimos nosotros al
- * renombrar el servicio, y va aqui por la misma razon: el redirect salva al visitante
- * de fuera, pero un enlace INTERNO a una ruta que ya no existe es un 404 propio, y eso
- * lo caza check:paginas — los redirects del adaptador no generan HTML, asi que no
- * cuentan como pagina servida.
+ * El primero venia roto del sitio original. Los demas los rompimos nosotros al renombrar
+ * una ruta, y van aqui por la misma razon: el redirect salva al visitante de fuera,
+ * pero un enlace INTERNO a una ruta que ya no existe es un 404 propio, y eso lo caza
+ * check:paginas — los redirects del adaptador no generan HTML, asi que no cuentan como
+ * pagina servida.
  */
 export const ENLACES_ROTOS = {
   '/deck-builders': '/services/deck-builders',
   '/services/patio-remodeling': '/services/full-outdoor-remodel',
+  // «Appolo» era una errata del CMS de Webflow: la marca es Apollo (30-sep-2026).
+  '/brands/appolo': '/brands/apollo',
 };
 
 /**
@@ -113,7 +115,7 @@ export const BOTONES_MUERTOS = {
  * Faltan las dos puntas del desajuste entre garantias y marcas:
  *   MaestroShield  tiene tarjeta y NO tiene pagina de marca -> se queda muerta,
  *                  anotada en scripts/comprobar-enlaces-muertos.mjs.
- *   Appolo         tiene pagina de marca y NO tiene tarjeta.
+ *   Apollo         tiene pagina de marca y NO tiene tarjeta.
  */
 const TARJETA_GARANTIA = '<div class="warranty_item">';
 const GARANTIAS = {
@@ -221,6 +223,13 @@ export const TEXTOS_CLIENTE = {
   // alt de img-map.json— se corrigieron en los datos (img-map, manifest y el CSV).
   'alt="Luxury aluminum louvered pergola in South Florida backyard Meta Description: High-end aluminum pergola design in a luxury South Florida poolside backyard."':
     'alt="Luxury aluminum louvered pergola in South Florida backyard"',
+
+  // --- «Appolo» -> «Apollo» (feedback final de Daniel, 30-sep-2026) ---
+  // La marca es Apollo Opening Roof; «Appolo» viene del CMS de Webflow. Llaves ANCLADAS
+  // al elemento: «Appolo» a secas tambien casaria con la URL real del CDN del logo
+  // («…Appolo%20Logo.png»), y este mapa es global.
+  '<h1 class="heading-portfolio">Appolo</h1>': '<h1 class="heading-portfolio">Apollo</h1>',
+  '<h3 class="projects-card-h3">Appolo</h3>': '<h3 class="projects-card-h3">Apollo</h3>',
 
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
@@ -713,6 +722,16 @@ export const SEO_FALTANTE = {
   'services/pergola-design-construction': {
     title: 'Custom Pergola Design & Construction | FL',
     description: 'Fully engineered custom pergolas designed and built for high-end homes across Palm Beach, Broward and Miami-Dade counties.',
+  },
+
+  // --- Marcas ---
+  // Renombrado de 'appolo' a 'apollo' (30-sep-2026): «Appolo» era una errata del CMS. Sus
+  // campos SEO del CMS (assets-migracion/seo-cms.json) siguen bajo el slug viejo, asi que
+  // aqui se conservan los MISMOS titulo y descripcion; sin esto la pagina caeria al
+  // <title> generico y a la descripcion de la home, y check:seo la daria por duplicada.
+  'brands/apollo': {
+    title: 'Apollo Louvered Roof Systems in South Florida | Motorized Pergolas',
+    description: 'Explore Apollo motorized louvered roof pergolas installed in South Florida, offering adjustable shade, weather protection, and modern outdoor comfort.',
   },
 
   // --- Legales ---

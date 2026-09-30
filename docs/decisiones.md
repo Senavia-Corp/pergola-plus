@@ -1161,3 +1161,27 @@ Lo que ya **no** se puede ejecutar sin un export nuevo: `descargar-imagenes.mjs`
 `bajarFaltantes()` de los generadores sigue bajando del CDN de Webflow los assets que
 el export nunca trajo, así que la regeneración aún necesita red mientras la cuenta
 de Webflow exista.
+
+## «Appolo» → «Apollo»: cambia la ruta y se conserva el SEO (30-sep-2026)
+
+Feedback final de Daniel. La marca es **Apollo Opening Roof**; «Appolo» venía del CMS de
+Webflow (nombre y slug del item), y la misma página mezclaba las dos grafías. Se corrige
+el texto (H1, la tarjeta de `/about-us/brands` y el JSON-LD, que sale del H1), la ruta
+(`/brands/apollo`, con 301 desde la vieja en EN y ES) y el nombre del logo.
+
+Mismo camino que el renombrado de *patio-remodeling*: `git mv` de la captura, porque el
+slug sale de su nombre de fichero; `ENLACES_ROTOS` para el enlace interno, porque un 301
+no cuenta como página servida; y las dos claves de `TEXTOS_CLIENTE` **ancladas al
+elemento**, porque «Appolo» a secas casaría también con la URL real del CDN del logo y
+ese mapa es global.
+
+Una dependencia que no se ve: el título y la descripción SEO del CMS van por slug, y el
+slug del CMS sigue siendo `appolo`. Sin más, la página caía al `<title>` genérico y a la
+descripción de la home, y `check:seo` la habría dado por duplicada. Se copian tal cual a
+`SEO_FALTANTE['brands/apollo']`; el precio es que `_items.json` deja de llevar
+`tituloSeo`/`descripcionSeo` para esa marca, y eso no lo consume nadie.
+
+Se quedan con el nombre viejo, a propósito: la carpeta `public/cms-img/brands/appolo/`
+(no se ve, no se pidió, y renombrarla arrastra img-map, img-dim y el manifest) y el
+`subject` del manifest. El CMS del cliente sigue diciendo `Appolo`: una reimportación o
+la migración a Sanity lo reintroduciría si no se corrige en origen.

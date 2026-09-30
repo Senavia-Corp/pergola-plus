@@ -45,10 +45,10 @@ const ESTATICO = path.join(RAIZ, '.vercel/output/static');
 const RUTAS = [
   '/', '/products/cabanas', '/services/concrete', '/about-us/about-us',
   '/about-us/industries-we-serve', '/pergolas-contractors/aventura-pergola-builders',
-  '/countries/broward-county-pergola-contractor', '/brands/appolo',
+  '/countries/broward-county-pergola-contractor', '/brands/apollo',
   '/project/attached-forte-pergola-in-west-palm-beach', '/resources/blog',
   '/post/add-shade-backyard-south-florida', '/contact-us/get-a-quote',
-  '/es/products/cabanas', '/es/services/concrete', '/es/brands/appolo',
+  '/es/products/cabanas', '/es/services/concrete', '/es/brands/apollo',
   '/es/resources/blog', '/es/contact-us/get-a-quote',
 ];
 

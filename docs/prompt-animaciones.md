@@ -321,7 +321,7 @@ cuánto tienes que ver moverse:
 | estáticas | `/about-us/about-us` | 43 | sí |
 | ubicación | `/pergolas-contractors/aventura-pergola-builders` | 34 | no |
 | condado | `/countries/broward-county-pergola-contractor` | 34 | no |
-| marca | `/brands/appolo` | 25 | no |
+| marca | `/brands/apollo` | 25 | no |
 | proyecto | `/project/attached-forte-pergola-in-west-palm-beach` | 25 | no |
 | blog | `/resources/blog` | 24 | no |
 | artículo | `/post/add-shade-backyard-south-florida` | 23 | no |
@@ -330,7 +330,7 @@ cuánto tienes que ver moverse:
 **Y sus gemelas en `/es/`.** El sitio es bilingüe (105 páginas en español) y el
 español ocupa ~20 % más que el inglés: un reveal que encaja en inglés puede partir un
 titular en español. Comprobadas y existentes: `/es/products/cabanas`,
-`/es/services/concrete`, `/es/brands/appolo`, `/es/resources/blog`,
+`/es/services/concrete`, `/es/brands/apollo`, `/es/resources/blog`,
 `/es/contact-us/get-a-quote`.
 
 **Anchos:** 1440, 1280, 768 y 375 px. En móvil las animaciones pesan el doble.

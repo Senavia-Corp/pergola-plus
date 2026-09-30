@@ -6,7 +6,7 @@
 /about-us/where-we-work
 /articles/privacy-policy
 /articles/terms-of-service
-/brands/appolo
+/brands/apollo
 /brands/equinox
 /brands/fenetex
 /brands/pergola-plus-forte

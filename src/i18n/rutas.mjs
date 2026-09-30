@@ -69,7 +69,7 @@ export const TRADUCIDAS = {
   '/pergolas-contractors/west-palm-beach-contractors': '/es/pergolas-contractors/west-palm-beach-contractors/',
   '/pergolas-contractors/weston-pergola-solutions': '/es/pergolas-contractors/weston-pergola-solutions/',
   // Fichas de marca. Solo las que tienen diccionario en src/i18n/marcas.es.ts.
-  '/brands/appolo': '/es/brands/appolo/',
+  '/brands/apollo': '/es/brands/apollo/',
   '/brands/equinox': '/es/brands/equinox/',
   '/brands/fenetex': '/es/brands/fenetex/',
   '/brands/pergola-plus-forte': '/es/brands/pergola-plus-forte/',
