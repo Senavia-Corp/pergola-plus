@@ -2486,9 +2486,9 @@
       ]
     },
     {
-      "archivo": "appoiment--p-500.avif",
+      "archivo": "appointment-p-500.avif",
       "colision": false,
-      "ruta": "/images/appoiment--p-500.avif",
+      "ruta": "/images/appointment-p-500.avif",
       "clase": "design",
       "actual": {
         "width": 500,

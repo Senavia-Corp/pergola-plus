@@ -31,7 +31,11 @@ export async function bajarFaltantes({ htmls, cuerpo, mapa, locales, destino }) 
   for (const url of pendientes) {
     const nombre = decodeURIComponent(url.split('/').pop())
       .replace(/^[0-9a-f]{20,32}_/i, '')
-      .replace(/[^\w.-]+/g, '-');            // el CDN admite espacios y comas; el disco mejor no
+      .replace(/[^\w.-]+/g, '-')             // el CDN admite espacios y comas; el disco mejor no
+      // «appoiment» es una errata del nombre de subida en Webflow. El fichero se renombro
+      // a appointment el 30-sep-2026: sin esto, cada regeneracion lo volveria a bajar con
+      // el nombre viejo y el fragmento lo seguiria pidiendo.
+      .replace(/^appoiment-(?=[.-])/, 'appointment');
     try {
       const r = await fetch(url);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);

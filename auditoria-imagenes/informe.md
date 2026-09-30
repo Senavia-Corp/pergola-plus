@@ -101,7 +101,7 @@ SVG e iconos/logos vectoriales: no tienen resolucion intrinseca, escalan solos.
 | 55 | `/images/Generated-Image-February-11--2026---7_23PM-p-500.avif` | 500x323 | — | 390x252 | 780x504 | SUB-RESOLUCION (1.28x, minimo 1.5x) | 58 (/, /countries/broward-county-pergola-contractor/, /countries/miami-dade-pergola-contractor/, …) |
 | 56 | `/images/luxury-outdoor-living-south-florida-pool-pergola-outdoor-kitchen-modern-backyard-p-500.avif` | 500x195 | — | 390x447 | 780x894 | SUB-RESOLUCION (1.28x, minimo 1.5x) | 176 (/, /about-us/about-us/, /about-us/brands/, …) |
 | 57 | `/images/custom-aluminum-patio-cover-pergola-quote-south-florida-p-500.avif` | 500x625 | — | 390x1193 | 780x2386 | SUB-RESOLUCION (1.28x, minimo 1.5x) | 2 (/contact-us/get-a-quote/, /es/contact-us/get-a-quote/) |
-| 58 | `/images/appoiment--p-500.avif` | 500x667 | — | 390x844 | 780x1688 | SUB-RESOLUCION (1.28x, minimo 1.5x) | 2 (/contact-us/schedule-a-visit/, /es/contact-us/schedule-a-visit/) |
+| 58 | `/images/appointment-p-500.avif` | 500x667 | — | 390x844 | 780x1688 | SUB-RESOLUCION (1.28x, minimo 1.5x) | 2 (/contact-us/schedule-a-visit/, /es/contact-us/schedule-a-visit/) |
 | 59 | `/cms-img/blog/design-build-pergola-process-south-florida/thumbnail-pergola-design-build-installation-detail.avif` | 525x350 | 406x271 | 358x239 | 812x542 | SUB-RESOLUCION (1.29x, minimo 1.5x)<br>BLANDA (nitidez 1078, 36% de la mediana 3002) | 88 (/, /es/, /es/pergolas-contractors/aventura-pergola-builders/, …) |
 | 60 | `/cms-img/blog/building-custom-pergola-south-florida/thumbnail-custom-pergola-installation-detail-florida.avif` | 525x350 | 406x271 | 358x239 | 812x542 | SUB-RESOLUCION (1.29x, minimo 1.5x)<br>BLANDA (nitidez 432, 14% de la mediana 3002) | 85 (/, /es/, /es/pergolas-contractors/aventura-pergola-builders/, …) |
 | 61 | `/cms-img/blog/hurricane-resistant-pergolas-south-florida/thumbnail-hurricane-rated-pergola-engineering-detail.avif` | 525x350 | 406x271 | 358x239 | 812x542 | SUB-RESOLUCION (1.29x, minimo 1.5x)<br>BLANDA (nitidez 562, 19% de la mediana 3002) | 4 (/post/aluminum-vs-wood-pergolas-humid-climate/, /post/is-a-louvered-roof-pergola-worth-it-in-florida/, /resources/blog/, …) |
@@ -495,7 +495,7 @@ SVG e iconos/logos vectoriales: no tienen resolucion intrinseca, escalan solos.
 | `/cms-img/services/pergola-design-construction/feature-pergola-engineered-permitted-south-florida-4.avif` | 1250x682 | 570x250 | 2.19x | 3309.4 | 0.288 |
 | `/cms-img/services/pergola-design-construction/feature-pergola-engineered-permitted-south-florida-5.avif` | 1250x682 | 570x250 | 2.19x | 3149.3 | 0.296 |
 | `/cms-img/services/pergola-design-construction/intro-insulated-roof-pergola-builders-south-florida-07.avif` | 1250x833 | 609x833 | 2.05x | 4247.6 | 0.154 |
-| `/images/appoiment-.avif` | 1250x1667 | 576x960 | 2.17x | 3533.8 | 0.157 |
+| `/images/appointment.avif` | 1250x1667 | 576x960 | 2.17x | 3533.8 | 0.157 |
 | `/images/broward-county-pergola-outdoor-living-design-build-contractor-p-500.avif` | 500x500 | 326x1024 | 1.53x | 3062.9 | 0.319 |
 | `/images/broward-county-pergola-outdoor-living-design-build-contractor.avif` | 1024x1024 | 609x1024 | 1.68x | 4394.6 | 0.179 |
 | `/images/cliente/full-outdoor-remodel.avif` | 1250x703 | 593x450 | 2.11x | 2447.7 | 0.194 |

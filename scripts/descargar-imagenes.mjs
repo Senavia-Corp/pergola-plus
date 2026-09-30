@@ -120,6 +120,13 @@ const ERRATAS_NOMBRE = new Map([
   ['appolo-logo', 'apollo-logo'],
   ['rennaissance-logo', 'renaissance-logo'],
 ]);
+/**
+ * En el CMS alguien pego la meta description del articulo detras del alt de su foto
+ * («…backyard Meta Description: High-end aluminum…»). Se corrigio en el repo el
+ * 30-sep-2026 (manifest, img-map y el CSV del blog); esto evita que volver a ejecutar
+ * este script lo devuelva. Solo toca los alts que traen esa coletilla.
+ */
+const limpiarAlt = (a) => (a ? a.replace(/\s*Meta Description:[\s\S]*$/, '') : a) || null;
 const RX_VARIANTE = /-p-\d+(?=(?:\.[a-z0-9]+)+$)/i;
 
 // --- parser CSV (los campos traen HTML con comas y saltos de linea) ---------
@@ -468,7 +475,7 @@ async function main() {
         urls.forEach((url, i) => {
           anotar({
             url, dir, rol: campo.rol,
-            alt: campo.alt ? fila[campo.alt] || null : null,
+            alt: campo.alt ? limpiarAlt(fila[campo.alt]) : null,
             subject,
             usedIn: col.ruta ? { route: `${col.ruta}/${slug}`, field: campo.col, order: i } : null,
           });

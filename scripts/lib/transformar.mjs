@@ -216,6 +216,12 @@ export const TEXTOS_CLIENTE = {
   '<p>This pricing aligns with high-ticket outdoor living positioning .</p>': '',
   '<p>This aligns with high-ticket positioning strategy for South Florida outdoor living .</p>': '',
 
+  // --- Alt con la meta description pegada (auditoria I-4, 30-sep-2026) ---
+  // Viene tal cual de la captura. Las otras vias —las tarjetas del blog, que leen el
+  // alt de img-map.json— se corrigieron en los datos (img-map, manifest y el CSV).
+  'alt="Luxury aluminum louvered pergola in South Florida backyard Meta Description: High-end aluminum pergola design in a luxury South Florida poolside backyard."':
+    'alt="Luxury aluminum louvered pergola in South Florida backyard"',
+
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
     'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.',
