@@ -1183,12 +1183,15 @@ descripción de la home, y `check:seo` la habría dado por duplicada. Se copian 
 
 Se quedan con el nombre viejo, a propósito: la carpeta `public/cms-img/brands/appolo/`
 (no se ve, no se pidió, y renombrarla arrastra img-map, img-dim y el manifest) y el
-`subject` del manifest. El CMS del cliente sigue diciendo `Appolo`: una reimportación o
-la migración a Sanity lo reintroduciría si no se corrige en origen.
+`subject` del manifest. El CMS de Webflow sigue diciendo `Appolo` y **no se corrige**
+(decisión de Sebastian, 30-sep-2026): Webflow queda como el sitio viejo hasta que el
+dominio pase a Vercel, y la fuente de verdad es este repo. Una importación futura (Sanity)
+tiene que salir de aquí, no del CMS, o traería de vuelta las erratas.
 
 ## «Sukkha» → «Sukkah»: lo que sigue al slug y lo que no (30-sep-2026)
 
-Feedback final de Daniel. El producto se llama **Sukkah 3000**; «Sukkha» venía del CMS y
+Feedback final de Daniel. El producto se llama **Sukkah 3000** (nombre confirmado por el
+cliente el 30-sep-2026); «Sukkha» venía del CMS y
 salía en el menú de las 216 rutas, la ficha, la home, `/products`, el estimador, el
 formulario de presupuesto y el FAQ. Ahora dice «Sukkah» en todas, y la ruta es
 `/products/sukkah`, con 301 desde la vieja en EN y ES.
@@ -1228,8 +1231,9 @@ Lo que no es un renombrado de ruta, con el porqué de cada decisión:
   hicieron los micro-arreglos literales, que conservaban el *keyword*: cada una dice
   ahora qué hay detrás del enlace. Las de About Us, Blog y Get a Quote son palabras del
   cliente; la de Warranty & Protection es nuestra y queda **pendiente de su visto
-  bueno**, igual que «family-owned» y «no-obligation», que la página de destino no
-  sostiene. El ES del menú no se tocó: va por clave y ya estaba limpio.
+  bueno**. «family-owned» y «no-obligation» los confirmó el cliente el 30-sep-2026: la
+  página de destino no lo dice, pero es cierto. El ES del menú no se tocó: va por clave y
+  ya estaba limpio.
 - **Copyright** estático, `© 2026`: en un build estático el calculado también se
   congela al compilar, y el estático no finge lo contrario.
 - **Tarjetas de «How We Build It».** No eran «Home y About»: la banda son siete copias
