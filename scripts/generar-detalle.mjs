@@ -34,7 +34,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { transformar, decodificar, reescribirImagenes, PLACEHOLDERS, SEO_FALTANTE } from './lib/transformar.mjs';
-import { parseCSV } from './lib/csv.mjs';
 import { PROYECTOS, ITEMS as ITEMS_PROPIOS, ficha } from './lib/proyectos-destacados.mjs';
 import { bajarFaltantes } from './lib/assets-cdn.mjs';
 import { rutaOg } from './generar-og.mjs';
@@ -61,11 +60,21 @@ const RAIZ = path.resolve(import.meta.dirname, '..');
 const OG = new Set(await fs.readdir(path.join(RAIZ, 'public/images/og')).catch(() => []));
 const VIVO = path.join(RAIZ, 'docs/vivo');
 const FRAG = path.join(RAIZ, 'src/contenido-migrado');
-const EXPORT_CMS = '/Users/senavia/Downloads/Webflow Pergola Plus Florida/CMS';
+/**
+ * Los campos SEO del CMS de Webflow (`Title SEO` / `Metadescription SEO`), congelados.
+ *
+ * Se leian de los CSV del export en ~/Downloads, que se borro el 30-sep-2026. Era lo
+ * UNICO que este script sacaba de ahi, y ya estaba copiado en cada _items.json: se
+ * extrajo de alli tal cual —null incluido, y solo para los slugs con captura— a un
+ * fichero versionado. Asi regenerar depende solo del repo, y el resultado es el mismo
+ * byte a byte. Las columnas de origen siguen anotadas en COLECCIONES (`csv`, `tSeo`,
+ * `dSeo`). Ver docs/decisiones.md.
+ */
+const SEO_CMS = JSON.parse(await fs.readFile(path.join(RAIZ, 'assets-migracion/seo-cms.json'), 'utf8'));
 
 /**
  * Colecciones con ruta propia. Prefijos CONFIRMADOS contra el sitio en vivo.
- * `csv` y las columnas SEO se usan para el arreglo opcional de abajo.
+ * `csv` y las columnas SEO ya no se leen: anotan de donde salio assets-migracion/seo-cms.json.
  *
  * `faq: true` = la ficha cierra con un enlace a la biblioteca de preguntas ya
  * filtrada por su tema (?t=<slug>). Solo products y services: son los unicos cuyos
@@ -182,18 +191,7 @@ for (const col of COLECCIONES) {
   // Datos SEO del CMS, indexados por slug. Se guardan SIEMPRE en _items.json
   // (asi quedan a mano para la Fase 3 y para el arreglo), pero solo se aplican
   // al <head> si SEO_DESDE_CMS esta activo.
-  const seo = {};
-  if (col.csv) {
-    const nombreCsv = (await fs.readdir(path.join(EXPORT_CMS))).find((f) => f.includes(col.csv));
-    if (nombreCsv) {
-      for (const r of parseCSV(await fs.readFile(path.join(EXPORT_CMS, nombreCsv), 'utf8'))) {
-        seo[r.Slug] = {
-          tituloSeo: (col.tSeo && r[col.tSeo]?.trim()) || null,
-          descripcionSeo: (col.dSeo && r[col.dSeo]?.trim()) || null,
-        };
-      }
-    }
-  }
+  const seo = SEO_CMS[col.dir] ?? {};
 
   for (const f of propios) {
     const slug = f.slice(col.dir.length + 2, -5);

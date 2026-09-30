@@ -78,15 +78,21 @@ try {
 }
 decir(capturas.length === 100, `docs/vivo tiene las 100 capturas (tiene ${capturas.length})`);
 
-// Las fuentes externas no versionadas no son un fallo por si mismas —el export
-// de Webflow vive fuera del repo a proposito— pero SI lo es no poder decir si la
-// comprobacion de abajo es valida. Una puerta que pasa porque no pudo ejecutar
-// es peor que no tenerla.
+// Las fuentes externas no versionadas no son un fallo por si mismas, pero SI lo es
+// no poder decir si la comprobacion de abajo es valida. Una puerta que pasa porque
+// no pudo ejecutar es peor que no tenerla.
+//
+// Solo cuentan las de los GENERADORES, que es lo que esta puerta ejecuta. Desde el
+// 30-sep-2026 no tienen ninguna: el export de Webflow se borro y generar-detalle lee
+// sus campos SEO de assets-migracion/seo-cms.json, versionado. derivar-plantilla.mjs
+// sigue apuntando al export, pero no produce nada de lo que aqui se compara (y ya no
+// puede ejecutarse). Si un generador vuelve a declarar un EXPORT, se exige otra vez.
 const externas = [...new Set(
-  (await Promise.all(GENERADORES.concat('scripts/derivar-plantilla.mjs').map((rel) =>
+  (await Promise.all(GENERADORES.map((rel) =>
     fs.readFile(path.join(RAIZ, rel), 'utf8'))))
     .flatMap((s) => [...s.matchAll(/^const (?:EXPORT|EXPORT_CMS) = '([^']+)';$/gm)].map((m) => m[1])),
 )];
+if (!externas.length) console.log('  ok    los generadores no leen nada de fuera del repo');
 
 let faltaAlguna = false;
 for (const ruta of externas) {

@@ -1135,3 +1135,29 @@ sacan su foto de un `<img>` a sangre, no de un `background-image`, así que el
 resolvedor —que lee el CSS— los ve claros cuando en pantalla son fotos. De ahí
 `soloDeclarado`, que devuelve `null` cuando la banda no declara fondo. Se mide
 donde hay algo que medir y se afirma donde no.
+
+## El export de Webflow ya no existe: regenerar depende solo del repo (30-sep-2026)
+
+`~/Downloads/Webflow Pergola Plus Florida/` se borró a propósito. Lo único que la
+regeneración leía de allí eran dos columnas de los CSV del CMS —`Title SEO` y
+`Metadescription SEO`—, y ya estaban copiadas en cada `_items.json`. Se extrajeron
+tal cual (con sus `null`, y solo para los slugs que tienen captura) a
+`assets-migracion/seo-cms.json`, versionado, y `generar-detalle.mjs` lee de ahí.
+Comprobado: regenerar con el fichero nuevo deja `src/contenido-migrado/`, `src/pages/`
+y `public/images/` idénticos byte a byte.
+
+Dos puertas asumían el export y se ajustaron sin aflojarlas:
+
+- `check:generadores` exigía también la fuente de `derivar-plantilla.mjs`, que no
+  produce nada de lo que compara. Ahora solo exige las de los generadores que
+  ejecuta —hoy, ninguna— y sigue regenerando y comparando igual.
+- `check:imagenes` retira el check 6, que afirmaba que el export seguía en disco.
+  Lo que protegía, poder rehacer un clon limpio, lo cubren los checks 4b (todo lo que
+  pide `dist/` está en git) y 6b (lo versionado sigue en disco).
+
+Lo que ya **no** se puede ejecutar sin un export nuevo: `descargar-imagenes.mjs`,
+`instalar-assets.mjs`, `derivar-plantilla.mjs`, `parchear-css.mjs`,
+`parchear-webflow.mjs` y `generar-shell.mjs` (este ya estaba retirado). El prepaso
+`bajarFaltantes()` de los generadores sigue bajando del CDN de Webflow los assets que
+el export nunca trajo, así que la regeneración aún necesita red mientras la cuenta
+de Webflow exista.

@@ -4,7 +4,8 @@
  *
  * Todo lo que el sitio pide SI esta en git: public/images, public/cms-img y los
  * dos videos que el HTML referencia. El staging (assets-migracion/{content,design})
- * sigue fuera, y se reconstruye desde ~/Downloads con instalar-assets.mjs.
+ * sigue fuera de git, y el export de Webflow del que lo reconstruia instalar-assets.mjs
+ * se borro el 30-sep-2026: lo que no este en git ya no se puede rehacer.
  *
  * No siempre fue asi, y por eso existe el check 4b. public/cms-img y public/videos
  * estuvieron en .gitignore mientras el proyecto desplegaba por `git push`: Vercel
@@ -27,7 +28,6 @@ const RAIZ = path.resolve(import.meta.dirname, '..');
 const STAGING = path.join(RAIZ, 'assets-migracion');
 const PUBLIC = path.join(RAIZ, 'public');
 const DIST = await raizHtml();
-const EXPORT = '/Users/senavia/Downloads/Webflow Pergola Plus Florida';
 
 let fallos = 0;
 const decir = (ok, msg, detalle = []) => {
@@ -57,11 +57,10 @@ console.log('Puerta de imagenes\n');
 // --- 0. De donde se ha leido -------------------------------------------------
 // Se afirma ANTES de comparar nada: la leccion de check:generadores es que una
 // puerta que pasa porque no pudo ejecutarse es peor que no tener puerta.
-const hayExport = await existe(EXPORT);
 const hayDist = await existe(DIST);
 console.log(`  fuente  manifest   ${path.relative(RAIZ, path.join(STAGING, 'manifest.json'))}  (en git)`);
 console.log(`  fuente  binarios   ${path.relative(RAIZ, STAGING)}/{content,design}  (NO en git)`);
-console.log(`  fuente  export     ${EXPORT}  ${hayExport ? '(presente)' : '!! AUSENTE'}`);
+console.log('  fuente  export     borrado el 30-sep-2026: la fuente de public/ es git (ver el check 6)');
 console.log(`  fuente  servido    dist/  ${hayDist ? '' : '!! AUSENTE'}\n`);
 
 decir(hayDist, 'dist/ existe (ejecuta npm run build antes que esta puerta)');
@@ -164,20 +163,13 @@ const pedidas = new Map();   // ruta -> quien la pide
   decir(!culpables.length, 'dist/ no referencia el CDN de Webflow', culpables);
 }
 
-// --- 6. El export original sigue siendo regenerable --------------------------
-// No es cosmetico: public/images/ y public/videos/ se copian VERBATIM del export,
-// y el export vive fuera del repo. Si desaparece, instalar-assets.mjs no puede
-// rehacer un clon limpio aunque el manifest este perfecto.
-{
-  decir(hayExport, `el export de Webflow sigue en ${EXPORT}`,
-    ['sin el, instalar-assets.mjs no puede reconstruir public/images ni public/videos']);
-  if (hayExport) {
-    const enExport = new Set(await fs.readdir(path.join(EXPORT, 'images')).catch(() => []));
-    const enPublic = new Set(await fs.readdir(path.join(PUBLIC, 'images')).catch(() => []));
-    const faltan = [...enExport].filter((n) => !n.startsWith('.') && !enPublic.has(n));
-    decir(!faltan.length, `public/images/ tiene los ${enExport.size} archivos del export`, faltan);
-  }
-}
+// --- 6. RETIRADO el 30-sep-2026: el export de Webflow ya no existe -------------
+// Exigia que el export siguiera en ~/Downloads, porque instalar-assets.mjs copiaba de
+// alli public/images/ y public/videos/. El export se borro a proposito, asi que esa
+// afirmacion ya solo podria fallar. Lo que protegia —poder rehacer un clon limpio— lo
+// cubre ahora git: el check 4b exige que todo lo que pide dist/ este versionado y el
+// 6b que lo versionado de public/images/ siga en disco. instalar-assets.mjs y
+// descargar-imagenes.mjs ya no pueden ejecutarse sin un export nuevo.
 
 // --- 6b. public/images/ no ha perdido nada de git ---------------------------
 // instalar-assets.mjs hacia `rm -rf public/images` antes de copiar el export, y
