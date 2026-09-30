@@ -6,13 +6,21 @@
  * columna de pasos mide 1450 px fijos (1585 a ≤991), así que las cuatro tarjetas se
  * repartían el sobrante: 160 px entre una y otra a 1440, 134 a 1024. Medido sobre dist/.
  *
- * Todo va acotado con `.reviews + .process`, que solo casa en /, /about-us/about-us y sus
- * gemelas ES: las otras 92 rutas con banda de pasos no cambian. Ni se toca el export de
- * Webflow ni se añade fondo a las bandas (check:ritmo lee su tono).
+ * El hueco entre tarjetas va acotado con `.reviews + .process`, que solo casa en /,
+ * /about-us/about-us y sus gemelas ES: las otras 92 rutas con banda de pasos no cambian.
+ * 48 px y no 64: Sebastian lo pidió «un poco más» junto (30-sep-2026). Ni se toca el
+ * export de Webflow ni se añade fondo a las BANDAS (check:ritmo lee su tono).
  */
 .reviews + .process { padding-top: 0; }
 
 @media screen and (min-width: 768px) {
   .reviews + .process .steps-left  { height: auto; }
-  .reviews + .process .steps-right { row-gap: 4rem; }
+  .reviews + .process .steps-right { row-gap: 3rem; }
 }
+
+/*
+ * Las tarjetas de pasos, en crema sobre la banda blanca. En las 96 rutas que llevan la
+ * banda, no solo en las cuatro de arriba: es el mismo componente y tiene que verse igual
+ * en todas. El color es el token de marca, no un hex suelto.
+ */
+.step-content { background-color: var(--secundary); }
