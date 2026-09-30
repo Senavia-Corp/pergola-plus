@@ -26,7 +26,7 @@ export type Chip = 'permisos' | 'precios' | 'pergolas' | 'sombra' | 'obra' | 'ma
 /** Los 10 productos, los 7 servicios y los 6 temas transversales. */
 export type Tema =
   | 'motorized-louvered-pergolas' | 'solid-roof-pergolas' | 'open-air-pergolas'
-  | 'polycarbonate-pergolas' | 'solar-pergolas' | 'sukkha'
+  | 'polycarbonate-pergolas' | 'solar-pergolas' | 'sukkah'
   | 'cabanas' | 'carports' | 'screen-enclosures' | 'motorized-screens'
   | 'pergola-design-construction' | 'pavers' | 'driveways' | 'concrete'
   | 'deck-builders' | 'fence-solutions' | 'full-outdoor-remodel'
@@ -39,7 +39,7 @@ export const CHIPS: Chip[] = ['permisos', 'precios', 'pergolas', 'sombra', 'obra
 /** Los temas que son una ficha real, y por tanto pueden llegar por ?t=. */
 export const TEMAS_FICHA = new Set<Tema>([
   'motorized-louvered-pergolas', 'solid-roof-pergolas', 'open-air-pergolas',
-  'polycarbonate-pergolas', 'solar-pergolas', 'sukkha',
+  'polycarbonate-pergolas', 'solar-pergolas', 'sukkah',
   'cabanas', 'carports', 'screen-enclosures', 'motorized-screens',
   'pergola-design-construction', 'pavers', 'driveways', 'concrete',
   'deck-builders', 'fence-solutions', 'full-outdoor-remodel',
@@ -119,7 +119,7 @@ export const PROMOVIDAS: Record<string, string[]> = {
     'precio-reparar-vs-sustituir',
   ],
   // Solo una: es la unica propia del tema, y dice cuando NO es el producto adecuado.
-  sukkha: [
+  sukkah: [
     'pergola-sukkha-diferencia-detalle',
   ],
   // Las tres propias del tema, y las tres rebajan la expectativa: cuanto produce de
@@ -282,11 +282,11 @@ export const FAQS: Faq[] = [
   { id: 'solid-roof-ventilador-tv', chip: 'pergolas', tema: 'solid-roof-pergolas', origen: 'ficha' },
   { id: 'solid-roof-mantenimiento', chip: 'pergolas', tema: 'solid-roof-pergolas', origen: 'ficha' },
   { id: 'solid-roof-permiso-broward', chip: 'pergolas', tema: 'solid-roof-pergolas', origen: 'ficha', enlace: '/countries/broward-county-pergola-contractor', claves: ['Broward'] },
-  { id: 'sukkha-diferencia', chip: 'pergolas', tema: 'sukkha', origen: 'ficha', claves: ['Sukkha 3000'] },
-  { id: 'sukkha-personalizacion', chip: 'pergolas', tema: 'sukkha', origen: 'ficha', claves: ['Sukkha 3000'] },
-  { id: 'sukkha-huracan', chip: 'pergolas', tema: 'sukkha', origen: 'ficha', claves: ['Sukkha 3000', 'HVHZ'] },
-  { id: 'sukkha-domotica', chip: 'pergolas', tema: 'sukkha', origen: 'ficha', claves: ['Sukkha 3000'] },
-  { id: 'sukkha-permanente', chip: 'pergolas', tema: 'sukkha', origen: 'ficha', claves: ['Sukkha 3000'] },
+  { id: 'sukkha-diferencia', chip: 'pergolas', tema: 'sukkah', origen: 'ficha', claves: ['Sukkah 3000'] },
+  { id: 'sukkha-personalizacion', chip: 'pergolas', tema: 'sukkah', origen: 'ficha', claves: ['Sukkah 3000'] },
+  { id: 'sukkha-huracan', chip: 'pergolas', tema: 'sukkah', origen: 'ficha', claves: ['Sukkah 3000', 'HVHZ'] },
+  { id: 'sukkha-domotica', chip: 'pergolas', tema: 'sukkah', origen: 'ficha', claves: ['Sukkah 3000'] },
+  { id: 'sukkha-permanente', chip: 'pergolas', tema: 'sukkah', origen: 'ficha', claves: ['Sukkah 3000'] },
   { id: 'concrete-armado', chip: 'obra', tema: 'concrete', origen: 'ficha' },
   { id: 'concrete-fraguado', chip: 'obra', tema: 'concrete', origen: 'ficha' },
   { id: 'concrete-permiso', chip: 'obra', tema: 'concrete', origen: 'ficha' },
@@ -461,9 +461,9 @@ export const FAQS: Faq[] = [
   {
     id: 'pergola-sukkha-diferencia-detalle',
     chip: 'pergolas',
-    tema: 'sukkha',
+    tema: 'sukkah',
     origen: 'nueva',
-    claves: ['Sukkha 3000'],
+    claves: ['Sukkah 3000'],
   },
   { id: 'pergola-cuantos-pilares', chip: 'pergolas', tema: 'general-pergolas', origen: 'nueva' },
   { id: 'pergola-altura', chip: 'pergolas', tema: 'general-pergolas', origen: 'nueva' },

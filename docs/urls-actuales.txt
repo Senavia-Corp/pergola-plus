@@ -73,7 +73,7 @@
 /products/screen-enclosures
 /products/solar-pergolas
 /products/solid-roof-pergolas
-/products/sukkha
+/products/sukkah
 /project-gallery
 /project/attached-forte-pergola-in-west-palm-beach
 /project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton

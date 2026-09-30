@@ -1185,3 +1185,36 @@ Se quedan con el nombre viejo, a propósito: la carpeta `public/cms-img/brands/a
 (no se ve, no se pidió, y renombrarla arrastra img-map, img-dim y el manifest) y el
 `subject` del manifest. El CMS del cliente sigue diciendo `Appolo`: una reimportación o
 la migración a Sanity lo reintroduciría si no se corrige en origen.
+
+## «Sukkha» → «Sukkah»: lo que sigue al slug y lo que no (30-sep-2026)
+
+Feedback final de Daniel. El producto se llama **Sukkah 3000**; «Sukkha» venía del CMS y
+salía en el menú de las 216 rutas, la ficha, la home, `/products`, el estimador, el
+formulario de presupuesto y el FAQ. Ahora dice «Sukkah» en todas, y la ruta es
+`/products/sukkah`, con 301 desde la vieja en EN y ES.
+
+**La corrección del cuerpo es una llave global de `TEXTOS_CLIENTE` (`'Sukkha'`), y es
+segura**: ninguna URL ni ruta lleva «Sukkha» con mayúscula, y `reescribirImagenes()`
+corre antes. Lo que se inyecta después del paso 4c no lo alcanza, así que los textos
+nuevos de `fichas.mjs` y el valor de `ANCLA_TARJETA` ya dicen «Sukkah». El único
+`viejo` de `fichas.mjs` que sigue en «Sukkha» es el alt de la portada del FAQ, que
+inyecta `PORTADAS` desde img-map después del 4c; lleva un comentario que lo explica.
+
+**Lo que sigue al slug** (si no, falla y casi siempre en silencio):
+
+- Lanzan si faltan: `FICHAS`, `SEO_FALTANTE`, `PROMOVIDAS`, el `Tema` del FAQ (con él
+  pasa a `?t=sukkah`) y `PORTADAS`, que va con alias porque la carpeta de imágenes no
+  se renombra.
+- Callan si faltan: `PRODUCTOS_ES` (sin él no se genera `/es/products/sukkah`),
+  `ETIQUETA_DE_FICHA` (desaparece «One We Built»), `TRADUCIDAS`, el
+  `esActiva` del menú y el JPG de Open Graph, que se renombró antes de regenerar
+  porque el generador lo busca por el slug.
+
+**Lo que se queda en `sukkha` a propósito**, porque son identificadores y no texto:
+`data-product="sukkha"` (espeja Webflow; `ANCLA_TARJETA` y `DATA_PRODUCT` van por él),
+el `id` del estimador y su clave en `NOMBRE_LEAD`, los ids de las preguntas del FAQ, la
+clave `t('sukkha')` del menú, y la carpeta `cms-img/products/sukkha/` con sus 11
+ficheros. La etiqueta de lead que ve ventas sí cambia —`Sukkah 3000 System`, idéntica
+en el estimador y en el `<option value>` del presupuesto—: si algún CRM o filtro de
+correo dependía de `Sukkha 3000 System`, hay que avisarlo. En español solo se corrige
+la grafía, no el género («el/la Sukkah 3000» queda como estaba).

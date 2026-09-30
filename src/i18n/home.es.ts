@@ -9,7 +9,7 @@
  *
  * Registro (español neutro, que es lo que corresponde al sur de Florida):
  *  - Nombres de producto y marca NO se traducen: FORTE, FORTE Plus, ECLIPSE,
- *    Sukkha 3000, Pergola Plus Florida.
+ *    Sukkah 3000, Pergola Plus Florida.
  *  - Los topónimos van en su forma local: Delray Beach, no «Playa Delray».
  *  - «Pérgola» lleva tilde en español.
  */
@@ -43,7 +43,7 @@ export const HOME_ES: Record<string, string> = {
   'Motorized Screens': 'Cortinas motorizadas',
   'Aluminum Carports': 'Cocheras de aluminio',
   'Solar Pergolas': 'Pérgolas solares',
-  Sukkha: 'Sukkha',
+  Sukkah: 'Sukkah',
 
   'Custom Motorized Louvered Pergola Systems':
     'Sistemas de pérgola de lamas motorizadas a medida',
@@ -88,10 +88,10 @@ export const HOME_ES: Record<string, string> = {
   'Solar roof structures combine architectural strength with energy innovation. Engineered to support solar panel integration, these systems provide shade and weather protection while allowing homeowners to invest in sustainable, high-performance outdoor infrastructure.':
     'Las estructuras de techo solar combinan solidez arquitectónica e innovación energética. Preparadas para integrar paneles solares, dan sombra y protección frente al clima a la vez que convierten su exterior en una inversión sostenible y de alto rendimiento.',
 
-  'Sukkha 3000 Premium Louvered System':
-    'Sukkha 3000, sistema premium de lamas',
-  'The Sukkha 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
-    'La Sukkha 3000 es una estructura exterior premium que une ingeniería de vanguardia y diseño contemporáneo. Pensada para quien busca el máximo nivel de rendimiento, durabilidad y personalización, redefine lo que puede llegar a ser un espacio exterior de lujo.',
+  'Sukkah 3000 Premium Louvered System':
+    'Sukkah 3000, sistema premium de lamas',
+  'The Sukkah 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
+    'La Sukkah 3000 es una estructura exterior premium que une ingeniería de vanguardia y diseño contemporáneo. Pensada para quien busca el máximo nivel de rendimiento, durabilidad y personalización, redefine lo que puede llegar a ser un espacio exterior de lujo.',
 
   // --- Por qué nosotros ---
   'Why choose us?': '¿Por qué elegirnos?',

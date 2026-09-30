@@ -235,10 +235,10 @@ export const ESPECIFICACIONES: Record<string, FichaEspecificaciones> = {
     ],
   },
 
-  // El estimador deja este producto con `tarifa: null` y lo razona: «el Sukkha es un
+  // El estimador deja este producto con `tarifa: null` y lo razona: «el Sukkah es un
   // sistema propietario sin comparable de mercado: cualquier banda seria inventada».
   // Asi que aqui no hay fila de inversion con cifra ni la va a haber sin el cliente.
-  sukkha: {
+  sukkah: {
     filas: ['sistema', 'configuracion', 'automatizacion', 'fascia', 'material',
       'acabado', 'permiso', 'plazo', 'inversion', 'donde'],
     enGrafo: ['sistema', 'configuracion', 'automatizacion', 'fascia', 'material', 'acabado'],

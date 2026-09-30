@@ -39,7 +39,7 @@ import {
 //
 // El wizard `.msf-step` es lineal y valida con checkValidity() al avanzar. Aqui hay
 // ramificacion —cabana y carport son exentas por definicion y se saltan el paso 2;
-// solar y Sukkha no llevan tarifa y van derechos al cierre— y recalculo en vivo en
+// solar y Sukkah no llevan tarifa y van derechos al cierre— y recalculo en vivo en
 // cada pulsacion. Lo que si se reutiliza de Formulario.astro es todo lo del paso 8:
 // con solo llevar action="/api/lead", el formulario de captura hereda el resumen de
 // errores accesible, el envio por fetch y el redirect bilingue.
@@ -73,7 +73,7 @@ const NOMBRE_LEAD: Record<string, string> = {
   screens: 'Screen Enclosure',
   carport: 'Aluminum Carport',
   solar: 'Solar Roof Structure',
-  sukkha: 'Sukkha 3000 System',
+  sukkha: 'Sukkah 3000 System',
 };
 
 // Y lo mismo con el resto de respuestas. Los `id` internos estan en español porque
@@ -787,7 +787,7 @@ const paginaActual = Astro.url.pathname;
 
     // --- los pasos que aplican ------------------------------------------------
     // Cabana y carport son exentas por definicion: preguntar como se apoyan seria
-    // una pregunta sin respuesta posible. Solar y Sukkha no llevan tarifa, asi que
+    // una pregunta sin respuesta posible. Solar y Sukkah no llevan tarifa, asi que
     // todo lo que hay entre el paso 1 y el cierre no cambiaria ninguna cifra.
     function aplica(indice: number) {
       const p = productoDe();

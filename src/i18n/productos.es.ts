@@ -6,7 +6,7 @@
  * el bloque de servicios, los teasers del blog, el proceso, las tarjetas de proyecto)
  * vive en `comun.es.ts`.
  *
- * Los nombres de sistema y de marca NO se traducen: FORTE, ECLIPSE, Sukkha 3000, NOA,
+ * Los nombres de sistema y de marca NO se traducen: FORTE, ECLIPSE, Sukkah 3000, NOA,
  * FPA. Sí se traducen los nombres de color, porque son etiquetas descriptivas de una
  * carta para que el cliente elija, no referencias de pedido.
  *
@@ -1532,25 +1532,25 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
     },
   },
 
-  sukkha: {
-    nombre: 'Sukkha 3000',
-    title: 'Sukkha 3000 | Estructuras exteriores de lujo',
-    description: 'El sistema Sukkha 3000: ingeniería modular, aluminio de alto rendimiento, diseño minimalista y automatización integrada.',
+  sukkah: {
+    nombre: 'Sukkah 3000',
+    title: 'Sukkah 3000 | Estructuras exteriores de lujo',
+    description: 'El sistema Sukkah 3000: ingeniería modular, aluminio de alto rendimiento, diseño minimalista y automatización integrada.',
     dic: {
       'Engineered And Permitted':
         'Calculada y permisada',
-      'Sukkha 3000 structure over a laid table for a celebration, string lights and greenery along the beams under a reed mat roof.':
-        'Estructura Sukkha 3000 sobre una mesa puesta para una celebración, con guirnaldas de luces y vegetación en las vigas bajo un techo de esterilla de caña.',
-      'Sukkha 3000 structure enclosing a paved terrace in glass and dark aluminum, with a dining table set under the slatted roof.':
-        'Estructura Sukkha 3000 cerrando una terraza pavimentada con vidrio y aluminio oscuro, con una mesa de comedor puesta bajo el techo de listones.',
-      'Reed mat roof of a Sukkha 3000 seen from below, hung with vine garlands and pendant lights between dark aluminum beams.':
-        'Techo de esterilla de caña de un Sukkha 3000 visto desde abajo, con guirnaldas de vid y lámparas colgantes entre vigas de aluminio oscuro.',
-      'Sukkha 3000 structure in dark aluminum against a stone-faced house, its glazed sides open onto a bluestone terrace.':
-        'Estructura Sukkha 3000 en aluminio oscuro contra una casa con frente de piedra, con sus laterales acristalados abiertos a una terraza de piedra azul.',
+      'Sukkah 3000 structure over a laid table for a celebration, string lights and greenery along the beams under a reed mat roof.':
+        'Estructura Sukkah 3000 sobre una mesa puesta para una celebración, con guirnaldas de luces y vegetación en las vigas bajo un techo de esterilla de caña.',
+      'Sukkah 3000 structure enclosing a paved terrace in glass and dark aluminum, with a dining table set under the slatted roof.':
+        'Estructura Sukkah 3000 cerrando una terraza pavimentada con vidrio y aluminio oscuro, con una mesa de comedor puesta bajo el techo de listones.',
+      'Reed mat roof of a Sukkah 3000 seen from below, hung with vine garlands and pendant lights between dark aluminum beams.':
+        'Techo de esterilla de caña de un Sukkah 3000 visto desde abajo, con guirnaldas de vid y lámparas colgantes entre vigas de aluminio oscuro.',
+      'Sukkah 3000 structure in dark aluminum against a stone-faced house, its glazed sides open onto a bluestone terrace.':
+        'Estructura Sukkah 3000 en aluminio oscuro contra una casa con frente de piedra, con sus laterales acristalados abiertos a una terraza de piedra azul.',
       'A Defined System, Not A One-Off':
         'Un sistema definido, no una pieza única',
-      'The Sukkha 3000 is a system with a known configuration rather than a bespoke structure drawn from nothing, and that is the whole proposition: it specifies faster, it permits faster, and it is priced accordingly. What you choose inside it is the layout, the size, the finish and which of the integrated features you want. What you do not choose is the engineering, because it is already done.':
-        'El Sukkha 3000 es un sistema con una configuración conocida, no una estructura a medida dibujada desde cero, y esa es toda la propuesta: se especifica antes, se permisa antes y se cotiza en consecuencia. Lo que usted elige dentro es la distribución, el tamaño, el acabado y cuáles de las funciones integradas quiere. Lo que no elige es la ingeniería, porque ya está hecha.',
+      'The Sukkah 3000 is a system with a known configuration rather than a bespoke structure drawn from nothing, and that is the whole proposition: it specifies faster, it permits faster, and it is priced accordingly. What you choose inside it is the layout, the size, the finish and which of the integrated features you want. What you do not choose is the engineering, because it is already done.':
+        'El Sukkah 3000 es un sistema con una configuración conocida, no una estructura a medida dibujada desde cero, y esa es toda la propuesta: se especifica antes, se permisa antes y se cotiza en consecuencia. Lo que usted elige dentro es la distribución, el tamaño, el acabado y cuáles de las funciones integradas quiere. Lo que no elige es la ingeniería, porque ya está hecha.',
       'Layout And Size To The Space':
         'Distribución y tamaño según el espacio',
       'Finish From The Palette':
@@ -1559,8 +1559,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Automatización e iluminación integradas',
       'Fascia Wrap Over The Hardware':
         'Fascia que cubre los herrajes',
-      'Sukkha 3000 structure with glazed sides and a reed mat roof over a dining terrace, hung with garlands and lights.':
-        'Estructura Sukkha 3000 con laterales acristalados y techo de esterilla de caña sobre una terraza de comedor, con guirnaldas y luces colgando.',
+      'Sukkah 3000 structure with glazed sides and a reed mat roof over a dining terrace, hung with garlands and lights.':
+        'Estructura Sukkah 3000 con laterales acristalados y techo de esterilla de caña sobre una terraza de comedor, con guirnaldas y luces colgando.',
       'What Makes It A System':
         'Qué lo hace un sistema',
       'Most of what we build is drawn from nothing for one house. This one is not, and the difference is worth understanding before you compare quotes: four things come with the system rather than with the project.':
@@ -1581,8 +1581,8 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Calculada y permisada, ',
       'Premium-grade aluminium, engineered to resist corrosion and structural fatigue, and permitted for the address it is going on. We do the calculation and run the approval, the same as on everything else we build.':
         'Aluminio de alta gama, calculado para resistir la corrosión y la fatiga estructural, y permisado para la dirección en la que va. Nosotros hacemos el cálculo y tramitamos la aprobación, igual que en todo lo demás que construimos.',
-      'Inside a Sukkha 3000: dark beams carrying a reed mat roof, with glazed walls and a paved floor.':
-        'Dentro de un Sukkha 3000: vigas oscuras sosteniendo un techo de esterilla de caña, con paredes acristaladas y suelo pavimentado.',
+      'Inside a Sukkah 3000: dark beams carrying a reed mat roof, with glazed walls and a paved floor.':
+        'Dentro de un Sukkah 3000: vigas oscuras sosteniendo un techo de esterilla de caña, con paredes acristaladas y suelo pavimentado.',
       'Glazed sides open onto the terrace, roof mat above':
         'Laterales acristalados abiertos a la terraza, con la esterilla encima',
       'Under the mat: beams, garlands and pendant lights':
@@ -1595,28 +1595,28 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'La estructura desde el jardín, con la esterilla puesta',
       'Set for a meal under the garlands':
         'Puesta para comer bajo las guirnaldas',
-      'Sukkha 3000 with glazed sides folded open onto a paved terrace, a dining table set beneath the reed mat roof.':
-        'Sukkha 3000 con los laterales acristalados plegados y abiertos a una terraza pavimentada, con una mesa de comedor puesta bajo el techo de esterilla.',
-      'Looking up inside a Sukkha 3000 at the reed mat roof, hung with vine garlands and pendant lights between dark beams.':
-        'Mirando hacia arriba dentro de un Sukkha 3000 al techo de esterilla de caña, con guirnaldas de vid y lámparas colgantes entre vigas oscuras.',
-      'Sukkha 3000 running along the side of a house, its dark aluminum frame and glazed panels enclosing a long paved terrace.':
-        'Sukkha 3000 recorriendo el lateral de una casa, con su estructura de aluminio oscuro y paneles acristalados cerrando una terraza pavimentada larga.',
-      'Interior of a Sukkha 3000 looking out through the open end to a garden, with a table and chairs on stone paving.':
-        'Interior de un Sukkha 3000 mirando por el testero abierto hacia un jardín, con mesa y sillas sobre pavimento de piedra.',
-      'Sukkha 3000 seen from the lawn, its dark frame and glazed walls set against a house, with the reed mat roof in place.':
-        'Sukkha 3000 visto desde el césped, con su estructura oscura y paredes acristaladas contra una casa, y el techo de esterilla puesto.',
-      'Table laid for a meal inside a Sukkha 3000, under a reed mat roof hung with vine garlands and warm lights.':
-        'Mesa puesta para comer dentro de un Sukkha 3000, bajo un techo de esterilla con guirnaldas de vid y luces cálidas.',
+      'Sukkah 3000 with glazed sides folded open onto a paved terrace, a dining table set beneath the reed mat roof.':
+        'Sukkah 3000 con los laterales acristalados plegados y abiertos a una terraza pavimentada, con una mesa de comedor puesta bajo el techo de esterilla.',
+      'Looking up inside a Sukkah 3000 at the reed mat roof, hung with vine garlands and pendant lights between dark beams.':
+        'Mirando hacia arriba dentro de un Sukkah 3000 al techo de esterilla de caña, con guirnaldas de vid y lámparas colgantes entre vigas oscuras.',
+      'Sukkah 3000 running along the side of a house, its dark aluminum frame and glazed panels enclosing a long paved terrace.':
+        'Sukkah 3000 recorriendo el lateral de una casa, con su estructura de aluminio oscuro y paneles acristalados cerrando una terraza pavimentada larga.',
+      'Interior of a Sukkah 3000 looking out through the open end to a garden, with a table and chairs on stone paving.':
+        'Interior de un Sukkah 3000 mirando por el testero abierto hacia un jardín, con mesa y sillas sobre pavimento de piedra.',
+      'Sukkah 3000 seen from the lawn, its dark frame and glazed walls set against a house, with the reed mat roof in place.':
+        'Sukkah 3000 visto desde el césped, con su estructura oscura y paredes acristaladas contra una casa, y el techo de esterilla puesto.',
+      'Table laid for a meal inside a Sukkah 3000, under a reed mat roof hung with vine garlands and warm lights.':
+        'Mesa puesta para comer dentro de un Sukkah 3000, bajo un techo de esterilla con guirnaldas de vid y luces cálidas.',
       'Meet with our exterior designers for a free consultation. We&#x27;ll look at the space, tell you whether the system fits it or whether a bespoke structure would serve you better, and price both.':
         'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Miramos el espacio, le decimos si el sistema le encaja o si le serviría mejor una estructura a medida, y le cotizamos las dos.',
       'Other Structures':
         'Otras estructuras',
       'Other Structures We Build':
         'Otras estructuras que construimos',
-      'The Sukkha 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.':
-        'El Sukkha 3000 es un sistema definido. Si su espacio pide algo dibujado desde cero —un techo que se abra, uno que no se mueva nunca, una estructura abierta o una pieza propia—, estos son los cuatro que más construimos.',
-      'What makes Sukkha 3000 unique?':
-        '¿Qué hace único al Sukkha 3000?',
+      'The Sukkah 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.':
+        'El Sukkah 3000 es un sistema definido. Si su espacio pide algo dibujado desde cero —un techo que se abra, uno que no se mueva nunca, una estructura abierta o una pieza propia—, estos son los cuatro que más construimos.',
+      'What makes Sukkah 3000 unique?':
+        '¿Qué hace único al Sukkah 3000?',
       'Is the design customizable?':
         '¿Se puede personalizar el diseño?',
       'Can it withstand hurricanes?':
@@ -1629,30 +1629,30 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
-      'Sukkha 3000 retractable roof structure with a bamboo reed mat and glazed walls over a set table in Fort Lauderdale, Florida.':
-        'Estructura Sukkha 3000 de techo retráctil, con estera de bambú y paredes acristaladas, sobre una mesa puesta en Fort Lauderdale, Florida.',
+      'Sukkah 3000 retractable roof structure with a bamboo reed mat and glazed walls over a set table in Fort Lauderdale, Florida.':
+        'Estructura Sukkah 3000 de techo retráctil, con estera de bambú y paredes acristaladas, sobre una mesa puesta en Fort Lauderdale, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
-      'Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design.':
-        'Constructores de estructuras Sukkha 3000 en el sur de Florida con sistemas de pérgola avanzados, automatizados y de diseño actual.',
+      'Sukkah 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design.':
+        'Constructores de estructuras Sukkah 3000 en el sur de Florida con sistemas de pérgola avanzados, automatizados y de diseño actual.',
       'Bespoke Luxury Design': 'Diseño de lujo a medida',
       'Category 5 Reinforced': 'Reforzada para categoría 5',
       'Smart-Home Automated': 'Automatizada con domótica',
-      'Sukkha System Installers in South Florida': 'Instaladores del sistema Sukkha en el sur de Florida',
-      'Pergola Plus installs the advanced Sukkha 3000 system across South Florida. This next-generation architectural structure combines modern design, automation, and superior engineering to create high-performance outdoor environments. Serving Fort Lauderdale, Delray Beach, Weston, and surrounding areas, we deliver premium solutions tailored to luxury residential properties.':
-        'Pergola Plus instala el sistema Sukkha 3000 por todo el sur de Florida. Es una estructura de nueva generación que une diseño actual, automatización e ingeniería para crear exteriores de altas prestaciones. Trabajamos en Fort Lauderdale, Delray Beach, Weston y alrededores, con soluciones a medida para viviendas de alto nivel.',
-      'Sukkha System Features': 'Qué trae el sistema Sukkha',
-      'The absolute pinnacle of luxury outdoor architecture. Explore the advanced modular engineering, minimalist design, and smart automation capabilities that define the exclusive Sukkha 3000 structure.':
-        'Lo más alto en arquitectura exterior de lujo. Esta es la ingeniería modular, el diseño minimalista y la automatización que definen al Sukkha 3000.',
+      'Sukkah System Installers in South Florida': 'Instaladores del sistema Sukkah en el sur de Florida',
+      'Pergola Plus installs the advanced Sukkah 3000 system across South Florida. This next-generation architectural structure combines modern design, automation, and superior engineering to create high-performance outdoor environments. Serving Fort Lauderdale, Delray Beach, Weston, and surrounding areas, we deliver premium solutions tailored to luxury residential properties.':
+        'Pergola Plus instala el sistema Sukkah 3000 por todo el sur de Florida. Es una estructura de nueva generación que une diseño actual, automatización e ingeniería para crear exteriores de altas prestaciones. Trabajamos en Fort Lauderdale, Delray Beach, Weston y alrededores, con soluciones a medida para viviendas de alto nivel.',
+      'Sukkah System Features': 'Qué trae el sistema Sukkah',
+      'The absolute pinnacle of luxury outdoor architecture. Explore the advanced modular engineering, minimalist design, and smart automation capabilities that define the exclusive Sukkah 3000 structure.':
+        'Lo más alto en arquitectura exterior de lujo. Esta es la ingeniería modular, el diseño minimalista y la automatización que definen al Sukkah 3000.',
       'Integrated Automation Technology': 'Automatización integrada',
       'Designed for seamless automation integration, this system supports motorized features, lighting systems, and advanced controls for a fully customized outdoor experience.':
         'Preparado para integrarse con la domótica, admite elementos motorizados, iluminación y controles avanzados para una experiencia hecha a su medida.',
       'High-Performance Aluminum Construction': 'Aluminio de altas prestaciones',
-      'Constructed from premium-grade aluminum, the Sukkha 3000 is engineered to resist corrosion, structural fatigue, and environmental stress common in South Florida climates.':
-        'Fabricado en aluminio de primera calidad, el Sukkha 3000 está calculado para resistir la corrosión, la fatiga estructural y el desgaste propio del clima del sur de Florida.',
+      'Constructed from premium-grade aluminum, the Sukkah 3000 is engineered to resist corrosion, structural fatigue, and environmental stress common in South Florida climates.':
+        'Fabricado en aluminio de primera calidad, el Sukkah 3000 está calculado para resistir la corrosión, la fatiga estructural y el desgaste propio del clima del sur de Florida.',
       'Custom Configuration Capabilities': 'Configuración a medida',
-      'Fully customizable in layout, size, finish, and integrated features, the Sukkha 3000 adapts to complex outdoor designs with precision.':
-        'Distribución, tamaño, acabado y prestaciones se configuran por completo, así que el Sukkha 3000 se adapta con precisión a diseños exigentes.',
+      'Fully customizable in layout, size, finish, and integrated features, the Sukkah 3000 adapts to complex outdoor designs with precision.':
+        'Distribución, tamaño, acabado y prestaciones se configuran por completo, así que el Sukkah 3000 se adapta con precisión a diseños exigentes.',
       'Architectural Minimalist Design': 'Diseño minimalista',
       'Its sleek structural profiles and refined finishes create a bold, modern statement that enhances high-end residential properties.':
         'Sus perfiles esbeltos y sus acabados cuidados marcan carácter y elevan las viviendas de alto nivel.',
@@ -1660,30 +1660,30 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Enhance the visual impact of your structure with premium, customizable fascia wrap options that conceal hardware and elevate the modern, minimalist profile.':
         'Los frentes envolventes, configurables, esconden los herrajes y refuerzan el perfil minimalista de la estructura.',
       'Advanced Modular Engineering': 'Ingeniería modular avanzada',
-      'The Sukkha 3000 is engineered with precision modular components that deliver superior strength, stability, and architectural flexibility — redefining modern outdoor structures.':
-        'El Sukkha 3000 se construye con módulos de precisión que aportan resistencia, estabilidad y libertad arquitectónica, y redefinen lo que puede ser una estructura exterior.',
-      'View Sukkha 3000 installations showcasing advanced engineering, minimalist design, and next-generation outdoor living performance.':
-        'Vea instalaciones del Sukkha 3000, con su ingeniería, su diseño minimalista y sus prestaciones de nueva generación.',
-      'The Sukkha 3000 offers a refined selection of architectural colors and textures, allowing complete customization while preserving its minimalist, high-end aesthetic.':
-        'El Sukkha 3000 ofrece una selección cuidada de colores y texturas para personalizarlo por completo sin perder su estética minimalista.',
-      'Sukkha Luxury Outdoor Structures - FAQ': 'Preguntas sobre el Sukkha 3000',
-      'Discover the Sukkha 3000. Read FAQs on Pergola Plus Florida&#x27;s ultimate luxury, hurricane-proof architectural outdoor structure.':
-        'Todo sobre el Sukkha 3000, la estructura exterior más alta de gama de Pergola Plus Florida, preparada para huracanes.',
-      '1. What makes Sukkha 3000 unique?': '1. ¿Qué tiene de distinto el Sukkha 3000?',
-      'The Sukkha 3000 is the pinnacle of luxury outdoor architecture, featuring proprietary modular engineering and minimalist design built specifically for high-end estates.':
+      'The Sukkah 3000 is engineered with precision modular components that deliver superior strength, stability, and architectural flexibility — redefining modern outdoor structures.':
+        'El Sukkah 3000 se construye con módulos de precisión que aportan resistencia, estabilidad y libertad arquitectónica, y redefinen lo que puede ser una estructura exterior.',
+      'View Sukkah 3000 installations showcasing advanced engineering, minimalist design, and next-generation outdoor living performance.':
+        'Vea instalaciones del Sukkah 3000, con su ingeniería, su diseño minimalista y sus prestaciones de nueva generación.',
+      'The Sukkah 3000 offers a refined selection of architectural colors and textures, allowing complete customization while preserving its minimalist, high-end aesthetic.':
+        'El Sukkah 3000 ofrece una selección cuidada de colores y texturas para personalizarlo por completo sin perder su estética minimalista.',
+      'Sukkah Luxury Outdoor Structures - FAQ': 'Preguntas sobre el Sukkah 3000',
+      'Discover the Sukkah 3000. Read FAQs on Pergola Plus Florida&#x27;s ultimate luxury, hurricane-proof architectural outdoor structure.':
+        'Todo sobre el Sukkah 3000, la estructura exterior más alta de gama de Pergola Plus Florida, preparada para huracanes.',
+      '1. What makes Sukkah 3000 unique?': '1. ¿Qué tiene de distinto el Sukkah 3000?',
+      'The Sukkah 3000 is the pinnacle of luxury outdoor architecture, featuring proprietary modular engineering and minimalist design built specifically for high-end estates.':
         'Es lo más alto en arquitectura exterior de lujo: ingeniería modular propia y diseño minimalista, pensados para propiedades de alto nivel.',
       '2. Is the design customizable?': '2. ¿Se puede personalizar?',
-      'Yes. Completely bespoke, the Sukkha 3000 offers custom dimensions, premium architectural finishes, and specialized fascia to complement your luxury property perfectly.':
+      'Yes. Completely bespoke, the Sukkah 3000 offers custom dimensions, premium architectural finishes, and specialized fascia to complement your luxury property perfectly.':
         'Sí, por completo: dimensiones a medida, acabados de calidad y frentes específicos para que encaje con su propiedad.',
       '3. Can it withstand hurricanes?': '3. ¿Aguanta un huracán?',
-      'Absolutely. Crafted from hyper-reinforced, marine-grade aluminum, the Sukkha 3000 is heavily engineered to surpass coastal building codes and endure extreme weather.':
+      'Absolutely. Crafted from hyper-reinforced, marine-grade aluminum, the Sukkah 3000 is heavily engineered to surpass coastal building codes and endure extreme weather.':
         'Sí. En aluminio de grado marino muy reforzado, está calculado para superar la normativa de costa y aguantar tiempo extremo.',
       '4. Does it support smart home tech?': '4. ¿Admite domótica?',
       'Yes. The structure seamlessly hides motorized screen mechanisms, weather sensors, LED arrays, and AV equipment, delivering the ultimate automated luxury experience.':
         'Sí. La estructura esconde los mecanismos de las cortinas motorizadas, los sensores de clima, las tiras LED y el equipo audiovisual.',
       '5. Is it a permanent structure?': '5. ¿Es una estructura permanente?',
-      'Yes. The Sukkha 3000 is a permanent, professionally engineered architectural addition that drastically increases real estate value and functional luxury for your home.':
-        'Sí. El Sukkha 3000 es una ampliación arquitectónica permanente y calculada, que aumenta mucho el valor de la vivienda.',
+      'Yes. The Sukkah 3000 is a permanent, professionally engineered architectural addition that drastically increases real estate value and functional luxury for your home.':
+        'Sí. El Sukkah 3000 es una ampliación arquitectónica permanente y calculada, que aumenta mucho el valor de la vivienda.',
     },
   },
 };

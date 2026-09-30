@@ -31,7 +31,7 @@ export const ETIQUETA_DE_FICHA: Record<string, string> = {
   'solid-roof-pergolas': 'Solid Roof Pergolas',
   cabanas: 'Cabanas',
   carports: 'Aluminum Carports',
-  sukkha: 'Sukkah',
+  sukkah: 'Sukkah',
 };
 
 export interface TarjetaProyecto {

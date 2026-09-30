@@ -484,6 +484,9 @@ export default defineConfig({
     // barra a la misma ruta. Ver docs/redirects.md.
     '/brands/appolo': { status: 301, destination: '/brands/apollo' },
     '/es/brands/appolo': { status: 301, destination: '/es/brands/apollo' },
+    // Y «Sukkha» la del producto: es Sukkah (mismo feedback, misma forma sin barra).
+    '/products/sukkha': { status: 301, destination: '/products/sukkah' },
+    '/es/products/sukkha': { status: 301, destination: '/es/products/sukkah' },
   },
 
   // NO anadir View Transitions / ClientRouter: las 749 interacciones IX2 de

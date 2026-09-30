@@ -29,10 +29,10 @@ export const COMUN_ES: Record<string, string> = {
     'Sistemas integrados de cortinas motorizadas',
   'Engineered Aluminum Carport Structures':
     'Estructuras de cochera de aluminio calculadas',
-  'Sukkha 3000 Premium Louvered System':
-    'Sukkha 3000, sistema de lamas premium',
-  'The Sukkha 3000 System':
-    'El sistema Sukkha 3000',
+  'Sukkah 3000 Premium Louvered System':
+    'Sukkah 3000, sistema de lamas premium',
+  'The Sukkah 3000 System':
+    'El sistema Sukkah 3000',
   'Poolside Aluminum Cabanas':
     'Cabañas de aluminio junto a la piscina',
   'Pool And Patio Screen Enclosures':
@@ -399,8 +399,8 @@ export const COMUN_ES: Record<string, string> = {
     'Nuestras pérgolas de policarbonato unen durabilidad y luz natural: frenan los rayos UV sin dejar el espacio a oscuras. Calculadas para aguantar el tiempo, van muy bien en patios y zonas de piscina. Un diseño actual que protege sin cerrar.',
   'Solar roof structures combine architectural strength with energy innovation. Engineered to support solar panel integration, these systems provide shade and weather protection while allowing homeowners to invest in sustainable, high-performance outdoor infrastructure.':
     'Las estructuras solares unen solidez arquitectónica e innovación energética. Están calculadas para llevar paneles fotovoltaicos, así que dan sombra y protegen del tiempo a la vez que convierten el exterior en una inversión sostenible.',
-  'The Sukkha 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
-    'El Sukkha 3000 es una estructura exterior de alta gama que une ingeniería de vanguardia y diseño contemporáneo. Pensada para quien busca lo máximo en prestaciones, durabilidad y personalización, redefine hasta dónde puede llegar un exterior de lujo.',
+  'The Sukkah 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
+    'El Sukkah 3000 es una estructura exterior de alta gama que une ingeniería de vanguardia y diseño contemporáneo. Pensada para quien busca lo máximo en prestaciones, durabilidad y personalización, redefine hasta dónde puede llegar un exterior de lujo.',
   'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida, they preserve airflow and visibility, ensuring comfortable evenings while matching your home’s architectural integrity.':
     'Proteja su exterior de insectos y suciedad con nuestros cerramientos a medida y con todos los permisos. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes se disfruten, y respetan la arquitectura de la casa.',
   'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas, patios, and covered outdoor spaces, these premium systems enhance comfort while maintaining a sleek, modern appearance.':

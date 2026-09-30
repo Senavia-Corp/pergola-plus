@@ -417,7 +417,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       },
     },
 
-    sukkha: {
+    sukkah: {
       titulo: 'Specifications, Including The Gaps',
       entradilla: 'Everything below is either something we can stand behind today or something we have not published yet, and we say which is which. If you are collecting three quotes, this is the part the other two will not put in writing.',
       huecosTitulo: 'Not published yet',
@@ -436,7 +436,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         acabado: { etiqueta: 'Finish', valor: 'From the powder-coat palette, with the fascia wrap chosen to match' },
         permiso: { etiqueta: 'Permitting', valor: 'A permanent structure: we do the calculation and run the approval for the address it goes on' },
         plazo: { etiqueta: 'Timeline', valor: 'Several weeks from permit approval to completion; the installation itself, a few days once materials are ready' },
-        // SIN CIFRA, y el estimador lo razona: «el Sukkha es un sistema propietario sin
+        // SIN CIFRA, y el estimador lo razona: «el Sukkah es un sistema propietario sin
         // comparable de mercado: cualquier banda seria inventada».
         inversion: { etiqueta: 'Investment', valor: 'Quoted per project. It is a proprietary system with no market comparable, so we are not publishing a band we would have to invent' },
         donde: { etiqueta: 'Where we build, and under what licence', valor: 'Miami-Dade, Broward and Palm Beach County. CGC1539940, licensed and insured in Florida' },
@@ -787,7 +787,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       },
     },
 
-    sukkha: {
+    sukkah: {
       titulo: 'Especificaciones, huecos incluidos',
       entradilla: 'Todo lo que sigue es, o algo que podemos sostener hoy, o algo que todavía no publicamos, y decimos cuál es cuál. Si está pidiendo tres presupuestos, esta es la parte que los otros dos no le van a poner por escrito.',
       huecosTitulo: 'Todavía no publicado',

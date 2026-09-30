@@ -82,7 +82,7 @@ export const ANCLA_TARJETA = {
   open: 'Open-Air Aluminum Pergolas',
   polycarbonate: 'Polycarbonate Roof Pergolas',
   solar: 'Solar-Integrated Pergolas',
-  sukkha: 'The Sukkha 3000 System',
+  sukkha: 'The Sukkah 3000 System',
   cabana: 'Poolside Aluminum Cabanas',
   carport: 'Aluminum Carports',
   enclosure: 'Pool And Patio Screen Enclosures',
@@ -898,9 +898,9 @@ export const FICHAS = {
   },
 
   // ══════════════════════════════════════════════════════════════════════════════
-  // Sukkha 3000
+  // Sukkah 3000
   // ══════════════════════════════════════════════════════════════════════════════
-  sukkha: {
+  sukkah: {
     cms: '/cms-img/products/sukkha',
     // OCHO diapositivas, no diez, y numeradas `-1`…`-8` en vez de `-01`…`-10`. Es la
     // unica ficha que se sale del molde en las dos cosas a la vez.
@@ -920,25 +920,29 @@ export const FICHAS = {
 
     alts: [
       { contexto: 'el alt del hero',
-        viejo: 'alt="Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design." loading="lazy" src="/images/cliente/sukkah.avif"',
-        nuevo: 'alt="Sukkha 3000 structure over a laid table for a celebration, string lights and greenery along the beams under a reed mat roof." loading="lazy" src="/images/cliente/sukkah.avif"' },
+        viejo: 'alt="Sukkah 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design." loading="lazy" src="/images/cliente/sukkah.avif"',
+        nuevo: 'alt="Sukkah 3000 structure over a laid table for a celebration, string lights and greenery along the beams under a reed mat roof." loading="lazy" src="/images/cliente/sukkah.avif"' },
+      // Este `viejo` se queda en «Sukkha» a proposito: el alt de la portada lo inyecta
+      // PORTADAS desde img-map DESPUES del paso 4c de transformar.mjs, asi que el
+      // 'Sukkha' -> 'Sukkah' de TEXTOS_CLIENTE no le llega. Los otros `viejo` salen de
+      // la captura y si pasan por el 4c. Si este cambiara, cambiar() lanzaria.
       { contexto: 'el alt de la portada del FAQ',
         viejo: '<img src="{CMS}/cover-sukkha-3000-outdoor-structure-builders-south-florida.avif" alt="Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation and modern architectural design."',
-        nuevo: '<img src="{CMS}/cover-sukkha-3000-outdoor-structure-builders-south-florida.avif" alt="Sukkha 3000 structure enclosing a paved terrace in glass and dark aluminum, with a dining table set under the slatted roof."' },
+        nuevo: '<img src="{CMS}/cover-sukkha-3000-outdoor-structure-builders-south-florida.avif" alt="Sukkah 3000 structure enclosing a paved terrace in glass and dark aluminum, with a dining table set under the slatted roof."' },
       { contexto: 'el alt de la intro',
-        viejo: 'alt="Sukkha 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation, durability, and modern architectural design." loading="lazy" src="{CMS}/intro-sukkha-3000-outdoor-structure-builders-south-florida.avif"',
-        nuevo: 'alt="Reed mat roof of a Sukkha 3000 seen from below, hung with vine garlands and pendant lights between dark aluminum beams." loading="lazy" src="{CMS}/intro-sukkha-3000-outdoor-structure-builders-south-florida.avif"' },
+        viejo: 'alt="Sukkah 3000 outdoor structure builders in South Florida delivering advanced engineered pergola systems with automation, durability, and modern architectural design." loading="lazy" src="{CMS}/intro-sukkha-3000-outdoor-structure-builders-south-florida.avif"',
+        nuevo: 'alt="Reed mat roof of a Sukkah 3000 seen from below, hung with vine garlands and pendant lights between dark aluminum beams." loading="lazy" src="{CMS}/intro-sukkha-3000-outdoor-structure-builders-south-florida.avif"' },
       { contexto: 'el alt del falso «swatch»',
         viejo: '<img src="{CMS}/swatch-sukkha-outdoor-structure-builders-south-florida.avif" loading="lazy" alt=""',
-        nuevo: '<img src="{CMS}/swatch-sukkha-outdoor-structure-builders-south-florida.avif" loading="lazy" alt="Sukkha 3000 structure in dark aluminum against a stone-faced house, its glazed sides open onto a bluestone terrace."' },
+        nuevo: '<img src="{CMS}/swatch-sukkha-outdoor-structure-builders-south-florida.avif" loading="lazy" alt="Sukkah 3000 structure in dark aluminum against a stone-faced house, its glazed sides open onto a bluestone terrace."' },
     ],
 
     configuraciones: {
       foto: '5',
-      alt: 'Sukkha 3000 structure with glazed sides and a reed mat roof over a dining terrace, hung with garlands and lights.',
+      alt: 'Sukkah 3000 structure with glazed sides and a reed mat roof over a dining terrace, hung with garlands and lights.',
       rotulo: 'Configurations',
       titulo: 'A Defined System, Not A One-Off',
-      texto: 'The Sukkha 3000 is a system with a known configuration rather than a bespoke structure drawn from nothing, and that is the whole proposition: it specifies faster, it permits faster, and it is priced accordingly. What you choose inside it is the layout, the size, the finish and which of the integrated features you want. What you do not choose is the engineering, because it is already done.',
+      texto: 'The Sukkah 3000 is a system with a known configuration rather than a bespoke structure drawn from nothing, and that is the whole proposition: it specifies faster, it permits faster, and it is priced accordingly. What you choose inside it is the layout, the size, the finish and which of the integrated features you want. What you do not choose is the engineering, because it is already done.',
       bullets: ['Layout And Size To The Space', 'Finish From The Palette',
         'Integrated Automation And Lighting', 'Fascia Wrap Over The Hardware'],
       boton: { destino: '#compare', texto: 'See How It Compares' },
@@ -946,7 +950,7 @@ export const FICHAS = {
 
     comoFunciona: {
       foto: '3',
-      alt: 'Inside a Sukkha 3000: dark beams carrying a reed mat roof, with glazed walls and a paved floor.',
+      alt: 'Inside a Sukkah 3000: dark beams carrying a reed mat roof, with glazed walls and a paved floor.',
       rotulo: 'How It Works',
       titulo: 'What Makes It A System',
       texto: 'Most of what we build is drawn from nothing for one house. This one is not, and the difference is worth understanding before you compare quotes: four things come with the system rather than with the project.',
@@ -970,21 +974,21 @@ export const FICHAS = {
     // a §5; la `-5` va a §4.
     pies: {
       '1': ['Glazed sides open onto the terrace, roof mat above',
-        'Sukkha 3000 with glazed sides folded open onto a paved terrace, a dining table set beneath the reed mat roof.'],
+        'Sukkah 3000 with glazed sides folded open onto a paved terrace, a dining table set beneath the reed mat roof.'],
       '2': ['Under the mat: beams, garlands and pendant lights',
-        'Looking up inside a Sukkha 3000 at the reed mat roof, hung with vine garlands and pendant lights between dark beams.'],
+        'Looking up inside a Sukkah 3000 at the reed mat roof, hung with vine garlands and pendant lights between dark beams.'],
       '4': ['The run of the structure along the house',
-        'Sukkha 3000 running along the side of a house, its dark aluminum frame and glazed panels enclosing a long paved terrace.'],
+        'Sukkah 3000 running along the side of a house, its dark aluminum frame and glazed panels enclosing a long paved terrace.'],
       '7': ['Open at the end, looking out to the garden',
-        'Interior of a Sukkha 3000 looking out through the open end to a garden, with a table and chairs on stone paving.'],
+        'Interior of a Sukkah 3000 looking out through the open end to a garden, with a table and chairs on stone paving.'],
       '8': ['The structure from the garden, roof mat in place',
-        'Sukkha 3000 seen from the lawn, its dark frame and glazed walls set against a house, with the reed mat roof in place.'],
+        'Sukkah 3000 seen from the lawn, its dark frame and glazed walls set against a house, with the reed mat roof in place.'],
       '5': ['Set for a meal under the garlands',
-        'Table laid for a meal inside a Sukkha 3000, under a reed mat roof hung with vine garlands and warm lights.'],
+        'Table laid for a meal inside a Sukkah 3000, under a reed mat roof hung with vine garlands and warm lights.'],
     },
 
     faqNumeradas: [
-      'What makes Sukkha 3000 unique?',
+      'What makes Sukkah 3000 unique?',
       'Is the design customizable?',
       'Can it withstand hurricanes?',
       'Does it support smart home tech?',
@@ -999,7 +1003,7 @@ export const FICHAS = {
       productos: ['louvered', 'insulated', 'open', 'cabana'],
       rotulo: 'Other Structures',
       titulo: 'Other Structures We Build',
-      texto: 'The Sukkha 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.',
+      texto: 'The Sukkah 3000 is a defined system. If your space wants something drawn from nothing — a roof that opens, one that never moves, an open frame or a structure of its own — these are the four we build most often.',
     },
   },
 
@@ -1144,7 +1148,7 @@ export const FICHAS = {
 
     // «Hurricane-Resistant» y «100% Rust-Proof» son una homologacion y un absoluto, los
     // dos sin cifra. El primero es el mismo caso que el «Category 5 Reinforced» del
-    // Sukkha; el segundo se sustituye por lo que dice la propia respuesta 4 de la ficha.
+    // Sukkah; el segundo se sustituye por lo que dice la propia respuesta 4 de la ficha.
     chips: [
       { viejo: 'Resort-Style Luxury', nuevo: 'Resort-Style Luxury', destino: '#features' },
       { viejo: 'Hurricane-Resistant', nuevo: 'Engineered to Florida Wind Code', destino: '#specs' },

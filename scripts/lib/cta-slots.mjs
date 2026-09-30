@@ -110,9 +110,9 @@ export const CTA_SLOTS = {
       'Free-standing aluminum poolside cabana with white curtains and a lounge '
       + 'daybed in Weston, Florida.',
   },
-  'sukkha': {
+  'sukkah': {
     alt:
-      'Sukkha 3000 retractable roof structure with a bamboo reed mat and glazed '
+      'Sukkah 3000 retractable roof structure with a bamboo reed mat and glazed '
       + 'walls over a set table in Fort Lauderdale, Florida.',
   },
 

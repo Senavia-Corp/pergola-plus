@@ -70,7 +70,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     motorizedScreens: 'Motorized Screens',
     carports: 'Carports',
     solar: 'Solar Pergolas',
-    sukkha: 'Sukkha',
+    sukkha: 'Sukkah',
 
     customPergolas: 'Custom Pergolas & Patio Covers',
     pavers: 'Pavers',
@@ -174,7 +174,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = {
     motorizedScreens: 'Cortinas motorizadas',
     carports: 'Cocheras',
     solar: 'Pérgolas solares',
-    sukkha: 'Sukkha',
+    sukkha: 'Sukkah',
 
     customPergolas: 'Pérgolas y cubiertas a medida',
     pavers: 'Adoquines',

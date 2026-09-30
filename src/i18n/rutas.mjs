@@ -93,7 +93,7 @@ export const TRADUCIDAS = {
   '/products/carports': '/es/products/carports/',
   '/products/polycarbonate-pergolas': '/es/products/polycarbonate-pergolas/',
   '/products/solar-pergolas': '/es/products/solar-pergolas/',
-  '/products/sukkha': '/es/products/sukkha/',
+  '/products/sukkah': '/es/products/sukkah/',
   // Las 10 fichas de proyecto. Diccionario en src/i18n/proyectos.es.ts.
   '/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club': '/es/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club/',
   '/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club': '/es/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club/',

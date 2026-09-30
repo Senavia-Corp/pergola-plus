@@ -62,9 +62,9 @@ const PRODUCTOS: Record<string, string> = {
   'Solar-Integrated Shade Structures': 'Estructuras de sombra con solar integrada',
   'Solar roof structures combine architectural strength with energy innovation. Engineered to support solar panel integration, these systems provide shade and weather protection while allowing homeowners to invest in sustainable, high-performance outdoor infrastructure.':
     'Las estructuras con techo solar unen solidez arquitectónica e innovación energética. Calculadas para integrar paneles solares, dan sombra y protección frente al clima a la vez que convierten el exterior en una inversión sostenible y de alto rendimiento.',
-  'Sukkha 3000 Premium Louvered System': 'Sistema de lamas premium Sukkha 3000',
-  'The Sukkha 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
-    'El Sukkha 3000 es una estructura exterior premium que une ingeniería de vanguardia y diseño contemporáneo. Pensado para quien busca el máximo en rendimiento, durabilidad y personalización, redefine hasta dónde puede llegar un espacio exterior de lujo.',
+  'Sukkah 3000 Premium Louvered System': 'Sistema de lamas premium Sukkah 3000',
+  'The Sukkah 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
+    'El Sukkah 3000 es una estructura exterior premium que une ingeniería de vanguardia y diseño contemporáneo. Pensado para quien busca el máximo en rendimiento, durabilidad y personalización, redefine hasta dónde puede llegar un espacio exterior de lujo.',
 };
 
 // ---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ const PRESUPUESTO: Record<string, string> = {
   'Screen Enclosure': 'Cerramiento con mosquitero',
   'Aluminum Carport': 'Cochera de aluminio',
   'Solar Roof Structure': 'Estructura con techo solar',
-  'Sukkha 3000 System': 'Sistema Sukkha 3000',
+  'Sukkah 3000 System': 'Sistema Sukkah 3000',
   'Not Sure – Need Guidance': 'No lo tengo claro, necesito orientación',
   'Estimated Project Budget:': 'Presupuesto estimado del proyecto:',
   'Under $15,000': 'Menos de $15,000',

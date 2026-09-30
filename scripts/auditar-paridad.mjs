@@ -154,7 +154,7 @@ const PROPIAS = {
         '.why-choose-content -> §5 es un clon de `why-choose-section`, clonado CON su data-w-id porque animaciones.css selecciona por atributo',
     },
   },
-  '/products/sukkha': {
+  '/products/sukkah': {
     razon: 'ficha recompuesta, mismo molde: `services` sale entero y su hueco lo ocupa el bloque comparativo',
     permitidos: {
       'af395482-435a-2143-5385-d4f1e6bdca74':

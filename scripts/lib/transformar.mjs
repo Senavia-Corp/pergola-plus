@@ -64,6 +64,8 @@ export const ENLACES_ROTOS = {
   '/services/patio-remodeling': '/services/full-outdoor-remodel',
   // «Appolo» era una errata del CMS de Webflow: la marca es Apollo (30-sep-2026).
   '/brands/appolo': '/brands/apollo',
+  // Y «Sukkha» la del producto: es Sukkah (30-sep-2026).
+  '/products/sukkha': '/products/sukkah',
 };
 
 /**
@@ -230,6 +232,14 @@ export const TEXTOS_CLIENTE = {
   // («…Appolo%20Logo.png»), y este mapa es global.
   '<h1 class="heading-portfolio">Appolo</h1>': '<h1 class="heading-portfolio">Apollo</h1>',
   '<h3 class="projects-card-h3">Appolo</h3>': '<h3 class="projects-card-h3">Apollo</h3>',
+
+  // --- «Sukkha» -> «Sukkah» (feedback final de Daniel, 30-sep-2026) ---
+  // Llave corta y global A PROPOSITO: el nombre sale en la ficha, la home, /products y el
+  // formulario de presupuesto. Es segura porque ninguna URL ni ruta lleva «Sukkha» con
+  // mayuscula (las imagenes son /cms-img/products/sukkha/…, en minuscula) y porque
+  // reescribirImagenes() ya ha corrido. Lo que se inyecta DESPUES de este paso no lo
+  // alcanza: por eso fichas.mjs y ANCLA_TARJETA llevan ya «Sukkah» en sus textos nuevos.
+  'Sukkha': 'Sukkah',
 
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
@@ -685,9 +695,9 @@ export const SEO_FALTANTE = {
     title: 'Insulated Solid Roof Pergolas | Florida',
     description: 'Insulated solid-roof pergolas and patio covers that cut heat and block rain, engineered for South Florida homes and county permitting.',
   },
-  'products/sukkha': {
-    title: 'Sukkha 3000 Pergola System | Pergola Plus',
-    description: 'The Sukkha 3000 system: a purpose-built aluminum structure for sukkah use, engineered and installed across South Florida properties.',
+  'products/sukkah': {
+    title: 'Sukkah 3000 Pergola System | Pergola Plus',
+    description: 'The Sukkah 3000 system: a purpose-built aluminum structure for sukkah use, engineered and installed across South Florida properties.',
   },
 
   // --- Servicios ---
@@ -1338,6 +1348,10 @@ const PORTADAS = await (async () => {
       alt: 'Full outdoor remodel completed at a South Florida residence with pergola integration.',
     };
   }
+  // Mismo caso con 'sukkha' -> 'sukkah' (30-sep-2026): la carpeta de imagenes conserva el
+  // nombre viejo. Aqui no hace falta un alt propio: la portada del FAQ de esta ficha la
+  // reescribe fichas.mjs ('el alt de la portada del FAQ').
+  if (portadas['/products/sukkha']) portadas['/products/sukkah'] = portadas['/products/sukkha'];
   return portadas;
 })();
 

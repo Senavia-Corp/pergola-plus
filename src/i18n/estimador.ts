@@ -201,8 +201,8 @@ export const ESTIMADOR_EN: TextosEstimador = {
       nota: 'Solar Pergola',
     },
     sukkha: {
-      nombre: 'A Sukkha 3000 system',
-      nota: 'Sukkha 3000',
+      nombre: 'A Sukkah 3000 system',
+      nota: 'Sukkah 3000',
     },
   },
   desde: 'from',
@@ -411,8 +411,8 @@ export const ESTIMADOR_ES: TextosEstimador = {
       nota: 'Solar Pergola',
     },
     sukkha: {
-      nombre: 'Un sistema Sukkha 3000',
-      nota: 'Sukkha 3000',
+      nombre: 'Un sistema Sukkah 3000',
+      nota: 'Sukkah 3000',
     },
   },
   desde: 'desde',

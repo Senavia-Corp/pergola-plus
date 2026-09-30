@@ -90,13 +90,11 @@
     "descripcionSeo": null
   },
   {
-    "slug": "sukkha",
-    "title": "Sukkha 3000 Pergola System | Pergola Plus",
-    "description": "The Sukkha 3000 system: a purpose-built aluminum structure for sukkah use, engineered and installed across South Florida properties.",
-    "ogImage": "/images/og/sukkha-1200x630.jpg",
+    "slug": "sukkah",
+    "title": "Sukkah 3000 Pergola System | Pergola Plus",
+    "description": "The Sukkah 3000 system: a purpose-built aluminum structure for sukkah use, engineered and installed across South Florida properties.",
+    "ogImage": "/images/og/sukkah-1200x630.jpg",
     "wfPage": "698a8fd780492f3bb94c7172",
-    "wfSite": "6903b7794d5df3d76a7a2488",
-    "tituloSeo": null,
-    "descripcionSeo": null
+    "wfSite": "6903b7794d5df3d76a7a2488"
   }
 ]

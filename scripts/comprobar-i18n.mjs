@@ -546,7 +546,7 @@ const NO_SE_TRADUCEN = [
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/,                    // correo
   /^\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,         // telefono
   /^https?:\/\//,                                   // URL
-  /^(Pergola Plus Florida|Pergola Plus Corp\.|FORTE Plus|Sukkha 3000|Senavia Corp\.)$/,
+  /^(Pergola Plus Florida|Pergola Plus Corp\.|FORTE Plus|Sukkah 3000|Senavia Corp\.)$/,
 ];
 
 /** Los atributos visibles de un HTML, sin repetir. */

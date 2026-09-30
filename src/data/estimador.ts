@@ -136,10 +136,10 @@ export const PRODUCTOS: Producto[] = [
     siempreExenta: true,
   },
   // Los dos ultimos no llevan numero. El solar depende del vataje y de la
-  // interconexion con la electrica, y el Sukkha es un sistema propietario sin
+  // interconexion con la electrica, y el Sukkah es un sistema propietario sin
   // comparable de mercado: cualquier banda seria inventada.
   { id: 'solar', imagen: '/cms-img/products/solar-pergolas/cover-solar-roof-structure-contractors-south-florida.avif', href: '/products/solar-pergolas', tarifa: null },
-  { id: 'sukkha', imagen: '/images/cliente/sukkah.avif', href: '/products/sukkha', tarifa: null },
+  { id: 'sukkha', imagen: '/images/cliente/sukkah.avif', href: '/products/sukkah', tarifa: null },
 ];
 
 /** Los que no dan cifra y van directos a la captura. */

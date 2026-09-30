@@ -81,7 +81,7 @@ export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = {
     'open-air-pergolas': 'Open-Air Pergolas',
     'polycarbonate-pergolas': 'Polycarbonate Roof Pergolas',
     'solar-pergolas': 'Solar Roof Pergolas',
-    sukkha: 'Sukkha 3000 System',
+    sukkah: 'Sukkah 3000 System',
     cabanas: 'Custom Aluminum Cabanas',
     carports: 'Aluminum Carports',
     'screen-enclosures': 'Screen Enclosures',
@@ -106,7 +106,7 @@ export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = {
     'open-air-pergolas': 'Pérgolas abiertas',
     'polycarbonate-pergolas': 'Pérgolas de policarbonato',
     'solar-pergolas': 'Pérgolas solares',
-    sukkha: 'Sistema Sukkha 3000',
+    sukkah: 'Sistema Sukkah 3000',
     cabanas: 'Cabañas de aluminio',
     carports: 'Carports de aluminio',
     'screen-enclosures': 'Cerramientos con mosquitero',
@@ -443,19 +443,19 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
         'Yes. As permanent load-bearing structures, they require permits. We provide full structural engineering and manage the approval process for complete code compliance.',
     },
     'sukkha-diferencia': {
-      'pregunta': 'What makes Sukkha 3000 unique?',
+      'pregunta': 'What makes Sukkah 3000 unique?',
       'respuesta':
-        'The Sukkha 3000 is the pinnacle of luxury outdoor architecture, featuring proprietary modular engineering and minimalist design built specifically for high-end estates.',
+        'The Sukkah 3000 is the pinnacle of luxury outdoor architecture, featuring proprietary modular engineering and minimalist design built specifically for high-end estates.',
     },
     'sukkha-personalizacion': {
       'pregunta': 'Is the design customizable?',
       'respuesta':
-        'Yes. Completely bespoke, the Sukkha 3000 offers custom dimensions, premium architectural finishes, and specialized fascia to complement your luxury property perfectly.',
+        'Yes. Completely bespoke, the Sukkah 3000 offers custom dimensions, premium architectural finishes, and specialized fascia to complement your luxury property perfectly.',
     },
     'sukkha-huracan': {
       'pregunta': 'Can it withstand hurricanes?',
       'respuesta':
-        'Absolutely. Crafted from hyper-reinforced, marine-grade aluminum, the Sukkha 3000 is heavily engineered to surpass coastal building codes and endure extreme weather.',
+        'Absolutely. Crafted from hyper-reinforced, marine-grade aluminum, the Sukkah 3000 is heavily engineered to surpass coastal building codes and endure extreme weather.',
     },
     'sukkha-domotica': {
       'pregunta': 'Does it support smart home tech?',
@@ -465,7 +465,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     'sukkha-permanente': {
       'pregunta': 'Is it a permanent structure?',
       'respuesta':
-        'Yes. The Sukkha 3000 is a permanent, professionally engineered architectural addition that drastically increases real estate value and functional luxury for your home.',
+        'Yes. The Sukkah 3000 is a permanent, professionally engineered architectural addition that drastically increases real estate value and functional luxury for your home.',
     },
     'concrete-armado': {
       'pregunta': 'Why is reinforced concrete important for outdoor projects?',
@@ -1270,10 +1270,10 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
       'claves': 'solar panels shade dry underneath waterproof gaps rails',
     },
     'pergola-sukkha-diferencia-detalle': {
-      'pregunta': 'Who is the Sukkha 3000 system for?',
+      'pregunta': 'Who is the Sukkah 3000 system for?',
       'respuesta':
         'It suits projects that want a defined, engineered system with a known configuration rather than a fully bespoke one-off — faster to specify, faster to permit, and priced accordingly. If your space has unusual geometry or an awkward tie-in, a custom design is the better fit.',
-      'claves': 'Sukkha 3000 system who for suitable configuration bespoke',
+      'claves': 'Sukkah 3000 system who for suitable configuration bespoke',
     },
     'pergola-cuantos-pilares': {
       'pregunta': 'Can I have a pergola with fewer posts in the way?',
@@ -1848,7 +1848,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
         'Sí. Al ser estructuras permanentes que soportan carga, requieren permiso. Nosotros aportamos el cálculo estructural completo y gestionamos la aprobación.',
     },
     'sukkha-diferencia': {
-      'pregunta': '¿Qué tiene de distinto el Sukkha 3000?',
+      'pregunta': '¿Qué tiene de distinto el Sukkah 3000?',
       'respuesta':
         'Es lo más alto en arquitectura exterior de lujo: ingeniería modular propia y diseño minimalista, pensados para propiedades de alto nivel.',
     },
@@ -1870,7 +1870,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
     'sukkha-permanente': {
       'pregunta': '¿Es una estructura permanente?',
       'respuesta':
-        'Sí. El Sukkha 3000 es una ampliación arquitectónica permanente y calculada, que aumenta mucho el valor de la vivienda.',
+        'Sí. El Sukkah 3000 es una ampliación arquitectónica permanente y calculada, que aumenta mucho el valor de la vivienda.',
     },
     'concrete-armado': {
       'pregunta': '¿Por qué es importante el hormigón armado en un proyecto exterior?',
@@ -2655,10 +2655,10 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
       'claves': 'solar paneles sombra seco estanco huecos rieles',
     },
     'pergola-sukkha-diferencia-detalle': {
-      'pregunta': '¿Para quién es el sistema Sukkha 3000?',
+      'pregunta': '¿Para quién es el sistema Sukkah 3000?',
       'respuesta':
         'Encaja en proyectos que quieren un sistema definido y calculado, con una configuración conocida, en vez de una pieza única a medida: se especifica antes, se tramita antes y el precio lo refleja. Si su espacio tiene una geometría rara o un encuentro complicado, encaja mejor un diseño a medida.',
-      'claves': 'Sukkha 3000 sistema para quien configuracion a medida',
+      'claves': 'Sukkah 3000 sistema para quien configuracion a medida',
     },
     'pergola-cuantos-pilares': {
       'pregunta': '¿Puedo tener una pérgola con menos pilares en medio?',
