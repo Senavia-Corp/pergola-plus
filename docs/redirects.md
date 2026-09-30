@@ -8,12 +8,84 @@ buscador, y con él se pierde el enlace entrante que veníamos a salvar.
 |---|---|---|
 | `/deck-builders` | `/services/deck-builders` | Enlace roto que YA estaba en producción: 2 veces en el export y 1 en el sitio en vivo, devolviendo 404. El markup se corrigió en el transformador (`ENLACES_ROTOS`), pero quien lo tenga guardado o enlazado desde fuera sigue llegando aquí. |
 | `/about-us` | `/about-us/about-us` | Lo enlazaban el menú y el pie de las **113 páginas** y devolvía 404. No lo veía ninguna puerta porque `check:enlaces` solo busca `href="#"`, y este enlace sí tenía destino — solo que a ninguna parte. Los enlaces ya están corregidos; el redirect salva a quien tenga el viejo. |
-| `/services/patio-remodeling` | `/services/full-outdoor-remodel` | El servicio se renombró a **Full Outdoor Remodel** al ampliar su alcance del patio al exterior completo (25-ago-2026). Es la primera URL viva del sitio original que cambia de ruta. |
+| `/services/patio-remodeling` | `/services/full-outdoor-remodel` | El servicio se renombró a **Full Outdoor Remodel** al ampliar su alcance del patio al exterior completo (25-ago-2026). Es la primera URL del sitio de referencia (el staging, ver abajo) que cambia de ruta. |
 | `/es/services/patio-remodeling` | `/es/services/full-outdoor-remodel` | La gemela en español del anterior. Los slugs no se traducen, así que el par es simétrico. |
 | `/brands/appolo` | `/brands/apollo` | «Appolo» era una errata del CMS de Webflow: la marca es **Apollo** (Apollo Opening Roof). Feedback final de Daniel, 30-sep-2026. La carpeta de imágenes `cms-img/brands/appolo/` conserva el nombre viejo a propósito (no se ve y no se pidió). |
 | `/es/brands/appolo` | `/es/brands/apollo` | La gemela en español del anterior. |
 | `/products/sukkha` | `/products/sukkah` | Errata del producto: es **Sukkah** (Sukkah 3000). Mismo feedback, 30-sep-2026. La carpeta `cms-img/products/sukkha/` y sus 11 ficheros conservan el nombre viejo a propósito; el JPG de Open Graph sí se renombró (`sukkah-1200x630.jpg`). |
 | `/es/products/sukkha` | `/es/products/sukkah` | La gemela en español del anterior. |
+
+## Cambio de dominio: las URLs del sitio que hoy sirve el dominio
+
+`www.pergolaplusflorida.com` **no** lo sirve el Webflow que se migró. Las capturas de
+`docs/vivo/` salieron del staging `pergola-plus-florida.webflow.io` (sitio `6903b7…`),
+y el dominio lo sirve **otro sitio de Webflow**, más viejo (`63f3b8…`), con otra estructura
+de URLs. Se descubrió el 30-sep-2026 al verificar si el preview estaba listo para publicar.
+
+Su sitemap tenía ese día **64 URLs, todas en 200**. 27 existen igual en el sitio nuevo (la
+home, `/thank-you` y las 25 `/pergolas-contractors/`); las otras **37 darían 404** el día que
+el dominio pase a Vercel. Van con 301 desde `src/data/redirecciones-dominio.mjs`:
+
+| Del dominio | Al sitio nuevo | Confianza |
+|---|---|---|
+| `/blog` | `/resources/blog` | Mismo contenido: indices y legales |
+| `/contact-us` | `/contact-us/get-in-touch` | Mismo contenido: indices y legales |
+| `/customer-reviews` | `/about-us/testimonials` | Mismo contenido: indices y legales |
+| `/our-work` | `/project-gallery` | Mismo contenido: indices y legales |
+| `/projects` | `/project-gallery` | Mismo contenido: indices y legales |
+| `/terms-conditions` | `/articles/terms-of-service` | Mismo contenido: indices y legales |
+| `/our-brands` | `/about-us/brands` | Mismo contenido: marcas |
+| `/our-brands/apollo` | `/brands/apollo` | Mismo contenido: marcas |
+| `/our-brands/equinox` | `/brands/equinox` | Mismo contenido: marcas |
+| `/our-brands/fenetex` | `/brands/fenetex` | Mismo contenido: marcas |
+| `/our-brands/forte` | `/brands/pergola-plus-forte` | Mismo contenido: marcas |
+| `/our-brands/renaissance` | `/brands/renaissance` | Mismo contenido: marcas |
+| `/project/boca-raton-pergola-project` | `/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/commercial-patio-cover-project` | `/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/delray-beach-pergola-project` | `/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/forte-patio-cover-project` | `/project/forte-pergolas-in-greenacres-pool-patio` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/forte-patio-cover-project-2` | `/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/forte-patio-cover-project-3` | `/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/forte-patio-cover-project-4` | `/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/forte-patio-cover-project-5` | `/project/forte-plus-aluminum-carport-installation-in-pompano-beach` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/hillsboro-beach-pergola-project` | `/project/forte-plus-pergolas-in-hillsboro-beach-estate` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/project/pergola-project-in-west-palm-beach` | `/project/attached-forte-pergola-in-west-palm-beach` | Mismo contenido: los 10 proyectos, con el mismo titulo y otro slug |
+| `/services/carports-installation-contractors` | `/products/carports` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/services/driveway-pavers` | `/services/driveways` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/services/fencing-solutions` | `/services/fence-solutions` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/services/louvered-roof-systems` | `/products/motorized-louvered-pergolas` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/services/pergolas-patio-covers` | `/services/pergola-design-construction` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/services/pool-and-patio-enclosures` | `/products/screen-enclosures` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/services/solar-patio-covers` | `/products/solar-pergolas` | Equivalente: servicios con otro slug (varios son hoy productos) |
+| `/post/aluminum-vs-wood-pergolas-which-one-is-right-for-you` | `/post/aluminum-vs-wood-pergolas-humid-climate` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/why-choose-a-metal-pergola-over-wood` | `/post/aluminum-vs-wood-pergolas-humid-climate` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/why-aluminum-pergolas-are-the-best-choice-for-your-outdoor-living-space` | `/post/best-pergola-materials-coastal-florida` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/how-long-can-you-expect-a-pergola-to-last` | `/post/best-pergola-materials-coastal-florida` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/louvered-pergola-vs-traditional-pergola-whats-the-difference` | `/post/is-a-louvered-roof-pergola-worth-it-in-florida` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/do-motorized-pergolas-increase-home-value` | `/post/is-a-louvered-roof-pergola-worth-it-in-florida` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/does-a-pergola-increase-property-value` | `/post/pergola-cost-south-florida` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+| `/post/how-an-aluminum-pergola-adds-an-extra-room-to-your-home` | `/post/can-you-use-your-patio-year-round-in-south-florida` | Por tema: articulos que no pasaron al blog nuevo. Revisables |
+
+Tres grados de confianza:
+
+- **Mismo contenido**: la misma página con otra URL. Los 10 proyectos coinciden título a
+  título; la marca Forte vive en `/brands/pergola-plus-forte`.
+- **Equivalente**: la página nueva que cubre ese servicio. Varios servicios viejos son hoy
+  productos (`carports`, `louvered-roof-systems`, `solar-patio-covers`,
+  `pool-and-patio-enclosures`, que en Florida es el *screen enclosure*).
+  `driveway-pavers` va a `/services/driveways`, que trata las dos cosas.
+- **Por tema**: los 8 artículos viejos no pasaron al blog nuevo; cada uno va al más
+  cercano. Son los revisables.
+
+Tres consecuencias:
+
+- Los 301 de `/brands/appolo` y `/products/sukkha` (arriba) cubren URLs que solo
+  existieron en el staging, nunca en el dominio: no hacen daño, pero no protegen nada
+  indexado. En el dominio la marca siempre fue `/our-brands/apollo`.
+- `scripts/rutas-vercel.mjs` para el build si un 301 apunta a una página que no existe o
+  si su origen es una página real (en Vercel los redirects van antes que los ficheros).
+- **Antes de cambiar el DNS, repetir la foto**: si el cliente publica algo nuevo en ese
+  Webflow, su sitemap tendrá URLs que este mapa no cubre.
 
 ## Rutas que NO cambiaron
 
@@ -21,8 +93,9 @@ Los slugs no se traducen: `/es/products/` usa el mismo slug que `/products/`. Es
 deliberado — traducirlos obligaría a mantener un segundo mapa de redirects para
 siempre, y no aporta nada en un sitio cuyo público busca en los dos idiomas.
 
-Las 99 URLs vivas del sitio original conservan su ruta exacta **salvo tres**, cubiertas
-con los 301 de arriba:
+Las 99 URLs del sitio de referencia —el staging `pergola-plus-florida.webflow.io`, que
+**no** es el que sirve el dominio (ver «Cambio de dominio», abajo)— conservan su ruta
+exacta **salvo tres**, cubiertas con los 301 de arriba:
 
 - `/services/patio-remodeling` → `/services/full-outdoor-remodel` (25-ago-2026): el
   nombre del servicio cambió por decisión del cliente.

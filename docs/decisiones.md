@@ -1250,3 +1250,32 @@ Lo que no es un renombrado de ruta, con el porqué de cada decisión:
 - **Hueco entre reseñas y proceso**: acotado con `.reviews + .process`, las únicas
   cuatro rutas donde las dos bandas blancas van seguidas. Globalizar la tarjeta de
   pasos a 64 px habría cambiado 92 rutas que nadie pidió tocar.
+
+## El dominio lo sirve otro Webflow: mapa de 301 y lo que queda para publicar (30-sep-2026)
+
+Al verificar si el preview estaba listo para publicar salió lo que ningún documento
+recogía: `www.pergolaplusflorida.com` no lo sirve el Webflow que se migró (el staging
+`pergola-plus-florida.webflow.io`) sino **otro sitio de Webflow, más viejo, con otras
+URLs**. De las 64 de su sitemap, 37 no existían en el sitio nuevo. Se cubren con 301
+desde `src/data/redirecciones-dominio.mjs` —la tabla y el porqué, en
+`docs/redirects.md`— y `scripts/rutas-vercel.mjs` para el build si un 301 apunta a una
+página inexistente o tapa una real (probado en rojo antes de darlo por bueno).
+
+Ese mismo sitio lleva **GTM `GTM-TKKRL526`, GA4 `G-HE8WG1NFV9` y `G-QT4LKRP0GZ`, Google
+Ads `AW-11106946679` y la verificación de Search Console**; el staging no, y por eso las
+capturas tampoco. **Decisión de Sebastian:** eso se configura en la fase siguiente, junto
+con los registros DNS (A y CNAME de Vercel en lugar de los de Webflow, que añade Daniel o
+da acceso a `sebastian@senaviacorp.com`) y la contraseña de aplicación del buzón que
+enviará los avisos de los formularios, que elige Daniel. Las tres cosas se le piden por
+correo en esa fase; sin ellas no se cambia el DNS.
+
+Y dos cosas de esta fase:
+
+- **Terms & Conditions** lleva ya la cláusula de privacidad y los términos de SMS que
+  Daniel pidió el 4-sep (lo que exige el registro de mensajería A2P 10DLC). Texto suyo
+  con tres erratas corregidas: el correo de soporte sin «.com», «llc» en minúsculas y una
+  frase repetida. Solo en inglés, como el resto del contrato. Queda una incoherencia que
+  decide él: el contrato habla de «PERGOLA PLUS CORP» y el texto de SMS de «Pergola Plus
+  Florida LLC».
+- **Tarjetas de «How We Build It»** en crema (`--secundary`) en las 96 rutas que llevan
+  la banda, y a 48 px entre sí en las cuatro donde reseñas y proceso van seguidas.

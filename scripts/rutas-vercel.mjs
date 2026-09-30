@@ -57,6 +57,18 @@ await fs.access(destino).catch(() => {
   throw new Error(`[rutas] no existe ${RUTA_404_ES.dest} en la salida: no se enruta a una pagina que no esta`);
 });
 
+// Lo mismo para los 301: un destino que no existe cambia un 404 por un redirect a un 404,
+// y un origen que ES una pagina real la tapa (en Vercel los redirects van antes que los
+// ficheros). Ninguna de las dos cosas da error por si sola, asi que se para el build.
+const esPagina = (ruta) => fs.access(path.join(RAIZ, '.vercel/output/static', ruta, 'index.html')).then(() => true, () => false);
+const rotos = [];
+for (const r of config.routes.filter((r) => r.status === 301 && r.headers?.Location)) {
+  const origen = r.src.replace(/^\^/, '').replace(/\/?\$$/, '').replace(/\\/g, '');
+  if (!(await esPagina(r.headers.Location))) rotos.push(`${origen} -> ${r.headers.Location} (el destino no existe)`);
+  if (await esPagina(origen)) rotos.push(`${origen} (es una pagina real: el redirect la taparia)`);
+}
+if (rotos.length) throw new Error(`[rutas] redirects mal formados:\n  ${rotos.join('\n  ')}`);
+
 const i = config.routes.findIndex((r) => r.src === '^/.*$' && r.status === 404);
 if (i === -1) {
   throw new Error(

@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel';
 import { dimensionarImagenes } from './scripts/lib/transformar.mjs';
 import { haciaEspanol } from './src/i18n/rutas.mjs';
+import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
 
 /**
  * Si este build se puede indexar. FALLA CERRADO: hay que declararlo, y quien no lo
@@ -487,6 +488,10 @@ export default defineConfig({
     // Y «Sukkha» la del producto: es Sukkah (mismo feedback, misma forma sin barra).
     '/products/sukkha': { status: 301, destination: '/products/sukkah' },
     '/es/products/sukkha': { status: 301, destination: '/es/products/sukkah' },
+    // Las 37 URLs del sitio que HOY sirve el dominio (otro Webflow, con otras rutas) y
+    // que el nuevo no tiene. Ver src/data/redirecciones-dominio.mjs.
+    ...Object.fromEntries(Object.entries(REDIRECCIONES_DOMINIO)
+      .map(([de, a]) => [de, { status: 301, destination: a }])),
   },
 
   // NO anadir View Transitions / ClientRouter: las 749 interacciones IX2 de
