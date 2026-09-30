@@ -2905,7 +2905,7 @@
       "altGenerado": false
     },
     {
-      "file": "content/brands/appolo/brand-logo-appolo-logo.png",
+      "file": "content/brands/appolo/brand-logo-apollo-logo.png",
       "sha256": "bca2678b7e9b76ae221c85b5fdc7c128c2c75a268b1581a0508eb0c53deba98d",
       "bytes": 8427,
       "format": "png",
@@ -4193,7 +4193,7 @@
       "altGenerado": true
     },
     {
-      "file": "content/brands/renaissance/brand-logo-rennaissance-logo.png",
+      "file": "content/brands/renaissance/brand-logo-renaissance-logo.png",
       "sha256": "3e955899e97e724cef3a7d98c1cc6ed848898c44883dfa038eed5e165a9e5f43",
       "bytes": 6617,
       "format": "png",

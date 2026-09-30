@@ -115,6 +115,11 @@ const COLECCIONES = [
 const EXT = 'jpg|jpeg|png|webp|avif|svg|gif';
 const RX_URL = new RegExp(`https://[^\\s"'<>)\\];]+?\\.(?:${EXT})(?:\\.(?:${EXT}))*`, 'gi');
 const RX_EXT_FINAL = new RegExp(`(?:\\.(?:${EXT}))+$`, 'i');
+/** Nombres de subida con errata que ya se corrigieron en el repo (ver registrar()). */
+const ERRATAS_NOMBRE = new Map([
+  ['appolo-logo', 'apollo-logo'],
+  ['rennaissance-logo', 'renaissance-logo'],
+]);
 const RX_VARIANTE = /-p-\d+(?=(?:\.[a-z0-9]+)+$)/i;
 
 // --- parser CSV (los campos traen HTML con comas y saltos de linea) ---------
@@ -337,6 +342,12 @@ async function registrar({ url, buf, dir, rol, alt, subject, usedIn = [] }) {
   // Quita la cadena COMPLETA de extensiones ("foo.jpg.avif" -> "foo"), si no el
   // slug se queda un "-jpg" o "-avif" pegado al nombre.
   let nombre = slugify(nombreDesdeUrl(url).replace(RX_EXT_FINAL, '') || 'imagen');
+  // El nombre de subida en Webflow trae la errata («Appolo Logo.png», «Rennaissance
+  // Logo.png») y el fichero se llama como la subida. Se renombraron el 30-sep-2026
+  // (feedback final de Daniel): sin esto, volver a ejecutar este script devolveria el
+  // nombre viejo al manifest, al staging y a img-map.json, y NINGUNA puerta lo veria
+  // (check:imagenes solo avisa de huerfanos). Busqueda exacta: los stems son unicos.
+  nombre = ERRATAS_NOMBRE.get(nombre) ?? nombre;
   const rel = path.join(dir, `${rol}-${nombre}.${fmt}`);
   let destino = path.join(OUT, rel), relFinal = rel, n = 2;
   while (porSha.size && [...porSha.values()].some((e) => e.file === relFinal)) {

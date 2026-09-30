@@ -554,9 +554,9 @@
       ]
     },
     {
-      "archivo": "brand-logo-rennaissance-logo.png",
+      "archivo": "brand-logo-renaissance-logo.png",
       "colision": false,
-      "ruta": "/cms-img/brands/renaissance/brand-logo-rennaissance-logo.png",
+      "ruta": "/cms-img/brands/renaissance/brand-logo-renaissance-logo.png",
       "clase": "content",
       "actual": {
         "width": 450,
@@ -681,9 +681,9 @@
       ]
     },
     {
-      "archivo": "brand-logo-appolo-logo.png",
+      "archivo": "brand-logo-apollo-logo.png",
       "colision": false,
-      "ruta": "/cms-img/brands/appolo/brand-logo-appolo-logo.png",
+      "ruta": "/cms-img/brands/appolo/brand-logo-apollo-logo.png",
       "clase": "content",
       "actual": {
         "width": 450,
