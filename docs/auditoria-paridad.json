@@ -27,8 +27,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1993,
-      "palabrasG": 2286,
-      "deltaTexto": 0.14701455092824886
+      "palabrasG": 2275,
+      "deltaTexto": 0.14149523331660813
     },
     {
       "ruta": "/about-us/about-us",
@@ -59,8 +59,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 859,
-      "palabrasG": 1086,
-      "deltaTexto": 0.26426076833527357
+      "palabrasG": 1075,
+      "deltaTexto": 0.25145518044237486
     },
     {
       "ruta": "/about-us/brands",
@@ -87,8 +87,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 669,
-      "palabrasG": 697,
-      "deltaTexto": 0.04185351270553064
+      "palabrasG": 684,
+      "deltaTexto": 0.02242152466367713
     },
     {
       "ruta": "/about-us/industries-we-serve",
@@ -118,8 +118,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1507,
-      "palabrasG": 1734,
-      "deltaTexto": 0.15063039150630392
+      "palabrasG": 1723,
+      "deltaTexto": 0.14333112143331123
     },
     {
       "ruta": "/about-us/testimonials",
@@ -146,8 +146,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 399,
-      "palabrasG": 623,
-      "deltaTexto": 0.5614035087719298
+      "palabrasG": 610,
+      "deltaTexto": 0.5288220551378446
     },
     {
       "ruta": "/about-us/where-we-work",
@@ -174,8 +174,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 769,
-      "palabrasG": 797,
-      "deltaTexto": 0.036410923276983094
+      "palabrasG": 784,
+      "deltaTexto": 0.01950585175552666
     },
     {
       "ruta": "/articles/privacy-policy",
@@ -202,8 +202,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 372,
-      "palabrasG": 469,
-      "deltaTexto": 0.260752688172043
+      "palabrasG": 456,
+      "deltaTexto": 0.22580645161290322
     },
     {
       "ruta": "/articles/terms-of-service",
@@ -230,11 +230,11 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 4554,
-      "palabrasG": 4584,
-      "deltaTexto": 0.006587615283267457
+      "palabrasG": 4571,
+      "deltaTexto": 0.003732981993851559
     },
     {
-      "ruta": "/brands/appolo",
+      "ruta": "/brands/apollo",
       "idsV": 26,
       "idsG": 25,
       "faltan": [],
@@ -258,8 +258,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 463,
-      "palabrasG": 491,
-      "deltaTexto": 0.06047516198704104
+      "palabrasG": 478,
+      "deltaTexto": 0.032397408207343416
     },
     {
       "ruta": "/brands/equinox",
@@ -286,8 +286,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 455,
-      "palabrasG": 483,
-      "deltaTexto": 0.06153846153846154
+      "palabrasG": 470,
+      "deltaTexto": 0.03296703296703297
     },
     {
       "ruta": "/brands/fenetex",
@@ -314,8 +314,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 475,
-      "palabrasG": 503,
-      "deltaTexto": 0.05894736842105263
+      "palabrasG": 490,
+      "deltaTexto": 0.031578947368421054
     },
     {
       "ruta": "/brands/pergola-plus-forte",
@@ -342,8 +342,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 464,
-      "palabrasG": 492,
-      "deltaTexto": 0.0603448275862069
+      "palabrasG": 479,
+      "deltaTexto": 0.032327586206896554
     },
     {
       "ruta": "/brands/renaissance",
@@ -370,8 +370,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 455,
-      "palabrasG": 483,
-      "deltaTexto": 0.06153846153846154
+      "palabrasG": 470,
+      "deltaTexto": 0.03296703296703297
     },
     {
       "ruta": "/contact-us/get-a-quote",
@@ -398,8 +398,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 652,
-      "palabrasG": 680,
-      "deltaTexto": 0.04294478527607362
+      "palabrasG": 667,
+      "deltaTexto": 0.023006134969325152
     },
     {
       "ruta": "/contact-us/get-in-touch",
@@ -432,8 +432,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 738,
-      "palabrasG": 962,
-      "deltaTexto": 0.3035230352303523
+      "palabrasG": 949,
+      "deltaTexto": 0.2859078590785908
     },
     {
       "ruta": "/contact-us/schedule-a-visit",
@@ -460,8 +460,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 364,
-      "palabrasG": 409,
-      "deltaTexto": 0.12362637362637363
+      "palabrasG": 396,
+      "deltaTexto": 0.08791208791208792
     },
     {
       "ruta": "/countries/broward-county-pergola-contractor",
@@ -488,8 +488,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1155,
-      "palabrasG": 1382,
-      "deltaTexto": 0.19653679653679654
+      "palabrasG": 1372,
+      "deltaTexto": 0.18787878787878787
     },
     {
       "ruta": "/countries/miami-dade-pergola-contractor",
@@ -516,8 +516,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1151,
-      "palabrasG": 1378,
-      "deltaTexto": 0.19721980886185925
+      "palabrasG": 1368,
+      "deltaTexto": 0.18853171155516943
     },
     {
       "ruta": "/countries/palm-beach-county-pergola-contractor",
@@ -544,8 +544,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1143,
-      "palabrasG": 1370,
-      "deltaTexto": 0.19860017497812774
+      "palabrasG": 1360,
+      "deltaTexto": 0.18985126859142606
     },
     {
       "ruta": "/pergolas-contractors/aventura-pergola-builders",
@@ -572,8 +572,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1445,
-      "palabrasG": 1672,
-      "deltaTexto": 0.15709342560553632
+      "palabrasG": 1662,
+      "deltaTexto": 0.15017301038062283
     },
     {
       "ruta": "/pergolas-contractors/boca-raton-pergola-contractor",
@@ -600,8 +600,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1440,
-      "palabrasG": 1667,
-      "deltaTexto": 0.15763888888888888
+      "palabrasG": 1657,
+      "deltaTexto": 0.15069444444444444
     },
     {
       "ruta": "/pergolas-contractors/boynton-beach-contractors",
@@ -628,8 +628,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1438,
-      "palabrasG": 1665,
-      "deltaTexto": 0.15785813630041726
+      "palabrasG": 1655,
+      "deltaTexto": 0.15090403337969402
     },
     {
       "ruta": "/pergolas-contractors/cooper-city-pergola-installation",
@@ -656,8 +656,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1436,
-      "palabrasG": 1663,
-      "deltaTexto": 0.15807799442896936
+      "palabrasG": 1653,
+      "deltaTexto": 0.1511142061281337
     },
     {
       "ruta": "/pergolas-contractors/coral-gables",
@@ -684,8 +684,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1434,
-      "palabrasG": 1661,
-      "deltaTexto": 0.15829846582984658
+      "palabrasG": 1651,
+      "deltaTexto": 0.15132496513249652
     },
     {
       "ruta": "/pergolas-contractors/coral-springs-installation",
@@ -712,8 +712,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1435,
-      "palabrasG": 1662,
-      "deltaTexto": 0.15818815331010452
+      "palabrasG": 1652,
+      "deltaTexto": 0.15121951219512195
     },
     {
       "ruta": "/pergolas-contractors/davie-installation",
@@ -740,8 +740,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1431,
-      "palabrasG": 1658,
-      "deltaTexto": 0.1586303284416492
+      "palabrasG": 1648,
+      "deltaTexto": 0.15164220824598182
     },
     {
       "ruta": "/pergolas-contractors/delray-beach-contractors",
@@ -768,8 +768,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1437,
-      "palabrasG": 1664,
-      "deltaTexto": 0.1579679888656924
+      "palabrasG": 1654,
+      "deltaTexto": 0.15100904662491302
     },
     {
       "ruta": "/pergolas-contractors/doral-pergola-builders",
@@ -796,8 +796,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1657,
-      "deltaTexto": 0.15874125874125875
+      "palabrasG": 1647,
+      "deltaTexto": 0.15174825174825174
     },
     {
       "ruta": "/pergolas-contractors/fort-lauderdale-installation",
@@ -824,8 +824,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1432,
-      "palabrasG": 1659,
-      "deltaTexto": 0.1585195530726257
+      "palabrasG": 1649,
+      "deltaTexto": 0.15153631284916202
     },
     {
       "ruta": "/pergolas-contractors/hollywood-pergola-installation",
@@ -852,8 +852,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1657,
-      "deltaTexto": 0.15874125874125875
+      "palabrasG": 1647,
+      "deltaTexto": 0.15174825174825174
     },
     {
       "ruta": "/pergolas-contractors/jupiter-contractors",
@@ -880,8 +880,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1431,
-      "palabrasG": 1658,
-      "deltaTexto": 0.1586303284416492
+      "palabrasG": 1648,
+      "deltaTexto": 0.15164220824598182
     },
     {
       "ruta": "/pergolas-contractors/key-biscayne-pergola-builders",
@@ -908,8 +908,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1657,
-      "deltaTexto": 0.15874125874125875
+      "palabrasG": 1647,
+      "deltaTexto": 0.15174825174825174
     },
     {
       "ruta": "/pergolas-contractors/miami-beach-pergola-design",
@@ -936,8 +936,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1435,
-      "palabrasG": 1662,
-      "deltaTexto": 0.15818815331010452
+      "palabrasG": 1652,
+      "deltaTexto": 0.15121951219512195
     },
     {
       "ruta": "/pergolas-contractors/miami-pergola-experts",
@@ -964,8 +964,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1431,
-      "palabrasG": 1658,
-      "deltaTexto": 0.1586303284416492
+      "palabrasG": 1648,
+      "deltaTexto": 0.15164220824598182
     },
     {
       "ruta": "/pergolas-contractors/miramar-installation",
@@ -992,8 +992,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1426,
-      "palabrasG": 1653,
-      "deltaTexto": 0.15918653576437589
+      "palabrasG": 1643,
+      "deltaTexto": 0.15217391304347827
     },
     {
       "ruta": "/pergolas-contractors/palm-beach-contractors",
@@ -1020,8 +1020,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1427,
-      "palabrasG": 1654,
-      "deltaTexto": 0.1590749824807288
+      "palabrasG": 1644,
+      "deltaTexto": 0.15206727400140155
     },
     {
       "ruta": "/pergolas-contractors/palm-beach-gardens",
@@ -1048,8 +1048,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1428,
-      "palabrasG": 1655,
-      "deltaTexto": 0.15896358543417366
+      "palabrasG": 1645,
+      "deltaTexto": 0.15196078431372548
     },
     {
       "ruta": "/pergolas-contractors/parkland-installation",
@@ -1076,8 +1076,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1425,
-      "palabrasG": 1652,
-      "deltaTexto": 0.15929824561403508
+      "palabrasG": 1642,
+      "deltaTexto": 0.15228070175438596
     },
     {
       "ruta": "/pergolas-contractors/pembroke-pines-pergola-installation",
@@ -1104,8 +1104,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1428,
-      "palabrasG": 1655,
-      "deltaTexto": 0.15896358543417366
+      "palabrasG": 1645,
+      "deltaTexto": 0.15196078431372548
     },
     {
       "ruta": "/pergolas-contractors/royal-palm-beach-contractors",
@@ -1132,8 +1132,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1430,
-      "palabrasG": 1657,
-      "deltaTexto": 0.15874125874125875
+      "palabrasG": 1647,
+      "deltaTexto": 0.15174825174825174
     },
     {
       "ruta": "/pergolas-contractors/sunny-isles-beach-pergola-builders",
@@ -1160,8 +1160,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1429,
-      "palabrasG": 1656,
-      "deltaTexto": 0.158852344296711
+      "palabrasG": 1646,
+      "deltaTexto": 0.15185444366689993
     },
     {
       "ruta": "/pergolas-contractors/wellington-contractors",
@@ -1188,8 +1188,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1426,
-      "palabrasG": 1653,
-      "deltaTexto": 0.15918653576437589
+      "palabrasG": 1643,
+      "deltaTexto": 0.15217391304347827
     },
     {
       "ruta": "/pergolas-contractors/west-palm-beach-contractors",
@@ -1216,8 +1216,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1428,
-      "palabrasG": 1655,
-      "deltaTexto": 0.15896358543417366
+      "palabrasG": 1645,
+      "deltaTexto": 0.15196078431372548
     },
     {
       "ruta": "/pergolas-contractors/weston-pergola-solutions",
@@ -1244,8 +1244,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1426,
-      "palabrasG": 1653,
-      "deltaTexto": 0.15918653576437589
+      "palabrasG": 1643,
+      "deltaTexto": 0.15217391304347827
     },
     {
       "ruta": "/post/add-shade-backyard-south-florida",
@@ -1276,8 +1276,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1354,
-      "palabrasG": 1339,
-      "deltaTexto": 0.011078286558345642
+      "palabrasG": 1313,
+      "deltaTexto": 0.030280649926144758
     },
     {
       "ruta": "/post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale",
@@ -1308,8 +1308,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1350,
-      "palabrasG": 1392,
-      "deltaTexto": 0.03111111111111111
+      "palabrasG": 1365,
+      "deltaTexto": 0.011111111111111112
     },
     {
       "ruta": "/post/aluminum-vs-wood-pergolas-humid-climate",
@@ -1340,8 +1340,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1274,
-      "palabrasG": 1259,
-      "deltaTexto": 0.011773940345368918
+      "palabrasG": 1236,
+      "deltaTexto": 0.029827315541601257
     },
     {
       "ruta": "/post/best-outdoor-structures-rain-sun-florida",
@@ -1372,8 +1372,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1351,
-      "palabrasG": 1344,
-      "deltaTexto": 0.0051813471502590676
+      "palabrasG": 1318,
+      "deltaTexto": 0.02442635085122132
     },
     {
       "ruta": "/post/best-pergola-materials-coastal-florida",
@@ -1404,8 +1404,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1401,
-      "palabrasG": 1399,
-      "deltaTexto": 0.0014275517487508922
+      "palabrasG": 1386,
+      "deltaTexto": 0.010706638115631691
     },
     {
       "ruta": "/post/building-custom-pergola-south-florida",
@@ -1436,8 +1436,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1369,
-      "palabrasG": 1355,
-      "deltaTexto": 0.010226442658875092
+      "palabrasG": 1328,
+      "deltaTexto": 0.029948867786705625
     },
     {
       "ruta": "/post/can-you-use-your-patio-year-round-in-south-florida",
@@ -1468,8 +1468,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1338,
-      "palabrasG": 1328,
-      "deltaTexto": 0.007473841554559043
+      "palabrasG": 1305,
+      "deltaTexto": 0.02466367713004484
     },
     {
       "ruta": "/post/design-build-pergola-process-south-florida",
@@ -1500,8 +1500,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1394,
-      "palabrasG": 1383,
-      "deltaTexto": 0.007890961262553802
+      "palabrasG": 1370,
+      "deltaTexto": 0.01721664275466284
     },
     {
       "ruta": "/post/hoa-rules-pergolas-south-florida",
@@ -1532,8 +1532,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1350,
-      "palabrasG": 1348,
-      "deltaTexto": 0.0014814814814814814
+      "palabrasG": 1335,
+      "deltaTexto": 0.011111111111111112
     },
     {
       "ruta": "/post/how-long-pergola-installation-florida",
@@ -1564,8 +1564,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1335,
-      "palabrasG": 1334,
-      "deltaTexto": 0.000749063670411985
+      "palabrasG": 1321,
+      "deltaTexto": 0.010486891385767791
     },
     {
       "ruta": "/post/hurricane-resistant-pergolas-south-florida",
@@ -1596,8 +1596,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1384,
-      "palabrasG": 1370,
-      "deltaTexto": 0.010115606936416185
+      "palabrasG": 1357,
+      "deltaTexto": 0.019508670520231215
     },
     {
       "ruta": "/post/is-a-louvered-roof-pergola-worth-it-in-florida",
@@ -1628,8 +1628,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1321,
-      "palabrasG": 1295,
-      "deltaTexto": 0.01968205904617714
+      "palabrasG": 1273,
+      "deltaTexto": 0.036336109008327025
     },
     {
       "ruta": "/post/luxury-pergola-ideas-for-south-florida-backyards",
@@ -1660,8 +1660,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1455,
-      "palabrasG": 1445,
-      "deltaTexto": 0.006872852233676976
+      "palabrasG": 1418,
+      "deltaTexto": 0.02542955326460481
     },
     {
       "ruta": "/post/modern-outdoor-living-trends-in-south-florida",
@@ -1692,8 +1692,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1434,
-      "palabrasG": 1422,
-      "deltaTexto": 0.008368200836820083
+      "palabrasG": 1409,
+      "deltaTexto": 0.017433751743375175
     },
     {
       "ruta": "/post/pergola-building-codes-broward-palm-beach",
@@ -1724,8 +1724,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1344,
-      "palabrasG": 1342,
-      "deltaTexto": 0.001488095238095238
+      "palabrasG": 1329,
+      "deltaTexto": 0.011160714285714286
     },
     {
       "ruta": "/post/pergola-cost-south-florida",
@@ -1756,8 +1756,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1300,
-      "palabrasG": 1312,
-      "deltaTexto": 0.009230769230769232
+      "palabrasG": 1277,
+      "deltaTexto": 0.01769230769230769
     },
     {
       "ruta": "/post/pergola-design-ideas-waterfront-properties",
@@ -1788,8 +1788,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1297,
-      "palabrasG": 1294,
-      "deltaTexto": 0.002313030069390902
+      "palabrasG": 1270,
+      "deltaTexto": 0.02081727062451812
     },
     {
       "ruta": "/post/pergola-permit-south-florida",
@@ -1820,8 +1820,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1360,
-      "palabrasG": 1377,
-      "deltaTexto": 0.0125
+      "palabrasG": 1364,
+      "deltaTexto": 0.0029411764705882353
     },
     {
       "ruta": "/post/plan-pergola-south-florida-backyard",
@@ -1852,8 +1852,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1292,
-      "palabrasG": 1287,
-      "deltaTexto": 0.003869969040247678
+      "palabrasG": 1274,
+      "deltaTexto": 0.01393188854489164
     },
     {
       "ruta": "/post/poolside-pergola-ideas-for-florida-homes",
@@ -1884,8 +1884,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1368,
-      "palabrasG": 1356,
-      "deltaTexto": 0.008771929824561403
+      "palabrasG": 1334,
+      "deltaTexto": 0.024853801169590642
     },
     {
       "ruta": "/post/resort-style-backyard-boca-raton",
@@ -1916,8 +1916,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1462,
-      "palabrasG": 1457,
-      "deltaTexto": 0.003419972640218878
+      "palabrasG": 1432,
+      "deltaTexto": 0.02051983584131327
     },
     {
       "ruta": "/products",
@@ -1944,8 +1944,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 822,
-      "palabrasG": 850,
-      "deltaTexto": 0.0340632603406326
+      "palabrasG": 837,
+      "deltaTexto": 0.01824817518248175
     },
     {
       "ruta": "/products/cabanas",
@@ -1980,8 +1980,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1595,
-      "palabrasG": 2785,
-      "deltaTexto": 0.7460815047021944
+      "palabrasG": 2775,
+      "deltaTexto": 0.7398119122257053
     },
     {
       "ruta": "/products/carports",
@@ -2016,8 +2016,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 2695,
-      "deltaTexto": 0.6382978723404256
+      "palabrasG": 2685,
+      "deltaTexto": 0.6322188449848024
     },
     {
       "ruta": "/products/motorized-louvered-pergolas",
@@ -2052,8 +2052,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1727,
-      "palabrasG": 2795,
-      "deltaTexto": 0.6184134337000579
+      "palabrasG": 2785,
+      "deltaTexto": 0.6126230457440649
     },
     {
       "ruta": "/products/motorized-screens",
@@ -2088,8 +2088,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1626,
-      "palabrasG": 2763,
-      "deltaTexto": 0.6992619926199262
+      "palabrasG": 2753,
+      "deltaTexto": 0.6931119311193112
     },
     {
       "ruta": "/products/open-air-pergolas",
@@ -2124,8 +2124,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1664,
-      "palabrasG": 2728,
-      "deltaTexto": 0.6394230769230769
+      "palabrasG": 2718,
+      "deltaTexto": 0.6334134615384616
     },
     {
       "ruta": "/products/polycarbonate-pergolas",
@@ -2160,8 +2160,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1624,
-      "palabrasG": 2727,
-      "deltaTexto": 0.6791871921182266
+      "palabrasG": 2717,
+      "deltaTexto": 0.6730295566502463
     },
     {
       "ruta": "/products/screen-enclosures",
@@ -2196,8 +2196,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1578,
-      "palabrasG": 2724,
-      "deltaTexto": 0.7262357414448669
+      "palabrasG": 2714,
+      "deltaTexto": 0.7198986058301647
     },
     {
       "ruta": "/products/solar-pergolas",
@@ -2232,8 +2232,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1637,
-      "palabrasG": 2745,
-      "deltaTexto": 0.6768478924862553
+      "palabrasG": 2735,
+      "deltaTexto": 0.6707391569945022
     },
     {
       "ruta": "/products/solid-roof-pergolas",
@@ -2268,11 +2268,11 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1651,
-      "palabrasG": 2822,
-      "deltaTexto": 0.709267110841914
+      "palabrasG": 2812,
+      "deltaTexto": 0.7032101756511205
     },
     {
-      "ruta": "/products/sukkha",
+      "ruta": "/products/sukkah",
       "idsV": 32,
       "idsG": 30,
       "faltan": [],
@@ -2299,13 +2299,13 @@
       "foucDeclaracionesObsoletas": [],
       "tituloIgual": false,
       "tituloV": "Pergola Plus Florida",
-      "tituloG": "Sukkha 3000 Pergola System | Pergola Plus",
+      "tituloG": "Sukkah 3000 Pergola System | Pergola Plus",
       "descIgual": false,
       "rotos": [],
       "externos": 0,
       "palabrasV": 1588,
-      "palabrasG": 2523,
-      "deltaTexto": 0.5887909319899244
+      "palabrasG": 2513,
+      "deltaTexto": 0.5824937027707808
     },
     {
       "ruta": "/project-gallery",
@@ -2332,8 +2332,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 745,
-      "palabrasG": 875,
-      "deltaTexto": 0.174496644295302
+      "palabrasG": 862,
+      "deltaTexto": 0.15704697986577182
     },
     {
       "ruta": "/project/attached-forte-pergola-in-west-palm-beach",
@@ -2360,8 +2360,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 497,
-      "palabrasG": 525,
-      "deltaTexto": 0.056338028169014086
+      "palabrasG": 512,
+      "deltaTexto": 0.030181086519114688
     },
     {
       "ruta": "/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton",
@@ -2388,8 +2388,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 509,
-      "palabrasG": 537,
-      "deltaTexto": 0.0550098231827112
+      "palabrasG": 524,
+      "deltaTexto": 0.029469548133595286
     },
     {
       "ruta": "/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach",
@@ -2416,8 +2416,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 517,
-      "palabrasG": 545,
-      "deltaTexto": 0.05415860735009671
+      "palabrasG": 532,
+      "deltaTexto": 0.029013539651837523
     },
     {
       "ruta": "/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens",
@@ -2444,8 +2444,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 600,
-      "palabrasG": 628,
-      "deltaTexto": 0.04666666666666667
+      "palabrasG": 615,
+      "deltaTexto": 0.025
     },
     {
       "ruta": "/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach",
@@ -2472,8 +2472,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 507,
-      "palabrasG": 535,
-      "deltaTexto": 0.055226824457593686
+      "palabrasG": 522,
+      "deltaTexto": 0.029585798816568046
     },
     {
       "ruta": "/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach",
@@ -2500,8 +2500,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 516,
-      "palabrasG": 544,
-      "deltaTexto": 0.05426356589147287
+      "palabrasG": 531,
+      "deltaTexto": 0.029069767441860465
     },
     {
       "ruta": "/project/forte-pergolas-in-greenacres-pool-patio",
@@ -2528,8 +2528,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 503,
-      "palabrasG": 531,
-      "deltaTexto": 0.055666003976143144
+      "palabrasG": 518,
+      "deltaTexto": 0.02982107355864811
     },
     {
       "ruta": "/project/forte-plus-aluminum-carport-installation-in-pompano-beach",
@@ -2556,8 +2556,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 508,
-      "palabrasG": 536,
-      "deltaTexto": 0.05511811023622047
+      "palabrasG": 523,
+      "deltaTexto": 0.02952755905511811
     },
     {
       "ruta": "/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach",
@@ -2584,8 +2584,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 507,
-      "palabrasG": 535,
-      "deltaTexto": 0.055226824457593686
+      "palabrasG": 522,
+      "deltaTexto": 0.029585798816568046
     },
     {
       "ruta": "/project/forte-plus-pergolas-in-hillsboro-beach-estate",
@@ -2612,8 +2612,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 509,
-      "palabrasG": 537,
-      "deltaTexto": 0.0550098231827112
+      "palabrasG": 524,
+      "deltaTexto": 0.029469548133595286
     },
     {
       "ruta": "/resources/blog",
@@ -2644,8 +2644,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1006,
-      "palabrasG": 1100,
-      "deltaTexto": 0.09343936381709742
+      "palabrasG": 1087,
+      "deltaTexto": 0.0805168986083499
     },
     {
       "ruta": "/resources/faq",
@@ -2672,8 +2672,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 991,
-      "palabrasG": 12612,
-      "deltaTexto": 11.726538849646822
+      "palabrasG": 12599,
+      "deltaTexto": 11.713420787083754
     },
     {
       "ruta": "/resources/warranties",
@@ -2700,8 +2700,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 643,
-      "palabrasG": 671,
-      "deltaTexto": 0.04354587869362364
+      "palabrasG": 658,
+      "deltaTexto": 0.02332814930015552
     },
     {
       "ruta": "/services",
@@ -2728,8 +2728,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 847,
-      "palabrasG": 879,
-      "deltaTexto": 0.03778040141676505
+      "palabrasG": 866,
+      "deltaTexto": 0.02243211334120425
     },
     {
       "ruta": "/services/concrete",
@@ -2759,8 +2759,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1548,
-      "palabrasG": 1949,
-      "deltaTexto": 0.2590439276485788
+      "palabrasG": 1939,
+      "deltaTexto": 0.2525839793281654
     },
     {
       "ruta": "/services/deck-builders",
@@ -2790,8 +2790,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1520,
-      "palabrasG": 1924,
-      "deltaTexto": 0.2657894736842105
+      "palabrasG": 1914,
+      "deltaTexto": 0.25921052631578945
     },
     {
       "ruta": "/services/driveways",
@@ -2821,8 +2821,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1630,
-      "palabrasG": 2043,
-      "deltaTexto": 0.25337423312883434
+      "palabrasG": 2033,
+      "deltaTexto": 0.24723926380368097
     },
     {
       "ruta": "/services/fence-solutions",
@@ -2852,8 +2852,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1509,
-      "palabrasG": 1905,
-      "deltaTexto": 0.2624254473161034
+      "palabrasG": 1895,
+      "deltaTexto": 0.25579854208084823
     },
     {
       "ruta": "/services/full-outdoor-remodel",
@@ -2883,8 +2883,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1489,
-      "palabrasG": 2013,
-      "deltaTexto": 0.3519140362659503
+      "palabrasG": 2003,
+      "deltaTexto": 0.34519811954331764
     },
     {
       "ruta": "/services/pavers",
@@ -2914,8 +2914,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1590,
-      "palabrasG": 1987,
-      "deltaTexto": 0.24968553459119497
+      "palabrasG": 1977,
+      "deltaTexto": 0.24339622641509434
     },
     {
       "ruta": "/services/pergola-design-construction",
@@ -2945,8 +2945,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 1645,
-      "palabrasG": 1882,
-      "deltaTexto": 0.14407294832826747
+      "palabrasG": 1872,
+      "deltaTexto": 0.13799392097264437
     },
     {
       "ruta": "/thank-you",
@@ -2973,8 +2973,8 @@
       "rotos": [],
       "externos": 0,
       "palabrasV": 366,
-      "palabrasG": 505,
-      "deltaTexto": 0.3797814207650273
+      "palabrasG": 492,
+      "deltaTexto": 0.3442622950819672
     }
   ],
   "sinVivo": []

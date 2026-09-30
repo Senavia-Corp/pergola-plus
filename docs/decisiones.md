@@ -1218,3 +1218,31 @@ ficheros. La etiqueta de lead que ve ventas sí cambia —`Sukkah 3000 System`, 
 en el estimador y en el `<option value>` del presupuesto—: si algún CRM o filtro de
 correo dependía de `Sukkha 3000 System`, hay que avisarlo. En español solo se corrige
 la grafía, no el género («el/la Sukkah 3000» queda como estaba).
+
+## Feedback final de Daniel y cuatro hallazgos de la auditoría: el resto del paquete (30-sep-2026)
+
+Lo que no es un renombrado de ruta, con el porqué de cada decisión:
+
+- **Menú.** Once de las doce descripciones repetían «pergola contractors in South
+  Florida» con una cola colgante («…for home», «…always», «…you can rely»). No se
+  hicieron los micro-arreglos literales, que conservaban el *keyword*: cada una dice
+  ahora qué hay detrás del enlace. Las de About Us, Blog y Get a Quote son palabras del
+  cliente; la de Warranty & Protection es nuestra y queda **pendiente de su visto
+  bueno**, igual que «family-owned» y «no-obligation», que la página de destino no
+  sostiene. El ES del menú no se tocó: va por clave y ya estaba limpio.
+- **Copyright** estático, `© 2026`: en un build estático el calculado también se
+  congela al compilar, y el estático no finge lo contrario.
+- **Tarjetas de «How We Build It».** No eran «Home y About»: la banda son siete copias
+  de la plantilla de Webflow en 48 rutas. Se corrige el texto, no las mayúsculas de los
+  títulos, y en ES se conservan las dos traducciones que ya había.
+- **Notas internas de estrategia SEO** (hallazgo I-3): 13 párrafos en 12 posts que
+  eran instrucciones del redactor publicadas («…aligns with high-ticket positioning
+  strategy…»). Se retiran enteros, en EN y ES. Las «aligns with» que hablan de
+  normativa o de diseño se quedan: el criterio es de quién habla la frase, no el
+  vocabulario.
+- **Nombres de fichero con errata** (logos de Apollo y Renaissance, `appoiment`): se
+  renombran con el mismo sha256 y con una guarda en el script que los deriva, porque
+  sin ella la siguiente ejecución los devolvería sin que ninguna puerta lo viera.
+- **Hueco entre reseñas y proceso**: acotado con `.reviews + .process`, las únicas
+  cuatro rutas donde las dos bandas blancas van seguidas. Globalizar la tarjeta de
+  pasos a 64 px habría cambiado 92 rutas que nadie pidió tocar.
