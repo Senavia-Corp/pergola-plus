@@ -193,8 +193,6 @@ export default {
     "La tramitación del permiso",
   "HOA documentation":
     "La documentación para la comunidad",
-  "This pricing aligns with high-ticket outdoor living positioning .":
-    "Encaja con lo que vale un exterior de gama alta.",
   "Permits &amp; HOA Considerations":
     "Permisos y comunidad",
   "Across Florida’s high-end communities:":

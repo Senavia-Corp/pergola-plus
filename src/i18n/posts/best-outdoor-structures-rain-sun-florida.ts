@@ -171,8 +171,6 @@ export default {
     "Que ponga «resistente al huracán» no basta.",
   "True hurricane-rated systems are engineered for survival — not marketing claims.":
     "Un sistema homologado de verdad se calcula para sobrevivir, no para el folleto.",
-  "This approach aligns with high-ticket outdoor living strategy for South Florida homeowners .":
-    "Es lo que corresponde a un exterior de gama alta en el sur de Florida.",
   "Cost Expectations":
     "Qué inversión hay que contar",
   "Luxury outdoor structures in Florida typically range:":

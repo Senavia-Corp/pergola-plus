@@ -195,6 +195,27 @@ export const TEXTOS_CLIENTE = {
   'delivering strength and quality..': 'delivering strength and quality.',
   'ensure everything works perfectly, and leave it all</p>': 'ensure everything works perfectly, and leave it all to us.</p>',
 
+  // --- Notas internas de estrategia SEO publicadas en el blog (auditoria I-3, 30-sep-2026) ---
+  // Frases de trabajo del redactor que llegaron al CMS y se publicaron («…aligns with
+  // high-ticket positioning strategy…»): 13 en 12 posts. Cada una es un <p> suelto y
+  // unico, asi que se retira el parrafo entero y el texto de los demas no se mueve.
+  // Su traduccion vive en src/i18n/posts/<slug>.txt: se quita esa linea y se regenera
+  // el .ts con scripts/emparejar-traduccion.mjs. Las «aligns with» que hablan de
+  // normativa o de diseño (high-wind standards, biophilic trends…) se quedan.
+  '<p>This safety-first approach aligns with high-ticket outdoor living strategy for the region .</p>': '',
+  '<p>This regulatory structure aligns with the high-ticket positioning strategy for Palm Beach County .</p>': '',
+  '<p>Premium aluminum aligns with high-ticket outdoor living positioning strategy .</p>': '',
+  '<p>This approach aligns with high-ticket outdoor living strategy for South Florida homeowners .</p>': '',
+  '<p>This aligns with high-end outdoor living positioning in Palm Beach and Broward markets .</p>': '',
+  '<p>This pricing aligns with high-ticket outdoor living positioning strategy .</p>': '',
+  '<p>This reflects high-ticket positioning for engineered outdoor living .</p>': '',
+  '<p>This aligns with high-ticket positioning strategy outlined in the regional SEO authority blueprint .</p>': '',
+  '<p>This aligns with the region’s high-ticket outdoor living positioning .</p>': '',
+  '<p>This engineering-first mindset reflects premium positioning strategy for South Florida markets .</p>': '',
+  '<p>This material strategy aligns with long-term high-end outdoor living positioning .</p>': '',
+  '<p>This pricing aligns with high-ticket outdoor living positioning .</p>': '',
+  '<p>This aligns with high-ticket positioning strategy for South Florida outdoor living .</p>': '',
+
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
     'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.',

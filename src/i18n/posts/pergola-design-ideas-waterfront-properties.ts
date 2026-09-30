@@ -121,8 +121,6 @@ export default {
     "Sistemas de drenaje ocultos",
   "Without marine-rated materials, salt exposure will shorten lifespan significantly.":
     "Sin materiales de grado marino, el salitre acorta mucho la vida útil.",
-  "This material strategy aligns with long-term high-end outdoor living positioning .":
-    "Es la estrategia de material que exige un exterior de gama alta pensado a largo plazo.",
   "5. Elevated Pergola Platforms for Dock-Level Living":
     "5. Pérgolas a nivel de pantalán",
   "Some waterfront homes feature:":

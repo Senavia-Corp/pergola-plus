@@ -239,8 +239,6 @@ export default {
     "La instalación eléctrica",
   "HOA compliance":
     "Lo que exija la comunidad",
-  "This aligns with high-end outdoor living positioning in Palm Beach and Broward markets .":
-    "Encaja con lo que vale un exterior de gama alta en Palm Beach y Broward.",
   "Key Takeaways":
     "Lo que hay que retener",
   "Building a custom pergola in South Florida involves:":

@@ -201,8 +201,6 @@ export default {
     "«Resistente al huracán» y «homologado para huracán» no son lo mismo.",
   "Engineering integrity protects your home and investment.":
     "La solidez del cálculo es lo que protege su casa y su inversión.",
-  "This aligns with high-ticket positioning strategy for South Florida outdoor living .":
-    "Encaja con lo que vale un exterior de gama alta en el sur de Florida.",
   "8. Integrate Lighting &amp; Automation":
     "8. Integre iluminación y automatización",
   "Luxury backyards transition seamlessly from day to night.":

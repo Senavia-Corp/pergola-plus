@@ -139,8 +139,6 @@ export default {
     "Zapatas de hormigón calculadas",
   "“Hurricane resistant” marketing isn’t enough — true systems meet Florida Building Code standards.":
     "Que el folleto diga «resistente al huracán» no basta: un sistema de verdad cumple el código de edificación de Florida.",
-  "This safety-first approach aligns with high-ticket outdoor living strategy for the region .":
-    "Es la forma de trabajar que corresponde a un exterior de gama alta en esta zona.",
   "6. Create Layered Shade Zones":
     "6. Cree sombra por capas",
   "The most sophisticated backyards use multiple shade layers:":

@@ -45,8 +45,6 @@ export default {
     "Aluminio de calidad",
   "Electrical integration":
     "Instalación eléctrica integrada",
-  "This aligns with the region’s high-ticket outdoor living positioning .":
-    "Encaja con lo que se paga por el exterior en esta zona.",
   "Cost by Pergola Type":
     "Precio por tipo de pérgola",
   "1. Open-Air Aluminum Pergola":
@@ -185,8 +183,6 @@ export default {
     "Anclajes homologados para huracán",
   "A pergola that survives in Arizona may fail in Boca Raton.":
     "Una pérgola que aguanta en Arizona puede venirse abajo en Boca Raton.",
-  "This engineering-first mindset reflects premium positioning strategy for South Florida markets .":
-    "Poner la ingeniería por delante es lo que distingue a los buenos proyectos en el sur de Florida.",
   "How Long Does Installation Take?":
     "¿Cuánto tarda la instalación?",
   "Typical timeline:":

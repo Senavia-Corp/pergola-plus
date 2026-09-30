@@ -187,8 +187,6 @@ export default {
     "Un lavado de vez en cuando",
   "Long-term structural integrity":
     "Solidez a largo plazo",
-  "Premium aluminum aligns with high-ticket outdoor living positioning strategy .":
-    "El aluminio de gama alta encaja con lo que se espera de un exterior de este nivel.",
   "When Wood Might Make Sense":
     "Cuándo puede tener sentido la madera",
   "Wood may be suitable if:":

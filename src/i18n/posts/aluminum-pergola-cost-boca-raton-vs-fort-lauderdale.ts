@@ -105,8 +105,6 @@ export default {
     "Documentación de aprobación de producto",
   "Permit timelines may extend 2–6 weeks.":
     "Los plazos de permiso pueden irse a 2–6 semanas.",
-  "This regulatory structure aligns with the high-ticket positioning strategy for Palm Beach County .":
-    "Encaja con lo que vale un proyecto de gama alta en el condado de Palm Beach.",
   "Aluminum Pergola Cost in Fort Lauderdale":
     "Lo que cuesta una pérgola de aluminio en Fort Lauderdale",
   "$85 – $140+ per sq ft installed":

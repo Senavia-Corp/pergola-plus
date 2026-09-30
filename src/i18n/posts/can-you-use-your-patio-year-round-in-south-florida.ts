@@ -179,8 +179,6 @@ export default {
     "Las zapatas de hormigón",
   "HOA submissions":
     "La presentación a la comunidad",
-  "This pricing aligns with high-ticket outdoor living positioning strategy .":
-    "Encaja con lo que vale un exterior de gama alta.",
   "Permits &amp; HOA Considerations":
     "Permisos y comunidad",
   "Across Palm Beach and Broward County:":

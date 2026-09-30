@@ -193,8 +193,6 @@ export default {
     "La documentación para la comunidad",
   "Material selection":
     "El material elegido",
-  "This aligns with high-ticket positioning strategy outlined in the regional SEO authority blueprint .":
-    "Encaja con lo que se paga por un exterior de gama alta en esta zona.",
   "Permits &amp; HOA Considerations":
     "Permisos y comunidad",
   "Across Palm Beach and Broward County:":

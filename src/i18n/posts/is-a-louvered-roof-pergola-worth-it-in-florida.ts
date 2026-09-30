@@ -167,8 +167,6 @@ export default {
     "La instalación eléctrica",
   "Permitting &amp; HOA approvals":
     "Los permisos y la aprobación de la comunidad",
-  "This reflects high-ticket positioning for engineered outdoor living .":
-    "Es lo que vale un exterior calculado de gama alta.",
   "When Is It NOT Worth It?":
     "¿Cuándo NO compensa?",
   "A louvered roof pergola may not be ideal if:":
