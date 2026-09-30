@@ -1,0 +1,18 @@
+/*
+ * reviews y process son blancas y contiguas (solo home y about): un único marco entre ambas.
+ *
+ * Cada banda trae `padding: 8rem 2rem` del CSS de Webflow, así que entre el botón «Read
+ * Client Reviews» y la etiqueta «Our Process» se apilaban 256 px (96 px a ≤991). Y la
+ * columna de pasos mide 1450 px fijos (1585 a ≤991), así que las cuatro tarjetas se
+ * repartían el sobrante: 160 px entre una y otra a 1440, 134 a 1024. Medido sobre dist/.
+ *
+ * Todo va acotado con `.reviews + .process`, que solo casa en /, /about-us/about-us y sus
+ * gemelas ES: las otras 92 rutas con banda de pasos no cambian. Ni se toca el export de
+ * Webflow ni se añade fondo a las bandas (check:ritmo lee su tono).
+ */
+.reviews + .process { padding-top: 0; }
+
+@media screen and (min-width: 768px) {
+  .reviews + .process .steps-left  { height: auto; }
+  .reviews + .process .steps-right { row-gap: 4rem; }
+}
