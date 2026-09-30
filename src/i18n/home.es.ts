@@ -184,10 +184,10 @@ export const HOME_ES: Record<string, string> = {
   'We create a custom design that matches your space, style, and goals, ensuring every detail reflects your outdoor vision.':
     'Creamos un diseño a medida que encaja con su espacio, su estilo y sus objetivos, cuidando cada detalle.',
   'We build it right': 'La construimos bien',
-  'Our team builds your pergola with precision, durable materials, and clean workmanship, delivering strength and quality..':
+  'Our team builds your pergola with precision, durable materials, and clean workmanship, delivering strength and quality.':
     'Nuestro equipo construye su pérgola con precisión, materiales duraderos y un acabado limpio.',
   'You enjoy it': 'Usted la disfruta',
-  'Once installed, your pergola is ready to enjoy. We clean your space, ensure everything works perfectly, and leave it all':
+  'Once installed, your pergola is ready to enjoy. We clean your space, ensure everything works perfectly, and leave it all to us.':
     'Una vez instalada, su pérgola está lista. Limpiamos el espacio, comprobamos que todo funcione y lo dejamos todo en orden.',
 
   // --- Servicios ---

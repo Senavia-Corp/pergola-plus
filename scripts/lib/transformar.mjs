@@ -162,26 +162,39 @@ export const PLACEHOLDERS = {
 };
 
 /**
- * Cambios de copy pedidos por el cliente (handoff §6, agosto 2026).
+ * Cambios de copy pedidos por el cliente (handoff §6 de agosto 2026 y feedback
+ * final de septiembre).
  *
- * La llave es el texto EXACTO del export, entidades incluidas. Los dos son
- * unicos en todo el sitio —solo salen en index.html— asi que la sustitucion
- * literal no puede alcanzar a otra pagina por accidente. Si el original cambiara
- * una coma, la clave deja de coincidir y el texto viejo se queda: visible en la
- * home, no roto, y lo caza la comparacion con la captura del vivo.
+ * La llave es el texto EXACTO del export, entidades incluidas, y se sustituye con
+ * replaceAll en el paso 4c de transformar(): el mapa es GLOBAL, se aplica a TODAS
+ * las paginas, y NO falla si una llave deja de coincidir —el texto viejo se queda
+ * sin avisar—. Por eso cada entrada se comprueba contando cuantos fragmentos cambia
+ * al regenerar. Una llave corta alcanza tambien URLs y atributos: si hay riesgo, se
+ * ancla al elemento (`<h1 class="…">Texto</h1>`).
  *
  * El hero de la home es un VIDEO de fondo, no una imagen: aqui solo cambia el
  * texto que va encima. El video no se toca.
  *
- * Las traducciones viven en src/i18n/home.es.ts y sus claves son estos MISMOS
- * textos nuevos. Cambiar uno aqui sin cambiarlo alli deja esa cadena en ingles
- * en /es/, y eso lo mide check:i18n.
+ * Las traducciones viven en los diccionarios de src/i18n/ (home.es.ts, comun.es.ts,
+ * los de cada ficha) y sus claves son estos MISMOS textos nuevos. Cambiar uno aqui
+ * sin cambiarlo alli deja esa cadena en ingles en /es/, y check:i18n NO lo ve (mide
+ * un umbral del 98 %): lo que lo lista es el aviso `[i18n] … SIN traducir` del build.
  */
 export const TEXTOS_CLIENTE = {
   // Errata del contenido original: la frase acaba en "living.z". Sale en
   // /services/pergola-design-construction, en la entradilla de la galeria.
   'Explore our custom aluminum and louvered pergolas built across South Florida, engineered for durability, architectural integration, and elevated outdoor living.z':
     'Explore our custom aluminum and louvered pergolas built across South Florida, engineered for durability, architectural integration, and elevated outdoor living.',
+
+  // --- Feedback final de Daniel (30-sep-2026): erratas heredadas de las plantillas Webflow ---
+  // 'Licensed &Insured': falta el espacio. 45 fichas EN (products 10, services 7, countries 3, pergolas-contractors 25).
+  // Su clave ES vive en src/i18n/comun.es.ts (cambiar las dos a la vez).
+  'Licensed &amp;Insured In Florida': 'Licensed &amp; Insured In Florida',
+  // Banda «How We Build It» (48 rutas EN, 7 plantillas Webflow): doble punto y frase truncada.
+  // Sus claves ES viven en comun.es.ts Y home.es.ts (cambiar las 4 a la vez).
+  'delivering strength and quality..': 'delivering strength and quality.',
+  'ensure everything works perfectly, and leave it all</p>': 'ensure everything works perfectly, and leave it all to us.</p>',
+
   'South Florida’s Pergola &amp; Patio Cover Contractors': 'Live Outdoors. Beautifully.',
   'Pergola Plus Florida, your premiere contractors for pergolas and custom shade structures for luxury patios in South Florida. Fall in love with the outdoors under a custom Aluminum Pergola, Louvered Roof System, Patio Cover or Enclosure in your own backyard!':
     'South Florida’s trusted experts in outdoor remodels, hardscape, and custom shade structures — let’s elevate your backyard for true Florida living.',

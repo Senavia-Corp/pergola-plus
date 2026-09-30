@@ -138,7 +138,7 @@ export const COMUN_ES: Record<string, string> = {
   'Go to the main page': 'Ir a la página principal',
 
   // --- Sellos de confianza, repetidos en las páginas interiores ---
-  'Licensed &amp;Insured In Florida': 'Con licencia y seguro en Florida',
+  'Licensed &amp; Insured In Florida': 'Con licencia y seguro en Florida',
   'Over 10 Years of Experience': 'Más de 10 años de experiencia',
   'Premium Materials &amp; Guaranteed Installation':
     'Materiales premium e instalación garantizada',
@@ -181,11 +181,11 @@ export const COMUN_ES: Record<string, string> = {
   'We create a custom design that matches your space, style, and goals, ensuring every detail reflects your outdoor vision.':
     'Creamos un diseño a medida que encaja con su espacio, su estilo y sus objetivos, cuidando que cada detalle responda a lo que tiene en mente.',
   'We build it right': 'La construimos bien',
-  'Our team builds your pergola with precision, durable materials, and clean workmanship, delivering strength and quality..':
+  'Our team builds your pergola with precision, durable materials, and clean workmanship, delivering strength and quality.':
     'Nuestro equipo construye su pérgola con precisión, materiales duraderos y buen acabado, para que resista y se note.',
   'You enjoy it': 'Usted la disfruta',
-  'Once installed, your pergola is ready to enjoy. We clean your space, ensure everything works perfectly, and leave it all':
-    'Una vez instalada, su pérgola está lista. Limpiamos la zona, comprobamos que todo funciona y se lo dejamos todo en orden',
+  'Once installed, your pergola is ready to enjoy. We clean your space, ensure everything works perfectly, and leave it all to us.':
+    'Una vez instalada, su pérgola está lista. Limpiamos la zona, comprobamos que todo funciona y se lo dejamos todo en orden.',
 
   // --- Encabezados de sección recurrentes ---
   'Discover What Our Service Includes!': '¿Qué incluye nuestro servicio?',
