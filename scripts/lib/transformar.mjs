@@ -2421,6 +2421,49 @@ export function transformar(html, ruta) {
     }
   }
 
+  //     Terms & Conditions: dos secciones que Daniel pidio SUMAR por correo (4-sep-2026,
+  //     «Terms y Privacy Policy»): la clausula de privacidad y los terminos de SMS que
+  //     exige el registro de mensajeria (A2P 10DLC). Texto suyo, literal salvo tres
+  //     erratas evidentes: el correo de soporte llegaba sin «.com», «llc» va en
+  //     mayusculas y se quita la frase de exclusion repetida justo despues del parrafo
+  //     que ya la lleva. Solo en ingles: el contrato no se traduce (docs/decisiones.md).
+  if (ruta === '/articles/terms-of-service') {
+    const antes = s;
+    s = s.replace(
+      'hereby outlined above.</p>',
+      'hereby outlined above.</p>'
+      + '<h2>Privacy Policy</h2>'
+      + '<p>No personal information, mobile information, emails or phone numbers will be'
+      + ' shared with third parties or affiliates for marketing or promotional purposes.'
+      + ' All the above categories exclude text messaging originator opt-in data and'
+      + ' consent; this information will not be shared with any third parties.</p>'
+      + '<h2>SMS Terms &amp; Conditions</h2>'
+      + '<p><strong>Product Description</strong></p>'
+      + '<p>By providing your mobile phone number, you consent to receive SMS messages from'
+      + ' <strong>Pergola Plus Florida LLC</strong> related to order updates, and account'
+      + ' notifications. Message frequency may vary.</p>'
+      + '<p><strong>Message and Data Rates</strong></p>'
+      + '<p>Standard message and data rates may apply.</p>'
+      + '<p><strong>Opting Out</strong></p>'
+      + '<p>You may opt out of receiving SMS messages at any time by replying with'
+      + ' &quot;STOP&quot; to any SMS message you receive from us. After opting out, you'
+      + ' will receive a confirmation message, and we will cease sending SMS messages to'
+      + ' your number.</p>'
+      + '<p><strong>Help and Support</strong></p>'
+      + '<p>If you need assistance or have questions about our SMS service, reply with'
+      + ' &quot;HELP&quot; to any SMS message you receive, or contact our customer support'
+      + ' team at <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>.</p>'
+      + '<p>All the above categories exclude text messaging originator opt-in data and'
+      + ' consent; this information will not be shared with any third parties.</p>',
+    );
+    if (s === antes) {
+      throw new Error(
+        '/articles/terms-of-service ya no termina en «hereby outlined above.»: revisa donde '
+        + 'van las secciones de privacidad y SMS en scripts/lib/transformar.mjs',
+      );
+    }
+  }
+
   // 4d. Fotos nuevas del cliente. Se sustituye la RUTA, asi que alcanza al src y
   //     tambien al srcset y al JSON del lightbox si algun dia esa imagen sale ahi.
   //
