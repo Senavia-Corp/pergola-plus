@@ -20,6 +20,10 @@ import {
   POSTS_ES, CUERPOS_ES, TEXTOS, traducirPost, traducidos, rutaPost, rutaBlog, rutaCategoria,
 } from '../../../i18n/blog.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
+// Los alt de las 40 fotografias del cuerpo. Van aparte de CUERPOS_ES porque esos
+// diccionarios los genera emparejar-traduccion.mjs a partir de los NODOS DE TEXTO del
+// fragmento, y un alt es un atributo: no entra por ahi. Ver ALTS_ES en posts.mjs.
+import { ALTS_ES } from '../../../../scripts/lib/posts.mjs';
 import '../../../styles/blog.css';
 
 const fragmentos = import.meta.glob('../../../contenido-migrado/post/*.html', {
@@ -49,7 +53,7 @@ const meta = POSTS_ES[item.slug]!;
 // COMUN_ES cubre lo que el fragmento comparte con el resto del sitio: las tarjetas
 // del bloque de destacados y el CTA del pie. El diccionario del articulo solo trae
 // SU texto, y manda sobre lo comun si coinciden.
-const { html, traducidas, faltan } = traducirHtml(bruto, { ...COMUN_ES, ...CUERPOS_ES[item.slug]! });
+const { html, traducidas, faltan } = traducirHtml(bruto, { ...COMUN_ES, ...ALTS_ES, ...CUERPOS_ES[item.slug]! });
 if (faltan.length) {
   console.warn(`\n  [i18n] /es/post/${item.slug} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
   for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);

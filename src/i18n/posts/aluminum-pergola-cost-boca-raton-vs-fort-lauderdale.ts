@@ -157,8 +157,40 @@ export default {
     "Esos materiales son los que hacen que dure, aunque suban algo el precio frente a una parcela de interior en Boca.",
   "Cost Comparison at a Glance":
     "La comparativa, de un vistazo",
-  "FactorBoca RatonFort LauderdaleAvg. Price Per Sq Ft$90–$150+$85–$140+HOA ComplexityVery HighModerate–HighArchitectural DetailingMediterranean focusModern minimalismWaterfront ExposureSelect areasCommonEngineering ComplexityHighHigh (waterfront-driven)":
-    "FactorBoca RatonFort LauderdalePrecio medio por pie²$90–$150+$85–$140+Exigencia de la comunidadMuy altaMedia–altaDetalle arquitectónicoMediterráneoMinimalismo actualFrente al aguaEn algunas zonasHabitualComplejidad del cálculoAltaAlta (por estar frente al agua)",
+  "Aluminum pergola cost factors: Boca Raton compared with Fort Lauderdale":
+    "Lo que mueve el precio de una pérgola de aluminio: Boca Raton frente a Fort Lauderdale",
+  "Factor":
+    "Factor",
+  "Boca Raton":
+    "Boca Raton",
+  "Fort Lauderdale":
+    "Fort Lauderdale",
+  "Avg. Price Per Sq Ft":
+    "Precio medio por pie²",
+  "HOA Complexity":
+    "Exigencia de la comunidad",
+  "Very High":
+    "Muy alta",
+  "Moderate–High":
+    "Media–alta",
+  "Architectural Detailing":
+    "Detalle arquitectónico",
+  "Mediterranean focus":
+    "Mediterráneo",
+  "Modern minimalism":
+    "Minimalismo actual",
+  "Waterfront Exposure":
+    "Frente al agua",
+  "Select areas":
+    "En algunas zonas",
+  "Common":
+    "Habitual",
+  "Engineering Complexity":
+    "Complejidad del cálculo",
+  "High":
+    "Alta",
+  "High (waterfront-driven)":
+    "Alta (por estar frente al agua)",
   "Both cities demand hurricane-rated engineering.":
     "Las dos ciudades exigen cálculo homologado para huracán.",
   "The difference lies in aesthetic requirements and waterfront prevalence.":
@@ -269,12 +301,8 @@ export default {
     "Conclusión: ¿en qué ciudad sale más caro?",
   "In most cases:":
     "En la mayoría de los casos:",
-  "Boca Raton":
-    "Boca Raton",
   "projects trend slightly higher due to HOA and architectural detailing.":
     "sale algo más caro por la comunidad y por el nivel de detalle arquitectónico.",
-  "Fort Lauderdale":
-    "Fort Lauderdale",
   "projects may increase in cost when waterfront engineering is involved.":
     "puede subir cuando entra en juego el cálculo de una parcela frente al agua.",
   "The better question isn’t which is cheaper.":

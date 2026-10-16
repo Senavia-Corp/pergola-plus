@@ -748,6 +748,82 @@
   text-align: center;
 }
 
+/* ----------------------------------------------------- tabla comparativa -- */
+
+/* La tabla de /post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale llegaba del
+   CMS como un parrafo con las 18 celdas pegadas. Reconstruida con HTML semantico
+   (scripts/lib/posts.mjs), necesita su propio estilo: el sitio no tenia ninguno
+   porque hasta ahora no habia ni una tabla.
+
+   El scroll lateral va en un contenedor y no en la <table>: poniendolo en la tabla,
+   `overflow` crea contexto de formato y el `scroll-margin-top` de los encabezados deja
+   de funcionar dentro. */
+.pp-tabla-scroll {
+  margin: 2.5em 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pp-tabla-scroll:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pp-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  /* Sin esto, en movil las tres columnas se estrujan en 320px y el scroll lateral
+     —que es justo lo que las salva— no llega a activarse nunca. */
+  min-width: 34rem;
+}
+
+.pp-tabla caption {
+  margin-bottom: 0.75rem;
+  color: var(--terceary);
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.pp-tabla th,
+.pp-tabla td {
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--gray);
+  text-align: left;
+  vertical-align: top;
+}
+
+.pp-tabla thead th {
+  border-bottom-width: 2px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* La primera columna es encabezado de fila (`<th scope="row">`), no dato: se marca
+   como tal para que se lea igual que se ve. */
+.pp-tabla tbody th {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.pp-tabla tbody tr:last-child th,
+.pp-tabla tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* -------------------------------------------------------- CTA del articulo -- */
+
+/* Los 21 articulos cerraban con dos <h3> que parecian botones y no lo eran. Ahora son
+   dos enlaces de verdad; las clases `button` las pone el CSS de Webflow, aqui solo va
+   la caja que los coloca. */
+.pp-post-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 2.5em 0 1.4em;
+}
+
 /* ---------------------------------------------------------------- indice -- */
 
 .pp-indice {

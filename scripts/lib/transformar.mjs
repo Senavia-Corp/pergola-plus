@@ -22,6 +22,9 @@
 // comentario de cabecera de ese fichero para por que estan separados.
 import { FICHAS, FICHAS_RECOMPUESTAS, DATA_PRODUCT, ANCLA_TARJETA, foto } from './fichas.mjs';
 import { ALT_SERVICIOS, PODA_GALERIA, altDeProducto, esFoto } from './servicios.mjs';
+// Igual que fichas.mjs y servicios.mjs: lo PROPIO de los 21 articulos del blog —que
+// fotografia real entra, cual se quita, que se enlaza y por que— vive en su fichero.
+import { recomponerPost } from './posts.mjs';
 
 export { FICHAS_RECOMPUESTAS };
 
@@ -2717,6 +2720,12 @@ export function transformar(html, ruta) {
   // 6f. Las paginas de servicio. Va aqui por el mismo motivo que 6e: despues del 6d,
   //     que inserta la portada del FAQ con su `alt`, y antes del 7.
   if (ruta?.startsWith('/services/')) s = recomponerServicio(s, ruta.slice('/services/'.length));
+
+  // 6g. El cuerpo de los 21 articulos del blog: fotografia real en vez de las 62
+  //     imagenes generadas por IA, enlaces internos, los 42 CTA muertos y —solo en el
+  //     articulo de costes— los 3 <h1> del cuerpo y la tabla comparativa rota.
+  //     El porque de cada decision esta en scripts/lib/posts.mjs.
+  if (ruta?.startsWith('/post/')) s = recomponerPost(s, ruta.slice('/post/'.length));
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las
