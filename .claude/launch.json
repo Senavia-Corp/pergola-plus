@@ -1,6 +1,14 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "pergola-plus", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 4321, "autoPort": true }
+    { "name": "pergola-plus", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 4321, "autoPort": true },
+    {
+      "_comentario": "Sirve la salida CONSTRUIDA. Es la que hay que mirar: `npm run dev` no hornea width/height en las imagenes, asi que ahi las medidas mienten y una comprobacion visual sobre dev puede dar por bueno un salto de layout que en produccion existe. Ver la regla 1 de ~/Sites/CLAUDE.md. Hay que ejecutar `npm run build` antes.",
+      "name": "pergola-plus-dist",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4322", "--directory", "dist/client"],
+      "port": 4322,
+      "autoPort": true
+    }
   ]
 }

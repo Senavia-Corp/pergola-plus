@@ -718,14 +718,20 @@
   font-weight: 600;
 }
 
-.pp-prosa a {
+/* `:not(.w-button)` NO es cosmetica: el CTA del final del articulo son dos enlaces
+   con las clases de boton de Webflow, y sin esa exclusion esta regla les pisaba el
+   color del texto. El boton primario quedaba con color y fondo IDENTICOS
+   (var(--primary) sobre var(--primary)): contraste 1:1, texto invisible, y el enlace
+   seguia siendo clicable — o sea, un boton negro y mudo al final de los 21
+   articulos. Medido en la pagina construida, no supuesto. */
+.pp-prosa a:not(.w-button) {
   color: var(--primary);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
 
-.pp-prosa a:hover {
+.pp-prosa a:not(.w-button):hover {
   text-decoration-thickness: 2px;
 }
 
