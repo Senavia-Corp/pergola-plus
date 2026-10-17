@@ -4,6 +4,9 @@ import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import htmlOriginal from '../../contenido-migrado/estaticas/index.html?raw';
 import { traducirHtml } from '../../i18n';
 import { HOME_ES } from '../../i18n/home.es';
+// Los alt de las 10 miniaturas de la banda de blog: son atributos, no nodos de texto,
+// y `traducirHtml` NO reporta los atributos que no encuentra. Ver scripts/lib/miniaturas.mjs.
+import { MINIATURAS_ES } from '../../../scripts/lib/miniaturas.mjs';
 import { grafo, localBusiness } from '../../lib/jsonld';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 
@@ -19,7 +22,7 @@ import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 // la que IX2 resuelve los ids page-scoped (los que llevan "|"), y esta página
 // usa exactamente esos elementos.
 
-const { html, traducidas, faltan } = traducirHtml(htmlOriginal, HOME_ES);
+const { html, traducidas, faltan } = traducirHtml(htmlOriginal, { ...HOME_ES, ...MINIATURAS_ES });
 
 // Se parte sobre el HTML YA TRADUCIDO: es el que se sirve, y `traducirHtml`
 // conserva los comentarios. `partirEnMarca` LANZA si la marca no esta.

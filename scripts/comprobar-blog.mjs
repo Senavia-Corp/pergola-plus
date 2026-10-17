@@ -11,6 +11,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
+import { MINIATURAS_ES } from './lib/miniaturas.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const HTML = await raizHtml();
@@ -197,6 +198,91 @@ decir(uno.includes('"dateModified"'), 'dateModified en el BlogPosting');
  * vuelva. Si alguien la reintroduce, vuelve con ella el `position: fixed` a la
  * altura del nav escrita a mano, que es lo que la cruzaba por encima del texto.
  */
+/* ----------------------------------- miniaturas de las paginas de ciudad -- */
+
+/*
+ * La banda de blog de /pergolas-contractors/<ciudad> traia las portadas VIEJAS del
+ * blog: 10 imagenes generadas por IA, tres de ellas planos de permiso y calculos de
+ * carga inventados, en 25 paginas de captacion. Ahora cada tarjeta lleva la portada
+ * real del articulo al que enlaza (scripts/lib/miniaturas.mjs).
+ *
+ * Esto se comprueba sobre dist/ y no sobre la tabla porque lo que importa es lo que
+ * pide el HTML servido, y porque asi la afirmacion es la de verdad: la miniatura de
+ * la tarjeta y la portada del articulo son LA MISMA imagen. Si el cliente cambia una
+ * portada en el CMS y la tabla se queda atras, esto falla en vez de publicar una
+ * tarjeta que ya no se parece al articulo que abre.
+ */
+console.log('\nminiaturas de la banda de blog (home + 25 paginas de ciudad)');
+
+const CIUDADES = path.join(HTML, 'pergolas-contractors');
+const ciudades = (await fs.readdir(CIUDADES, { withFileTypes: true }))
+  .filter((d) => d.isDirectory())
+  .map((d) => d.name);
+
+decir(ciudades.length === 25, `se generan las 25 paginas de ciudad (${ciudades.length})`);
+
+/** Portada de cada articulo, leida de su propia pagina construida. */
+const portada = {};
+for (const slug of rutasPost) {
+  const h = await fs.readFile(path.join(HTML, 'post', slug, 'index.html'), 'utf8');
+  portada[slug] = h.match(/<img src="([^"]+)"[^>]*fetchpriority="high"/)?.[1] ?? null;
+}
+decir(
+  Object.values(portada).every(Boolean),
+  `portada localizada en los ${rutasPost.length} articulos`,
+  Object.entries(portada).filter(([, v]) => !v).map(([k]) => `${k}: sin <img fetchpriority="high">`),
+);
+
+const TARJETA_CIUDAD = /<img[^>]*src="([^"]+)"[^>]*class="card-blog-image"[\s\S]{0,900}?<a href="\/(?:es\/)?post\/([^"]+)"/g;
+const conIa = [];
+const divergen = [];
+const sinAlt = [];
+const sinTraducir = [];
+let tarjetas = 0;
+
+// La home lleva la MISMA banda con las mismas 10 tarjetas, asi que entra en el mismo
+// recorrido: '' es la raiz, o sea dist/index.html y dist/es/index.html.
+const paginas = [['', ''], ['es', '']];
+const esEspanol = (base) => base === 'es' || base.startsWith('es/');
+for (const ciudad of ciudades) {
+  paginas.push(['pergolas-contractors', ciudad], ['es/pergolas-contractors', ciudad]);
+}
+
+for (const [base, ciudad] of paginas) {
+  const html = await fs
+    .readFile(path.join(HTML, base, ciudad, 'index.html'), 'utf8')
+    .catch(() => null);
+  if (html === null) continue;        // no todas las ciudades tienen gemela en /es/
+  const nombre = '/' + [base, ciudad].filter(Boolean).map((x) => `${x}/`).join('');
+  if (/cms-img\/blog/.test(html)) conIa.push(nombre);
+  let m;
+  TARJETA_CIUDAD.lastIndex = 0;
+  while ((m = TARJETA_CIUDAD.exec(html))) {
+    tarjetas++;
+    const [, src, slug] = m;
+    if (portada[slug] && src !== portada[slug]) {
+      divergen.push(`${nombre} → ${slug}: tarjeta ${src} vs portada ${portada[slug]}`);
+    }
+    const alt = m[0].match(/alt="([^"]*)"/)?.[1] ?? '';
+    if (!alt.trim()) sinAlt.push(`${nombre} → ${slug}`);
+    // El alt es un atributo: `traducirHtml` lo traduce pero NO reporta los que no
+    // encuentra. Sin esto, un alt olvidado sale en ingles en /es/ y nadie avisa.
+    if (esEspanol(base) && MINIATURAS_ES[alt] !== undefined) {
+      sinTraducir.push(`${nombre} → ${slug}: «${alt.slice(0, 60)}…»`);
+    }
+  }
+}
+
+decir(conIa.length === 0, `cero referencias a /cms-img/blog/ en home y paginas de ciudad (${conIa.length})`, conIa);
+decir(tarjetas > 0, `${tarjetas} tarjetas de blog emparejadas con su articulo`);
+decir(divergen.length === 0, `la miniatura es la portada del articulo (${divergen.length} divergen)`, divergen);
+decir(sinAlt.length === 0, `cero alt vacios en las miniaturas (${sinAlt.length})`, sinAlt);
+decir(
+  sinTraducir.length === 0,
+  `los alt de /es/ estan en español (${sinTraducir.length} siguen en ingles)`,
+  sinTraducir,
+);
+
 console.log('\nbarra de progreso');
 decir(
   !cssBuild.includes('pp-progreso'),

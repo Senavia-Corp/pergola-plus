@@ -25,6 +25,9 @@ import { ALT_SERVICIOS, PODA_GALERIA, altDeProducto, esFoto } from './servicios.
 // Igual que fichas.mjs y servicios.mjs: lo PROPIO de los 21 articulos del blog —que
 // fotografia real entra, cual se quita, que se enlaza y por que— vive en su fichero.
 import { recomponerPost } from './posts.mjs';
+// Y lo PROPIO de la banda de blog de las 25 paginas de ciudad —las 10 miniaturas que
+// seguian siendo las portadas viejas del blog, generadas por IA— vive en miniaturas.mjs.
+import { recomponerMiniaturas } from './miniaturas.mjs';
 
 export { FICHAS_RECOMPUESTAS };
 
@@ -2726,6 +2729,18 @@ export function transformar(html, ruta) {
   //     articulo de costes— los 3 <h1> del cuerpo y la tabla comparativa rota.
   //     El porque de cada decision esta en scripts/lib/posts.mjs.
   if (ruta?.startsWith('/post/')) s = recomponerPost(s, ruta.slice('/post/'.length));
+
+  // 6h. La banda de blog: sus 10 miniaturas seguian siendo las portadas viejas del
+  //     blog —imagenes de IA, tres de ellas planos de permiso y calculos de carga
+  //     inventados— y pasan a ser la portada REAL de cada articulo, que es la que el
+  //     CMS ya declara para esa tarjeta. El porque esta en scripts/lib/miniaturas.mjs.
+  //
+  //     La banda sale en las 25 paginas de ciudad Y EN LA HOME, con las mismas 10
+  //     tarjetas. El indice del blog y los articulos no entran aqui: esos los pinta
+  //     Astro desde el CSV y ya traian la portada buena.
+  if (ruta === '/' || ruta?.startsWith('/pergolas-contractors/')) {
+    s = recomponerMiniaturas(s, ruta);
+  }
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las

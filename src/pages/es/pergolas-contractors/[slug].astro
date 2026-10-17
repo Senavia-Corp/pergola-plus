@@ -4,6 +4,12 @@ import items from '../../../contenido-migrado/pergolas-contractors/_items.json';
 import { traducirHtml } from '../../../i18n';
 import { UBICACIONES_ES } from '../../../i18n/ubicaciones.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
+// Los alt de las 10 miniaturas de la banda de blog. Van aparte del diccionario de la
+// pagina porque ese se genera a partir de los NODOS DE TEXTO del fragmento, y un alt es
+// un atributo: no entra por ahi. `traducirHtml` SI traduce `alt`, pero NO reporta los
+// que no encuentra, asi que uno olvidado saldria en ingles sin avisar nadie.
+// Ver MINIATURAS_ES en scripts/lib/miniaturas.mjs.
+import { MINIATURAS_ES } from '../../../../scripts/lib/miniaturas.mjs';
 import { grafo, breadcrumbs, areaDeServicio } from '../../../lib/jsonld';
 import { partirEnMarca, MARCA_RESENAS } from '../../../lib/faq-ficha';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
@@ -30,6 +36,7 @@ if (!original) throw new Error(`[i18n] sin fragmento para pergolas-contractors/$
 
 const { html, traducidas, faltan } = traducirHtml(original as string, {
   ...COMUN_ES,
+  ...MINIATURAS_ES,
   ...traduccion.dic,
 });
 
