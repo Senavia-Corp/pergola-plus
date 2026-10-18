@@ -90,6 +90,16 @@
   display: none;
 }
 
+/* Antes de que Formulario.astro convierta el formulario en multipaso, los tres pasos
+   se pintan a la vez y el script los pliega despues: un salto de layout de 0,05 CLS
+   medido en movil (18-oct-2026). Con JS activo (html.w-mod-js lo pone el script del
+   <head>) los pasos 2 y 3 nacen plegados y el script solo tiene que destaparlos;
+   en cuanto pone data-pp-multipaso, manda el [hidden] de arriba. Sin JS no aplica y
+   el formulario sigue siendo uno de tres bloques, que es lo que funciona sin script. */
+html.w-mod-js .form-quote #msf:not([data-pp-multipaso]) .msf-step:not([data-step='1']) {
+  display: none;
+}
+
 /* La cabecera del paso deja de ser un bloque centrado de 550px. */
 .form-quote .header-form {
   max-width: none;

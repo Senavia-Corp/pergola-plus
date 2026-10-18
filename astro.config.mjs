@@ -19,7 +19,11 @@ import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
  * mudo, nunca el ruidoso.
  *
  * Cuando es false, cinco cosas a la vez y ninguna sobra:
- *   robots.txt   Disallow: / y SIN linea Sitemap (ver sitemapYRobots)
+ *   robots.txt   rastreable (Allow: /) pero SIN linea Sitemap (ver sitemapYRobots).
+ *                Rastreable A PROPOSITO: Google solo lee el <meta noindex> si puede
+ *                entrar en la pagina. Con Disallow: / no la lee, y una URL de la
+ *                copia enlazada desde fuera podia salir en el indice como «URL sin
+ *                contenido» (GH-002). El noindex es la exclusion; robots solo abre.
  *   sitemap.xml  se borra de la salida
  *   rss.xml      se borra de la salida, y el <link> que lo anuncia desaparece
  *   <meta>       noindex,nofollow en las 211 paginas (ver BaseLayout)
@@ -288,9 +292,14 @@ function sitemapYRobots() {
             path.join(raiz.pathname, 'robots.txt'),
             [
               'User-agent: *',
-              'Disallow: /',
+              'Allow: /',
+              'Disallow: /api/',
               '',
               '# Build sin PUBLIC_ES_PRODUCCION=1: copia provisional, no es el sitio.',
+              '# Se deja rastrear A PROPOSITO: la exclusion la hace el <meta name="robots"',
+              '# content="noindex,nofollow"> de cada pagina, y Google solo lo lee si puede',
+              '# entrar. Un Disallow: / lo taparia y una URL enlazada desde fuera podria',
+              '# salir en el indice sin contenido. Sin sitemap ni RSS.',
               '# El sitio en vivo es https://www.pergolaplusflorida.com',
               '',
             ].join('\n'),
@@ -308,7 +317,7 @@ function sitemapYRobots() {
             await fs.rm(path.join(raiz.pathname, muerto), { force: true });
           }
           logger.info(
-            'sin PUBLIC_ES_PRODUCCION=1: robots.txt con Disallow: /, sin sitemap y sin RSS',
+            'sin PUBLIC_ES_PRODUCCION=1: robots.txt rastreable sin sitemap, sin RSS y noindex en todo',
           );
           return;
         }

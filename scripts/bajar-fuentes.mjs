@@ -26,8 +26,12 @@
  * cyrillic-ext, greek y vietnamese: son 20 archivos mas para un sitio en ingles y
  * espanol. latin-ext se queda porque cubre las tildes y la enye.
  *
- * Se ejecuta A MANO, no en el build: los .woff2 se versionan (~340 KB los diez) para
+ * Se ejecuta A MANO, no en el build: los .woff2 se versionan (~130 KB los dos) para
  * que el despliegue no dependa de que Google conteste.
+ *
+ * DOS archivos, no diez. Google sirve Inter como fuente variable (eje wght): la
+ * respuesta repite la MISMA URL para los cinco pesos, asi que bajarla cinco veces con
+ * cinco nombres daba cinco copias identicas que el navegador pedia por separado.
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -63,7 +67,10 @@ for (const bloque of bloques) {
   const rango = bloque.match(/unicode-range:\s*([^;]+);/)?.[1];
   if (!peso || !remota) continue;
 
-  const nombre = `inter-${subconjunto}-${peso}.woff2`;
+  // Google sirve Inter como fuente VARIABLE: los cinco pesos comparten URL y bytes.
+  // Un archivo por subconjunto, y la regla declara el rango entero.
+  if (reglas.some((r) => r.includes(`inter-${subconjunto}.woff2`))) continue;
+  const nombre = `inter-${subconjunto}.woff2`;
   const destino = path.join(DESTINO, nombre);
   if (!await fs.stat(destino).catch(() => null)) {
     const r = await fetch(remota, { headers: { 'user-agent': UA } });
@@ -77,7 +84,7 @@ for (const bloque of bloques) {
     '@font-face {\n'
     + "  font-family: 'Inter';\n"
     + '  font-style: normal;\n'
-    + `  font-weight: ${peso};\n`
+    + `  font-weight: ${PESOS[0]} ${PESOS.at(-1)};\n`
     // swap: el texto se ve YA con la fuente de sistema y cambia cuando llega Inter.
     // Sin esto hay hasta 3 s de texto invisible, que es peor que un cambio de fuente.
     + '  font-display: swap;\n'

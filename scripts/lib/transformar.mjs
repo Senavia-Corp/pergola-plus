@@ -20,6 +20,8 @@
 // Lo PROPIO de cada ficha de producto recompuesta —chips, fotos, copy de las secciones
 // nuevas, pies de galeria— vive en fichas.mjs. Aqui solo esta el MOLDE. Ver el
 // comentario de cabecera de ese fichero para por que estan separados.
+import { statSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { FICHAS, FICHAS_RECOMPUESTAS, DATA_PRODUCT, ANCLA_TARJETA, foto } from './fichas.mjs';
 import { ALT_SERVICIOS, PODA_GALERIA, altDeProducto, esFoto } from './servicios.mjs';
 // Igual que fichas.mjs y servicios.mjs: lo PROPIO de los 21 articulos del blog —que
@@ -570,6 +572,11 @@ export const RECORTE = {
  */
 export const CLIENTE_ANCHO = 2500;
 export const CLIENTE_ALTO = 1406;
+/** Anchos de los derivados responsive que acompañan a cada master (ver 4d). */
+export const CLIENTE_DERIVADOS = [640, 960, 1280, 1920];
+/** Anchos de los derivados de las portadas del hero de las fichas (ver 4n y
+ *  scripts/derivar-portadas.mjs). El master de 1450 px cierra el juego. */
+export const PORTADAS_ANCHOS = [640, 960, 1280];
 export const rutaCliente = (origen) =>
   '/images/cliente/' +
   origen.split('/').pop().replace(/\.[^.]+$/, '')
@@ -1182,6 +1189,12 @@ const EXT = 'jpg|jpeg|png|webp|avif|svg|gif';
  * Nombres de los archivos que hay en public/videos/. El hero los pide al CDN.
  * Se leen una vez al cargar el modulo.
  */
+/** Si un fichero existe bajo public/. Para que el transformador no escriba un srcset
+ *  hacia derivados que no estan en disco (ver 4n). */
+const existeEnPublic = (publica) => {
+  try { return statSync(fileURLToPath(new URL(`../../public${publica}`, import.meta.url))).isFile(); } catch { return false; }
+};
+
 const VIDEOS = new Set(
   await (async () => {
     const { readdir } = await import('node:fs/promises');
@@ -2483,10 +2496,23 @@ export function transformar(html, ruta) {
   }
   // El width/height se pone sobre la ruta YA sustituida, en un solo barrido: un
   // <img> puede llevar la ruta en src y en srcset y no queremos duplicar atributos.
+  //
+  //     Y el srcset (PERF-003). El master de 2500 px se pintaba en cajas de 343 px
+  //     (movil), 360 (tablet) y 643 (escritorio): Lighthouse medía ~230 KB de
+  //     sobra por imagen y seis imagenes por pagina. Los derivados los escribe
+  //     scripts/optimizar-imagenes-cliente.mjs junto al master; `sizes` describe las
+  //     cajas reales medidas en la home y en /products (una columna en movil, dos de
+  //     992 px en adelante). El `src` sigue siendo el master: es el que mide
+  //     img-dim.json y el que ve quien no entiende srcset.
   s = s.replace(/<img\s([^>]*?)\/?>/g, (tal_cual, attrs) => {
     if (!attrs.includes('/images/cliente/')) return tal_cual;
     if (/\swidth=/.test(attrs)) return tal_cual;
-    return `<img ${attrs.trim()} width="${CLIENTE_ANCHO}" height="${CLIENTE_ALTO}"/>`;
+    const master = attrs.match(/src="(\/images\/cliente\/[^"]+)\.avif"/)?.[1];
+    const srcset = master && !/\ssrcset=/.test(attrs)
+      ? ` srcset="${CLIENTE_DERIVADOS.map((w) => `${master}-${w}.avif ${w}w`).join(', ')}, ${master}.avif ${CLIENTE_ANCHO}w"`
+        + ' sizes="(min-width: 992px) 50vw, 100vw"'
+      : '';
+    return `<img ${attrs.trim()}${srcset} width="${CLIENTE_ANCHO}" height="${CLIENTE_ALTO}"/>`;
   });
 
   // 4f. El fondo del CTA propio de cada ficha.
@@ -2625,6 +2651,82 @@ export function transformar(html, ruta) {
     );
   }
 
+  // 4m. El video del hero de la home (PERF-001, GH-003). Solo en el fragmento que lo
+  //     lleva; /es/ reutiliza el mismo fragmento, asi que le llega igual.
+  //
+  //     Era el elemento LCP y Lighthouse lo medía en 4,6 s en movil, con tres causas
+  //     que se arreglan en el markup:
+  //       - el fotograma de espera iba como `background-image` EN LINEA (JPEG de
+  //         200 KB) que el navegador no descubre hasta aplicar estilos; ahora es un
+  //         `poster` nativo en AVIF (83 KB, mismo fotograma, sacado del master de
+  //         2560 px) que el preload scanner ve en el HTML y que la home ademas
+  //         precarga desde el <head> con fetchpriority=high.
+  //       - los <source> no declaraban `type`, asi que un navegador sin WebM tenia
+  //         que pedirlo para descartarlo.
+  //       - el mismo MP4 de 1280 px y 9,2 MB bajaba en un movil de 375 px, y
+  //         ademas EN PARALELO con el poster, las hojas y la fuente: en 4G simulado
+  //         el video se comia el ancho de banda del LCP (3,3 s con poster y todo).
+  //         Un script en linea, que corre ANTES de que el navegador elija fuente,
+  //         vacia las fuentes y las repone al `load` de la pagina: el poster pinta
+  //         primero, el video arranca ~1 s despues desde el MISMO fotograma. Por
+  //         debajo de 768 px repone la version de 960 px (4,5 MB); con movimiento
+  //         reducido o ahorro de datos no repone nada y se queda el poster, que es
+  //         una foto real, no una pantalla negra. Sin JavaScript el markup sigue
+  //         siendo `autoplay` con sus dos fuentes: no se pierde nada.
+  //
+  //     El video de escritorio NO se recodifica: a CRF razonable salia MAS grande que
+  //     el que exporto Webflow (13 MB frente a 9,2), porque es plano de dron con
+  //     mucho detalle. Lo que se gana aqui se gana sin tocar su calidad.
+  if (s.includes('class="hero-video-main"')) {
+    const POSTER = '/images/hero-pergola-plus-florida-poster.avif';
+    const MOVIL = '/videos/Bd-video-pergola-plus-Final_movil.mp4';
+    const antesVideo = s;
+    s = s.replace(
+      /(<video\b[^>]*?)\s+style="background-image:url\(&quot;[^"]*?&quot;\)"([^>]*>)/,
+      `$1 poster="${POSTER}" preload="metadata"$2`,
+    );
+    s = s.replace(/data-poster-url="[^"]*"/, `data-poster-url="${POSTER}"`);
+    s = s.replace(/<source src="([^"]+\.mp4)" data-wf-ignore="true"\/>/, '<source src="$1" type="video/mp4" data-wf-ignore="true"/>');
+    s = s.replace(/<source src="([^"]+\.webm)" data-wf-ignore="true"\/>/, '<source src="$1" type="video/webm" data-wf-ignore="true"/>');
+    // El script va como PRIMER HIJO del <video>, antes de los <source>: asi corre
+    // cuando el elemento existe pero aun no tiene fuentes, y le quita `autoplay` y le
+    // pone preload="none" ANTES de que el parser inserte el primer <source>. Puesto
+    // detras de </video> llegaba tarde: medido con Lighthouse, el MP4 ya estaba
+    // pidiendose a los 130 ms aunque el script vaciara las fuentes despues.
+    s = s.replace(
+      /(<video\b[^>]*>)/,
+      '$1'
+      + '<script>(function(v){if(!v||v.tagName!=="VIDEO")return;'
+      + 'v.removeAttribute("autoplay");v.preload="none";'
+      + 'var quieto=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);'
+      + 'if(quieto)return;'
+      // Arranca al `load` de la pagina: el poster ya esta pintado y el video no le
+      // ha quitado ancho de banda ni a el ni a las hojas. Por debajo de 768 px se
+      // reproduce la version de 960 px.
+      + 'var arrancar=function(){'
+      + `if(innerWidth<768){v.innerHTML='<source src="${MOVIL}" type="video/mp4">';}`
+      // load() ANTES de autoplay/preload: con preload="none" Chrome ya habia ELEGIDO
+      // la fuente de escritorio al parsear (sin bajarla); poner autoplay antes de
+      // reseleccionar disparaba esa descarga y load() la abortaba despues: una
+      // peticion de 655 KB de mas, medida con Lighthouse.
+      + 'v.load();v.autoplay=true;v.preload="auto";var p=v.play();if(p&&p.catch)p.catch(function(){});};'
+      + 'if(document.readyState==="complete")setTimeout(arrancar,0);else addEventListener("load",function(){setTimeout(arrancar,0);},{once:true});'
+      + '})(document.currentScript.parentElement)</script>',
+    );
+    const faltan = [
+      !s.includes(`poster="${POSTER}"`) && 'poster',
+      !s.includes('type="video/mp4"') && 'type mp4',
+      !s.includes('document.currentScript.parentElement') && 'script',
+      s.includes('style="background-image:url(&quot;/images/') && 'background-image en linea',
+    ].filter(Boolean);
+    if (faltan.length || s === antesVideo) {
+      throw new Error(
+        `[hero] el video de ${ruta} no se pudo preparar (${faltan.join(', ') || 'sin cambios'}): `
+        + 'el markup del <video> cambio y el paso 4m de transformar.mjs ya no engancha.',
+      );
+    }
+  }
+
   // 5. Config de Finsweet: es de la plataforma Webflow, no del sitio.
   s = s.replace(/\s*<script[^>]*finsweet[^>]*>\s*<\/script>/gi, '');
 
@@ -2741,6 +2843,43 @@ export function transformar(html, ruta) {
   if (ruta === '/' || ruta?.startsWith('/pergolas-contractors/')) {
     s = recomponerMiniaturas(s, ruta);
   }
+
+  // 6b. La portada del hero de las fichas (ciudades, condados, productos): es el
+  //     elemento LCP de 76 paginas y venia con loading="lazy" (Lighthouse: «LCP
+  //     resources should not use loading=lazy»; medido 7,6 s en una ciudad en movil)
+  //     y a 1450 px para una caja de 412x350. Pasa a eager + fetchpriority=high y
+  //     lleva srcset con los derivados de scripts/derivar-portadas.mjs. `sizes` es
+  //     100vw porque el hero es a sangre en todos los anchos.
+  //
+  //     Un juego de derivados incompleto haria que el navegador pidiera un fichero
+  //     que no existe, asi que si falta alguno se para el regenerado y se dice que
+  //     correr: la alternativa —callar y servir solo el master— es volver al LCP de
+  //     7 s sin que nadie se entere.
+  //
+  //     Va DESPUES de recomponerFicha: esa recomposicion busca el <img> del hero por
+  //     su literal exacto (alt + loading="lazy" + src) y lanza si no lo encuentra.
+  s = s.replace(
+    /(<div class="img-bg-hero-product"><img\b)([^>]*?)\s+loading="lazy"([^>]*?)\ssrc="(\/cms-img\/[^"]+)\.avif"([^>]*>)/g,
+    (todo, abre, a1, a2, base, cierra) => {
+      const faltan = PORTADAS_ANCHOS.filter((w) => !existeEnPublic(`${base}-${w}.avif`));
+      if (faltan.length) {
+        throw new Error(
+          `[portada] ${ruta}: faltan los derivados ${faltan.join(', ')} de ${base}.avif.\n`
+          + '  Ejecuta `node scripts/derivar-portadas.mjs` antes de regenerar.',
+        );
+      }
+      const srcset = [...PORTADAS_ANCHOS.map((w) => `${base}-${w}.avif ${w}w`), `${base}.avif 1450w`].join(', ');
+      return `${abre}${a1} loading="eager" fetchpriority="high"${a2} src="${base}.avif" srcset="${srcset}" sizes="100vw"${cierra}`;
+    },
+  );
+
+  //     Y las portadas que NO vienen del CMS (los productos cuya portada es una foto
+  //     del cliente, /images/cliente/, que ya lleva su srcset del paso 4d): tambien
+  //     son el LCP de su pagina y tampoco pueden ir en lazy.
+  s = s.replace(
+    /(<div class="img-bg-hero-product"><img\b[^>]*?)\sloading="lazy"/g,
+    '$1 loading="eager" fetchpriority="high"',
+  );
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:
   //    a los <style> les mete un scope (.a[data-astro-cid-xxx]) que rompe las

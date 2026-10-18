@@ -64,7 +64,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import {
-  IMAGENES_CLIENTE, RECORTE, rutaCliente, CLIENTE_ANCHO, CLIENTE_ALTO,
+  IMAGENES_CLIENTE, RECORTE, rutaCliente, CLIENTE_ANCHO, CLIENTE_ALTO, CLIENTE_DERIVADOS,
 } from './lib/transformar.mjs';
 // La MISMA metrica que usa la auditoria y que usa integrar-higgsfield.mjs. Ver
 // scripts/lib/nitidez.mjs: si midieran distinto, esto rechazaria por «se hundio»
@@ -273,6 +273,15 @@ for (const [ruta, origen] of Object.entries(IMAGENES_CLIENTE)) {
   }
 
   await fs.writeFile(salida, avif);
+  // Los derivados responsive del srcset (paso 4d de transformar.mjs): mismo recorte,
+  // bajados desde el master ya codificado. Un juego incompleto haria que el navegador
+  // pidiera un fichero que no existe, asi que se escriben todos o ninguno.
+  for (const w of CLIENTE_DERIVADOS) {
+    await fs.writeFile(
+      salida.replace(/\.avif$/, `-${w}.avif`),
+      await sharp(avif).resize(w).avif({ quality: 55, effort: 5 }).toBuffer(),
+    );
+  }
 }
 
 // -------------------------------------------------------------------- informe

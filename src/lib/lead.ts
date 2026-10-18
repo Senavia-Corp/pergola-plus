@@ -7,8 +7,11 @@
  *
  * Cuatro canales, y se intenta con todos siempre:
  *
- *   1. stdout en NDJSON     una linea por lead. En Vercel queda en los logs de la
- *                           funcion. Es rastro, NO entrega (ver abajo).
+ *   1. stdout en NDJSON     una linea por lead, SIN los datos del visitante (ni
+ *                           nombre, ni telefono, ni correo): un log es lo que mas
+ *                           gente lee y menos se protege. Lleva un `id` para
+ *                           cruzarlo con el correo o el CRM. En Vercel queda en los
+ *                           logs de la funcion. Es rastro, NO entrega (ver abajo).
  *   2. .leads/leads.ndjson  solo funciona donde el disco es de escritura, o sea en
  *                           local y en `astro preview`. En Vercel falla y se anota.
  *   3. LEAD_WEBHOOK_URL     si la variable esta definida. Es la via por la que el
@@ -83,6 +86,16 @@ const ARCHIVO = path.join(process.cwd(), '.leads', 'leads.ndjson');
 
 export async function entregarLead(lead: Lead): Promise<ResultadoEntrega> {
   const linea = JSON.stringify({ tipo: 'LEAD', ...lead });
+  // Correlacion sin identificar: no sale de los datos del lead.
+  const id = crypto.randomUUID();
+  const resumen = {
+    formulario: lead.formulario,
+    pagina: lead.pagina,
+    idioma: lead.idioma,
+    recibido: lead.recibido,
+    verificado: lead.verificado,
+    campos: Object.keys(lead.campos),
+  };
   const errores: string[] = [];
   const canales: ResultadoEntrega['canales'] = {
     log: false, archivo: false, webhook: null, correo: null, acuse: null,
@@ -90,8 +103,14 @@ export async function entregarLead(lead: Lead): Promise<ResultadoEntrega> {
 
   // 1. stdout. Va primero y en su propio try por lo que representa: es el canal
   //    que queda cuando todo lo demas no esta configurado.
+  //
+  //    Antes salia el lead ENTERO —nombre, telefono, email, mensaje— en cada linea
+  //    de log (GH-005). Ahora sale el rastro minimo: que formulario, desde que
+  //    pagina, cuando, si paso Turnstile y QUE campos venian, no su contenido. El
+  //    contenido viaja solo por los canales de entrega (archivo local, webhook,
+  //    correo), que son los que alguien lee a proposito.
   try {
-    console.log(linea);
+    console.log(JSON.stringify({ tipo: 'LEAD', id, ...resumen }));
     canales.log = true;
   } catch (e) {
     errores.push(`log: ${(e as Error).message}`);
@@ -139,7 +158,9 @@ export async function entregarLead(lead: Lead): Promise<ResultadoEntrega> {
   // `log` NO entra. console.log no falla nunca, asi que incluirlo hacia que `ok`
   // fuera siempre true y que el 500 del endpoint no se alcanzara jamas.
   const ok = canales.archivo || canales.webhook === true || canales.correo === true;
-  if (!ok) console.error(JSON.stringify({ tipo: 'ERROR_ENTREGA', errores, lead }));
+  // Sin el lead: el error ya dice que fallo y el `id` lo cruza con la linea LEAD.
+  // Los datos del visitante no tienen que acabar en un log de errores.
+  if (!ok) console.error(JSON.stringify({ tipo: 'ERROR_ENTREGA', id, errores, ...resumen }));
 
   return { ok, canales, errores };
 }

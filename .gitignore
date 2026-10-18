@@ -43,6 +43,8 @@ assets-migracion/content/
 public/videos/*
 !public/videos/Bd-video-pergola-plus-Final_mp4.mp4
 !public/videos/Bd-video-pergola-plus-Final_webm.webm
+# La version movil (960 px, ~4,5 MB) que el hero carga por debajo de 768 px.
+!public/videos/Bd-video-pergola-plus-Final_movil.mp4
 
 # Leads recibidos en local por /api/lead. Datos personales reales: NO van a git.
 # Se regenera solo, enviando cualquiera de los 3 formularios.

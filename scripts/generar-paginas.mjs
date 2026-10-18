@@ -245,7 +245,13 @@ for (const ruta of RUTAS) {
     (propio.description ?? m.description)
       ? `description=${JSON.stringify(propio.description ?? m.description)}` : null,
     m.ogImage ? `ogImage=${JSON.stringify(m.ogImage)}` : null,
-    m.wfPage ? `wfPage=${JSON.stringify(m.wfPage)}` : null,
+    // La home: su elemento LCP es el poster del video del hero (paso 4m de
+    // transformar.mjs) y es la unica pagina que lo sabe. El preload con prioridad
+    // alta va desde el <head>, antes que las hojas. Y su og:image es el fotograma
+    // 1200x630 del mismo video. Va AQUI por lo mismo que el noindex de arriba:
+    // src/pages/index.astro es salida generada.
+    ruta === '/' ? 'ogImage="/images/og-pergola-plus-florida.jpg"' : null,
+    ruta === '/' ? 'preloadImagen="/images/hero-pergola-plus-florida-poster.avif"' : null,
     m.wfSite ? `wfSite=${JSON.stringify(m.wfSite)}` : null,
     nodos.length ? 'jsonLd={jsonLd}' : null,
   ].filter(Boolean).join('\n  ');

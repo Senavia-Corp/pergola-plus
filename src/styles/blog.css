@@ -216,6 +216,12 @@
   margin-right: 0.5rem;
 }
 
+/* En la columna del destacado el fondo es var(--primary) (oscuro) y el gris de
+   --terceary se quedaba en 1,7:1 (Lighthouse/axe, 18-oct-2026). Gris claro: 5,7:1. */
+.blog-featured_column .pp-dato {
+  color: #cfd8da;
+}
+
 .pp-card h3 {
   margin: 0.25rem 0 0;
   font-size: 20px;
