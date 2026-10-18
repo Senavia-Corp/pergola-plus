@@ -96,3 +96,17 @@ Lectura: la variación entre corridas es de 0–5 puntos salvo en `prod-ciudad` 
 
 - **Fusionable ya** (todo lo del commit): no cambia el comportamiento de indexación en ningún entorno más que hacer el preview rastreable-con-noindex; el resto es rendimiento, metadatos y privacidad de logs, verificado con puertas, sonda y Lighthouse.
 - **NO desplegar como «producción indexable»** hasta cerrar el bloqueante 1: con la configuración actual de Vercel, cualquier push publica otra copia indexable en `*.vercel.app`. Hacer el push es seguro para la copia que ya existe (no empeora nada), pero no la arregla.
+
+## Adenda — medido en Vercel tras el despliegue (18-oct-2026, commit `7738767`)
+
+Push a `main` autorizado por el cliente; Vercel construyó y sirvió el nuevo build en `https://pergola-plus-preview.vercel.app`. Verificado por HTTP: póster y preload del LCP, jQuery local con `defer`, una sola fuente, `og:image` absoluta, `srcset` en fotos y portadas, 301 de `/products/sukkha`. Lighthouse 13.5.0 sobre la URL real, Chrome sin extensiones:
+
+| URL | Dispositivo | Runs | Performance | A11y | BP | SEO | FCP ms | LCP ms | CLS |
+|---|---|---:|---|---:|---:|---:|---:|---|---:|
+| `/` | móvil | 3 | 99/92/94 → **94** | 97 | 100 | 100 | 1.274 | 2.016/2.614/2.965 → 2.614 | 0 |
+| `/` | escritorio | 2 | 100/100 → **100** | 100 | 100 | 100 | 460 | 670/598 → 670 | 0 |
+| `/pergolas-contractors/miami-pergola-experts/` | móvil | 2 | 92/99 → **99** | — | — | — | — | 2.864/2.019 | — |
+
+Frente a la auditoría original sobre la misma URL (móvil 78, LCP 4,6 s; escritorio 90, LCP 1,1 s): móvil +16 puntos y LCP −2,0 s en la mediana; escritorio 100/100/100/100 en las dos corridas.
+
+**El bloqueante 1 sigue abierto:** la URL `*.vercel.app` continúa indexable (robots `Allow`, sitemap, sin `noindex`) porque las variables de production del proyecto no han cambiado. El código desplegado no lo empeora ni lo arregla; requiere la decisión A/B de 10.
