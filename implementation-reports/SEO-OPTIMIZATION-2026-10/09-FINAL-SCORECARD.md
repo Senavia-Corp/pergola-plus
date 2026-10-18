@@ -110,3 +110,5 @@ Push a `main` autorizado por el cliente; Vercel construyó y sirvió el nuevo bu
 Frente a la auditoría original sobre la misma URL (móvil 78, LCP 4,6 s; escritorio 90, LCP 1,1 s): móvil +16 puntos y LCP −2,0 s en la mediana; escritorio 100/100/100/100 en las dos corridas.
 
 **El bloqueante 1 sigue abierto:** la URL `*.vercel.app` continúa indexable (robots `Allow`, sitemap, sin `noindex`) porque las variables de production del proyecto no han cambiado. El código desplegado no lo empeora ni lo arregla; requiere la decisión A/B de 10.
+
+**Bloqueante 1 cerrado el mismo día**, con autorización: `PUBLIC_ES_PRODUCCION=0` en production y Vercel Authentication para todos los deployments (ver 08, actualización). La copia en `*.vercel.app` deja de ser indexable con el siguiente build; lo que Google ya haya indexado tardará en salir y ahora recibirá 401.

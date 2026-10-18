@@ -50,3 +50,9 @@ GET /             200  canonical https://pergola-plus-preview.vercel.app/  sin <
 - [ ] Rich Results Test sobre una URL de cada plantilla; validar tarjetas sociales (og:image 1200×630) con el depurador de Facebook/LinkedIn.
 - [ ] Enviar el sitemap en GSC; a los 7–14 días revisar cobertura, páginas excluidas y CWV de campo.
 - [ ] Un lead de prueba REAL por formulario (`quote`, `contact`, `footer`, `estimador`) EN y ES, acordado con el cliente, y confirmar recepción del aviso y del acuse.
+
+## Actualización 18-oct-2026 (tras autorización del cliente)
+
+- `PUBLIC_ES_PRODUCCION` del target production del proyecto `pergola-plus-preview` pasa de `1` a `0` (con comentario en Vercel explicando cuándo volver a `1`). El siguiente build sale `noindex` en las 217 páginas, sin sitemap ni RSS, con robots rastreable.
+- Deployment Protection: Vercel Authentication (`ssoProtection`) en modo `all`. Ver la URL exige iniciar sesión en Vercel con acceso al team `senaviacorp`; para enseñársela al cliente sin cuenta hay que generar un «Shareable Link» en el panel o cambiar a protección por contraseña (de pago).
+- Se dispara un redeploy con un commit vacío para que el build tome la variable nueva.
