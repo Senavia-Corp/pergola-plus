@@ -29,7 +29,7 @@ Rutas: `/`, `/products/cabanas/`, `/services/pavers/`, `/pergolas-contractors/mi
 | Fotos del cliente en la home | 2500 px en cajas de 343/360/643 | derivado 640 a 375 px, 960 a 1440 px (`srcset`) |
 | Consola limpia | 7/8 rutas (la excepción es `/contact-us/get-a-quote/`: challenge de Turnstile en headless, 11–13 avisos ajenos al sitio) | idéntico |
 
-SONDA_FINAL
+Sonda FINAL sobre el build de producción simulada (tras la portada eager de las fichas, el índice del blog y el formulario): 24/24 rutas×anchos PASS en H1/overflow/dropdowns, 16/16 menú móvil, 8/8 dropdown escritorio, vídeo con `poster` y reproduciendo en EN/ES a los 3 anchos (`_movil.mp4` a 375), `srcset` eligiendo 640/960/1280 según ancho (`/products/cabanas/` a 1440: natural 1241 px, antes 1250 sin elección), consola limpia en 7/8 rutas (la 8.ª, el formulario, con los mismos avisos de Turnstile). Capturas en scratchpad `shots/final`.
 
 ## 3. Diferencia visual (capturas 375/768/1440, antes vs después, umbral 24/255 por canal)
 
@@ -69,4 +69,4 @@ Ver `03-BEFORE-AFTER-LIGHTHOUSE.csv` (todas las corridas) y `04-CORE-WEB-VITALS-
 
 ## 7. `check:generadores` tras el commit
 
-GENERADORES_FINAL
+Commit local `e467755` y después `npm run check:generadores`: **PASS** — «regenerar no cambia nada (0 ficheros divergen)», los generadores leen solo del repo y `docs/vivo` tiene las 100 capturas. Con esto las **19/19 puertas** están en verde sobre el estado comiteado.
