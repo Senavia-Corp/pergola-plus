@@ -139,3 +139,91 @@ Con fotos, 26/60 superan el 1 % (hasta 6 %) y todo el exceso está dentro de las
 remuestreo de un derivado de 480/800 px frente al master de 1.250 reescalado por el
 navegador; comprobado a ojo en galería y proyecto (ver `diff-png/`). Por eso la
 captura sin fotos es la que decide desde F1.
+
+## F2 · CSS: camino crítico
+
+**Hecho**
+
+- `scripts/lib/css.mjs` (nuevo, ~160 líneas, sin dependencias): tokenizador de CSS
+  (reglas y bloques `@media/@supports` anidados), purga por página conservadora
+  (`:not/:is/:where/:has`, atributos y pseudos nunca descartan; `@font-face`,
+  `@keyframes` e `@import` se conservan) y unión de las 5 hojas del `<head>` en una,
+  en el orden exacto que ya tenía (normalize → webflow → sitio → propias).
+- Lista blanca de clases de runtime: `scripts/perf/clases-runtime.mjs` mide el
+  `classList` antes/después de abrir menú, dropdowns (con hover), idioma, carruseles,
+  FAQ, estimador, multipaso, envío vacío, 30 tabulaciones y lightbox en las 16
+  plantillas × 375/1440, y le suma la lista cerrada de webflow.js (§0) y las clases
+  que ponen los scripts propios (`grep classList.add|toggle`). 55 clases →
+  `scripts/lib/clases-runtime.json`.
+- Integrado en el barrido de `dist/` de `astro.config.mjs` (`unirCss`), con dos
+  interruptores de entorno para medir: `PP_CSS=enlace|inline|no` y
+  `PP_PURGA=webflow|todas`.
+
+**Medido antes de decidir (5 plantillas móvil × 2)**
+
+| | 5 hojas (F1) | 1 hoja `<link>`, purga Webflow | inline, purga Webflow | inline, purga total |
+|---|---|---|---|---|
+| CSS bloqueante | 41 KB gz / 5 peticiones | 17–21 KB gz / 1 | 0 peticiones (+12 KB gz de HTML) | 0 (+8–10 KB gz) |
+| FCP móvil | 1,35 s | 1,20 s | 0,90–1,08 s | 0,90–1,05 s |
+| `render-blocking-insight` | 450 ms | 150 ms | 0 | 0 |
+| `unused-css-rules` | 12 KB | 15 KB | 12–14 KB | **0** |
+| FAQ / servicio / ciudad / condado | 97 / 93 / 90 / 86 | 98 / 94 / 90 / 88 | 99 / 94 / 90 / 88 | 99 / 95 / 91 / 88 |
+
+**Decisiones**
+
+- **Inline, purga total.** Inline porque con la simulación móvil de Lighthouse cualquier
+  petición bloqueante cuesta ≥ 150 ms de FCP, y el precio (8–10 KB gz por página, sin
+  caché entre páginas) es asumible en un sitio de 217 páginas al que se llega desde
+  buscadores. No hay FOUC posible: todo el CSS va en el documento, no se difiere nada.
+- Purga también del CSS propio porque con solo Webflow quedaban 11–14 KB de reglas de
+  blog, FAQ y menú en páginas que no las usan; la lista blanca medida + las clases
+  de los scripts propios la cubren, y lo demuestran la sonda (menú, dropdown, hover,
+  idioma, estimador, multipaso) y el diff visual, no la lista.
+- Se descartó el «CSS crítico + resto diferido con `preload onload`»: exige elegir qué
+  es crítico por plantilla (34), introduce un parpadeo real al llegar el resto y gana
+  frente a inline-todo solo si la hoja fuera grande; con 8–10 KB gz no lo es.
+- Las `url()` relativas del CSS de Webflow (`../images/…`) se absolutizan al moverlo
+  de `/css/` al `<head>`: medido un 404 en `/services/images/…` en la primera prueba.
+- `font-display: swap`, el único `preload` de `inter-latin.woff2` y los dos
+  `@font-face` de `fuentes.css` quedan como estaban.
+
+**Medido (mediana de 3, móvil; `02-f2/lighthouse-medianas.csv`)**
+
+| Plantilla | F1 → F2 | LCP F1 → F2 | FCP |
+|---|---|---|---|
+| Home / Home ES | 93 / 92 → **95 / 95** | 3.262 → 2.960 · 3.299 → 3.002 | 1,35 → 0,9 s |
+| Estimador | 95 → **97** | 2.960 → 2.658 | |
+| FAQ | 97 → **99** | 2.555 → 2.201 | 1,05 s |
+| Blog índice / categoría | 93 / 93 → **96 / 96** | 3.184 → 2.812 / 2.847 | |
+| Producto / Proyecto / Servicio | 94 / 94 / 93 → **96 / 96 / 96** | 3.040 → 2.815 · 3.035 → 2.809 · 3.189 → 2.815 | |
+| Ciudad / Condado | 90 / 86 → **92 / 89** | 3.677 → 3.377 · 4.127 → 3.753 | 0,9 s |
+| Post / galería / índices / contacto | 96–98 (sin cambio significativo) | | |
+
+Escritorio 99–100 en las 16. `render-blocking-insight` 0 ms y `unused-css-rules` 0 KB
+en las 16 (objetivo < 5 KB). Servicio vuelve por encima del baseline (96 > 95): el
+`eager` del hero se queda. Sonda: 0 regresiones funcionales (menú 67/67, dropdown y
+hover 23/23); las únicas líneas del comparador son 1–3 mensajes más de Turnstile en
+consola en las páginas de contacto a 1440, que varían de una carga a otra.
+
+**Lo que el diff visual cazó (y por eso existe)**: la primera purga sacaba la versión
+española con «Pedir Presupuesto» y «Cabañas De Aluminio» en mayúsculas (29,7 % de
+diferencia y +71 px de alto en `/es/products/cabanas/` a 375). No era la purga: el
+compactador quitaba el espacio antes de `:` y convertía `html[lang=es] :is(h1,…)`
+(descendiente) en `html[lang=es]:is(h1,…)` (nunca casa). Corregido y recapturado antes
+del commit. Las otras dos capturas marcadas (proyecto y categoría del blog) son las 87
+filas del nav en estado «scroll» de IX2, como en F1.
+
+**Puertas**: `check:marquee` contaba las clases del marquee también dentro del
+`<style>` inline (11 copias en vez de 10, y el primer `data-pp-marquee` caía en el
+CSS): la puerta ignora ahora los bloques `<style>`; el markup no cambió.
+
+**Segunda regresión cazada por el diff**: el paso a paso del formulario de presupuesto
+(«1 Proyecto · 2 · 3») salía como lista sin estilo en EN y ES a 375/768/1440 (+48–60 px
+de alto, 11–27 % de diferencia). `Formulario.astro` inyecta ese bloque y sus clases
+**al cargar**, así que no estaban ni en el HTML servido ni eran «nuevas» respecto al
+DOM tras `load`: el recolector no las veía. Ahora compara también el DOM tras `load`
+con el HTML crudo (62 clases en la lista blanca). Recapturado: 59/60 bajo el 1 %; la
+restante es el nav en estado «scroll» (87 filas). Las medianas de Lighthouse de
+`02-f2/` se midieron antes de estas dos correcciones (que añaden ~1 KB de CSS); la
+comprobación posterior en home ES / ciudad / FAQ dio 95 / 91 / 98–100, igual que la
+tanda, y F8 vuelve a medir las 16.

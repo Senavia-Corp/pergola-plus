@@ -33,6 +33,11 @@ const CONOCIDAS = [
   'w-lightbox-left', 'w-lightbox-right', 'w-lightbox-close', 'w-lightbox-strip', 'w-lightbox-item', 'w-lightbox-thumbnail',
   'w-lightbox-spinner', 'w-lightbox-hide', 'w-lightbox-noscroll', 'w-lightbox-active', 'w-lightbox-inactive', 'w-lightbox-group',
   'w-lightbox-html5', 'w-lightbox-embed', 'w-lightbox-thumbnail-image', 'w-lightbox-thumbnail-frame', 'w-lightbox-strip-visible',
+  // Las que ponen los scripts propios en estados que la pasada de arriba no siempre
+  // provoca (envio en curso, acierto/fallo del formulario, carruseles, mapa de condados).
+  // Salen de `grep -rhoE "classList\.(add|toggle)" src` y de los literales 'w-form-*'.
+  'pp-enviando', 'pp-resumen', 'pp-error', 'is-active', 'is-bullet-active', 'w-form-done', 'w-form-fail',
+  'esta-abierto', 'menu-movil-abierto', 'active-lightbox',
 ];
 
 const b = await chromium.launch();
@@ -45,8 +50,16 @@ for (const [nombre, ruta] of PLANTILLAS) {
     const ctx = await b.newContext({ viewport: { width: w, height: 900 }, isMobile: w < 768, hasTouch: w < 768 });
     const page = await ctx.newPage();
     await page.goto(BASE + ruta, { waitUntil: 'load' });
-    const antes = new Set(await clases(page));
     const et = `${nombre}@${w}`;
+    // Clases que un script pone AL CARGAR (el paso a paso del formulario multipaso,
+    // el buscador de la FAQ…): no estan en el HTML servido y tampoco son «nuevas»
+    // respecto al DOM tras `load`. Se comparan con el HTML crudo. Medido: sin esto la
+    // purga se llevaba los estilos del paso a paso de /es/contact-us/get-a-quote.
+    const crudo = await (await page.request.get(BASE + ruta)).text();
+    const estaticas = new Set();
+    for (const m of crudo.matchAll(/\sclass="([^"]*)"/g)) for (const c of m[1].split(/\s+/)) if (c) estaticas.add(c);
+    await nuevas(page, estaticas, et + ' al cargar');
+    const antes = new Set(await clases(page));
     try {
       if (w < 992 && await page.$('.menu .w-nav-button')) {
         await page.locator('.menu .w-nav-button').click({ force: true });
