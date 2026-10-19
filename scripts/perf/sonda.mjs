@@ -223,7 +223,7 @@ let resultados = [];
 if (RESUMIR) resultados = JSON.parse(await fs.readFile(path.join(SALIDA, 'sonda.json'), 'utf8')).map(sinSvg);
 const RUTAS = SOLO ?? RUTAS_SONDA;
 const tareas = RUTAS.flatMap((ruta) => ANCHOS.map((w) => [ruta, w]));
-if (!SOLO) tareas.push(['/', 1440, { reducedMotion: 'reduce' }], ['/', 375, { reducedMotion: 'reduce' }]);
+if (!SOLO || SOLO.includes('/')) tareas.push(['/', 1440, { reducedMotion: 'reduce' }], ['/', 375, { reducedMotion: 'reduce' }]);
 // 3 contextos a la vez: suficiente para no tardar 15 min y poco para no falsear el video.
 let i = 0;
 await Promise.all(Array.from({ length: RESUMIR || SOLO_CAPTURAS ? 0 : 3 }, async () => {

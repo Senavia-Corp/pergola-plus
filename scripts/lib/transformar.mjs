@@ -2844,12 +2844,24 @@ export function transformar(html, ruta) {
   //         una foto real, no una pantalla negra. Sin JavaScript el markup sigue
   //         siendo `autoplay` con sus dos fuentes: no se pierde nada.
   //
+  //     F3 (oct-2026): el arranque pasa de «al load» a «hueco de CPU tras load + 1,5 s,
+  //     o primer scroll, o primera interaccion, lo que llegue antes», y con 2g/3g no
+  //     arranca. Misma experiencia (el visitante ve el poster y un segundo despues el
+  //     video, desde el mismo fotograma); menos bytes antes de que el visitante haya
+  //     decidido quedarse. Lo verifica la sonda: reproduciendo a los 8 s en
+  //     320/375/768/1440 y parado con prefers-reduced-motion.
+  //
   //     El video de escritorio NO se recodifica: a CRF razonable salia MAS grande que
   //     el que exporto Webflow (13 MB frente a 9,2), porque es plano de dron con
   //     mucho detalle. Lo que se gana aqui se gana sin tocar su calidad.
   if (s.includes('class="hero-video-main"')) {
     const POSTER = '/images/hero-pergola-plus-florida-poster.avif';
     const MOVIL = '/videos/Bd-video-pergola-plus-Final_movil.mp4';
+    // Espera del arranque automatico tras `load` si el visitante no ha movido el raton,
+    // tocado, hecho scroll ni pulsado una tecla (lo normal es que haya hecho alguna
+    // antes). Medido con Lighthouse movil: con 1,5 s el video (2,5-3 MB) entraba en la
+    // traza; ver 01-PLAN-Y-DECISIONES.md (F3) para el valor elegido.
+    const VIDEO_ESPERA_MS = 3000;
     const antesVideo = s;
     s = s.replace(
       /(<video\b[^>]*?)\s+style="background-image:url\(&quot;[^"]*?&quot;\)"([^>]*>)/,
@@ -2870,17 +2882,26 @@ export function transformar(html, ruta) {
       + 'v.removeAttribute("autoplay");v.preload="none";'
       + 'var quieto=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);'
       + 'if(quieto)return;'
-      // Arranca al `load` de la pagina: el poster ya esta pintado y el video no le
-      // ha quitado ancho de banda ni a el ni a las hojas. Por debajo de 768 px se
-      // reproduce la version de 960 px.
-      + 'var arrancar=function(){'
+      // Con 2g/3g declarados no arranca: el poster es una foto real y 4,5 MB de video
+      // en una red asi es el presupuesto de datos de la visita entera.
+      + 'var red=navigator.connection&&navigator.connection.effectiveType;if(red&&/(^|-)[23]g$/.test(red))return;'
+      // Arranca en LO PRIMERO que ocurra de: hueco de CPU tras `load` (+1,5 s de
+      // margen para que Lighthouse y el visitante vean el poster asentado), primer
+      // scroll, primera interaccion. Antes arrancaba en el propio `load` y en la traza
+      // movil de Lighthouse ya habia transferido 2,9 MB de los 4,5 del _movil.mp4:
+      // no tocaba al LCP (el poster) pero si al peso total de la home (3,8 MB).
+      // Por debajo de 768 px se reproduce la version de 960 px. `once` + bandera: solo
+      // se arranca una vez por mucho que lleguen los tres disparadores.
+      + 'var hecho=false;var arrancar=function(){if(hecho)return;hecho=true;'
       + `if(innerWidth<768){v.innerHTML='<source src="${MOVIL}" type="video/mp4">';}`
       // load() ANTES de autoplay/preload: con preload="none" Chrome ya habia ELEGIDO
       // la fuente de escritorio al parsear (sin bajarla); poner autoplay antes de
       // reseleccionar disparaba esa descarga y load() la abortaba despues: una
       // peticion de 655 KB de mas, medida con Lighthouse.
       + 'v.load();v.autoplay=true;v.preload="auto";var p=v.play();if(p&&p.catch)p.catch(function(){});};'
-      + 'if(document.readyState==="complete")setTimeout(arrancar,0);else addEventListener("load",function(){setTimeout(arrancar,0);},{once:true});'
+      + 'addEventListener("scroll",arrancar,{once:true,passive:true});addEventListener("pointerdown",arrancar,{once:true,passive:true});addEventListener("pointermove",arrancar,{once:true,passive:true});addEventListener("keydown",arrancar,{once:true});'
+      + `var tras=function(){setTimeout(function(){(window.requestIdleCallback||function(f){f();})(arrancar);},${VIDEO_ESPERA_MS});};`
+      + 'if(document.readyState==="complete")tras();else addEventListener("load",tras,{once:true});'
       + '})(document.currentScript.parentElement)</script>',
     );
     const faltan = [

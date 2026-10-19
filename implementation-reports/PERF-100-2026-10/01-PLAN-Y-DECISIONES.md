@@ -227,3 +227,39 @@ restante es el nav en estado «scroll» (87 filas). Las medianas de Lighthouse d
 `02-f2/` se midieron antes de estas dos correcciones (que añaden ~1 KB de CSS); la
 comprobación posterior en home ES / ciudad / FAQ dio 95 / 91 / 98–100, igual que la
 tanda, y F8 vuelve a medir las 16.
+
+## F3 · Vídeo del hero
+
+**Hecho** (paso 4m de `scripts/lib/transformar.mjs`, markup migrado; regenerado):
+el `<video>` conserva `poster` + `preload` del poster + `fetchpriority="high"` y el
+script inline sigue quitando `autoplay` y poniendo `preload="none"` antes de que el
+parser vea el primer `<source>`. Cambia **cuándo arranca**: en lo primero que ocurra
+de primer `scroll`, `pointerdown`, `pointermove`, `keydown` o, si el visitante no hace
+nada, un hueco de CPU (`requestIdleCallback`) 3 s después de `load`. Con
+`prefers-reduced-motion`, `saveData` o `effectiveType` 2g/3g no arranca (el poster es
+una foto real). Una sola vez (`once` + bandera). Móvil sigue con `_movil.mp4`.
+
+**Decisiones medidas**
+
+- El encargo pedía `load` + 1,5 s. Medido con Lighthouse móvil ×3: con 1,5 s el
+  `_movil.mp4` entraba en la traza igual que antes (2,5–3,0 MB a los 1,6 s;
+  `total-byte-weight` 3,2–3,7 MB). Con 3 s **y** con 5 s: 0 bytes de vídeo en la
+  traza, `total-byte-weight` **633 KB** (objetivo < 1,2 MB). Se deja 3 s, el menor
+  que cumple. `pointermove` no estaba en la lista del encargo y es el disparador que
+  de verdad arranca el vídeo en escritorio: el cursor se mueve antes de que pase un
+  segundo; quien no mueve nada lo ve a los 3 s.
+- No se recorta el vídeo a 20 s (pide aprobación: 07-PENDIENTE §6).
+- Sonda: reproduce a los 8 s en 320/375/768/1440 (EN y ES) y parado con
+  `reducedMotion: 'reduce'`.
+
+**Medido (`03-f3/`)**: home y home ES, ×3 por dispositivo. Escritorio 100/100. Móvil:
+home ES 92 (92/95/92), home **95 (95/95/91)** en la tanda que cuenta
+(`lighthouse-medianas.csv`); la primera tanda dio 90 (90/90/95) y se guarda aparte
+(`lighthouse-home-movil-primera-tanda-corridas.csv`). Las corridas lentas no son el
+vídeo (0 bytes de vídeo en las 12): tienen FCP simulado 1,6–1,7 s en vez de 0,9 y un
+RTT estimado por Lighthouse de 0,11–0,24 ms frente a 0,02 en las buenas, con el mismo
+HTML; coinciden con picos de CPU de la propia máquina (la app de escritorio al 70 %
+mientras se medía). `total-byte-weight` 633 KB en las 6 corridas móviles (era 3,2–3,7
+MB), TBT 0–29 ms, CLS 0. Sonda: vídeo reproduciendo a los 8 s en 320/375/768/1440
+EN y ES, parado con movimiento reducido, consola 0. Diff visual: 59/60 bajo el 1 % (la
+restante, el nav en estado «scroll»).
