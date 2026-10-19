@@ -577,6 +577,12 @@ export const CLIENTE_DERIVADOS = [640, 960, 1280, 1920];
 /** Anchos de los derivados de las portadas del hero de las fichas (ver 4n y
  *  scripts/derivar-portadas.mjs). El master de 1450 px cierra el juego. */
 export const PORTADAS_ANCHOS = [640, 960, 1280];
+/** Anchos de los derivados de TODAS las fotos del CMS que se pintan en tarjeta, galeria,
+ *  miniatura o hero (scripts/derivar-cms.mjs). El master cierra el juego; solo se
+ *  emiten los anchos menores que el. */
+export const CMS_ANCHOS = [480, 800, 1200];
+/** Por debajo de este ancho de master no hay nada que derivar (logos, iconos). */
+export const CMS_MINIMO = 600;
 export const rutaCliente = (origen) =>
   '/images/cliente/' +
   origen.split('/').pop().replace(/\.[^.]+$/, '')
@@ -1248,6 +1254,143 @@ export function dimensionarImagenes(html) {
     if (!dim) return tal_cual;
     return `<img ${attrs.trim()} width="${dim[0]}" height="${dim[1]}"${cierre}>`;
   });
+}
+
+/**
+ * `sizes` por clase de imagen, MEDIDOS con scripts/perf/medir-anchos.mjs sobre dist/
+ * a 375/768/992/1440 (19-oct-2026). Un `sizes` que se queda corto hace que el
+ * navegador elija un derivado pequeño y la foto salga borrosa, asi que aqui se toma
+ * siempre el ancho MAYOR que se midio para esa clase en cada tramo.
+ *
+ *   clase                            375   768      992      1440
+ *   card-blog-image                  311   336      200      281
+ *   product-card-image               343   360-736  456-627  617-643
+ *   projects-card-image              343   704-736  448      609
+ *   fs-slider-gallery-section_image  343   352      293      297
+ *   gallery_img                      343   720      269      372
+ *   slider-image-projects            343   736      928      950
+ *   intro-img-city / img-color /
+ *   blog-featured_image              343   736      448      609
+ *   img-feature                      -     -        501      605   (oculta en movil)
+ *   pp-faq-img                       343   278      367      504
+ *   lightbox-img                     164   180      456      617
+ *   hero_media-img                   343   736      928      1250
+ *
+ * Las que no estan aqui (brands-card-image, image-2, img-location, fs-marquee-picture)
+ * no llevan srcset: check:imagenes las lista como aviso, no como fallo.
+ */
+export const SIZES_POR_CLASE = {
+  'card-blog-image': '(min-width: 992px) 20vw, (min-width: 768px) 45vw, 85vw',
+  'product-card-image': '(min-width: 992px) 45vw, 96vw',
+  'projects-card-image': '(min-width: 992px) 45vw, 96vw',
+  'fs-slider-gallery-section_image': '(min-width: 992px) 300px, (min-width: 768px) 46vw, 92vw',
+  'gallery_img': '(min-width: 992px) 27vw, 94vw',
+  'slider-image-projects': '(min-width: 1200px) 950px, 94vw',
+  'intro-img-city': '(min-width: 992px) 43vw, 96vw',
+  'img-color': '(min-width: 992px) 43vw, 96vw',
+  'blog-featured_image': '(min-width: 992px) 43vw, 96vw',
+  'img-feature': '(min-width: 992px) 51vw, 96vw',
+  'pp-faq-img': '(min-width: 992px) 36vw, 92vw',
+  'lightbox-img': '(min-width: 992px) 43vw, (min-width: 768px) 24vw, 44vw',
+  'hero_media-img': '(min-width: 1300px) 1250px, 94vw',
+  // Medidas en /about-us/brands, /about-us/industries-we-serve, /about-us/where-we-work,
+  // /contact-us/get-in-touch, /products/cabanas y /services/concrete (misma herramienta).
+  'brands-card-image': '(min-width: 992px) 43vw, 96vw',           // 343 736 448 609
+  'img-logo-brand': '150px',                                      // 101-150 en todos los anchos
+  'fs-marquee-picture': '(min-width: 992px) 370px, 280px',        // 225-275 / 300-367
+  'image-2': '(min-width: 992px) 27vw, (min-width: 768px) 44vw, 83vw', // 311 336 277 385
+  'img-location': '(min-width: 992px) 44vw, (min-width: 768px) 48vw, 92vw', // 343 368 464 625
+  'why-choose-image': '(min-width: 992px) 50vw, 100vw',           // 375 768 496 720
+  'img-cover-service': '(min-width: 992px) 42vw, 100vw',          // 375 768 432 593
+};
+
+/** El `sizes` que le toca a un <img> por sus atributos: el suyo si lo trae, si no el
+ *  de su clase. null = no se sabe cuanto mide, y sin eso no se pone srcset. */
+export function sizesDe(attrs) {
+  // (^|\s): el primer atributo llega sin espacio delante, porque `<img\s` ya se lo
+  // comio. Con `\ssizes=` el <img sizes="..." src=...> del cuerpo de los posts
+  // salia sin srcset (medido: 2 por articulo).
+  const propio = attrs.match(/(?:^|\s)sizes="([^"]+)"/)?.[1];
+  if (propio) return propio;
+  const clases = attrs.match(/(?:^|\s)class="([^"]*)"/)?.[1]?.split(/\s+/) ?? [];
+  for (const c of clases) if (SIZES_POR_CLASE[c]) return SIZES_POR_CLASE[c];
+  return null;
+}
+
+const existeCache = new Map();
+const existeMemo = (p) => { if (!existeCache.has(p)) existeCache.set(p, existeEnPublic(p)); return existeCache.get(p); };
+
+/** Los candidatos del srcset de una foto del CMS: los derivados menores que el
+ *  master mas el master. `faltan` lista los que deberian existir y no estan. */
+export function candidatosCms(src) {
+  const dim = DIMENSIONES[decodeURIComponent(src)];
+  if (!dim || dim[0] < CMS_MINIMO) return null;
+  const base = src.replace(/\.\w+$/, '');
+  const anchos = CMS_ANCHOS.filter((w) => w < dim[0]);
+  const faltan = anchos.filter((w) => !existeMemo(`${base}-${w}.avif`));
+  return { candidatos: [...anchos.map((w) => `${base}-${w}.avif ${w}w`), `${src} ${dim[0]}w`], faltan, ancho: dim[0] };
+}
+
+/**
+ * srcset + sizes en las fotos del CMS (/cms-img/**) que aun no lo llevan.
+ *
+ * Se aplica sobre dist/ al terminar el build, en el mismo barrido que
+ * dimensionarImagenes() y por la misma razon de cobertura: las fotos del CMS no estan
+ * solo en los fragmentos migrados, estan en el blog (TarjetaPost, Articulo,
+ * BlogListado), en las fichas de proyecto y en el estimador, que son componentes
+ * propios. Una sola implementacion para los dos mundos.
+ *
+ * Reglas:
+ *   - solo <img> con src en /cms-img/ que no sea ya un derivado ni lleve srcset;
+ *   - solo si se sabe su `sizes` (atributo propio o SIZES_POR_CLASE): un srcset sin
+ *     sizes se evalua como 100vw y pediria la foto GRANDE en una tarjeta de 300 px;
+ *   - solo con el juego de derivados COMPLETO en disco. Si falta alguno no se emite
+ *     nada y se cuenta: check:imagenes lo convierte en fallo con la orden a ejecutar.
+ *     Aqui no se lanza porque el primer build de un clon sin derivados tiene que
+ *     poder terminar para que derivar-cms.mjs lea de el que fotos se pintan.
+ */
+export function responsivizarImagenes(html) {
+  const cuenta = { con: 0, sinSizes: 0, incompletas: 0, pequenas: 0 };
+  const salida = html.replace(/<img\s([^>]*?)(\/?)>/g, (tal_cual, attrs, cierre) => {
+    const src = attrs.match(/\bsrc="(\/cms-img\/[^"]+)"/)?.[1];
+    if (!src || /\ssrcset=/.test(attrs) || /-(\d{3,4}|h\d+)\.avif$|\.svg$/.test(src)) return tal_cual;
+    const c = candidatosCms(src);
+    if (!c) { cuenta.pequenas++; return tal_cual; }
+    const sizes = sizesDe(attrs);
+    if (!sizes) { cuenta.sinSizes++; return tal_cual; }
+    if (c.faltan.length) { cuenta.incompletas++; return tal_cual; }
+    cuenta.con++;
+    const sinSizes = attrs.replace(/(?:^|\s)sizes="[^"]*"/, '');
+    return `<img ${sinSizes.trim()} srcset="${c.candidatos.join(', ')}" sizes="${sizes}"${cierre}>`;
+  });
+  return { html: salida, ...cuenta };
+}
+
+/**
+ * <link rel="preload" as="image"> del elemento LCP, inyectado en el <head> ANTES de
+ * las hojas de estilo. El LCP de 76 fichas, 13 proyectos, 21 posts y los 6 indices
+ * del blog es un <img fetchpriority="high"> que el navegador no descubre hasta que
+ * parsea el <body> detras de 5 CSS bloqueantes: medido 5,1 s de LCP movil en
+ * proyecto con el hero a 277 KB y sin pista. Con el preload (y su imagesrcset, para
+ * que elija el mismo derivado que el <img>) la peticion sale con el HTML.
+ *
+ * Una sola imagen por pagina —la primera con fetchpriority="high"— y nunca si la
+ * pagina ya precarga una (la home precarga el poster del video por la prop
+ * `preloadImagen` de BaseLayout). Sobre dist/, por la misma cobertura que las dos
+ * funciones de arriba.
+ */
+export function precargarLcp(html) {
+  if (/<link rel="preload" as="image"/.test(html)) return { html, puesto: false };
+  const m = html.match(/<img\s[^>]*\bfetchpriority="high"[^>]*>/);
+  if (!m || /loading="lazy"/.test(m[0])) return { html, puesto: false };
+  const a = (n) => m[0].match(new RegExp(`\\s${n}="([^"]*)"`))?.[1];
+  const href = a('src');
+  if (!href) return { html, puesto: false };
+  const srcset = a('srcset'), sizes = a('sizes');
+  const link = `<link rel="preload" as="image" href="${href}"${srcset ? ` imagesrcset="${srcset}"` : ''}${srcset && sizes ? ` imagesizes="${sizes}"` : ''} fetchpriority="high">`;
+  const ancla = '<link href="/css/normalize.css"';
+  if (!html.includes(ancla)) return { html, puesto: false };
+  return { html: html.replace(ancla, link + ancla), puesto: true };
 }
 
 export function reescribirImagenes(html, mapa, locales) {
@@ -2590,6 +2733,33 @@ export function transformar(html, ruta) {
     + '</div>',
   );
 
+  // 4i2. Los logos del marquee de marcas, a su tamaño real. Los 4 PNG de 450x200 se
+  //      pintan a 50 px de alto; el AVIF de 100 px de alto (2x) que escribe
+  //      scripts/derivar-cms.mjs pesa una decima parte, y el SVG de Pergola Plus
+  //      Forte (25 KB de Illustrator) se rasteriza igual (3 KB). Si el derivado no
+  //      esta en disco se para el regenerado: la alternativa es que el marquee pida
+  //      un fichero que no existe y salga un hueco.
+  s = s.replace(/<img\b[^>]*class="fs-marquee-logos_logo"[^>]*>/g, (tag) =>
+    tag.replace(/\ssrc="(\/cms-img\/brands\/[^"]+)\.(png|svg)"/, (todo, base, ext) => {
+      const nuevo = `${base}-h100.avif`;
+      if (!existeEnPublic(nuevo)) {
+        throw new Error(`[marquee] ${ruta}: falta ${nuevo}. Ejecuta \`node scripts/derivar-cms.mjs\` antes de regenerar.`);
+      }
+      return ` src="${nuevo}"`;
+    }));
+
+  // (El hero de las 3 fichas de proyecto del cliente —img.hero_media-img, el LCP de
+  //  la plantilla— lleva eager + fetchpriority=high desde scripts/lib/
+  //  proyectos-destacados.mjs: no pasa por aqui. Las 10 del CMS llevan un embed de
+  //  YouTube en ese hueco.)
+
+  // 4i4. La foto del formulario de presupuesto decia `sizes="(max-width: 1600px)
+  //      100vw, 1600px"` y ocupa el 40 % del ancho desde 992 px
+  //      (.appointment-column-left): a 1440 pedia el candidato de 1600 px para una
+  //      columna de 576. Medido por la sonda como sobredimensionada en escritorio.
+  s = s.replace(/<img\b[^>]*class="image-3"[^>]*>/, (tag) =>
+    tag.replace('sizes="(max-width: 1600px) 100vw, 1600px"', 'sizes="(min-width: 992px) 40vw, 100vw"'));
+
   // 4j. La barra de logos de marca: de marquee MUERTO a carrusel infinito.
   //
   //     Llego del export como un componente de Finsweet (`fs-marquee-*`) y el script
@@ -2879,6 +3049,15 @@ export function transformar(html, ruta) {
   s = s.replace(
     /(<div class="img-bg-hero-product"><img\b[^>]*?)\sloading="lazy"/g,
     '$1 loading="eager" fetchpriority="high"',
+  );
+
+  //     Y el hero de las 7 paginas de servicio (img.img-cover-service, foto del
+  //     cliente con su srcset del 4d): tambien es el LCP y tambien venia lazy.
+  //     Medido en F1: Lighthouse lo descubria a los 74 ms en vez de con el HTML
+  //     (lcp-discovery-insight 0) y era la unica plantilla que no mejoraba.
+  s = s.replace(
+    /(<img\b[^>]*?)\sloading="lazy"([^>]*class="img-cover-service")/g,
+    '$1 loading="eager" fetchpriority="high"$2',
   );
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:

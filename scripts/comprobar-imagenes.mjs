@@ -23,6 +23,7 @@ import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
+import { candidatosCms, sizesDe } from './lib/transformar.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const STAGING = path.join(RAIZ, 'assets-migracion');
@@ -239,6 +240,43 @@ const pedidas = new Map();   // ruta -> quien la pide
   console.log(`  AVISO ${huerfanas.length} de ${enDisco.length} imagenes del CMS no las pide ninguna pagina (${mb} MB)`);
   for (const f of huerfanas.slice(0, 8)) console.log(`         ${f}`);
   if (huerfanas.length > 8) console.log(`         ... y ${huerfanas.length - 8} mas`);
+}
+
+// --- 8. Derivados responsive del CMS: juego completo donde se pinta ------------
+// responsivizarImagenes() (transformar.mjs, sobre dist/) solo emite srcset cuando
+// el juego de derivados esta COMPLETO en disco; si falta uno, calla y sirve el
+// master de 1.250 px en una tarjeta de 300. Eso no da error en ningun sitio, asi que
+// aqui se convierte en fallo: toda foto del CMS con `sizes` conocido tiene que
+// llevar srcset en el HTML servido. Las de clase desconocida (sin `sizes`) se
+// listan como aviso: no tienen derivados que pedir, pero tampoco se estan
+// sirviendo a su tamaño. El check 4/4b ya exige que cada candidato exista y este
+// en git.
+{
+  const sinSrcset = new Map(); // src -> {quien, razon}
+  const conSrcset = new Set();
+  for (const f of await listar(DIST)) {
+    if (!f.endsWith('.html')) continue;
+    const txt = await fs.readFile(path.join(DIST, f), 'utf8');
+    for (const m of txt.matchAll(/<img\s([^>]*?)\/?>/g)) {
+      const attrs = m[1];
+      const src = attrs.match(/\bsrc="(\/cms-img\/[^"]+)"/)?.[1];
+      if (!src || /-(\d{3,4}|h\d+)\.avif$|\.svg$/.test(src)) continue;
+      const c = candidatosCms(src);
+      if (!c) continue; // por debajo del minimo: logos, iconos
+      if (/\ssrcset=/.test(attrs)) { conSrcset.add(src); continue; }
+      if (!sinSrcset.has(src)) sinSrcset.set(src, { quien: f, conSizes: !!sizesDe(attrs), faltan: c.faltan });
+    }
+  }
+  const fallan = [...sinSrcset].filter(([, v]) => v.conSizes);
+  const avisos = [...sinSrcset].filter(([, v]) => !v.conSizes);
+  decir(!fallan.length,
+    `las ${conSrcset.size} fotos del CMS con sizes conocido llevan srcset con el juego completo`,
+    fallan.map(([src, v]) => `${src}  faltan: ${v.faltan.map((w) => `-${w}`).join(' ') || '(ninguno: revisa responsivizarImagenes)'}  <- dist/${v.quien}  (node scripts/derivar-cms.mjs)`));
+  if (avisos.length) {
+    console.log(`  AVISO ${avisos.length} fotos del CMS sin srcset por clase sin medida en SIZES_POR_CLASE`);
+    for (const [src, v] of avisos.slice(0, 6)) console.log(`         ${src}  <- dist/${v.quien}`);
+    if (avisos.length > 6) console.log(`         ... y ${avisos.length - 6} mas`);
+  }
 }
 
 console.log(fallos ? `\n  ${fallos} comprobacion(es) FALLAN\n` : '\n  Todo en verde.\n');

@@ -311,7 +311,10 @@ export function ficha(p, plantilla) {
   // El embed de video se cambia por la foto.
   out = exigir(out, out.replace(
     /(<div data-w-id="[^"]*" class="hero_media">)[\s\S]*?(<\/section>)/,
-    `$1<img src="${ruta(p, h.archivo)}" alt="${attr(h.alt)}" class="hero_media-img"/></div></div>$2`),
+    // eager + fetchpriority=high: es el elemento LCP de la ficha (medido 5,1 s en
+    // movil sin pista, 277 KB). El preload lo pone precargarLcp() y el srcset
+    // responsivizarImagenes() (transformar.mjs) sobre dist/.
+    `$1<img src="${ruta(p, h.archivo)}" alt="${attr(h.alt)}" loading="eager" fetchpriority="high" class="hero_media-img"/></div></div>$2`),
     'el .hero_media');
 
   // El texto que acompana a "Featured Gallery".

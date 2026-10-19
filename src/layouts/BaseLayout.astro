@@ -76,9 +76,13 @@ interface Props {
   ogImage?: string;
   /**
    * Imagen que hay que precargar con prioridad alta porque ES el elemento LCP de
-   * la pagina (el poster del video en la home). Solo la pagina lo sabe.
+   * la pagina (el poster del video en la home). Solo la pagina lo sabe. Admite
+   * `{ href, srcset, sizes }` para que el preload elija el mismo derivado que el
+   * <img>. Las fichas, proyectos y el blog NO la pasan: su hero lleva
+   * fetchpriority="high" y precargarLcp() (transformar.mjs) le pone el preload
+   * sobre dist/, en las 217 paginas de una vez y sin tocar 8 plantillas generadas.
    */
-  preloadImagen?: string;
+  preloadImagen?: string | { href: string; srcset?: string; sizes?: string };
   /** URL canonica. Por defecto, la ruta actual sobre `site`. */
   canonical?: string;
   /**
@@ -211,7 +215,16 @@ const xDefault = alternativas.length > 1
     {/* El LCP se pide ANTES que las hojas de estilo, con prioridad alta: un
         `poster` o una imagen que el navegador descubre tarde es tiempo de LCP
         regalado. Solo lo pone la pagina que sabe cual es su LCP (la home). */}
-    {preloadImagen && <link rel="preload" as="image" href={preloadImagen} fetchpriority="high" />}
+    {preloadImagen && (
+      <link
+        rel="preload"
+        as="image"
+        href={typeof preloadImagen === 'string' ? preloadImagen : preloadImagen.href}
+        imagesrcset={typeof preloadImagen === 'string' ? undefined : preloadImagen.srcset}
+        imagesizes={typeof preloadImagen === 'string' ? undefined : preloadImagen.sizes}
+        fetchpriority="high"
+      />
+    )}
 
     <link href="/css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="/css/webflow.css" rel="stylesheet" type="text/css" />

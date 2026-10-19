@@ -4,7 +4,7 @@ import path from 'node:path';
 import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
-import { dimensionarImagenes } from './scripts/lib/transformar.mjs';
+import { dimensionarImagenes, responsivizarImagenes, precargarLcp } from './scripts/lib/transformar.mjs';
 import { haciaEspanol } from './src/i18n/rutas.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
 
@@ -169,6 +169,9 @@ function dimensionarHtml() {
         let enlaces = 0;
         let paginasEs = 0;
         const sinProteger = [];
+        // srcset de las fotos del CMS y preload del LCP: ver responsivizarImagenes()
+        // y precargarLcp() en scripts/lib/transformar.mjs. Mismo barrido, misma razon.
+        const resp = { con: 0, sinSizes: 0, incompletas: 0, precargas: 0 };
 
         const recorrer = async (d) => {
           for (const e of await fs.readdir(d, { withFileTypes: true })) {
@@ -177,6 +180,11 @@ function dimensionarHtml() {
             if (!e.name.endsWith('.html')) continue;
             const antes = await fs.readFile(p, 'utf8');
             let despues = dimensionarImagenes(antes);
+            // srcset ANTES del preload: el preload copia el srcset del <img>.
+            const r1 = responsivizarImagenes(despues);
+            despues = r1.html; resp.con += r1.con; resp.sinSizes += r1.sinSizes; resp.incompletas += r1.incompletas;
+            const r2 = precargarLcp(despues);
+            despues = r2.html; if (r2.puesto) resp.precargas++;
 
             // Solo las paginas espanolas: el resto del sitio enlaza en ingles, que es
             // lo correcto.
@@ -202,6 +210,16 @@ function dimensionarHtml() {
         await recorrer(raiz);
 
         logger.info(`width/height inyectados en ${tocadas} paginas`);
+        logger.info(
+          `srcset en ${resp.con} <img> del CMS (${resp.sinSizes} sin sizes conocido, `
+          + `${resp.incompletas} con derivados incompletos) · preload del LCP en ${resp.precargas} paginas`,
+        );
+        if (resp.incompletas) {
+          logger.warn(
+            `${resp.incompletas} <img> del CMS sin srcset por derivados que faltan: `
+            + 'ejecuta `node scripts/derivar-cms.mjs` (check:imagenes lo exige)',
+          );
+        }
         logger.info(
           `${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`
           + ` (selector de idioma respetado en ${paginasEs - sinProteger.length})`,

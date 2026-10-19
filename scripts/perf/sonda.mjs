@@ -25,6 +25,7 @@ const args = process.argv.slice(2);
 const SALIDA = args.find((a) => !a.startsWith('--'));
 if (!SALIDA) { console.error('uso: sonda.mjs <carpeta> [--sin-capturas] [--comparar <json>]'); process.exit(1); }
 const CAPTURAS = !args.includes('--sin-capturas');
+const SOLO_CAPTURAS = args.includes('--solo-capturas');
 const COMPARAR = args.includes('--comparar') ? args[args.indexOf('--comparar') + 1] : null;
 const ANCHOS = (args.includes('--anchos') ? args[args.indexOf('--anchos') + 1].split(',').map(Number) : [320, 375, 768, 1440]);
 const SOLO = args.includes('--solo') ? args[args.indexOf('--solo') + 1].split(',') : null;
@@ -201,11 +202,19 @@ async function capturar(ruta, ancho) {
   // misma pagina sean iguales.
   await page.addStyleTag({ content: '*,*::before,*::after{animation-play-state:paused!important;transition:none!important;caret-color:transparent!important}' });
   const f = path.join(SALIDA, 'capturas', `${slug(ruta)}-${ancho}.png`);
-  await page.screenshot({ path: f, fullPage: true, animations: 'disabled' }).catch(async (e) => {
+  const tirar = (ruta) => page.screenshot({ path: ruta, fullPage: true, animations: 'disabled' }).catch(async (e) => {
     // Paginas muy altas: se recorta a lo que Chromium admite.
-    await page.screenshot({ path: f, fullPage: false });
-    console.log(`  (captura ${slug(ruta)}-${ancho} solo viewport: ${String(e).slice(0, 80)})`);
+    await page.screenshot({ path: ruta, fullPage: false });
+    console.log(`  (captura ${path.basename(ruta)} solo viewport: ${String(e).slice(0, 80)})`);
   });
+  await tirar(f);
+  // Segunda captura SIN fotos: las <img> raster se ocultan (visibility, no display: la
+  // caja se queda) y el video tambien. Es la que decide el diff visual: una foto
+  // servida a otro tamaño cambia pixeles por remuestreo sin cambiar nada de lo que
+  // importa (maquetacion, texto, color, bordes), y eso no se puede separar con un
+  // umbral. La captura con fotos se guarda igual, para mirarla.
+  await page.addStyleTag({ content: 'img:not([src$=".svg"]),video,picture{visibility:hidden!important}' });
+  await tirar(f.replace(/\.png$/, '-sinfotos.png'));
   await ctx.close();
 }
 
@@ -217,7 +226,7 @@ const tareas = RUTAS.flatMap((ruta) => ANCHOS.map((w) => [ruta, w]));
 if (!SOLO) tareas.push(['/', 1440, { reducedMotion: 'reduce' }], ['/', 375, { reducedMotion: 'reduce' }]);
 // 3 contextos a la vez: suficiente para no tardar 15 min y poco para no falsear el video.
 let i = 0;
-await Promise.all(Array.from({ length: RESUMIR ? 0 : 3 }, async () => {
+await Promise.all(Array.from({ length: RESUMIR || SOLO_CAPTURAS ? 0 : 3 }, async () => {
   while (i < tareas.length) {
     const [ruta, w, op] = tareas[i++];
     const r = await medirRuta(ruta, w, op);
@@ -227,7 +236,7 @@ await Promise.all(Array.from({ length: RESUMIR ? 0 : 3 }, async () => {
   }
 }));
 resultados.sort((a, b) => a.ruta.localeCompare(b.ruta) || a.w - b.w);
-if (!RESUMIR) await fs.writeFile(path.join(SALIDA, 'sonda.json'), JSON.stringify(resultados, null, 1));
+if (!RESUMIR && !SOLO_CAPTURAS) await fs.writeFile(path.join(SALIDA, 'sonda.json'), JSON.stringify(resultados, null, 1));
 
 if (CAPTURAS && !RESUMIR) {
   console.log('\ncapturas 375/768/1440...');
@@ -236,6 +245,7 @@ if (CAPTURAS && !RESUMIR) {
   await Promise.all(Array.from({ length: 3 }, async () => { while (j < tc.length) { const [r, w] = tc[j++]; await capturar(r, w).catch((e) => console.log(`  !! captura ${r} ${w}: ${String(e).slice(0, 100)}`)); } }));
 }
 if (navegador) await navegador.close();
+if (SOLO_CAPTURAS) process.exit(0);
 
 // Resumen agregado.
 const ok = (f) => resultados.filter(f).length;

@@ -3,7 +3,7 @@
  * Mide el ancho PINTADO de cada grupo de imagenes (por clase o contenedor) en las 16
  * plantillas a 375/768/992/1440, para escribir `sizes` con datos y no a ojo.
  *
- *     node scripts/perf/medir-anchos.mjs
+ *     node scripts/perf/medir-anchos.mjs [ruta ...]   (sin rutas: las 16 plantillas)
  */
 import { chromium } from 'playwright';
 import { PLANTILLAS, BASE } from './plantillas.mjs';
@@ -11,11 +11,13 @@ import { PLANTILLAS, BASE } from './plantillas.mjs';
 const ANCHOS = [375, 768, 992, 1440];
 const b = await chromium.launch();
 const tabla = new Map(); // grupo -> {375: Set, ...}
-for (const [, ruta] of PLANTILLAS) {
+const RUTAS = process.argv.slice(2).length ? process.argv.slice(2).map((r) => ['', r]) : PLANTILLAS;
+for (const [, ruta] of RUTAS) {
   for (const w of ANCHOS) {
     const ctx = await b.newContext({ viewport: { width: w, height: 900 }, isMobile: w < 768, hasTouch: w < 768, reducedMotion: 'reduce' });
     const page = await ctx.newPage();
-    await page.goto(BASE + ruta, { waitUntil: 'load' });
+    const ok = await page.goto(BASE + ruta, { waitUntil: 'load', timeout: 60000 }).then(() => true, (e) => { console.log(`  !! ${ruta}@${w}: ${String(e).slice(0, 60)}`); return false; });
+    if (!ok) { await ctx.close(); continue; }
     const datos = await page.evaluate(() => [...document.images]
       .filter((i) => /\/(cms-img|images\/cliente)\//.test(i.getAttribute('src') ?? '') && i.getBoundingClientRect().width > 0)
       .map((i) => {
