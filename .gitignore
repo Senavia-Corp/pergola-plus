@@ -74,3 +74,9 @@ auditoria-imagenes/cta/
 
 # Montajes de iconos: salida de integrar-iconos.mjs, se regenera.
 auditoria-imagenes/iconos/
+
+# Capturas de pagina completa de la sonda de rendimiento (scripts/perf/sonda.mjs):
+# 60 PNG por tanda, ~180 MB. Se regeneran con la sonda; en el repo van los CSV, el
+# JSON de la sonda y el informe del diff visual con los PNG de las diferencias.
+implementation-reports/**/capturas/
+implementation-reports/**/diff-png/
