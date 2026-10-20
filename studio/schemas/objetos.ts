@@ -5,12 +5,54 @@
  * Bilingüe POR CAMPO: cada texto lleva `en` (obligatorio) y `es` (opcional). Un
  * documento sin `es` no genera página española (es el caso de Terms of Service).
  */
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 const IDIOMAS = [
   { id: 'en', titulo: 'English' },
   { id: 'es', titulo: 'Español' },
 ] as const;
+
+/**
+ * Lo que admite un texto con formato. Es EXACTAMENTE el repertorio de los cuerpos del
+ * blog y de los textos legales (src/lib/portable.mjs): ni mas, para que el editor no
+ * pueda meter algo que el diseño no sabe pintar, ni menos, para no perder nada al migrar.
+ */
+const CUERPO = [
+  {
+    type: 'block',
+    styles: [
+      { title: 'Párrafo', value: 'normal' },
+      { title: 'Título 1', value: 'h1' },
+      { title: 'Título 2', value: 'h2' },
+      { title: 'Título 3', value: 'h3' },
+    ],
+    lists: [
+      { title: 'Viñetas', value: 'bullet' },
+      { title: 'Numerada', value: 'number' },
+    ],
+    marks: {
+      decorators: [
+        { title: 'Negrita', value: 'strong' },
+        { title: 'Cursiva', value: 'em' },
+      ],
+      annotations: [
+        {
+          name: 'enlace',
+          title: 'Enlace',
+          type: 'object',
+          fields: [
+            { name: 'destino', title: 'Página del sitio', type: 'reference', to: [] as { type: string }[] },
+            { name: 'ancla', title: 'Ancla (#…)', type: 'string' },
+            { name: 'href', title: 'Enlace externo (si no es una página del sitio)', type: 'url', validation: (r: any) => r.uri({ allowRelative: true, scheme: ['https', 'http', 'tel', 'mailto'] }) },
+          ],
+        },
+      ],
+    },
+  },
+  { type: 'imagenCuerpo' },
+  { type: 'botones' },
+  { type: 'tabla' },
+];
 
 /** Un objeto {en, es} del tipo dado. `en` obligatorio. */
 function i18n(name: string, title: string, tipo: 'string' | 'text' | 'portable') {
@@ -24,7 +66,7 @@ function i18n(name: string, title: string, tipo: 'string' | 'text' | 'portable')
         name: id,
         title: titulo,
         ...(tipo === 'portable'
-          ? { type: 'array', of: [{ type: 'block' }, { type: 'imagen' }] }
+          ? { type: 'array', of: CUERPO }
           : { type: tipo, ...(tipo === 'text' ? { rows: 3 } : {}) }),
         ...(id === 'en' ? { validation: (r: any) => r.required() } : {}),
       }),
@@ -242,4 +284,69 @@ export const textoClave = defineType({
   preview: { select: { title: 'texto.en', subtitle: 'clave' } },
 });
 
-export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, seccion, textoClave];
+/** Imagen dentro de un texto con formato: el texto alternativo va en el idioma del texto. */
+export const imagenCuerpo = defineType({
+  name: 'imagenCuerpo',
+  title: 'Imagen',
+  type: 'image',
+  options: { hotspot: true },
+  fields: [
+    defineField({ name: 'alt', title: 'Texto alternativo', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'procedencia', title: 'Procedencia', type: 'string', options: { list: PROCEDENCIAS, layout: 'radio' }, validation: (r) => r.required() }),
+    defineField({ name: 'procedenciaNota', title: 'De dónde viene', type: 'string' }),
+    defineField({ name: 'cargaDiferida', title: 'Carga diferida', type: 'boolean', initialValue: true, hidden: true }),
+  ],
+});
+
+/** Los botones dentro de un texto (el par «Schedule…» / «Request a Quote» de los artículos). */
+export const botones = defineType({
+  name: 'botones',
+  title: 'Botones',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'items',
+      title: 'Botones',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          name: 'boton',
+          type: 'object',
+          fields: [
+            defineField({ name: 'texto', title: 'Texto', type: 'string', validation: (r) => r.required() }),
+            defineField({ name: 'estilo', title: 'Estilo', type: 'string', options: { list: ['primario', 'secundario'] }, validation: (r) => r.required() }),
+            defineField({ name: 'destino', title: 'Lleva a', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
+            defineField({ name: 'ancla', title: 'Ancla (#…)', type: 'string' }),
+            defineField({ name: 'href', title: 'Enlace externo', type: 'url' }),
+          ],
+          preview: { select: { title: 'texto', subtitle: 'estilo' } },
+        }),
+      ],
+    }),
+  ],
+  preview: { select: { title: 'items.0.texto' }, prepare: ({ title }) => ({ title: `Botones: ${title ?? ''}` }) },
+});
+
+/** Tabla sencilla: título, cabecera y filas cuya primera celda es la etiqueta de la fila. */
+export const tabla = defineType({
+  name: 'tabla',
+  title: 'Tabla',
+  type: 'object',
+  fields: [
+    defineField({ name: 'titulo', title: 'Título', type: 'string' }),
+    defineField({ name: 'etiquetaAccesible', title: 'Descripción para lectores de pantalla', type: 'string' }),
+    defineField({ name: 'cabecera', title: 'Cabecera', type: 'array', of: [{ type: 'string' }] }),
+    defineField({
+      name: 'filas',
+      title: 'Filas',
+      type: 'array',
+      of: [defineArrayMember({ name: 'filaTabla', type: 'object', fields: [defineField({ name: 'celdas', title: 'Celdas', type: 'array', of: [{ type: 'string' }] })], preview: { select: { title: 'celdas.0' } } })],
+    }),
+  ],
+  preview: { select: { title: 'titulo' }, prepare: ({ title }) => ({ title: `Tabla: ${title ?? ''}` }) },
+});
+
+// El enlace del texto con formato apunta a cualquier documento con página.
+(CUERPO[0] as any).marks.annotations[0].fields[0].to = CON_PAGINA.map((type) => ({ type }));
+
+export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, seccion, textoClave, imagenCuerpo, botones, tabla];

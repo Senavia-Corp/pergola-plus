@@ -21,13 +21,16 @@
  * src/lib cargados con el Vite del build (scripts/sanity/cargar-ts.mjs). Los valores
  * se copian tal cual; lo que no consta no se rellena.
  *
- * REFERENCIAS a tipos que todavia no se migran en esta tanda van DEBILES (`_weak`):
- * Sanity no deja importar una referencia fuerte a un documento que no existe. Cuando
- * la migracion completa incluya esos tipos, salen fuertes sin tocar nada.
+ * REFERENCIAS: fuertes si el destino existe (en el dataset o en esta misma tanda);
+ * DEBILES (`_weak`) si todavia no, porque Sanity no deja importar una referencia
+ * fuerte a un documento que no existe. Cuando se migre el destino, volver a ejecutar
+ * la tanda las deja fuertes sin tocar nada.
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { cargarTs, cerrarTs } from './sanity/cargar-ts.mjs';
+import { htmlAPortable } from '../src/lib/portable.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 process.chdir(RAIZ);
@@ -36,7 +39,7 @@ const opt = (n) => (args.includes(n) ? args[args.indexOf(n) + 1] : undefined);
 const SALIDA = opt('--salida');
 if (!SALIDA) { console.error('uso: migrar-a-sanity.mjs --salida <fichero.ndjson> [--tipos a,b]'); process.exit(1); }
 
-const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory'];
+const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage'];
 const TIPOS = new Set((opt('--tipos') ?? TODOS.join(',')).split(','));
 for (const t of TIPOS) if (!TODOS.includes(t)) throw new Error(`tipo desconocido: ${t}`);
 
@@ -51,21 +54,12 @@ const i18n = (en, es) => {
 const i18nLargo = (en, es) => ({ ...i18n(en, es), _type: 'textoLargoI18n' });
 const clave = (s) => String(s).replace(/[^a-zA-Z0-9_-]/g, '-');
 
-/** Ruta del sitio -> `_id` del documento que la pinta. */
-export function idDeRuta(ruta) {
-  const r = ruta.replace(/[?#].*$/, '').replace(/\/+$/, '') || '/';
-  const m = r.match(/^\/(products|services|brands|project|post|pergolas-contractors|countries|articles)\/([^/]+)$/);
-  if (m) {
-    const tipo = { products: 'product', services: 'service', brands: 'brand', project: 'project', post: 'post', 'pergolas-contractors': 'city', countries: 'county', articles: 'legalPage' }[m[1]];
-    return { tipo, id: `${tipo}-${m[2]}` };
-  }
-  const cat = r.match(/^\/resources\/blog\/([^/]+)$/);
-  if (cat) return { tipo: 'blogCategory', id: `blogCategory-${cat[1]}` };
-  return { tipo: 'page', id: `page-${r === '/' ? 'index' : r.slice(1).replace(/\//g, '__')}` };
-}
+import { idDeRuta } from '../src/lib/rutas-sanity.mjs';
+export { idDeRuta };
 
-const ref = (id, tipo) => ({ _type: 'reference', _ref: id, ...(TIPOS.has(tipo) ? {} : { _weak: true }) });
-const refRuta = (ruta) => { const { id, tipo } = idDeRuta(ruta); return ref(id, tipo); };
+/** Referencia. Fuerte o debil se decide al final (ver «Referencias», abajo), con el dataset delante. */
+const ref = (id) => ({ _type: 'reference', _ref: id });
+const refRuta = (ruta) => ref(idDeRuta(ruta).id);
 
 /**
  * Procedencia POR REGLA, documentada; lo demas `sin-clasificar` (lo resuelve la Fase 6).
@@ -273,11 +267,120 @@ if (TIPOS.has('blogCategory')) {
   }
 }
 
+if (TIPOS.has('post') || TIPOS.has('legalPage')) {
+  // La MISMA extraccion que la prueba de paridad (scripts/sanity/ida-y-vuelta.mjs): el
+  // cuerpo tal como lo pinta hoy el sitio, en ingles y en español.
+  const { textosEnriquecidos } = await import('./sanity/ida-y-vuelta.mjs');
+  const casos = await textosEnriquecidos();
+  const html = (tipo, slug, idioma) => casos.find((c) => c.tipo === tipo && c.slug === slug && c.idioma === idioma)?.html;
+  const DIST = path.join(RAIZ, 'dist/client');
+  if (!existsSync(DIST)) throw new Error('falta dist/: los enlaces internos se resuelven contra el build (npm run build)');
+  /** Ruta interna -> referencia al documento que la pinta, si es una pagina del build; si no, null (se queda como href). */
+  const enlaceInterno = (href) => {
+    const [ruta, ancla] = href.split('#');
+    const p = ruta.replace(/\/+$/, '') || '/';
+    if (!existsSync(path.join(DIST, p === '/' ? '' : p, 'index.html'))) return null;
+    return { destino: refRuta(p), ...(ancla ? { ancla } : {}) };
+  };
+  const pendientes = [];
+  const aPortable = (h) => htmlAPortable(h, {
+    enlaceInterno,
+    imagen: (src, alt) => {
+      const fichero = path.join(RAIZ, 'public', src.replace(/^\//, ''));
+      pendientes.push(fichero);
+      assets.set(fichero, src);
+      return { _type: 'imagenCuerpo', _sanityAsset: `image@file://${fichero}`, alt, ...procedencia(src) };
+    },
+  });
+  const bloqueI18n = (en, es) => ({ _type: 'bloqueI18n', en: aPortable(en), ...(es ? { es: aPortable(es) } : {}) });
+
+  if (TIPOS.has('post')) {
+    const { posts } = await cargarTs('src/lib/blog.ts');
+    const { POSTS_ES } = await cargarTs('src/i18n/blog.es.ts');
+    const { ALTS_ES } = await import('./lib/posts.mjs');
+    const items = JSON.parse(await fs.readFile('src/contenido-migrado/post/_items.json', 'utf8'));
+    for (const p of posts) {
+      const item = items.find((x) => x.slug === p.slug);
+      if (!item) throw new Error(`[post] ${p.slug} sin _items.json`);
+      const es = POSTS_ES[p.slug];
+      const cuerpoEs = html('post', p.slug, 'es');
+      if (Boolean(es) !== Boolean(cuerpoEs)) throw new Error(`[post] ${p.slug}: metadatos ES y cuerpo ES no van a la par`);
+      docs.push({
+        _id: `post-${p.slug}`,
+        _type: 'post',
+        titulo: i18n(p.titulo, es?.titulo),
+        slug: { _type: 'slug', current: p.slug },
+        tituloLargo: i18n(p.tituloLargo, es?.tituloLargo),
+        resumen: i18nLargo(p.resumen, es?.resumen),
+        principal: await imagen(p.principal.src, p.altPrincipal ? { en: p.altPrincipal, es: ALTS_ES[p.altPrincipal] } : null),
+        miniatura: await imagen(p.miniatura.src, p.altMiniatura ? { en: p.altMiniatura, es: ALTS_ES[p.altMiniatura] } : null),
+        cuerpo: bloqueI18n(html('post', p.slug, 'en'), cuerpoEs),
+        categoria: ref(`blogCategory-${p.categoria.slug}`, 'blogCategory'),
+        destacado: p.destacadoCms,
+        principalDelBlog: p.esHero,
+        fechaCreacion: p.creado.toISOString(),
+        fechaPublicacion: p.publicado.toISOString(),
+        fechaActualizacion: p.actualizado.toISOString(),
+        seo: {
+          _type: 'seo',
+          titulo: i18n(item.title, es?.tituloLargo),
+          ...(item.description ? { descripcion: i18nLargo(item.description, es?.descripcionSeo) } : {}),
+          indexable: true,
+        },
+      });
+    }
+  }
+
+  if (TIPOS.has('legalPage')) {
+    const { ARTICULOS_ES } = await cargarTs('src/i18n/articulos.es.ts');
+    const items = JSON.parse(await fs.readFile('src/contenido-migrado/articles/_items.json', 'utf8'));
+    for (const item of items) {
+      const en = html('legalPage', item.slug, 'en');
+      const h1 = en.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1]?.replace(/<[^>]*>/g, '');
+      if (!h1) throw new Error(`[legalPage] ${item.slug} sin <h1>`);
+      const t = ARTICULOS_ES[item.slug];
+      const { decodificar } = await import('../src/lib/portable.mjs');
+      docs.push({
+        _id: `legalPage-${item.slug}`,
+        _type: 'legalPage',
+        titulo: i18n(decodificar(h1).trim(), t?.nombre),
+        slug: { _type: 'slug', current: item.slug },
+        cuerpo: bloqueI18n(en, html('legalPage', item.slug, 'es')),
+        seo: { _type: 'seo', titulo: i18n(item.title, t?.title), descripcion: i18nLargo(item.description, t?.description), indexable: true },
+      });
+    }
+  }
+  for (const f of pendientes) await fs.access(f).catch(() => { throw new Error(`imagen del cuerpo inexistente: ${f}`); });
+}
+
 await cerrarTs();
 
 // ---------------------------------------------------------------------------
 // Salida
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Referencias: debiles solo si el destino no existe aun
+// ---------------------------------------------------------------------------
+const consultaPublica = async (q) => {
+  const u = new URL('https://n0ct9t3k.api.sanity.io/v2025-01-01/data/query/production');
+  u.searchParams.set('query', q);
+  const r = await fetch(u);
+  if (!r.ok) throw new Error(`consulta a Sanity: ${r.status}`);
+  return (await r.json()).result;
+};
+const destinos = new Set([...(await consultaPublica('*[!(_id in path("_.**"))]._id')), ...docs.map((d) => d._id)]);
+const sinDestino = new Set();
+const fijarRefs = (x) => {
+  if (Array.isArray(x)) return x.forEach(fijarRefs);
+  if (!x || typeof x !== 'object') return;
+  if (x._type === 'reference') {
+    if (destinos.has(x._ref)) delete x._weak; else { x._weak = true; sinDestino.add(x._ref); }
+    return;
+  }
+  Object.values(x).forEach(fijarRefs);
+};
+fijarRefs(docs);
+
 const ids = new Set();
 for (const d of docs) {
   if (ids.has(d._id)) throw new Error(`_id repetido: ${d._id}`);
@@ -289,6 +392,6 @@ await fs.writeFile(SALIDA, docs.map((d) => JSON.stringify(d)).join('\n') + '\n')
 const porTipo = {};
 for (const d of docs) porTipo[d._type] = (porTipo[d._type] ?? 0) + 1;
 const debiles = JSON.stringify(docs).match(/"_weak":true/g)?.length ?? 0;
-const resumen = { documentos: docs.length, porTipo, imagenes: assets.size, referenciasDebiles: debiles, salida: path.resolve(SALIDA) };
+const resumen = { documentos: docs.length, porTipo, imagenes: assets.size, referenciasDebiles: debiles, destinosQueFaltan: [...sinDestino].sort(), salida: path.resolve(SALIDA) };
 console.log(JSON.stringify(resumen, null, 1));
 await fs.writeFile(SALIDA.replace(/\.ndjson$/, '') + '.resumen.json', JSON.stringify(resumen, null, 1) + '\n');
