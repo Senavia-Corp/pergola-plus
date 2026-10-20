@@ -1,0 +1,52 @@
+{
+ "s0.section-appointment-section.div-appointment-column-left.img-image-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.section-appointment-section.div-appointment-column-left.img-image-3.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s0.section-appointment-section.div-appointment-column-left.img-image-3",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1250w"
+ },
+ "s0.section-appointment-section.div-appointment-column-left.img-image-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page-transparent.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page-transparent.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-pp-agenda-fachada.p-pp-agenda-cargando.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-pp-agenda-fachada.p-pp-agenda-alterna.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.p-pp-agenda-alterna.a.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-pp-agenda-fachada.p-pp-agenda-alterna.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-pp-agenda-fachada.p-pp-agenda-alterna.a-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.p-pp-agenda-alterna.a.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-pp-agenda-fachada.p-pp-agenda-alterna.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ }
+}

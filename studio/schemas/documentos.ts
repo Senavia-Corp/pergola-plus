@@ -179,6 +179,28 @@ const filaEspecificacion = defineArrayMember({
   preview: { select: { title: 'etiqueta.en', subtitle: 'valor.en' } },
 });
 
+const huecoEspecificacion = defineArrayMember({
+  name: 'huecoEspecificacion',
+  type: 'object',
+  fields: [
+    defineField({ name: 'id', title: 'Hueco', type: 'string', readOnly: true }),
+    defineField({ name: 'texto', title: 'Qué es y por qué no está', type: 'textoLargoI18n' }),
+  ],
+  preview: { select: { title: 'id', subtitle: 'texto.en' } },
+});
+
+const enlaceEspecificacion = defineArrayMember({
+  name: 'enlaceEspecificacion',
+  type: 'object',
+  fields: [
+    defineField({ name: 'id', title: 'Enlace', type: 'string', readOnly: true }),
+    defineField({ name: 'texto', title: 'Texto del enlace', description: 'Descriptivo, nunca «Read more».', type: 'textoI18n' }),
+    defineField({ name: 'destino', title: 'Lleva a', type: 'reference', to: [{ type: 'post' }, { type: 'page' }], validation: (r) => r.required() }),
+    defineField({ name: 'junto', title: 'Junto a (id de fila, de hueco o «entradilla»)', type: 'string', validation: (r) => r.required() }),
+  ],
+  preview: { select: { title: 'texto.en', subtitle: 'junto' } },
+});
+
 export const product = defineType({
   name: 'product',
   title: 'Producto',
@@ -195,9 +217,23 @@ export const product = defineType({
       title: 'Especificaciones',
       type: 'object',
       group: 'contenido',
+      description: 'Lo que se afirma con fuente (filas) y lo que todavía no se publica (huecos). Una fila «en datos estructurados» va también al JSON-LD del producto: su texto tiene que ser exactamente el que se pinta.',
       fields: [
+        defineField({ name: 'titulo', title: 'Título', type: 'textoI18n' }),
+        defineField({ name: 'entradilla', title: 'Entradilla', type: 'textoLargoI18n' }),
         defineField({ name: 'filas', title: 'Filas', type: 'array', of: [filaEspecificacion] }),
-        defineField({ name: 'material', title: 'Material', type: 'string' }),
+        defineField({
+          name: 'material',
+          title: 'Fila que es el material del producto',
+          description: 'El id de una de las filas (va como `material` en el JSON-LD).',
+          type: 'string',
+          validation: (r) => r.custom((v, ctx) => (!v || (ctx.parent as { filas?: { id: string }[] })?.filas?.some((f) => f.id === v) ? true : 'No es ninguna de las filas')),
+        }),
+        defineField({ name: 'huecosTitulo', title: 'Título de «no publicado todavía»', type: 'textoI18n' }),
+        defineField({ name: 'huecosEntradilla', title: 'Entradilla de «no publicado todavía»', type: 'textoLargoI18n' }),
+        defineField({ name: 'huecos', title: 'No publicado todavía', type: 'array', of: [huecoEspecificacion] }),
+        defineField({ name: 'ctaTexto', title: 'Botón final', description: 'Nombra cuántos huecos hay: cámbielo si cambia su número.', type: 'textoI18n' }),
+        defineField({ name: 'enlaces', title: 'Enlaces a artículos', type: 'array', of: [enlaceEspecificacion] }),
       ],
     }),
     galeria,

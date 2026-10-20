@@ -160,3 +160,22 @@ export function lectorSanity(huecos, doc, docPlantilla, idioma, conv, heredados 
     return undefined;
   };
 }
+
+/**
+ * La copia de una pagina propia (contacto, blog, gracias…) desde sus `textos` con clave
+ * `a.b.0.c`: el objeto anidado que hoy vive en src/i18n, en un idioma. Las claves
+ * numericas son posiciones de una lista.
+ */
+export function desaplanar(textos, idioma) {
+  const raiz = {};
+  for (const t of textos ?? []) {
+    const partes = t.clave.split('.');
+    let o = raiz;
+    partes.forEach((k, i) => {
+      if (i === partes.length - 1) { o[k] = idioma === 'es' ? (t.texto.es ?? t.texto.en) : t.texto.en; return; }
+      o[k] ??= /^\d+$/.test(partes[i + 1]) ? [] : {};
+      o = o[k];
+    });
+  }
+  return raiz;
+}

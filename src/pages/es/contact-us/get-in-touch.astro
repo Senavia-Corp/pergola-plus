@@ -14,6 +14,7 @@
  * Mismo caso que /resources/blog, que tambien es de autoria propia.
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { PROPIAS_ES } from '../../../i18n/paginas-propias';
 import PaginaContacto from '../../../components/PaginaContacto.astro';
 import { CONTACTO_ES } from '../../../i18n/contacto';
 import { grafo, localBusiness, breadcrumbs } from '../../../lib/jsonld';
@@ -28,8 +29,8 @@ const jsonLd = grafo(
 ---
 
 <BaseLayout
-  title="Contacte con Pergola Plus Florida | Boca Ratón"
-  description="Llame, escriba o visítenos en Boca Ratón para hablar de pérgolas, cubiertas de patio y cerramientos en cualquier punto del sur de Florida."
+  title={PROPIAS_ES.contacto.title}
+  description={PROPIAS_ES.contacto.description}
   wfPage="698a91c07b51ec699ca6f4f8"
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}

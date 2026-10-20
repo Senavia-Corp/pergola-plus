@@ -1,0 +1,454 @@
+{
+ "s0.div-wrapper-hero-page.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-3.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-4.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-5.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-6.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-7.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-serve-block.div-serve-column-right.img-serve-image",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1024w"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-title-deco.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.h2.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-8.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-9.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-10.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-11.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-11": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-12.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-12": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-13.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-13": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-14.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-14": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-15.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-15": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-16.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-16": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-3.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-4.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-2.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-serve-block.div-serve-column-right.img-serve-image-2",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1024w"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-title-deco.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.h2.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-17.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-17": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-18.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-18": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-19.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-19": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-20.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-20": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-21.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-21": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-22.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-22": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-23.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-23": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-24.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-24": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-collection-list-2.div-w-dyn-item.a-link-2-25.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.a-link-2.t-25": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-5.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-6.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-3.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-serve-block.div-serve-column-right.img-serve-image-3",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1024w"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-header-locations.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-locations.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-title-locations.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-text-mini-locations.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-left.a-location-card-link.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.a-location-card-link.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-title-locations.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-text-mini-locations.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-left.a-location-card-link-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.a-location-card-link.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-title-locations.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-text-mini-locations.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-left.a-location-card-link-3.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.a-location-card-link.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s2.section-call-to-action-footer.img-image-call-to-action",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001-p-1080.avif 1080w, \u0001raiz\u0001.avif 2000w"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ }
+}

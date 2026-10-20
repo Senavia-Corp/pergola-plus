@@ -39,7 +39,7 @@ const opt = (n) => (args.includes(n) ? args[args.indexOf(n) + 1] : undefined);
 const SALIDA = opt('--salida');
 if (!SALIDA) { console.error('uso: migrar-a-sanity.mjs --salida <fichero.ndjson> [--tipos a,b]'); process.exit(1); }
 
-const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage', 'county', 'city', 'product', 'service', 'brand', 'project'];
+const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage', 'county', 'city', 'product', 'service', 'brand', 'project', 'page', 'navigation'];
 const TIPOS = new Set((opt('--tipos') ?? TODOS.join(',')).split(','));
 for (const t of TIPOS) if (!TODOS.includes(t)) throw new Error(`tipo desconocido: ${t}`);
 
@@ -54,7 +54,7 @@ const i18n = (en, es) => {
 const i18nLargo = (en, es) => ({ ...i18n(en, es), _type: 'textoLargoI18n' });
 const clave = (s) => String(s).replace(/[^a-zA-Z0-9_-]/g, '-');
 
-import { idDeRuta } from '../src/lib/rutas-sanity.mjs';
+import { idDeRuta, rutaDeId } from '../src/lib/rutas-sanity.mjs';
 export { idDeRuta };
 
 /** Referencia. Fuerte o debil se decide al final (ver «Referencias», abajo), con el dataset delante. */
@@ -358,7 +358,7 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
 // ---------------------------------------------------------------------------
 const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project'].filter((t) => TIPOS.has(t));
 const tarjetas = {};
-if (CON_PLANTILLA.length) {
+if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
   const { paginasDe, derivarColeccion, derivarReferencias } = await import('./sanity/plantillas.mjs');
   const { aBloques, opcionalesA, plano, CAMPOS_OPCIONALES } = await import('../src/lib/plantilla-sanity.mjs');
   const { decodificar } = await import('../src/lib/portable.mjs');
@@ -409,6 +409,13 @@ if (CON_PLANTILLA.length) {
     if (ES_DE[tipo]) {
       const ES = await ES_DE[tipo]();
       const { PROMOVIDAS } = await cargarTs('src/data/faqs.ts');
+      const { ESPECIFICACIONES } = tipo === 'product' ? await cargarTs('src/data/especificaciones.ts') : {};
+      const { SPECS_COPY } = tipo === 'product' ? await cargarTs('src/i18n/especificaciones.es.ts') : {};
+      // Ficha -> proyecto: la etiqueta de producto de cada tarjeta de /project-gallery
+      // (src/lib/proyectos-ficha.ts) pasa a ser la referencia `productos` del proyecto.
+      const PF = tipo === 'project' ? await cargarTs('src/lib/proyectos-ficha.ts') : null;
+      const galeria = PF && PF.tarjetasProyecto(await fs.readFile(path.join(RAIZ, 'src/contenido-migrado/estaticas/project-gallery.html'), 'utf8'));
+      const ficha = PF && Object.fromEntries(Object.entries(PF.ETIQUETA_DE_FICHA).map(([slug, et]) => [et, slug]));
       paginas.forEach((p, i) => {
         const es = ES[p.slug];
         const h1 = p.en.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1];
@@ -424,6 +431,35 @@ if (CON_PLANTILLA.length) {
         for (const [bloque, b] of Object.entries(opcionalesA(d.huecos, d.valores[i], conv))) doc[CAMPOS_OPCIONALES[bloque].campo] = b;
         // Las preguntas de la biblioteca que la ficha sube a su FAQ (src/data/faqs.ts).
         if ((tipo === 'product' || tipo === 'service') && PROMOVIDAS[p.slug]?.length) doc.faqsPromovidas = PROMOVIDAS[p.slug].map((id) => ({ ...ref(`faq-${id}`), _key: id }));
+        if (tipo === 'product' && ESPECIFICACIONES[p.slug]) {
+          const E = ESPECIFICACIONES[p.slug], en = SPECS_COPY.en[p.slug], es = SPECS_COPY.es[p.slug];
+          doc.especificaciones = {
+            titulo: i18n(en.titulo, es.titulo),
+            entradilla: i18nLargo(en.entradilla, es.entradilla),
+            filas: E.filas.map((id) => ({ _type: 'filaEspecificacion', _key: id, id, etiqueta: i18n(en.filas[id].etiqueta, es.filas[id].etiqueta), valor: i18nLargo(en.filas[id].valor, es.filas[id].valor), enDatosEstructurados: E.enGrafo.includes(id) })),
+            ...(E.material ? { material: E.material } : {}),
+            huecosTitulo: i18n(en.huecosTitulo, es.huecosTitulo),
+            huecosEntradilla: i18nLargo(en.huecosEntradilla, es.huecosEntradilla),
+            huecos: E.huecos.map((id) => ({ _type: 'huecoEspecificacion', _key: id, id, texto: i18nLargo(en.huecos[id], es.huecos[id]) })),
+            ctaTexto: i18n(en.ctaTexto, es.ctaTexto),
+            enlaces: E.enlaces.map((e) => ({ _type: 'enlaceEspecificacion', _key: e.id, id: e.id, texto: i18n(en.enlaces[e.id], es.enlaces[e.id]), destino: refRuta(e.ruta), junto: e.junto })),
+          };
+          // Paridad: el registro y la copia salen tal cual del documento.
+          const x = doc.especificaciones;
+          const ordenado = (o) => JSON.stringify(o, (_k, v) => (v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => a.localeCompare(b))) : v));
+          const reg = { filas: x.filas.map((f) => f.id), enGrafo: x.filas.filter((f) => f.enDatosEstructurados).map((f) => f.id), ...(x.material ? { material: x.material } : {}), huecos: x.huecos.map((h) => h.id), enlaces: x.enlaces.map((e) => ({ id: e.id, ruta: rutaDeId(e.destino._ref), junto: e.junto })) };
+          if (ordenado(reg) !== ordenado(E)) throw new Error(`[especificaciones] ${p.slug}: el registro no se reconstruye (¿enGrafo en otro orden que filas?)`);
+          for (const [idioma, c] of [['en', en], ['es', es]]) {
+            const t = (v) => (idioma === 'es' ? v.es ?? v.en : v.en);
+            const copia = { titulo: t(x.titulo), entradilla: t(x.entradilla), huecosTitulo: t(x.huecosTitulo), huecosEntradilla: t(x.huecosEntradilla), ctaTexto: t(x.ctaTexto), filas: Object.fromEntries(x.filas.map((f) => [f.id, { etiqueta: t(f.etiqueta), valor: t(f.valor) }])), huecos: Object.fromEntries(x.huecos.map((h) => [h.id, t(h.texto)])), enlaces: Object.fromEntries(x.enlaces.map((e) => [e.id, t(e.texto)])) };
+            if (ordenado(copia) !== ordenado(c)) throw new Error(`[especificaciones] ${p.slug} ${idioma}: la copia no se reconstruye (¿textos sin fila?)`);
+          }
+        }
+        if (tipo === 'project') {
+          const tj = galeria.find((t) => t.slug === p.slug);
+          const prods = (tj?.etiquetas ?? []).map((et) => ficha[et]).filter(Boolean);
+          if (prods.length) doc.productos = prods.map((slug) => ({ ...ref(`product-${slug}`), _key: slug }));
+        }
         if (tipo === 'project') {
           const conVideo = Boolean(doc.cabeceraVideo), conImagen = Boolean(doc.cabeceraImagen);
           if (conVideo === conImagen) throw new Error(`[project] ${p.slug}: la cabecera tiene que ser video o imagen, una de las dos`);
@@ -449,6 +485,118 @@ if (CON_PLANTILLA.length) {
         seo: { _type: 'seo', titulo: i18n(p.item.title, es?.title), ...(p.item.description ? { descripcion: i18nLargo(p.item.description, es?.description) } : {}), indexable: true },
       });
     });
+  }
+
+  // -------------------------------------------------------------------------
+  // Paginas estaticas: 13 desde su fragmento (una plantilla por pagina) y 5 propias
+  // (contacto, blog, FAQ, estimador, gracias) cuya copia vive en src/i18n.
+  // -------------------------------------------------------------------------
+  if (TIPOS.has('page')) {
+    const { estaticasDe, derivar, paridad } = await import('./sanity/plantillas.mjs');
+    const { desaplanar } = await import('../src/lib/plantilla-sanity.mjs');
+    const { readFileSync } = await import('node:fs');
+    // SEO tal como se publica hoy: <title>, meta description y robots del HTML de dist.
+    const publicado = (ruta) => {
+      // El 404 ingles se sirve como /404.html; su gemela es /es/404/.
+      const h = readFileSync(ruta === '/404' ? path.join(DIST, '404.html') : path.join(DIST, ruta === '/' ? '' : ruta, 'index.html'), 'utf8');
+      const title = decodificar(h.match(/<title>([^<]*)<\/title>/)?.[1] ?? '');
+      const meta = (n) => h.match(new RegExp(`<meta[^>]*name="${n}"[^>]*>`))?.[0].match(/content="([^"]*)"/)?.[1];
+      const description = decodificar(meta('description') ?? '');
+      const noindex = /noindex/.test(meta('robots') ?? '');
+      if (!title) throw new Error(`[page] ${ruta} sin <title> en dist`);
+      return { title, description, noindex };
+    };
+    const seoPagina = (ruta) => {
+      const en = publicado(ruta);
+      const rutaEs = ruta === '/' ? '/es' : `/es${ruta}`;
+      const es = existsSync(path.join(DIST, rutaEs, 'index.html')) ? publicado(rutaEs) : null;
+      return { _type: 'seo', titulo: i18n(en.title, es?.title), ...(en.description ? { descripcion: i18nLargo(en.description, es?.description) } : {}), indexable: !en.noindex };
+    };
+    const nombreDe = (seo) => i18n(seo.titulo.en.split('|')[0].trim(), seo.titulo.es?.split('|')[0].trim());
+    for (const p of await estaticasDe()) {
+      const d = derivar([p], '', { sinReferencias: true, todoContenido: true });
+      d.heredados = [{}];
+      const f = paridad(d, [p]);
+      if (f.length) throw new Error(`[page] ${p.ruta}: paridad\n${f.join('\n')}`);
+      await igualAlCodigo(`${p.id}.html`, d.plantilla);
+      await igualAlCodigo(`${p.id}.json`, JSON.stringify(d.huecos, null, 1) + '\n');
+      const seo = seoPagina(p.ruta);
+      docs.push({ _id: p.id, _type: 'page', ruta: p.ruta, titulo: nombreDe(seo), secciones: aBloques(d.huecos, d.valores[0], 'pagina', conv), seo });
+    }
+    // Las propias: su copia (src/i18n/paginas-propias.ts, contacto.ts) como textos con clave.
+    const { PROPIAS_EN, PROPIAS_ES } = await cargarTs('src/i18n/paginas-propias.ts');
+    const C = await cargarTs('src/i18n/contacto.ts');
+    const sinSeo = ({ title: _t, description: _d, ...resto }) => resto;
+    const copia = (clave, en, es) => ({ _type: 'bloque', _key: clave, clave, textos: textosClave(aplanar(en, es)) });
+    const igual = (a, b, que) => { if (JSON.stringify(a) !== JSON.stringify(b)) throw new Error(`[page] ${que}: la copia no se reconstruye desde los textos`); };
+    const propias = [
+      { ruta: '/contact-us/get-in-touch', c: 'contacto', bloques: [copia('contacto', C.CONTACTO_EN, C.CONTACTO_ES)] },
+      { ruta: '/resources/blog', c: 'blog' },
+      { ruta: '/resources/faq', c: 'faq' },
+      { ruta: '/project-estimator', c: 'estimador', bloques: [] },
+      { ruta: '/thank-you', c: 'gracias' },
+    ];
+    for (const pr of propias) {
+      const en = PROPIAS_EN[pr.c], es = PROPIAS_ES[pr.c];
+      const bloques = pr.bloques ?? [copia('copia', sinSeo(en), sinSeo(es))];
+      if (pr.c === 'contacto') {
+        // Los tres condados: foto, enlace al condado y su texto (alt y nombre, sin traducir hoy).
+        bloques.push({
+          _type: 'bloque', _key: 'condados', clave: 'condados',
+          textos: C.CONDADOS.flatMap((x, i) => [
+            { _type: 'textoClave', _key: `condados-${i}-nombre`, clave: `condados.${i}.nombre`, texto: i18nLargo(x.nombre) },
+            { _type: 'textoClave', _key: `condados-${i}-alt`, clave: `condados.${i}.alt`, texto: i18nLargo(x.alt) },
+          ]),
+          imagenes: C.CONDADOS.map((x, i) => ({ _type: 'imagenClave', _key: `condados-${i}`, clave: `condados.${i}.img`, imagen: conv.imagen(x.img) })),
+          enlaces: C.CONDADOS.map((x, i) => ({ _type: 'enlaceClave', _key: `condados-${i}`, clave: `condados.${i}.enlace`, ...conv.enlace(x.enlace) })),
+        });
+        igual(desaplanar(bloques[0].textos, 'en'), C.CONTACTO_EN, 'contacto en');
+        igual(desaplanar(bloques[0].textos, 'es'), C.CONTACTO_ES, 'contacto es');
+      } else if (bloques.length) {
+        igual(desaplanar(bloques[0].textos, 'en'), sinSeo(en), `${pr.c} en`);
+        igual(desaplanar(bloques[0].textos, 'es'), sinSeo(es), `${pr.c} es`);
+      }
+      // El SEO publicado tiene que ser el de la copia: si no, la copia no es la fuente.
+      const seo = seoPagina(pr.ruta);
+      igual([seo.titulo.en, seo.titulo.es, seo.descripcion?.en, seo.descripcion?.es], [en.title, es.title, en.description, es.description], `${pr.c} seo`);
+      docs.push({ _id: idDeRuta(pr.ruta).id, _type: 'page', ruta: pr.ruta, titulo: nombreDe(seo), secciones: bloques, seo });
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Menu y pie: textos de src/i18n/shell.ts y estructura de Nav.astro y Footer.astro
+  // -------------------------------------------------------------------------
+  if (TIPOS.has('navigation')) {
+    const { menuDe, pieDe } = await import('./sanity/navegacion.mjs');
+    const { SHELL } = await cargarTs('src/i18n/shell.ts');
+    const { readFileSync } = await import('node:fs');
+    const menu = menuDe(readFileSync(path.join(RAIZ, 'src/components/Nav.astro'), 'utf8'));
+    const pie = pieDe(readFileSync(path.join(RAIZ, 'src/components/Footer.astro'), 'utf8'));
+    const columna = (c, n) => ({
+      _type: 'bloque', _key: c.titulo ?? (c.verTodo ? 'ver-todo' : `columna-${n}`), clave: c.titulo ?? (c.verTodo ? 'verTodo' : `columna-${n}`),
+      ...(c.enlaces.length ? { enlaces: c.enlaces.map((e) => ({ _type: 'enlaceClave', _key: e.claves[0], clave: e.claves.join('+'), ...conv.enlace(e.href) })) } : {}),
+    });
+    docs.push({
+      _id: 'navigation',
+      _type: 'navigation',
+      textos: textosClave(aplanar(SHELL.en, SHELL.es)),
+      menu: menu.map((g) => ({
+        _type: 'grupoMenu', _key: g.clave, clave: g.clave,
+        ...(SHELL.en[g.clave] ? { texto: i18n(SHELL.en[g.clave], SHELL.es[g.clave]) } : {}),
+        ...(g.destino ? { destino: refRuta(g.destino) } : {}),
+        ...(g.columnas.length ? { subgrupos: g.columnas.map(columna) } : {}),
+      })),
+      pie: pie.map(columna),
+    });
+    // Paridad: la estructura que sale del documento es la del componente.
+    const hrefDe = (e) => (e.destino ? rutaDeId(e.destino._ref) : e.href);
+    const doc = docs[docs.length - 1];
+    const deVuelta = (b) => ({ enlaces: (b.enlaces ?? []).map((e) => ({ href: hrefDe(e), claves: e.clave.split('+') })) });
+    const plano = (c) => ({ enlaces: c.enlaces });
+    if (JSON.stringify(doc.menu.map((g) => [g.clave, g.destino ? rutaDeId(g.destino._ref) : null, (g.subgrupos ?? []).map(deVuelta)])) !== JSON.stringify(menu.map((g) => [g.clave, g.destino ?? null, g.columnas.map(plano)]))) throw new Error('[navigation] el menu no se reconstruye');
+    if (JSON.stringify(doc.pie.map(deVuelta)) !== JSON.stringify(pie.map(plano))) throw new Error('[navigation] el pie no se reconstruye');
+    const { desaplanar } = await import('../src/lib/plantilla-sanity.mjs');
+    if (JSON.stringify({ en: desaplanar(doc.textos, 'en'), es: desaplanar(doc.textos, 'es') }) !== JSON.stringify(SHELL)) throw new Error('[navigation] los textos no son los de shell.ts');
   }
 }
 

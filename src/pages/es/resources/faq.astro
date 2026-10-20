@@ -16,14 +16,15 @@
  */
 import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { PROPIAS_ES } from '../../../i18n/paginas-propias';
 import FaqBiblioteca from '../../../components/FaqBiblioteca.astro';
 import { WF_PAGE, WF_SITE } from '../../../data/faqs';
 import { destacadas } from '../../../i18n/faqs.es';
 import { grafo, collectionPage, faqPage, breadcrumbs } from '../../../lib/jsonld';
 
-const TITULO = 'Biblioteca de preguntas frecuentes | Pergola Plus';
-const DESCRIPCION =
-  'Todas las preguntas que nos hacen sobre pérgolas, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios y plazos.';
+const c = PROPIAS_ES.faq;
+const TITULO = c.title;
+const DESCRIPCION = c.description;
 
 const site = Astro.site!;
 const url = new URL(canonica('/es/resources/faq'), site).href;
@@ -35,14 +36,14 @@ const url = new URL(canonica('/es/resources/faq'), site).href;
   wfPage={WF_PAGE}
   wfSite={WF_SITE}
   jsonLd={grafo(
-    collectionPage({ url, nombre: 'Biblioteca de preguntas de Pergola Plus', descripcion: DESCRIPCION, idioma: 'es' }),
+    collectionPage({ url, nombre: c.nombre, descripcion: DESCRIPCION, idioma: 'es' }),
     faqPage(destacadas('es')),
     breadcrumbs(site.href, [['Preguntas frecuentes', '/es/resources/faq']], 'es'),
   )}
 >
   <FaqBiblioteca
     idioma="es"
-    titulo="Preguntas frecuentes"
-    intro="Busque entre todas las preguntas que nos hacen sobre pérgolas, techos de lamas motorizados, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios, materiales y cuánto se tarda."
+    titulo={c.titulo}
+    intro={c.intro}
   />
 </BaseLayout>

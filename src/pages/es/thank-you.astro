@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROPIAS_ES } from '../../i18n/paginas-propias';
+
+const t = PROPIAS_ES.gracias;
 
 // /es/thank-you — gemela de /thank-you. CODIGO DE AUTORIA PROPIA, se edita a mano.
 //
@@ -21,8 +24,8 @@ const ESCUDO_SVG =
 
 <BaseLayout
   noindex
-  title="Gracias — hemos recibido su solicitud | Pergola Plus Florida"
-  description="Su solicitud ha llegado a nuestro equipo. Esto es lo que pasa a continuación, en cuánto le respondemos y cómo localizarnos si corre prisa."
+  title={t.title}
+  description={t.description}
   wfPage="69912a4897ff2b5abc998884"
   wfSite="6903b7794d5df3d76a7a2488"
 >
@@ -30,47 +33,40 @@ const ESCUDO_SVG =
     <div class="utility-page-content">
       <div set:html={ESCUDO_SVG} />
 
-      <h1>Gracias — ya tenemos su solicitud.</h1>
+      <h1>{t.h1}</h1>
 
       <p id="ty-intro" class="ty-intro">
-        Alguien de nuestro equipo de diseño está revisando lo que nos ha enviado.
+        {t.intro}
       </p>
 
-      <h2 class="ty-subtitulo">Qué pasa a continuación</h2>
+      <h2 class="ty-subtitulo">{t.subtitulo}</h2>
       <ol class="ty-pasos">
         <li>
-          <strong>En un día laborable</strong> le respondemos por correo para
-          confirmarle que hemos recibido su solicitud y para preguntarle lo que nos
-          falte.
+          <strong>{t.pasos[0].fuerte}</strong> {t.pasos[0].texto}
         </li>
         <li>
           <!-- "Su ubicación" y no "su dirección": el estimador pide el codigo
                postal y nunca la calle, asi que prometer que revisamos una direccion
                que el visitante no ha dado era falso en ese camino. -->
-          <strong>Comprobamos su ubicación</strong> con los condados en los que
-          trabajamos —Miami-Dade, Broward y Palm Beach— y con los permisos y las
-          cargas de viento que exija su municipio.
+          <strong>{t.pasos[1].fuerte}</strong> {t.pasos[1].texto}
         </li>
         <li>
-          <strong>Le proponemos una visita</strong> para medir, ver la estructura a
-          la que iría anclada y hablar de opciones en persona.
+          <strong>{t.pasos[2].fuerte}</strong> {t.pasos[2].texto}
         </li>
         <li>
-          <strong>Recibe una propuesta por escrito</strong> con el sistema, el
-          alcance y el precio. Sin compromiso.
+          <strong>{t.pasos[3].fuerte}</strong> {t.pasos[3].texto}
         </li>
       </ol>
 
       <p class="ty-prisa">
-        ¿Le corre prisa o prefiere hablarlo ahora? Llame al{' '}
-        <a href="tel:+15617108363">(561) 710-8363</a> en horario de oficina
-        (lunes a viernes, de 8:00 a 17:00) o escriba a{' '}
-        <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>.
+        {t.prisa.antes}{' '}
+        <a href="tel:+15617108363">(561) 710-8363</a> {t.prisa.entre}{' '}
+        <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>{t.prisa.despues}
       </p>
 
       <div class="wrapper-buttons-center-form">
-        <a href="/es/project-gallery" class="button w-button">Vea nuestro trabajo</a>
-        <a href="/es/" class="button secundary w-button">Volver a la página principal</a>
+        <a href="/es/project-gallery" class="button w-button">{t.botones.obras}</a>
+        <a href="/es/" class="button secundary w-button">{t.botones.inicio}</a>
       </div>
     </div>
   </div>

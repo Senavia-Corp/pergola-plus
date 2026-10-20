@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { PROPIAS_EN } from '../i18n/paginas-propias';
 import Estimador from '../components/Estimador.astro';
 import ReseñasGoogle from '../components/ReseñasGoogle.astro';
 import { ESTIMADOR_EN } from '../i18n/estimador';
@@ -13,8 +14,8 @@ const jsonLd = grafo(breadcrumbs(Astro.site!.href, [['Project Estimator', '/proj
 ---
 
 <BaseLayout
-  title="Pergola Cost Estimator | Pergola Plus Florida"
-  description="Estimate your custom pergola or patio cover investment in South Florida using our published 2026 installed price ranges. No contact details required."
+  title={PROPIAS_EN.estimador.title}
+  description={PROPIAS_EN.estimador.description}
   jsonLd={jsonLd}
 >
   <Estimador t={ESTIMADOR_EN} />

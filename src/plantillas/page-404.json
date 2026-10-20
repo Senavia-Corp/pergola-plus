@@ -1,0 +1,14 @@
+{
+ "s0.div-utility-page-wrap.div-utility-page-content.img.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-utility-page-content.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-utility-page-content.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ }
+}

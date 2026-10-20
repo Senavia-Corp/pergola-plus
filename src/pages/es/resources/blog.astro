@@ -7,13 +7,14 @@
  */
 import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { PROPIAS_ES } from '../../../i18n/paginas-propias';
 import BlogListado from '../../../components/BlogListado.astro';
 import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../../lib/blog';
 import { traducirPost } from '../../../i18n/blog.es';
 
-const TITULO = 'Blog de vida al aire libre | Pergola Plus Florida';
-const DESCRIPCION =
-  'Lo que hay que saber sobre pérgolas de aluminio, techos de lamas motorizados y sistemas de sombra calculados para las casas del sur de Florida.';
+const c = PROPIAS_ES.blog;
+const TITULO = c.title;
+const DESCRIPCION = c.description;
 
 const site = Astro.site!;
 const url = new URL(canonica('/es/resources/blog'), site).href;
@@ -27,7 +28,7 @@ const url = new URL(canonica('/es/resources/blog'), site).href;
   jsonLd={jsonLdBlog({
     idioma: 'es-US',
     url,
-    nombre: 'Blog de Pergola Plus Florida',
+    nombre: c.nombre,
     descripcion: DESCRIPCION,
     entradas: posts.map((p) => traducirPost(p, 'es')),
     site: site.href,
@@ -35,8 +36,8 @@ const url = new URL(canonica('/es/resources/blog'), site).href;
 >
   <BlogListado
     activa="todo"
-    titulo="blog y consejos"
-    intro="Todo lo que conviene saber sobre pérgolas de aluminio, techos de lamas motorizados y sistemas de sombra pensados para el clima de Florida, para que duren y para vivir mejor el exterior."
+    titulo={c.titulo}
+    intro={c.intro}
     idioma="es"
   />
 </BaseLayout>

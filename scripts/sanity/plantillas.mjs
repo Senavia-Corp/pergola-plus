@@ -106,7 +106,10 @@ const limpiar = (s) => s.replace(/[^a-zA-Z0-9-]+/g, '-').replace(/^-+|-+$/g, '')
 /**
  * @param {{slug: string, en: string, es?: string}[]} paginas
  */
-export function derivar(paginas, prefijo = '', { sinReferencias = false } = {}) {
+export function derivar(paginas, prefijo = '', { sinReferencias = false, todoContenido = false } = {}) {
+  // `todoContenido` (paginas estaticas, una sola pagina): lo que en una coleccion seria
+  // contenido solo si cambia entre paginas —enlaces, video embebido, srcset y JSON del
+  // lightbox que salen de la imagen— se trata como contenido aunque no cambie.
   const tk = paginas.map((p) => ({ en: trocear(p.en), es: p.es ? trocear(p.es) : null }));
   const base = tk[0].en;
   // 1. Misma estructura en todas (y ES igual que EN)
@@ -161,7 +164,8 @@ export function derivar(paginas, prefijo = '', { sinReferencias = false } = {}) 
     const t = base[i];
     if (t.t === 'bloque') {
       const vs = new Set(tk.map((x) => x.en[i].raw));
-      if (vs.size > 1) {
+      const jsonDeImagen = todoContenido && /class="w-json"/.test(t.raw) && ultimaImagen && valoresImagen(ultimaImagen)?.[0] && t.raw.includes(valoresImagen(ultimaImagen)[0]);
+      if (vs.size > 1 || jsonDeImagen) {
         // El JSON del lightbox (script.w-json) repite la URL de la imagen que lo precede:
         // es un DERIVADO de esa imagen, comprobado en todas las paginas.
         if (!ultimaImagen || !/class="w-json"/.test(t.raw)) throw new Error(`[plantillas] bloque <script>/<style> que cambia entre paginas en el token ${i}: ${t.raw.slice(0, 100)}`);
@@ -349,20 +353,21 @@ export function derivar(paginas, prefijo = '', { sinReferencias = false } = {}) 
         // contenido, como las raster. Sanity guarda SVG como asset de imagen.
         hueco(claveEl, 'imagen', enTodas.map((src) => ({ src: decodificar(src) })));
         subs.push([a.ini, a.v.length, claveEl]);
-      } else if (a.n === 'href' && varia) {
+      } else if (a.n === 'href' && (varia || (todoContenido && t.nombre === 'a' && !/^(#|tel:|mailto:)/.test(a.v)))) {
         hueco(`${claveEl}.href`, 'enlace', enTodas.map((href) => ({ href: decodificar(href) })));
         subs.push([a.ini, a.v.length, `${claveEl}.href`]);
-      } else if (a.n === 'srcset' && varia) {
+      } else if (a.n === 'srcset' && (varia || todoContenido)) {
         const src0 = valorEn(0, 'src');
         const raiz0 = src0.replace(/\.[a-z0-9]+$/i, '');
         const patron = a.v.split(raiz0).join(`${MARCA}raiz${MARCA}`);
+        if (!patron.includes(`${MARCA}raiz${MARCA}`)) throw new Error(`[plantillas] ${claveEl}: srcset que no sale del src (${src0})`);
         tk.forEach((_x, j) => {
           const raiz = valorEn(j, 'src').replace(/\.[a-z0-9]+$/i, '');
           if (patron.split(`${MARCA}raiz${MARCA}`).join(raiz) !== valorEn(j, 'srcset')) throw new Error(`[plantillas] ${paginas[j].slug}: srcset que no sale del src en ${claveEl}`);
         });
         huecos[`${claveEl}.srcset`] = { tipo: 'derivado', alcance: 'pagina', de: claveEl, patron };
         subs.push([a.ini, a.v.length, `${claveEl}.srcset`]);
-      } else if (varia && ((t.nombre === 'iframe' && a.n === 'src') || (a.n === 'style' && /\bw-video\b/.test(t.attrs.find((x) => x.n === 'class')?.v ?? '')))) {
+      } else if ((varia || (todoContenido && t.nombre === 'iframe' && a.n === 'src')) && ((t.nombre === 'iframe' && a.n === 'src') || (a.n === 'style' && /\bw-video\b/.test(t.attrs.find((x) => x.n === 'class')?.v ?? '')))) {
         // El video embebido (embedly) y su proporcion: contenido de la pagina, sin traducir.
         hueco(`${claveEl}.${a.n}`, 'valor', enTodas.map((v) => ({ valor: decodificar(v) })));
         subs.push([a.ini, a.v.length, `${claveEl}.${a.n}`]);
@@ -661,6 +666,29 @@ export function lector(huecos, valoresPagina, compartidos, idioma, heredados = {
 
 const normalizar = (h) => decodificar(h.replace(/<[^>]+>/g, (t) => t.replace(/\s+/g, ' ').replace(/\s*\/?>$/, '>')));
 
+/**
+ * Las paginas estaticas que se pintan desde su fragmento, con su ES tal como lo pinta
+ * hoy el sitio: la home con HOME_ES (src/pages/es/index.astro) y el resto por el
+ * catch-all /es/[...ruta] con su diccionario de PAGINAS_ES.
+ */
+export async function estaticasDe() {
+  const { traducirHtml } = await cargarTs('src/i18n/index.ts');
+  const { PAGINAS_ES, diccionarioDe } = await cargarTs('src/i18n/paginas.es.ts');
+  const { HOME_ES } = await cargarTs('src/i18n/home.es.ts');
+  const { MINIATURAS_ES } = await import('../lib/miniaturas.mjs');
+  const { idDeRuta } = await import('../../src/lib/rutas-sanity.mjs');
+  const meta = JSON.parse(await fs.readFile(path.join(RAIZ, 'src/contenido-migrado/estaticas/_meta.json'), 'utf8'));
+  const rutas = ['/', ...PAGINAS_ES.map((p) => p.en)];
+  const paginas = [];
+  for (const ruta of rutas) {
+    const en = await fs.readFile(path.join(RAIZ, 'src/contenido-migrado/estaticas', meta[ruta].fragmento), 'utf8');
+    const dic = ruta === '/' ? { ...HOME_ES, ...MINIATURAS_ES } : diccionarioDe(PAGINAS_ES.find((p) => p.en === ruta));
+    const id = idDeRuta(ruta).id;
+    paginas.push({ ruta, id, slug: id.replace(/^page-/, ''), en, es: traducirHtml(en, dic).html });
+  }
+  return paginas;
+}
+
 /** Las paginas de una coleccion tal como las pinta hoy el sitio (fragmento EN y su traduccion ES). */
 export async function paginasDe(tipo) {
   const c = COLECCIONES[tipo];
@@ -696,7 +724,7 @@ export function paridad(d, paginas, resolver = null) {
   return fallos;
 }
 
-if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--ndjson')) {
+if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--ndjson') && process.argv[2] !== 'page') {
   // Paridad contra lo que se va a IMPORTAR: plantilla del codigo + documentos del NDJSON.
   process.chdir(RAIZ);
   const tipo = process.argv[2];
@@ -743,6 +771,50 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
   console.log(JSON.stringify({ coleccion: tipo, comparadas: n, identicas: n - fallos.length, fallos: fallos.length }, null, 1));
   for (const f of fallos.slice(0, 8)) console.log('  FALLO', f);
   process.exit(fallos.length ? 1 : 0);
+} else if (import.meta.url === `file://${process.argv[1]}` && process.argv[2] === 'page') {
+  // Estaticas: una plantilla por pagina (src/plantillas/page-<id>.html), todo contenido.
+  process.chdir(RAIZ);
+  const paginas = await estaticasDe();
+  await cerrarTs();
+  let fallos = 0;
+  if (process.argv.includes('--ndjson')) {
+    // Contra lo que se importa: plantilla del codigo + documento page-<id> del NDJSON.
+    const { lectorSanity } = await import('../../src/lib/plantilla-sanity.mjs');
+    const { rutaDeId } = await import('../../src/lib/rutas-sanity.mjs');
+    const { canonica } = await import('../../src/lib/canonica.mjs');
+    const docs = (await fs.readFile(process.argv[process.argv.indexOf('--ndjson') + 1], 'utf8')).trim().split('\n').map((l) => JSON.parse(l));
+    const conv = {
+      rutaImagen: (img) => '/' + path.relative(path.join(RAIZ, 'public'), img._sanityAsset.replace(/^image@file:\/\//, '')),
+      hrefDe: (e) => (e.destino ? rutaDeId(e.destino._ref) : e.href) + (e.ancla ? `#${e.ancla}` : ''),
+    };
+    const hrefs = (h) => h.replace(/href="(\/(?!\/)[^"#?]*)([^"]*)"/g, (_t, r, resto) => `href="${canonica(r)}${resto}"`);
+    for (const p of paginas) {
+      const doc = docs.find((x) => x._id === p.id);
+      const pl = await fs.readFile(path.join(RAIZ, `src/plantillas/${p.id}.html`), 'utf8');
+      const hu = JSON.parse(await fs.readFile(path.join(RAIZ, `src/plantillas/${p.id}.json`), 'utf8'));
+      for (const idioma of ['en', 'es']) {
+        const a = normalizar(hrefs(p[idioma])), b = normalizar(hrefs(rellenar(pl, hu, lectorSanity(hu, doc, null, idioma, conv))));
+        if (a !== b) { fallos++; let k = 0; while (k < a.length && a[k] === b[k]) k++; console.log(`  FALLO ${p.ruta} ${idioma} en ${k}\n    hoy:    …${a.slice(Math.max(0, k - 70), k + 70)}\n    sanity: …${b.slice(Math.max(0, k - 70), k + 70)}`); }
+      }
+    }
+    console.log(JSON.stringify({ paginas: paginas.length, comparadas: paginas.length * 2, identicas: paginas.length * 2 - fallos }));
+    process.exit(fallos ? 1 : 0);
+  }
+  for (const p of paginas) {
+    const d = derivar([p], '', { sinReferencias: true, todoContenido: true });
+    d.heredados = [{}];
+    const f = paridad(d, [p]);
+    fallos += f.length;
+    const cuenta = (t) => Object.values(d.huecos).filter((h) => h.tipo === t).length;
+    console.log(`${p.ruta.padEnd(32)} textos ${cuenta('texto')} atributos ${cuenta('atributo')} imagenes ${cuenta('imagen')} enlaces ${cuenta('enlace')} videos ${cuenta('valor')} · paridad ${2 - f.length}/2`);
+    for (const x of f) console.log('  FALLO', x);
+    if (process.argv.includes('--escribir') && !f.length) {
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.html`), d.plantilla);
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.json`), JSON.stringify(d.huecos, null, 1) + '\n');
+    }
+  }
+  console.log(JSON.stringify({ paginas: paginas.length, comparadas: paginas.length * 2, identicas: paginas.length * 2 - fallos }));
+  process.exit(fallos ? 1 : 0);
 } else if (import.meta.url === `file://${process.argv[1]}`) {
   process.chdir(RAIZ);
   const tipo = process.argv[2];

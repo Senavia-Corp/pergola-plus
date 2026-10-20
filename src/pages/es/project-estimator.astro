@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROPIAS_ES } from '../../i18n/paginas-propias';
 import Estimador from '../../components/Estimador.astro';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { ESTIMADOR_ES } from '../../i18n/estimador';
@@ -15,8 +16,8 @@ const jsonLd = grafo(
 ---
 
 <BaseLayout
-  title="Calculador de presupuesto de pérgola | Pergola Plus Florida"
-  description="Calcule lo que cuesta su pérgola o cubierta de patio en el sur de Florida con nuestras tarifas instaladas de 2026. No hace falta dejar sus datos."
+  title={PROPIAS_ES.estimador.title}
+  description={PROPIAS_ES.estimador.description}
   jsonLd={jsonLd}
 >
   <Estimador t={ESTIMADOR_ES} base="/es" />

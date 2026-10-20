@@ -14,14 +14,15 @@
  */
 import { canonica } from '../../lib/canonica.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROPIAS_EN } from '../../i18n/paginas-propias';
 import FaqBiblioteca from '../../components/FaqBiblioteca.astro';
 import { WF_PAGE, WF_SITE } from '../../data/faqs';
 import { destacadas } from '../../i18n/faqs.es';
 import { grafo, collectionPage, faqPage, breadcrumbs } from '../../lib/jsonld';
 
-const TITULO = 'Pergola FAQ Library | Permits, Costs & Materials';
-const DESCRIPCION =
-  'Every question we get asked about pergolas, screens, pavers and outdoor construction in South Florida — permits, wind load, pricing, materials and timelines.';
+const c = PROPIAS_EN.faq;
+const TITULO = c.title;
+const DESCRIPCION = c.description;
 
 const site = Astro.site!;
 const url = new URL(canonica('/resources/faq'), site).href;
@@ -33,13 +34,13 @@ const url = new URL(canonica('/resources/faq'), site).href;
   wfPage={WF_PAGE}
   wfSite={WF_SITE}
   jsonLd={grafo(
-    collectionPage({ url, nombre: 'Pergola Plus FAQ Library', descripcion: DESCRIPCION, idioma: 'en-US' }),
+    collectionPage({ url, nombre: c.nombre, descripcion: DESCRIPCION, idioma: 'en-US' }),
     faqPage(destacadas('en')),
     breadcrumbs(site.href, [['FAQ', '/resources/faq']]),
   )}
 >
   <FaqBiblioteca
-    titulo="Pergola FAQs"
-    intro="Search every question we get asked about pergolas, motorized louvered roofs, screens, pavers and outdoor construction in South Florida — permits, wind load, pricing, materials and how long the work takes."
+    titulo={c.titulo}
+    intro={c.intro}
   />
 </BaseLayout>

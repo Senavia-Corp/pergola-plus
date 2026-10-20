@@ -1,0 +1,1530 @@
+{
+ "s0.div-block-hero-homepage.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.h1.span-text-span-4.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-block-hero-homepage.h1.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.h1.span-text-span-4.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-block-hero-homepage.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.ul-list-key-business.li-list-item-key-business.img-icon-key-business.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.li-list-item-key-business.div-text-key-business.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.ul-list-key-business.li-list-item-key-business.img-icon-key-business-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.li-list-item-key-business.div-text-key-business.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.ul-list-key-business.li-list-item-key-business.img-icon-key-business-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.li-list-item-key-business.div-text-key-business.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.ul-list-key-business.li-list-item-key-business.img-icon-key-business-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.li-list-item-key-business.div-text-key-business.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-block-hero-homepage.div-wrapper-buttons-center.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons-center.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-block-hero-homepage.div-wrapper-buttons-center.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons-center.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-5": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-5.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-6": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-6.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-7": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-7.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-8": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-8.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-9": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-9.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-10": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-10.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-11": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-11.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-12": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-12.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-13": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-13.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-14": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-14.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-15": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-15.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-16": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-16.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-17": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-17.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-18": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-18.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-19": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-19.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-20": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-20.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-21": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-21.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-22": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-22.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-23": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-23.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-24": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-24.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-25": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-25.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-26": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-26.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-27": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-27.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-28": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-28.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-29": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-29.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-30": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-30.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-31": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-31.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-32": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-32.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-33": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-33.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-34": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-34.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-35": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-35.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-36": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-36.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-37": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-37.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-38": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-38.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-39": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-39.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-40": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-fs-marquee-logos-list.div-fs-marquee-logos-item.img-fs-marquee-logos-logo-40.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-5.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-5": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-6.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-6": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-7.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-7": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-8.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-8": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-9.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-9": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-10.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-10": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-11.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-11": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-12.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-12": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-13.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-13": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-14.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-14": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-15.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-15": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-16.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-16": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-17.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-17": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-18.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-18": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-19.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-19": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-20.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-right-list.div-fs-marquee-picture-right-item.img-fs-marquee-picture-20": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-5": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-5.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-6": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-6.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-7": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-7.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-8": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-8.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-9": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-9.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-10": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-10.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-11": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-11.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-12": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-12.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-13": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-13.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-14": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-14.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-15": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-15.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-16": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-16.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-17": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-17.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-18": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-18.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-19": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-19.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-20": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-marquee-picture-left-list.div-fs-marquee-picture-left-item.img-fs-marquee-picture-20.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-header-intro-commercial.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-intro-commercial.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-column-left-commercial.div-block-intro-commercial.img-icon-intro-commercial.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.h3-title-intro-commercial.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.div-text-intro-commercial.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-column-left-commercial.div-block-intro-commercial.img-icon-intro-commercial-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.h3-title-intro-commercial.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.div-text-intro-commercial.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-intro-commercial.div-column-center-commercial.img-img-center-commercial": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-intro-commercial.div-column-center-commercial.img-img-center-commercial.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-column-right-commercial.div-block-intro-commercial.img-icon-intro-commercial.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.h3-title-intro-commercial.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.div-text-intro-commercial.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-column-right-commercial.div-block-intro-commercial.img-icon-intro-commercial-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.h3-title-intro-commercial.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-block-intro-commercial.div-text-intro-commercial.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-5": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-5.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-6": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-6.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-7": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-7.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-8": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-8.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-9": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-9.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-10": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-industries-slide.div-wrapper-industries.img-image-2-10.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.h3.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-industries.div.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-gallery.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-gallery.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10.json": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10",
+  "modo": "src",
+  "crudo": true,
+  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
+ },
+ "s1.div-left-content.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-left-content.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-left-content.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-left-content.div-process-action.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-process-action.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-left-content.div-process-action.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-process-action.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-steps-right.div-step-content.img-icon-process.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.h3-step-content-title.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.p-step-content-text.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-steps-right.div-step-content.img-icon-process-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.h3-step-content-title.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.p-step-content-text.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-steps-right.div-step-content.img-icon-process-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.h3-step-content-title.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.p-step-content-text.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-steps-right.div-step-content.img-icon-process-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.h3-step-content-title.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-step-content-header.p-step-content-text.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-projects.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-projects.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-projects.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects",
+  "patron": "\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001-1920.avif 1920w, \u0001raiz\u0001.avif 2500w"
+ },
+ "s1.div-slider-card-content.h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-3.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-4.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-5.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-5": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-5.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-6.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-6": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-6.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-7.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-7": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-7.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-8.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-8": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-8.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-9.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-9": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-9.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-10.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-10": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.h3.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-10.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons-mini.a-button.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-reviews.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.h2.strong.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-reviews.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-layout-blockcontainer.div.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-box-title-kpis.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-box-title-kpis.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-box-text-kpis.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-item-kpis.div-title-item-kpis.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-item-kpis.div-text-item-kpis.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-item-kpis.div-title-item-kpis.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-item-kpis.div-text-item-kpis.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-item-kpis.div-title-item-kpis.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-item-kpis.div-text-item-kpis.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s2.section-call-to-action-footer.img-image-call-to-action",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001-p-1080.avif 1080w, \u0001raiz\u0001.avif 2000w"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ }
+}
