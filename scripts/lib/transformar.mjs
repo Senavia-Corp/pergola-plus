@@ -2753,6 +2753,24 @@ export function transformar(html, ruta) {
   //  proyectos-destacados.mjs: no pasa por aqui. Las 10 del CMS llevan un embed de
   //  YouTube en ese hueco.)
 
+  // 4i5. Los 5 indices (productos, servicios, galeria, garantias, marcas) saltaban de
+  //      <h1> a los <h3> de las tarjetas (heading-order en Lighthouse y accesslint, 8
+  //      paginas con las españolas). Un <h2> de seccion solo para lectores de
+  //      pantalla (.pp-sr, cotizacion.css), delante de la rejilla: no cambia un pixel.
+  //      Las traducciones estan en src/i18n/paginas.es.ts (dic de cada pagina).
+  const H2_INDICE = {
+    '/products': ['<div class="product-grid-wrapper w-dyn-list"', 'Our products'],
+    '/services': ['<div class="product-grid-wrapper w-dyn-list"', 'Our services'],
+    '/project-gallery': ['<div class="projects-grid-wrapper w-dyn-list"', 'Featured projects'],
+    '/resources/warranties': ['<div class="warranty_item"', 'Warranties by brand'],
+    '/about-us/brands': ['<div class="brands-grid-wrapper w-dyn-list"', 'Our brands'],
+  };
+  if (H2_INDICE[ruta]) {
+    const [ancla, texto] = H2_INDICE[ruta];
+    if (!s.includes(ancla)) throw new Error(`[h2] ${ruta}: no encuentro la rejilla (${ancla}) para poner el <h2> de seccion`);
+    s = s.replace(ancla, `<h2 class="pp-sr">${texto}</h2>${ancla}`);
+  }
+
   // 4i4. La foto del formulario de presupuesto decia `sizes="(max-width: 1600px)
   //      100vw, 1600px"` y ocupa el 40 % del ancho desde 992 px
   //      (.appointment-column-left): a 1440 pedia el candidato de 1600 px para una
@@ -2956,6 +2974,20 @@ export function transformar(html, ruta) {
   //     exactamente el hueco que Webflow habia reservado para ellas.
   //     El enlace sigue sin emitirse aqui: apuntaria a esta misma pagina.
   s = s.replaceAll(ELFSIGHT_RESENAS, MARCA_RESENAS + (ruta === RESENAS ? '' : ENLACE_RESENAS));
+
+  // 6c0. Las pestañas de producto de la home (codigo embebido de Webflow, <style>
+  //      inline del fragmento): los items inactivos iban a `opacity: 0.65`, que deja
+  //      el crema sobre --primary en 4,40:1 (Lighthouse escritorio 97 en home EN/ES,
+  //      3/3; texto de 18 px normal, exige 4,5). A 0,7 da 4,81:1 y el item sigue
+  //      viendose atenuado frente al activo. Es un 5 % de opacidad en 10 rotulos:
+  //      anotado en 07-PENDIENTE §8. Si el bloque cambia, se para el regenerado.
+  if (ruta === '/') {
+    const ANTES_OP = '.products-menu-link {\n  opacity: 0.65;';
+    if (!s.includes(ANTES_OP)) {
+      throw new Error('[home] no encuentro `.products-menu-link { opacity: 0.65 }` en el <style> de las pestañas de producto: revisa 6c0 en transformar.mjs');
+    }
+    s = s.replace(ANTES_OP, '.products-menu-link {\n  opacity: 0.7;');
+  }
 
   // 6c. Los tres diferenciales del hero de la home, retirados por peticion del
   //     cliente. Se comprueba que la sustitucion ocurra: si el markup cambia y este

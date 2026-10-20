@@ -156,10 +156,13 @@ const clavesDe = (id: string, tema: Tema, invariantes?: string[]) =>
                   class="pp-chip"
                   data-cat={c.slug}
                   data-nombre={c.nombre}
-                  aria-label={`${c.nombre}, ${c.total}`}
+                  aria-label={`${c.nombre} ${c.total}`}
                   aria-current={c.slug === 'todo' ? 'page' : undefined}
                 >
-                  {c.nombre}
+                  {/* El espacio es markup, no formato: sin el, el texto visible es «All21»
+                      y el nombre accesible («All 21…») no lo contiene (axe
+                      label-content-name-mismatch). */}
+                  {c.nombre}{' '}
                   <span class="pp-chip-n">{c.total}</span>
                 </a>
               </li>
@@ -378,7 +381,7 @@ const clavesDe = (id: string, tema: Tema, invariantes?: string[]) =>
         if (span && span.textContent !== String(n)) span.textContent = String(n);
         // El nombre accesible lleva la cuenta: si se queda con la de build, el
         // lector de pantalla anuncia un numero que ya no es cierto.
-        a.setAttribute('aria-label', `${a.dataset.nombre}, ${n}`);
+        a.setAttribute('aria-label', `${a.dataset.nombre} ${n}`);
       }
 
       const nombre = tema ? nombreTema.get(tema) : '';

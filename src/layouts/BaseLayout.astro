@@ -275,6 +275,12 @@ const xDefault = alternativas.length > 1
   <body>
     {/* Contenedor de codigo embebido de Webflow. Va vacio, pero ocupa sitio en
         el layout: quitarlo cambiaria el flujo del documento. */}
+    {/* Primer foco de la pagina. Visible solo al enfocarlo (accesibilidad.css). Antes
+        no existia: 88/88 cargas de la sonda sin enlace de salto, y el comentario de
+        abajo decia que si. Fuera de <main> y de <nav>: el barrido de `inert` del menu
+        movil lo alcanza como a cualquier hermano, que es lo correcto. */}
+    <a class="pp-saltar" href="#main">{idiomaPagina === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+
     <div class="body-code">
       <div class="code-embed-3 w-embed"></div>
     </div>
@@ -294,7 +300,7 @@ const xDefault = alternativas.length > 1
         La cascada aguanta sola: `main a:focus-visible` es (0,1,2) y el override
         `.product-card-page a:focus-visible` es (0,2,1), asi que sigue ganando.
         Delta de altura medido: 0 px. */}
-    <main>
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer />

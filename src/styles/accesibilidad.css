@@ -149,3 +149,32 @@ select.w-select:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* Enlace «Saltar al contenido»: fuera de pantalla hasta que recibe el foco, y
+   entonces encima de todo (el nav tiene z-index 20). Mismos colores de marca que
+   los botones; no hay version con raton porque no se ve sin teclado. */
+.pp-saltar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 30;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: var(--primary, #3a545b);
+  color: var(--secundary, #fffbf0);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.pp-saltar:focus-visible {
+  transform: none;
+  outline: 3px solid var(--secundary, #fffbf0);
+  outline-offset: 2px;
+}
+
+/* El destino del salto recibe foco programatico (tabindex=-1): sin anillo, que no es
+   un control. */
+main:focus {
+  outline: none;
+}

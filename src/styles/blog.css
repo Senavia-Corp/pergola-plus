@@ -108,7 +108,16 @@
 .pp-chip-n {
   font-size: 11px;
   font-variant-numeric: tabular-nums;
-  opacity: 0.75;
+  /* Era `opacity: .75` sobre --primary: compuesto #687b81 sobre #f1f1f1, 3,92:1
+     medido por axe en texto de 11 px (exige 4,5:1). Color solido equivalente a la
+     vista: 5,2:1 sobre #f1f1f1 y 5,9:1 sobre blanco. En el chip activo y en hover
+     el fondo es --primary/--terceary y el contador hereda el blanco (8:1). */
+  color: #52686f;
+}
+
+.pp-chip[aria-current='page'] .pp-chip-n,
+.pp-chip:hover .pp-chip-n {
+  color: inherit;
 }
 
 /* ------------------------------------------------------------------ grid -- */
@@ -216,10 +225,19 @@
   margin-right: 0.5rem;
 }
 
-/* En la columna del destacado el fondo es var(--primary) (oscuro) y el gris de
-   --terceary se quedaba en 1,7:1 (Lighthouse/axe, 18-oct-2026). Gris claro: 5,7:1. */
+/* El fondo del destacado cambia con el ancho (medido en F4 con getComputedStyle
+   subiendo por los ancestros): hasta 991 px la seccion es --primary (oscuro) y el
+   gris claro #cfd8da da 5,7:1; desde 992 px no hay fondo propio y va sobre BLANCO,
+   donde ese mismo gris dejaba la fecha en 1,44:1, invisible (Lighthouse 97 en
+   escritorio, 3/3). Un color por tramo: 5,9:1 sobre blanco en escritorio. */
 .blog-featured_column .pp-dato {
   color: #cfd8da;
+}
+
+@media (min-width: 992px) {
+  .blog-featured_column .pp-dato {
+    color: #52686f;
+  }
 }
 
 .pp-card h3 {

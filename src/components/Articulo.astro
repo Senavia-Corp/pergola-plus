@@ -76,9 +76,13 @@ const t = TEXTOS[idioma];
     </div>
 
     <div class="pp-wrap pp-articulo-grid">
+      {/* El indice es un <nav>, no un <aside>: un «complementary» anidado en la
+          rejilla del articulo es el aviso de accesslint en los 21 posts (deberia ser
+          hijo directo de <main>); un indice de la pagina es navegacion y un <nav> con
+          nombre puede ir donde la maqueta lo necesite. Mismas clases, id y CSS. */}
       {
         indice.length > 2 && (
-          <aside class="pp-indice" id="pp-indice">
+          <nav class="pp-indice" id="pp-indice" aria-label={t.enEstaPagina}>
             {/* <details> SIN `open`: en movil arranca plegado, que si no son 15
                 enlaces por delante del articulo. En escritorio el CSS fuerza la
                 lista visible y desactiva el plegado, asi que se comporta como un
@@ -93,7 +97,7 @@ const t = TEXTOS[idioma];
                 ))}
               </ol>
             </details>
-          </aside>
+          </nav>
         )
       }
 

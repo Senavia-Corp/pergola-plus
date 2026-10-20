@@ -250,7 +250,18 @@ la fase de Sanity. Lista completa:
 Se rellena al final de cada fase. Regla del encargo: cero cambios de diseño; si una
 optimización exige uno mínimo se documenta aquí con captura antes/después.
 
-- (pendiente)
+Hechos en F4, todos por contraste WCAG 1.4.3 y todos de tamaño mínimo. Si alguno no
+convence, cada uno es una línea de CSS y se revierte solo:
+
+| Dónde | Antes | Después | Por qué | Fichero |
+|---|---|---|---|---|
+| Banda «Service Areas» (home, productos, servicios, EN/ES) | velo negro 50 % sobre la foto | **56 %** | peor píxel bajo el párrafo de 14 px a 1440: 4,21:1 → ≥ 4,5:1 (medido con `scripts/perf/medir-velo.mjs`). Capturas: `03-f3/capturas/home-1440.png` (antes) y `04-f4/capturas/home-1440.png` (después) | `src/styles/bandas.css` |
+| Pestañas de producto de la home (los 10 rótulos inactivos) | `opacity: .65` → crema sobre --primary 4,40:1 | `opacity: .7` → 4,81:1 | texto de 18 px normal; el activo sigue a 1 y la diferencia se mantiene | `scripts/lib/transformar.mjs` (6c0, sobre el `<style>` embebido de Webflow) |
+| Contador de los chips del blog y la FAQ («21», «249») | `opacity: .75` sobre --primary (3,92:1 compuesto) | `#52686f` sólido (5,2:1) | texto de 11 px | `src/styles/blog.css` |
+| Fecha y lectura del artículo destacado del blog (escritorio) | `#cfd8da` sobre blanco (1,44:1: casi invisible) | `#52686f` (5,9:1) | la regla daba por hecho un fondo oscuro que no existe | `src/styles/blog.css` |
+
+Lo que NO se ha tocado y queda a decisión de diseño: subir los objetivos táctiles del
+pie (`a.link-footer`, 17 px de alto con 26 px entre centros) por encima de 24 px.
 
 ## 9. Títulos y descripciones largos del CMS (SEO-R2)
 

@@ -288,13 +288,18 @@ decir(conRango.length > 0, `hay reglas que fijan el rango de entrada (${conRango
 const marcos = todas.filter((r) => r.marco && /pp-entrada/.test(r.prel));
 decir(marcos.length === 3, `estan los 3 @keyframes de entrada (${marcos.length})`,
   marcos.map((m) => m.prel));
+// Desde F4 las entradas no funden (solo `transform`; ver animaciones.css, nota b'):
+// el reposo es `transform: none`, y si un fotograma volviera a tocar `opacity`, el
+// final tendria que ser `opacity: 1`. Lo que no puede pasar es un `from` con opacity y
+// un `to` sin ella.
 const sinReposo = marcos.filter((m) => {
   const to = m.cuerpo.match(/(?:^|\})\s*(?:to|100%)\s*\{([^}]*)\}/);
-  return !to || !/opacity:\s*1/.test(to[1]) || !/transform:\s*none/.test(to[1]);
+  if (!to || !/transform:\s*none/.test(to[1])) return true;
+  return /opacity/.test(m.cuerpo) && !/opacity:\s*1/.test(to[1]);
 }).map((m) => m.prel + ' -> ' + m.cuerpo.slice(-70));
 decir(sinReposo.length === 0,
-  'los 3 @keyframes terminan en el estado de reposo (opacity:1, transform:none): es lo '
-  + 'que salva a los navegadores sin animation-timeline', sinReposo);
+  'los 3 @keyframes terminan en el estado de reposo (transform:none, y opacity:1 si '
+  + 'funden): es lo que salva a los navegadores sin animation-timeline', sinReposo);
 
 // ---------------------------------------------------------------------------
 // 4 · La tabla y el CSS no se separan

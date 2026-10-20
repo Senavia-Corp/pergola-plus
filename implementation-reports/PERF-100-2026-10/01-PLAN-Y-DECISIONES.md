@@ -263,3 +263,42 @@ mientras se medía). `total-byte-weight` 633 KB en las 6 corridas móviles (era 
 MB), TBT 0–29 ms, CLS 0. Sonda: vídeo reproduciendo a los 8 s en 320/375/768/1440
 EN y ES, parado con movimiento reducido, consola 0. Diff visual: 59/60 bajo el 1 % (la
 restante, el nav en estado «scroll»).
+
+## F4 · Accesibilidad 100 estable
+
+**Hecho**: la tabla completa, con ficheros, está en `05-A11Y-WCAG22.md`. En resumen:
+contador de chips a color sólido (5,2:1); entradas por scroll **solo con `transform`**
+(sin fundido: axe medía texto a media opacidad); velo de «Service Areas» al 56 % (el
+mínimo medido en el peor píxel); enlace «Skip to content / Saltar al contenido» como
+primer foco hacia `<main id="main">`; `role="banner"` fuera; anillo en el buscador de
+la FAQ; `<h2>` de sección solo para lectores de pantalla en los 5 índices y en las
+categorías del blog; `aria-label` de los chips con el texto visible; el índice del
+artículo como `<nav>`; pestañas de producto de la home a `opacity:.7`; fecha del
+destacado del blog en un gris legible.
+
+**Decisiones**
+
+- Se probó primero lo menos invasivo para el fundido (`entry 30%`): Lighthouse móvil
+  subía, pero accesslint —con su viewport pequeño— seguía midiendo tarjetas a medio
+  entrar en la categoría del blog. Sin `opacity` en los fotogramas no hay instante
+  malo que medir, y el gesto (subir 16 px al entrar) es el mismo. La puerta
+  `check:animaciones` exige ahora `transform:none` al final y `opacity:1` solo si el
+  fotograma funde.
+- El velo no se sube «a ~65 %» a ojo: `scripts/perf/medir-velo.mjs` oculta el texto,
+  captura la banda tal cual se pinta y busca el peor píxel bajo cada texto. El párrafo
+  de 14 px daba 4,21:1 a 1440 y necesitaba el 55 %; se deja el 56 %.
+- Dos hallazgos nuevos que no estaban en la auditoría salieron al medir en escritorio
+  ×3: las pestañas de producto inactivas (4,40:1, `opacity:.65` en el `<style>`
+  embebido de Webflow) y la fecha del destacado del blog (1,44:1 sobre blanco: una
+  regla de la fase anterior suponía un fondo oscuro). Los dos corregidos y anotados
+  como cambio visible en 07-PENDIENTE §8.
+- Objetivos < 24 px del pie: no se tocan (excepción de espaciado; subirlos es diseño).
+
+**Medido** (`04-f4/`): Lighthouse Accessibility **100 en 32/32, 3/3 corridas**;
+accesslint 0 serios y 0 moderados en las 16 plantillas (más la categoría ES del blog);
+sonda: salto 90/90, 0 paradas sin anillo, menú 67/67, dropdown 23/23; Performance sin
+cambios respecto a F3 (home 95, FAQ 99–100, blog 94–96, ciudad 91, condado 89);
+diff visual sin fotos 59/60 bajo el 1 % tras los cambios de velo, pestañas y fecha (la restante, las 87 filas del nav en estado «scroll» de IX2, como en F1).
+Hizo falta medir dos veces en escritorio: la primera tanda sacó 97 en home EN/ES y
+en el índice del blog (3/3, no ruido) y de ahí salieron las dos correcciones de arriba;
+la tercera (fecha del destacado) salió al remedir en móvil, donde el fondo es oscuro.

@@ -26,6 +26,8 @@ export interface TextosBlog {
   palabras: string;
   leerMas: string;
   enEstaPagina: string;
+  /** <h2> oculto de la rejilla en las paginas de categoria (el destacado, que es el h2 visible, solo sale en «Todo»). */
+  listaArticulos: string;
   seguirLeyendo: string;
   /** `{cat}` se sustituye por el nombre de la categoria. */
   masSobre: string;
@@ -44,6 +46,7 @@ export const TEXTOS: Record<Idioma, TextosBlog> = {
     palabras: 'words',
     leerMas: 'Read the full article',
     enEstaPagina: 'On this page',
+    listaArticulos: 'Articles',
     seguirLeyendo: 'Keep reading',
     masSobre: 'More on {cat}',
     anterior: 'Previous',
@@ -59,6 +62,7 @@ export const TEXTOS: Record<Idioma, TextosBlog> = {
     palabras: 'palabras',
     leerMas: 'Leer el artículo completo',
     enEstaPagina: 'En esta página',
+    listaArticulos: 'Artículos',
     seguirLeyendo: 'Seguir leyendo',
     masSobre: 'Más sobre {cat}',
     anterior: 'Anterior',
