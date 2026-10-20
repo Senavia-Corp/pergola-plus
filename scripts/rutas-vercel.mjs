@@ -146,10 +146,19 @@ const CABECERAS = [
   // Assets versionados por nombre (derivados, fuentes, video) o por hash (/js/*.<hash>.js,
   // ver versionarJs). /css/* ya no lo pide ningun HTML (el CSS va inline) y se deja
   // immutable por si alguien lo tiene enlazado.
-  // Assets versionados por nombre (derivados, fuentes, video) o por hash (/js/*.<hash>.js,
-  // ver versionarJs). /css/* ya no lo pide ningun HTML (el CSS va inline) y se deja
-  // immutable por si alguien lo tiene enlazado.
-  { src: '^/(fonts|videos|images|cms-img|css|js)/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
+  // /js/*.<hash>.js lleva huella (versionarJs) y /css/* ya no lo pide ningun HTML (el
+  // CSS va inline; se deja por si alguien lo tiene enlazado): immutable de un año.
+  { src: '^/(css|js)/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
+  // H-07 (verificacion del 20-oct-2026). Imagenes, derivados, fuentes y video NO llevan
+  // huella en el nombre: si se sustituye uno con el mismo nombre (una foto nueva del
+  // cliente, un derivado regenerado), `immutable` de un año lo dejaba un año viejo en
+  // cada navegador que ya lo tuviera. Un dia fresco y hasta 30 de stale-while-revalidate:
+  // dentro del dia no hay peticion; despues se sirve lo que hay y se revalida por detras
+  // (304 con ETag), asi que un cambio se ve como mucho una visita tarde. La primera
+  // visita, que es lo que mide Lighthouse, no cambia. Huella en el nombre seria lo ideal,
+  // pero obliga a reescribir las 1.564 rutas de asset del HTML; con Sanity (Fase 4) las
+  // imagenes del CMS pasan a su CDN, que ya versiona.
+  { src: '^/(fonts|videos|images|cms-img)/(.*)$', headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=2592000' }, continue: true },
   { src: '^/(.*)$', headers: {
     'x-content-type-options': 'nosniff',
     'referrer-policy': 'strict-origin-when-cross-origin',
