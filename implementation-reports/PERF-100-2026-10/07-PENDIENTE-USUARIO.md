@@ -266,6 +266,13 @@ Y uno de F5, que no es de contraste sino de enlazado interno (OP-R1 de la audito
 |---|---|---|---|
 | Las 25 páginas de ciudad (EN/ES), al final de la sección «About», antes de los botones | una línea «Also serving nearby in Palm Beach County: Boca Raton, Boynton Beach, …» con enlaces a las ciudades del mismo condado (ES: «También trabajamos cerca, en el condado de…») | las ciudades tenían 2 entrantes cada una (las peor enlazadas del sitio); ahora 8–15. Mismo cuerpo de texto que la sección; +68–91 px de alto en móvil. Capturas: `04-f4/capturas/pergolas-contractors_miami-pergola-experts-375.png` (antes) y `05-f5/…` (después) | `scripts/lib/transformar.mjs` (`enlazarCiudades`), `src/styles/bandas.css` (`.pp-cercanas`) |
 
+Y dos de F7:
+
+| Dónde | Antes | Después | Por qué | Fichero |
+|---|---|---|---|---|
+| Línea «Also serving nearby in …» de las 50 páginas de ciudad (EN/ES) | los nombres de ciudad en `--primary` sobre el fondo `--primary` de la sección: contraste 1:1, **invisibles** desde F5 (lo sacó accesslint al re-auditar en F7) | heredan el blanco del texto que los rodea, subrayados | WCAG 1.4.3; es el diseño que F5 pretendía y nunca se pintó | `src/styles/bandas.css` (`p.pp-cercanas a`) |
+| Preguntas del FAQ (34 páginas), «Service Includes» en móvil (14) y features de producto (20) | `<div>` que solo abrían con ratón (IX2) | mismos `<div>`, ahora con `role=button`, foco y Enter/espacio; el anillo de foco solo se ve al tabular | WCAG 2.1.1; en reposo no cambia un píxel (diff 0 %) | `src/scripts/interacciones.ts`, `src/styles/interacciones.css` |
+
 Lo que NO se ha tocado y queda a decisión de diseño: subir los objetivos táctiles del
 pie (`a.link-footer`, 17 px de alto con 26 px entre centros) por encima de 24 px.
 

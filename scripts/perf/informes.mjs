@@ -24,17 +24,19 @@ for (const fase of fases) {
 const md3 = [
   '# 03 — Sonda funcional de regresión (Playwright)', '',
   '22 rutas × 320/375/768/1440 (`isMobile` + `hasTouch` por debajo de 768) + una pasada con `reducedMotion: reduce` en la home, por fase, sobre el build de producción simulada. Cada fila compara con la fase anterior (`sonda-regresiones.txt`). `scripts/perf/sonda.mjs`.', '',
-  '| Fase | Cargas | 200/404 ok | H1 único | Overflow 0 | `<main>` | Skip link (primer foco) | Menú móvil abre/foco/inert/Esc/foco-botón | Dropdown abre/aria/visible/hover/Esc | Paradas sin anillo | Sobredim. 375 / 1440 | Vídeo 8 s | Reduced motion | Consola | Regresiones vs anterior |',
-  '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
-  ...filas.map(({ fase, r, regresiones, soloTurnstile }) => `| ${fase} | ${r.cargas} | ${r.status200} | ${r.h1Unico} | ${r.sinOverflow} | ${r.conMain} | ${r.conSkip} (${r.skipPrimero}) | ${r.menu.abre}/${r.menu.focoDentro}/${r.menu.inert}/${r.menu.escape}/${r.menu.focoBoton ?? '-'} de ${r.menu.total} | ${r.dropdown.abre}/${r.dropdown.expanded}/${r.dropdown.visible}/${r.dropdown.hover}/${r.dropdown.escape} de ${r.dropdown.total} | ${r.sinAnillo} | ${r.sobredim375} / ${r.sobredim1440} | ${r.videoReproduce.split(' ').every((v) => v.endsWith(':si')) ? 'reproduce 8/8' : r.videoReproduce} | ${r.videoReducido || '-'} | ${r.consola} | ${regresiones}${soloTurnstile ? ' (solo recuento de Turnstile en contacto)' : ''} |`),
+  '| Fase | Cargas | 200/404 ok | H1 único | Overflow 0 | `<main>` | Skip link (primer foco) | Menú móvil abre/foco/inert/Esc/foco-botón | Dropdown abre/aria/visible/hover/Esc | Lightbox abre/→/Esc/foco-vuelve | Paradas sin anillo | Sobredim. 375 / 1440 | Vídeo 8 s | Reduced motion | Consola | Regresiones vs anterior |',
+  '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
+  ...filas.map(({ fase, r, regresiones, soloTurnstile }) => `| ${fase} | ${r.cargas} | ${r.status200} | ${r.h1Unico} | ${r.sinOverflow} | ${r.conMain} | ${r.conSkip} (${r.skipPrimero}) | ${r.menu.abre}/${r.menu.focoDentro}/${r.menu.inert}/${r.menu.escape}/${r.menu.focoBoton ?? '-'} de ${r.menu.total} | ${r.dropdown.abre}/${r.dropdown.expanded}/${r.dropdown.visible}/${r.dropdown.hover}/${r.dropdown.escape} de ${r.dropdown.total} | ${r.lightbox ? `${r.lightbox.abre}/${r.lightbox.derecha}/${r.lightbox.escape}/${r.lightbox.focoVuelve} de ${r.lightbox.total}` : '—'} | ${r.sinAnillo} | ${r.sobredim375} / ${r.sobredim1440} | ${r.videoReproduce.split(' ').every((v) => v.endsWith(':si')) ? 'reproduce 8/8' : r.videoReproduce} | ${r.videoReducido || '-'} | ${r.consola} | ${regresiones}${soloTurnstile ? ' (solo recuento de Turnstile en contacto)' : ''} |`),
   '',
   'Lecturas:', '',
   '- **Baseline (00)**: sin enlace de salto (0/90), 1 parada sin anillo por ruta en la FAQ (`input.pp-faq-input`), 9 imágenes sobredimensionadas a 375 y 125 a 1440 (sin contar SVG), menú 67/67 y dropdown 23/23 ya con webflow.js.',
   '- **Desde F1**: 0 sobredimensionadas a 375 y 1440 (a 768 quedan las 10 tarjetas de producto de la home: `product-card-image` es 2 columnas en la home y 1 en `/products/`, y el `sizes` compartido toma el mayor para no servir borroso el índice).',
   '- **Desde F4**: enlace de salto en 90/90 y primer foco; 0 paradas sin anillo.',
   '- **Consola**: los 53–56 mensajes son todos de la página de presupuesto y contacto a 1440: Turnstile (`No available adapters`, su propia CSP `data:,`, el error 600010 de `localhost`) y varían de una carga a otra. No hay ningún mensaje propio del sitio ni de la CSP de F6.',
-  '- **Hover del mega-menú**: 23/23 con ratón (IX2). Con teclado (`focoPreview`) 0/23: IX2 solo escucha `mouseover`; se anota para el día que se sustituya webflow.js (F7, no hecho).',
+  '- **Hover del mega-menú**: 23/23 con ratón (IX2). Con teclado (`focoPreview`) 0/23 hasta F6: IX2 solo escuchaba `mouseover`. Desde F7 (CSS `:has(:focus)`) 23/23.',
+  '- **Lightbox (desde F7, columna nueva)**: en las 6 rutas con galería × 4 anchos, abre con la foto cargada, → cambia de foto y la tira marca la activa, Escape cierra, el foco vuelve al enlace y el resto del documento recupera `aria-hidden`/`tabindex`: 24/24. La misma sonda sobre el build de F8 con webflow.js (`09-f7/sonda-antes/`): 16/16 en 4 rutas salvo el foco de vuelta (0/16).',
   '- **Filas cortas**: 03-f3 se midió solo en la home EN/ES (lo único que cambió: el vídeo); el JSON de 04-f4 es el de una pasada parcial posterior (4 rutas × 2 anchos) que pisó el de la pasada completa, cuyos valores quedaron en `05-A11Y-WCAG22.md` (90 cargas: salto 90/90, 0 paradas sin anillo, menú 67/67, dropdown 23/23). La pasada final (08-f8) vuelve a ser completa.',
+  '- **09-f7, columna «Regresiones»**: las 6 líneas son la carrera de `/contact-us/get-in-touch/@320` (el clic al menú llega mientras Turnstile desplaza la página; 4 campos `undefined`, 2/2 en verde al repetir la ruta sola) y dos recuentos de consola de Turnstile/OnceHub. Consola total 51 → 30 sin webflow.js.',
   '- Lo que la sonda NO mide: lector de pantalla, el paso exacto de las flechas de los carruseles (`carrusel-qa`, a petición) y la reproducción real del vídeo fuera de Chromium.',
   '',
 ].join('\n');
@@ -54,6 +56,7 @@ const motivo = {
   '05-f5': 'páginas de ciudad a 375 y 768: la línea nueva de ciudades hermanas (+68–91 px de alto). Cambio visible y documentado (07 §8).',
   '06-f6': 'categoría del blog 768: nav en estado «scroll».',
   '08-f8': 'proyecto 375 y categoría del blog 768: las 87 filas del nav en estado «scroll». Los cambios de F8 (candidato de 800 px en los heroes, scroll-padding) no mueven un píxel.',
+  '09-f7': 'thank-you 375/1440, categoría del blog 768 y presupuesto ES 375: las 87 filas del nav en estado «scroll» de IX2 en las capturas de F8 (el sustituto deja el nav siempre visible al volver arriba). Del píxel 87 abajo, 0 %. Y la paridad de los ESTADOS (menú móvil abierto, desplegable abierto y con hover, lightbox abierto): 138 capturas con webflow.js frente a 138 con el sustituto, 0 por encima del 1 %, peor 0,35 % (`09-f7/diff-estados.md`).',
 };
 let anterior = null;
 for (const fase of fases) {
@@ -64,6 +67,6 @@ for (const fase of fases) {
   md4.push(`| ${anterior} → ${fase} | ${total?.[1] ?? '?'} | ${total?.[2] ?? '?'} | ${malas.join(', ') || '—'}${motivo[fase] ? ` — ${motivo[fase]}` : ''} |`);
   anterior = fase;
 }
-md4.push('', 'El estado «scroll» del nav lo pone IX2 (`PAGE_SCROLL_DOWN`: `translateY(-85px)` + opacidad 0 en 500 ms) cuando la captura vuelve arriba justo después de recorrer la página; afecta solo a las 87 primeras filas y no es un cambio del sitio. Es la única diferencia recurrente en todas las fases.', '');
+md4.push('', 'El estado «scroll» del nav lo ponía IX2 (hasta F8) (`PAGE_SCROLL_DOWN`: `translateY(-85px)` + opacidad 0 en 500 ms) cuando la captura vuelve arriba justo después de recorrer la página; afecta solo a las 87 primeras filas y no es un cambio del sitio. Es la única diferencia recurrente en todas las fases.', '');
 await fs.writeFile(path.join(RAIZ, '04-DIFF-VISUAL.md'), md4.join('\n'));
 console.log('03 y 04 escritos');

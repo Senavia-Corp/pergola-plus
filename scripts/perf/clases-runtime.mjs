@@ -38,6 +38,8 @@ const CONOCIDAS = [
   // Salen de `grep -rhoE "classList\.(add|toggle)" src` y de los literales 'w-form-*'.
   'pp-enviando', 'pp-resumen', 'pp-error', 'is-active', 'is-bullet-active', 'w-form-done', 'w-form-fail',
   'esta-abierto', 'menu-movil-abierto', 'active-lightbox',
+  // F7: las ponen menu-nativo.ts (nav escondido al bajar) e interacciones.ts (FAQ, features).
+  'pp-escondido', 'pp-abierto',
 ];
 
 const b = await chromium.launch();

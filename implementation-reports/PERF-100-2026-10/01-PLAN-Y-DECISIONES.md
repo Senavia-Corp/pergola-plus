@@ -402,40 +402,120 @@ rutas en local, así que lo medido es lo servido):
 - `X-Frame-Options: DENY` y `frame-ancestors 'none'`: nadie enmarca el sitio; los
   iframes de terceros van DENTRO del sitio (`frame-src`), que es otra cosa.
 
-## F7 · webflow.js + jQuery: se quedan con `defer` (decisión medida)
+## F7 · webflow.js + jQuery fuera: sustituto nativo con paridad medida
 
-**Lo que se midió antes de escribir el sustituto.** Sobre el build de F6 se quitaron
-las dos etiquetas `<script src="/js/…">` del HTML de home, ciudad y condado y se
-pasó Lighthouse móvil ×3 (`lighthouse.sh … f7-techo`): ese es el **techo** de F7, lo
-que daría un sustituto perfecto con 0 KB de JavaScript.
+**Primera decisión (F6, revertida en F7).** Sobre el build de F6 se midió el techo sin
+los dos ficheros (ciudad 93, condado 92) y se dejaron con `defer`: no alcanzaban 95 y el
+lightbox de las 23 galerías dependía de webflow.js. **Repetido el techo sobre el build de
+F8** (heroes de 800 px, foco no oculto): producto 99 (LCP 2,04–2,10 s), ciudad 96–97
+(2,55–2,70 s), **condado 94/95/94 (3,08/3,00/3,09 s)**. Con eso F7 pasa a compensar, y
+el goal de cierre («termina lo que faltó») lo pide. Se hizo entero.
 
-| Plantilla (móvil) | Con jQuery + webflow.js (F6) | Sin ellos (techo) |
+**Qué hacía webflow.js en este sitio (inventario medido sobre el fichero, no sobre la
+documentación).** Módulos `navbar` (panel móvil), `dropdown` (5 paneles), `lightbox`
+(23 galerías, `a.w-lightbox` + `script.w-json`) e IX2 con 200 eventos: 110 reveals
+(apagados desde F0), 48 de scroll del nav (a-27/a-28), 36 hover de los previews del
+mega-menú (a, a-2…a-19) y **6 por clic que el encargo no listaba**: FAQ (a-21/a-22,
+`.faq_trigger`, 34 páginas), «Service Includes» en móvil (a-23/a-24,
+`.feature-header-item`, <992 px, 14 páginas) y features de producto (a-25/a-26,
+`.block-heading-feature`, 20 fichas). jQuery solo lo usaba webflow.js.
+
+**Sustituto** (`src/scripts/`, 12 KB en total frente a 426 KB; Astro lo empaqueta como
+módulo diferido y la CSP de F6 lo admite por `'self'`):
+
+- `menu-nativo.ts` — navbar: el mismo DOM que webflow.js (`.w-nav-overlay` creado al
+  arrancar, panel movido dentro al abrir, `data-nav-menu-open`, `w--open`,
+  `w--nav-*-open`, altura del documento en línea, `translateX` 400 ms con
+  `data-easing`/`data-easing2`, cierre por clic fuera, por ancla y al pasar a
+  escritorio). Dropdown: ids y ARIA idénticos, `z-index: 901` mientras está abierto,
+  Enter/espacio, flechas/Home/End, Escape devuelve el foco al disparador, solo uno
+  abierto a la vez. Y a-27/a-28: `.menu.pp-escondido` con cualquier bajada
+  (`translateY(-85px)` + opacidad 0, 500 ms easeInOut) y vuelta con cualquier subida.
+  El Escape/inert/ciclo de foco del panel móvil sigue en `Nav.astro` (observa
+  `w--open`, no sabe quién la pone).
+- `lightbox.ts` — se carga solo en las páginas con galería (import dinámico). Construye
+  el mismo árbol `.w-lightbox-*` (volcado del real: backdrop, container, content
+  `.w-lightbox-group`, view `#w-lightbox-view`, spinner con su `progressbar`, flechas
+  con `inactive`/`aria-hidden`/`tabindex` en los extremos, X, tira `role=tablist` con
+  miniaturas `tall`/`wide` y `aria-selected`), el mismo comportamiento (fundido de 300
+  ms, foto que entra desde ±80 px, siguiente con clic en la foto, cierre con Escape, X
+  o clic en el fondo, ←/→, deslizar en táctil, `html.w-lightbox-noscroll`,
+  `aria-hidden`+`tabindex=-1` en el resto del `body`, foco a la X al abrir y **al
+  enlace al cerrar**) y el CSS de webflow.css lo viste sin tocar nada: por eso no
+  cambia el diseño, que era lo que en F6 lo frenaba.
+- Hover de los previews: CSS en `menu.css`, `.dropdown:has(.submenu-item.is-N:is(:hover,
+  :focus)) .preview-image.is-N` con `@starting-style` para el fundido de 500 ms y la
+  portada que vuelve fundiéndose, como IX2; y además con el foco del teclado
+  (`focoPreview` pasa de 0/23 a 23/23).
+- `interacciones.ts` + `interacciones.css` — los 3 acordeones: clase `pp-abierto` en el
+  disparador y el resto en CSS (estados en reposo que IX2 ponía en línea al cargar,
+  display/opacidad/giro de la flecha con los mismos 500 ms). De paso los disparadores,
+  que eran `<div>` mudos, pasan a `role=button`, `tabindex=0`, `aria-expanded` y
+  Enter/espacio (WCAG 2.1.1; en «Service Includes» solo por debajo de 992, donde IX2
+  registraba el evento).
+
+**Lo que se quita**: `public/js/webflow.js`, `public/js/jquery-3.5.1.min.js`,
+`scripts/parchear-webflow.mjs` y las dos etiquetas de `BaseLayout.astro`.
+`check:animaciones` deja de vigilar el parche y vigila que no vuelvan (ningún HTML
+carga `/js/webflow*` ni `/js/jquery*`; los ficheros no están en `public/js`), y su
+sección de «colisiones con IX2» pasa a prohibir solo `animation` sobre `.menu` y
+`.feature-card`, que ahora van por transición propia. La purga de CSS recibe
+`pp-abierto` y `pp-escondido` en la lista blanca.
+
+**Paridad, medida antes de borrar nada** (`09-f7/`):
+
+- Sonda ampliada: lightbox (abre, foto cargada, flecha derecha cambia de foto y la tira
+  marca la activa, Escape cierra, foco vuelve al enlace, `aria-hidden` puesto y
+  retirado, `noscroll` retirado) en las 6 rutas con galería × 4 anchos: **24/24** (con
+  webflow.js, misma sonda sobre el build de F8: 16/16 en 4 rutas, salvo el foco de
+  vuelta 0/16, que el original pierde al abrirse por evento sintético). Menú 66/66,
+  dropdown 23/23, hover 23/23, **foco en preview 23/23** (era 0/23), 90/90 cargas,
+  0 sin anillo, 0 sobredimensionadas a 375/1440. Un fallo de carrera en
+  `/contact-us/get-in-touch/@320` (clic al menú mientras Turnstile desplaza la
+  página): 2/2 en verde al repetirlo.
+- Capturas de ESTADO nuevas (`sonda.mjs --estados`): menú móvil abierto y con su
+  primer desplegable abierto (375/768), desplegable abierto y con hover en el segundo
+  item (1440), lightbox abierto donde hay galería; 138 capturas con webflow.js
+  (`estados-antes/`) frente a 138 con el sustituto: **0 por encima del 1 %**, peor
+  0,35 % (`diff-estados.md`).
+- Diff visual en reposo contra F8: 56/60 sin fotos; las 4 restantes son las 87 filas
+  del nav en estado «scroll» de IX2 en las capturas de F8 (thank-you 375/1440, categoría
+  del blog 768, presupuesto ES 375), del píxel 87 abajo 0 %.
+- Consola: 0 mensajes propios (los 30 son Turnstile/OnceHub en contacto y presupuesto,
+  los mismos tipos que en F6; eran 51 con webflow.js).
+- Crawl 217/217 igual que F8; accesslint 0 serios y 0 moderados en 15/16 **y 6 serios
+  en ciudad que no eran de F7**: los enlaces de la línea «Also serving nearby» (F5)
+  estaban en `--primary` sobre `--primary` (1:1, invisibles en las 50 páginas de
+  ciudad) porque `p a:not([class])` de tipografia.css (0,1,2) ganaba a `.pp-cercanas
+  a` (0,1,1). Corregido con `p.pp-cercanas a { color: inherit }` (`bandas.css`) y
+  re-auditado: 0/0 en las 16. Es un cambio visible —aparece un texto que debía verse
+  desde F5— y va en 07 §8.
+
+**Medido** (`09-f7/lighthouse-medianas.csv`, ×3 por combinación, máquina en reposo):
+
+Dos tandas completas (×3 × 32 combinaciones). La primera salió ruidosa (35 de las 96
+corridas con `diagnostics.rtt` > 0,1, hasta 0,83: la máquina no estaba en reposo) y se
+guarda como `lighthouse-*-tanda1-ruidosa.csv`; la segunda, con la máquina parada (11
+corridas > 0,1, ninguna de ellas decide una mediana salvo productos-índice móvil, que
+da 99 igual), es la que cuenta y la de `lighthouse-medianas.csv`:
+
+| | Escritorio | Móvil |
 |---|---|---|
-| Home | 95 (95/95/95) · LCP 3,00 s | 95 (95/95/94) · 3,00 s |
-| Ciudad | 91 (92/91/91) · 3,45 s | 93 (93/93/94) · 3,15–3,23 s |
-| Condado | 89 (89/89/89) · 3,83 s | 92 (92/92/92) · 3,38 s |
+| Performance | **100 en 15/16**; ciudad 99 (99/99/99; en F8 eran 3 plantillas en 99) | ≥ 95 en **13/16**: FAQ 100, blog índice/productos/servicios/post/presupuesto/estimador/galería 99, producto/servicio/categoría 98, ciudad **97** (era 95), proyecto 97 (96), home ES 95. Por debajo: **home 94** (95/94/94, era 95: LCP idéntico 3,00 s, cae por redondeo) y **condado 93** (93/94/93, era 92; LCP 3,15 s) |
+| Accessibility | 100 en 16/16, 3/3 | 100 en 16/16, 3/3 |
+| Best Practices | 100 en 15/16; contacto 96 (Turnstile en `localhost`) | ídem |
+| SEO | 100 en 16/16 | 100 en 16/16 |
+| CLS | 0,000 en 48/48 | 0,000 en 47/48 (estimador 0,013 en una corrida) |
+| TBT | 0 ms | 0 ms salvo estimador 4–6 ms (era 0–28) |
+| LCP (lab) | 0,40–0,86 s | 1,65–3,15 s: ≤ 2,5 s en **9/16** (FAQ 1,65, contacto 1,80, post 1,88, galería 2,03, productos 2,03, servicios 2,03, estimador 2,18, producto 2,25, blog 2,25; era 3/16), categoría 2,40, servicio 2,40, ciudad 2,63, proyecto 2,63, home ES 2,93, home 3,00, condado 3,15 |
+| JS | 12 KB en total (un módulo diferido; el lightbox solo en las 23 galerías) frente a 426 KB (99 KB gz) | ídem |
 
-TBT ya es 0 y `unused-javascript` 0 con los dos cargados en `defer`: lo único que
-pagan es el ancho de banda simulado (99 KB gz) en la estimación pesimista del LCP de
-Lighthouse. **Ni ciudad ni condado llegarían a 95 sin ellos.**
-
-**Lo que costaría.** Al auditar la paridad apareció una dependencia que el encargo
-no listaba: las 23 galerías de producto, servicio y proyecto (`a.w-lightbox` +
-`script.w-json`) abren el **lightbox de webflow.js** (comprobado:
-`.w-lightbox-backdrop` al pulsar). El sustituto tendría que reproducir, además del
-menú móvil (overlay, `w--open`, deslizamiento de 400 ms), los 5 dropdowns (click,
-teclado, `focusout`, Escape), los 18 hovers de preview (IX2 → CSS `:has()`) y la barra
-que se esconde al hacer scroll (IX2 a-27/a-28), un lightbox con grupo, flechas,
-teclado y foco —y con otra apariencia, porque la de Webflow es suya—. Eso es un
-cambio de diseño visible en 23 páginas, que la regla 3 prohíbe, para ganar 2–3 puntos
-en dos plantillas sin alcanzar el objetivo.
-
-**Decisión**: se quedan `defer` como hoy (regla 5). El borrador del sustituto del menú
-(navbar + dropdown + scroll) está escrito y medido contra el módulo original, en el
-scratchpad de la sesión; no entra en el repo porque sin el lightbox no pasa la sonda
-y con él cambia el diseño. Si algún día se reemplaza el lightbox por uno propio (una
-decisión de diseño), ese borrador es el punto de partida y la sonda ya mide la
-paridad (menú 67/67, dropdown 23/23, hover 23/23, foco en preview 0/23 pendiente).
+Comparado con el techo medido sin ningún JS sobre el build de F8 (producto 99, ciudad
+96–97, condado 94–95): producto 98, ciudad 97, condado 93. Lo que separa a condado del
+techo son los ~70 ms del módulo (5 KB) en la estimación pesimista del LCP; lo que lo
+separa del 95 es el hero (`img.image-4`, 80–100 KB) detrás de la fuente y del HTML con
+el CSS dentro a 1,6 Mbps simulados, que es lo que F8 ya dejó medido. Se para aquí
+(regla 10: dos iteraciones medidas por fase).
 
 ## F8 · Plantillas rezagadas y UX móvil
 

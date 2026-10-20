@@ -12,7 +12,7 @@
  * Los slideIn* recorrian 100 px, growIn escalaba desde 0,75, y 20 de los 66 elementos
  * cambiaban de gesto a 992 px. Ahora las hace src/styles/animaciones.css con
  * animation-timeline: view(), y los eventos estan apagados con mediaQueries:[]
- * (scripts/parchear-webflow.mjs).
+ * (webflow.js se quito del todo en F7).
  *
  * QUE COMPRUEBA ESTO Y QUE NO
  *
@@ -61,12 +61,12 @@
  * acordeon de 14, sin un solo error en consola.
  */
 import fs from 'node:fs/promises';
+import fsSync from 'node:fs';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
 import {
   POR_UUID, CLASES, REJILLAS, EXCLUIDOS, HUERFANOS, CUBIERTOS_POR_CLASE,
 } from './lib/reveals.mjs';
-import { EVENTOS_TOTALES, REVEALS, registros } from './parchear-webflow.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const DIST = await raizHtml();
@@ -88,16 +88,15 @@ const INTOCABLES = [
   {
     que: '.menu (la barra de navegacion)',
     selectores: ['2d27e00a-9abd-8e02-83db-6979dd88df62', '.menu'],
-    motivo: 'a-27/a-28 (los 48 eventos PAGE_SCROLL_*) le escriben transform y opacity para '
-      + 'esconder el nav al bajar. Una animacion con fill activo gana al element.style y lo '
-      + 'deja clavado, en las 211 paginas y sin error. Ademas es position:sticky, y un '
-      + 'transform crea bloque contenedor y se carga el sticky.',
+    motivo: 'menu-nativo.ts lo esconde al bajar con .pp-escondido (transform + opacity por '
+      + 'transicion, menu.css). Una animacion con fill le ganaria y lo dejaria clavado en las '
+      + '211 paginas sin error.',
   },
   {
     que: '.feature-card (los paneles del acordeon)',
     selectores: ['.feature-card'],
-    motivo: 'a-23/a-24 le escriben la opacidad al abrir y cerrar. Animarlo lo dejaria abierto '
-      + 'para siempre en las 14 paginas que lo llevan.',
+    motivo: 'interacciones.css lo abre y cierra por transicion de opacidad (<992). Una animacion '
+      + 'con fill lo dejaria abierto o cerrado para siempre en las 14 paginas que lo llevan.',
   },
 ];
 
@@ -112,51 +111,29 @@ const decir = (ok, msg, detalle = []) => {
 };
 
 // ---------------------------------------------------------------------------
-// 1 · El parche de IX2
+// 1 · webflow.js y jQuery ya no existen (F7)
 // ---------------------------------------------------------------------------
-console.log('\n  el parche de webflow.js\n');
+// Hasta F6 esta seccion vigilaba el parche de IX2 (los 110 reveals apagados con
+// mediaQueries:[] y los 90 eventos vivos del nav, los hover y los acordeones). En F7 los
+// dos ficheros se quitaron del todo: el nav lo lleva src/scripts/menu-nativo.ts, el
+// lightbox src/scripts/lightbox.ts y los acordeones src/scripts/interacciones.ts +
+// interacciones.css. Lo que hay que vigilar ahora es que no vuelvan: un <script> a
+// /js/webflow o /js/jquery en cualquier HTML construido es 426 KB de JS otra vez en el
+// camino del LCP, y con la CSP de F6 (script-src 'self' + hashes) cargaria igual.
+console.log('\n  sin webflow.js ni jQuery\n');
 
-const jsPublic = await fs.readFile(path.join(RAIZ, 'public/js/webflow.js'), 'utf8');
-const jsDist = await fs.readFile(path.join(DIST, 'js/webflow.js'), 'utf8').catch(() => null);
-
-decir(jsDist !== null, 'webflow.js llega a dist/');
-decir(jsDist === jsPublic,
-  'el webflow.js construido es el mismo que el de public/ (si no, el build esta rancio)');
-
-const regs = registros(jsPublic);
-decir(regs.length === EVENTOS_TOTALES,
-  `el blob tiene los ${EVENTOS_TOTALES} registros de evento`, [`leidos: ${regs.length}`]);
-
-const porTipo = {};
-const revealsVivos = [];
-const vivosSinMedia = [];
-for (const r of regs) {
-  const cuerpo = jsPublic.slice(r.desde, r.hasta);
-  const tipo = cuerpo.match(/eventTypeId:"([A-Z_0-9]+)"/)?.[1] ?? '(sin tipo)';
-  porTipo[tipo] = (porTipo[tipo] ?? 0) + 1;
-  const mq = cuerpo.match(/mediaQueries:\[([^\]]*)\]/)?.[1];
-  if (tipo === 'SCROLL_INTO_VIEW') {
-    if (mq !== '') revealsVivos.push(`${r.id}: mediaQueries:[${mq}]`);
-  } else if (mq === '') {
-    vivosSinMedia.push(`${r.id} (${tipo}) se ha quedado sin mediaQueries`);
-  }
+const paginasJs = (await fs.readdir(DIST, { recursive: true })).filter((f) => f.endsWith('.html'));
+const conWebflow = [];
+for (const rel of paginasJs) {
+  const h = await fs.readFile(path.join(DIST, rel), 'utf8');
+  const m = h.match(/<script[^>]*src="[^"]*\/js\/(webflow|jquery)[^"]*"/);
+  if (m) conWebflow.push(`${rel}: ${m[0].slice(0, 80)}`);
 }
-
-decir(porTipo.SCROLL_INTO_VIEW === REVEALS,
-  `siguen siendo ${REVEALS} eventos SCROLL_INTO_VIEW`, [`leidos: ${porTipo.SCROLL_INTO_VIEW}`]);
-decir(revealsVivos.length === 0,
-  'los 110 reveals llevan mediaQueries:[] (no se disparan ni aplican estado inicial)', revealsVivos);
-/*
- * El parche apaga por tipo de evento. Si el filtro se rompiera y vaciara de mas, se
- * llevaria por delante el nav (48 eventos), los hover (36) y el acordeon (6) — y el
- * sitio seguiria construyendo en verde.
- */
-const censoMal = Object.entries(CENSO_VIVOS)
-  .filter(([t, n]) => porTipo[t] !== n)
-  .map(([t, n]) => `${t}: ${porTipo[t] ?? 0}, se esperaban ${n}`);
-decir(censoMal.length === 0, 'los 90 eventos que NO son entrada siguen intactos', censoMal);
-decir(vivosSinMedia.length === 0,
-  'ninguno de esos 90 se ha quedado sin mediaQueries (el parche no se paso de largo)', vivosSinMedia);
+decir(conWebflow.length === 0, 'ningun HTML construido carga /js/webflow*.js ni /js/jquery*.js', conWebflow);
+const enPublic = ['public/js/webflow.js', 'public/js/jquery-3.5.1.min.js']
+  .filter((f) => fsSync.existsSync(path.join(RAIZ, f)));
+decir(enPublic.length === 0, 'los dos ficheros tampoco estan en public/js (no se despliegan)', enPublic);
+const revealsVivos = []; // conservado para la pareja anti-FOUC/reveal de la seccion 2
 
 // ---------------------------------------------------------------------------
 // 2 · Ningun elemento se queda invisible
@@ -349,9 +326,14 @@ const clasesMuertas = Object.keys(EXCLUIDOS).filter((k) => k === '.service-steps
 decir(clasesMuertas.length === 0, '.service-steps-content sigue sin instancias', clasesMuertas);
 
 // ---------------------------------------------------------------------------
-// 5 · Las dos colisiones con lo que queda de IX2
+// 5 · Los dos que desde F7 se mueven por TRANSICION propia
 // ---------------------------------------------------------------------------
-console.log('\n  las dos colisiones con IX2\n');
+// Hasta F6 aqui se vigilaba que ningun CSS tocara transform/opacity de .menu y
+// .feature-card porque IX2 se los escribia en linea. En F7 los escribe el CSS propio
+// (menu.css .pp-escondido, interacciones.css) por transicion; lo que sigue sin poder
+// haber es una ANIMACION con fill sobre ellos, que gana a la transicion y los deja
+// clavados igual que antes ganaba al element.style.
+console.log('\n  los dos que van por transicion (F7)\n');
 
 /**
  * El SUJETO de un selector es su ultimo compuesto: el elemento al que la regla le
@@ -367,7 +349,7 @@ for (const { que, selectores, motivo } of INTOCABLES) {
     && sujetos(r.prel).some((suj) => selectores.some((s) => (s.startsWith('.')
       ? new RegExp(`\\${s}(?![\\w-])`).test(suj)
       : suj.includes(s))))
-    && /(^|[;{\s])(transform|opacity|animation)/.test(r.cuerpo))
+    && /(^|[;{\s])animation(-name)?:/.test(r.cuerpo))
     .map((r) => `${r.prel.slice(0, 70)} { ${r.cuerpo.slice(0, 50)} }`);
   decir(tocado.length === 0, `ningun selector propio anima ${que}`, [...tocado, `motivo: ${motivo}`]);
 }

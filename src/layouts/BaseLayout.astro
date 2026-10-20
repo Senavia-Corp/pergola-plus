@@ -15,7 +15,7 @@ import '../styles/accesibilidad.css';
 // 2 rutas (x2 idiomas); el coste esta medido y asumido.
 import '../styles/marquee.css';
 // Las entradas por scroll de todo el sitio. Sustituye a las 110 interacciones IX2
-// de webflow.js, apagadas en scripts/parchear-webflow.mjs.
+// que traia webflow.js (retirado del todo en F7).
 import '../styles/animaciones.css';
 import '../styles/imagenes.css';
 import '../styles/hero.css';
@@ -49,13 +49,14 @@ import '../styles/bandas.css';
 // tiene que ganarle al `.w-input:focus { outline: 0 }` de webflow.css, que hoy
 // deja los campos de ese formulario SIN anillo de foco.
 import '../styles/cotizacion.css';
+import '../styles/interacciones.css';
 
 // BaseLayout — el <head> y el chrome, en el MISMO orden que el HTML original.
 //
 // Reglas que NO se pueden romper (ver docs/fase0-hallazgos.md y el plan):
 //  - Los 3 CSS van en este orden exacto: normalize -> webflow -> sitio.
-//  - jQuery va ANTES que webflow.js, ambos al final del <body>.
-//  - webflow.js lleva dentro las 749 interacciones IX2 del sitio.
+//  - Desde F7 no hay jQuery ni webflow.js: el nav, los acordeones y el lightbox son
+//    src/scripts/*.ts (ver el <script> al final del <body>).
 // El bloque anti-FOUC de Webflow ya NO se cosecha. Decia «manten este elemento
 // invisible hasta que arranque IX2», y existia solo para las entradas por scroll.
 // Los 110 eventos SCROLL_INTO_VIEW estan apagados (scripts/parchear-webflow.mjs) y
@@ -99,9 +100,9 @@ interface Props {
   noindex?: boolean;
   /** Bloque <style> anti-FOUC especifico de la pagina. Copiar literal del original. */
   /**
-   * data-wf-page de la pagina original. NO es un metadato decorativo: IX2 lo lee
-   * (es una constante suya dentro de webflow.js) para saber que interacciones
-   * cargar. Sin el, los elementos con opacity:0 nunca se revelan.
+   * data-wf-page de la pagina original. Lo leia IX2 (webflow.js) para saber que
+   * interacciones cargar; desde F7 no hay IX2 y se conserva solo por paridad del
+   * markup (check:paridad).
    */
   wfPage?: string;
   wfSite?: string;
@@ -344,23 +345,16 @@ const xDefault = alternativas.length > 1
       </a>
     </div>
 
-    {/* jQuery ANTES que webflow.js. Los dos con `defer`: conserva el orden entre
-        ellos y los saca del camino critico (PERF-002, GH-004). webflow.js arranca en
-        $(document).ready y con defer los dos corren antes de DOMContentLoaded, asi
-        que IX2, navbar y dropdown se inicializan igual; medido con la sonda de
-        regresion (menu movil, dropdowns, Escape) antes de dejarlo.
-
-        jQuery se sirve desde /js/ y no desde el CloudFront de Webflow: era el UNICO
-        tercero del camino critico y Lighthouse le cargaba ~1 s de DNS+TLS en movil.
-        Es byte a byte el mismo archivo: el `integrity` es el del original y se
-        comprobo contra la copia (sha256 9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=). */}
-    <script
-      src="/js/jquery-3.5.1.min.js"
-      type="text/javascript"
-      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-      defer
-      is:inline></script>
-    <script src="/js/webflow.js" type="text/javascript" defer is:inline></script>
+    {/* F7: sin jQuery ni webflow.js (426 KB, el ultimo JS en el camino del LCP). Lo que
+        hacian lo hace src/scripts/: menu-nativo.ts (panel movil, los 5 desplegables y
+        el nav que se esconde al bajar), interacciones.ts (FAQ y features por clic) y
+        lightbox.ts (solo en las 23 galerias, import dinamico). Astro lo empaqueta como
+        un modulo (diferido) y la CSP de F6 lo admite por 'self'. Paridad medida con la
+        sonda (menu, desplegables, hover, teclado, lightbox) y el diff visual. */}
+    <script>
+      import '../scripts/menu-nativo';
+      import '../scripts/interacciones';
+    </script>
   </body>
 </html>
 

@@ -38,14 +38,19 @@
 
 /* Linea «Also serving nearby in <condado>» de las paginas de ciudad (la pone
    enlazarCiudades() sobre dist/). Mismo cuerpo y color que el texto de la seccion;
-   los enlaces, subrayados como los del cuerpo y con el anillo de accesibilidad.css. */
+   los enlaces, subrayados como los del cuerpo y con el anillo de accesibilidad.css.
+
+   `p.pp-cercanas a` y no `.pp-cercanas a`: tipografia.css pinta los enlaces de prosa
+   con `p a:not([class]) { color: var(--primary) }` (0,1,2), que ganaba a (0,1,1) y
+   dejaba los nombres de ciudad en teal sobre el teal de .intro-location: contraste
+   1:1, invisibles en las 50 paginas de ciudad desde F5 (lo saco accesslint en F7). */
 .pp-cercanas {
   margin: 0 0 1.5rem;
   font-size: 14px;
   line-height: 1.6;
 }
 
-.pp-cercanas a {
+p.pp-cercanas a {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;

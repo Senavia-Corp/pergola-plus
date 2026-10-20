@@ -26,6 +26,9 @@ const SALIDA = args.find((a) => !a.startsWith('--'));
 if (!SALIDA) { console.error('uso: sonda.mjs <carpeta> [--sin-capturas] [--comparar <json>]'); process.exit(1); }
 const CAPTURAS = !args.includes('--sin-capturas');
 const SOLO_CAPTURAS = args.includes('--solo-capturas');
+// --estados: solo las capturas de ESTADO (menu movil abierto, desplegable abierto y con
+// hover, lightbox abierto), viewport y sin fotos. Son las que miden la paridad de F7.
+const ESTADOS = args.includes('--estados');
 const COMPARAR = args.includes('--comparar') ? args[args.indexOf('--comparar') + 1] : null;
 const ANCHOS = (args.includes('--anchos') ? args[args.indexOf('--anchos') + 1].split(',').map(Number) : [320, 375, 768, 1440]);
 const SOLO = args.includes('--solo') ? args[args.indexOf('--solo') + 1].split(',') : null;
@@ -174,6 +177,32 @@ async function medirRuta(ruta, ancho, opciones = {}) {
       r.dropdownCierraEsc = await page.waitForFunction(() => !document.querySelector('.menu .w-dropdown-toggle')?.classList.contains('w--open'), null, { timeout: 3000 }).then(() => true, () => false);
       r.dropdownFocoTrasEsc = await page.evaluate(() => document.activeElement === document.querySelector('.menu .w-dropdown-toggle'));
     }
+    // Lightbox (23 galerias): abre al clic, carga la foto, flecha derecha cambia de foto,
+    // la tira marca la activa, Escape cierra y el foco vuelve al enlace.
+    if (await page.$('a.w-lightbox')) {
+      const a = page.locator('a.w-lightbox').first();
+      await a.scrollIntoViewIfNeeded().catch(() => {});
+      await a.dispatchEvent('click').catch(() => {}); // click sintetico: con force el clic real cae donde haya algo fijo encima
+      const lb = { abre: false };
+      lb.antes = await page.evaluate(() => ({ html: document.documentElement.className, inert: [...document.body.children].filter((e) => e.inert).length, menu: !!document.querySelector('.menu .w-nav-button.w--open'), foco: document.activeElement?.className?.slice(0, 30), y: Math.round(scrollY) }));
+      lb.abre = await page.waitForFunction(() => { const b = document.querySelector('.w-lightbox-backdrop'); const i = document.querySelector('.w-lightbox-image'); return b && getComputedStyle(b).display !== 'none' && parseFloat(getComputedStyle(b).opacity) > 0.9 && i && i.complete && i.naturalWidth > 0; }, null, { timeout: 8000 }).then(() => true, () => false);
+      if (lb.abre) {
+        lb.items = await page.evaluate(() => document.querySelectorAll('.w-lightbox-item').length);
+        lb.activa = await page.evaluate(() => [...document.querySelectorAll('.w-lightbox-item')].findIndex((i) => i.classList.contains('w-lightbox-active')));
+        lb.focoDentro = await page.evaluate(() => !!document.querySelector('.w-lightbox-backdrop')?.contains(document.activeElement));
+        lb.restoOculto = await page.evaluate(() => [...document.body.children].filter((e) => e.tagName !== 'SCRIPT' && !e.classList.contains('w-lightbox-backdrop')).every((e) => e.getAttribute('aria-hidden') === 'true'));
+        const src0 = await page.evaluate(() => document.querySelector('.w-lightbox-image')?.getAttribute('src'));
+        await page.keyboard.press('ArrowRight');
+        lb.derecha = lb.items > 1 ? await page.waitForFunction((s0) => { const i = document.querySelector('.w-lightbox-image'); return i && i.getAttribute('src') !== s0 && i.complete && i.naturalWidth > 0; }, src0, { timeout: 8000 }).then(() => true, () => false) : null;
+        lb.activaTras = await page.evaluate(() => [...document.querySelectorAll('.w-lightbox-item')].findIndex((i) => i.classList.contains('w-lightbox-active')));
+        await page.keyboard.press('Escape');
+        lb.escape = await page.waitForFunction(() => { const b = document.querySelector('.w-lightbox-backdrop'); return !b || getComputedStyle(b).display === 'none'; }, null, { timeout: 3000 }).then(() => true, () => false);
+        lb.focoVuelve = await page.evaluate(() => document.activeElement === document.querySelector('a.w-lightbox'));
+        lb.restoVisible = await page.evaluate(() => [...document.body.children].every((e) => e.getAttribute('aria-hidden') !== 'true' || e.classList.contains('w-lightbox-backdrop')));
+        lb.noscroll = await page.evaluate(() => document.documentElement.classList.contains('w-lightbox-noscroll'));
+      }
+      r.lightbox = lb;
+    }
     r.consola = consola;
     r.bytesAntesLoadKb = Math.round(bytesAntesLoad / 1024);
     r.bytesTotalKb = Math.round(bytesTotal / 1024);
@@ -218,6 +247,54 @@ async function capturar(ruta, ancho) {
   await ctx.close();
 }
 
+/**
+ * Capturas de ESTADO, viewport y sin fotos: menu movil abierto (y con su primer
+ * desplegable abierto) por debajo de 992, desplegable abierto y con hover en el segundo
+ * item en escritorio, y el lightbox abierto donde hay galeria. Es lo que webflow.js
+ * dibujaba y lo que el sustituto de F7 tiene que dibujar igual.
+ */
+async function capturarEstados(ruta, ancho) {
+  const ctx = await navegador.newContext({ viewport: { width: ancho, height: ancho < 768 ? 812 : 900 }, isMobile: ancho < 768, hasTouch: ancho < 768, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+  const page = await ctx.newPage();
+  await page.goto(BASE + ruta, { waitUntil: 'load', timeout: 60000 });
+  await page.waitForFunction(() => document.fonts.status === 'loaded', null, { timeout: 5000 }).catch(() => {});
+  await page.addStyleTag({ content: '*,*::before,*::after{animation-play-state:paused!important;transition:none!important;caret-color:transparent!important} img:not([src$=".svg"]),video,picture{visibility:hidden!important}' });
+  const base = path.join(SALIDA, 'capturas', `${slug(ruta)}-${ancho}`);
+  const tirar = (n) => page.screenshot({ path: `${base}-${n}-sinfotos.png`, fullPage: false, animations: 'disabled' });
+  const abierto = (sel) => page.waitForFunction((q) => document.querySelector(q)?.classList.contains('w--open'), sel, { timeout: 3000 }).then(() => true, () => false);
+  if (ancho < 992 && await page.$('.menu .w-nav-button')) {
+    await page.locator('.menu .w-nav-button').click({ force: true });
+    if (await abierto('.menu .w-nav-button')) {
+      await page.waitForTimeout(500);
+      await tirar('menu');
+      if (await page.$('.menu .w-dropdown-toggle')) {
+        await page.locator('.menu .w-dropdown-toggle').first().click({ force: true });
+        if (await abierto('.menu .w-dropdown-toggle')) { await page.waitForTimeout(300); await tirar('menu-desplegable'); }
+      }
+    }
+  } else if (ancho >= 992 && await page.$('.menu .w-dropdown-toggle')) {
+    await page.locator('.menu .w-dropdown-toggle').first().click();
+    if (await abierto('.menu .w-dropdown-toggle')) {
+      await tirar('desplegable');
+      const item = page.locator('.menu .w-dropdown:has(> .w-dropdown-toggle.w--open) .submenu-item').nth(1);
+      if (await item.count()) {
+        await item.hover();
+        await page.waitForFunction(() => { const d = document.querySelector('.menu .w-dropdown:has(> .w-dropdown-toggle.w--open)'); const i = d?.querySelector('.preview-image.is-2'); return i && getComputedStyle(i).display !== 'none' && parseFloat(getComputedStyle(i).opacity) > 0.9; }, null, { timeout: 2500 }).catch(() => {});
+        await tirar('desplegable-hover');
+      }
+      await page.keyboard.press('Escape');
+    }
+  }
+  if (await page.$('a.w-lightbox')) {
+    const a = page.locator('a.w-lightbox').first();
+    await a.scrollIntoViewIfNeeded().catch(() => {});
+    await a.dispatchEvent('click').catch(() => {}); // click sintetico: con force el clic real cae donde haya algo fijo encima
+    const ok = await page.waitForFunction(() => { const b = document.querySelector('.w-lightbox-backdrop'); const i = document.querySelector('.w-lightbox-image'); const th = [...document.querySelectorAll('.w-lightbox-item img')]; return b && getComputedStyle(b).display !== 'none' && i && i.complete && th.every((t) => t.complete); }, null, { timeout: 8000 }).then(() => true, () => false);
+    if (ok) { await page.waitForTimeout(400); await tirar('lightbox'); }
+  }
+  await ctx.close();
+}
+
 const t0 = Date.now();
 let resultados = [];
 if (RESUMIR) resultados = JSON.parse(await fs.readFile(path.join(SALIDA, 'sonda.json'), 'utf8')).map(sinSvg);
@@ -226,7 +303,7 @@ const tareas = RUTAS.flatMap((ruta) => ANCHOS.map((w) => [ruta, w]));
 if (!SOLO || SOLO.includes('/')) tareas.push(['/', 1440, { reducedMotion: 'reduce' }], ['/', 375, { reducedMotion: 'reduce' }]);
 // 3 contextos a la vez: suficiente para no tardar 15 min y poco para no falsear el video.
 let i = 0;
-await Promise.all(Array.from({ length: RESUMIR || SOLO_CAPTURAS ? 0 : 3 }, async () => {
+await Promise.all(Array.from({ length: RESUMIR || SOLO_CAPTURAS || ESTADOS ? 0 : 3 }, async () => {
   while (i < tareas.length) {
     const [ruta, w, op] = tareas[i++];
     const r = await medirRuta(ruta, w, op);
@@ -236,7 +313,17 @@ await Promise.all(Array.from({ length: RESUMIR || SOLO_CAPTURAS ? 0 : 3 }, async
   }
 }));
 resultados.sort((a, b) => a.ruta.localeCompare(b.ruta) || a.w - b.w);
-if (!RESUMIR && !SOLO_CAPTURAS) await fs.writeFile(path.join(SALIDA, 'sonda.json'), JSON.stringify(resultados, null, 1));
+if (!RESUMIR && !SOLO_CAPTURAS && !ESTADOS) await fs.writeFile(path.join(SALIDA, 'sonda.json'), JSON.stringify(resultados, null, 1));
+
+if (ESTADOS) {
+  console.log('\ncapturas de estado 375/768/1440 (menu, desplegable, hover, lightbox)...');
+  let k = 0; const rutasE = RUTAS.filter((r) => !/no-existe/.test(r));
+  const te = rutasE.flatMap((r) => [375, 768, 1440].map((w) => [r, w]));
+  await Promise.all(Array.from({ length: 3 }, async () => { while (k < te.length) { const [r, w] = te[k++]; await capturarEstados(r, w).catch((e) => console.log(`  !! estado ${r} ${w}: ${String(e).slice(0, 100)}`)); } }));
+  await navegador.close();
+  console.log(`listo en ${Math.round((Date.now() - t0) / 1000)} s`);
+  process.exit(0);
+}
 
 if (CAPTURAS && !RESUMIR) {
   console.log('\ncapturas 375/768/1440...');
@@ -251,12 +338,14 @@ if (SOLO_CAPTURAS) process.exit(0);
 const ok = (f) => resultados.filter(f).length;
 const conMenu = resultados.filter((r) => r.menuAbre !== undefined);
 const conDrop = resultados.filter((r) => r.dropdownAbre !== undefined);
+const conLb = resultados.filter((r) => r.lightbox);
 const resumen = {
   cargas: resultados.length,
   status200: ok((r) => r.status === 200 || /no-existe/.test(r.ruta) && r.status === 404),
   h1Unico: ok((r) => r.h1 === 1), sinOverflow: ok((r) => r.overflowX === 0), conMain: ok((r) => r.main === 1),
   conSkip: ok((r) => r.skip), skipPrimero: ok((r) => r.skip?.primero),
   menu: { total: conMenu.length, abre: ok((r) => r.menuAbre), focoDentro: ok((r) => r.menuFocusDentro), inert: ok((r) => r.inert > 0), escape: ok((r) => r.menuCierraEsc), inertRetirado: ok((r) => r.menuCierraEsc && r.inertTrasCerrar === 0), focoBoton: ok((r) => r.focoEnBotonTrasEsc) },
+  lightbox: { total: conLb.length, abre: ok((r) => r.lightbox?.abre), focoDentro: ok((r) => r.lightbox?.focoDentro), restoOculto: ok((r) => r.lightbox?.restoOculto), derecha: ok((r) => r.lightbox?.derecha !== false && r.lightbox?.abre), activaTras: ok((r) => r.lightbox?.abre && (r.lightbox.items < 2 || r.lightbox.activaTras === 1)), escape: ok((r) => r.lightbox?.escape), focoVuelve: ok((r) => r.lightbox?.focoVuelve), restoVisible: ok((r) => r.lightbox?.restoVisible), noscrollRetirado: ok((r) => r.lightbox?.escape && r.lightbox?.noscroll === false) },
   dropdown: { total: conDrop.length, abre: ok((r) => r.dropdownAbre), expanded: ok((r) => r.dropdownExpanded === 'true'), visible: ok((r) => r.dropdownVisible), hover: ok((r) => r.hoverPreview), focoPreview: ok((r) => r.focoPreview), escape: ok((r) => r.dropdownCierraEsc), focoToggle: ok((r) => r.dropdownFocoTrasEsc) },
   sinAnillo: resultados.reduce((s, r) => s + (r.tab?.sinAnillo?.length ?? 0), 0),
   sobredim: resultados.reduce((s, r) => s + (r.imgs?.sobredim?.length ?? 0), 0),

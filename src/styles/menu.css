@@ -983,3 +983,55 @@ html.menu-movil-abierto body:before {
 .menu .brand {
   flex-shrink: 0;
 }
+
+/* -----------------------------------------------------------------------------
+   F7 · Lo que hacia IX2 en el nav, sin webflow.js
+   -------------------------------------------------------------------------- */
+
+/* a-27 «Menu Down» / a-28 «Menu Up»: la barra se va al bajar (translateY(-85px) y
+   opacity 0, 500 ms easeInOut) y vuelve al subir. La clase la pone
+   src/scripts/menu-nativo.ts con el sentido del scroll. */
+.menu {
+  transition: transform 500ms ease-in-out, opacity 500ms ease-in-out;
+}
+
+.menu.pp-escondido {
+  transform: translateY(-85px);
+  opacity: 0;
+}
+
+/* «Submenu Animation On/Off» (a, a-2 … a-19): al pasar por un item del mega-menu su
+   foto aparece (display block + opacity 0→1 en 500 ms) y la portada se esconde en
+   seco; al salir, la foto se va en seco y la portada vuelve fundiendose en 500 ms.
+   Igual que IX2, y ademas con el foco del teclado, que IX2 no escuchaba. */
+@media screen and (min-width: 992px) {
+  .menu .preview-image-cover {
+    transition: opacity 500ms ease-in-out;
+  }
+
+  .menu .dropdown:has(.submenu-item:is(:hover, :focus)) .preview-image-cover {
+    opacity: 0;
+    transition: none;
+  }
+
+  .menu .dropdown:has(.submenu-item.is-1:is(:hover, :focus)) .preview-image.is-1,
+  .menu .dropdown:has(.submenu-item.is-2:is(:hover, :focus)) .preview-image.is-2,
+  .menu .dropdown:has(.submenu-item.is-3:is(:hover, :focus)) .preview-image.is-3,
+  .menu .dropdown:has(.submenu-item.is-4:is(:hover, :focus)) .preview-image.is-4,
+  .menu .dropdown:has(.submenu-item.is-5:is(:hover, :focus)) .preview-image.is-5,
+  .menu .dropdown:has(.submenu-item.is-6:is(:hover, :focus)) .preview-image.is-6,
+  .menu .dropdown:has(.submenu-item.is-7:is(:hover, :focus)) .preview-image.is-7,
+  .menu .dropdown:has(.submenu-item.is-8:is(:hover, :focus)) .preview-image.is-8,
+  .menu .dropdown:has(.submenu-item.is-9:is(:hover, :focus)) .preview-image.is-9,
+  .menu .dropdown:has(.submenu-item.is-10:is(:hover, :focus)) .preview-image.is-10 {
+    display: block;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out;
+  }
+
+  @starting-style {
+    .menu .dropdown .preview-image {
+      opacity: 0;
+    }
+  }
+}
