@@ -11,8 +11,12 @@
  *   enlace    un `href` que cambia entre paginas  -> referencia o URL
  *   lista     una lista de longitud variable (la galeria) -> array de elementos, cada uno
  *             con su subplantilla
+ *   referencia la copia de otro documento (la tarjeta de un producto en «Compare») ->
+ *             referencia; el lector la pinta con la plantilla de esa coleccion
  *   heredado  marcado de Webflow que nadie lee (x-wf-template) -> tal cual, desde el codigo
  *   valor     el src del video embebido y su proporcion -> texto sin traducir
+ *   etiqueta  una <img> cuyo juego de atributos depende de la foto (srcset, sizes, width…):
+ *             la etiqueta entera sale del src, una variante por prefijo de ruta
  *   derivado  un `srcset` que sale del `src`      -> lo calcula el codigo, no se guarda
  *             (con `soloRaster`, el par ` srcset sizes` entero, que no va si la imagen no
  *             es raster)
@@ -25,6 +29,7 @@
 export const MARCA = '\u0001';
 const ESC = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const ESC_ATTR = (s) => ESC(s).replace(/"/g, '&quot;');
+const proveedorDe = (src) => (src ?? '').replace(/&amp;/g, '&').match(/[?&]display_name=([^&]+)/)?.[1];
 
 /**
  * @param {string} plantilla
@@ -42,6 +47,30 @@ export function rellenar(plantilla, huecos, valor) {
       if (!Array.isArray(items)) throw new Error(`[plantilla] ${clave}: la lista no es un array`);
       return items.map((l) => rellenar(h.plantilla, h.huecos, l)).join('');
     }
+    if (h.tipo === 'etiqueta' && h.por === 'proveedor') {
+      // iframe del video: width/height/title segun el proveedor (YouTube, Vimeo).
+      const src = valor(h.de);
+      const v = h.variantes.find((x) => x.proveedor === proveedorDe(src));
+      if (!v) throw new Error(`[plantilla] ${clave}: video de un proveedor sin plantilla: ${src}`);
+      return v.patron.split(MARCA + 'src' + MARCA).join(ESC_ATTR(src));
+    }
+    if (h.tipo === 'etiqueta') {
+      // <img> entera derivada del src: la variante del prefijo de ruta mas largo que casa.
+      const src = valor(h.de);
+      if (src == null) throw new Error(`[plantilla] ${clave}: falta la imagen ${h.de}`);
+      const v = h.variantes.filter((x) => src.startsWith(x.prefijo)).sort((a, b) => b.prefijo.length - a.prefijo.length)[0];
+      if (!v) throw new Error(`[plantilla] ${clave}: ninguna variante para ${src}`);
+      return v.patron
+        .split(MARCA + 'src' + MARCA).join(ESC_ATTR(src))
+        .split(MARCA + 'raiz' + MARCA).join(ESC_ATTR(src.replace(/\.[a-z0-9]+$/i, '')))
+        .split(MARCA + 'alt' + MARCA).join(ESC_ATTR(valor(h.alt) ?? ''));
+    }
+    if (h.tipo === 'referencia') {
+      // Copia de otro documento (la tarjeta del producto): el lector ya la trae pintada.
+      const html = valor(clave);
+      if (html == null) throw new Error(`[plantilla] ${clave}: referencia sin resolver`);
+      return html;
+    }
     if (h.tipo === 'opcional') {
       // Bloque que tienen unas paginas y otras no (el video de las fichas de producto).
       const l = valor(clave);
@@ -52,10 +81,20 @@ export function rellenar(plantilla, huecos, valor) {
       // desde el codigo, no desde Sanity. Una pagina nueva no lo tiene.
       return valor(clave) ?? '';
     }
+    if (h.tipo === 'derivado' && h.modo === 'proveedor') {
+      const st = h.mapa[proveedorDe(valor(h.de))];
+      if (st == null) throw new Error(`[plantilla] ${clave}: video de un proveedor sin proporcion`);
+      return st;
+    }
     if (h.tipo === 'derivado') {
       const src = valor(h.de);
       if (src == null) throw new Error(`[plantilla] ${clave}: falta la imagen ${h.de}`);
-      if (h.modo === 'src') return h.patron.split(MARCA + 'src' + MARCA).join(src);
+      if (h.modo === 'src') {
+        // El JSON del lightbox: con `porLegado`, el formato de Webflow si la galeria lleva
+        // x-wf-template y el compacto si no.
+        const patron = h.porLegado ? h.porLegado[valor('@legado') ? 'legado' : 'nuevo'] : h.patron;
+        return patron.split(MARCA + 'src' + MARCA).join(src);
+      }
       // srcset/sizes solo para una imagen raster (el respaldo SVG va sin ellos).
       if (h.soloRaster && !/\.(avif|jpe?g|png|webp|gif)(\?.*)?$/i.test(src)) return '';
       // Grupo srcset/sizes/width/height solo para las imagenes de un directorio.

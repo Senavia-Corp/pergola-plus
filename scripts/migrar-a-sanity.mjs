@@ -39,7 +39,7 @@ const opt = (n) => (args.includes(n) ? args[args.indexOf(n) + 1] : undefined);
 const SALIDA = opt('--salida');
 if (!SALIDA) { console.error('uso: migrar-a-sanity.mjs --salida <fichero.ndjson> [--tipos a,b]'); process.exit(1); }
 
-const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage', 'county', 'city'];
+const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage', 'county', 'city', 'product', 'service', 'brand', 'project'];
 const TIPOS = new Set((opt('--tipos') ?? TODOS.join(',')).split(','));
 for (const t of TIPOS) if (!TODOS.includes(t)) throw new Error(`tipo desconocido: ${t}`);
 
@@ -354,12 +354,20 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
 }
 
 // ---------------------------------------------------------------------------
-// Colecciones con plantilla (src/plantillas/<tipo>.html): ciudades y condados
+// Colecciones con plantilla (src/plantillas/<tipo>.html)
 // ---------------------------------------------------------------------------
-const CON_PLANTILLA = ['county', 'city'].filter((t) => TIPOS.has(t));
+const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project'].filter((t) => TIPOS.has(t));
+const tarjetas = {};
 if (CON_PLANTILLA.length) {
-  const { paginasDe, derivarColeccion } = await import('./sanity/plantillas.mjs');
-  const { aBloques } = await import('../src/lib/plantilla-sanity.mjs');
+  const { paginasDe, derivarColeccion, derivarReferencias } = await import('./sanity/plantillas.mjs');
+  const { aBloques, opcionalesA, plano, CAMPOS_OPCIONALES } = await import('../src/lib/plantilla-sanity.mjs');
+  const { decodificar } = await import('../src/lib/portable.mjs');
+  const ES_DE = {
+    product: async () => (await cargarTs('src/i18n/productos.es.ts')).PRODUCTOS_ES,
+    service: async () => (await cargarTs('src/i18n/servicios.es.ts')).SERVICIOS_ES,
+    brand: async () => (await cargarTs('src/i18n/marcas.es.ts')).MARCAS_ES,
+    project: async () => (await cargarTs('src/i18n/proyectos.es.ts')).PROYECTOS_ES,
+  };
   const { CIUDADES, CONDADOS } = await import('../src/data/ubicaciones.mjs');
   const DIST = path.join(RAIZ, 'dist/client');
   const enlaceDe = (href) => {
@@ -376,16 +384,55 @@ if (CON_PLANTILLA.length) {
     assets.set(fichero, src);
     return { _type: 'imagenPlantilla', _sanityAsset: `image@file://${fichero}`, ...procedencia(src) };
   };
-  const conv = { imagen: imagenPlantilla, enlace: enlaceDe };
+  const conv = { imagen: imagenPlantilla, enlace: enlaceDe, referencia: (col, slug) => ref(`${col}-${slug}`) };
+  const igualAlCodigo = async (fichero, generado) => {
+    const enCodigo = await fs.readFile(path.join(RAIZ, 'src/plantillas', fichero), 'utf8').catch(() => null);
+    if (enCodigo !== generado) throw new Error(`src/plantillas/${fichero} no coincide con la derivacion: node scripts/sanity/plantillas.mjs <tipo> --escribir`);
+  };
   const slugDeCondado = Object.fromEntries(Object.entries(CONDADOS).map(([slug, nombre]) => [nombre, slug]));
   for (const tipo of CON_PLANTILLA) {
     const paginas = await paginasDe(tipo);
     const d = derivarColeccion(paginas);
     // La plantilla en el codigo tiene que ser LA MISMA que sale de los fragmentos: si no,
     // los documentos no casarian con el diseño que los pinta.
-    const enCodigo = await fs.readFile(path.join(RAIZ, `src/plantillas/${tipo}.html`), 'utf8').catch(() => null);
-    if (enCodigo !== d.plantilla) throw new Error(`[${tipo}] src/plantillas/${tipo}.html no coincide con la derivacion: node scripts/sanity/plantillas.mjs ${tipo} --escribir`);
+    await igualAlCodigo(`${tipo}.html`, d.plantilla);
+    await igualAlCodigo(`${tipo}.json`, JSON.stringify(d.huecos, null, 1) + '\n');
+    if (d.heredados.some((h) => Object.keys(h).length)) await igualAlCodigo(`${tipo}.heredado.json`, JSON.stringify(Object.fromEntries(paginas.map((p, i) => [p.slug, d.heredados[i]])), null, 1) + '\n');
     docs.push({ _id: `plantilla-${tipo}`, _type: 'plantilla', coleccion: tipo, secciones: aBloques(d.huecos, d.compartidos, 'compartido', conv) });
+    // Las tarjetas de producto que las fichas copian en «Compare»: una vez, en su producto.
+    const refs = derivarReferencias(d);
+    for (const [col, dr] of Object.entries(refs.porColeccion)) {
+      await igualAlCodigo(`${col}.tarjeta.html`, dr.plantilla);
+      await igualAlCodigo(`${col}.tarjeta.json`, JSON.stringify(dr.huecos, null, 1) + '\n');
+      tarjetas[col] = Object.fromEntries(dr.slugs.map((slug, j) => [slug, plano(aBloques(dr.huecos, dr.valores[j], 'pagina', conv), { _type: 'bloque', clave: 'tarjeta' })]));
+    }
+    if (ES_DE[tipo]) {
+      const ES = await ES_DE[tipo]();
+      const { PROMOVIDAS } = await cargarTs('src/data/faqs.ts');
+      paginas.forEach((p, i) => {
+        const es = ES[p.slug];
+        const h1 = p.en.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1];
+        if (!h1) throw new Error(`[${tipo}] ${p.slug} sin <h1>`);
+        const doc = {
+          _id: `${tipo}-${p.slug}`,
+          _type: tipo,
+          nombre: i18n(decodificar(h1.replace(/<[^>]*>/g, '')).trim(), es?.nombre),
+          slug: { _type: 'slug', current: p.slug },
+          secciones: aBloques(d.huecos, d.valores[i], 'pagina', conv),
+          seo: { _type: 'seo', titulo: i18n(p.item.title, es?.title), ...(p.item.description ? { descripcion: i18nLargo(p.item.description, es?.description) } : {}), indexable: true },
+        };
+        for (const [bloque, b] of Object.entries(opcionalesA(d.huecos, d.valores[i], conv))) doc[CAMPOS_OPCIONALES[bloque].campo] = b;
+        // Las preguntas de la biblioteca que la ficha sube a su FAQ (src/data/faqs.ts).
+        if ((tipo === 'product' || tipo === 'service') && PROMOVIDAS[p.slug]?.length) doc.faqsPromovidas = PROMOVIDAS[p.slug].map((id) => ({ ...ref(`faq-${id}`), _key: id }));
+        if (tipo === 'project') {
+          const conVideo = Boolean(doc.cabeceraVideo), conImagen = Boolean(doc.cabeceraImagen);
+          if (conVideo === conImagen) throw new Error(`[project] ${p.slug}: la cabecera tiene que ser video o imagen, una de las dos`);
+          doc.cabecera = conVideo ? 'video' : 'imagen';
+        }
+        docs.push(doc);
+      });
+      continue;
+    }
     const { CONDADOS_ES } = tipo === 'county' ? await cargarTs('src/i18n/condados.es.ts') : {};
     const { UBICACIONES_ES } = tipo === 'city' ? await cargarTs('src/i18n/ubicaciones.es.ts') : {};
     paginas.forEach((p, i) => {
@@ -405,6 +452,13 @@ if (CON_PLANTILLA.length) {
   }
 }
 
+for (const [col, porSlug] of Object.entries(tarjetas)) {
+  for (const [slug, b] of Object.entries(porSlug)) {
+    const doc = docs.find((x) => x._id === `${col}-${slug}`);
+    if (!doc) throw new Error(`[tarjeta] ${col}-${slug} no esta en la tanda`);
+    doc.tarjeta = b;
+  }
+}
 await cerrarTs();
 
 // ---------------------------------------------------------------------------

@@ -28,6 +28,7 @@ import path from 'node:path';
 import { cargarTs, cerrarTs } from './cargar-ts.mjs';
 import { MARCA, rellenar } from '../../src/lib/plantilla.mjs';
 import { decodificar } from '../../src/lib/portable.mjs';
+import { DATA_PRODUCT } from '../lib/fichas.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 
@@ -40,6 +41,25 @@ export const COLECCIONES = {
   brand: { carpeta: 'brands', es: async () => { const { MARCAS_ES } = await cargarTs('src/i18n/marcas.es.ts'); return (slug) => MARCAS_ES[slug] && MARCAS_ES[slug].dic; } },
   project: { carpeta: 'project', es: async () => { const { PROYECTOS_ES } = await cargarTs('src/i18n/proyectos.es.ts'); return (slug) => PROYECTOS_ES[slug] && PROYECTOS_ES[slug].dic; } },
 };
+
+// Elementos que son COPIA de otro documento: la tarjeta de producto de «Compare» de las
+// fichas es la de /products con su texto de ancla (scripts/lib/transformar.mjs,
+// tarjetasComparar). En la pagina se guarda solo la REFERENCIA; la tarjeta va una vez,
+// en el documento del producto, y el render la pinta desde alli.
+const REFERENCIAS = [
+  { abre: /^<div data-product="([^"]+)" class="product-card-page">$/, coleccion: 'product', slug: (dp) => Object.keys(DATA_PRODUCT).find((s) => DATA_PRODUCT[s] === dp) },
+];
+/** Junta las tarjetas referenciadas de dos derivaciones; la misma tarjeta tiene que ser identica. */
+function unirReferencias(dst, src) {
+  for (const [col, porSlug] of Object.entries(src ?? {})) {
+    for (const [slug, v] of Object.entries(porSlug)) {
+      const prev = dst[col]?.[slug];
+      if (prev && (prev.en !== v.en || prev.es !== v.es)) throw new Error(`[plantillas] la tarjeta de ${col} ${slug} no es igual en todas las paginas`);
+      (dst[col] ??= {})[slug] = v;
+    }
+  }
+  return dst;
+}
 
 // ---------------------------------------------------------------------------
 // Troceado
@@ -86,11 +106,13 @@ const limpiar = (s) => s.replace(/[^a-zA-Z0-9-]+/g, '-').replace(/^-+|-+$/g, '')
 /**
  * @param {{slug: string, en: string, es?: string}[]} paginas
  */
-export function derivar(paginas, prefijo = '') {
+export function derivar(paginas, prefijo = '', { sinReferencias = false } = {}) {
   const tk = paginas.map((p) => ({ en: trocear(p.en), es: p.es ? trocear(p.es) : null }));
   const base = tk[0].en;
   // 1. Misma estructura en todas (y ES igual que EN)
-  const firma = (ts) => ts.map((t) => (t.t === 'tag' ? `${t.cierre ? '/' : ''}${t.nombre}` : t.t === 'texto' ? (t.raw.trim() ? '#' : '_') : 'B')).join(' ');
+  // La clase y el id cuentan: con solo el nombre, `div` frente a `div` «coincide» y la
+  // divergencia se detecta tarde, dentro de otro contenedor.
+  const firma = (ts) => ts.map((t) => (t.t === 'tag' ? `${t.cierre ? '/' : ''}${t.nombre}${t.cierre ? '' : `.${(t.attrs.find((a) => a.n === 'class')?.v ?? '').replace(/\s+/g, '+')}#${t.attrs.find((a) => a.n === 'id')?.v ?? ''}`}` : t.t === 'texto' ? (t.raw.trim() ? '#' : '_') : 'B')).join(' ');
   const fBase = firma(base);
   paginas.forEach((p, i) => {
     if (firma(tk[i].en) !== fBase) {
@@ -117,6 +139,9 @@ export function derivar(paginas, prefijo = '') {
   const srcImagen = {};
   const valoresImagen = (clave) => srcImagen[clave];
   const compartidos = {};
+  const referencias = {};
+  let videoPendiente = null;
+  const formatos = {};
   const plantilla = [];
   const pila = [];
   let seccion = -1;
@@ -140,11 +165,18 @@ export function derivar(paginas, prefijo = '') {
         // El JSON del lightbox (script.w-json) repite la URL de la imagen que lo precede:
         // es un DERIVADO de esa imagen, comprobado en todas las paginas.
         if (!ultimaImagen || !/class="w-json"/.test(t.raw)) throw new Error(`[plantillas] bloque <script>/<style> que cambia entre paginas en el token ${i}: ${t.raw.slice(0, 100)}`);
-        const src0 = valoresImagen(ultimaImagen)[0];
-        const patron = t.raw.split(src0).join(`${MARCA}src${MARCA}`);
-        tk.forEach((x, j) => { if (patron.split(`${MARCA}src${MARCA}`).join(valoresImagen(ultimaImagen)[j]) !== x.en[i].raw) throw new Error(`[plantillas] ${paginas[j].slug}: w-json que no sale de la imagen ${ultimaImagen}`); });
+        const pats = tk.map((x, j) => {
+          const src = valoresImagen(ultimaImagen)[j];
+          if (!x.en[i].raw.includes(src)) throw new Error(`[plantillas] ${paginas[j].slug}: w-json que no sale de la imagen ${ultimaImagen}`);
+          return x.en[i].raw.split(src).join(`${MARCA}src${MARCA}`);
+        });
+        const distintos = [...new Set(pats)];
+        if (distintos.length > 2) throw new Error(`[plantillas] w-json con mas de dos formatos en ${ultimaImagen}`);
         const clave = `${ultimaImagen}.json`;
-        huecos[clave] = { tipo: 'derivado', alcance: 'pagina', de: ultimaImagen, patron, modo: 'src', crudo: true };
+        huecos[clave] = { tipo: 'derivado', alcance: 'pagina', de: ultimaImagen, modo: 'src', crudo: true, ...(distintos.length === 1 ? { patron: distintos[0] } : { patrones: distintos }) };
+        // Dos formatos (JSON en varias lineas o en una): la lista decide cual por el
+        // x-wf-template de la pagina (ver derivarConListas).
+        if (distintos.length > 1) formatos[clave] = pats.map((pt) => distintos.indexOf(pt));
         plantilla.push(`${MARCA}${clave}${MARCA}`);
         continue;
       }
@@ -154,10 +186,10 @@ export function derivar(paginas, prefijo = '') {
     if (t.t === 'texto') {
       const limpio = t.raw.trim();
       if (!limpio) { plantilla.push(t.raw); continue; }
-      const marcador = limpio.match(/^\u0002([LWO])(\d+)\u0002$/);
-      if (marcador) {
+      // Marcas de lista, heredado u opcional (dos opcionales seguidos van en un solo nodo).
+      if (/^(?:\u0002[LWO]\d+\u0002)+$/.test(limpio)) {
         if (tk.some((x) => x.en[i].raw.trim() !== limpio)) throw new Error(`[plantillas] marcador de lista desalineado en el token ${i}`);
-        plantilla.push(t.raw.replace(limpio, `${MARCA}${{ L: 'lista', W: 'heredado', O: 'opcional' }[marcador[1]]}:${marcador[2]}${MARCA}`));
+        plantilla.push(t.raw.replace(limpio, limpio.replace(/\u0002([LWO])(\d+)\u0002/g, (_m, l, n) => `${MARCA}${{ L: 'lista', W: 'heredado', O: 'opcional' }[l]}:${n}${MARCA}`)));
         continue;
       }
       const clave = nuevaClave(`s${seccion}.${ctx()}.t`);
@@ -177,41 +209,120 @@ export function derivar(paginas, prefijo = '') {
     const k = limpiar(`${t.nombre}${clase ? '-' + clase : ''}`);
     const autocierre = VACIOS.has(t.nombre) || t.raw.endsWith('/>');
     const claveEl = nuevaClave(`s${seccion}.${pila.length ? ctx() + '.' : ''}${k}`);
+    const refDef = !autocierre && !sinReferencias && REFERENCIAS.find((r) => r.abre.test(t.raw));
+    if (refDef) {
+      let prof = 0, c = i;
+      for (; c < base.length; c++) {
+        const q = base[c];
+        if (q.t !== 'tag' || VACIOS.has(q.nombre) || q.raw.endsWith('/>')) continue;
+        prof += q.cierre ? -1 : 1;
+        if (prof === 0) break;
+      }
+      const html = (ts) => ts.slice(i, c + 1).map((q) => q.raw).join('');
+      const porPagina = tk.map((x, j) => {
+        const slug = refDef.slug(x.en[i].raw.match(refDef.abre)[1]);
+        if (!slug) throw new Error(`[plantillas] ${paginas[j].slug}: ${x.en[i].raw} no corresponde a ningun ${refDef.coleccion}`);
+        unirReferencias(referencias, { [refDef.coleccion]: { [slug]: { en: html(x.en), es: x.es ? html(x.es) : null } } });
+        return { ref: slug };
+      });
+      hueco(`${claveEl}.ref`, 'referencia', porPagina, { coleccion: refDef.coleccion });
+      plantilla.push(`${MARCA}${claveEl}.ref${MARCA}`);
+      i = c;
+      continue;
+    }
     if (!autocierre) pila.push({ nombre: t.nombre, k });
     const tipoInput = t.attrs.find((a) => a.n === 'type')?.v;
-    // Atributos que estan en unas paginas y no en otras. La UNICA diferencia admitida es
-    // el par srcset/sizes de una <img>: falta cuando la imagen no es raster (el
-    // placeholder SVG de Coral Springs, hueco conocido de la Fase 6). Se convierte en un
-    // hueco derivado que el render pone o quita segun la imagen.
-    const nombres = (j) => tk[j].en[i].attrs.map((a) => a.n).join(' ');
-    let resp = null;
-    if (new Set(tk.map((_x, j) => nombres(j))).size > 1) {
-      const conjuntos = tk.map((x) => new Set(x.en[i].attrs.map((a) => a.n)));
-      const todos = new Set(conjuntos.flatMap((c) => [...c]));
-      const opcionales = [...todos].filter((n) => conjuntos.some((c) => !c.has(n)));
-      if (t.nombre !== 'img' || opcionales.some((n) => !['srcset', 'sizes', 'width', 'height'].includes(n))) throw new Error(`[plantillas] ${claveEl}: atributos presentes solo en algunas paginas: ${opcionales.join(', ')}`);
-      // El grupo ` srcset … sizes … [width … height …]` va seguido en la etiqueta y sale del
-      // src. Esta en las imagenes de un directorio (las de /cms-img con derivados, las fotos
-      // del cliente de /images/cliente) y no en las demas: la condicion es ese prefijo,
-      // comprobado en todas las paginas.
-      const RX_GRUPO = / srcset="[^"]*"(?: sizes="[^"]*")?(?: width="[^"]*")?(?: height="[^"]*")?/;
-      const trozo = (tt) => { const m = tt.raw.match(RX_GRUPO); if (!m) throw new Error(`[plantillas] ${claveEl}: srcset/sizes/width/height no van seguidos`); return m; };
-      const srcDe = (tt) => tt.attrs.find((a) => a.n === 'src').v;
-      const con = tk.map((x) => x.en[i]).filter((tt) => tt.attrs.some((a) => a.n === 'srcset'));
-      const sin = tk.map((x) => x.en[i]).filter((tt) => !tt.attrs.some((a) => a.n === 'srcset'));
-      const dirs = con.map((tt) => srcDe(tt).split('/').slice(0, -1));
-      let prefijoDir = dirs[0];
-      for (const d of dirs) { let q = 0; while (q < prefijoDir.length && prefijoDir[q] === d[q]) q++; prefijoDir = prefijoDir.slice(0, q); }
-      const siPrefijo = prefijoDir.join('/') + '/';
-      if (siPrefijo.length < 3 || sin.some((tt) => srcDe(tt).startsWith(siPrefijo))) throw new Error(`[plantillas] ${claveEl}: no hay un prefijo de src que explique cuando lleva srcset`);
-      const src0 = srcDe(con[0]).replace(/\.[a-z0-9]+$/i, '');
-      const patron = trozo(con[0])[0].split(src0).join(`${MARCA}raiz${MARCA}`);
-      for (const tt of con) if (patron.split(`${MARCA}raiz${MARCA}`).join(srcDe(tt).replace(/\.[a-z0-9]+$/i, '')) !== trozo(tt)[0]) throw new Error(`[plantillas] srcset que no sale del src (${claveEl}): ${srcDe(tt)}`);
-      const enBase = t.raw.match(RX_GRUPO);
-      // Si la pagina base no lo lleva, la marca va justo detras del valor del src.
-      const posSrc = t.attrs.find((a) => a.n === 'src');
-      resp = { clave: `${claveEl}.resp`, patron, quitar: enBase ?? { index: posSrc.ini + posSrc.v.length + 1, 0: '' } };
-      huecos[resp.clave] = { tipo: 'derivado', alcance: 'pagina', de: claveEl, patron, siPrefijo };
+    // Una <img> cuyo JUEGO de atributos cambia entre paginas (srcset/sizes/width/height
+    // segun de donde sale la foto: /cms-img con sus derivados, /images/cliente con los
+    // suyos, el placeholder SVG sin ninguno). La etiqueta entera se DERIVA del src: una
+    // variante por prefijo de ruta, comprobada pagina a pagina. Contenido solo son el src
+    // (hueco imagen) y el alt (hueco atributo); lo demas lo pone el codigo, como hoy.
+    // Patron de la etiqueta de la pagina j: src, alt y la raiz del fichero (en srcset) marcados.
+    const patronDe = (j) => {
+      const t0 = tk[j].en[i];
+      const srcA = t0.attrs.find((a) => a.n === 'src');
+      const altV = t0.attrs.find((a) => a.n === 'alt');
+      const partes = [[srcA.ini, srcA.v.length, `${MARCA}src${MARCA}`]];
+      if (altV?.v != null) partes.push([altV.ini, altV.v.length, `${MARCA}alt${MARCA}`]);
+      let patron = t0.raw;
+      for (const [ini, largo, m] of partes.sort((x, y) => y[0] - x[0])) patron = patron.slice(0, ini) + m + patron.slice(ini + largo);
+      const raiz0 = srcA.v.replace(/\.[a-z0-9]+$/i, '');
+      return patron.split(`${MARCA}src${MARCA}`).map((trozo) => trozo.split(raiz0).join(`${MARCA}raiz${MARCA}`)).join(`${MARCA}src${MARCA}`);
+    };
+    const SIN_RESP = (pt) => pt.replace(/ (?:srcset|sizes|width|height)="[^"]*"/g, '');
+    const conSrc = t.nombre === 'img' && tk.every((x) => x.en[i].attrs.some((a) => a.n === 'src' && a.v));
+    const patrones = conSrc ? tk.map((_x, j) => patronDe(j)) : [];
+    if (conSrc && new Set(patrones).size > 1) {
+      // Lo unico que puede cambiar fuera del src y el alt es el juego responsive.
+      if (new Set(patrones.map(SIN_RESP)).size > 1) throw new Error(`[plantillas] ${claveEl}: <img> que cambia en algo mas que src, alt y srcset/sizes/width/height`);
+      const srcs = tk.map((x) => x.en[i].attrs.find((a) => a.n === 'src').v);
+      const grupos = new Map();
+      patrones.forEach((pt, j) => grupos.set(pt, [...(grupos.get(pt) ?? []), j]));
+      const variantes = [];
+      for (const [patron, js] of grupos) {
+        const dirs = js.map((j) => srcs[j].split('/').slice(0, -1));
+        let pre = dirs[0];
+        for (const d of dirs) { let q = 0; while (q < pre.length && pre[q] === d[q]) q++; pre = pre.slice(0, q); }
+        variantes.push({ prefijo: pre.join('/') + '/', patron, paginas: js });
+      }
+      // Cada pagina tiene que caer en SU variante por el prefijo mas largo que casa.
+      const elegir = (src) => variantes.filter((v) => src.startsWith(v.prefijo)).sort((a, b) => b.prefijo.length - a.prefijo.length)[0];
+      tk.forEach((x, j) => {
+        const v = elegir(srcs[j]);
+        if (!v || !v.paginas.includes(j)) throw new Error(`[plantillas] ${paginas[j].slug}: el src no explica que variante de <img> lleva (${claveEl})`);
+        const alt = x.en[i].attrs.find((a) => a.n === 'alt')?.v ?? '';
+        const out = v.patron.split(`${MARCA}src${MARCA}`).join(srcs[j]).split(`${MARCA}raiz${MARCA}`).join(srcs[j].replace(/\.[a-z0-9]+$/i, '')).split(`${MARCA}alt${MARCA}`).join(alt);
+        if (out !== x.en[i].raw) throw new Error(`[plantillas] ${paginas[j].slug}: la variante de <img> no reproduce la etiqueta (${claveEl})\n   hoy: ${x.en[i].raw.slice(0, 160)}\n   sale: ${out.slice(0, 160)}`);
+      });
+      const noRaster = [...new Set(srcs.filter((v) => !RASTER.test(v)))];
+      hueco(claveEl, 'imagen', srcs.map((src) => (RASTER.test(src) ? { src: decodificar(src) } : { vacia: true })), noRaster.length === 1 ? { respaldo: noRaster[0] } : {});
+      if (noRaster.length > 1) throw new Error(`[plantillas] ${claveEl}: varias imagenes no raster`);
+      hueco(`${claveEl}.alt`, 'atributo', tk.map((x, j) => ({ en: decodificar(x.en[i].attrs.find((a) => a.n === 'alt')?.v ?? ''), ...(x.es ? { es: decodificar(x.es[i].attrs.find((a) => a.n === 'alt')?.v ?? '') } : {}) })));
+      huecos[`${claveEl}.etiqueta`] = { tipo: 'etiqueta', alcance: 'pagina', de: claveEl, alt: `${claveEl}.alt`, variantes: variantes.map(({ prefijo, patron }) => ({ prefijo, patron })) };
+      ultimaImagen = claveEl; srcImagen[claveEl] = srcs;
+      plantilla.push(`${MARCA}${claveEl}.etiqueta${MARCA}`);
+      continue;
+    }
+    // El video embebido (embedly): width/height/title del iframe y el padding-top de su
+    // caja dependen SOLO del proveedor (YouTube o Vimeo). Es diseño: lo pone el codigo
+    // segun el proveedor del src, que es lo unico que se guarda.
+    const proveedor = (src) => decodificar(src).match(/[?&]display_name=([^&]+)/)?.[1];
+    if (t.nombre === 'iframe' && /\bembedly-embed\b/.test(t.attrs.find((a) => a.n === 'class')?.v ?? '')) {
+      const srcs = tk.map((x) => x.en[i].attrs.find((a) => a.n === 'src')?.v);
+      const patronIf = (j) => { const a = tk[j].en[i].attrs.find((x) => x.n === 'src'); const raw = tk[j].en[i].raw; return raw.slice(0, a.ini) + `${MARCA}src${MARCA}` + raw.slice(a.ini + a.v.length); };
+      const pats = tk.map((_x, j) => patronIf(j));
+      if (new Set(pats).size > 1 || videoPendiente) {
+        const porProv = {};
+        pats.forEach((pt, j) => {
+          const pv = proveedor(srcs[j]);
+          if (!pv) throw new Error(`[plantillas] ${paginas[j].slug}: video sin display_name (${claveEl})`);
+          if (porProv[pv] && porProv[pv] !== pt) throw new Error(`[plantillas] ${claveEl}: el iframe de ${pv} no es igual en todas las paginas`);
+          porProv[pv] = pt;
+        });
+        hueco(`${claveEl}.src`, 'valor', srcs.map((v) => ({ valor: decodificar(v) })));
+        huecos[`${claveEl}.etiqueta`] = { tipo: 'etiqueta', alcance: 'pagina', por: 'proveedor', de: `${claveEl}.src`, variantes: Object.entries(porProv).map(([proveedor, patron]) => ({ proveedor, patron })) };
+        if (videoPendiente) { huecos[videoPendiente].de = `${claveEl}.src`; videoPendiente = null; }
+        plantilla.push(`${MARCA}${claveEl}.etiqueta${MARCA}`);
+        continue;
+      }
+    }
+    if (t.nombre === 'div' && /\bw-video\b/.test(t.attrs.find((a) => a.n === 'class')?.v ?? '')) {
+      const estilos = tk.map((x) => x.en[i].attrs.find((a) => a.n === 'style')?.v);
+      const sig = tk.map((x) => x.en[i + 1]);
+      if (new Set(estilos).size > 1 && sig.every((q) => q.nombre === 'iframe')) {
+        const mapa = {};
+        estilos.forEach((st, j) => {
+          const pv = proveedor(sig[j].attrs.find((a) => a.n === 'src')?.v ?? '');
+          if (!pv || (mapa[pv] && mapa[pv] !== st)) throw new Error(`[plantillas] ${paginas[j].slug}: la proporcion del video no sale del proveedor (${claveEl})`);
+          mapa[pv] = st;
+        });
+        const a = t.attrs.find((x) => x.n === 'style');
+        const clave = `${claveEl}.style`;
+        huecos[clave] = { tipo: 'derivado', alcance: 'pagina', modo: 'proveedor', de: null, mapa };
+        videoPendiente = clave;
+        plantilla.push(t.raw.slice(0, a.ini) + `${MARCA}${clave}${MARCA}` + t.raw.slice(a.ini + a.v.length));
+        continue;
+      }
     }
     // Sustituciones dentro de la etiqueta (de atras adelante para no mover posiciones)
     const subs = [];
@@ -219,7 +330,6 @@ export function derivar(paginas, prefijo = '') {
     const valorEs = (j, n) => tk[j].es?.[i].attrs.find((a) => a.n === n)?.v;
     for (const a of t.attrs) {
       if (a.v == null) continue;
-      if (resp && ['srcset', 'sizes', 'width', 'height'].includes(a.n)) continue;
       const enTodas = tk.map((_x, j) => valorEn(j, a.n));
       const varia = new Set(enTodas).size > 1;
       if (TRADUCIBLE(a.n, t.nombre, tipoInput)) {
@@ -233,6 +343,11 @@ export function derivar(paginas, prefijo = '') {
         // render pinta el respaldo. Es el hueco conocido de la Fase 6, no se rellena.
         hueco(claveEl, 'imagen', enTodas.map((src) => (RASTER.test(src) ? { src: decodificar(src) } : { vacia: true })), noRaster.length ? { respaldo: noRaster[0] } : {});
         ultimaImagen = claveEl; srcImagen[claveEl] = enTodas;
+        subs.push([a.ini, a.v.length, claveEl]);
+      } else if (a.n === 'src' && t.nombre === 'img' && varia && enTodas.every((v) => /\.svg$/i.test(v))) {
+        // Iconos SVG que elige cada pagina (los «why choose» de las fichas): imagen de
+        // contenido, como las raster. Sanity guarda SVG como asset de imagen.
+        hueco(claveEl, 'imagen', enTodas.map((src) => ({ src: decodificar(src) })));
         subs.push([a.ini, a.v.length, claveEl]);
       } else if (a.n === 'href' && varia) {
         hueco(`${claveEl}.href`, 'enlace', enTodas.map((href) => ({ href: decodificar(href) })));
@@ -256,11 +371,38 @@ export function derivar(paginas, prefijo = '') {
       }
     }
     let raw = t.raw;
-    if (resp) subs.push([resp.quitar.index, resp.quitar[0].length, resp.clave, true]);
     for (const [ini, largo, clave] of subs.sort((x, y) => y[0] - x[0])) raw = raw.slice(0, ini) + `${MARCA}${clave}${MARCA}` + raw.slice(ini + largo);
     plantilla.push(raw);
   }
-  return { plantilla: plantilla.join(''), huecos, valores, compartidos };
+  return { plantilla: plantilla.join(''), huecos, valores, compartidos, referencias, formatos };
+}
+
+/**
+ * Plantilla de cada coleccion referenciada (la tarjeta de producto), derivada de las
+ * tarjetas que salen en las paginas. Devuelve tambien el resolvedor para `lector`.
+ */
+export function derivarReferencias(d) {
+  const r = {};
+  for (const [col, porSlug] of Object.entries(d.referencias ?? {})) {
+    const slugs = Object.keys(porSlug).sort();
+    // El `data-product` de la tarjeta es la clave del producto (DATA_PRODUCT): lo pone el
+    // codigo, no se guarda.
+    const ID = `${MARCA}tarjeta.dataProduct${MARCA}`;
+    const conId = (h, slug) => h && h.replace(`data-product="${DATA_PRODUCT[slug]}"`, `data-product="${ID}"`);
+    const dr = derivar(slugs.map((slug) => ({ slug, en: conId(porSlug[slug].en, slug), es: conId(porSlug[slug].es, slug) })), '', { sinReferencias: true });
+    dr.huecos['tarjeta.dataProduct'] = { tipo: 'valor', alcance: 'codigo', de: 'DATA_PRODUCT[slug] en scripts/lib/fichas.mjs' };
+    if (Object.keys(dr.formatos).length) throw new Error(`[plantillas] la tarjeta de ${col} tiene formatos variables`);
+    if (Object.keys(dr.compartidos).length) throw new Error(`[plantillas] la tarjeta de ${col} tiene textos comunes a todas: no hay donde guardarlos`);
+    r[col] = { ...dr, slugs };
+  }
+  const resolver = (col, slug, idioma) => {
+    const dr = r[col];
+    const j = dr?.slugs.indexOf(slug) ?? -1;
+    if (j < 0) throw new Error(`[plantillas] sin tarjeta para ${col} ${slug}`);
+    const lec = lector(dr.huecos, dr.valores[j], {}, idioma);
+    return rellenar(dr.plantilla, dr.huecos, (k) => (k === 'tarjeta.dataProduct' ? DATA_PRODUCT[slug] : lec(k)));
+  };
+  return { porColeccion: r, resolver };
 }
 
 // ---------------------------------------------------------------------------
@@ -287,7 +429,7 @@ function listasDe(html) {
     if (fin < 0) throw new Error('[plantillas] w-dyn-items sin cierre');
     if (html.slice(desde, fin) !== items.join('')) throw new Error('[plantillas] w-dyn-items con algo que no son elementos');
     const w = html.slice(0, m.index).match(WFT);
-    listas.push({ desde, fin, items, wft: w ? { ini: m.index - w[0].length, raw: w[0] } : null });
+    listas.push({ abre: m.index, desde, fin, items, wft: w ? { ini: m.index - w[0].length, raw: w[0] } : null });
   }
   return listas;
 }
@@ -376,6 +518,7 @@ export function derivarColeccion(paginas) {
     try { return derivarConListas(paginas, opc, originales); } catch (e) {
       if (!e.contenedor || opc.some((o) => o.abre === e.contenedor)) throw e;
       const nuevos = opcionalesDe(sacarOpcionales(originales, opc).map((p) => ({ en: p.en })), e.contenedor);
+      if (process.env.PP_DEPURAR) console.error('[opcionales] contenedor', e.contenedor.slice(0, 90), '->', nuevos.map((o) => o.clave));
       if (!nuevos.length) throw e;
       opc.push(...nuevos);
     }
@@ -419,31 +562,49 @@ function derivarConListas(paginas, opc, originales) {
   const n = info[0].en.length;
   if (info.some((x) => x.en.length !== n || (x.es && x.es.length !== n))) throw new Error('[plantillas] distinto numero de listas entre paginas');
   const variables = [...Array(n).keys()].filter((k) => new Set(info.map((x) => x.en[k].items.length)).size > 1);
+  const conWft = new Set(variables.filter((k) => info.some((x) => x.en[k].wft)));
   const conMarcas = (html, listas) => {
     let h = html;
     for (const k of [...variables].sort((a, b) => b - a)) {
       const l = listas[k];
       h = h.slice(0, l.desde) + `\u0002L${k}\u0002` + h.slice(l.fin);
+      // El x-wf-template va justo delante de la lista; donde no esta, la marca va en su
+      // sitio y el heredado queda vacio.
       if (l.wft) h = h.slice(0, l.wft.ini) + `\u0002W${k}\u0002` + h.slice(l.wft.ini + l.wft.raw.length);
+      else if (conWft.has(k)) h = h.slice(0, l.abre) + `\u0002W${k}\u0002` + h.slice(l.abre);
     }
     return h;
   };
   const d = derivar(paginas.map((p, i) => ({ slug: p.slug, en: conMarcas(p.en, info[i].en), es: p.es ? conMarcas(p.es, info[i].es) : null })));
+  if (Object.keys(d.formatos).length) throw new Error(`[plantillas] w-json con dos formatos fuera de una lista: ${Object.keys(d.formatos).join(', ')}`);
   d.heredados = paginas.map(() => ({}));
   const heredados = d.heredados;
   for (const k of variables) {
     const elementos = [];
     paginas.forEach((p, i) => info[i].en[k].items.forEach((it, j) => elementos.push({ slug: `${p.slug}#${j}`, pagina: i, en: it, es: info[i].es ? info[i].es[k].items[j] : null })));
     const di = derivar(elementos, `L${k}.`);
+    unirReferencias(d.referencias, di.referencias);
+    // El JSON del lightbox: en varias lineas en las galerias de Webflow (las que llevan
+    // x-wf-template) y en una en las generadas despues. Se calcula, no se guarda.
+    for (const [clave, idx] of Object.entries(di.formatos)) {
+      const porLegado = {};
+      elementos.forEach((e, j) => {
+        const legado = info[e.pagina].en[k].wft ? 'legado' : 'nuevo';
+        const pt = di.huecos[clave].patrones[idx[j]];
+        if (porLegado[legado] && porLegado[legado] !== pt) throw new Error(`[plantillas] el formato del w-json no sale del x-wf-template (${e.slug})`);
+        porLegado[legado] = pt;
+      });
+      const { patrones: _p, ...resto } = di.huecos[clave];
+      di.huecos[clave] = { ...resto, porLegado };
+    }
     d.huecos[`lista:${k}`] = { tipo: 'lista', alcance: 'pagina', plantilla: di.plantilla, huecos: di.huecos };
     Object.assign(d.compartidos, di.compartidos);
     paginas.forEach((_p, i) => { d.valores[i][`lista:${k}`] = elementos.map((e, j) => (e.pagina === i ? di.valores[j] : null)).filter(Boolean); });
     if (info.some((x) => x.en[k].wft)) {
-      if (info.some((x) => !x.en[k].wft)) throw new Error(`[plantillas] la lista ${k} lleva x-wf-template en unas paginas y en otras no`);
       d.huecos[`heredado:${k}`] = { tipo: 'heredado', alcance: 'codigo' };
       info.forEach((x, i) => {
-        if (x.es && x.es[k].wft.raw !== x.en[k].wft.raw) throw new Error(`[plantillas] ${paginas[i].slug}: x-wf-template distinto en ES`);
-        heredados[i][`heredado:${k}`] = x.en[k].wft.raw;
+        if (x.es && x.es[k].wft?.raw !== x.en[k].wft?.raw) throw new Error(`[plantillas] ${paginas[i].slug}: x-wf-template distinto en ES`);
+        heredados[i][`heredado:${k}`] = x.en[k].wft?.raw ?? '';
       });
     }
   }
@@ -452,8 +613,15 @@ function derivarConListas(paginas, opc, originales) {
   opc.forEach((o, k) => {
     const conBloque = paginas.map((p, i) => (bloquesOpc[k][i] ? { slug: `${p.slug}~${o.clave}`, i, ...bloquesOpc[k][i] } : null)).filter(Boolean);
     const db = derivarColeccion(conBloque.map((x) => ({ slug: x.slug, en: x.en, es: x.es ?? null })));
+    unirReferencias(d.referencias, db.referencias);
     const clave = `opcional:${k}`;
     d.huecos[clave] = { tipo: 'opcional', alcance: 'pagina', bloque: o.clave, plantilla: db.plantilla, huecos: db.huecos };
+    // Un bloque sin nada propio de la pagina que esta justo donde esta el x-wf-template
+    // (el `w-dyn-hide` «No items found.» de Webflow, oculto) es marcado heredado: su
+    // presencia se calcula del x-wf-template, no se guarda.
+    const soloComun = Object.entries(db.huecos).every(([kk, h]) => kk.startsWith('__') || h.alcance === 'compartido');
+    const legado = Object.keys(d.huecos).filter((kk) => kk.startsWith('heredado:')).find((kk) => paginas.every((_p, i) => Boolean(d.heredados[i][kk]) === Boolean(bloquesOpc[k][i])));
+    if (soloComun && legado) d.huecos[clave].siLegado = legado;
     // Prefijo propio para que sus claves no choquen con las de la pagina.
     for (const [kk, v] of Object.entries(db.compartidos)) d.compartidos[`O${k}.${kk}`] = v;
     db.huecos.__prefijoCompartidos = `O${k}.`;
@@ -467,22 +635,24 @@ function derivarConListas(paginas, opc, originales) {
 }
 
 /** Valor de un hueco en un idioma, para `rellenar`, desde los valores derivados. */
-export function lector(huecos, valoresPagina, compartidos, idioma, heredados = {}) {
+export function lector(huecos, valoresPagina, compartidos, idioma, heredados = {}, resolver = null) {
   return (clave) => {
+    if (clave === '@legado') return heredados['@legado'];
     const h = huecos[clave];
-    if (h.tipo === 'lista') return (valoresPagina[clave] ?? []).map((v) => lector(h.huecos, v, compartidos, idioma));
+    if (h.tipo === 'lista') return (valoresPagina[clave] ?? []).map((v) => lector(h.huecos, v, compartidos, idioma, { '@legado': Boolean(heredados[clave.replace('lista:', 'heredado:')]) }, resolver));
     if (h.tipo === 'opcional') {
       const v = valoresPagina[clave];
       if (!v) return null;
       const pre = h.huecos.__prefijoCompartidos;
       const comp = new Proxy({}, { get: (_t, k) => compartidos[pre + String(k)] });
       const her = new Proxy({}, { get: (_t, k) => heredados[pre + String(k)] });
-      return lector(h.huecos, v, comp, idioma, her);
+      return lector(h.huecos, v, comp, idioma, her, resolver);
     }
     if (h.tipo === 'heredado') return heredados[clave];
     const v = h.alcance === 'compartido' ? compartidos[clave] : valoresPagina[clave];
     if (v == null) return undefined;
     if (h.tipo === 'imagen') return v.vacia ? h.respaldo : v.src;
+    if (h.tipo === 'referencia') return resolver(h.coleccion, v.ref, idioma);
     if (h.tipo === 'enlace') return v.href;
     if (h.tipo === 'valor') return v.valor;
     return idioma === 'es' ? (v.es ?? v.en) : v.en;
@@ -509,13 +679,13 @@ export async function paginasDe(tipo) {
 }
 
 /** Paridad: rellenar(plantilla, valores de la pagina) == fragmento, en EN y ES. */
-export function paridad(d, paginas) {
+export function paridad(d, paginas, resolver = null) {
   const fallos = [];
   paginas.forEach((p, i) => {
     for (const idioma of ['en', 'es']) {
       const original = p[idioma];
       if (!original) continue;
-      const salida = rellenar(d.plantilla, d.huecos, lector(d.huecos, d.valores[i], d.compartidos, idioma, d.heredados?.[i]));
+      const salida = rellenar(d.plantilla, d.huecos, lector(d.huecos, d.valores[i], d.compartidos, idioma, d.heredados?.[i], resolver));
       const a = normalizar(original), b = normalizar(salida);
       if (a !== b) {
         let k = 0; while (k < a.length && a[k] === b[k]) k++;
@@ -545,6 +715,16 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
     rutaImagen: (img) => '/' + path.relative(path.join(RAIZ, 'public'), img._sanityAsset.replace(/^image@file:\/\//, '')),
     hrefDe: (e) => (e.destino ? rutaDeId(e.destino._ref) : e.href) + (e.ancla ? `#${e.ancla}` : ''),
   };
+  // La tarjeta de un producto referenciado: su plantilla (codigo) con su `tarjeta` (Sanity).
+  const tarjetaPl = await fs.readFile(path.join(RAIZ, 'src/plantillas/product.tarjeta.html'), 'utf8').catch(() => null);
+  const tarjetaHu = tarjetaPl && JSON.parse(await fs.readFile(path.join(RAIZ, 'src/plantillas/product.tarjeta.json'), 'utf8'));
+  conv.tarjeta = (destino, idioma) => {
+    const doc = docs.find((x) => x._id === destino._ref);
+    if (!doc?.tarjeta) throw new Error(`[ndjson] ${destino._ref} sin tarjeta`);
+    const slug = doc.slug.current;
+    const lec = lectorSanity(tarjetaHu, { secciones: [doc.tarjeta] }, null, idioma, conv);
+    return rellenar(tarjetaPl, tarjetaHu, (k) => (k === 'tarjeta.dataProduct' ? DATA_PRODUCT[slug] : lec(k)));
+  };
   // Los href internos se comparan en forma canonica: el build los canoniza (canonizarEnlaces).
   const hrefs = (h) => h.replace(/href="(\/(?!\/)[^"#?]*)([^"]*)"/g, (_t, r, resto) => `href="${canonica(r)}${resto}"`);
   const fallos = [];
@@ -570,7 +750,8 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
   const paginas = await paginasDe(tipo);
   await cerrarTs();
   const d = derivarColeccion(paginas);
-  const fallos = paridad(d, paginas);
+  const refs = derivarReferencias(d);
+  const fallos = paridad(d, paginas, refs.resolver);
   const cuenta = (alc, tipoH) => Object.values(d.huecos).filter((h) => h.alcance === alc && (!tipoH || h.tipo === tipoH)).length;
   const resumen = {
     coleccion: tipo,
@@ -591,6 +772,11 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
     await fs.writeFile(path.join(RAIZ, `src/plantillas/${tipo}.json`), JSON.stringify(huecosOrdenados, null, 1) + '\n');
     if (d.heredados.some((h) => Object.keys(h).length)) {
       await fs.writeFile(path.join(RAIZ, `src/plantillas/${tipo}.heredado.json`), JSON.stringify(Object.fromEntries(paginas.map((p, i) => [p.slug, d.heredados[i]])), null, 1) + '\n');
+    }
+    for (const [col, dr] of Object.entries(refs.porColeccion)) {
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${col}.tarjeta.html`), dr.plantilla);
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${col}.tarjeta.json`), JSON.stringify(dr.huecos, null, 1) + '\n');
+      console.log(`  escrito src/plantillas/${col}.tarjeta.html y .json (${dr.slugs.length} tarjetas)`);
     }
     console.log(`  escrito src/plantillas/${tipo}.html y .json`);
   }

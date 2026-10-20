@@ -265,6 +265,32 @@ export const valorClave = defineType({
   preview: { select: { title: 'valor' } },
 });
 
+/** Un elemento de una lista de longitud variable (una foto de la galeria). */
+export const elementoLista = defineType({
+  name: 'elementoLista',
+  title: 'Elemento',
+  type: 'object',
+  fields: [
+    defineField({ name: 'textos', title: 'Textos', type: 'array', of: [{ type: 'textoClave' }] }),
+    defineField({ name: 'imagenes', title: 'Imágenes', type: 'array', of: [{ type: 'imagenClave' }] }),
+    defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [{ type: 'enlaceClave' }] }),
+    defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }] }),
+  ],
+  preview: { select: { media: 'imagenes.0.imagen', t: 'textos.0.texto.en' }, prepare: ({ media, t }) => ({ title: t ?? 'Foto', media }) },
+});
+
+/**
+ * Copia de otro documento: la tarjeta de un producto en «Compare» de las fichas. Se
+ * elige el producto; la tarjeta (foto, título, texto) se edita en el propio producto.
+ */
+export const referenciaClave = defineType({
+  name: 'referenciaClave',
+  title: 'Producto',
+  type: 'object',
+  fields: [claveFija, defineField({ name: 'destino', title: 'Producto', type: 'reference', to: [{ type: 'product' }], validation: (r) => r.required() })],
+  preview: { select: { title: 'destino.nombre.en' } },
+});
+
 export const bloque = defineType({
   name: 'bloque',
   title: 'Sección',
@@ -275,6 +301,8 @@ export const bloque = defineType({
     defineField({ name: 'imagenes', title: 'Imágenes', type: 'array', of: [{ type: 'imagenClave' }] }),
     defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [{ type: 'enlaceClave' }] }),
     defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }] }),
+    defineField({ name: 'elementos', title: 'Fotos de la galería', type: 'array', of: [{ type: 'elementoLista' }] }),
+    defineField({ name: 'referencias', title: 'Productos que se comparan', type: 'array', of: [{ type: 'referenciaClave' }] }),
   ],
   preview: {
     select: { clave: 'clave', t: 'textos.0.texto.en' },
@@ -389,4 +417,4 @@ export const tabla = defineType({
 // Los destinos de los enlaces de seccion, igual que los del texto con formato.
 (enlaceClave as any).fields[1].to = CON_PAGINA.map((type) => ({ type }));
 
-export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, textoClave, imagenCuerpo, botones, tabla, imagenPlantilla, imagenClave, enlaceClave, valorClave, bloque];
+export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, textoClave, imagenCuerpo, botones, tabla, imagenPlantilla, imagenClave, enlaceClave, valorClave, elementoLista, referenciaClave, bloque];

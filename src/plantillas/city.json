@@ -39,21 +39,30 @@
   "tipo": "texto",
   "alcance": "compartido"
  },
- "s0.section-hero-product.div-img-bg-hero-product.img-image-4.resp": {
-  "tipo": "derivado",
+ "s0.section-hero-product.div-img-bg-hero-product.img-image-4": {
+  "tipo": "imagen",
   "alcance": "pagina",
-  "de": "s0.section-hero-product.div-img-bg-hero-product.img-image-4",
-  "patron": " srcset=\"\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-800.avif 800w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001.avif 1450w\" sizes=\"100vw\"",
-  "siPrefijo": "/cms-img/locations/"
+  "respaldo": "/images/wf-placeholder.svg"
  },
  "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": {
   "tipo": "atributo",
   "alcance": "pagina"
  },
- "s0.section-hero-product.div-img-bg-hero-product.img-image-4": {
-  "tipo": "imagen",
+ "s0.section-hero-product.div-img-bg-hero-product.img-image-4.etiqueta": {
+  "tipo": "etiqueta",
   "alcance": "pagina",
-  "respaldo": "/images/wf-placeholder.svg"
+  "de": "s0.section-hero-product.div-img-bg-hero-product.img-image-4",
+  "alt": "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt",
+  "variantes": [
+   {
+    "prefijo": "/cms-img/locations/",
+    "patron": "<img alt=\"\u0001alt\u0001\" loading=\"eager\" fetchpriority=\"high\" src=\"\u0001src\u0001\" srcset=\"\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-800.avif 800w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001.avif 1450w\" sizes=\"100vw\" class=\"image-4\"/>"
+   },
+   {
+    "prefijo": "/images/",
+    "patron": "<img alt=\"\u0001alt\u0001\" loading=\"eager\" fetchpriority=\"high\" src=\"\u0001src\u0001\" class=\"image-4\"/>"
+   }
+  ]
  },
  "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city.alt": {
   "tipo": "atributo",
