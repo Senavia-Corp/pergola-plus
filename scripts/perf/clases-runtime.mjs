@@ -27,6 +27,9 @@ const SALIDA = path.join(RAIZ, 'scripts/lib/clases-runtime.json');
 const CONOCIDAS = [
   'w--open', 'w--current', 'w--nav-link-open', 'w--nav-dropdown-open', 'w--nav-dropdown-list-open',
   'w--nav-dropdown-toggle-open', 'w--redirected-focus', 'w--redirected-focus-visible', 'w--redirected-checked',
+  // pp-fondo: la pone interacciones.ts al acercarse .service-areas (H-08); el recorrido
+  // de este script no siempre llega a la banda.
+  'pp-fondo',
   'w-mod-js', 'w-mod-touch', 'w-mod-ix', 'w--nav-menu-open', 'w-nav-overlay', 'w--tab-active', 'w-active',
   'w-lightbox-backdrop', 'w-lightbox-container', 'w-lightbox-content', 'w-lightbox-view', 'w-lightbox-frame',
   'w-lightbox-figure', 'w-lightbox-img', 'w-lightbox-image', 'w-lightbox-caption', 'w-lightbox-control',

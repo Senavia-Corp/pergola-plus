@@ -35,3 +35,17 @@ acordeon('.feature-header-item', true);
 acordeon('.block-heading-feature');
 
 if (document.querySelector('a.w-lightbox')) import('./lightbox');
+
+// H-08: la foto de fondo de .service-areas entra cuando la banda se acerca (ver la regla
+// `.w-mod-js .service-areas:not(.pp-fondo)` de bandas.css).
+const bandas = document.querySelectorAll('.service-areas');
+if (bandas.length) {
+  const cerca = new IntersectionObserver((entradas) => {
+    for (const e of entradas) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add('pp-fondo');
+      cerca.unobserve(e.target);
+    }
+  }, { rootMargin: '1500px 0px' });
+  bandas.forEach((b) => cerca.observe(b));
+}

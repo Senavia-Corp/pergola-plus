@@ -36,6 +36,16 @@
   background-image: linear-gradient(#0000008f, #0000008f), url('/images/intracoastal-luxury-homes-palm-beach-broward.avif');
 }
 
+/* H-08 (verificacion del 20-oct-2026). La foto de esta banda se pedia en la carga
+   inicial aunque la banda queda muy por debajo del primer pantallazo: en la home movil
+   competia con el LCP. Con JavaScript (`w-mod-js`, lo pone el script inline del <head>)
+   la foto espera a la clase `pp-fondo`, que interacciones.ts pone cuando la banda esta a
+   1500 px del viewport, con margen de sobra para que llegue antes que el scroll. Sin
+   JavaScript esta regla no aplica y la foto se pinta como siempre. El velo es el mismo. */
+.w-mod-js .service-areas:not(.pp-fondo) {
+  background-image: linear-gradient(#0000008f, #0000008f);
+}
+
 /* Linea «Also serving nearby in <condado>» de las paginas de ciudad (la pone
    enlazarCiudades() sobre dist/). Mismo cuerpo y color que el texto de la seccion;
    los enlaces, subrayados como los del cuerpo y con el anillo de accesibilidad.css.
