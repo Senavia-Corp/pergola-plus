@@ -1,0 +1,4 @@
+# Generado por la CLI de Sanity
+.sanity/
+dist/
+node_modules/
