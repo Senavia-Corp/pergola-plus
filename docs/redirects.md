@@ -14,6 +14,7 @@ buscador, y con él se pierde el enlace entrante que veníamos a salvar.
 | `/es/brands/appolo` | `/es/brands/apollo` | La gemela en español del anterior. |
 | `/products/sukkha` | `/products/sukkah` | Errata del producto: es **Sukkah** (Sukkah 3000). Mismo feedback, 30-sep-2026. La carpeta `cms-img/products/sukkha/` y sus 11 ficheros conservan el nombre viejo a propósito; el JPG de Open Graph sí se renombró (`sukkah-1200x630.jpg`). |
 | `/es/products/sukkha` | `/es/products/sukkah` | La gemela en español del anterior. |
+| `/aluminum-pergolas` | `/products/` | Destino de tres anuncios de Google Ads que Daniel reenvió el 28-dic-2025 (Gmail `19b6666913e51a46`: «Todos estos ads están apuntados a un website que no sirve/existe»). No hay página con ese nombre; el índice de productos lo decidió la coordinación el 20-oct-2026. |
 
 ## Cambio de dominio: las URLs del sitio que hoy sirve el dominio
 
@@ -123,6 +124,22 @@ cortar el dominio hubiera tráfico por esa forma, se cubre con un *splice* de la
 `^/brands/appolo/?$` en `scripts/rutas-vercel.mjs` (el mismo patrón que `RUTA_404_ES`).
 Hoy no se hace: nada del sitio la enlaza.
 
+
+### Barra final: forma canónica y un solo salto (20-oct-2026)
+
+Deja sin efecto la nota anterior. Desde la Fase 2 de entrega, `scripts/rutas-vercel.mjs`
+reescribe los 301 que genera Astro:
+
+- **destino** en forma canónica, con barra (`/about-us/about-us/`), que es la del
+  canonical, el sitemap y el hreflang;
+- **origen** con y sin barra (`^/about-us/?$`): la variante con barra ya no da 404.
+
+Y añade, detrás de los 301 y delante del filesystem, la regla **308** de barra final con
+los patrones de `trailingSlash: true` de Vercel: `/products/cabanas` → `/products/cabanas/`.
+Fuera de la regla: `/api/`, `/_*` y `/.well-known`. Una URL vieja llega así a su destino en
+**un** salto (el 301), y una sin barra en un salto (el 308). La puerta es `check:canonicos`.
+Todos los `href` internos se emiten ya con barra (`canonizarEnlaces()` de
+`astro.config.mjs`), así que la regla 308 solo la ve quien llega desde fuera.
 ## Las tres que dan 404 en el sitio en vivo
 
 De la Fase 0, y siguen dando 404 a propósito:
