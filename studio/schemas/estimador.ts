@@ -176,7 +176,7 @@ export const estimador = defineType({
         }),
       ],
     }),
-    defineField({ name: 'textos', title: 'Textos del estimador', type: 'array', of: [{ type: 'elemento' }] }),
+    defineField({ name: 'textos', title: 'Textos del estimador', type: 'array', of: [{ type: 'textoClave' }] }),
   ],
   preview: { prepare: () => ({ title: 'Estimador de proyectos' }) },
 });

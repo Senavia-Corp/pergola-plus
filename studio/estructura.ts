@@ -21,6 +21,7 @@ export const estructura: StructureResolver = (S) =>
       S.documentTypeListItem('blogCategory').title('Blog: categorías'),
       S.documentTypeListItem('faq').title('Preguntas frecuentes'),
       S.documentTypeListItem('faqTopic').title('Preguntas: filtros'),
+      S.documentTypeListItem('faqTheme').title('Preguntas: temas'),
       S.documentTypeListItem('review').title('Reseñas de Google'),
       S.divider(),
       S.documentTypeListItem('county').title('Condados'),

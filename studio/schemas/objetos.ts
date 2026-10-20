@@ -204,10 +204,10 @@ export const seccion = defineType({
 });
 
 /**
- * Los documentos migrados tienen `_id` determinista (`post.<slug>`, `product.<slug>`…):
- * son las URL que ya estan publicadas.
+ * Los documentos migrados tienen `_id` determinista (`post-<slug>`, `product-<slug>`…):
+ * son las URL que ya estan publicadas. (Sin puntos: un `_id` con punto es privado.)
  */
-const MIGRADO = /^(drafts\.)?[a-zA-Z]+\.[^.]+$/;
+const MIGRADO = /^(drafts\.)?(page|product|service|brand|project|post|blogCategory|county|city|legalPage)-/;
 
 /**
  * Slug, igual en EN y ES. En los documentos migrados NO se edita: cambiar una URL
@@ -226,4 +226,20 @@ export const slugFijo = (fuente = 'nombre.en') =>
     validation: (r) => r.required(),
   });
 
-export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, seccion];
+/**
+ * Texto de interfaz con clave fija (botones, rotulos, avisos). La clave es la ruta del
+ * texto en el diccionario del codigo (p. ej. `productos.louvered.nombre`): el codigo la
+ * busca por ella, asi que no se edita.
+ */
+export const textoClave = defineType({
+  name: 'textoClave',
+  title: 'Texto',
+  type: 'object',
+  fields: [
+    defineField({ name: 'clave', title: 'Clave', type: 'string', readOnly: true, validation: (r) => r.required() }),
+    defineField({ name: 'texto', title: 'Texto', type: 'textoLargoI18n', validation: (r) => r.required() }),
+  ],
+  preview: { select: { title: 'texto.en', subtitle: 'clave' } },
+});
+
+export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, seccion, textoClave];

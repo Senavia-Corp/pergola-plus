@@ -45,6 +45,7 @@ export const siteSettings = defineType({
         defineField({ name: 'ciudad', title: 'Ciudad', type: 'string', validation: (r) => r.required() }),
         defineField({ name: 'estado', title: 'Estado', type: 'string', validation: (r) => r.required() }),
         defineField({ name: 'cp', title: 'Código postal', type: 'string', validation: (r) => r.required() }),
+        defineField({ name: 'pais', title: 'País (código)', type: 'string', initialValue: 'US' }),
       ],
     }),
     defineField({
@@ -68,7 +69,18 @@ export const siteSettings = defineType({
       initialValue: false,
     }),
     defineField({ name: 'correoPublico', title: 'Correo público', type: 'string', validation: (r) => r.required().email() }),
-    defineField({ name: 'horario', title: 'Horario', type: 'textoI18n' }),
+    defineField({ name: 'horario', title: 'Horario (texto)', type: 'textoI18n' }),
+    defineField({
+      name: 'horarioEstructurado',
+      title: 'Horario (para Google)',
+      type: 'object',
+      options: { columns: 3 },
+      fields: [
+        defineField({ name: 'dias', title: 'Días', type: 'array', of: [{ type: 'string' }], options: { list: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] } }),
+        defineField({ name: 'abre', title: 'Abre (HH:MM)', type: 'string', validation: (r) => r.regex(/^\d{2}:\d{2}$/) }),
+        defineField({ name: 'cierra', title: 'Cierra (HH:MM)', type: 'string', validation: (r) => r.regex(/^\d{2}:\d{2}$/) }),
+      ],
+    }),
     defineField({ name: 'notaCita', title: 'Nota de cita', type: 'textoI18n' }),
     defineField({ name: 'redes', title: 'Redes sociales', type: 'array', of: [{ type: 'url' }] }),
     defineField({ name: 'condadosServidos', title: 'Condados servidos', type: 'array', of: [{ type: 'string' }] }),
@@ -124,7 +136,7 @@ export const navigation = defineType({
       ],
     }),
     defineField({ name: 'pie', title: 'Pie', type: 'array', of: [{ type: 'seccion' }] }),
-    defineField({ name: 'textos', title: 'Textos comunes (botones, avisos)', type: 'array', of: [{ type: 'elemento' }] }),
+    defineField({ name: 'textos', title: 'Textos comunes (botones, avisos)', type: 'array', of: [{ type: 'textoClave' }] }),
   ],
   preview: { prepare: () => ({ title: 'Menú y pie' }) },
 });
@@ -352,6 +364,18 @@ export const faqTopic = defineType({
   preview: { select: { title: 'nombre.en', subtitle: 'clave' } },
 });
 
+export const faqTheme = defineType({
+  name: 'faqTheme',
+  title: 'Tema de preguntas (agrupación)',
+  type: 'document',
+  fields: [
+    defineField({ name: 'clave', title: 'Clave', type: 'string', readOnly: true, validation: (r) => r.required() }),
+    defineField({ name: 'nombre', title: 'Nombre', type: 'textoI18n', validation: (r) => r.required() }),
+    defineField({ name: 'orden', title: 'Orden', type: 'number' }),
+  ],
+  preview: { select: { title: 'nombre.en', subtitle: 'clave' } },
+});
+
 export const faq = defineType({
   name: 'faq',
   title: 'Pregunta frecuente',
@@ -359,15 +383,17 @@ export const faq = defineType({
   fields: [
     defineField({ name: 'idEstable', title: 'Identificador', type: 'string', readOnly: true, validation: (r) => r.required() }),
     defineField({ name: 'pregunta', title: 'Pregunta', type: 'textoI18n', validation: (r) => r.required() }),
-    defineField({ name: 'respuesta', title: 'Respuesta', type: 'bloqueI18n', validation: (r) => r.required() }),
-    defineField({ name: 'chip', title: 'Filtro', type: 'reference', to: [{ type: 'faqTopic' }] }),
-    defineField({ name: 'tema', title: 'Tema', type: 'string' }),
+    defineField({ name: 'respuesta', title: 'Respuesta', type: 'textoLargoI18n', validation: (r) => r.required() }),
+    defineField({ name: 'sinonimos', title: 'Sinónimos para el buscador (no se muestran)', type: 'textoI18n' }),
+    defineField({ name: 'chip', title: 'Filtro', type: 'reference', to: [{ type: 'faqTopic' }], validation: (r) => r.required() }),
+    defineField({ name: 'tema', title: 'Tema', type: 'reference', to: [{ type: 'faqTheme' }], validation: (r) => r.required() }),
+    defineField({ name: 'origen', title: 'Origen', type: 'string', readOnly: true, options: { list: ['ficha', 'pagina', 'nueva'] } }),
     defineField({ name: 'enlace', title: 'Enlace «saber más»', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
     defineField({ name: 'destacada', title: 'Destacada', type: 'boolean' }),
     defineField({ name: 'claves', title: 'Términos que no se traducen', type: 'array', of: [{ type: 'string' }] }),
     defineField({ name: 'orden', title: 'Orden', type: 'number' }),
   ],
-  preview: { select: { title: 'pregunta.en', subtitle: 'tema' } },
+  preview: { select: { title: 'pregunta.en', subtitle: 'tema.clave' } },
 });
 
 export const review = defineType({
@@ -377,9 +403,12 @@ export const review = defineType({
   description: 'Solo reseñas reales, copiadas de la ficha pública de Google.',
   fields: [
     defineField({ name: 'autor', title: 'Autor', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'fecha', title: 'Fecha', type: 'string' }),
+    defineField({ name: 'idOrigen', title: 'Identificador de origen', type: 'string', readOnly: true }),
+    defineField({ name: 'fecha', title: 'Fecha', type: 'date' }),
+    defineField({ name: 'idioma', title: 'Idioma del texto', type: 'string', options: { list: ['en', 'es'] } }),
     defineField({ name: 'estrellas', title: 'Estrellas', type: 'number', validation: (r) => r.required().min(1).max(5).integer() }),
     defineField({ name: 'texto', title: 'Texto (tal como lo escribió)', type: 'text', validation: (r) => r.required() }),
+    defineField({ name: 'respuestaDueno', title: 'Respuesta del negocio', type: 'text' }),
     defineField({ name: 'enlace', title: 'Enlace a la reseña', type: 'url' }),
     defineField({ name: 'fuente', title: 'Fuente', type: 'string', initialValue: 'google', readOnly: true }),
     defineField({ name: 'leidoEl', title: 'Leída el', type: 'date' }),
@@ -388,4 +417,4 @@ export const review = defineType({
   preview: { select: { title: 'autor', subtitle: 'texto' } },
 });
 
-export const documentos = [siteSettings, navigation, page, product, service, brand, project, post, blogCategory, county, city, legalPage, faqTopic, faq, review];
+export const documentos = [siteSettings, navigation, page, product, service, brand, project, post, blogCategory, county, city, legalPage, faqTopic, faqTheme, faq, review];
