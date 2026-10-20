@@ -31,6 +31,8 @@ export const MARCA = '\u0001';
 // texto, salvo donde el original la lleva literal: hueco con `comillas: 'literal'`).
 const ESC = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#x27;');
 const ESC_ATTR = (s) => ESC(s).replace(/"/g, '&quot;');
+// El src del video embebido va como en el export: con los `&` del query sin escapar.
+const ESC_URL = (s) => s.replace(/"/g, '&quot;');
 const proveedorDe = (src) => (src ?? '').replace(/&amp;/g, '&').match(/[?&]display_name=([^&]+)/)?.[1];
 
 /**
@@ -54,7 +56,7 @@ export function rellenar(plantilla, huecos, valor) {
       const src = valor(h.de);
       const v = h.variantes.find((x) => x.proveedor === proveedorDe(src));
       if (!v) throw new Error(`[plantilla] ${clave}: video de un proveedor sin plantilla: ${src}`);
-      return v.patron.split(MARCA + 'src' + MARCA).join(ESC_ATTR(src));
+      return v.patron.split(MARCA + 'src' + MARCA).join(ESC_URL(src));
     }
     if (h.tipo === 'etiqueta') {
       // <img> entera derivada del src: la variante del prefijo de ruta mas largo que casa.
@@ -106,6 +108,7 @@ export function rellenar(plantilla, huecos, valor) {
     }
     const v = valor(clave);
     if (v == null) throw new Error(`[plantilla] sin valor para ${clave}`);
+    if (h.tipo === 'valor') return ESC_URL(v);
     return h.tipo === 'texto' && h.comillas === 'literal' ? ESC(v) : ESC_ATTR(v);
   });
 }

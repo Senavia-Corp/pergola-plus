@@ -26,8 +26,8 @@
  * src/pages/es/products/[slug].astro: un montaje hecho solo en un lado deja al otro
  * sin la seccion, sin error y sin que ninguna puerta lo diga.
  */
-import { ESPECIFICACIONES } from '../data/especificaciones';
-import { SPECS_COPY, type Idioma } from '../i18n/especificaciones.es';
+import { ESPECIFICACIONES, SPECS_COPY } from '../lib/sanity/datos.mjs';
+import type { Idioma } from '../i18n/especificaciones.es';
 
 interface Props {
   /** El slug de la ficha. Tiene que estar en ESPECIFICACIONES. */

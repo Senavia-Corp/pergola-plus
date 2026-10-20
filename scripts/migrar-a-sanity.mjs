@@ -55,6 +55,7 @@ const i18nLargo = (en, es) => ({ ...i18n(en, es), _type: 'textoLargoI18n' });
 const clave = (s) => String(s).replace(/[^a-zA-Z0-9_-]/g, '-');
 
 import { idDeRuta, rutaDeId } from '../src/lib/rutas-sanity.mjs';
+import { desdeDocumento } from '../src/lib/sanity/especificaciones.mjs';
 export { idDeRuta };
 
 /** Referencia. Fuerte o debil se decide al final (ver «Referencias», abajo), con el dataset delante. */
@@ -455,12 +456,11 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
           // Paridad: el registro y la copia salen tal cual del documento.
           const x = doc.especificaciones;
           const ordenado = (o) => JSON.stringify(o, (_k, v) => (v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => a.localeCompare(b))) : v));
-          const reg = { filas: x.filas.map((f) => f.id), enGrafo: x.filas.filter((f) => f.enDatosEstructurados).map((f) => f.id), ...(x.material ? { material: x.material } : {}), huecos: x.huecos.map((h) => h.id), enlaces: x.enlaces.map((e) => ({ id: e.id, ruta: rutaDeId(e.destino._ref), junto: e.junto })) };
-          if (ordenado(reg) !== ordenado(E)) throw new Error(`[especificaciones] ${p.slug}: el registro no se reconstruye (¿enGrafo en otro orden que filas?)`);
+          // La misma reconstruccion que usa el build (src/lib/sanity/especificaciones.mjs).
+          const r = desdeDocumento(x, (ref) => rutaDeId(ref._ref));
+          if (ordenado(r.ficha) !== ordenado(E)) throw new Error(`[especificaciones] ${p.slug}: el registro no se reconstruye (¿enGrafo en otro orden que filas?)`);
           for (const [idioma, c] of [['en', en], ['es', es]]) {
-            const t = (v) => (idioma === 'es' ? v.es ?? v.en : v.en);
-            const copia = { titulo: t(x.titulo), entradilla: t(x.entradilla), huecosTitulo: t(x.huecosTitulo), huecosEntradilla: t(x.huecosEntradilla), ctaTexto: t(x.ctaTexto), filas: Object.fromEntries(x.filas.map((f) => [f.id, { etiqueta: t(f.etiqueta), valor: t(f.valor) }])), huecos: Object.fromEntries(x.huecos.map((h) => [h.id, t(h.texto)])), enlaces: Object.fromEntries(x.enlaces.map((e) => [e.id, t(e.texto)])) };
-            if (ordenado(copia) !== ordenado(c)) throw new Error(`[especificaciones] ${p.slug} ${idioma}: la copia no se reconstruye (¿textos sin fila?)`);
+            if (ordenado(r.copy[idioma]) !== ordenado(c)) throw new Error(`[especificaciones] ${p.slug} ${idioma}: la copia no se reconstruye (¿textos sin fila?)`);
           }
         }
         if (tipo === 'project') {
