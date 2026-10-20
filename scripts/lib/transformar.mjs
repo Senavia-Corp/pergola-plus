@@ -576,7 +576,10 @@ export const CLIENTE_ALTO = 1406;
 export const CLIENTE_DERIVADOS = [640, 960, 1280, 1920];
 /** Anchos de los derivados de las portadas del hero de las fichas (ver 4n y
  *  scripts/derivar-portadas.mjs). El master de 1450 px cierra el juego. */
-export const PORTADAS_ANCHOS = [640, 960, 1280];
+// 800 se añadio en F8: el Moto G de Lighthouse (412 px x 1,75) pide 721 px y sin el
+// candidato de 800 elegia el de 960 (99-125 KB en ciudad y condado, el LCP de las dos
+// plantillas que no llegaban a 95). Con 800, ~20 % menos de bytes en el mismo hueco.
+export const PORTADAS_ANCHOS = [640, 800, 960, 1280];
 /** Anchos de los derivados de TODAS las fotos del CMS que se pintan en tarjeta, galeria,
  *  miniatura o hero (scripts/derivar-cms.mjs). El master cierra el juego; solo se
  *  emiten los anchos menores que el. */
@@ -2837,6 +2840,13 @@ export function transformar(html, ruta) {
     if (!s.includes(ancla)) throw new Error(`[h2] ${ruta}: no encuentro la rejilla (${ancla}) para poner el <h2> de seccion`);
     s = s.replace(ancla, `<h2 class="pp-sr">${texto}</h2>${ancla}`);
   }
+
+  // (F8 probo poner en eager + fetchpriority=high las dos primeras tarjetas de los
+  //  indices de productos, servicios y galeria —su LCP venia lazy—. Medido x3: el LCP
+  //  simulado EMPEORO en los tres (2,73 -> 3,06 s en productos, 2,77 -> 3,04 en
+  //  galeria) y arrastro a las fichas de producto, cuya seccion «Compare» reutiliza las
+  //  tarjetas del indice (2,82 -> 3,42 s). Revertido en el mismo commit; queda anotado
+  //  en 01-PLAN-Y-DECISIONES.md para que nadie lo vuelva a intentar sin medir.)
 
   // 4i4. La foto del formulario de presupuesto decia `sizes="(max-width: 1600px)
   //      100vw, 1600px"` y ocupa el 40 % del ancho desde 992 px

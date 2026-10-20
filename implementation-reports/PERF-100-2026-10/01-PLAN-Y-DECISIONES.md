@@ -401,3 +401,101 @@ rutas en local, así que lo medido es lo servido):
   hashes y se regenera sola en cada build (en F7, si cambian los scripts, cambia).
 - `X-Frame-Options: DENY` y `frame-ancestors 'none'`: nadie enmarca el sitio; los
   iframes de terceros van DENTRO del sitio (`frame-src`), que es otra cosa.
+
+## F7 · webflow.js + jQuery: se quedan con `defer` (decisión medida)
+
+**Lo que se midió antes de escribir el sustituto.** Sobre el build de F6 se quitaron
+las dos etiquetas `<script src="/js/…">` del HTML de home, ciudad y condado y se
+pasó Lighthouse móvil ×3 (`lighthouse.sh … f7-techo`): ese es el **techo** de F7, lo
+que daría un sustituto perfecto con 0 KB de JavaScript.
+
+| Plantilla (móvil) | Con jQuery + webflow.js (F6) | Sin ellos (techo) |
+|---|---|---|
+| Home | 95 (95/95/95) · LCP 3,00 s | 95 (95/95/94) · 3,00 s |
+| Ciudad | 91 (92/91/91) · 3,45 s | 93 (93/93/94) · 3,15–3,23 s |
+| Condado | 89 (89/89/89) · 3,83 s | 92 (92/92/92) · 3,38 s |
+
+TBT ya es 0 y `unused-javascript` 0 con los dos cargados en `defer`: lo único que
+pagan es el ancho de banda simulado (99 KB gz) en la estimación pesimista del LCP de
+Lighthouse. **Ni ciudad ni condado llegarían a 95 sin ellos.**
+
+**Lo que costaría.** Al auditar la paridad apareció una dependencia que el encargo
+no listaba: las 23 galerías de producto, servicio y proyecto (`a.w-lightbox` +
+`script.w-json`) abren el **lightbox de webflow.js** (comprobado:
+`.w-lightbox-backdrop` al pulsar). El sustituto tendría que reproducir, además del
+menú móvil (overlay, `w--open`, deslizamiento de 400 ms), los 5 dropdowns (click,
+teclado, `focusout`, Escape), los 18 hovers de preview (IX2 → CSS `:has()`) y la barra
+que se esconde al hacer scroll (IX2 a-27/a-28), un lightbox con grupo, flechas,
+teclado y foco —y con otra apariencia, porque la de Webflow es suya—. Eso es un
+cambio de diseño visible en 23 páginas, que la regla 3 prohíbe, para ganar 2–3 puntos
+en dos plantillas sin alcanzar el objetivo.
+
+**Decisión**: se quedan `defer` como hoy (regla 5). El borrador del sustituto del menú
+(navbar + dropdown + scroll) está escrito y medido contra el módulo original, en el
+scratchpad de la sesión; no entra en el repo porque sin el lightbox no pasa la sonda
+y con él cambia el diseño. Si algún día se reemplaza el lightbox por uno propio (una
+decisión de diseño), ese borrador es el punto de partida y la sonda ya mide la
+paridad (menú 67/67, dropdown 23/23, hover 23/23, foco en preview 0/23 pendiente).
+
+## F8 · Plantillas rezagadas y UX móvil
+
+**Hecho**
+
+- **Probado y revertido**: poner en `eager` + `fetchpriority="high"` las dos primeras
+  tarjetas de los índices de productos, servicios y galería (su LCP venía `lazy`, con
+  `lcpLoadDelay` 1,4–1,6 s). Medido ×3 sobre el build: el LCP simulado **empeoró** en
+  los tres índices (productos 2,73 → 3,06 s, galería 2,77 → 3,04 s, servicios 2,81 →
+  2,99 s: la imagen entra antes pero con prioridad alta compite con la fuente y el
+  HTML en la simulación a 1,6 Mbps) y arrastró a las fichas de producto, cuya sección
+  «Compare» reutiliza las tarjetas del índice ya transformado (producto 2,82 → 3,42 s,
+  96 → 92). Además, en la galería las dos primeras tarjetas del fragmento no son las
+  dos primeras de la página (los 3 proyectos del cliente se insertan después). Se
+  quita en el mismo commit (regla 8) y se deja el aviso en el transformador.
+- Heroes de ciudad, condado y producto: candidato de **800 px** en el juego de
+  derivados (`PORTADAS_ANCHOS`). El móvil de Lighthouse (412 × 1,75 = 721 px) elegía
+  el de 960 (99–125 KB en ciudad y condado); con 800 pide ~20 % menos para el mismo
+  hueco. Los `-800.avif` ya existían (los escribió `derivar-cms.mjs`).
+- 2.4.11 Foco no oculto: con la sonda a 320/375, 75 de 640 paradas de tabulación
+  caían debajo de un botón flotante (56 px + 20 de margen en las dos esquinas
+  inferiores). `html { scroll-padding: 100px 0 6rem }` (`accesibilidad.css`): el
+  navegador deja el hueco de la barra fija y de los botones al desplazar hacia el
+  foco o hacia un ancla. Después: 0 tapadas del todo (las 8 «100 %» son los propios
+  botones flotantes con el foco) y 4 parciales (8–10 % de 4 enlaces del pie, al final
+  del documento donde ya no hay scroll: permitido por el criterio mínimo). No mueve
+  nada en pantalla.
+- UX a 320/375 ya verificada por la sonda en cada fase: 0 px de overflow horizontal
+  en 90/90 cargas; resumen de errores del multipaso `aria-live` enfocable (código de
+  `Formulario.astro`, sin cambios). Carruseles: no se ha pasado `carrusel-qa` (va a
+  petición, como pide `~/Sites/CLAUDE.md`); las flechas responden en la sonda de
+  clases y no hay doble scroll táctil detectado por la sonda (overflow 0).
+
+**Lo que no sube y por qué, por elemento** (ver tabla final en `06-CHECKLIST-100.md`):
+ciudad y condado se quedan por debajo de 95 en móvil con el hero (`img.image-4`) como
+LCP: FCP 0,9 s, imagen de 80–100 KB descubierta con el HTML (preload) y cargada en
+~0,9 s simulados, y aun así LCP 3,2–3,5 s porque la estimación pesimista de Lighthouse
+mete en el camino del LCP la descarga diferida de jQuery + webflow.js (99 KB gz a
+1,6 Mbps). Sin ellos llegarían a 92–94 (medido en F7), no a 95. El resto de la
+diferencia es la fuente (48 KB, `preload`) y el propio HTML con el CSS dentro
+(38–63 KB gz).
+
+**Medido** (`08-f8/lighthouse-medianas.csv`, ×3 por combinación; la tabla completa con
+PASS/FAIL por criterio está en `06-CHECKLIST-100.md`):
+
+| | Escritorio | Móvil |
+|---|---|---|
+| Performance | 100 en 13/16; **99** en ciudad, condado y proyecto (3/3 cada una) | ≥ 95 en **15/16**: home 95, home ES 95, productos 96, producto 96, servicios 96, servicio 95, ciudad **95** (era 90), proyecto 95, galería 96, post 97, blog 95/95, FAQ 99, contacto 98, estimador 96; **condado 92** (era 86) |
+| Accessibility | 100 en 16/16, 3/3 | 100 en 16/16, 3/3 |
+| Best Practices | 100 en 15/16; contacto 96 (Turnstile en `localhost`) | ídem |
+| SEO | 100 en 16/16 | 100 en 16/16 |
+| CLS | 0,000 en las 48 corridas | 0,000 en las 48 corridas |
+| TBT | 0 ms | 0–28 ms (máx. producto 28) |
+| LCP (lab) | 0,41–0,92 s | **1,8–3,4 s**: ≤ 2,5 s solo en FAQ (1,80), contacto (2,44) y post (2,51); el resto 2,7–3,0 y condado 3,38 |
+| Peso antes de `load` | — | home 638 KB (≤ 1,2 MB), estimador 452 KB (≤ 0,8 MB), resto 242–869 KB salvo contacto 1.148 KB (Turnstile) |
+
+Lo que no llega y por qué, por elemento: ver el punto 3 de la respuesta final y
+`06-CHECKLIST-100.md`. Sonda final: 90/90 cargas, salto 90/90, 0 paradas sin anillo,
+menú 67/67, dropdown y hover 23/23, 0 sobredimensionadas a 375 y 1440, vídeo 8/8 y
+parado con movimiento reducido, 0 errores; crawl 217/217 sin un enlace roto, sitemap
+213, JSON-LD 214/214, entrantes por ciudad ≥ 8; accesslint 0 serios y 0 moderados en
+las 16 (más 3 rutas ES); diff visual sin fotos 58/60 (las 2 restantes, el nav en estado
+«scroll»); 19 puertas en verde sobre la salida commiteada.

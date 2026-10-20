@@ -178,3 +178,13 @@ select.w-select:focus-visible {
 main:focus {
   outline: none;
 }
+
+/* 2.4.11 Foco no oculto (minimo). Al tabular, el navegador trae el elemento al borde
+   del viewport, y abajo estan los dos botones flotantes (56 px + 20 de margen) y
+   arriba la barra fija (85 px): medido a 320/375 con la sonda, 75 de 640 paradas de
+   tabulacion caian debajo de un boton flotante. Con scroll-padding el navegador deja
+   ese hueco al desplazar hacia el foco (y hacia las anclas). Solo afecta a donde
+   para el scroll; no mueve nada. */
+html {
+  scroll-padding: 100px 0 6rem;
+}
