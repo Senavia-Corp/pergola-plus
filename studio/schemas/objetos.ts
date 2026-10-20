@@ -211,38 +211,75 @@ export const elemento = defineType({
 });
 
 /**
- * Una sección de página. La CLAVE decide qué componente la pinta y con qué diseño: el
- * diseño aprobado vive en el código y el Studio solo cambia lo que va dentro (textos,
- * imágenes, botones y el orden de los elementos). Por eso la clave no se edita.
+ * Una seccion del diseño. Las paginas de coleccion y las estaticas se pintan con una
+ * PLANTILLA que vive en el codigo (src/plantillas/<tipo>.html): el diseño no se toca
+ * desde aqui. Lo que va dentro (textos, imagenes, enlaces, videos) son «huecos» con
+ * clave fija, agrupados por la seccion en la que salen. La clave no se edita: es la que
+ * busca la plantilla.
  */
-export const seccion = defineType({
-  name: 'seccion',
+const claveFija = defineField({ name: 'clave', title: 'Clave', type: 'string', readOnly: true, hidden: true, validation: (r) => r.required() });
+
+/**
+ * Imagen de una plantilla. Su texto alternativo NO va aqui sino en «Textos», con la
+ * misma clave y `.alt` detras: en las ciudades, por ejemplo, la foto puede ser comun a
+ * todas y el texto alternativo propio de cada una.
+ */
+export const imagenPlantilla = defineType({
+  name: 'imagenPlantilla',
+  title: 'Imagen',
+  type: 'image',
+  options: { hotspot: true },
+  fields: [
+    defineField({ name: 'procedencia', title: 'Procedencia', type: 'string', options: { list: PROCEDENCIAS, layout: 'radio' }, validation: (r) => r.required() }),
+    defineField({ name: 'procedenciaNota', title: 'De dónde viene', type: 'string' }),
+    defineField({ name: 'retocadaConIA', title: 'Foto real retocada con IA', type: 'boolean', initialValue: false, hidden: ({ parent }) => parent?.procedencia !== 'real-cliente' }),
+  ],
+});
+
+export const imagenClave = defineType({
+  name: 'imagenClave',
+  title: 'Imagen',
+  type: 'object',
+  fields: [claveFija, defineField({ name: 'imagen', title: 'Imagen', type: 'imagenPlantilla' })],
+  preview: { select: { title: 'clave', media: 'imagen' } },
+});
+
+export const enlaceClave = defineType({
+  name: 'enlaceClave',
+  title: 'Enlace',
+  type: 'object',
+  fields: [
+    claveFija,
+    defineField({ name: 'destino', title: 'Página del sitio', type: 'reference', to: [] as { type: string }[] }),
+    defineField({ name: 'ancla', title: 'Ancla (#…)', type: 'string' }),
+    defineField({ name: 'href', title: 'Enlace externo (si no es una página del sitio)', type: 'string' }),
+  ],
+  preview: { select: { title: 'destino._ref', subtitle: 'href' } },
+});
+
+export const valorClave = defineType({
+  name: 'valorClave',
+  title: 'Vídeo',
+  type: 'object',
+  fields: [claveFija, defineField({ name: 'valor', title: 'Valor', type: 'string', validation: (r) => r.required() })],
+  preview: { select: { title: 'valor' } },
+});
+
+export const bloque = defineType({
+  name: 'bloque',
   title: 'Sección',
   type: 'object',
   fields: [
-    defineField({
-      name: 'clave',
-      title: 'Sección',
-      description: 'Identifica el bloque del diseño. No se cambia.',
-      type: 'string',
-      readOnly: true,
-      validation: (r) => r.required(),
-    }),
-    defineField({ name: 'etiqueta', title: 'Etiqueta (sobre el título)', type: 'textoI18n' }),
-    defineField({ name: 'titulo', title: 'Título', type: 'textoI18n' }),
-    defineField({ name: 'subtitulo', title: 'Subtítulo', type: 'textoLargoI18n' }),
-    defineField({ name: 'cuerpo', title: 'Texto', type: 'bloqueI18n' }),
-    defineField({ name: 'imagen', title: 'Imagen', type: 'imagen' }),
-    defineField({ name: 'elementos', title: 'Elementos', type: 'array', of: [{ type: 'elemento' }] }),
-    defineField({
-      name: 'referencias',
-      title: 'Contenido enlazado (productos, proyectos…)',
-      type: 'array',
-      of: [{ type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }],
-    }),
-    defineField({ name: 'ctas', title: 'Botones', type: 'array', of: [{ type: 'cta' }] }),
+    defineField({ name: 'clave', title: 'Sección', type: 'string', readOnly: true, validation: (r) => r.required() }),
+    defineField({ name: 'textos', title: 'Textos', type: 'array', of: [{ type: 'textoClave' }] }),
+    defineField({ name: 'imagenes', title: 'Imágenes', type: 'array', of: [{ type: 'imagenClave' }] }),
+    defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [{ type: 'enlaceClave' }] }),
+    defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }] }),
   ],
-  preview: { select: { title: 'clave', subtitle: 'titulo.en' } },
+  preview: {
+    select: { clave: 'clave', t: 'textos.0.texto.en' },
+    prepare: ({ clave, t }) => ({ title: t ?? clave, subtitle: clave }),
+  },
 });
 
 /**
@@ -349,4 +386,7 @@ export const tabla = defineType({
 // El enlace del texto con formato apunta a cualquier documento con página.
 (CUERPO[0] as any).marks.annotations[0].fields[0].to = CON_PAGINA.map((type) => ({ type }));
 
-export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, seccion, textoClave, imagenCuerpo, botones, tabla];
+// Los destinos de los enlaces de seccion, igual que los del texto con formato.
+(enlaceClave as any).fields[1].to = CON_PAGINA.map((type) => ({ type }));
+
+export const objetos = [textoI18n, textoLargoI18n, bloqueI18n, imagen, seo, cta, elemento, textoClave, imagenCuerpo, botones, tabla, imagenPlantilla, imagenClave, enlaceClave, valorClave, bloque];

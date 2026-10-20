@@ -39,7 +39,7 @@ const opt = (n) => (args.includes(n) ? args[args.indexOf(n) + 1] : undefined);
 const SALIDA = opt('--salida');
 if (!SALIDA) { console.error('uso: migrar-a-sanity.mjs --salida <fichero.ndjson> [--tipos a,b]'); process.exit(1); }
 
-const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage'];
+const TODOS = ['siteSettings', 'estimador', 'faqTopic', 'faqTheme', 'faq', 'review', 'blogCategory', 'post', 'legalPage', 'county', 'city'];
 const TIPOS = new Set((opt('--tipos') ?? TODOS.join(',')).split(','));
 for (const t of TIPOS) if (!TODOS.includes(t)) throw new Error(`tipo desconocido: ${t}`);
 
@@ -351,6 +351,58 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
     }
   }
   for (const f of pendientes) await fs.access(f).catch(() => { throw new Error(`imagen del cuerpo inexistente: ${f}`); });
+}
+
+// ---------------------------------------------------------------------------
+// Colecciones con plantilla (src/plantillas/<tipo>.html): ciudades y condados
+// ---------------------------------------------------------------------------
+const CON_PLANTILLA = ['county', 'city'].filter((t) => TIPOS.has(t));
+if (CON_PLANTILLA.length) {
+  const { paginasDe, derivarColeccion } = await import('./sanity/plantillas.mjs');
+  const { aBloques } = await import('../src/lib/plantilla-sanity.mjs');
+  const { CIUDADES, CONDADOS } = await import('../src/data/ubicaciones.mjs');
+  const DIST = path.join(RAIZ, 'dist/client');
+  const enlaceDe = (href) => {
+    const [ruta, ancla] = href.split('#');
+    if (ruta.startsWith('/') && !ruta.startsWith('//')) {
+      const p = ruta.replace(/\/+$/, '') || '/';
+      if (existsSync(path.join(DIST, p === '/' ? '' : p, 'index.html'))) return { destino: refRuta(p), ...(ancla ? { ancla } : {}) };
+    }
+    return { href };
+  };
+  const imagenPlantilla = (src) => {
+    const fichero = path.join(RAIZ, 'public', src.replace(/^\//, ''));
+    if (!existsSync(fichero)) throw new Error(`imagen de plantilla inexistente: ${src}`);
+    assets.set(fichero, src);
+    return { _type: 'imagenPlantilla', _sanityAsset: `image@file://${fichero}`, ...procedencia(src) };
+  };
+  const conv = { imagen: imagenPlantilla, enlace: enlaceDe };
+  const slugDeCondado = Object.fromEntries(Object.entries(CONDADOS).map(([slug, nombre]) => [nombre, slug]));
+  for (const tipo of CON_PLANTILLA) {
+    const paginas = await paginasDe(tipo);
+    const d = derivarColeccion(paginas);
+    // La plantilla en el codigo tiene que ser LA MISMA que sale de los fragmentos: si no,
+    // los documentos no casarian con el diseño que los pinta.
+    const enCodigo = await fs.readFile(path.join(RAIZ, `src/plantillas/${tipo}.html`), 'utf8').catch(() => null);
+    if (enCodigo !== d.plantilla) throw new Error(`[${tipo}] src/plantillas/${tipo}.html no coincide con la derivacion: node scripts/sanity/plantillas.mjs ${tipo} --escribir`);
+    docs.push({ _id: `plantilla-${tipo}`, _type: 'plantilla', coleccion: tipo, secciones: aBloques(d.huecos, d.compartidos, 'compartido', conv) });
+    const { CONDADOS_ES } = tipo === 'county' ? await cargarTs('src/i18n/condados.es.ts') : {};
+    const { UBICACIONES_ES } = tipo === 'city' ? await cargarTs('src/i18n/ubicaciones.es.ts') : {};
+    paginas.forEach((p, i) => {
+      const es = tipo === 'city' ? UBICACIONES_ES[p.slug] : CONDADOS_ES[p.slug];
+      const nombreEn = tipo === 'city' ? CIUDADES[p.slug]?.municipio : CONDADOS[p.slug];
+      if (!nombreEn) throw new Error(`[${tipo}] ${p.slug} sin nombre en src/data/ubicaciones.mjs`);
+      docs.push({
+        _id: `${tipo}-${p.slug}`,
+        _type: tipo,
+        nombre: i18n(nombreEn, es?.nombre),
+        slug: { _type: 'slug', current: p.slug },
+        ...(tipo === 'city' ? { condado: ref(`county-${slugDeCondado[CIUDADES[p.slug].condado]}`) } : {}),
+        secciones: aBloques(d.huecos, d.valores[i], 'pagina', conv),
+        seo: { _type: 'seo', titulo: i18n(p.item.title, es?.title), ...(p.item.description ? { descripcion: i18nLargo(p.item.description, es?.description) } : {}), indexable: true },
+      });
+    });
+  }
 }
 
 await cerrarTs();

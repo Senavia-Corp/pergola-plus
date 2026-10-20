@@ -11,7 +11,7 @@ const grupos = [
   { name: 'seo', title: 'SEO' },
 ];
 const nombre = (title = 'Nombre') => defineField({ name: 'nombre', title, type: 'textoI18n', group: 'contenido', validation: (r) => r.required() });
-const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'seccion' }], group: 'contenido' });
+const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'bloque' }], group: 'contenido' });
 const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array', of: [{ type: 'imagen' }], group: 'contenido' });
 const ref = (name: string, title: string, a: string[]) =>
   defineField({ name, title, type: 'array', of: [defineArrayMember({ type: 'reference', to: a.map((type) => ({ type })) })], group: 'contenido' });
@@ -129,13 +129,13 @@ export const navigation = defineType({
             defineField({ name: 'clave', title: 'Grupo', type: 'string', readOnly: true }),
             defineField({ name: 'texto', title: 'Texto', type: 'textoI18n' }),
             defineField({ name: 'destino', title: 'Lleva a', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
-            defineField({ name: 'subgrupos', title: 'Columnas', type: 'array', of: [{ type: 'seccion' }] }),
+            defineField({ name: 'subgrupos', title: 'Columnas', type: 'array', of: [{ type: 'bloque' }] }),
           ],
           preview: { select: { title: 'texto.en', subtitle: 'clave' } },
         }),
       ],
     }),
-    defineField({ name: 'pie', title: 'Pie', type: 'array', of: [{ type: 'seccion' }] }),
+    defineField({ name: 'pie', title: 'Pie', type: 'array', of: [{ type: 'bloque' }] }),
     defineField({ name: 'textos', title: 'Textos comunes (botones, avisos)', type: 'array', of: [{ type: 'textoClave' }] }),
   ],
   preview: { prepare: () => ({ title: 'Menú y pie' }) },
@@ -430,4 +430,16 @@ export const review = defineType({
   preview: { select: { title: 'autor', subtitle: 'texto' } },
 });
 
-export const documentos = [siteSettings, navigation, page, product, service, brand, project, post, blogCategory, county, city, legalPage, faqTopic, faqTheme, faq, review];
+/** Lo que comparten todas las paginas de una coleccion (los textos e imagenes de su plantilla que no cambian de una a otra). */
+export const plantilla = defineType({
+  name: 'plantilla',
+  title: 'Textos comunes de una colección',
+  type: 'document',
+  fields: [
+    defineField({ name: 'coleccion', title: 'Colección', type: 'string', readOnly: true, validation: (r) => r.required() }),
+    defineField({ name: 'secciones', title: 'Secciones', description: 'Cambiar algo aquí lo cambia en TODAS las páginas de la colección.', type: 'array', of: [{ type: 'bloque' }] }),
+  ],
+  preview: { select: { title: 'coleccion' }, prepare: ({ title }) => ({ title: `Textos comunes: ${title}` }) },
+});
+
+export const documentos = [siteSettings, navigation, plantilla, page, product, service, brand, project, post, blogCategory, county, city, legalPage, faqTopic, faqTheme, faq, review];

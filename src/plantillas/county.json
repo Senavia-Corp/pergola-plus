@@ -1,0 +1,616 @@
+{
+ "s0.div-wrapper-hero-product.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-tagline-product.div-tagline-item-product.img-icon-tagline.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s0.div-tagline-item-product.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.div-tagline-product.div-tagline-item-product.img-icon-tagline-2.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s0.div-tagline-item-product.div.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.div-tagline-product.div-tagline-item-product.img-icon-tagline-3.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s0.div-tagline-item-product.div.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.div-wrapper-hero-product.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.div-wrapper-buttons.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.section-hero-product.div-img-bg-hero-product.img-image-4": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.section-hero-product.div-img-bg-hero-product.img-image-4.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s0.section-hero-product.div-img-bg-hero-product.img-image-4",
+  "patron": "\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-800.avif 800w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001.avif 1450w"
+ },
+ "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-intro-column-right.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-intro-column-right.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-intro-column-right.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.ul-list-item-about.li-list-item-about-page.img-icon-intro.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s1.li-list-item-about-page.div-intro-links.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.ul-list-item-about.li-list-item-about-page.img-icon-intro-2.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s1.li-list-item-about-page.div-intro-links.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.ul-list-item-about.li-list-item-about-page.img-icon-intro-3.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s1.li-list-item-about-page.div-intro-links.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.ul-list-item-about.li-list-item-about-page.img-icon-intro-4.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s1.li-list-item-about-page.div-intro-links.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-wrapper-buttons.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-wrapper-buttons.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-content.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-content.h2-heading.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-content.div-text-block-2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-header-item.img-why-choose-icon.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s2.div-header-item.h3-why-choose-item-title.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-why-choose-item-text.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-header-item.img-why-choose-icon-2.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s2.div-header-item.h3-why-choose-item-title.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-why-choose-item-text.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-header-item.img-why-choose-icon-3.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s2.div-header-item.h3-why-choose-item-title.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-why-choose-item-text.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-header-item.img-why-choose-icon-4.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s2.div-header-item.h3-why-choose-item-title.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-item.div-why-choose-item-text.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-actions.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.div-why-choose-actions.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s2.section-why-choose-section.img-why-choose-image.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s2.section-why-choose-section.img-why-choose-image": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-header-gallery.h2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s3.div-header-gallery.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-11": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-11.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-12": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s3.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-12.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s4.div-left-content.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-left-content.h2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-left-content.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-process-action.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-process-action.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-steps-right.div-step-content.img-icon-process.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.h3-step-content-title.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.p-step-content-text.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-steps-right.div-step-content.img-icon-process-2.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.h3-step-content-title.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.p-step-content-text.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-steps-right.div-step-content.img-icon-process-3.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.h3-step-content-title.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.p-step-content-text.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-steps-right.div-step-content.img-icon-process-4.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.h3-step-content-title.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s4.div-step-content-header.p-step-content-text.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-header-projects.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-header-projects.h2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-header-projects.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-2.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-2": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-3.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-3": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-3": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-4.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-4": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-4": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-5.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-5": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-5": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-5": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-5": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-6.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-6": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-6": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-6": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-6": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-7.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-7": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-7": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-7": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-7": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-8.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-8": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-8": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-8": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-8": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-9.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-9": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-9": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-9": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-9": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-10.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-projects.div-header-slider-projects.img-slider-image-projects-10": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.h3.t-10": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-slider-card-content.div.t-10": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s5.div-wrapper-buttons-mini.a-button.t-10": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s6.div-header-reviews.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s6.h2.strong.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s6.div-header-reviews.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s6.div.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s7.div-box-call-to-action.h2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s7.div-box-call-to-action.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s7.div-process-cta.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s7.div-process-cta.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s7.section-call-to-action-footer.img-image-call-to-action.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s7.section-call-to-action-footer.img-image-call-to-action": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ }
+}

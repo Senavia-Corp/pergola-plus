@@ -27,6 +27,7 @@ export const estructura: StructureResolver = (S) =>
       S.documentTypeListItem('county').title('Condados'),
       S.documentTypeListItem('city').title('Ciudades'),
       S.documentTypeListItem('legalPage').title('Textos legales'),
+      S.documentTypeListItem('plantilla').title('Textos comunes de colecciones'),
       S.divider(),
       unico(S, 'estimador', 'Estimador de proyectos'),
     ]);
