@@ -16,6 +16,7 @@
  *    7,9 KB de los 17 KB del fragmento y 210 enlaces internos casi duplicados.
  *    La sustituyen el indice y 3 relacionados de verdad.
  */
+import { canonica } from '../../lib/canonica.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/post/_items.json';
 import Articulo from '../../components/Articulo.astro';
@@ -57,9 +58,9 @@ const relacionados = [
 ].slice(0, 3);
 
 const site = Astro.site!;
-const url = new URL(`/post/${post.slug}`, site).href;
-const urlBlog = new URL('/resources/blog', site).href;
-const urlCategoria = new URL(`/resources/blog/${post.categoria.slug}`, site).href;
+const url = new URL(canonica(`/post/${post.slug}`), site).href;
+const urlBlog = new URL(canonica('/resources/blog'), site).href;
+const urlCategoria = new URL(canonica(`/resources/blog/${post.categoria.slug}`), site).href;
 
 const migas = [
   { nombre: 'Home', url: new URL('/', site).href, href: '/' },

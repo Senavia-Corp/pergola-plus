@@ -14,6 +14,7 @@
  * La ruta sigue en TRADUCIDAS (src/i18n/rutas.mjs) — de ahi salen el hreflang, los
  * alternates del sitemap y la reescritura de enlaces. Eso no se toca.
  */
+import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import FaqBiblioteca from '../../../components/FaqBiblioteca.astro';
 import { WF_PAGE, WF_SITE } from '../../../data/faqs';
@@ -25,7 +26,7 @@ const DESCRIPCION =
   'Todas las preguntas que nos hacen sobre pérgolas, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios y plazos.';
 
 const site = Astro.site!;
-const url = new URL('/es/resources/faq', site).href;
+const url = new URL(canonica('/es/resources/faq'), site).href;
 ---
 
 <BaseLayout

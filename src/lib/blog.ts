@@ -9,6 +9,7 @@
  * Fase 3: este modulo es el unico que cambia. En vez de parsear CSV consulta Sanity
  * y devuelve la misma forma; las plantillas no se enteran.
  */
+import { canonica } from './canonica.mjs';
 import { parseCSV } from '../../scripts/lib/csv.mjs';
 import { img, imgAlt, type EntradaImagen } from './img';
 import csvPosts from '../data/blog-posts.csv?raw';
@@ -302,7 +303,7 @@ export function jsonLdBlog(opciones: {
       '@type': 'BlogPosting',
       headline: p.titulo,
       description: p.resumen,
-      url: new URL(`/post/${p.slug}`, site).href,
+      url: new URL(canonica(`/post/${p.slug}`), site).href,
       image: new URL(p.principal.src, site).href,
       datePublished: p.publicado.toISOString(),
       articleSection: p.categoria.nombre,

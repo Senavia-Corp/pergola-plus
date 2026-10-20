@@ -26,6 +26,7 @@
  *   priceRange       el rango real depende del proyecto y no esta publicado.
  *   offers           las paginas de producto no publican precio.
  */
+import { canonica } from './canonica.mjs';
 
 /** Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. */
 export const NEGOCIO = {
@@ -49,7 +50,9 @@ export const NEGOCIO = {
   condados: ['Miami-Dade County', 'Broward County', 'Palm Beach County'],
 } as const;
 
-const absoluta = (site: string, ruta: string) => new URL(ruta, site).href;
+// Siempre en forma canonica (con barra final): las URL del JSON-LD son las mismas que
+// el canonical de cada pagina, no una variante sin barra (ver src/lib/canonica.mjs).
+const absoluta = (site: string, ruta: string) => new URL(canonica(ruta), site).href;
 
 /** El negocio, con `@id` estable para poder referenciarlo desde otros nodos. */
 export function localBusiness(site: string) {

@@ -12,6 +12,7 @@
  * componente: es lo que hace que los `data-w-id` de las dos coincidan sin
  * mantener nada a mano, que es lo que exige check:i18n.
  */
+import { canonica } from '../../lib/canonica.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqBiblioteca from '../../components/FaqBiblioteca.astro';
 import { WF_PAGE, WF_SITE } from '../../data/faqs';
@@ -23,7 +24,7 @@ const DESCRIPCION =
   'Every question we get asked about pergolas, screens, pavers and outdoor construction in South Florida — permits, wind load, pricing, materials and timelines.';
 
 const site = Astro.site!;
-const url = new URL('/resources/faq', site).href;
+const url = new URL(canonica('/resources/faq'), site).href;
 ---
 
 <BaseLayout

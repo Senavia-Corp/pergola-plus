@@ -320,7 +320,7 @@ import '../styles/formulario.css';
         // El destino lo decide el servidor (`gracias`), que sabe de que idioma venia
         // el formulario. El fallback cubre una respuesta sin cuerpo.
         if (r.ok) {
-          const gracias = j?.gracias || (location.pathname.startsWith('/es/') ? '/es/thank-you' : '/thank-you');
+          const gracias = j?.gracias || (location.pathname.startsWith('/es/') ? '/es/thank-you/' : '/thank-you/');
           window.location.assign(gracias + '?de=' + encodeURIComponent(origen(form)));
           return;
         }

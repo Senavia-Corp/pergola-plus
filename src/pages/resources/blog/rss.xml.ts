@@ -16,6 +16,7 @@
  * a otro programa, y por tanto la unica donde el <meta noindex> no protege nada — un
  * lector de RSS no lee <meta>.
  */
+import { canonica } from '../../../lib/canonica.mjs';
 import type { APIRoute } from 'astro';
 import { posts } from '../../../lib/blog';
 
@@ -32,7 +33,7 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]!);
 export const GET: APIRoute = ({ site }) => {
   if (!site) throw new Error('[rss] falta `site` en astro.config.mjs');
 
-  const abs = (ruta: string) => new URL(ruta, site).href;
+  const abs = (ruta: string) => new URL(canonica(ruta), site).href;
   const enlace = abs('/resources/blog');
 
   // Mas reciente primero. Aqui si manda la fecha: un lector RSS ordena por pubDate.

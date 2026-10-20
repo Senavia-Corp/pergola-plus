@@ -10,6 +10,7 @@
  * saldria con el titular en español y el articulo en ingles, que es peor que no
  * tenerlo.
  */
+import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import items from '../../../contenido-migrado/post/_items.json';
 import Articulo from '../../../components/Articulo.astro';
@@ -78,9 +79,9 @@ const relacionados = [
 
 const t = TEXTOS.es;
 const site = Astro.site!;
-const url = new URL(rutaPost(post.slug, 'es'), site).href;
-const urlBlog = new URL(rutaBlog('es'), site).href;
-const urlCategoria = new URL(rutaCategoria(post.categoria.slug, 'es'), site).href;
+const url = new URL(canonica(rutaPost(post.slug, 'es')), site).href;
+const urlBlog = new URL(canonica(rutaBlog('es')), site).href;
+const urlCategoria = new URL(canonica(rutaCategoria(post.categoria.slug, 'es')), site).href;
 
 const migas = [
   { nombre: t.migaHome, url: new URL('/es/', site).href, href: '/es/' },

@@ -270,13 +270,13 @@ function rechazo(errores: Record<string, string>, conJs: boolean) {
 }
 
 function exito(conJs: boolean, formulario: string, url: URL, enEspanol = false) {
-  if (conJs) return json({ ok: true, gracias: enEspanol ? '/es/thank-you' : '/thank-you' }, 200, true);
+  if (conJs) return json({ ok: true, gracias: enEspanol ? '/es/thank-you/' : '/thank-you/' }, 200, true);
   // 303: fuerza a que el navegador siga el redirect con GET. Con 302 algunos
   // clientes repiten el POST y el lead entra dos veces.
   //
   // Quien envia desde /es/ aterriza en /es/thank-you: la pagina donde se le explica
   // que pasa despues es justo donde peor sienta cambiar de idioma.
-  const destino = new URL(enEspanol ? '/es/thank-you' : '/thank-you', url);
+  const destino = new URL(enEspanol ? '/es/thank-you/' : '/thank-you/', url);
   destino.searchParams.set('de', formulario);
   return new Response(null, { status: 303, headers: { location: destino.pathname + destino.search } });
 }

@@ -5,6 +5,7 @@
  * El cuerpo es EL MISMO componente que el ingles (BlogListado.astro): las 21
  * tarjetas, el destacado, los filtros y el CTA no pueden divergir.
  */
+import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import BlogListado from '../../../components/BlogListado.astro';
 import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../../lib/blog';
@@ -15,7 +16,7 @@ const DESCRIPCION =
   'Lo que hay que saber sobre pérgolas de aluminio, techos de lamas motorizados y sistemas de sombra calculados para las casas del sur de Florida.';
 
 const site = Astro.site!;
-const url = new URL('/es/resources/blog', site).href;
+const url = new URL(canonica('/es/resources/blog'), site).href;
 ---
 
 <BaseLayout

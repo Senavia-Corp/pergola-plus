@@ -5,6 +5,7 @@
  * Mismas reglas que la inglesa: SOLO las categorias con articulos. Las 3 vacias del
  * CMS y el `view-all` no generan ruta.
  */
+import { canonica } from '../../../../lib/canonica.mjs';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import BlogListado from '../../../../components/BlogListado.astro';
 import {
@@ -33,7 +34,7 @@ const copy = COPY_CATEGORIAS_ES[categoria.slug] ?? {
 const entradas = postsDe(categoria.slug).map((p) => traducirPost(p, 'es'));
 
 const site = Astro.site!;
-const url = new URL(`/es/resources/blog/${categoria.slug}`, site).href;
+const url = new URL(canonica(`/es/resources/blog/${categoria.slug}`), site).href;
 ---
 
 <BaseLayout

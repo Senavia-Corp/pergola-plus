@@ -8,6 +8,7 @@ import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudad
 import { unirCss, versionarJs } from './scripts/lib/css.mjs';
 import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'json' };
 import { haciaEspanol } from './src/i18n/rutas.mjs';
+import { canonica } from './src/lib/canonica.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
 
 /**
@@ -160,6 +161,32 @@ function enlazarEnEspanol(html) {
   return { html: restaurado, cambiados, selectoresApartados: apartados.length };
 }
 
+/**
+ * Lleva cada href interno a su forma canonica, CON barra final: la del canonical, el
+ * sitemap y el hreflang. Antes 7.601 enlaces (152 rutas distintas) apuntaban a la
+ * forma sin barra, `/products/cabanas`, y 9.000 a la otra: señal partida para el
+ * buscador y, con la regla de barra de scripts/rutas-vercel.mjs, un salto 308 por clic.
+ *
+ * Se hace aqui, sobre dist/ y al final del barrido, por la misma razon que
+ * enlazarEnEspanol: los href salen del fragmento migrado, del Nav, del Footer y de las
+ * paginas propias, y este es el unico punto por el que pasan todos. Va DESPUES de
+ * enlazarEnEspanol para que tambien queden canonicos los que esa pasada reescribe.
+ *
+ * Solo toca rutas internas (empiezan por una sola «/»). Fuera: /api/ y /_ (endpoint y
+ * rutas internas de Astro) y todo lo que canonica() deja igual (ficheros, anclas).
+ * La puerta es scripts/comprobar-enlaces-canonicos.mjs.
+ */
+function canonizarEnlaces(html) {
+  let cambiados = 0;
+  const salida = html.replace(/href="(\/(?!\/|api\/|_)[^"]*)"/g, (todo, ruta) => {
+    const c = canonica(ruta);
+    if (c === ruta) return todo;
+    cambiados++;
+    return `href="${c}"`;
+  });
+  return { html: salida, cambiados };
+}
+
 function dimensionarHtml() {
   return {
     name: 'pergola-dimensionar-imagenes',
@@ -170,6 +197,7 @@ function dimensionarHtml() {
         let pendientes = 0;
         let enlaces = 0;
         let paginasEs = 0;
+        let canonicos = 0;
         const sinProteger = [];
         // srcset de las fotos del CMS y preload del LCP: ver responsivizarImagenes()
         // y precargarLcp() en scripts/lib/transformar.mjs. Mismo barrido, misma razon.
@@ -218,6 +246,9 @@ function dimensionarHtml() {
               if (r.selectoresApartados !== 1) sinProteger.push(`${rel} (${r.selectoresApartados})`);
             }
 
+            const r5 = canonizarEnlaces(despues);
+            despues = r5.html; canonicos += r5.cambiados;
+
             if (despues !== antes) { await fs.writeFile(p, despues, 'utf8'); tocadas++; }
             pendientes += [...despues.matchAll(/<img\s[^>]*>/g)]
               .filter((m) => !/\bwidth=/.test(m[0]) || !/\bheight=/.test(m[0])).length;
@@ -239,6 +270,7 @@ function dimensionarHtml() {
             + 'ejecuta `node scripts/derivar-cms.mjs` (check:imagenes lo exige)',
           );
         }
+        logger.info(`${canonicos} enlaces internos llevados a su forma canonica (con barra final)`);
         logger.info(
           `${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`
           + ` (selector de idioma respetado en ${paginasEs - sinProteger.length})`,
@@ -534,6 +566,12 @@ export default defineConfig({
     // Y «Sukkha» la del producto: es Sukkah (mismo feedback, misma forma sin barra).
     '/products/sukkha': { status: 301, destination: '/products/sukkah' },
     '/es/products/sukkha': { status: 301, destination: '/es/products/sukkah' },
+    // Destino de tres anuncios de Google Ads que Daniel reenvio el 28-dic-2025 (Gmail
+    // 19b6666913e51a46): «Todos estos ads están apuntados a un website que no
+    // sirve/existe». No hay pagina con ese nombre; el indice de productos es lo mas
+    // cercano (decision de la coordinacion, 20-oct-2026). La variante con barra la cubre
+    // scripts/rutas-vercel.mjs, que acepta las dos formas en todos los 301.
+    '/aluminum-pergolas': { status: 301, destination: '/products/' },
     // Las 37 URLs del sitio que HOY sirve el dominio (otro Webflow, con otras rutas) y
     // que el nuevo no tiene. Ver src/data/redirecciones-dominio.mjs.
     ...Object.fromEntries(Object.entries(REDIRECCIONES_DOMINIO)

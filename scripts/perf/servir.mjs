@@ -41,11 +41,19 @@ const COMPRIMIBLE = /^(text\/|application\/(json|xml|javascript))/;
 // Cabeceras de config.json: solo las rutas `continue: true` con `headers`, que son
 // las que Vercel aplica sin cortar el enrutado.
 let CABECERAS = [];
+// Y los redirects (status + Location) de delante de `handle: filesystem`, en su orden:
+// los 301 de astro.config.mjs y la regla 308 de barra final de rutas-vercel.mjs. Sin
+// esto, en local `/products/cabanas` daba 200 aunque en Vercel redirija.
+let REDIRECTS = [];
 try {
   const cfg = JSON.parse(await fsp.readFile(path.join(RAIZ, '.vercel/output/config.json'), 'utf8'));
   CABECERAS = cfg.routes
     .filter((r) => r.continue && r.headers && r.src)
     .map((r) => ({ rx: new RegExp(r.src), headers: r.headers }));
+  const fin = cfg.routes.findIndex((r) => r.handle === 'filesystem');
+  REDIRECTS = cfg.routes.slice(0, fin === -1 ? undefined : fin)
+    .filter((r) => r.status >= 300 && r.status < 400 && r.headers?.Location)
+    .map((r) => ({ rx: new RegExp(r.src), status: r.status, destino: r.headers.Location }));
 } catch { /* sin config.json se sirve sin cabeceras extra */ }
 
 const existe = (p) => fsp.stat(p).then((s) => s, () => null);
@@ -63,6 +71,15 @@ async function resolver(urlPath) {
 
 const servidor = http.createServer(async (req, res) => {
   const url = req.url ?? '/';
+  const [camino, consulta] = url.split(/\?(.*)/s);
+  for (const d of REDIRECTS) {
+    const m = camino.match(d.rx);
+    if (!m) continue;
+    const destino = d.destino.replace(/\$(\d)/g, (_x, i) => m[Number(i)] ?? '');
+    res.writeHead(d.status, { location: destino + (consulta ? `?${consulta}` : '') });
+    res.end();
+    return;
+  }
   let r = await resolver(url);
   let status = 200;
   if (!r) {
@@ -101,5 +118,5 @@ const servidor = http.createServer(async (req, res) => {
 });
 
 servidor.listen(PUERTO, '127.0.0.1', () => {
-  console.log(`[servir] http://localhost:${PUERTO} -> ${path.relative(RAIZ, DIST)} (${CABECERAS.length} reglas de cabeceras de config.json)`);
+  console.log(`[servir] http://localhost:${PUERTO} -> ${path.relative(RAIZ, DIST)} (${CABECERAS.length} reglas de cabeceras y ${REDIRECTS.length} redirects de config.json)`);
 });

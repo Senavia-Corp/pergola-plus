@@ -10,6 +10,7 @@
  * Convive con src/pages/resources/blog/[categoria].astro igual que products.astro
  * convive con products/[slug].astro.
  */
+import { canonica } from '../../lib/canonica.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogListado from '../../components/BlogListado.astro';
 import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../lib/blog';
@@ -19,7 +20,7 @@ const DESCRIPCION =
   'Expert insights on aluminum pergolas, motorized louvered roofs and outdoor shade systems engineered for South Florida homes.';
 
 const site = Astro.site!;
-const url = new URL('/resources/blog', site).href;
+const url = new URL(canonica('/resources/blog'), site).href;
 ---
 
 <BaseLayout

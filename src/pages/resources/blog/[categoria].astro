@@ -21,6 +21,7 @@
  * `view-all` tampoco genera ruta: es un control de interfaz metido en la coleccion
  * del CMS, no una categoria. Fase 3: borrarlo del CMS.
  */
+import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import BlogListado from '../../../components/BlogListado.astro';
 import {
@@ -49,7 +50,7 @@ const copy = copyDe(categoria);
 const entradas = postsDe(categoria.slug);
 
 const site = Astro.site!;
-const url = new URL(`/resources/blog/${categoria.slug}`, site).href;
+const url = new URL(canonica(`/resources/blog/${categoria.slug}`), site).href;
 ---
 
 <BaseLayout
