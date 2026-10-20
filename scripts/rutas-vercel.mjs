@@ -152,6 +152,22 @@ if (i === -1) {
   );
 }
 
+// La carpeta de imagenes de Apollo se renombro de `brands/appolo` a `brands/apollo`
+// (20-oct-2026; peticion del cliente del 29-sep sobre los nombres de fichero). El
+// preview fue publico hasta el 18-oct, asi que las rutas viejas se sirvieron. Va aqui y
+// no en `redirects` de astro.config.mjs porque Astro solo admite un redirect dinamico
+// hacia una RUTA suya, no hacia ficheros de public/. Junto al 301 de la pagina.
+const RUTA_APOLLO_IMG = {
+  src: '^/cms-img/brands/appolo/(.+)$',
+  headers: { Location: '/cms-img/brands/apollo/$1' },
+  status: 301,
+};
+if (!config.routes.some((r) => r.src === RUTA_APOLLO_IMG.src)) {
+  const iMarca = config.routes.findIndex((r) => r.src === '^/brands/appolo$');
+  if (iMarca === -1) throw new Error('[rutas] no encuentro el 301 de /brands/appolo para colocar el de sus imagenes al lado');
+  config.routes.splice(iMarca + 1, 0, RUTA_APOLLO_IMG);
+}
+
 const yaEsta = config.routes.some((r) => r.src === RUTA_404_ES.src);
 if (!yaEsta) config.routes.splice(i, 0, RUTA_404_ES);
 await fs.writeFile(CONFIG, JSON.stringify(config, null, 2), 'utf8');
