@@ -21,7 +21,12 @@ import '../styles/menu.css';
 import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 import { traductor } from '../i18n/shell';
 
-const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+// La pagina actual se compara en su equivalente INGLES, que es como estan escritos los
+// href de este componente (enlazarEnEspanol los pasa a /es/ despues, sobre dist). Con
+// la ruta servida tal cual, en /es/products/cabanas nada coincidia con
+// '/products/cabanas' y ninguna pagina española marcaba su enlace con w--current ni
+// aria-current, mientras la inglesa si (H-01 de la verificacion del 20-oct-2026).
+const ruta = (rutaEnIdioma(Astro.url.pathname, 'en') ?? Astro.url.pathname).replace(/\/$/, '') || '/';
 const idioma = idiomaDeRuta(Astro.url.pathname);
 const t = traductor(idioma);
 const esActiva = (href: string) => (href === '/' ? ruta === '/' : ruta === href || ruta.startsWith(href + '/'));
