@@ -188,3 +188,14 @@ main:focus {
 html {
   scroll-padding: 100px 0 6rem;
 }
+
+/* H-02 (verificacion del 20-oct-2026). Los enlaces de ancla (barra de etiquetas de las
+   fichas: #specs, #features, #faq…; indices de los posts) se deslizaban con el modulo
+   `scroll` de webflow.js; al retirarlo en F7 pasaron a saltar. Se recupera en CSS, solo
+   para quien no pide movimiento reducido, y para en el mismo sitio gracias al
+   scroll-padding de arriba. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
