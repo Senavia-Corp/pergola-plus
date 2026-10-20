@@ -11,6 +11,7 @@ import { COMUN_ES } from '../../../i18n/comun.es';
 // Ver MINIATURAS_ES en scripts/lib/miniaturas.mjs.
 import { MINIATURAS_ES } from '../../../../scripts/lib/miniaturas.mjs';
 import { grafo, breadcrumbs, areaDeServicio } from '../../../lib/jsonld';
+import { CIUDADES } from '../../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../../lib/faq-ficha';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
 
@@ -59,7 +60,7 @@ const jsonLd = grafo(
     nombre: `Pérgolas en ${traduccion.nombre}`,
     descripcion: traduccion.description,
     ruta,
-    area: traduccion.nombre,
+    area: CIUDADES[item.slug as keyof typeof CIUDADES],
   }),
   breadcrumbs(site, [['Dónde trabajamos', '/es/about-us/where-we-work/'], [traduccion.nombre, ruta]], 'es'),
 );

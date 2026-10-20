@@ -58,6 +58,9 @@ export function localBusiness(site: string) {
     '@id': absoluta(site, '/#negocio'),
     name: NEGOCIO.nombre,
     url: absoluta(site, '/'),
+    // PNG de 512x512 generado desde el unico logotipo del repo (scripts/generar-logo.mjs).
+    // Google pide >= 112 px y rasterizable; un SVG no vale aqui.
+    logo: absoluta(site, '/images/logo-pergola-plus-florida.png'),
     telephone: NEGOCIO.telefono,
     email: NEGOCIO.email,
     address: {
@@ -167,8 +170,20 @@ export function producto(site: string, opciones: {
 
 /** Una pagina de ubicacion: el mismo negocio, con el area concreta que cubre. */
 export function areaDeServicio(site: string, opciones: {
-  nombre: string; descripcion: string; ruta: string; area: string;
+  nombre: string; descripcion: string; ruta: string;
+  /**
+   * El area REAL que cubre la pagina. Antes llegaba el titulo comercial de la pagina
+   * («Miami Pergola Builders») como `Place.name` (SD-R2): ahora la ciudad lleva su
+   * municipio y el condado que la contiene, y la pagina de condado su condado dentro
+   * de Florida. Los datos salen de src/data/ubicaciones.mjs (del CMS, nada inventado).
+   */
+  area: { municipio: string; condado: string } | { condado: string };
 }) {
+  const estado = { '@type': 'State', name: 'Florida' };
+  const condado = { '@type': 'AdministrativeArea', name: opciones.area.condado, containedInPlace: estado };
+  const areaServed = 'municipio' in opciones.area
+    ? { '@type': 'City', name: opciones.area.municipio, containedInPlace: condado }
+    : condado;
   return {
     '@type': 'Service',
     name: opciones.nombre,
@@ -176,7 +191,22 @@ export function areaDeServicio(site: string, opciones: {
     url: absoluta(site, opciones.ruta),
     serviceType: 'Pergola design and installation',
     provider: refNegocio(site),
-    areaServed: { '@type': 'Place', name: opciones.area },
+    areaServed,
+  };
+}
+
+/**
+ * El sitio, para el @graph de la home (EN y ES). Sin SearchAction: no hay buscador de
+ * sitio (el de la FAQ filtra una lista, no busca el sitio).
+ */
+export function sitioWeb(site: string, idioma: 'en' | 'es') {
+  return {
+    '@type': 'WebSite',
+    '@id': absoluta(site, '/#website'),
+    url: absoluta(site, idioma === 'es' ? '/es/' : '/'),
+    name: NEGOCIO.nombre,
+    inLanguage: idioma === 'es' ? 'es-US' : 'en-US',
+    publisher: refNegocio(site),
   };
 }
 

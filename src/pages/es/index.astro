@@ -7,7 +7,7 @@ import { HOME_ES } from '../../i18n/home.es';
 // Los alt de las 10 miniaturas de la banda de blog: son atributos, no nodos de texto,
 // y `traducirHtml` NO reporta los atributos que no encuentra. Ver scripts/lib/miniaturas.mjs.
 import { MINIATURAS_ES } from '../../../scripts/lib/miniaturas.mjs';
-import { grafo, localBusiness } from '../../lib/jsonld';
+import { grafo, localBusiness, sitioWeb } from '../../lib/jsonld';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 
 // Home en español.
@@ -30,7 +30,7 @@ const resenas = partirEnMarca(html, 'es/', MARCA_RESENAS);
 
 // El MISMO nodo de negocio que la home inglesa, con el mismo @id: es el mismo
 // negocio, no dos. Lo que cambia es el idioma de la pagina, no el telefono.
-const jsonLd = grafo(localBusiness(Astro.site!.href));
+const jsonLd = grafo(localBusiness(Astro.site!.href), sitioWeb(Astro.site!.href, 'es'));
 
 // El build avisa de lo que se quedó sin traducir en vez de dejarlo pasar en
 // silencio. No rompe la build: una cadena sin traducir sale en inglés, que es

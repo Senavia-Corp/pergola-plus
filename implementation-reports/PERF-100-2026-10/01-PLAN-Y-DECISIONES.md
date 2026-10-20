@@ -302,3 +302,53 @@ diff visual sin fotos 59/60 bajo el 1 % tras los cambios de velo, pestañas y fe
 Hizo falta medir dos veces en escritorio: la primera tanda sacó 97 en home EN/ES y
 en el índice del blog (3/3, no ruido) y de ahí salieron las dos correcciones de arriba;
 la tercera (fecha del destacado) salió al remedir en móvil, donde el fondo es oscuro.
+
+## F5 · SEO blindado y datos estructurados
+
+**Hecho**
+
+- `inLanguage` del nodo `Blog` por idioma: `jsonLdBlog()` admite `idioma`; las 6
+  páginas de `/es/resources/blog/` publican `es-US` (como ya hacían los posts ES).
+  `src/lib/blog.ts`, `src/pages/es/resources/blog.astro`, `…/[categoria].astro`.
+- `areaServed` real: `areaDeServicio()` recibe `{ municipio, condado }` (ciudad →
+  `City` contenida en `AdministrativeArea` contenida en `State: Florida`) o
+  `{ condado }` (condado → `AdministrativeArea` en Florida). Los datos salen de
+  `src/data/ubicaciones.mjs` (nuevo, 25 ciudades + 3 condados, copiados del CMS:
+  el municipio con el que titula cada página y el condado bajo cuyo `<h2>` cuelga en
+  `/about-us/where-we-work`). Plantillas EN (generador) y ES.
+- Home EN/ES: nodo `WebSite` (`@id #website`, `url`, `name`, `inLanguage`,
+  `publisher`) y `logo` en `HomeAndConstructionBusiness`: PNG de 512×512 generado
+  desde el único logotipo del repo (`scripts/generar-logo.mjs` → logo blanco sobre el
+  color primario, como se ve en el nav). Sin `aggregateRating`, `offers`,
+  `priceRange` ni licencia.
+- Enlazado interno a las 25 ciudades (`enlazarCiudades()` sobre `dist/`, consciente
+  del idioma; los `href` ingleses los reescribe `enlazarEnEspanol()` después):
+  1. en cada ciudad, una línea al final de su sección «About» con las demás ciudades
+     de su condado («Also serving nearby in Palm Beach County: …» / «También
+     trabajamos cerca, en el condado de Palm Beach: …»): 6–8 entrantes por ciudad;
+  2. en las fichas de proyecto, la primera mención del municipio en la descripción
+     del hero pasa a enlace (texto intacto);
+  3. en los posts cuyo slug nombra una ciudad, la primera mención en la prosa.
+  396 enlaces en el build. Es el **único añadido visible** de este trabajo (una línea
+  de texto con enlaces, mismo cuerpo que la sección): 07-PENDIENTE §8.
+
+**Decisiones**
+
+- El enlazado va sobre `dist/` y no en los fragmentos: en `/es/` el texto se traduce
+  por diccionario de nodos de texto y un `<a>` dentro del párrafo rompería la clave
+  de traducción (y `check:i18n`); sobre el HTML ya traducido se enlaza en el idioma
+  que toca.
+- No se enlaza desde el pie ni desde todas las páginas a las 25 ciudades: 25 enlaces
+  de pie en 217 páginas es la forma de enlazar que Google descuenta, y el objetivo
+  (≥ 5 entrantes temáticos por ciudad) se alcanza con las ciudades hermanas.
+- `Blog` sigue siendo un nodo plano (no `@graph`): es lo que ya tenía y valida.
+
+**Medido** (`05-f5/`): crawl de los 217 HTML: canonical autorreferente 217/217,
+hreflang recíproco con `x-default` en los pares, sitemap 213 URL sin `noindex`,
+JSON-LD parsea 214/214, `inLanguage` contradictorio 0 (eran 6), saltos de encabezado
+0 (eran 8), **entrantes por ciudad 8–15, media 10,2** (eran 2 en las 25), enlaces
+rotos 0 tras apuntar a la home la opción activa del selector de idioma del 404
+inglés (apuntaba a `/404/`, que no existe como ruta). Lighthouse ×1 por combinación
+(la ×3 se repite en F8): SEO 100 en 32/32, BP 100 salvo contacto (96, Turnstile en
+localhost), Performance igual que F4. Sonda: 0 regresiones. Diff visual: solo las
+páginas de ciudad a 375/768 (la línea nueva de ciudades hermanas: +68–91 px).

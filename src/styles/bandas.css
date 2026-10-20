@@ -35,3 +35,18 @@
 .service-areas {
   background-image: linear-gradient(#0000008f, #0000008f), url('/images/intracoastal-luxury-homes-palm-beach-broward.avif');
 }
+
+/* Linea «Also serving nearby in <condado>» de las paginas de ciudad (la pone
+   enlazarCiudades() sobre dist/). Mismo cuerpo y color que el texto de la seccion;
+   los enlaces, subrayados como los del cuerpo y con el anillo de accesibilidad.css. */
+.pp-cercanas {
+  margin: 0 0 1.5rem;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.pp-cercanas a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

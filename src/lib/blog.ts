@@ -285,8 +285,10 @@ export function jsonLdBlog(opciones: {
   descripcion: string;
   entradas: Post[];
   site: string;
+  /** BCP 47. Las 6 paginas de /es/resources/blog publicaban en-US bajo lang="es" (SD-R1). */
+  idioma?: string;
 }) {
-  const { url, nombre, descripcion, entradas, site } = opciones;
+  const { url, nombre, descripcion, entradas, site, idioma = 'en-US' } = opciones;
   return {
     '@context': 'https://schema.org',
     '@type': 'Blog',
@@ -294,7 +296,7 @@ export function jsonLdBlog(opciones: {
     url,
     name: nombre,
     description: descripcion,
-    inLanguage: 'en-US',
+    inLanguage: idioma,
     publisher: organizacion(site),
     blogPost: entradas.map((p) => ({
       '@type': 'BlogPosting',

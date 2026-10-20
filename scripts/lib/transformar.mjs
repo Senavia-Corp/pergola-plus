@@ -1393,6 +1393,73 @@ export function precargarLcp(html) {
   return { html: html.replace(ancla, link + ancla), puesto: true };
 }
 
+/**
+ * Enlazado interno a las 25 paginas de ciudad (OP-R1). Medido en el baseline: 2
+ * entrantes por ciudad (where-we-work y su condado), las peor enlazadas del sitio.
+ * Tres fuentes, todas sobre dist/ y conscientes del idioma por la ruta:
+ *
+ *   1. Ciudades del mismo condado. En cada pagina de ciudad, una linea al final de
+ *      la seccion «About» (.intro-location, antes de los botones): «Also serving
+ *      nearby in Palm Beach County: Boca Raton, Boynton Beach, …». Es el unico
+ *      anadido visible de este trabajo; esta documentado en 07-PENDIENTE §8 con
+ *      captura. Da 6–8 entrantes a cada ciudad desde paginas del mismo tema.
+ *   2. Fichas de proyecto: la primera mencion del municipio en la descripcion del
+ *      hero (.hero_btn-row) se convierte en enlace. Texto intacto.
+ *   3. Posts cuyo slug nombra una ciudad: la primera mencion en la prosa (.pp-prosa).
+ *
+ * Los href se escriben en ingles; en /es/ los reescribe enlazarEnEspanol() despues
+ * (astro.config.mjs), que es quien sabe que traducciones existen.
+ */
+import { CIUDADES } from '../../src/data/ubicaciones.mjs';
+const CIUDADES_POR_NOMBRE = Object.entries(CIUDADES)
+  .map(([slug, c]) => ({ slug, ...c }))
+  .sort((a, b) => b.municipio.length - a.municipio.length); // «West Palm Beach» antes que «Palm Beach»
+
+export function enlazarCiudades(html, ruta) {
+  const es = ruta.startsWith('/es/');
+  const base = ruta.replace(/^\/es\//, '/');
+  let puestos = 0;
+  const enlace = (c, texto = c.municipio) => `<a href="/pergolas-contractors/${c.slug}">${texto}</a>`;
+
+  const m = base.match(/^\/pergolas-contractors\/([^/]+)\/$/);
+  if (m && CIUDADES[m[1]]) {
+    const propia = CIUDADES[m[1]];
+    const vecinas = CIUDADES_POR_NOMBRE.filter((c) => c.condado === propia.condado && c.slug !== m[1])
+      .sort((a, b) => a.municipio.localeCompare(b.municipio));
+    const condadoEs = propia.condado.replace(' County', '');
+    const rotulo = es ? `También trabajamos cerca, en el condado de ${condadoEs}:` : `Also serving nearby in ${propia.condado}:`;
+    const linea = `<p class="pp-cercanas">${rotulo} ${vecinas.map((c) => enlace(c)).join(', ')}.</p>`;
+    const ancla = /<section class="intro-location">[\s\S]*?(<div class="wrapper-buttons">)/;
+    if (ancla.test(html)) { html = html.replace(ancla, (t, botones) => t.replace(botones, linea + botones)); puestos += vecinas.length; }
+  }
+
+  const primeraMencion = (bloque) => {
+    for (const c of CIUDADES_POR_NOMBRE) {
+      const re = new RegExp(`(^|[^\\w>-])(${c.municipio.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?=[^\\w<-])`);
+      if (re.test(bloque)) { puestos++; return bloque.replace(re, (t, a, nombre) => a + enlace(c, nombre)); }
+    }
+    return bloque;
+  };
+  if (/^\/project\//.test(base)) {
+    html = html.replace(/(<div class="hero_btn-row"><div>)([^<]+)(<\/div>)/, (t, a, texto, z) => a + primeraMencion(texto) + z);
+  }
+  if (/^\/post\//.test(base)) {
+    const propias = CIUDADES_POR_NOMBRE.filter((c) => base.includes(c.municipio.toLowerCase().replace(/ /g, '-')));
+    if (propias.length) {
+      html = html.replace(/(<div class="pp-prosa">)([\s\S]*?)(<\/div>)/, (t, a, prosa, z) => {
+        for (const c of propias) {
+          // Dentro de un nodo de texto (tras un `>`), aunque sea el primer caracter:
+          // «<strong>Boca Raton</strong>» es el caso real del primer parrafo.
+          const re = new RegExp(`(>[^<]*?)(?<![\\w-])(${c.municipio})(?![\\w-])`);
+          if (re.test(prosa)) { prosa = prosa.replace(re, (tt, pre, nombre) => pre + enlace(c, nombre)); puestos++; }
+        }
+        return a + prosa + z;
+      });
+    }
+  }
+  return { html, puestos };
+}
+
 export function reescribirImagenes(html, mapa, locales) {
   const sinResolver = new Set();
 

@@ -260,6 +260,12 @@ convence, cada uno es una línea de CSS y se revierte solo:
 | Contador de los chips del blog y la FAQ («21», «249») | `opacity: .75` sobre --primary (3,92:1 compuesto) | `#52686f` sólido (5,2:1) | texto de 11 px | `src/styles/blog.css` |
 | Fecha y lectura del artículo destacado del blog (escritorio) | `#cfd8da` sobre blanco (1,44:1: casi invisible) | `#52686f` (5,9:1) | la regla daba por hecho un fondo oscuro que no existe | `src/styles/blog.css` |
 
+Y uno de F5, que no es de contraste sino de enlazado interno (OP-R1 de la auditoría):
+
+| Dónde | Qué | Por qué | Fichero |
+|---|---|---|---|
+| Las 25 páginas de ciudad (EN/ES), al final de la sección «About», antes de los botones | una línea «Also serving nearby in Palm Beach County: Boca Raton, Boynton Beach, …» con enlaces a las ciudades del mismo condado (ES: «También trabajamos cerca, en el condado de…») | las ciudades tenían 2 entrantes cada una (las peor enlazadas del sitio); ahora 8–15. Mismo cuerpo de texto que la sección; +68–91 px de alto en móvil. Capturas: `04-f4/capturas/pergolas-contractors_miami-pergola-experts-375.png` (antes) y `05-f5/…` (después) | `scripts/lib/transformar.mjs` (`enlazarCiudades`), `src/styles/bandas.css` (`.pp-cercanas`) |
+
 Lo que NO se ha tocado y queda a decisión de diseño: subir los objetivos táctiles del
 pie (`a.link-footer`, 17 px de alto con 26 px entre centros) por encima de 24 px.
 

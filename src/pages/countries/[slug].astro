@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/countries/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
+import { CIUDADES, CONDADOS } from '../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 
@@ -47,7 +48,7 @@ const migas = breadcrumbs(site, [
   ["Where We Work","/about-us/where-we-work/"],
   [nombre, ruta],
 ] as [string, string][]);
-const jsonLd = grafo(areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre }), migas);
+const jsonLd = grafo(areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: { condado: CONDADOS[item.slug as keyof typeof CONDADOS] } }), migas);
 ---
 
 <BaseLayout

@@ -4,7 +4,7 @@ import path from 'node:path';
 import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
-import { dimensionarImagenes, responsivizarImagenes, precargarLcp } from './scripts/lib/transformar.mjs';
+import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades } from './scripts/lib/transformar.mjs';
 import { unirCss } from './scripts/lib/css.mjs';
 import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'json' };
 import { haciaEspanol } from './src/i18n/rutas.mjs';
@@ -193,6 +193,9 @@ function dimensionarHtml() {
             despues = r1.html; resp.con += r1.con; resp.sinSizes += r1.sinSizes; resp.incompletas += r1.incompletas;
             const r2 = precargarLcp(despues);
             despues = r2.html; if (r2.puesto) resp.precargas++;
+            const rel0 = path.relative(raiz, p).replace(/index\.html$/, '');
+            const r4 = enlazarCiudades(despues, '/' + rel0);
+            despues = r4.html; resp.ciudades = (resp.ciudades ?? 0) + r4.puestos;
             if (MODO_CSS !== 'no') {
               const r3 = unirCss(despues, { raiz, safelist: CLASES_RUNTIME, modo: MODO_CSS, ctx: ctxCss });
               despues = r3.html; if (r3.bytes) { css.paginas++; css.hojas += r3.hojas; css.bytes += r3.bytes; }
@@ -224,7 +227,7 @@ function dimensionarHtml() {
         logger.info(`width/height inyectados en ${tocadas} paginas`);
         logger.info(
           `srcset en ${resp.con} <img> del CMS (${resp.sinSizes} sin sizes conocido, `
-          + `${resp.incompletas} con derivados incompletos) · preload del LCP en ${resp.precargas} paginas`,
+          + `${resp.incompletas} con derivados incompletos) · preload del LCP en ${resp.precargas} paginas · ${resp.ciudades ?? 0} enlaces a ciudades`,
         );
         if (css.paginas) {
           logger.info(`CSS unido (${MODO_CSS}) en ${css.paginas} paginas: ${css.hojas} <link> -> 1, ${Math.round(css.bytes / css.paginas / 1024)} KB de media sin comprimir (${ctxCss.escritas?.size ?? 0} hojas distintas)`);

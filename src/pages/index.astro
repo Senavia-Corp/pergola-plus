@@ -3,10 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import html from '../contenido-migrado/estaticas/index.html?raw';
 import ReseñasGoogle from '../components/ReseñasGoogle.astro';
 import { partirEnMarca, MARCA_RESENAS } from '../lib/faq-ficha';
-import { grafo, localBusiness, breadcrumbs } from '../lib/jsonld';
+import { grafo, localBusiness, sitioWeb, breadcrumbs } from '../lib/jsonld';
 
 const site = Astro.site!.href;
-const jsonLd = grafo(localBusiness(site));
+const jsonLd = grafo(localBusiness(site), sitioWeb(site, 'en'));
 
 const resenas = partirEnMarca(html, "/", MARCA_RESENAS);
 

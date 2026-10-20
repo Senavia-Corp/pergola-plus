@@ -228,10 +228,11 @@ for (const ruta of RUTAS) {
   // JSON-LD de esta ruta, si le toca.
   const ld = LD_ESTATICAS[ruta];
   const nodos = [];
-  if (ld?.negocio) nodos.push('localBusiness(site)');
+  // La home lleva ademas el nodo WebSite (F5): url, name, inLanguage y publisher.
+  if (ld?.negocio) nodos.push('localBusiness(site)', "sitioWeb(site, 'en')");
   if (ld?.miga) nodos.push(`breadcrumbs(site, [${JSON.stringify(ld.miga)}])`);
   const importaLd = nodos.length
-    ? `import { grafo, localBusiness, breadcrumbs } from '${rel}lib/jsonld';\n`
+    ? `import { grafo, localBusiness, ${ld?.negocio ? 'sitioWeb, ' : ''}breadcrumbs } from '${rel}lib/jsonld';\n`
     : '';
 
   const props = [
