@@ -352,3 +352,52 @@ inglés (apuntaba a `/404/`, que no existe como ruta). Lighthouse ×1 por combin
 (la ×3 se repite en F8): SEO 100 en 32/32, BP 100 salvo contacto (96, Turnstile en
 localhost), Performance igual que F4. Sonda: 0 regresiones. Diff visual: solo las
 páginas de ciudad a 375/768 (la línea nueva de ciudades hermanas: +68–91 px).
+
+## F6 · Best Practices, cabeceras y caché
+
+**Hecho** (`scripts/rutas-vercel.mjs`, que ya edita y valida `.vercel/output/config.json`;
+`scripts/lib/css.mjs` → `versionarJs`; `scripts/perf/servir.mjs` aplica las mismas
+rutas en local, así que lo medido es lo servido):
+
+- Rutas `headers` con `continue: true` justo detrás de la de `/_astro/` del adaptador
+  (antes de `handle: filesystem`, para que alcancen a los estáticos):
+  - `cache-control: public, max-age=31536000, immutable` para `/fonts/*`, `/videos/*`,
+    `/images/**`, `/cms-img/**`, `/css/*`, `/js/*`. Los `/js/*.js` se copian con hash
+    en el nombre (`webflow.<hash10>.js`, `jquery-3.5.1.min.<hash10>.js`) y el HTML
+    apunta a esos; el `integrity` de jQuery sigue valiendo (mismo contenido). `/css/*`
+    ya no lo pide ningún HTML desde F2.
+  - `x-content-type-options: nosniff`, `referrer-policy: strict-origin-when-cross-origin`,
+    `x-frame-options: DENY`, `permissions-policy: camera=(), microphone=(),
+    geolocation=(), payment=(), usb=()` en todo.
+  - **CSP generada del build** en los documentos (no en estáticos ni `/api/`):
+    `default-src 'self'`; `script-src 'self'` + los 16 hashes sha256 de los `<script>`
+    inline ejecutables de los 217 HTML (los `ld+json` y `text/x-wf-template` no se
+    ejecutan y no cuentan) + Turnstile y OnceHub; `style-src 'self' 'unsafe-inline'`
+    (el markup de Webflow lleva `style=""` en miles de nodos y webflow.js escribe
+    estilos en línea; los hashes de estilo no cubren atributos); `img-src 'self' data:
+    https:`; `font-src 'self' data:` (el icon-font de Webflow va en `data:`); `media-src
+    'self'`; `connect-src` propio + Turnstile + OnceHub; `frame-src` Turnstile, OnceHub,
+    embedly (envuelve los 21 YouTube del CMS) y YouTube; `frame-ancestors 'none'`;
+    `base-uri 'self'`; `form-action 'self'`; `object-src 'none'`;
+    `upgrade-insecure-requests`.
+- El 404 español y los 45 redirects siguen en su sitio (posición 53 de 55 y 45
+  rutas 301; lo comprueba el propio script).
+
+**Decisiones**
+
+- Se empezó en `Content-Security-Policy-Report-Only` y se midió con la sonda (22 rutas
+  × 4 anchos) y con `scripts/perf/csp-flujos.mjs` (menú, dropdowns con hover,
+  estimador completo, buscador de la FAQ, multipaso con envío vacío y Turnstile,
+  lightbox, ficha con YouTube, OnceHub). Salieron dos cosas de la política: el frame
+  de embedly (añadido) y el aviso de que `upgrade-insecure-requests` no aplica en
+  Report-Only. El resto son de las CSP de otros: el iframe de Turnstile se queja de su
+  propio `connect-src` (`data:,`) y el de YouTube de `picture-in-picture`/`web-share`
+  (también sin nuestra cabecera, comprobado). Con eso se pasó a **bloqueante**, y se
+  volvió a medir: 0 mensajes de la política propia.
+- No se usa `security.csp` de Astro: emite una `<meta>` (sin Report-Only posible), no
+  hashea los `<script is:inline>` del markup migrado y el adaptador solo copia esa
+  misma política a cabecera por página. Generarla del `dist/` en el paso que ya
+  escribe `config.json` cubre los 48 scripts inline distintos del sitio con 16
+  hashes y se regenera sola en cada build (en F7, si cambian los scripts, cambia).
+- `X-Frame-Options: DENY` y `frame-ancestors 'none'`: nadie enmarca el sitio; los
+  iframes de terceros van DENTRO del sitio (`frame-src`), que es otra cosa.

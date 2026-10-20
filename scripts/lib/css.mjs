@@ -201,3 +201,30 @@ export function unirCss(html, { raiz, safelist, modo = 'enlace', ctx }) {
   for (const l of links.slice(1)) salida = salida.replace(l, '');
   return { html: salida, hojas: links.length, bytes: css.length };
 }
+
+// ---------------------------------------------------------------------------
+// /js/*.js con hash en el nombre (F6): para servirlos `immutable` sin riesgo
+// ---------------------------------------------------------------------------
+/**
+ * jquery-3.5.1.min.js y webflow.js se sirven desde /js/ sin hash: con cache-control
+ * immutable, un cambio de contenido con el mismo nombre se quedaria un año en la
+ * cache de quien ya lo tuviera. Se copia cada uno a /js/<nombre>.<hash10>.js y se
+ * reescribe el src en el HTML; el `integrity` sigue valiendo (mismo contenido). El
+ * fichero sin hash se sigue sirviendo por si alguien lo tiene enlazado.
+ */
+export function versionarJs(html, { raiz, ctx }) {
+  ctx.js ??= new Map();
+  return html.replace(/(<script\b[^>]*\ssrc=")(\/js\/[^"]+?)(\.js")/g, (t, a, base, z) => {
+    const rel = base + '.js';
+    if (!ctx.js.has(rel)) {
+      const abs = pathMod.join(raiz, rel);
+      if (!fsSync.existsSync(abs)) { ctx.js.set(rel, null); return t; }
+      const hash = createHash('sha256').update(fsSync.readFileSync(abs)).digest('base64url').slice(0, 10);
+      const nuevo = `${base}.${hash}.js`;
+      fsSync.copyFileSync(abs, pathMod.join(raiz, nuevo));
+      ctx.js.set(rel, nuevo);
+    }
+    const nuevo = ctx.js.get(rel);
+    return nuevo ? `${a}${nuevo}"` : t;
+  });
+}

@@ -5,7 +5,7 @@ import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
 import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades } from './scripts/lib/transformar.mjs';
-import { unirCss } from './scripts/lib/css.mjs';
+import { unirCss, versionarJs } from './scripts/lib/css.mjs';
 import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'json' };
 import { haciaEspanol } from './src/i18n/rutas.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
@@ -196,6 +196,7 @@ function dimensionarHtml() {
             const rel0 = path.relative(raiz, p).replace(/index\.html$/, '');
             const r4 = enlazarCiudades(despues, '/' + rel0);
             despues = r4.html; resp.ciudades = (resp.ciudades ?? 0) + r4.puestos;
+            despues = versionarJs(despues, { raiz, ctx: ctxCss });
             if (MODO_CSS !== 'no') {
               const r3 = unirCss(despues, { raiz, safelist: CLASES_RUNTIME, modo: MODO_CSS, ctx: ctxCss });
               despues = r3.html; if (r3.bytes) { css.paginas++; css.hojas += r3.hojas; css.bytes += r3.bytes; }
