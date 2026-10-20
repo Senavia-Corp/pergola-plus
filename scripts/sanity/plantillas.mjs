@@ -198,7 +198,7 @@ export function derivar(paginas, prefijo = '', { sinReferencias = false, todoCon
       }
       const clave = nuevaClave(`s${seccion}.${ctx()}.t`);
       const porPagina = tk.map((x) => ({ en: decodificar(x.en[i].raw.trim()), ...(x.es ? { es: decodificar(x.es[i].raw.trim()) } : {}) }));
-      hueco(clave, 'texto', porPagina);
+      hueco(clave, 'texto', porPagina, tk.some((x) => x.en[i].raw.includes('"') || x.es?.[i].raw.includes('"')) ? { comillas: 'literal' } : {});
       plantilla.push(t.raw.replace(limpio, `${MARCA}${clave}${MARCA}`));
       continue;
     }

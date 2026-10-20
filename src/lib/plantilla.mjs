@@ -27,7 +27,9 @@
  * ingles y en español.
  */
 export const MARCA = '\u0001';
-const ESC = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// Como el export de Webflow: el apostrofo siempre `&#x27;`, la comilla `&quot;` (en el
+// texto, salvo donde el original la lleva literal: hueco con `comillas: 'literal'`).
+const ESC = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#x27;');
 const ESC_ATTR = (s) => ESC(s).replace(/"/g, '&quot;');
 const proveedorDe = (src) => (src ?? '').replace(/&amp;/g, '&').match(/[?&]display_name=([^&]+)/)?.[1];
 
@@ -104,6 +106,6 @@ export function rellenar(plantilla, huecos, valor) {
     }
     const v = valor(clave);
     if (v == null) throw new Error(`[plantilla] sin valor para ${clave}`);
-    return h.tipo === 'texto' ? ESC(v) : ESC_ATTR(v);
+    return h.tipo === 'texto' && h.comillas === 'literal' ? ESC(v) : ESC_ATTR(v);
   });
 }

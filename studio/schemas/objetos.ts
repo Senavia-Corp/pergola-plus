@@ -86,12 +86,19 @@ export const PROCEDENCIAS = [
 ];
 
 /** Toda imagen del sitio. Procedencia obligatoria (registro de la Fase 6). */
+/**
+ * Ruta del fichero del sitio del que salio la imagen al migrar. La usa el build para
+ * pintar la misma ruta (y su srcset) mientras la foto no cambie. No se edita.
+ */
+const origen = defineField({ name: 'origen', title: 'Fichero de origen', type: 'string', readOnly: true, hidden: true });
+
 export const imagen = defineType({
   name: 'imagen',
   title: 'Imagen',
   type: 'image',
   options: { hotspot: true },
   fields: [
+    origen,
     defineField({
       name: 'decorativa',
       title: 'Decorativa (sin texto alternativo)',
@@ -230,6 +237,7 @@ export const imagenPlantilla = defineType({
   type: 'image',
   options: { hotspot: true },
   fields: [
+    origen,
     defineField({ name: 'procedencia', title: 'Procedencia', type: 'string', options: { list: PROCEDENCIAS, layout: 'radio' }, validation: (r) => r.required() }),
     defineField({ name: 'procedenciaNota', title: 'De dónde viene', type: 'string' }),
     defineField({ name: 'retocadaConIA', title: 'Foto real retocada con IA', type: 'boolean', initialValue: false, hidden: ({ parent }) => parent?.procedencia !== 'real-cliente' }),
@@ -356,6 +364,7 @@ export const imagenCuerpo = defineType({
   type: 'image',
   options: { hotspot: true },
   fields: [
+    origen,
     defineField({ name: 'alt', title: 'Texto alternativo', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'procedencia', title: 'Procedencia', type: 'string', options: { list: PROCEDENCIAS, layout: 'radio' }, validation: (r) => r.required() }),
     defineField({ name: 'procedenciaNota', title: 'De dónde viene', type: 'string' }),

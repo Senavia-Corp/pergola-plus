@@ -5,6 +5,7 @@ import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../li
 import { CIUDADES, CONDADOS } from '../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
+import { FUENTE, sanity, fragmentoColeccion, itemDe } from '../../lib/sanity/fuente.mjs';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -17,11 +18,14 @@ const fragmentos = import.meta.glob('../../contenido-migrado/pergolas-contractor
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('city').map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }
   return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const html = fragmentos['../../contenido-migrado/pergolas-contractors/' + item.slug + '.html'];
+const { item, doc } = Astro.props;
+const html = doc ? fragmentoColeccion(doc, 'en') : fragmentos['../../contenido-migrado/pergolas-contractors/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para pergolas-contractors/' + item.slug);
 
 // La marca la escribe el paso 6b de scripts/lib/transformar.mjs, que es un .mjs y

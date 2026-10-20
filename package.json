@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/rutas-vercel.mjs",
+    "build": "node scripts/sanity/instantanea.mjs && astro build && node scripts/rutas-vercel.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "npm run build && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:cta && npm run check:estimador && npm run check:paridad && npm run check:generadores && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:resenas && npm run check:iconos && npm run check:ritmo && npm run check:correo && npm run check:canonicos && npm run check:pagina-actual",

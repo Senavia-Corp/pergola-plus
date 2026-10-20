@@ -79,6 +79,13 @@ function procedencia(ruta) {
 }
 
 const assets = new Map();
+/**
+ * Ruta de public/ de la que sale la imagen. Sanity deduplica los assets por sha1 y hay
+ * ficheros identicos en dos rutas (4 hoy) con distinto juego srcset: el build usa esta
+ * ruta mientras el asset sea el de ese fichero (el sha1 va en su id) y descarga el
+ * nuevo si el editor cambia la foto.
+ */
+const origenDe = (fichero) => '/' + path.relative(path.join(RAIZ, 'public'), fichero);
 /** Campo `imagen` desde una ruta de public/. Lanza si el fichero no existe. */
 async function imagen(ruta, alt) {
   const fichero = path.join(RAIZ, 'public', ruta.replace(/^\//, '').split('?')[0]);
@@ -87,6 +94,7 @@ async function imagen(ruta, alt) {
   return {
     _type: 'imagen',
     _sanityAsset: `image@file://${fichero}`,
+    origen: origenDe(fichero),
     ...(alt ? { decorativa: false, alt: i18n(alt.en, alt.es) } : { decorativa: true }),
     ...procedencia(ruta),
   };
@@ -289,7 +297,7 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
       const fichero = path.join(RAIZ, 'public', src.replace(/^\//, ''));
       pendientes.push(fichero);
       assets.set(fichero, src);
-      return { _type: 'imagenCuerpo', _sanityAsset: `image@file://${fichero}`, alt, ...procedencia(src) };
+      return { _type: 'imagenCuerpo', _sanityAsset: `image@file://${fichero}`, origen: origenDe(fichero), alt, ...procedencia(src) };
     },
   });
   const bloqueI18n = (en, es) => ({ _type: 'bloqueI18n', en: aPortable(en), ...(es ? { es: aPortable(es) } : {}) });
@@ -382,7 +390,7 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
     const fichero = path.join(RAIZ, 'public', src.replace(/^\//, ''));
     if (!existsSync(fichero)) throw new Error(`imagen de plantilla inexistente: ${src}`);
     assets.set(fichero, src);
-    return { _type: 'imagenPlantilla', _sanityAsset: `image@file://${fichero}`, ...procedencia(src) };
+    return { _type: 'imagenPlantilla', _sanityAsset: `image@file://${fichero}`, origen: origenDe(fichero), ...procedencia(src) };
   };
   const conv = { imagen: imagenPlantilla, enlace: enlaceDe, referencia: (col, slug) => ref(`${col}-${slug}`) };
   const igualAlCodigo = async (fichero, generado) => {
