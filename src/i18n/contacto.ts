@@ -106,13 +106,16 @@ export const CONDADOS = [
   },
 ] as const;
 
-/** El unico telefono del sitio: el mismo que el nav, el footer y el mensaje de
- *  error de Formulario.astro. El markup migrado traia +19549137112 —un numero que
- *  no aparece en ningun otro sitio— y ademas lo colgaba tambien del correo, de la
- *  direccion y del horario. */
-export const TEL = { href: 'tel:+15617108363', visible: '(561) 710-8363' };
+/** Telefono y direccion de ESTA pagina, no del sitio. El cliente lo pidio asi en la
+ *  aprobacion del 12-oct-2026 (Gmail 1a1326d5b4f338d3): «En la página de contacto,
+ *  nuestra dirección le falta "Suite 110". Y el teléfono que queremos listed en la
+ *  página es: (561) 292-5054». El nav, el footer, los mensajes de error de
+ *  Formulario.astro y el JSON-LD siguen con (561) 710-8363 hasta que el cliente diga
+ *  otra cosa. (El markup migrado traia +19549137112, que no aparece en ningun otro
+ *  sitio, y lo colgaba tambien del correo, de la direccion y del horario.) */
+export const TEL = { href: 'tel:+15612925054', visible: '(561) 292-5054' };
 export const CORREO = 'info@pergolaplusflorida.com';
-export const DIRECCION = '980 N Federal Hwy, Boca Raton, FL 33432';
+export const DIRECCION = '980 N Federal Hwy, Suite 110, Boca Raton, FL 33432';
 export const MAPA =
   'https://www.google.com/maps/search/?api=1&query=980+N+Federal+Hwy%2C+Boca+Raton%2C+FL+33432';
 
