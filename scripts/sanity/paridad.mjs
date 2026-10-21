@@ -16,7 +16,7 @@ import { cargarTs, cerrarTs } from './cargar-ts.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 process.chdir(RAIZ);
-delete process.env.PP_FUENTE; // los modulos del repo, con su fuente de siempre
+process.env.PP_FUENTE = 'repo'; // los modulos del repo, con sus literales migrados
 const filtro = process.argv[2]?.split(',');
 
 const F = await cargarTs('src/lib/sanity/fuente.mjs');

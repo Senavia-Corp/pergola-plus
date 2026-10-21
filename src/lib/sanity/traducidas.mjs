@@ -5,18 +5,19 @@
  * pagina o una ciudad creada en el Studio entra en el hreflang, el sitemap, los enlaces
  * de /es/ y enlazarCiudades() sin tocar codigo.
  *
- * Solo con PP_FUENTE=sanity; la instantanea la deja scripts/sanity/instantanea.mjs antes
+ * Solo con la fuente sanity (la de por defecto); la instantanea la deja scripts/sanity/instantanea.mjs antes
  * del build. Sin ella (p. ej. la funcion /api/lead en Vercel) devuelve null y valen los
  * literales del repo.
  */
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
+import { FUENTE } from './fuente-elegida.mjs';
 
 let DOCS;
 export function docsSanity() {
   if (DOCS !== undefined) return DOCS;
   const f = path.resolve(process.cwd(), '.cache/sanity/contenido.json');
-  DOCS = process.env.PP_FUENTE === 'sanity' && existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')).docs : null;
+  DOCS = FUENTE === 'sanity' && existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')).docs : null;
   return DOCS;
 }
 

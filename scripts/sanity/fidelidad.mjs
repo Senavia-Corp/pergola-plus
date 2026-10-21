@@ -23,7 +23,7 @@ import { estaticasDe, paginasDe, COLECCIONES } from './plantillas.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 process.chdir(RAIZ);
-delete process.env.PP_FUENTE; // los modulos del repo, con su fuente de siempre (el lado «repo»)
+process.env.PP_FUENTE = 'repo'; // los modulos del repo, con sus literales migrados (el lado «repo»)
 const { ultimaMigracion } = JSON.parse(await fs.readFile('src/data/sanity-migracion.json', 'utf8'));
 const F = await cargarTs('src/lib/sanity/fuente.mjs');
 const c = F.sanity();

@@ -1,5 +1,5 @@
 /**
- * Lo que las puertas esperan contar en dist/: con PP_FUENTE=sanity sale de la instantanea
+ * Lo que las puertas esperan contar en dist/: con la fuente sanity (la de por defecto) sale de la instantanea
  * del dataset (.cache/sanity/contenido.json), asi que un documento creado en el Studio no
  * hace fallar una puerta por haber uno mas; con el repo, son las cifras migradas.
  *
@@ -7,10 +7,11 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
+import { FUENTE } from '../../src/lib/sanity/fuente-elegida.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 const f = path.join(RAIZ, '.cache/sanity/contenido.json');
-const docs = process.env.PP_FUENTE === 'sanity' && existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')).docs : null;
+const docs = FUENTE === 'sanity' && existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')).docs : null;
 export const FUENTE_ESPERADO = docs ? 'sanity' : 'repo';
 const de = (t) => docs.filter((d) => d._type === t);
 

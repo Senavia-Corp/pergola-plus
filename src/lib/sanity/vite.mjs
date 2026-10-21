@@ -12,10 +12,11 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { contactoSitio } from './contacto-sitio.mjs';
+import { FUENTE } from './fuente-elegida.mjs';
 
 export function ajustesSanity(raiz = process.cwd()) {
   let doc = null;
-  if (process.env.PP_FUENTE === 'sanity') {
+  if (FUENTE === 'sanity') {
     const f = path.join(raiz, '.cache/sanity/contenido.json');
     doc = JSON.parse(readFileSync(f, 'utf8')).docs.find((d) => d._id === 'siteSettings');
     if (!doc) throw new Error('[sanity] la instantanea no trae siteSettings');

@@ -1,7 +1,7 @@
 /**
- * De donde lee el build: `PP_FUENTE=repo` (por defecto hasta el corte de fuente) lee
- * los fragmentos migrados de src/contenido-migrado; `PP_FUENTE=sanity` lee la
- * instantanea del dataset que deja scripts/sanity/instantanea.mjs.
+ * De donde lee el build (src/lib/sanity/fuente-elegida.mjs): por defecto la instantanea
+ * del dataset que deja scripts/sanity/instantanea.mjs; con `PP_FUENTE=repo`, los
+ * fragmentos migrados de src/contenido-migrado.
  *
  * Las paginas piden aqui su contenido y no saben de donde viene: asi las dos fuentes
  * se comparan en el mismo commit, ruta a ruta, sobre el HTML de dist.
@@ -20,16 +20,16 @@ import { LISTADOS, miembros, tarjetaDe, valorEn } from './listados.mjs';
 let C = null;
 export const contacto = () => (C ??= contactoSitio(sanity().doc('siteSettings')));
 
-export const FUENTE = process.env.PP_FUENTE === 'sanity' ? 'sanity' : 'repo';
+export { FUENTE } from './fuente-elegida.mjs';
 
 let contenido = null;
-/** La instantanea del dataset. Cerrado: sin ella, con PP_FUENTE=sanity, el build lanza. */
+/** La instantanea del dataset. Cerrado: sin ella, con la fuente sanity, el build lanza. */
 export function sanity() {
   if (contenido) return contenido;
   const f = path.resolve(process.cwd(), '.cache/sanity/contenido.json');
   let j;
   try { j = JSON.parse(readFileSync(f, 'utf8')); } catch {
-    throw new Error('[sanity] falta .cache/sanity/contenido.json: el build con PP_FUENTE=sanity empieza con scripts/sanity/instantanea.mjs');
+    throw new Error('[sanity] falta .cache/sanity/contenido.json: el build con la fuente sanity empieza con scripts/sanity/instantanea.mjs');
   }
   const porId = new Map(j.docs.map((d) => [d._id, d]));
   contenido = {

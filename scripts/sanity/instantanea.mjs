@@ -1,7 +1,7 @@
 /**
- * Contenido de Sanity para el build (PP_FUENTE=sanity). Corre ANTES de `astro build`.
+ * Contenido de Sanity para el build (la fuente por defecto). Corre ANTES de `astro build`.
  *
- *     PP_FUENTE=sanity node scripts/sanity/instantanea.mjs
+ *     node scripts/sanity/instantanea.mjs
  *
  * 1. Lee TODOS los documentos publicados del dataset por la API publica, sin la CDN (un
  *    build que lanza el webhook justo al publicar tiene que ver lo publicado), sin token (el
@@ -15,7 +15,7 @@
  * 3. Cerrado si falta algo: si la API no responde, o faltan los singletons, o una imagen
  *    no se puede resolver, lanza y el build no publica.
  *
- * Con PP_FUENTE distinto de `sanity` no hace nada: el build lee del repo como siempre.
+ * Con PP_FUENTE=repo no hace nada: el build lee los literales migrados del repo.
  */
 import fs from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
@@ -24,6 +24,7 @@ import crypto from 'node:crypto';
 import sharp from 'sharp';
 import { partesAsset } from '../../src/lib/sanity/assets.mjs';
 import { CMS_ANCHOS } from '../lib/transformar.mjs';
+import { FUENTE } from '../../src/lib/sanity/fuente-elegida.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 export const SALIDA = path.join(RAIZ, '.cache/sanity/contenido.json');
@@ -109,8 +110,8 @@ export async function instantanea() {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  if (process.env.PP_FUENTE !== 'sanity') {
-    console.log('[sanity] PP_FUENTE no es «sanity»: el build lee del repo');
+  if (FUENTE !== 'sanity') {
+    console.log('[sanity] PP_FUENTE=repo: el build lee del repo');
   } else {
     console.log('[sanity]', JSON.stringify(await instantanea()));
   }
