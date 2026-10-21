@@ -10,6 +10,7 @@
  * (src/lib/sanity/blog.mjs) con la misma forma; las plantillas no se enteran.
  */
 import { canonica } from './canonica.mjs';
+import { NEGOCIO, grafo, breadcrumbs } from './jsonld';
 import { FUENTE, sanity, rutaImagen, hrefDe, contacto } from './sanity/fuente.mjs';
 import { blogDesde } from './sanity/blog.mjs';
 import { parseCSV } from '../../scripts/lib/csv.mjs';
@@ -280,8 +281,11 @@ export const WF_SITE = '6903b7794d5df3d76a7a2488';
  */
 export const organizacion = (site: string) => ({
   '@type': 'Organization',
-  name: 'Pergola Plus Florida',
+  // El mismo `@id` que el negocio de src/lib/jsonld.ts (localBusiness): es la misma entidad.
+  '@id': new URL('/#negocio', site).href,
+  name: NEGOCIO.nombre,
   url: new URL('/', site).href,
+  logo: new URL('/images/logo-pergola-plus-florida.png', site).href,
 });
 
 /** JSON-LD del listado y de cada categoria. */
@@ -293,10 +297,11 @@ export function jsonLdBlog(opciones: {
   site: string;
   /** BCP 47. Las 6 paginas de /es/resources/blog publicaban en-US bajo lang="es" (SD-R1). */
   idioma?: string;
+  /** Las migas desde la raiz, sin la home: [nombre, ruta]. */
+  migas?: [string, string][];
 }) {
-  const { url, nombre, descripcion, entradas, site, idioma = 'en-US' } = opciones;
-  return {
-    '@context': 'https://schema.org',
+  const { url, nombre, descripcion, entradas, site, idioma = 'en-US', migas } = opciones;
+  const blog = {
     '@type': 'Blog',
     '@id': `${url}#blog`,
     url,
@@ -314,4 +319,5 @@ export function jsonLdBlog(opciones: {
       articleSection: p.categoria.nombre,
     })),
   };
+  return grafo(blog, migas && breadcrumbs(site, migas, idioma.startsWith('es') ? 'es' : 'en'));
 }

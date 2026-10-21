@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { PROPIAS_EN } from '../i18n/paginas-propias';
 import { SITIO } from '../lib/ajustes';
+import { breadcrumbs, grafo } from '../lib/jsonld';
 
 const t = PROPIAS_EN.gracias;
 
@@ -31,6 +32,7 @@ const ESCUDO_SVG =
   noindex
   title={t.title}
   description={t.description}
+  jsonLd={grafo(breadcrumbs(Astro.site!.href, [[t.h1, '/thank-you']], 'en'))}
   wfPage="69912a4897ff2b5abc998884"
   wfSite="6903b7794d5df3d76a7a2488"
 >

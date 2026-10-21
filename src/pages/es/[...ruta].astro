@@ -73,7 +73,8 @@ const bandaPropia = !resenas && CON_RESENAS.has(p.en);
 // (mismo @id): no son dos empresas, es una con dos idiomas.
 const site = Astro.site!.href;
 const esContacto = p.en.startsWith('/contact-us/');
-const jsonLd = grafo(
+// El 404 no lleva migas (igual que el ingles): no es una pagina del arbol del sitio.
+const jsonLd = p.en === '/404' ? undefined : grafo(
   esContacto && p.en === '/contact-us/get-in-touch' ? localBusiness(site) : null,
   breadcrumbs(site, [[title.split('|')[0]!.trim(), p.es]], 'es'),
 );

@@ -10,7 +10,7 @@
     "build": "node scripts/sanity/instantanea.mjs && astro build && node scripts/rutas-vercel.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "npm run build && npm run check:sanity-cobertura && npm run check:sanity-fidelidad && npm run check:sanity-esquema && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:cta && npm run check:estimador && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:resenas && npm run check:iconos && npm run check:ritmo && npm run check:correo && npm run check:canonicos && npm run check:pagina-actual && npm run check:urls-antiguas",
+    "check": "npm run build && npm run check:sanity-cobertura && npm run check:sanity-fidelidad && npm run check:sanity-esquema && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:cta && npm run check:estimador && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:resenas && npm run check:iconos && npm run check:ritmo && npm run check:correo && npm run check:canonicos && npm run check:pagina-actual && npm run check:urls-antiguas && npm run check:og && npm run check:jsonld",
     "medir:imagenes": "node scripts/medir-imagenes.mjs",
     "check:blog": "node scripts/comprobar-blog.mjs",
     "check:enlaces": "node scripts/comprobar-enlaces-muertos.mjs",
@@ -43,7 +43,9 @@
     "check:urls-antiguas": "node scripts/comprobar-urls-antiguas.mjs",
     "check:sanity-cobertura": "node scripts/sanity/cobertura.mjs",
     "check:sanity-fidelidad": "node scripts/sanity/fidelidad.mjs",
-    "check:sanity-esquema": "node scripts/sanity/esquema.mjs"
+    "check:sanity-esquema": "node scripts/sanity/esquema.mjs",
+    "check:og": "node scripts/comprobar-og.mjs",
+    "check:jsonld": "node scripts/comprobar-jsonld.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.16",
