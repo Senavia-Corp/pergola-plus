@@ -464,12 +464,20 @@ function sitemapYRobots() {
         await fs.writeFile(path.join(raiz.pathname, 'sitemap.xml'), xml, 'utf8');
 
         // Buscadores y asistentes que citan y enlazan: entran. Recolectores para entrenar
-        // modelos: fuera. Nombres comprobados en la documentacion oficial el 21-oct-2026
-        // solo los de Anthropic (support.claude.com); el resto, «a verificar» (las
-        // paginas oficiales no eran alcanzables desde el entorno del build).
+        // modelos: fuera. Nombres comprobados en la documentacion oficial el 21-oct-2026:
+        //   Anthropic          support.claude.com
+        //   OpenAI             developers.openai.com/api/docs/bots
+        //   Perplexity         docs.perplexity.ai/guides/bots
+        //   Google             developers.google.com/search/docs/crawling-indexing/google-common-crawlers
+        //   Bing               blogs.bing.com/webmaster (lo escribe «bingbot»; el user-agent no
+        //                      distingue mayusculas: RFC 9309 y robots_txt de Google)
+        //   Apple              support.apple.com/en-us/119829
+        //   Common Crawl       commoncrawl.org/ccbot
+        //   Meta               developers.facebook.com/docs/sharing/webmasters/web-crawlers
+        // Bytespider no tiene pagina oficial de ByteDance: sigue «a verificar».
         const PERMITIDOS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User', 'Bingbot', 'Googlebot', 'Applebot'];
         const BLOQUEADOS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Bytespider', 'meta-externalagent'];
-        const VERIFICADOS = new Set(['Claude-SearchBot', 'Claude-User', 'ClaudeBot']);
+        const VERIFICADOS = new Set([...PERMITIDOS, ...BLOQUEADOS].filter((ua) => ua !== 'Bytespider'));
         const nota = (ua) => (VERIFICADOS.has(ua) ? '' : ' # a verificar');
         const robots = [
           '# /api/ es el endpoint de formularios: no es contenido y solo acepta POST.',
