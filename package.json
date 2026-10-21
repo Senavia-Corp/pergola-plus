@@ -42,12 +42,12 @@
     "check:ritmo": "node scripts/comprobar-ritmo.mjs"
   },
   "dependencies": {
-    "@astrojs/vercel": "^11.0.5",
-    "astro": "^7.2.2",
-    "nodemailer": "^9.0.5"
+    "@astrojs/vercel": "^11.0.16",
+    "astro": "^7.4.1",
+    "nodemailer": "^10.1.7"
   },
   "devDependencies": {
     "playwright": "^1.62.1",
-    "sharp": "^0.35.3"
+    "sharp": "^0.35.5"
   }
 }

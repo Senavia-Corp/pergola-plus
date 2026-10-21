@@ -576,7 +576,16 @@ export const CLIENTE_ALTO = 1406;
 export const CLIENTE_DERIVADOS = [640, 960, 1280, 1920];
 /** Anchos de los derivados de las portadas del hero de las fichas (ver 4n y
  *  scripts/derivar-portadas.mjs). El master de 1450 px cierra el juego. */
-export const PORTADAS_ANCHOS = [640, 960, 1280];
+// 800 se añadio en F8: el Moto G de Lighthouse (412 px x 1,75) pide 721 px y sin el
+// candidato de 800 elegia el de 960 (99-125 KB en ciudad y condado, el LCP de las dos
+// plantillas que no llegaban a 95). Con 800, ~20 % menos de bytes en el mismo hueco.
+export const PORTADAS_ANCHOS = [640, 800, 960, 1280];
+/** Anchos de los derivados de TODAS las fotos del CMS que se pintan en tarjeta, galeria,
+ *  miniatura o hero (scripts/derivar-cms.mjs). El master cierra el juego; solo se
+ *  emiten los anchos menores que el. */
+export const CMS_ANCHOS = [480, 800, 1200];
+/** Por debajo de este ancho de master no hay nada que derivar (logos, iconos). */
+export const CMS_MINIMO = 600;
 export const rutaCliente = (origen) =>
   '/images/cliente/' +
   origen.split('/').pop().replace(/\.[^.]+$/, '')
@@ -1248,6 +1257,210 @@ export function dimensionarImagenes(html) {
     if (!dim) return tal_cual;
     return `<img ${attrs.trim()} width="${dim[0]}" height="${dim[1]}"${cierre}>`;
   });
+}
+
+/**
+ * `sizes` por clase de imagen, MEDIDOS con scripts/perf/medir-anchos.mjs sobre dist/
+ * a 375/768/992/1440 (19-oct-2026). Un `sizes` que se queda corto hace que el
+ * navegador elija un derivado pequeño y la foto salga borrosa, asi que aqui se toma
+ * siempre el ancho MAYOR que se midio para esa clase en cada tramo.
+ *
+ *   clase                            375   768      992      1440
+ *   card-blog-image                  311   336      200      281
+ *   product-card-image               343   360-736  456-627  617-643
+ *   projects-card-image              343   704-736  448      609
+ *   fs-slider-gallery-section_image  343   352      293      297
+ *   gallery_img                      343   720      269      372
+ *   slider-image-projects            343   736      928      950
+ *   intro-img-city / img-color /
+ *   blog-featured_image              343   736      448      609
+ *   img-feature                      -     -        501      605   (oculta en movil)
+ *   pp-faq-img                       343   278      367      504
+ *   lightbox-img                     164   180      456      617
+ *   hero_media-img                   343   736      928      1250
+ *
+ * Las que no estan aqui (brands-card-image, image-2, img-location, fs-marquee-picture)
+ * no llevan srcset: check:imagenes las lista como aviso, no como fallo.
+ */
+export const SIZES_POR_CLASE = {
+  'card-blog-image': '(min-width: 992px) 20vw, (min-width: 768px) 45vw, 85vw',
+  'product-card-image': '(min-width: 992px) 45vw, 96vw',
+  'projects-card-image': '(min-width: 992px) 45vw, 96vw',
+  'fs-slider-gallery-section_image': '(min-width: 992px) 300px, (min-width: 768px) 46vw, 92vw',
+  'gallery_img': '(min-width: 992px) 27vw, 94vw',
+  'slider-image-projects': '(min-width: 1200px) 950px, 94vw',
+  'intro-img-city': '(min-width: 992px) 43vw, 96vw',
+  'img-color': '(min-width: 992px) 43vw, 96vw',
+  'blog-featured_image': '(min-width: 992px) 43vw, 96vw',
+  'img-feature': '(min-width: 992px) 51vw, 96vw',
+  'pp-faq-img': '(min-width: 992px) 36vw, 92vw',
+  'lightbox-img': '(min-width: 992px) 43vw, (min-width: 768px) 24vw, 44vw',
+  'hero_media-img': '(min-width: 1300px) 1250px, 94vw',
+  // Medidas en /about-us/brands, /about-us/industries-we-serve, /about-us/where-we-work,
+  // /contact-us/get-in-touch, /products/cabanas y /services/concrete (misma herramienta).
+  'brands-card-image': '(min-width: 992px) 43vw, 96vw',           // 343 736 448 609
+  'img-logo-brand': '150px',                                      // 101-150 en todos los anchos
+  'fs-marquee-picture': '(min-width: 992px) 370px, 280px',        // 225-275 / 300-367
+  'image-2': '(min-width: 992px) 27vw, (min-width: 768px) 44vw, 83vw', // 311 336 277 385
+  'img-location': '(min-width: 992px) 44vw, (min-width: 768px) 48vw, 92vw', // 343 368 464 625
+  'why-choose-image': '(min-width: 992px) 50vw, 100vw',           // 375 768 496 720
+  'img-cover-service': '(min-width: 992px) 42vw, 100vw',          // 375 768 432 593
+};
+
+/** El `sizes` que le toca a un <img> por sus atributos: el suyo si lo trae, si no el
+ *  de su clase. null = no se sabe cuanto mide, y sin eso no se pone srcset. */
+export function sizesDe(attrs) {
+  // (^|\s): el primer atributo llega sin espacio delante, porque `<img\s` ya se lo
+  // comio. Con `\ssizes=` el <img sizes="..." src=...> del cuerpo de los posts
+  // salia sin srcset (medido: 2 por articulo).
+  const propio = attrs.match(/(?:^|\s)sizes="([^"]+)"/)?.[1];
+  if (propio) return propio;
+  const clases = attrs.match(/(?:^|\s)class="([^"]*)"/)?.[1]?.split(/\s+/) ?? [];
+  for (const c of clases) if (SIZES_POR_CLASE[c]) return SIZES_POR_CLASE[c];
+  return null;
+}
+
+const existeCache = new Map();
+const existeMemo = (p) => { if (!existeCache.has(p)) existeCache.set(p, existeEnPublic(p)); return existeCache.get(p); };
+
+/** Los candidatos del srcset de una foto del CMS: los derivados menores que el
+ *  master mas el master. `faltan` lista los que deberian existir y no estan. */
+export function candidatosCms(src) {
+  const dim = DIMENSIONES[decodeURIComponent(src)];
+  if (!dim || dim[0] < CMS_MINIMO) return null;
+  const base = src.replace(/\.\w+$/, '');
+  const anchos = CMS_ANCHOS.filter((w) => w < dim[0]);
+  const faltan = anchos.filter((w) => !existeMemo(`${base}-${w}.avif`));
+  return { candidatos: [...anchos.map((w) => `${base}-${w}.avif ${w}w`), `${src} ${dim[0]}w`], faltan, ancho: dim[0] };
+}
+
+/**
+ * srcset + sizes en las fotos del CMS (/cms-img/**) que aun no lo llevan.
+ *
+ * Se aplica sobre dist/ al terminar el build, en el mismo barrido que
+ * dimensionarImagenes() y por la misma razon de cobertura: las fotos del CMS no estan
+ * solo en los fragmentos migrados, estan en el blog (TarjetaPost, Articulo,
+ * BlogListado), en las fichas de proyecto y en el estimador, que son componentes
+ * propios. Una sola implementacion para los dos mundos.
+ *
+ * Reglas:
+ *   - solo <img> con src en /cms-img/ que no sea ya un derivado ni lleve srcset;
+ *   - solo si se sabe su `sizes` (atributo propio o SIZES_POR_CLASE): un srcset sin
+ *     sizes se evalua como 100vw y pediria la foto GRANDE en una tarjeta de 300 px;
+ *   - solo con el juego de derivados COMPLETO en disco. Si falta alguno no se emite
+ *     nada y se cuenta: check:imagenes lo convierte en fallo con la orden a ejecutar.
+ *     Aqui no se lanza porque el primer build de un clon sin derivados tiene que
+ *     poder terminar para que derivar-cms.mjs lea de el que fotos se pintan.
+ */
+export function responsivizarImagenes(html) {
+  const cuenta = { con: 0, sinSizes: 0, incompletas: 0, pequenas: 0 };
+  const salida = html.replace(/<img\s([^>]*?)(\/?)>/g, (tal_cual, attrs, cierre) => {
+    const src = attrs.match(/\bsrc="(\/cms-img\/[^"]+)"/)?.[1];
+    if (!src || /\ssrcset=/.test(attrs) || /-(\d{3,4}|h\d+)\.avif$|\.svg$/.test(src)) return tal_cual;
+    const c = candidatosCms(src);
+    if (!c) { cuenta.pequenas++; return tal_cual; }
+    const sizes = sizesDe(attrs);
+    if (!sizes) { cuenta.sinSizes++; return tal_cual; }
+    if (c.faltan.length) { cuenta.incompletas++; return tal_cual; }
+    cuenta.con++;
+    const sinSizes = attrs.replace(/(?:^|\s)sizes="[^"]*"/, '');
+    return `<img ${sinSizes.trim()} srcset="${c.candidatos.join(', ')}" sizes="${sizes}"${cierre}>`;
+  });
+  return { html: salida, ...cuenta };
+}
+
+/**
+ * <link rel="preload" as="image"> del elemento LCP, inyectado en el <head> ANTES de
+ * las hojas de estilo. El LCP de 76 fichas, 13 proyectos, 21 posts y los 6 indices
+ * del blog es un <img fetchpriority="high"> que el navegador no descubre hasta que
+ * parsea el <body> detras de 5 CSS bloqueantes: medido 5,1 s de LCP movil en
+ * proyecto con el hero a 277 KB y sin pista. Con el preload (y su imagesrcset, para
+ * que elija el mismo derivado que el <img>) la peticion sale con el HTML.
+ *
+ * Una sola imagen por pagina —la primera con fetchpriority="high"— y nunca si la
+ * pagina ya precarga una (la home precarga el poster del video por la prop
+ * `preloadImagen` de BaseLayout). Sobre dist/, por la misma cobertura que las dos
+ * funciones de arriba.
+ */
+export function precargarLcp(html) {
+  if (/<link rel="preload" as="image"/.test(html)) return { html, puesto: false };
+  const m = html.match(/<img\s[^>]*\bfetchpriority="high"[^>]*>/);
+  if (!m || /loading="lazy"/.test(m[0])) return { html, puesto: false };
+  const a = (n) => m[0].match(new RegExp(`\\s${n}="([^"]*)"`))?.[1];
+  const href = a('src');
+  if (!href) return { html, puesto: false };
+  const srcset = a('srcset'), sizes = a('sizes');
+  const link = `<link rel="preload" as="image" href="${href}"${srcset ? ` imagesrcset="${srcset}"` : ''}${srcset && sizes ? ` imagesizes="${sizes}"` : ''} fetchpriority="high">`;
+  const ancla = '<link href="/css/normalize.css"';
+  if (!html.includes(ancla)) return { html, puesto: false };
+  return { html: html.replace(ancla, link + ancla), puesto: true };
+}
+
+/**
+ * Enlazado interno a las 25 paginas de ciudad (OP-R1). Medido en el baseline: 2
+ * entrantes por ciudad (where-we-work y su condado), las peor enlazadas del sitio.
+ * Tres fuentes, todas sobre dist/ y conscientes del idioma por la ruta:
+ *
+ *   1. Ciudades del mismo condado. En cada pagina de ciudad, una linea al final de
+ *      la seccion «About» (.intro-location, antes de los botones): «Also serving
+ *      nearby in Palm Beach County: Boca Raton, Boynton Beach, …». Es el unico
+ *      anadido visible de este trabajo; esta documentado en 07-PENDIENTE §8 con
+ *      captura. Da 6–8 entrantes a cada ciudad desde paginas del mismo tema.
+ *   2. Fichas de proyecto: la primera mencion del municipio en la descripcion del
+ *      hero (.hero_btn-row) se convierte en enlace. Texto intacto.
+ *   3. Posts cuyo slug nombra una ciudad: la primera mencion en la prosa (.pp-prosa).
+ *
+ * Los href se escriben en ingles; en /es/ los reescribe enlazarEnEspanol() despues
+ * (astro.config.mjs), que es quien sabe que traducciones existen.
+ */
+import { CIUDADES } from '../../src/data/ubicaciones.mjs';
+const CIUDADES_POR_NOMBRE = Object.entries(CIUDADES)
+  .map(([slug, c]) => ({ slug, ...c }))
+  .sort((a, b) => b.municipio.length - a.municipio.length); // «West Palm Beach» antes que «Palm Beach»
+
+export function enlazarCiudades(html, ruta) {
+  const es = ruta.startsWith('/es/');
+  const base = ruta.replace(/^\/es\//, '/');
+  let puestos = 0;
+  const enlace = (c, texto = c.municipio) => `<a href="/pergolas-contractors/${c.slug}">${texto}</a>`;
+
+  const m = base.match(/^\/pergolas-contractors\/([^/]+)\/$/);
+  if (m && CIUDADES[m[1]]) {
+    const propia = CIUDADES[m[1]];
+    const vecinas = CIUDADES_POR_NOMBRE.filter((c) => c.condado === propia.condado && c.slug !== m[1])
+      .sort((a, b) => a.municipio.localeCompare(b.municipio));
+    const condadoEs = propia.condado.replace(' County', '');
+    const rotulo = es ? `También trabajamos cerca, en el condado de ${condadoEs}:` : `Also serving nearby in ${propia.condado}:`;
+    const linea = `<p class="pp-cercanas">${rotulo} ${vecinas.map((c) => enlace(c)).join(', ')}.</p>`;
+    const ancla = /<section class="intro-location">[\s\S]*?(<div class="wrapper-buttons">)/;
+    if (ancla.test(html)) { html = html.replace(ancla, (t, botones) => t.replace(botones, linea + botones)); puestos += vecinas.length; }
+  }
+
+  const primeraMencion = (bloque) => {
+    for (const c of CIUDADES_POR_NOMBRE) {
+      const re = new RegExp(`(^|[^\\w>-])(${c.municipio.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?=[^\\w<-])`);
+      if (re.test(bloque)) { puestos++; return bloque.replace(re, (t, a, nombre) => a + enlace(c, nombre)); }
+    }
+    return bloque;
+  };
+  if (/^\/project\//.test(base)) {
+    html = html.replace(/(<div class="hero_btn-row"><div>)([^<]+)(<\/div>)/, (t, a, texto, z) => a + primeraMencion(texto) + z);
+  }
+  if (/^\/post\//.test(base)) {
+    const propias = CIUDADES_POR_NOMBRE.filter((c) => base.includes(c.municipio.toLowerCase().replace(/ /g, '-')));
+    if (propias.length) {
+      html = html.replace(/(<div class="pp-prosa">)([\s\S]*?)(<\/div>)/, (t, a, prosa, z) => {
+        for (const c of propias) {
+          // Dentro de un nodo de texto (tras un `>`), aunque sea el primer caracter:
+          // «<strong>Boca Raton</strong>» es el caso real del primer parrafo.
+          const re = new RegExp(`(>[^<]*?)(?<![\\w-])(${c.municipio})(?![\\w-])`);
+          if (re.test(prosa)) { prosa = prosa.replace(re, (tt, pre, nombre) => pre + enlace(c, nombre)); puestos++; }
+        }
+        return a + prosa + z;
+      });
+    }
+  }
+  return { html, puestos };
 }
 
 export function reescribirImagenes(html, mapa, locales) {
@@ -2590,6 +2803,58 @@ export function transformar(html, ruta) {
     + '</div>',
   );
 
+  // 4i2. Los logos del marquee de marcas, a su tamaño real. Los 4 PNG de 450x200 se
+  //      pintan a 50 px de alto; el AVIF de 100 px de alto (2x) que escribe
+  //      scripts/derivar-cms.mjs pesa una decima parte, y el SVG de Pergola Plus
+  //      Forte (25 KB de Illustrator) se rasteriza igual (3 KB). Si el derivado no
+  //      esta en disco se para el regenerado: la alternativa es que el marquee pida
+  //      un fichero que no existe y salga un hueco.
+  s = s.replace(/<img\b[^>]*class="fs-marquee-logos_logo"[^>]*>/g, (tag) =>
+    tag.replace(/\ssrc="(\/cms-img\/brands\/[^"]+)\.(png|svg)"/, (todo, base, ext) => {
+      const nuevo = `${base}-h100.avif`;
+      if (!existeEnPublic(nuevo)) {
+        throw new Error(`[marquee] ${ruta}: falta ${nuevo}. Ejecuta \`node scripts/derivar-cms.mjs\` antes de regenerar.`);
+      }
+      return ` src="${nuevo}"`;
+    }));
+
+  // (El hero de las 3 fichas de proyecto del cliente —img.hero_media-img, el LCP de
+  //  la plantilla— lleva eager + fetchpriority=high desde scripts/lib/
+  //  proyectos-destacados.mjs: no pasa por aqui. Las 10 del CMS llevan un embed de
+  //  YouTube en ese hueco.)
+
+  // 4i5. Los 5 indices (productos, servicios, galeria, garantias, marcas) saltaban de
+  //      <h1> a los <h3> de las tarjetas (heading-order en Lighthouse y accesslint, 8
+  //      paginas con las españolas). Un <h2> de seccion solo para lectores de
+  //      pantalla (.pp-sr, cotizacion.css), delante de la rejilla: no cambia un pixel.
+  //      Las traducciones estan en src/i18n/paginas.es.ts (dic de cada pagina).
+  const H2_INDICE = {
+    '/products': ['<div class="product-grid-wrapper w-dyn-list"', 'Our products'],
+    '/services': ['<div class="product-grid-wrapper w-dyn-list"', 'Our services'],
+    '/project-gallery': ['<div class="projects-grid-wrapper w-dyn-list"', 'Featured projects'],
+    '/resources/warranties': ['<div class="warranty_item"', 'Warranties by brand'],
+    '/about-us/brands': ['<div class="brands-grid-wrapper w-dyn-list"', 'Our brands'],
+  };
+  if (H2_INDICE[ruta]) {
+    const [ancla, texto] = H2_INDICE[ruta];
+    if (!s.includes(ancla)) throw new Error(`[h2] ${ruta}: no encuentro la rejilla (${ancla}) para poner el <h2> de seccion`);
+    s = s.replace(ancla, `<h2 class="pp-sr">${texto}</h2>${ancla}`);
+  }
+
+  // (F8 probo poner en eager + fetchpriority=high las dos primeras tarjetas de los
+  //  indices de productos, servicios y galeria —su LCP venia lazy—. Medido x3: el LCP
+  //  simulado EMPEORO en los tres (2,73 -> 3,06 s en productos, 2,77 -> 3,04 en
+  //  galeria) y arrastro a las fichas de producto, cuya seccion «Compare» reutiliza las
+  //  tarjetas del indice (2,82 -> 3,42 s). Revertido en el mismo commit; queda anotado
+  //  en 01-PLAN-Y-DECISIONES.md para que nadie lo vuelva a intentar sin medir.)
+
+  // 4i4. La foto del formulario de presupuesto decia `sizes="(max-width: 1600px)
+  //      100vw, 1600px"` y ocupa el 40 % del ancho desde 992 px
+  //      (.appointment-column-left): a 1440 pedia el candidato de 1600 px para una
+  //      columna de 576. Medido por la sonda como sobredimensionada en escritorio.
+  s = s.replace(/<img\b[^>]*class="image-3"[^>]*>/, (tag) =>
+    tag.replace('sizes="(max-width: 1600px) 100vw, 1600px"', 'sizes="(min-width: 992px) 40vw, 100vw"'));
+
   // 4j. La barra de logos de marca: de marquee MUERTO a carrusel infinito.
   //
   //     Llego del export como un componente de Finsweet (`fs-marquee-*`) y el script
@@ -2674,12 +2939,24 @@ export function transformar(html, ruta) {
   //         una foto real, no una pantalla negra. Sin JavaScript el markup sigue
   //         siendo `autoplay` con sus dos fuentes: no se pierde nada.
   //
+  //     F3 (oct-2026): el arranque pasa de «al load» a «hueco de CPU tras load + 1,5 s,
+  //     o primer scroll, o primera interaccion, lo que llegue antes», y con 2g/3g no
+  //     arranca. Misma experiencia (el visitante ve el poster y un segundo despues el
+  //     video, desde el mismo fotograma); menos bytes antes de que el visitante haya
+  //     decidido quedarse. Lo verifica la sonda: reproduciendo a los 8 s en
+  //     320/375/768/1440 y parado con prefers-reduced-motion.
+  //
   //     El video de escritorio NO se recodifica: a CRF razonable salia MAS grande que
   //     el que exporto Webflow (13 MB frente a 9,2), porque es plano de dron con
   //     mucho detalle. Lo que se gana aqui se gana sin tocar su calidad.
   if (s.includes('class="hero-video-main"')) {
     const POSTER = '/images/hero-pergola-plus-florida-poster.avif';
     const MOVIL = '/videos/Bd-video-pergola-plus-Final_movil.mp4';
+    // Espera del arranque automatico tras `load` si el visitante no ha movido el raton,
+    // tocado, hecho scroll ni pulsado una tecla (lo normal es que haya hecho alguna
+    // antes). Medido con Lighthouse movil: con 1,5 s el video (2,5-3 MB) entraba en la
+    // traza; ver 01-PLAN-Y-DECISIONES.md (F3) para el valor elegido.
+    const VIDEO_ESPERA_MS = 3000;
     const antesVideo = s;
     s = s.replace(
       /(<video\b[^>]*?)\s+style="background-image:url\(&quot;[^"]*?&quot;\)"([^>]*>)/,
@@ -2700,17 +2977,26 @@ export function transformar(html, ruta) {
       + 'v.removeAttribute("autoplay");v.preload="none";'
       + 'var quieto=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.connection&&navigator.connection.saveData);'
       + 'if(quieto)return;'
-      // Arranca al `load` de la pagina: el poster ya esta pintado y el video no le
-      // ha quitado ancho de banda ni a el ni a las hojas. Por debajo de 768 px se
-      // reproduce la version de 960 px.
-      + 'var arrancar=function(){'
+      // Con 2g/3g declarados no arranca: el poster es una foto real y 4,5 MB de video
+      // en una red asi es el presupuesto de datos de la visita entera.
+      + 'var red=navigator.connection&&navigator.connection.effectiveType;if(red&&/(^|-)[23]g$/.test(red))return;'
+      // Arranca en LO PRIMERO que ocurra de: hueco de CPU tras `load` (+1,5 s de
+      // margen para que Lighthouse y el visitante vean el poster asentado), primer
+      // scroll, primera interaccion. Antes arrancaba en el propio `load` y en la traza
+      // movil de Lighthouse ya habia transferido 2,9 MB de los 4,5 del _movil.mp4:
+      // no tocaba al LCP (el poster) pero si al peso total de la home (3,8 MB).
+      // Por debajo de 768 px se reproduce la version de 960 px. `once` + bandera: solo
+      // se arranca una vez por mucho que lleguen los tres disparadores.
+      + 'var hecho=false;var arrancar=function(){if(hecho)return;hecho=true;'
       + `if(innerWidth<768){v.innerHTML='<source src="${MOVIL}" type="video/mp4">';}`
       // load() ANTES de autoplay/preload: con preload="none" Chrome ya habia ELEGIDO
       // la fuente de escritorio al parsear (sin bajarla); poner autoplay antes de
       // reseleccionar disparaba esa descarga y load() la abortaba despues: una
       // peticion de 655 KB de mas, medida con Lighthouse.
       + 'v.load();v.autoplay=true;v.preload="auto";var p=v.play();if(p&&p.catch)p.catch(function(){});};'
-      + 'if(document.readyState==="complete")setTimeout(arrancar,0);else addEventListener("load",function(){setTimeout(arrancar,0);},{once:true});'
+      + 'addEventListener("scroll",arrancar,{once:true,passive:true});addEventListener("pointerdown",arrancar,{once:true,passive:true});addEventListener("pointermove",arrancar,{once:true,passive:true});addEventListener("keydown",arrancar,{once:true});'
+      + `var tras=function(){setTimeout(function(){(window.requestIdleCallback||function(f){f();})(arrancar);},${VIDEO_ESPERA_MS});};`
+      + 'if(document.readyState==="complete")tras();else addEventListener("load",tras,{once:true});'
       + '})(document.currentScript.parentElement)</script>',
     );
     const faltan = [
@@ -2765,6 +3051,20 @@ export function transformar(html, ruta) {
   //     exactamente el hueco que Webflow habia reservado para ellas.
   //     El enlace sigue sin emitirse aqui: apuntaria a esta misma pagina.
   s = s.replaceAll(ELFSIGHT_RESENAS, MARCA_RESENAS + (ruta === RESENAS ? '' : ENLACE_RESENAS));
+
+  // 6c0. Las pestañas de producto de la home (codigo embebido de Webflow, <style>
+  //      inline del fragmento): los items inactivos iban a `opacity: 0.65`, que deja
+  //      el crema sobre --primary en 4,40:1 (Lighthouse escritorio 97 en home EN/ES,
+  //      3/3; texto de 18 px normal, exige 4,5). A 0,7 da 4,81:1 y el item sigue
+  //      viendose atenuado frente al activo. Es un 5 % de opacidad en 10 rotulos:
+  //      anotado en 07-PENDIENTE §8. Si el bloque cambia, se para el regenerado.
+  if (ruta === '/') {
+    const ANTES_OP = '.products-menu-link {\n  opacity: 0.65;';
+    if (!s.includes(ANTES_OP)) {
+      throw new Error('[home] no encuentro `.products-menu-link { opacity: 0.65 }` en el <style> de las pestañas de producto: revisa 6c0 en transformar.mjs');
+    }
+    s = s.replace(ANTES_OP, '.products-menu-link {\n  opacity: 0.7;');
+  }
 
   // 6c. Los tres diferenciales del hero de la home, retirados por peticion del
   //     cliente. Se comprueba que la sustitucion ocurra: si el markup cambia y este
@@ -2879,6 +3179,15 @@ export function transformar(html, ruta) {
   s = s.replace(
     /(<div class="img-bg-hero-product"><img\b[^>]*?)\sloading="lazy"/g,
     '$1 loading="eager" fetchpriority="high"',
+  );
+
+  //     Y el hero de las 7 paginas de servicio (img.img-cover-service, foto del
+  //     cliente con su srcset del 4d): tambien es el LCP y tambien venia lazy.
+  //     Medido en F1: Lighthouse lo descubria a los 74 ms en vez de con el HTML
+  //     (lcp-discovery-insight 0) y era la unica plantilla que no mejoraba.
+  s = s.replace(
+    /(<img\b[^>]*?)\sloading="lazy"([^>]*class="img-cover-service")/g,
+    '$1 loading="eager" fetchpriority="high"$2',
   );
 
   // 7. is:inline en <script> y <style> embebidos. SIN esto Astro los procesa:

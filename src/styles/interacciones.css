@@ -1,0 +1,93 @@
+/* =============================================================================
+   F7 · Las tres interacciones IX2 por clic, en CSS. El estado lo pone
+   src/scripts/interacciones.ts con la clase `pp-abierto` en el disparador; aqui
+   van los estados en reposo (los que IX2 aplicaba en linea al cargar) y los
+   abiertos, con los mismos 500 ms easeInOut que tenian las listas a-21…a-26.
+   El markup es el del export de Webflow (src/contenido-migrado, generado): no se
+   toca, por eso todo va por hermano (+) e hijo.
+   ========================================================================== */
+
+/* a-21 / a-22 «FAQ» — 34 paginas. En reposo la respuesta esta plegada y la flecha
+   a 180° (webflow.css); al abrir, la respuesta aparece y la flecha gira a 0°. */
+.faq_content {
+  display: none;
+}
+
+.faq_trigger.pp-abierto + .faq_content {
+  display: block;
+}
+
+.faq_icon {
+  transition: transform 500ms ease-in-out;
+}
+
+.faq_trigger.pp-abierto .faq_icon {
+  transform: rotate(0deg);
+}
+
+/* a-25 / a-26 «Feature Item» — las 20 fichas de producto. La linea vertical del «+»
+   se esconde al abrir (en seco) y vuelve creciendo al cerrar. */
+.content-feature {
+  display: none;
+  opacity: 0;
+}
+
+.block-heading-feature.pp-abierto + .content-feature {
+  display: block;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+@starting-style {
+  .block-heading-feature.pp-abierto + .content-feature {
+    opacity: 0;
+  }
+}
+
+.line-feature-vertical {
+  transition: height 500ms ease-in-out;
+}
+
+.block-heading-feature.pp-abierto .line-feature-vertical {
+  height: 0;
+  transition: none;
+}
+
+/* a-23 / a-24 «Feature» — «Discover What Our Service Includes», 14 paginas, y SOLO
+   por debajo de 992 px: en escritorio IX2 no registraba el evento y las tarjetas se
+   ven siempre (servicios.css). */
+@media (max-width: 991px) {
+  .feature-card {
+    display: none;
+    opacity: 0;
+  }
+
+  .feature-header-item.pp-abierto + .feature-card {
+    display: flex;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out;
+  }
+
+  @starting-style {
+    .feature-header-item.pp-abierto + .feature-card {
+      opacity: 0;
+    }
+  }
+
+  .feature-header-item.pp-abierto .line-icon-plus-vertical {
+    display: none;
+  }
+
+  .feature-item:has(> .feature-header-item.pp-abierto) {
+    height: 100%;
+  }
+}
+
+/* Los disparadores ahora son botones de teclado: anillo de foco visible solo con
+   :focus-visible, igual que el resto de controles (accesibilidad.css). */
+.faq_trigger:focus-visible,
+.feature-header-item:focus-visible,
+.block-heading-feature:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

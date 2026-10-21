@@ -1,0 +1,18 @@
+# 04 — Diff visual por fase
+
+Capturas de página completa a 375/768/1440 de las 22 rutas de la sonda, tomadas con `prefers-reduced-motion: reduce`, tras recorrer la página para disparar las imágenes `lazy` y esperar a que **todas** estén `complete`, con animaciones y transiciones congeladas. Cada fase se compara con la anterior píxel a píxel (umbral 24/255 por canal; `scripts/perf/diff-visual.mjs`).
+
+**Qué decide.** La captura **sin fotos** (las `<img>` raster y el vídeo con `visibility:hidden`, la caja se queda): una foto servida a otro tamaño cambia píxeles por remuestreo sin cambiar nada de lo que importa (maquetación, texto, color, bordes), y ningún umbral lo separa; medido en F1: con fotos 26/60 capturas superaban el 1 % (hasta 6 %) y todo el exceso estaba dentro de las fotos. Se guardan las dos variantes; las PNG no van a git (183 MB por tanda), sí los informes y los PNG de las diferencias que superan el límite (`diff-png/`).
+
+| Comparación | Capturas | > 1 % (sin fotos) | Cuáles y por qué |
+|---|---|---|---|
+| 00-baseline → 01-f1 | 60 | 1 | project_forte-pergola-with-outdoor-kitchen-at-elan-polo-club-375 2.55 % — proyecto 375: las 87 filas superiores (el nav en estado «scroll» de IX2 en la captura del baseline, en reposo en la de F1). Del píxel 87 abajo, 0 %. |
+| 01-f1 → 02-f2 | 60 | 1 | resources_blog_buying-guides-cost-768 2.00 % — categoría del blog 768: las mismas 87 filas del nav. (Antes de este resultado el diff cazó dos regresiones reales de la purga, corregidas antes del commit: el compactador rompía `html[lang=es] :is(…)` y la purga se llevaba el paso a paso del multipaso.) |
+| 02-f2 → 03-f3 | 60 | 1 | resources_blog_buying-guides-cost-768 1.98 % — categoría del blog 768: nav en estado «scroll». |
+| 03-f3 → 04-f4 | 60 | 1 | project_forte-pergola-with-outdoor-kitchen-at-elan-polo-club-375 2.55 % — proyecto 375: nav en estado «scroll». Los cambios de F4 (velo 50→56 %, pestañas .65→.7, contador y fecha) quedan por debajo del 1 % a 1/4 de resolución. |
+| 04-f4 → 05-f5 | 60 | 3 | pergolas-contractors_miami-pergola-experts-1440 12.71 %, pergolas-contractors_miami-pergola-experts-375 27.49 %, pergolas-contractors_miami-pergola-experts-768 17.76 % — páginas de ciudad a 375 y 768: la línea nueva de ciudades hermanas (+68–91 px de alto). Cambio visible y documentado (07 §8). |
+| 05-f5 → 06-f6 | 60 | 1 | resources_blog_buying-guides-cost-768 2.02 % — categoría del blog 768: nav en estado «scroll». |
+| 06-f6 → 08-f8 | 60 | 2 | project_forte-pergola-with-outdoor-kitchen-at-elan-polo-club-375 2.55 %, resources_blog_buying-guides-cost-768 1.99 % — proyecto 375 y categoría del blog 768: las 87 filas del nav en estado «scroll». Los cambios de F8 (candidato de 800 px en los heroes, scroll-padding) no mueven un píxel. |
+| 08-f8 → 09-f7 | 60 | 4 | es_contact-us_get-a-quote-375 1.08 %, resources_blog_buying-guides-cost-768 1.99 %, thank-you-1440 1.71 %, thank-you-375 3.18 % — thank-you 375/1440, categoría del blog 768 y presupuesto ES 375: las 87 filas del nav en estado «scroll» de IX2 en las capturas de F8 (el sustituto deja el nav siempre visible al volver arriba). Del píxel 87 abajo, 0 %. Y la paridad de los ESTADOS (menú móvil abierto, desplegable abierto y con hover, lightbox abierto): 138 capturas con webflow.js frente a 138 con el sustituto, 0 por encima del 1 %, peor 0,35 % (`09-f7/diff-estados.md`). |
+
+El estado «scroll» del nav lo ponía IX2 (hasta F8) (`PAGE_SCROLL_DOWN`: `translateY(-85px)` + opacidad 0 en 500 ms) cuando la captura vuelve arriba justo después de recorrer la página; afecta solo a las 87 primeras filas y no es un cambio del sitio. Es la única diferencia recurrente en todas las fases.

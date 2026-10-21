@@ -1,0 +1,581 @@
+# 01 — Plan, decisiones y descartes
+
+Rama `perf/100-cwv` desde `main@7feee86`. Un commit por fase. Método en cada fase:
+`npm run check` → build de producción simulada (`PUBLIC_ES_PRODUCCION=1`,
+`PUBLIC_SITE_URL=https://www.pergolaplusflorida.com`) → `scripts/perf/servir.mjs`
+(4173) → Lighthouse 13.5 ×3 × 2 dispositivos × 16 plantillas → sonda (22 rutas × 4
+anchos) → diff visual → crawl. Lo que no mejora la métrica que perseguía se revierte.
+
+## F0 · Preparación y baseline (`bedd04f`)
+
+**Hecho**
+
+- `astro` 7.2.2 → 7.4.1, `sharp` 0.35.3 → 0.35.5, `nodemailer` 9.0.5 → 10.1.7,
+  `@astrojs/vercel` 11.0.5 → 11.0.16. Las 19 puertas en verde con las versiones nuevas.
+  `npm audit` deja 1 advisory *high* (`path-to-regexp` vía `@vercel/routing-utils`,
+  dependencia del adaptador; sin fix no rompiente; se usa en build, no en runtime).
+- Herramientas en `scripts/perf/` (sin dependencias nuevas): `servir.mjs`,
+  `lighthouse.sh`, `resumen.mjs`, `sonda.mjs`, `diff-visual.mjs`, `crawl.mjs`,
+  `medir-anchos.mjs`, `clases-runtime.mjs`, `plantillas.mjs`.
+- Baseline: `00-BASELINE.csv` (medianas) y `00-baseline/` (96 corridas, sonda, crawl).
+
+**Decisiones**
+
+- Las capturas de página completa (60 PNG, 183 MB por tanda) y los 96 JSON de
+  Lighthouse (~60 MB) **no van a git** (`.gitignore`): se regeneran con las
+  herramientas y en el repo quedan los CSV, el JSON de la sonda y el informe del diff
+  con los PNG de las diferencias (si las hay).
+- Las capturas se toman con `prefers-reduced-motion: reduce`, recorriendo la página
+  para disparar las imágenes `lazy` y esperando a que **todas** estén `complete`
+  (estado, no reloj) y con las animaciones congeladas: así dos capturas de la misma
+  página son idénticas y el diff mide cambios de verdad.
+- Lighthouse va en serie (no en paralelo) y con la máquina sin builds: la corrida
+  móvil 1 de galería (76, LCP 6,4 s) coincidió con un barrido de Playwright y es un
+  valor atípico que la mediana descarta; se deja en el CSV porque se reporta todo.
+
+**Lectura del baseline que cambia el plan**
+
+- Home móvil ha salido 85 (93/85/85) con LCP 4,2 s en dos corridas, frente a los 93
+  de la auditoría: el vídeo arranca al `load` y en una corrida lenta compite con el
+  poster. F3 (arranque diferido) importa para la estabilidad, no solo para el peso.
+- Estimador móvil 80 (69/80/80), CLS 0,133: el `<form>` baja cuando el JS muestra
+  la barra de progreso (`hidden` → visible). Es geometría, no imágenes.
+- 125 imágenes sobredimensionadas a 1440 y 9 a 375 (sin contar SVG): casi todas
+  `/cms-img/**` a 1.250 px en cajas de 200–620 px.
+
+## F1 · Imágenes
+
+**Hecho**
+
+- `scripts/derivar-cms.mjs` (nuevo, patrón de `derivar-portadas.mjs`): lee los HTML
+  construidos y escribe junto a cada foto del CMS que se pinta (332 masters, todos
+  ≥ 600 px) los derivados `-480/-800/-1200.avif` (972 ficheros, 52 MB, en git como el
+  resto de `public/cms-img`). Los 4 PNG de logos del marquee (450×200 para 50 px de
+  alto) y el SVG de Illustrator de 25 KB pasan a AVIF de 100 px de alto (2,5–4,7 KB).
+- `responsivizarImagenes()` (`scripts/lib/transformar.mjs`), aplicada **sobre `dist/`**
+  en el mismo barrido que `dimensionarImagenes()`: `srcset` con el juego completo +
+  `sizes` por clase, **medidos** con `scripts/perf/medir-anchos.mjs` a 375/768/992/1440
+  (tabla en `SIZES_POR_CLASE`, 21 clases). Solo emite si el juego está completo; si
+  falta un derivado calla y `check:imagenes` (check 8, nuevo) lo convierte en fallo.
+  Resultado: 3.204 `<img>` del CMS con srcset; quedan 40 fotos de clase sin medida
+  (aviso, no fallo) y 2 por artículo que se arreglan en F2 (regex de `sizes` como
+  primer atributo).
+- `precargarLcp()` (ídem, sobre `dist/`): `<link rel="preload" as="image"
+  imagesrcset imagesizes fetchpriority="high">` del primer `<img fetchpriority="high">`
+  de la página, antes de las hojas de estilo. 136 páginas (fichas de ciudad, condado,
+  producto, proyecto, posts e índices del blog). La prop `preloadImagen` de
+  `BaseLayout` admite ahora `{ href, srcset, sizes }`.
+- Hero de las 3 fichas de proyecto del cliente (`img.hero_media-img`, el LCP a 5,1 s):
+  `loading="eager" fetchpriority="high"` desde `scripts/lib/proyectos-destacados.mjs`
+  (las 10 del CMS llevan un embed de YouTube en ese hueco, sin imagen LCP).
+- Estimador (`src/components/Estimador.astro`): `img.est-foto` con `srcset` de los
+  derivados existentes (`-640/-960/-1280` del cliente, `-480/-800` del CMS) y
+  `sizes="(min-width: 992px) 340px, (min-width: 768px) 45vw, 40vw"` (medido 148/344/
+  247/340). CLS: `.est-progreso[hidden]` y `.est-nav[hidden]` reservan su sitio desde
+  el primer frame (`visibility:hidden` en vez de `display:none`) y el texto de progreso
+  reserva `1lh`.
+- Blog: `sizes` medido en `TarjetaPost.astro` (29/47/92 vw), `Articulo.astro` (hero,
+  1186 px / 94 vw) y en el cuerpo (`src/lib/articulo.ts`, `min(61vw, 772px)`); el
+  srcset lo pone el barrido de `dist/`.
+- `img.image-3` del formulario de presupuesto: `sizes` de `100vw` a `40vw` desde 992 px
+  (la columna mide el 40 %; pedía el candidato de 1600 px para 576).
+
+**Decisiones**
+
+- `srcset` sobre `dist/` y no en 8 plantillas: las fotos del CMS están en el HTML
+  migrado **y** en componentes propios (blog, proyectos, estimador). Es la misma razón
+  por la que `dimensionarImagenes()` ya se aplicaba ahí (ver su comentario), y lo que
+  mantiene `check:generadores` sin ruido. El preload del LCP igual.
+- `sizes` por clase medidos, nunca a ojo: un `sizes` corto hace que el navegador elija
+  un derivado pequeño y la foto salga borrosa (este repo ya tiene una auditoría de
+  nitidez). Por eso en cada tramo se toma el **mayor** ancho medido para la clase.
+- Se descarta recodificar `hero-custom-poolside-cabana-south-florida.avif` desde
+  `public/photos/`: con los derivados la home sirve el de 480/800 px y la ficha de
+  cabanas usa la portada con sus propios derivados; elegir el original por hoja de
+  contactos entre 148 fotos no cambiaría un solo byte servido.
+- Las 174 huérfanas no se tocan (07-PENDIENTE §7).
+
+**Medido (mediana de 3, móvil; `01-f1/lighthouse-medianas.csv`)**
+
+| Plantilla | Perf base → F1 | LCP base → F1 | Peso base → F1 (KB) |
+|---|---|---|---|
+| Estimador | 80 → **95** | 5.255 → 2.960 ms | 2.402 → 475 |
+| Proyecto | 81 → **94** | 5.103 → 3.035 | 1.113 → 479 |
+| Post | 90 → **97** | 3.677 → 2.585 | 534 → 355 |
+| Producto | 90 → **94** | 3.426 → 3.040 | 825 → 496 |
+| Home | 85 → **93** | 4.181 → 3.262 | 3.757 → 3.663 |
+| Índice / categoría blog | 91 / 92 → **93 / 93** | 3.453 → 3.184 | 1.690 → 553 |
+| Ciudad | 90 → 90 | 3.604 → 3.677 | 2.096 → 746 |
+| Condado | 86 → 86 | 4.128 → 4.127 | 2.064 → 738 |
+| Servicio | 95 → 93 | 2.964 → 3.189 | 2.100 → 782 |
+| Resto (índices, galería, FAQ, contacto, home ES) | sin cambio (92–97) | | galería 1.624 → 568 |
+
+CLS 0 en 32/32 (el estimador pasa de 0,133 a 0,000). `image-delivery-insight`: de
+0,7–2 MB de ahorro estimado a 0–126 KB en todas. Sonda: 0 regresiones, 0
+sobredimensionadas a 375 y 1440 (eran 9 y 125), menú 67/67, dropdown 23/23.
+
+- **Ciudad y condado no suben** aunque el hero baje de 258 KB a 99–125 KB: el
+  `lcp-breakdown` observado es 3+4+4+75 ms; el LCP simulado (3,7–4,1 s) lo fija la
+  simulación de 1,6 Mbps con 42 KB gz de CSS bloqueante + 48 KB de fuente + 99 KB gz
+  de JavaScript (jQuery + webflow.js) compitiendo con la imagen. Es trabajo de F2 y
+  F7, no de imágenes: se para aquí y se retoma con medición en esas fases.
+- **Servicio baja 2 puntos** (95 → 93, LCP +0,2 s) con el hero en `eager` +
+  `fetchpriority="high"` + preload: `lcp-discovery-insight` pasa de 0 a 1 (antes se
+  descubría a los 74 ms, detrás del CSS) pero la simulación adelanta la imagen por
+  delante del CSS y mueve 0,2 s el LCP. Se mantiene por ser lo correcto para el
+  navegador real y se **re-evalúa tras F2**: si sigue por debajo del baseline, se
+  revierte el `eager` del servicio en ese commit.
+- Las fotos del cliente en `/images/cliente/*` (estimador, servicio) ya tenían srcset;
+  a 768 px la home sigue marcando 10 «sobredimensionadas» porque `product-card-image`
+  es 2 columnas (360 px) en la home y 1 columna (704 px) en `/products/`: el `sizes`
+  compartido toma el mayor para no servir borroso el índice. Aceptado.
+
+**Diff visual (`01-f1/diff-visual.md`)**: decide la captura SIN fotos (las `<img>`
+raster ocultas con `visibility:hidden`, la caja se queda): 59/60 por debajo del 1 %; la
+única por encima (proyecto a 375, 2,55 %) son las 87 filas superiores: el nav estaba
+en su estado «scroll» de IX2 en la captura del baseline y en reposo en la de F1 (la
+vuelta arriba antes de capturar no espera a esa transición). Del píxel 87 abajo, 0 %.
+Con fotos, 26/60 superan el 1 % (hasta 6 %) y todo el exceso está dentro de las fotos:
+remuestreo de un derivado de 480/800 px frente al master de 1.250 reescalado por el
+navegador; comprobado a ojo en galería y proyecto (ver `diff-png/`). Por eso la
+captura sin fotos es la que decide desde F1.
+
+## F2 · CSS: camino crítico
+
+**Hecho**
+
+- `scripts/lib/css.mjs` (nuevo, ~160 líneas, sin dependencias): tokenizador de CSS
+  (reglas y bloques `@media/@supports` anidados), purga por página conservadora
+  (`:not/:is/:where/:has`, atributos y pseudos nunca descartan; `@font-face`,
+  `@keyframes` e `@import` se conservan) y unión de las 5 hojas del `<head>` en una,
+  en el orden exacto que ya tenía (normalize → webflow → sitio → propias).
+- Lista blanca de clases de runtime: `scripts/perf/clases-runtime.mjs` mide el
+  `classList` antes/después de abrir menú, dropdowns (con hover), idioma, carruseles,
+  FAQ, estimador, multipaso, envío vacío, 30 tabulaciones y lightbox en las 16
+  plantillas × 375/1440, y le suma la lista cerrada de webflow.js (§0) y las clases
+  que ponen los scripts propios (`grep classList.add|toggle`). 55 clases →
+  `scripts/lib/clases-runtime.json`.
+- Integrado en el barrido de `dist/` de `astro.config.mjs` (`unirCss`), con dos
+  interruptores de entorno para medir: `PP_CSS=enlace|inline|no` y
+  `PP_PURGA=webflow|todas`.
+
+**Medido antes de decidir (5 plantillas móvil × 2)**
+
+| | 5 hojas (F1) | 1 hoja `<link>`, purga Webflow | inline, purga Webflow | inline, purga total |
+|---|---|---|---|---|
+| CSS bloqueante | 41 KB gz / 5 peticiones | 17–21 KB gz / 1 | 0 peticiones (+12 KB gz de HTML) | 0 (+8–10 KB gz) |
+| FCP móvil | 1,35 s | 1,20 s | 0,90–1,08 s | 0,90–1,05 s |
+| `render-blocking-insight` | 450 ms | 150 ms | 0 | 0 |
+| `unused-css-rules` | 12 KB | 15 KB | 12–14 KB | **0** |
+| FAQ / servicio / ciudad / condado | 97 / 93 / 90 / 86 | 98 / 94 / 90 / 88 | 99 / 94 / 90 / 88 | 99 / 95 / 91 / 88 |
+
+**Decisiones**
+
+- **Inline, purga total.** Inline porque con la simulación móvil de Lighthouse cualquier
+  petición bloqueante cuesta ≥ 150 ms de FCP, y el precio (8–10 KB gz por página, sin
+  caché entre páginas) es asumible en un sitio de 217 páginas al que se llega desde
+  buscadores. No hay FOUC posible: todo el CSS va en el documento, no se difiere nada.
+- Purga también del CSS propio porque con solo Webflow quedaban 11–14 KB de reglas de
+  blog, FAQ y menú en páginas que no las usan; la lista blanca medida + las clases
+  de los scripts propios la cubren, y lo demuestran la sonda (menú, dropdown, hover,
+  idioma, estimador, multipaso) y el diff visual, no la lista.
+- Se descartó el «CSS crítico + resto diferido con `preload onload`»: exige elegir qué
+  es crítico por plantilla (34), introduce un parpadeo real al llegar el resto y gana
+  frente a inline-todo solo si la hoja fuera grande; con 8–10 KB gz no lo es.
+- Las `url()` relativas del CSS de Webflow (`../images/…`) se absolutizan al moverlo
+  de `/css/` al `<head>`: medido un 404 en `/services/images/…` en la primera prueba.
+- `font-display: swap`, el único `preload` de `inter-latin.woff2` y los dos
+  `@font-face` de `fuentes.css` quedan como estaban.
+
+**Medido (mediana de 3, móvil; `02-f2/lighthouse-medianas.csv`)**
+
+| Plantilla | F1 → F2 | LCP F1 → F2 | FCP |
+|---|---|---|---|
+| Home / Home ES | 93 / 92 → **95 / 95** | 3.262 → 2.960 · 3.299 → 3.002 | 1,35 → 0,9 s |
+| Estimador | 95 → **97** | 2.960 → 2.658 | |
+| FAQ | 97 → **99** | 2.555 → 2.201 | 1,05 s |
+| Blog índice / categoría | 93 / 93 → **96 / 96** | 3.184 → 2.812 / 2.847 | |
+| Producto / Proyecto / Servicio | 94 / 94 / 93 → **96 / 96 / 96** | 3.040 → 2.815 · 3.035 → 2.809 · 3.189 → 2.815 | |
+| Ciudad / Condado | 90 / 86 → **92 / 89** | 3.677 → 3.377 · 4.127 → 3.753 | 0,9 s |
+| Post / galería / índices / contacto | 96–98 (sin cambio significativo) | | |
+
+Escritorio 99–100 en las 16. `render-blocking-insight` 0 ms y `unused-css-rules` 0 KB
+en las 16 (objetivo < 5 KB). Servicio vuelve por encima del baseline (96 > 95): el
+`eager` del hero se queda. Sonda: 0 regresiones funcionales (menú 67/67, dropdown y
+hover 23/23); las únicas líneas del comparador son 1–3 mensajes más de Turnstile en
+consola en las páginas de contacto a 1440, que varían de una carga a otra.
+
+**Lo que el diff visual cazó (y por eso existe)**: la primera purga sacaba la versión
+española con «Pedir Presupuesto» y «Cabañas De Aluminio» en mayúsculas (29,7 % de
+diferencia y +71 px de alto en `/es/products/cabanas/` a 375). No era la purga: el
+compactador quitaba el espacio antes de `:` y convertía `html[lang=es] :is(h1,…)`
+(descendiente) en `html[lang=es]:is(h1,…)` (nunca casa). Corregido y recapturado antes
+del commit. Las otras dos capturas marcadas (proyecto y categoría del blog) son las 87
+filas del nav en estado «scroll» de IX2, como en F1.
+
+**Puertas**: `check:marquee` contaba las clases del marquee también dentro del
+`<style>` inline (11 copias en vez de 10, y el primer `data-pp-marquee` caía en el
+CSS): la puerta ignora ahora los bloques `<style>`; el markup no cambió.
+
+**Segunda regresión cazada por el diff**: el paso a paso del formulario de presupuesto
+(«1 Proyecto · 2 · 3») salía como lista sin estilo en EN y ES a 375/768/1440 (+48–60 px
+de alto, 11–27 % de diferencia). `Formulario.astro` inyecta ese bloque y sus clases
+**al cargar**, así que no estaban ni en el HTML servido ni eran «nuevas» respecto al
+DOM tras `load`: el recolector no las veía. Ahora compara también el DOM tras `load`
+con el HTML crudo (62 clases en la lista blanca). Recapturado: 59/60 bajo el 1 %; la
+restante es el nav en estado «scroll» (87 filas). Las medianas de Lighthouse de
+`02-f2/` se midieron antes de estas dos correcciones (que añaden ~1 KB de CSS); la
+comprobación posterior en home ES / ciudad / FAQ dio 95 / 91 / 98–100, igual que la
+tanda, y F8 vuelve a medir las 16.
+
+## F3 · Vídeo del hero
+
+**Hecho** (paso 4m de `scripts/lib/transformar.mjs`, markup migrado; regenerado):
+el `<video>` conserva `poster` + `preload` del poster + `fetchpriority="high"` y el
+script inline sigue quitando `autoplay` y poniendo `preload="none"` antes de que el
+parser vea el primer `<source>`. Cambia **cuándo arranca**: en lo primero que ocurra
+de primer `scroll`, `pointerdown`, `pointermove`, `keydown` o, si el visitante no hace
+nada, un hueco de CPU (`requestIdleCallback`) 3 s después de `load`. Con
+`prefers-reduced-motion`, `saveData` o `effectiveType` 2g/3g no arranca (el poster es
+una foto real). Una sola vez (`once` + bandera). Móvil sigue con `_movil.mp4`.
+
+**Decisiones medidas**
+
+- El encargo pedía `load` + 1,5 s. Medido con Lighthouse móvil ×3: con 1,5 s el
+  `_movil.mp4` entraba en la traza igual que antes (2,5–3,0 MB a los 1,6 s;
+  `total-byte-weight` 3,2–3,7 MB). Con 3 s **y** con 5 s: 0 bytes de vídeo en la
+  traza, `total-byte-weight` **633 KB** (objetivo < 1,2 MB). Se deja 3 s, el menor
+  que cumple. `pointermove` no estaba en la lista del encargo y es el disparador que
+  de verdad arranca el vídeo en escritorio: el cursor se mueve antes de que pase un
+  segundo; quien no mueve nada lo ve a los 3 s.
+- No se recorta el vídeo a 20 s (pide aprobación: 07-PENDIENTE §6).
+- Sonda: reproduce a los 8 s en 320/375/768/1440 (EN y ES) y parado con
+  `reducedMotion: 'reduce'`.
+
+**Medido (`03-f3/`)**: home y home ES, ×3 por dispositivo. Escritorio 100/100. Móvil:
+home ES 92 (92/95/92), home **95 (95/95/91)** en la tanda que cuenta
+(`lighthouse-medianas.csv`); la primera tanda dio 90 (90/90/95) y se guarda aparte
+(`lighthouse-home-movil-primera-tanda-corridas.csv`). Las corridas lentas no son el
+vídeo (0 bytes de vídeo en las 12): tienen FCP simulado 1,6–1,7 s en vez de 0,9 y un
+RTT estimado por Lighthouse de 0,11–0,24 ms frente a 0,02 en las buenas, con el mismo
+HTML; coinciden con picos de CPU de la propia máquina (la app de escritorio al 70 %
+mientras se medía). `total-byte-weight` 633 KB en las 6 corridas móviles (era 3,2–3,7
+MB), TBT 0–29 ms, CLS 0. Sonda: vídeo reproduciendo a los 8 s en 320/375/768/1440
+EN y ES, parado con movimiento reducido, consola 0. Diff visual: 59/60 bajo el 1 % (la
+restante, el nav en estado «scroll»).
+
+## F4 · Accesibilidad 100 estable
+
+**Hecho**: la tabla completa, con ficheros, está en `05-A11Y-WCAG22.md`. En resumen:
+contador de chips a color sólido (5,2:1); entradas por scroll **solo con `transform`**
+(sin fundido: axe medía texto a media opacidad); velo de «Service Areas» al 56 % (el
+mínimo medido en el peor píxel); enlace «Skip to content / Saltar al contenido» como
+primer foco hacia `<main id="main">`; `role="banner"` fuera; anillo en el buscador de
+la FAQ; `<h2>` de sección solo para lectores de pantalla en los 5 índices y en las
+categorías del blog; `aria-label` de los chips con el texto visible; el índice del
+artículo como `<nav>`; pestañas de producto de la home a `opacity:.7`; fecha del
+destacado del blog en un gris legible.
+
+**Decisiones**
+
+- Se probó primero lo menos invasivo para el fundido (`entry 30%`): Lighthouse móvil
+  subía, pero accesslint —con su viewport pequeño— seguía midiendo tarjetas a medio
+  entrar en la categoría del blog. Sin `opacity` en los fotogramas no hay instante
+  malo que medir, y el gesto (subir 16 px al entrar) es el mismo. La puerta
+  `check:animaciones` exige ahora `transform:none` al final y `opacity:1` solo si el
+  fotograma funde.
+- El velo no se sube «a ~65 %» a ojo: `scripts/perf/medir-velo.mjs` oculta el texto,
+  captura la banda tal cual se pinta y busca el peor píxel bajo cada texto. El párrafo
+  de 14 px daba 4,21:1 a 1440 y necesitaba el 55 %; se deja el 56 %.
+- Dos hallazgos nuevos que no estaban en la auditoría salieron al medir en escritorio
+  ×3: las pestañas de producto inactivas (4,40:1, `opacity:.65` en el `<style>`
+  embebido de Webflow) y la fecha del destacado del blog (1,44:1 sobre blanco: una
+  regla de la fase anterior suponía un fondo oscuro). Los dos corregidos y anotados
+  como cambio visible en 07-PENDIENTE §8.
+- Objetivos < 24 px del pie: no se tocan (excepción de espaciado; subirlos es diseño).
+
+**Medido** (`04-f4/`): Lighthouse Accessibility **100 en 32/32, 3/3 corridas**;
+accesslint 0 serios y 0 moderados en las 16 plantillas (más la categoría ES del blog);
+sonda: salto 90/90, 0 paradas sin anillo, menú 67/67, dropdown 23/23; Performance sin
+cambios respecto a F3 (home 95, FAQ 99–100, blog 94–96, ciudad 91, condado 89);
+diff visual sin fotos 59/60 bajo el 1 % tras los cambios de velo, pestañas y fecha (la restante, las 87 filas del nav en estado «scroll» de IX2, como en F1).
+Hizo falta medir dos veces en escritorio: la primera tanda sacó 97 en home EN/ES y
+en el índice del blog (3/3, no ruido) y de ahí salieron las dos correcciones de arriba;
+la tercera (fecha del destacado) salió al remedir en móvil, donde el fondo es oscuro.
+
+## F5 · SEO blindado y datos estructurados
+
+**Hecho**
+
+- `inLanguage` del nodo `Blog` por idioma: `jsonLdBlog()` admite `idioma`; las 6
+  páginas de `/es/resources/blog/` publican `es-US` (como ya hacían los posts ES).
+  `src/lib/blog.ts`, `src/pages/es/resources/blog.astro`, `…/[categoria].astro`.
+- `areaServed` real: `areaDeServicio()` recibe `{ municipio, condado }` (ciudad →
+  `City` contenida en `AdministrativeArea` contenida en `State: Florida`) o
+  `{ condado }` (condado → `AdministrativeArea` en Florida). Los datos salen de
+  `src/data/ubicaciones.mjs` (nuevo, 25 ciudades + 3 condados, copiados del CMS:
+  el municipio con el que titula cada página y el condado bajo cuyo `<h2>` cuelga en
+  `/about-us/where-we-work`). Plantillas EN (generador) y ES.
+- Home EN/ES: nodo `WebSite` (`@id #website`, `url`, `name`, `inLanguage`,
+  `publisher`) y `logo` en `HomeAndConstructionBusiness`: PNG de 512×512 generado
+  desde el único logotipo del repo (`scripts/generar-logo.mjs` → logo blanco sobre el
+  color primario, como se ve en el nav). Sin `aggregateRating`, `offers`,
+  `priceRange` ni licencia.
+- Enlazado interno a las 25 ciudades (`enlazarCiudades()` sobre `dist/`, consciente
+  del idioma; los `href` ingleses los reescribe `enlazarEnEspanol()` después):
+  1. en cada ciudad, una línea al final de su sección «About» con las demás ciudades
+     de su condado («Also serving nearby in Palm Beach County: …» / «También
+     trabajamos cerca, en el condado de Palm Beach: …»): 6–8 entrantes por ciudad;
+  2. en las fichas de proyecto, la primera mención del municipio en la descripción
+     del hero pasa a enlace (texto intacto);
+  3. en los posts cuyo slug nombra una ciudad, la primera mención en la prosa.
+  396 enlaces en el build. Es el **único añadido visible** de este trabajo (una línea
+  de texto con enlaces, mismo cuerpo que la sección): 07-PENDIENTE §8.
+
+**Decisiones**
+
+- El enlazado va sobre `dist/` y no en los fragmentos: en `/es/` el texto se traduce
+  por diccionario de nodos de texto y un `<a>` dentro del párrafo rompería la clave
+  de traducción (y `check:i18n`); sobre el HTML ya traducido se enlaza en el idioma
+  que toca.
+- No se enlaza desde el pie ni desde todas las páginas a las 25 ciudades: 25 enlaces
+  de pie en 217 páginas es la forma de enlazar que Google descuenta, y el objetivo
+  (≥ 5 entrantes temáticos por ciudad) se alcanza con las ciudades hermanas.
+- `Blog` sigue siendo un nodo plano (no `@graph`): es lo que ya tenía y valida.
+
+**Medido** (`05-f5/`): crawl de los 217 HTML: canonical autorreferente 217/217,
+hreflang recíproco con `x-default` en los pares, sitemap 213 URL sin `noindex`,
+JSON-LD parsea 214/214, `inLanguage` contradictorio 0 (eran 6), saltos de encabezado
+0 (eran 8), **entrantes por ciudad 8–15, media 10,2** (eran 2 en las 25), enlaces
+rotos 0 tras apuntar a la home la opción activa del selector de idioma del 404
+inglés (apuntaba a `/404/`, que no existe como ruta). Lighthouse ×1 por combinación
+(la ×3 se repite en F8): SEO 100 en 32/32, BP 100 salvo contacto (96, Turnstile en
+localhost), Performance igual que F4. Sonda: 0 regresiones. Diff visual: solo las
+páginas de ciudad a 375/768 (la línea nueva de ciudades hermanas: +68–91 px).
+
+## F6 · Best Practices, cabeceras y caché
+
+**Hecho** (`scripts/rutas-vercel.mjs`, que ya edita y valida `.vercel/output/config.json`;
+`scripts/lib/css.mjs` → `versionarJs`; `scripts/perf/servir.mjs` aplica las mismas
+rutas en local, así que lo medido es lo servido):
+
+- Rutas `headers` con `continue: true` justo detrás de la de `/_astro/` del adaptador
+  (antes de `handle: filesystem`, para que alcancen a los estáticos):
+  - `cache-control: public, max-age=31536000, immutable` para `/fonts/*`, `/videos/*`,
+    `/images/**`, `/cms-img/**`, `/css/*`, `/js/*`. Los `/js/*.js` se copian con hash
+    en el nombre (`webflow.<hash10>.js`, `jquery-3.5.1.min.<hash10>.js`) y el HTML
+    apunta a esos; el `integrity` de jQuery sigue valiendo (mismo contenido). `/css/*`
+    ya no lo pide ningún HTML desde F2.
+  - `x-content-type-options: nosniff`, `referrer-policy: strict-origin-when-cross-origin`,
+    `x-frame-options: DENY`, `permissions-policy: camera=(), microphone=(),
+    geolocation=(), payment=(), usb=()` en todo.
+  - **CSP generada del build** en los documentos (no en estáticos ni `/api/`):
+    `default-src 'self'`; `script-src 'self'` + los 16 hashes sha256 de los `<script>`
+    inline ejecutables de los 217 HTML (los `ld+json` y `text/x-wf-template` no se
+    ejecutan y no cuentan) + Turnstile y OnceHub; `style-src 'self' 'unsafe-inline'`
+    (el markup de Webflow lleva `style=""` en miles de nodos y webflow.js escribe
+    estilos en línea; los hashes de estilo no cubren atributos); `img-src 'self' data:
+    https:`; `font-src 'self' data:` (el icon-font de Webflow va en `data:`); `media-src
+    'self'`; `connect-src` propio + Turnstile + OnceHub; `frame-src` Turnstile, OnceHub,
+    embedly (envuelve los 21 YouTube del CMS) y YouTube; `frame-ancestors 'none'`;
+    `base-uri 'self'`; `form-action 'self'`; `object-src 'none'`;
+    `upgrade-insecure-requests`.
+- El 404 español y los 45 redirects siguen en su sitio (posición 53 de 55 y 45
+  rutas 301; lo comprueba el propio script).
+
+**Decisiones**
+
+- Se empezó en `Content-Security-Policy-Report-Only` y se midió con la sonda (22 rutas
+  × 4 anchos) y con `scripts/perf/csp-flujos.mjs` (menú, dropdowns con hover,
+  estimador completo, buscador de la FAQ, multipaso con envío vacío y Turnstile,
+  lightbox, ficha con YouTube, OnceHub). Salieron dos cosas de la política: el frame
+  de embedly (añadido) y el aviso de que `upgrade-insecure-requests` no aplica en
+  Report-Only. El resto son de las CSP de otros: el iframe de Turnstile se queja de su
+  propio `connect-src` (`data:,`) y el de YouTube de `picture-in-picture`/`web-share`
+  (también sin nuestra cabecera, comprobado). Con eso se pasó a **bloqueante**, y se
+  volvió a medir: 0 mensajes de la política propia.
+- No se usa `security.csp` de Astro: emite una `<meta>` (sin Report-Only posible), no
+  hashea los `<script is:inline>` del markup migrado y el adaptador solo copia esa
+  misma política a cabecera por página. Generarla del `dist/` en el paso que ya
+  escribe `config.json` cubre los 48 scripts inline distintos del sitio con 16
+  hashes y se regenera sola en cada build (en F7, si cambian los scripts, cambia).
+- `X-Frame-Options: DENY` y `frame-ancestors 'none'`: nadie enmarca el sitio; los
+  iframes de terceros van DENTRO del sitio (`frame-src`), que es otra cosa.
+
+## F7 · webflow.js + jQuery fuera: sustituto nativo con paridad medida
+
+**Primera decisión (F6, revertida en F7).** Sobre el build de F6 se midió el techo sin
+los dos ficheros (ciudad 93, condado 92) y se dejaron con `defer`: no alcanzaban 95 y el
+lightbox de las 23 galerías dependía de webflow.js. **Repetido el techo sobre el build de
+F8** (heroes de 800 px, foco no oculto): producto 99 (LCP 2,04–2,10 s), ciudad 96–97
+(2,55–2,70 s), **condado 94/95/94 (3,08/3,00/3,09 s)**. Con eso F7 pasa a compensar, y
+el goal de cierre («termina lo que faltó») lo pide. Se hizo entero.
+
+**Qué hacía webflow.js en este sitio (inventario medido sobre el fichero, no sobre la
+documentación).** Módulos `navbar` (panel móvil), `dropdown` (5 paneles), `lightbox`
+(23 galerías, `a.w-lightbox` + `script.w-json`) e IX2 con 200 eventos: 110 reveals
+(apagados desde F0), 48 de scroll del nav (a-27/a-28), 36 hover de los previews del
+mega-menú (a, a-2…a-19) y **6 por clic que el encargo no listaba**: FAQ (a-21/a-22,
+`.faq_trigger`, 34 páginas), «Service Includes» en móvil (a-23/a-24,
+`.feature-header-item`, <992 px, 14 páginas) y features de producto (a-25/a-26,
+`.block-heading-feature`, 20 fichas). jQuery solo lo usaba webflow.js.
+
+**Sustituto** (`src/scripts/`, 12 KB en total frente a 426 KB; Astro lo empaqueta como
+módulo diferido y la CSP de F6 lo admite por `'self'`):
+
+- `menu-nativo.ts` — navbar: el mismo DOM que webflow.js (`.w-nav-overlay` creado al
+  arrancar, panel movido dentro al abrir, `data-nav-menu-open`, `w--open`,
+  `w--nav-*-open`, altura del documento en línea, `translateX` 400 ms con
+  `data-easing`/`data-easing2`, cierre por clic fuera, por ancla y al pasar a
+  escritorio). Dropdown: ids y ARIA idénticos, `z-index: 901` mientras está abierto,
+  Enter/espacio, flechas/Home/End, Escape devuelve el foco al disparador, solo uno
+  abierto a la vez. Y a-27/a-28: `.menu.pp-escondido` con cualquier bajada
+  (`translateY(-85px)` + opacidad 0, 500 ms easeInOut) y vuelta con cualquier subida.
+  El Escape/inert/ciclo de foco del panel móvil sigue en `Nav.astro` (observa
+  `w--open`, no sabe quién la pone).
+- `lightbox.ts` — se carga solo en las páginas con galería (import dinámico). Construye
+  el mismo árbol `.w-lightbox-*` (volcado del real: backdrop, container, content
+  `.w-lightbox-group`, view `#w-lightbox-view`, spinner con su `progressbar`, flechas
+  con `inactive`/`aria-hidden`/`tabindex` en los extremos, X, tira `role=tablist` con
+  miniaturas `tall`/`wide` y `aria-selected`), el mismo comportamiento (fundido de 300
+  ms, foto que entra desde ±80 px, siguiente con clic en la foto, cierre con Escape, X
+  o clic en el fondo, ←/→, deslizar en táctil, `html.w-lightbox-noscroll`,
+  `aria-hidden`+`tabindex=-1` en el resto del `body`, foco a la X al abrir y **al
+  enlace al cerrar**) y el CSS de webflow.css lo viste sin tocar nada: por eso no
+  cambia el diseño, que era lo que en F6 lo frenaba.
+- Hover de los previews: CSS en `menu.css`, `.dropdown:has(.submenu-item.is-N:is(:hover,
+  :focus)) .preview-image.is-N` con `@starting-style` para el fundido de 500 ms y la
+  portada que vuelve fundiéndose, como IX2; y además con el foco del teclado
+  (`focoPreview` pasa de 0/23 a 23/23).
+- `interacciones.ts` + `interacciones.css` — los 3 acordeones: clase `pp-abierto` en el
+  disparador y el resto en CSS (estados en reposo que IX2 ponía en línea al cargar,
+  display/opacidad/giro de la flecha con los mismos 500 ms). De paso los disparadores,
+  que eran `<div>` mudos, pasan a `role=button`, `tabindex=0`, `aria-expanded` y
+  Enter/espacio (WCAG 2.1.1; en «Service Includes» solo por debajo de 992, donde IX2
+  registraba el evento).
+
+**Lo que se quita**: `public/js/webflow.js`, `public/js/jquery-3.5.1.min.js`,
+`scripts/parchear-webflow.mjs` y las dos etiquetas de `BaseLayout.astro`.
+`check:animaciones` deja de vigilar el parche y vigila que no vuelvan (ningún HTML
+carga `/js/webflow*` ni `/js/jquery*`; los ficheros no están en `public/js`), y su
+sección de «colisiones con IX2» pasa a prohibir solo `animation` sobre `.menu` y
+`.feature-card`, que ahora van por transición propia. La purga de CSS recibe
+`pp-abierto` y `pp-escondido` en la lista blanca.
+
+**Paridad, medida antes de borrar nada** (`09-f7/`):
+
+- Sonda ampliada: lightbox (abre, foto cargada, flecha derecha cambia de foto y la tira
+  marca la activa, Escape cierra, foco vuelve al enlace, `aria-hidden` puesto y
+  retirado, `noscroll` retirado) en las 6 rutas con galería × 4 anchos: **24/24** (con
+  webflow.js, misma sonda sobre el build de F8: 16/16 en 4 rutas, salvo el foco de
+  vuelta 0/16, que el original pierde al abrirse por evento sintético). Menú 66/66,
+  dropdown 23/23, hover 23/23, **foco en preview 23/23** (era 0/23), 90/90 cargas,
+  0 sin anillo, 0 sobredimensionadas a 375/1440. Un fallo de carrera en
+  `/contact-us/get-in-touch/@320` (clic al menú mientras Turnstile desplaza la
+  página): 2/2 en verde al repetirlo.
+- Capturas de ESTADO nuevas (`sonda.mjs --estados`): menú móvil abierto y con su
+  primer desplegable abierto (375/768), desplegable abierto y con hover en el segundo
+  item (1440), lightbox abierto donde hay galería; 138 capturas con webflow.js
+  (`estados-antes/`) frente a 138 con el sustituto: **0 por encima del 1 %**, peor
+  0,35 % (`diff-estados.md`).
+- Diff visual en reposo contra F8: 56/60 sin fotos; las 4 restantes son las 87 filas
+  del nav en estado «scroll» de IX2 en las capturas de F8 (thank-you 375/1440, categoría
+  del blog 768, presupuesto ES 375), del píxel 87 abajo 0 %.
+- Consola: 0 mensajes propios (los 30 son Turnstile/OnceHub en contacto y presupuesto,
+  los mismos tipos que en F6; eran 51 con webflow.js).
+- Crawl 217/217 igual que F8; accesslint 0 serios y 0 moderados en 15/16 **y 6 serios
+  en ciudad que no eran de F7**: los enlaces de la línea «Also serving nearby» (F5)
+  estaban en `--primary` sobre `--primary` (1:1, invisibles en las 50 páginas de
+  ciudad) porque `p a:not([class])` de tipografia.css (0,1,2) ganaba a `.pp-cercanas
+  a` (0,1,1). Corregido con `p.pp-cercanas a { color: inherit }` (`bandas.css`) y
+  re-auditado: 0/0 en las 16. Es un cambio visible —aparece un texto que debía verse
+  desde F5— y va en 07 §8.
+
+**Medido** (`09-f7/lighthouse-medianas.csv`, ×3 por combinación, máquina en reposo):
+
+Dos tandas completas (×3 × 32 combinaciones). La primera salió ruidosa (35 de las 96
+corridas con `diagnostics.rtt` > 0,1, hasta 0,83: la máquina no estaba en reposo) y se
+guarda como `lighthouse-*-tanda1-ruidosa.csv`; la segunda, con la máquina parada (11
+corridas > 0,1, ninguna de ellas decide una mediana salvo productos-índice móvil, que
+da 99 igual), es la que cuenta y la de `lighthouse-medianas.csv`:
+
+| | Escritorio | Móvil |
+|---|---|---|
+| Performance | **100 en 15/16**; ciudad 99 (99/99/99; en F8 eran 3 plantillas en 99) | ≥ 95 en **13/16**: FAQ 100, blog índice/productos/servicios/post/presupuesto/estimador/galería 99, producto/servicio/categoría 98, ciudad **97** (era 95), proyecto 97 (96), home ES 95. Por debajo: **home 94** (95/94/94, era 95: LCP idéntico 3,00 s, cae por redondeo) y **condado 93** (93/94/93, era 92; LCP 3,15 s) |
+| Accessibility | 100 en 16/16, 3/3 | 100 en 16/16, 3/3 |
+| Best Practices | 100 en 15/16; contacto 96 (Turnstile en `localhost`) | ídem |
+| SEO | 100 en 16/16 | 100 en 16/16 |
+| CLS | 0,000 en 48/48 | 0,000 en 47/48 (estimador 0,013 en una corrida) |
+| TBT | 0 ms | 0 ms salvo estimador 4–6 ms (era 0–28) |
+| LCP (lab) | 0,40–0,86 s | 1,65–3,15 s: ≤ 2,5 s en **9/16** (FAQ 1,65, contacto 1,80, post 1,88, galería 2,03, productos 2,03, servicios 2,03, estimador 2,18, producto 2,25, blog 2,25; era 3/16), categoría 2,40, servicio 2,40, ciudad 2,63, proyecto 2,63, home ES 2,93, home 3,00, condado 3,15 |
+| JS | 12 KB en total (un módulo diferido; el lightbox solo en las 23 galerías) frente a 426 KB (99 KB gz) | ídem |
+
+Comparado con el techo medido sin ningún JS sobre el build de F8 (producto 99, ciudad
+96–97, condado 94–95): producto 98, ciudad 97, condado 93. Lo que separa a condado del
+techo son los ~70 ms del módulo (5 KB) en la estimación pesimista del LCP; lo que lo
+separa del 95 es el hero (`img.image-4`, 80–100 KB) detrás de la fuente y del HTML con
+el CSS dentro a 1,6 Mbps simulados, que es lo que F8 ya dejó medido. Se para aquí
+(regla 10: dos iteraciones medidas por fase).
+
+## F8 · Plantillas rezagadas y UX móvil
+
+**Hecho**
+
+- **Probado y revertido**: poner en `eager` + `fetchpriority="high"` las dos primeras
+  tarjetas de los índices de productos, servicios y galería (su LCP venía `lazy`, con
+  `lcpLoadDelay` 1,4–1,6 s). Medido ×3 sobre el build: el LCP simulado **empeoró** en
+  los tres índices (productos 2,73 → 3,06 s, galería 2,77 → 3,04 s, servicios 2,81 →
+  2,99 s: la imagen entra antes pero con prioridad alta compite con la fuente y el
+  HTML en la simulación a 1,6 Mbps) y arrastró a las fichas de producto, cuya sección
+  «Compare» reutiliza las tarjetas del índice ya transformado (producto 2,82 → 3,42 s,
+  96 → 92). Además, en la galería las dos primeras tarjetas del fragmento no son las
+  dos primeras de la página (los 3 proyectos del cliente se insertan después). Se
+  quita en el mismo commit (regla 8) y se deja el aviso en el transformador.
+- Heroes de ciudad, condado y producto: candidato de **800 px** en el juego de
+  derivados (`PORTADAS_ANCHOS`). El móvil de Lighthouse (412 × 1,75 = 721 px) elegía
+  el de 960 (99–125 KB en ciudad y condado); con 800 pide ~20 % menos para el mismo
+  hueco. Los `-800.avif` ya existían (los escribió `derivar-cms.mjs`).
+- 2.4.11 Foco no oculto: con la sonda a 320/375, 75 de 640 paradas de tabulación
+  caían debajo de un botón flotante (56 px + 20 de margen en las dos esquinas
+  inferiores). `html { scroll-padding: 100px 0 6rem }` (`accesibilidad.css`): el
+  navegador deja el hueco de la barra fija y de los botones al desplazar hacia el
+  foco o hacia un ancla. Después: 0 tapadas del todo (las 8 «100 %» son los propios
+  botones flotantes con el foco) y 4 parciales (8–10 % de 4 enlaces del pie, al final
+  del documento donde ya no hay scroll: permitido por el criterio mínimo). No mueve
+  nada en pantalla.
+- UX a 320/375 ya verificada por la sonda en cada fase: 0 px de overflow horizontal
+  en 90/90 cargas; resumen de errores del multipaso `aria-live` enfocable (código de
+  `Formulario.astro`, sin cambios). Carruseles: no se ha pasado `carrusel-qa` (va a
+  petición, como pide `~/Sites/CLAUDE.md`); las flechas responden en la sonda de
+  clases y no hay doble scroll táctil detectado por la sonda (overflow 0).
+
+**Lo que no sube y por qué, por elemento** (ver tabla final en `06-CHECKLIST-100.md`):
+ciudad y condado se quedan por debajo de 95 en móvil con el hero (`img.image-4`) como
+LCP: FCP 0,9 s, imagen de 80–100 KB descubierta con el HTML (preload) y cargada en
+~0,9 s simulados, y aun así LCP 3,2–3,5 s porque la estimación pesimista de Lighthouse
+mete en el camino del LCP la descarga diferida de jQuery + webflow.js (99 KB gz a
+1,6 Mbps). Sin ellos llegarían a 92–94 (medido en F7), no a 95. El resto de la
+diferencia es la fuente (48 KB, `preload`) y el propio HTML con el CSS dentro
+(38–63 KB gz).
+
+**Medido** (`08-f8/lighthouse-medianas.csv`, ×3 por combinación; la tabla completa con
+PASS/FAIL por criterio está en `06-CHECKLIST-100.md`):
+
+| | Escritorio | Móvil |
+|---|---|---|
+| Performance | 100 en 13/16; **99** en ciudad, condado y proyecto (3/3 cada una) | ≥ 95 en **15/16**: home 95, home ES 95, productos 96, producto 96, servicios 96, servicio 95, ciudad **95** (era 90), proyecto 95, galería 96, post 97, blog 95/95, FAQ 99, contacto 98, estimador 96; **condado 92** (era 86) |
+| Accessibility | 100 en 16/16, 3/3 | 100 en 16/16, 3/3 |
+| Best Practices | 100 en 15/16; contacto 96 (Turnstile en `localhost`) | ídem |
+| SEO | 100 en 16/16 | 100 en 16/16 |
+| CLS | 0,000 en las 48 corridas | 0,000 en las 48 corridas |
+| TBT | 0 ms | 0–28 ms (máx. producto 28) |
+| LCP (lab) | 0,41–0,92 s | **1,8–3,4 s**: ≤ 2,5 s solo en FAQ (1,80), contacto (2,44) y post (2,51); el resto 2,7–3,0 y condado 3,38 |
+| Peso antes de `load` | — | home 638 KB (≤ 1,2 MB), estimador 452 KB (≤ 0,8 MB), resto 242–869 KB salvo contacto 1.148 KB (Turnstile) |
+
+Lo que no llega y por qué, por elemento: ver el punto 3 de la respuesta final y
+`06-CHECKLIST-100.md`. Sonda final: 90/90 cargas, salto 90/90, 0 paradas sin anillo,
+menú 67/67, dropdown y hover 23/23, 0 sobredimensionadas a 375 y 1440, vídeo 8/8 y
+parado con movimiento reducido, 0 errores; crawl 217/217 sin un enlace roto, sitemap
+213, JSON-LD 214/214, entrantes por ciudad ≥ 8; accesslint 0 serios y 0 moderados en
+las 16 (más 3 rutas ES); diff visual sin fotos 58/60 (las 2 restantes, el nav en estado
+«scroll»); 19 puertas en verde sobre la salida commiteada.

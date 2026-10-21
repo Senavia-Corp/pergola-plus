@@ -77,8 +77,16 @@ const ariaMal = [];
 const sinAlt = [];
 const sinWid = [];
 
+/**
+ * Desde F2 el CSS va inline en el <head> de cada pagina, y lleva los mismos nombres
+ * que el markup que esta puerta cuenta (`[data-pp-marquee]`, `.fs-marquee-picture-
+ * right_item`): sin quitarlo, el primer `data-pp-marquee` caia dentro del <style> y
+ * los items de las fotos se contaban 11 en vez de 10. Se mira SOLO el HTML.
+ */
+const sinEstilos = (h) => (h == null ? h : h.replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, ''));
+
 for (const { ruta, altsPropios } of CON_MARQUEE) {
-  const html = await fs.readFile(path.join(DIST, ruta), 'utf8').catch(() => null);
+  const html = sinEstilos(await fs.readFile(path.join(DIST, ruta), 'utf8').catch(() => null));
   if (html === null) { sinPista.push(`${ruta}: no existe`); continue; }
 
   const i = html.indexOf('data-pp-marquee');
@@ -283,7 +291,7 @@ console.log('\nlas dos filas de fotos');
   const paginas = [];
   const cache = new Map();
   for (const rel of todos) {
-    const h = await fs.readFile(path.join(DIST, rel), 'utf8');
+    const h = sinEstilos(await fs.readFile(path.join(DIST, rel), 'utf8'));
     if (h.includes('fs-marquee-picture-right_list')) { paginas.push(rel); cache.set(rel, h); }
   }
   decir(paginas.length > 0, `hay paginas con las dos filas de fotos (${paginas.length})`);

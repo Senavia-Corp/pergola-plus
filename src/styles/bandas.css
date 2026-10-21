@@ -24,3 +24,34 @@
  * en todas. El color es el token de marca, no un hex suelto.
  */
 .step-content { background-color: var(--secundary); }
+
+/* Banda «Service Areas» (home, productos, servicios y sus gemelas): el velo negro
+   sobre la foto pasa del 50 % al 56 %. Medido con scripts/perf/medir-velo.mjs sobre
+   el PEOR pixel debajo de cada texto (texto oculto, foto + velo tal cual se pintan):
+   a 1440 el parrafo de 14 px daba 4,21:1 y el titular 4,14:1 (grande: 3:1 le basta);
+   el 55 % es el minimo que deja el parrafo en 4,5:1 y se redondea a #8f (56 %). Misma
+   foto, misma posicion; cambia un 6 % de velo. Va aqui y no en el CSS de Webflow,
+   que se copia verbatim (ver scripts/parchear-css.mjs). */
+.service-areas {
+  background-image: linear-gradient(#0000008f, #0000008f), url('/images/intracoastal-luxury-homes-palm-beach-broward.avif');
+}
+
+/* Linea «Also serving nearby in <condado>» de las paginas de ciudad (la pone
+   enlazarCiudades() sobre dist/). Mismo cuerpo y color que el texto de la seccion;
+   los enlaces, subrayados como los del cuerpo y con el anillo de accesibilidad.css.
+
+   `p.pp-cercanas a` y no `.pp-cercanas a`: tipografia.css pinta los enlaces de prosa
+   con `p a:not([class]) { color: var(--primary) }` (0,1,2), que ganaba a (0,1,1) y
+   dejaba los nombres de ciudad en teal sobre el teal de .intro-location: contraste
+   1:1, invisibles en las 50 paginas de ciudad desde F5 (lo saco accesslint en F7). */
+.pp-cercanas {
+  margin: 0 0 1.5rem;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+p.pp-cercanas a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

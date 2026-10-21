@@ -56,8 +56,10 @@ html.w-mod-js .pp-faq-buscador {
   color: var(--black);
 }
 
-.pp-faq-input:focus {
-  outline: none;
+.pp-faq-input:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* La X nativa de Safari/Chrome dentro del anillo redondeado queda pegada al borde. */

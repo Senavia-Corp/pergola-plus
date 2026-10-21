@@ -1,0 +1,63 @@
+{
+  "paginas": 217,
+  "canonicalNoAuto": [],
+  "hreflangNoReciproco": [],
+  "sinXDefault": [],
+  "h1Mal": [],
+  "saltoEncabezado": [],
+  "imgSinAlt": 0,
+  "imgSinDim": 0,
+  "jsonldRoto": [],
+  "jsonldIdiomaMal": [
+    "/es/resources/blog/buying-guides-cost/ lang=es inLanguage=en-US",
+    "/es/resources/blog/ lang=es inLanguage=en-US",
+    "/es/resources/blog/maintenance-care/ lang=es inLanguage=en-US",
+    "/es/resources/blog/materials-engineering/ lang=es inLanguage=en-US",
+    "/es/resources/blog/outdoor-living-design/ lang=es inLanguage=en-US",
+    "/es/resources/blog/pergolas-shade-systems/ lang=es inLanguage=en-US"
+  ],
+  "enlacesRotos": [
+    "/404.html -> /404/"
+  ],
+  "noindex": [
+    "/404.html",
+    "/es/404/",
+    "/es/thank-you/",
+    "/thank-you/"
+  ],
+  "fueraSitemap": [],
+  "enSitemapConNoindex": [],
+  "titulosDup": {},
+  "descDup": {},
+  "sinProfundidad": [],
+  "sitemapUrls": 213,
+  "jsonldParsea": "214/214",
+  "entrantesCiudades": {
+    "/pergolas-contractors/aventura-pergola-builders/": 2,
+    "/pergolas-contractors/boca-raton-pergola-contractor/": 4,
+    "/pergolas-contractors/boynton-beach-contractors/": 2,
+    "/pergolas-contractors/cooper-city-pergola-installation/": 2,
+    "/pergolas-contractors/coral-gables/": 2,
+    "/pergolas-contractors/coral-springs-installation/": 3,
+    "/pergolas-contractors/davie-installation/": 2,
+    "/pergolas-contractors/delray-beach-contractors/": 2,
+    "/pergolas-contractors/doral-pergola-builders/": 2,
+    "/pergolas-contractors/fort-lauderdale-installation/": 3,
+    "/pergolas-contractors/hollywood-pergola-installation/": 2,
+    "/pergolas-contractors/jupiter-contractors/": 3,
+    "/pergolas-contractors/key-biscayne-pergola-builders/": 2,
+    "/pergolas-contractors/miami-beach-pergola-design/": 2,
+    "/pergolas-contractors/miami-pergola-experts/": 2,
+    "/pergolas-contractors/miramar-installation/": 2,
+    "/pergolas-contractors/palm-beach-contractors/": 2,
+    "/pergolas-contractors/palm-beach-gardens/": 3,
+    "/pergolas-contractors/parkland-installation/": 2,
+    "/pergolas-contractors/pembroke-pines-pergola-installation/": 2,
+    "/pergolas-contractors/royal-palm-beach-contractors/": 2,
+    "/pergolas-contractors/sunny-isles-beach-pergola-builders/": 2,
+    "/pergolas-contractors/wellington-contractors/": 2,
+    "/pergolas-contractors/west-palm-beach-contractors/": 2,
+    "/pergolas-contractors/weston-pergola-solutions/": 2
+  },
+  "entrantesCiudadesMin": 2
+}

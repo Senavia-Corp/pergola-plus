@@ -114,6 +114,9 @@ export function prepararArticulo(fragmento: string): Articulo {
 
   // Las imagenes del cuerpo llegan sin dimensiones y provocan saltos de layout.
   cuerpo = cuerpo.replace(/<img\b(?![^>]*\bloading=)/g, '<img loading="lazy" decoding="async" ');
+  // `sizes` medido (scripts/perf/medir-anchos.mjs): 343 a 375, 729 a 768, 604 a 992 y
+  // 772 a 1440. El srcset lo pone responsivizarImagenes() sobre dist/ a partir de el.
+  cuerpo = cuerpo.replace(/<img\b(?![^>]*\bsizes=)/g, '<img sizes="(min-width: 992px) min(61vw, 772px), 95vw" ');
 
   return { cuerpo, indice };
 }

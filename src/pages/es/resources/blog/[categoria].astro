@@ -43,6 +43,7 @@ const url = new URL(`/es/resources/blog/${categoria.slug}`, site).href;
   wfPage={WF_PAGE}
   wfSite={WF_SITE}
   jsonLd={jsonLdBlog({
+    idioma: 'es-US',
     url,
     nombre: copy.titulo,
     descripcion: copy.meta,

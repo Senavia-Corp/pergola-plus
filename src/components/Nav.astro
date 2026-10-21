@@ -60,7 +60,7 @@ const IDIOMAS = [
 const idiomaActual = IDIOMAS.find((i) => i.activo)!;
 ---
   <nav data-w-id="2d27e00a-9abd-8e02-83db-6979dd88df62" class="menu">
-    <div data-animation="over-right" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
+    <div data-animation="over-right" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" class="navbar w-nav">
       <div class="wrapper-menu">
         <a href="/" class:list={["brand w-nav-brand", { "w--current": esActiva("/") }]}  aria-current={esActiva("/") ? "page" : undefined}><img loading="lazy" src="/images/Logo-White.svg" alt="Pergola Plus Florida Logo" class="logo"></a>
         <nav role="navigation" class="nav-menu w-nav-menu">
@@ -462,10 +462,14 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
                     saltan una opcion sin explicar por que. Pasa en 3 paginas —el
                     contrato de obra, que se deja en ingles a proposito, y los dos
                     404—. Se pinta como no disponible, que es la verdad: esta pagina
-                    no existe en ese idioma. */}
+                    no existe en ese idioma.
+                    Y en el 404 ingles la opcion ACTIVA apuntaba a /404/, una ruta
+                    que no existe (404.html se sirve bajo cualquier URL rota): el
+                    unico enlace roto de los 217 HTML en el crawl. Desde ahi lleva a
+                    la home. El 404 español si existe como pagina (/es/404/). */}
                 {i.href ? (
                   <a
-                    href={i.href}
+                    href={i.activo && ruta === '/404' ? '/' : i.href}
                     lang={i.lang}
                     hreflang={i.lang}
                     class:list={['idioma-opcion', { 'es-actual': i.activo }]}

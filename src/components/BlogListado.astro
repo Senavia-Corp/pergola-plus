@@ -139,10 +139,13 @@ const chips = [
                   data-cat={c.slug}
                   data-nombre={c.nombre}
                   data-titulo={c.titulo}
-                  aria-label={`${c.nombre}, ${c.total} ${artic(c.total)}`}
+                  aria-label={`${c.nombre} ${c.total} ${artic(c.total)}`}
                   aria-current={c.slug === activa ? 'page' : undefined}
                 >
-                  {c.nombre}
+                  {/* El espacio es markup, no formato: sin el, el texto visible es «All21»
+                      y el nombre accesible («All 21…») no lo contiene (axe
+                      label-content-name-mismatch). */}
+                  {c.nombre}{' '}
                   <span class="pp-chip-n">{c.total}</span>
                 </a>
               </li>
@@ -157,6 +160,9 @@ const chips = [
     <div class="pp-wrap">
       <p class="pp-sr" id="pp-anuncio" role="status" aria-live="polite"></p>
 
+      {/* En las categorias el destacado (el h2 visible) va oculto y las tarjetas
+          saltaban de h1 a h3 (heading-order). Un h2 solo para lectores de pantalla. */}
+      {!esTodo && <h2 class="pp-sr">{t.listaArticulos}</h2>}
       <ul class="pp-grid" id="pp-grid" data-destacado={destacado.slug}>
         {/* data-pp-reveal va en el <li>, no en la .pp-card: una animacion con fill
             activo gana a las declaraciones normales, asi que animar transform en la

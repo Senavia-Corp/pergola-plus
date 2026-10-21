@@ -1,0 +1,50 @@
+{
+  "cargas": 16,
+  "status200": 16,
+  "h1Unico": 16,
+  "sinOverflow": 16,
+  "conMain": 16,
+  "conSkip": 16,
+  "skipPrimero": 16,
+  "menu": {
+    "total": 12,
+    "abre": 12,
+    "focoDentro": 12,
+    "inert": 12,
+    "escape": 12,
+    "inertRetirado": 12,
+    "focoBoton": 12
+  },
+  "lightbox": {
+    "total": 16,
+    "abre": 16,
+    "focoDentro": 16,
+    "restoOculto": 16,
+    "derecha": 16,
+    "activaTras": 16,
+    "escape": 16,
+    "focoVuelve": 0,
+    "restoVisible": 16,
+    "noscrollRetirado": 16
+  },
+  "dropdown": {
+    "total": 4,
+    "abre": 4,
+    "expanded": 4,
+    "visible": 4,
+    "hover": 4,
+    "focoPreview": 0,
+    "escape": 4,
+    "focoToggle": 4
+  },
+  "sinAnillo": 0,
+  "sobredim": 1,
+  "sobredim375": 0,
+  "sobredim1440": 0,
+  "rotas": 0,
+  "consola": 0,
+  "videoReproduce": "",
+  "videoReducido": "",
+  "errores": [],
+  "segundos": 10
+}

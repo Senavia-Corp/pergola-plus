@@ -37,6 +37,8 @@ export interface PaginaEs {
 // /products
 // ---------------------------------------------------------------------------
 const PRODUCTOS: Record<string, string> = {
+  // <h2> de seccion solo para lectores de pantalla (transformar.mjs, 4i5).
+  'Our products': 'Nuestros productos',
   'Luxury Pergolas &amp; Outdoor Shade Solutions':
     'Pérgolas de lujo y soluciones de sombra para exteriores',
   'Discover premium aluminum pergolas and custom outdoor shade solutions expertly designed and installed across South Florida, delivering durability, style, and elevated luxury outdoor living.':
@@ -71,6 +73,8 @@ const PRODUCTOS: Record<string, string> = {
 // /services
 // ---------------------------------------------------------------------------
 const SERVICIOS: Record<string, string> = {
+  // <h2> de seccion solo para lectores de pantalla (transformar.mjs, 4i5).
+  'Our services': 'Nuestros servicios',
   'Luxury Outdoor Construction &amp; Patio Services in South Florida':
     'Construcción exterior y servicios de patio de lujo en el sur de Florida',
   'We design and build custom pergolas, pavers, driveways, decks, fencing, and full outdoor remodels across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.':
@@ -193,6 +197,8 @@ const VISITA: Record<string, string> = {
 };
 
 const GALERIA: Record<string, string> = {
+  // <h2> de seccion solo para lectores de pantalla (transformar.mjs, 4i5).
+  'Featured projects': 'Proyectos destacados',
   'Featured Projects': 'Proyectos destacados',
   'Explore our featured custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County—engineered to meet Florida building codes and built for luxury, durability, and coastal performance.':
     'Vea nuestros proyectos de pérgolas a medida, cubiertas de patio y espacios exteriores en Miami-Dade, Broward y Palm Beach: calculados para cumplir la normativa de Florida y construidos para durar en la costa.',
@@ -239,6 +245,8 @@ const RESENAS: Record<string, string> = {
 };
 
 const GARANTIAS_PAG: Record<string, string> = {
+  // <h2> de seccion solo para lectores de pantalla (transformar.mjs, 4i5).
+  'Warranties by brand': 'Garantías por marca',
   'Warranty Information': 'Información de garantía',
   'At Pergola Plus Florida, we stand behind the structural integrity, performance, and craftsmanship of every system we install. Serving Miami-Dade, Broward, and Palm Beach counties, we provide comprehensive warranty coverage designed to protect your investment and ensure long-term durability in South Florida’s climate.':
     'En Pergola Plus Florida respondemos de la solidez, del rendimiento y del acabado de cada sistema que instalamos. Trabajamos en Miami-Dade, Broward y Palm Beach con una cobertura de garantía pensada para proteger su inversión y para que lo instalado aguante el clima del sur de Florida.',
@@ -315,6 +323,8 @@ const SECTORES: Record<string, string> = {
 };
 
 const MARCAS: Record<string, string> = {
+  // <h2> de seccion solo para lectores de pantalla (transformar.mjs, 4i5).
+  'Our brands': 'Nuestras marcas',
   'Patio Cover Models Brands': 'Marcas y modelos de cubierta',
   'At Pergola Plus, we partner with industry-leading manufacturers to deliver high-quality pergola systems, louvered roofs, and outdoor solutions built to last. Each brand we work with is selected for its innovation, durability, and proven performance—ensuring your outdoor space is built with the very best.':
     'En Pergola Plus trabajamos con fabricantes de referencia para dar pérgolas, techos de lamas y soluciones exteriores que duran. Cada marca está elegida por su innovación, su resistencia y por lo que ya ha demostrado, para que su exterior se construya con lo mejor.',

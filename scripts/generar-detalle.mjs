@@ -432,7 +432,7 @@ for (const col of COLECCIONES) {
   const astro = `---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/${col.dir}/_items.json';
-import { grafo, breadcrumbs, producto, servicio, areaDeServicio${promovidas ? ', faqPage' : ''} } from '../../lib/jsonld';
+import { grafo, breadcrumbs, producto, servicio, areaDeServicio${promovidas ? ', faqPage' : ''} } from '../../lib/jsonld';${col.ld === 'area' ? `\nimport { CIUDADES, CONDADOS } from '../../data/ubicaciones.mjs';` : ''}
 ${col.faq ? `import FaqFichaEnlace from '../../components/FaqFichaEnlace.astro';\n` : ''}${col.faq || col.resenas ? `import { ${impFaqFicha.join(', ')} } from '../../lib/faq-ficha';\n` : ''}${impFicha}
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -473,7 +473,9 @@ ${col.miga ? `  ${JSON.stringify([col.miga, col.migaRuta])},\n` : ''}  [nombre, 
 const jsonLd = grafo(${{
     producto: nodoProducto,
     servicio: "servicio(site, { nombre, descripcion: item.description ?? '', ruta })",
-    area: "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: nombre })",
+    area: col.dir === 'countries'
+      ? "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: { condado: CONDADOS[item.slug as keyof typeof CONDADOS] } })"
+      : "areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: CIUDADES[item.slug as keyof typeof CIUDADES] })",
     ninguno: 'null',
   }[col.ld ?? 'ninguno']},${promovidas ? '\n  pares.length ? faqPage(pares) : null,' : ''} migas);
 ---

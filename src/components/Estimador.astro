@@ -51,6 +51,23 @@ interface Props {
 }
 const { t, base = '' } = Astro.props;
 
+/**
+ * srcset de las fotos de opcion. Las 6 del cliente tienen derivados 640/960/1280/1920
+ * junto al master de 2500 (optimizar-imagenes-cliente.mjs); las 2 del CMS (cabana,
+ * carport, master 938 px) los de 480/800 que escribe derivar-cms.mjs. Medido antes:
+ * 6 masters de 2.500 px (257–273 KB) para cajas de 148–344 px, Perf movil 70 y LCP
+ * de 10 s. `sizes` es lo medido con scripts/perf/medir-anchos.mjs: 148 (375),
+ * 344 (768), 247 (992) y 340 (1440). check:imagenes comprueba que cada candidato
+ * exista y este en git.
+ */
+const SIZES_FOTO = '(min-width: 992px) 340px, (min-width: 768px) 45vw, 40vw';
+const srcsetFoto = (src: string) => {
+  const base = src.replace(/\.avif$/, '');
+  return src.startsWith('/images/cliente/')
+    ? `${base}-640.avif 640w, ${base}-960.avif 960w, ${base}-1280.avif 1280w, ${src} 2500w`
+    : `${base}-480.avif 480w, ${base}-800.avif 800w, ${src} 938w`;
+};
+
 const productos = PRODUCTOS.map((p) => ({
   ...p,
   ...t.productos[p.id]!,
@@ -161,7 +178,7 @@ const paginaActual = Astro.url.pathname;
                     {/* alt vacio a proposito: la foto es redundante con el rotulo
                         que va justo debajo, y describirla otra vez solo anade ruido
                         para quien navega con lector de pantalla. */}
-                    <img class="est-foto" src={p.imagen} alt="" loading="lazy" />
+                    <img class="est-foto" src={p.imagen} srcset={srcsetFoto(p.imagen)} sizes={SIZES_FOTO} alt="" loading="lazy" />
                     <span class="est-opcion-fila">
                       <input type="radio" name="producto" value={p.id} />
                       <span class="est-opcion-cuerpo">
@@ -1385,6 +1402,26 @@ const paginaActual = Astro.url.pathname;
   /* --- barra de progreso --- */
   .est-progreso {
     margin-bottom: 2rem;
+  }
+
+  /* CLS 0,128 medido en movil: la barra de progreso y la botonera nacen `hidden`
+     y el JS las muestra al arrancar, asi que el <form> bajaba 40 px y la botonera
+     empujaba la captura. Ocultas pero CON su sitio desde el primer frame: lo que
+     cambia al arrancar es la visibilidad, no la geometria. `visibility:hidden`
+     las saca del orden de tabulacion igual que `hidden`. El texto de progreso
+     reserva una linea aunque llegue vacio. Sin JS siguen sin verse, como antes. */
+  .est-progreso[hidden],
+  .est-nav[hidden] {
+    display: block;
+    visibility: hidden;
+  }
+
+  .est-nav[hidden] {
+    display: flex;
+  }
+
+  .est-progreso-texto {
+    min-height: 1lh;
   }
 
   .est-barra {

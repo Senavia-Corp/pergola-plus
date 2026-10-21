@@ -39,6 +39,14 @@
       `animation-range`. La duracion gobierna SOLO el camino de respaldo (navegadores
       sin animation-timeline, donde esto corre una vez al cargar). Por eso estan las dos.
 
+   b') Las entradas ya NO funden: solo `transform`. axe (Lighthouse y accesslint) mide
+      el contraste en el instante que le toca, y una tarjeta con texto a media
+      opacidad daba 1,03:1 sobre un texto que en reposo da 8:1 (A11y 97 inestable en
+      home y servicio; 4 falsos positivos en la categoria del blog). Se probo primero
+      acortar el rango a `entry 30%`: accesslint, con su viewport pequeño, seguia
+      pillando tarjetas a medio entrar. Sin opacidad no hay instante malo que medir.
+      El gesto —subir 16 px mientras entra— es el mismo; el rango vuelve al 60 %.
+
    b) El rango termina en `entry`, NUNCA en `cover`. Medido en la home: con
       `entry 0% cover 25%` el pie se quedaba a medio encender PARA SIEMPRE en las 211
       paginas — .wrapper-bar-footer en opacity 0,35, .line-footer en 0,46,
@@ -313,24 +321,21 @@
     animation-name: pp-entrada;
   }
 }
-/* El -to- va EXPLICITO en los tres. Un @keyframes con solo -from- toma como -to-
-   implicito el estilo calculado del elemento; si ese estilo fuera opacity:0, la
-   animacion interpolaria de 0 a 0 y no apareceria nada nunca.
-   Y de ahi sale la degradacion: como el ultimo fotograma es el estado de reposo,
-   cualquier camino que no sea el scroll-timeline (navegador sin soporte, animacion
-   que corre una vez al cargar) acaba con el elemento VISIBLE. No hay forma de que
-   esto deje nada invisible. */
+/* El -to- va EXPLICITO en los tres: el ultimo fotograma es el estado de reposo, asi
+   que cualquier camino que no sea el scroll-timeline (navegador sin soporte,
+   animacion que corre una vez al cargar) acaba con el elemento en su sitio. Sin
+   `opacity` en los fotogramas (ver b'): nada puede quedar ni invisible ni a medias. */
 @keyframes pp-entrada {
-  from { opacity: 0; transform: translateY(var(--pp-entrada-subida)); }
-  to   { opacity: 1; transform: none; }
+  from { transform: translateY(var(--pp-entrada-subida)); }
+  to   { transform: none; }
 }
 
 @keyframes pp-entrada-izq {
-  from { opacity: 0; transform: translateX(calc(var(--pp-entrada-lateral) * -1)); }
-  to   { opacity: 1; transform: none; }
+  from { transform: translateX(calc(var(--pp-entrada-lateral) * -1)); }
+  to   { transform: none; }
 }
 
 @keyframes pp-entrada-der {
-  from { opacity: 0; transform: translateX(var(--pp-entrada-lateral)); }
-  to   { opacity: 1; transform: none; }
+  from { transform: translateX(var(--pp-entrada-lateral)); }
+  to   { transform: none; }
 }

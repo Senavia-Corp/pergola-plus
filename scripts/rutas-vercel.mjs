@@ -28,6 +28,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const CONFIG = path.join(RAIZ, '.vercel/output/config.json');
@@ -69,6 +70,79 @@ for (const r of config.routes.filter((r) => r.status === 301 && r.headers?.Locat
 }
 if (rotos.length) throw new Error(`[rutas] redirects mal formados:\n  ${rotos.join('\n  ')}`);
 
+// ---------------------------------------------------------------------------
+// F6 · Cabeceras de seguridad, cache larga y CSP, como rutas `continue: true`
+// ---------------------------------------------------------------------------
+// Van delante de `handle: filesystem`, igual que la regla de /_astro/ que escribe el
+// adaptador (asi alcanzan a los ficheros estaticos). vercel.json no vale: no puede
+// leer variables y este fichero es el que ya edita y valida config.json.
+//
+// La CSP se GENERA de los HTML construidos: hashes sha256 de cada <script> inline
+// con JavaScript ejecutable (sin src; sin type, module o text/javascript; los
+// application/ld+json y text/x-wf-template no se ejecutan y no cuentan). Estilos con
+// 'unsafe-inline': el markup de Webflow lleva style="" en miles de elementos y
+// webflow.js escribe estilos en linea; los hashes de estilo no cubren atributos.
+// No se usa `security.csp` de Astro: emite una <meta> (no admite Report-Only) y no
+// hashea los <script is:inline> del markup migrado; el adaptador solo copia esa
+// misma politica a cabecera.
+//
+// PP_CSP=enforce (por defecto) | report-only. Se empezo en Report-Only (F6): la sonda
+// (22 rutas x 4 anchos) y los flujos de scripts/perf/csp-flujos.mjs (menu, dropdowns,
+// estimador, FAQ, multipaso, lightbox, YouTube, OnceHub) solo sacaron el embed de
+// embedly (añadido a frame-src) y el aviso de que `upgrade-insecure-requests` no
+// aplica en Report-Only; el resto de mensajes son de la CSP PROPIA del iframe de
+// Turnstile (`data:,` en su connect-src) y del de YouTube (picture-in-picture,
+// web-share), que no dependen de esta politica. Con eso se paso a bloqueante.
+const ESTATICO = path.join(RAIZ, '.vercel/output/static');
+const hashes = new Set();
+for (const rel of (await fs.readdir(ESTATICO, { recursive: true })).filter((f) => f.endsWith('.html'))) {
+  const html = await fs.readFile(path.join(ESTATICO, rel), 'utf8');
+  for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)) {
+    if (/\ssrc=/.test(m[1])) continue;
+    const tipo = m[1].match(/\stype="([^"]+)"/)?.[1];
+    if (tipo && !/^(module|text\/javascript|application\/javascript)$/.test(tipo)) continue;
+    hashes.add(createHash('sha256').update(m[2]).digest('base64'));
+  }
+}
+const CSP = [
+  "default-src 'self'",
+  `script-src 'self' ${[...hashes].sort().map((h) => `'sha256-${h}'`).join(' ')} https://challenges.cloudflare.com https://cdn.oncehub.com https://*.oncehub.com`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: https:",
+  "font-src 'self' data:",
+  "media-src 'self'",
+  "connect-src 'self' https://challenges.cloudflare.com https://*.oncehub.com",
+  // Los 21 embeds de YouTube del CMS van envueltos por embedly (<iframe src="//cdn.embedly.com/widgets/media.html?src=youtube…">).
+  "frame-src https://challenges.cloudflare.com https://*.oncehub.com https://cdn.embedly.com https://www.youtube.com https://www.youtube-nocookie.com",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  'upgrade-insecure-requests',
+].join('; ');
+const MODO_CSP = process.env.PP_CSP ?? 'enforce';
+const CABECERAS = [
+  // Assets versionados por nombre (derivados, fuentes, video) o por hash (/js/*.<hash>.js,
+  // ver versionarJs). /css/* ya no lo pide ningun HTML (el CSS va inline) y se deja
+  // immutable por si alguien lo tiene enlazado.
+  { src: '^/(fonts|videos|images|cms-img|css|js)/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
+  { src: '^/(.*)$', headers: {
+    'x-content-type-options': 'nosniff',
+    'referrer-policy': 'strict-origin-when-cross-origin',
+    'x-frame-options': 'DENY',
+    'permissions-policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+  }, continue: true },
+  // La CSP solo en documentos: en una imagen o una fuente no aplica y son 3 KB por respuesta.
+  { src: '^/(?!_astro/|fonts/|videos/|images/|cms-img/|css/|js/|api/)(.*)$', headers: { [MODO_CSP === 'enforce' ? 'content-security-policy' : 'content-security-policy-report-only']: CSP }, continue: true },
+];
+const yaConCabeceras = config.routes.some((r) => r.headers?.['x-content-type-options']);
+if (!yaConCabeceras) {
+  const iAstro = config.routes.findIndex((r) => /_astro/.test(r.src ?? '') && r.continue);
+  if (iAstro === -1) throw new Error('[rutas] no encuentro la regla de cache de /_astro/ del adaptador para colocar las cabeceras detras');
+  config.routes.splice(iAstro + 1, 0, ...CABECERAS);
+}
+console.log(`[rutas] cabeceras: cache immutable, seguridad y CSP (${MODO_CSP}, ${hashes.size} hashes de script inline)`);
+
 const i = config.routes.findIndex((r) => r.src === '^/.*$' && r.status === 404);
 if (i === -1) {
   throw new Error(
@@ -79,10 +153,8 @@ if (i === -1) {
 }
 
 const yaEsta = config.routes.some((r) => r.src === RUTA_404_ES.src);
-if (!yaEsta) {
-  config.routes.splice(i, 0, RUTA_404_ES);
-  await fs.writeFile(CONFIG, JSON.stringify(config, null, 2), 'utf8');
-}
+if (!yaEsta) config.routes.splice(i, 0, RUTA_404_ES);
+await fs.writeFile(CONFIG, JSON.stringify(config, null, 2), 'utf8');
 
 console.log(
   `[rutas] 404 español enrutado (${RUTA_404_ES.src} -> ${RUTA_404_ES.dest}), `

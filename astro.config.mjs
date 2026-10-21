@@ -4,7 +4,9 @@ import path from 'node:path';
 import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
-import { dimensionarImagenes } from './scripts/lib/transformar.mjs';
+import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades } from './scripts/lib/transformar.mjs';
+import { unirCss, versionarJs } from './scripts/lib/css.mjs';
+import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'json' };
 import { haciaEspanol } from './src/i18n/rutas.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
 
@@ -169,6 +171,15 @@ function dimensionarHtml() {
         let enlaces = 0;
         let paginasEs = 0;
         const sinProteger = [];
+        // srcset de las fotos del CMS y preload del LCP: ver responsivizarImagenes()
+        // y precargarLcp() en scripts/lib/transformar.mjs. Mismo barrido, misma razon.
+        const resp = { con: 0, sinSizes: 0, incompletas: 0, precargas: 0 };
+        // F2: una sola hoja por pagina (normalize, webflow y sitio purgadas + CSS
+        // propio), en vez de 5 bloqueantes. MODO_CSS decide <link> o <style> inline:
+        // ver scripts/lib/css.mjs y 01-PLAN-Y-DECISIONES.md.
+        const MODO_CSS = process.env.PP_CSS ?? 'inline';
+        const ctxCss = {};
+        const css = { paginas: 0, hojas: 0, bytes: 0 };
 
         const recorrer = async (d) => {
           for (const e of await fs.readdir(d, { withFileTypes: true })) {
@@ -177,6 +188,19 @@ function dimensionarHtml() {
             if (!e.name.endsWith('.html')) continue;
             const antes = await fs.readFile(p, 'utf8');
             let despues = dimensionarImagenes(antes);
+            // srcset ANTES del preload: el preload copia el srcset del <img>.
+            const r1 = responsivizarImagenes(despues);
+            despues = r1.html; resp.con += r1.con; resp.sinSizes += r1.sinSizes; resp.incompletas += r1.incompletas;
+            const r2 = precargarLcp(despues);
+            despues = r2.html; if (r2.puesto) resp.precargas++;
+            const rel0 = path.relative(raiz, p).replace(/index\.html$/, '');
+            const r4 = enlazarCiudades(despues, '/' + rel0);
+            despues = r4.html; resp.ciudades = (resp.ciudades ?? 0) + r4.puestos;
+            despues = versionarJs(despues, { raiz, ctx: ctxCss });
+            if (MODO_CSS !== 'no') {
+              const r3 = unirCss(despues, { raiz, safelist: CLASES_RUNTIME, modo: MODO_CSS, ctx: ctxCss });
+              despues = r3.html; if (r3.bytes) { css.paginas++; css.hojas += r3.hojas; css.bytes += r3.bytes; }
+            }
 
             // Solo las paginas espanolas: el resto del sitio enlaza en ingles, que es
             // lo correcto.
@@ -202,6 +226,19 @@ function dimensionarHtml() {
         await recorrer(raiz);
 
         logger.info(`width/height inyectados en ${tocadas} paginas`);
+        logger.info(
+          `srcset en ${resp.con} <img> del CMS (${resp.sinSizes} sin sizes conocido, `
+          + `${resp.incompletas} con derivados incompletos) · preload del LCP en ${resp.precargas} paginas · ${resp.ciudades ?? 0} enlaces a ciudades`,
+        );
+        if (css.paginas) {
+          logger.info(`CSS unido (${MODO_CSS}) en ${css.paginas} paginas: ${css.hojas} <link> -> 1, ${Math.round(css.bytes / css.paginas / 1024)} KB de media sin comprimir (${ctxCss.escritas?.size ?? 0} hojas distintas)`);
+        }
+        if (resp.incompletas) {
+          logger.warn(
+            `${resp.incompletas} <img> del CMS sin srcset por derivados que faltan: `
+            + 'ejecuta `node scripts/derivar-cms.mjs` (check:imagenes lo exige)',
+          );
+        }
         logger.info(
           `${enlaces} enlaces internos apuntados al espanol en ${paginasEs} paginas`
           + ` (selector de idioma respetado en ${paginasEs - sinProteger.length})`,

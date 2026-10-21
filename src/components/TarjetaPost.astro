@@ -25,6 +25,8 @@ const t = TEXTOS[idioma];
       width={post.miniatura.width ?? undefined}
       height={post.miniatura.height ?? undefined}
       loading={prioridad ? 'eager' : 'lazy'}
+      fetchpriority={prioridad ? 'high' : undefined}
+      sizes="(min-width: 992px) 29vw, (min-width: 768px) 47vw, 92vw"
       decoding="async"
     />
   </div>
