@@ -30,7 +30,7 @@ interface Props {
 const { copia: c, idioma = 'en' } = Astro.props;
 
 /** Enlace en el idioma de la pagina. `rutaEnIdioma` devuelve null cuando esa
- *  traduccion no existe (p. ej. /articles/terms-of-service), y entonces se enlaza
+ *  traduccion no existe, y entonces se enlaza
  *  el original: mejor el ingles que un 404. */
 const ruta = (r: string) => (idioma === 'es' ? (rutaEnIdioma(r, 'es') ?? r) : r);
 

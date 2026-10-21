@@ -1,9 +1,15 @@
 /**
  * Los articulos legales en español.
  *
- * Solo esta el AVISO de privacidad, y a proposito.
+ * Con PP_FUENTE=repo, solo el AVISO de privacidad.
  *
- * `/articles/terms-of-service` NO se traduce: son 4.554 palabras de un contrato de
+ * ACTUALIZACION 21-oct-2026: con la fuente Sanity (la de por defecto) los terminos SI
+ * tienen version española, por decision del usuario: `cuerpo.es` de
+ * legalPage-terms-of-service, una TRADUCCION DE CORTESIA que abre diciendo que prevalece
+ * la version inglesa y enlaza a ella. Lo que sigue es por que no se traducia; sigue
+ * valiendo para que la apruebe el cliente o su abogado antes de produccion.
+ *
+ * `/articles/terms-of-service` NO se traducia: son 4.554 palabras de un contrato de
  * obra vinculante que empieza diciendo "these terms and conditions are not
  * negotiable". Publicar una version en español seria publicar un SEGUNDO texto legal
  * que el cliente no ha aprobado y que, ante una discrepancia entre las dos versiones,

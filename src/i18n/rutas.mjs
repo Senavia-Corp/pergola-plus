@@ -114,8 +114,8 @@ const TRADUCIDAS_REPO = {
   '/countries/broward-county-pergola-contractor': '/es/countries/broward-county-pergola-contractor/',
   '/countries/miami-dade-pergola-contractor': '/es/countries/miami-dade-pergola-contractor/',
   '/countries/palm-beach-county-pergola-contractor': '/es/countries/palm-beach-county-pergola-contractor/',
-  // Solo el aviso de privacidad: el contrato de obra NO se traduce (ver
-  // src/i18n/articulos.es.ts).
+  // Con PP_FUENTE=repo solo el aviso de privacidad. Con Sanity, tambien los terminos
+  // (traduccion de cortesia, ver src/i18n/articulos.es.ts): los añade traducidas.mjs.
   '/articles/privacy-policy': '/es/articles/privacy-policy/',
   // El blog. El indice y las 5 categorias con articulos.
   '/resources/blog': '/es/resources/blog/',
