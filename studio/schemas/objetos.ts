@@ -147,6 +147,8 @@ export const seo = defineType({
   title: 'SEO',
   type: 'object',
   options: { collapsible: true, collapsed: true },
+  // El titulo es obligatorio (es el <title> de la pagina); la descripcion, aviso.
+  validation: (r) => r.custom((v: { titulo?: { en?: string } } | undefined) => (!v || v.titulo?.en?.trim() ? true : 'Falta el título (pestaña y Google)')),
   fields: [
     defineField({
       name: 'titulo',
@@ -162,11 +164,13 @@ export const seo = defineType({
       name: 'descripcion',
       title: 'Descripción (Google)',
       type: 'textoLargoI18n',
-      validation: (r) =>
+      validation: (r) => [
+        r.custom((t: { en?: string } | undefined) => (t?.en?.trim() ? true : 'Sin descripción: Google pondrá un trozo del texto')).warning(),
         r.custom((t: { en?: string; es?: string } | undefined) => {
           const largos = (['en', 'es'] as const).filter((k) => (t?.[k]?.length ?? 0) > 160);
           return largos.length ? `Más de 160 caracteres en ${largos.join(' y ')}: Google puede cortarla` : true;
         }).warning(),
+      ],
     }),
     defineField({ name: 'imagenOg', title: 'Imagen al compartir', type: 'imagen' }),
     defineField({
@@ -248,7 +252,13 @@ export const imagenClave = defineType({
   name: 'imagenClave',
   title: 'Imagen',
   type: 'object',
-  fields: [claveFija, defineField({ name: 'imagen', title: 'Imagen', type: 'imagenPlantilla' })],
+  fields: [claveFija, defineField({
+    name: 'imagen',
+    title: 'Imagen',
+    type: 'imagenPlantilla',
+    // Toda imagen de una plantilla se pinta: sin fichero la pagina no se puede construir.
+    validation: (r) => r.custom((v: { asset?: unknown } | undefined) => (v?.asset ? true : 'Falta la imagen')),
+  })],
   preview: { select: { title: 'clave', media: 'imagen' } },
 });
 
@@ -295,7 +305,22 @@ export const referenciaClave = defineType({
   name: 'referenciaClave',
   title: 'Producto',
   type: 'object',
-  fields: [claveFija, defineField({ name: 'destino', title: 'Producto', type: 'reference', to: [{ type: 'product' }], validation: (r) => r.required() })],
+  fields: [claveFija, defineField({
+    name: 'destino',
+    title: 'Producto',
+    description: 'Solo productos con «Tarjeta del producto»: es la que se pinta aquí.',
+    type: 'reference',
+    to: [{ type: 'product' }],
+    // «Compare» pinta la tarjeta del producto: sin ella el build no puede pintar la ficha
+    // (src/lib/sanity/fuente.mjs lanza). Se comprueba al publicar, sobre el producto
+    // publicado o su borrador.
+    validation: (r) => r.required().custom(async (v: { _ref?: string } | undefined, ctx) => {
+      if (!v?._ref) return true;
+      const id = v._ref.replace(/^drafts\./, '');
+      const con = await ctx.getClient({ apiVersion: '2025-01-01' }).fetch('count(*[_id in [$id, "drafts." + $id] && defined(tarjeta)])', { id });
+      return con > 0 ? true : 'Ese producto no tiene tarjeta («Tarjeta del producto»): no se puede comparar';
+    }),
+  })],
   preview: { select: { title: 'destino.nombre.en' } },
 });
 

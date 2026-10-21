@@ -4,8 +4,9 @@
  */
 import { defineArrayMember, defineField, defineType } from 'sanity';
 import { slugFijo, CON_PAGINA } from './objetos';
+import { plantillaInicial } from './plantilla-inicial';
 
-const seo = defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo' });
+const seo = defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo', validation: (r) => r.required() });
 const grupos = [
   { name: 'contenido', title: 'Contenido', default: true },
   { name: 'seo', title: 'SEO' },
@@ -277,6 +278,16 @@ const enlaceEspecificacion = defineArrayMember({
 
 export const product = defineType({
   name: 'product',
+  // La ficha alterna bandas claras y oscuras: la oscura detras de las reseñas es el video
+  // o «One We Built» (un proyecto con este producto). Sin ninguno de los dos salen dos
+  // claras seguidas (lo mide check:ritmo).
+  validation: (r) => r.custom(async (doc: { _id?: string; videoFicha?: unknown; especificaciones?: unknown } | undefined, ctx) => {
+    if (!doc?.especificaciones || doc.videoFicha) return true;
+    const id = String(doc._id).replace(/^drafts\./, '');
+    const n = await ctx.getClient({ apiVersion: '2025-01-01' }).fetch('count(*[_type == "project" && !(_id in path("drafts.**")) && references($id)])', { id });
+    return n > 0 ? true : 'Sin «Sección de vídeo», la ficha necesita al menos un proyecto con este producto (sección «One We Built»): si no, salen dos bandas claras seguidas';
+  }),
+  initialValue: plantillaInicial('product', ['secciones', 'tarjetas', 'tarjeta', 'especificaciones']),
   title: 'Producto',
   type: 'document',
   groups: grupos,
@@ -349,6 +360,7 @@ export const product = defineType({
 
 export const service = defineType({
   name: 'service',
+  initialValue: plantillaInicial('service', ['secciones', 'tarjetas']),
   title: 'Servicio',
   type: 'document',
   groups: grupos,
@@ -368,6 +380,7 @@ export const service = defineType({
 
 export const brand = defineType({
   name: 'brand',
+  initialValue: plantillaInicial('brand', ['secciones', 'tarjetas']),
   title: 'Marca',
   type: 'document',
   groups: grupos,
@@ -377,6 +390,7 @@ export const brand = defineType({
 
 export const project = defineType({
   name: 'project',
+  initialValue: plantillaInicial('project', ['secciones', 'tarjetas', 'cabecera']),
   title: 'Proyecto',
   type: 'document',
   groups: grupos,
@@ -503,13 +517,15 @@ export const blogCategory = defineType({
     slugFijo(),
     defineField({ name: 'descripcion', title: 'Descripción', type: 'textoLargoI18n', group: 'contenido' }),
     defineField({ name: 'tienePagina', title: 'Tiene página propia', type: 'boolean', initialValue: false, group: 'contenido' }),
-    seo,
+    // Solo las categorias con pagina (las que tienen articulos) necesitan SEO.
+    defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo', validation: (r) => r.custom((v, ctx) => (ctx.document?.tienePagina && !v ? 'Requerido' : true)) }),
   ],
   preview: vistaNombre,
 });
 
 export const county = defineType({
   name: 'county',
+  initialValue: plantillaInicial('county', ['secciones']),
   title: 'Condado',
   type: 'document',
   groups: grupos,
@@ -519,6 +535,7 @@ export const county = defineType({
 
 export const city = defineType({
   name: 'city',
+  initialValue: plantillaInicial('city', ['secciones', 'tarjetas']),
   title: 'Ciudad',
   type: 'document',
   groups: grupos,
@@ -536,6 +553,7 @@ export const city = defineType({
 
 export const legalPage = defineType({
   name: 'legalPage',
+  initialValue: plantillaInicial('legalPage', ['secciones']),
   title: 'Texto legal',
   type: 'document',
   groups: grupos,
@@ -549,6 +567,8 @@ export const legalPage = defineType({
       type: 'bloqueI18n',
       group: 'contenido',
     }),
+    // El bloque del pie (CTA) que pinta la plantilla de la coleccion (src/plantillas/legalPage.html).
+    cuerpo,
     seo,
   ],
   preview: { select: { title: 'titulo.en', subtitle: 'slug.current' } },
