@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/contact-us__get-a-quote.html?raw';
+import htmlRepo from '../../contenido-migrado/estaticas/contact-us__get-a-quote.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Get a Quote","/contact-us/get-a-quote"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/contact-us/get-a-quote") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/get-a-quote.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Request a Custom Pergola Quote | South Florida"
-  description="Tell us about your patio or backyard and get a tailored proposal for an engineered aluminum pergola or patio cover system."
+  title={doc ? doc.seo.titulo.en : "Request a Custom Pergola Quote | South Florida"}
+  description={doc ? doc.seo.descripcion?.en : "Tell us about your patio or backyard and get a tailored proposal for an engineered aluminum pergola or patio cover system."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

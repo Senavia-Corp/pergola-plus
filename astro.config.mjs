@@ -4,12 +4,18 @@ import path from 'node:path';
 import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
-import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades } from './scripts/lib/transformar.mjs';
+import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades, limpiarFotosNuevas } from './scripts/lib/transformar.mjs';
 import { unirCss, versionarJs } from './scripts/lib/css.mjs';
 import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'json' };
 import { haciaEspanol } from './src/i18n/rutas.mjs';
 import { canonica } from './src/lib/canonica.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
+import { ajustesSanity } from './src/lib/sanity/vite.mjs';
+import { FUENTE } from './src/lib/sanity/fuente.mjs';
+import { docsSanity } from './src/lib/sanity/traducidas.mjs';
+import { llmsDesde } from './src/lib/sanity/llms.mjs';
+import { rutaDe } from './src/lib/rutas-sanity.mjs';
+import MIGRACION from './src/data/sanity-migracion.json' with { type: 'json' };
 
 /**
  * Si este build se puede indexar. FALLA CERRADO: hay que declararlo, y quien no lo
@@ -22,11 +28,12 @@ import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
  * mudo, nunca el ruidoso.
  *
  * Cuando es false, cinco cosas a la vez y ninguna sobra:
- *   robots.txt   rastreable (Allow: /) pero SIN linea Sitemap (ver sitemapYRobots).
- *                Rastreable A PROPOSITO: Google solo lee el <meta noindex> si puede
- *                entrar en la pagina. Con Disallow: / no la lee, y una URL de la
- *                copia enlazada desde fuera podia salir en el indice como «URL sin
- *                contenido» (GH-002). El noindex es la exclusion; robots solo abre.
+ *   robots.txt   bloqueante (User-agent: * / Disallow: /) y SIN linea Sitemap.
+ *                Decidido el 21-oct-2026 (el encargo pedia «bloqueante»; antes era
+ *                Allow por GH-002). Coste conocido: con Disallow: / Google no lee el
+ *                <meta noindex>, y una URL de la copia enlazada desde fuera podria
+ *                salir como «URL sin contenido». Hoy los previews van ademas con
+ *                Vercel Authentication, que los cierra antes que robots.
  *   sitemap.xml  se borra de la salida
  *   rss.xml      se borra de la salida, y el <link> que lo anuncia desaparece
  *   <meta>       noindex,nofollow en las 211 paginas (ver BaseLayout)
@@ -215,7 +222,8 @@ function dimensionarHtml() {
             if (e.isDirectory()) { await recorrer(p); continue; }
             if (!e.name.endsWith('.html')) continue;
             const antes = await fs.readFile(p, 'utf8');
-            let despues = dimensionarImagenes(antes);
+            // Las fotos cambiadas en Sanity, sin las medidas ni el srcset de la de antes.
+            let despues = dimensionarImagenes(limpiarFotosNuevas(antes));
             // srcset ANTES del preload: el preload copia el srcset del <img>.
             const r1 = responsivizarImagenes(despues);
             despues = r1.html; resp.con += r1.con; resp.sinSizes += r1.sinSizes; resp.incompletas += r1.incompletas;
@@ -361,14 +369,11 @@ function sitemapYRobots() {
             path.join(raiz.pathname, 'robots.txt'),
             [
               'User-agent: *',
-              'Allow: /',
-              'Disallow: /api/',
+              'Disallow: /',
               '',
               '# Build sin PUBLIC_ES_PRODUCCION=1: copia provisional, no es el sitio.',
-              '# Se deja rastrear A PROPOSITO: la exclusion la hace el <meta name="robots"',
-              '# content="noindex,nofollow"> de cada pagina, y Google solo lo lee si puede',
-              '# entrar. Un Disallow: / lo taparia y una URL enlazada desde fuera podria',
-              '# salir en el indice sin contenido. Sin sitemap ni RSS.',
+              '# Cerrada a todos los rastreadores, y ademas cada pagina lleva',
+              '# <meta name="robots" content="noindex,nofollow">. Sin sitemap ni RSS.',
               '# El sitio en vivo es https://www.pergolaplusflorida.com',
               '',
             ].join('\n'),
@@ -382,16 +387,26 @@ function sitemapYRobots() {
           // provisional deja a sus lectores apuntando a una URL que va a morir. Es
           // ademas lo unico que el visitante se lleva a otro programa, donde el <meta
           // noindex> no le protege — un lector de RSS no lee <meta>.
-          for (const muerto of ['sitemap.xml', 'resources/blog/rss.xml']) {
+          for (const muerto of ['sitemap.xml', 'resources/blog/rss.xml', 'llms.txt']) {
             await fs.rm(path.join(raiz.pathname, muerto), { force: true });
           }
           logger.info(
-            'sin PUBLIC_ES_PRODUCCION=1: robots.txt rastreable sin sitemap, sin RSS y noindex en todo',
+            'sin PUBLIC_ES_PRODUCCION=1: robots.txt rastreable sin sitemap, sin RSS, sin llms.txt y noindex en todo',
           );
           return;
         }
 
         const entradas = [];
+        // Documentos editados en el Studio DESPUES de la ultima migracion: su _updatedAt es
+        // una fecha de modificacion real. Los demas lo llevan de la importacion, que no lo es.
+        const docs = docsSanity() ?? [];
+        const editadoEl = new Map();
+        for (const d of docs) {
+          if (!(d._updatedAt > MIGRACION.ultimaMigracion)) continue;
+          let r; try { r = canonica(rutaDe(d)); } catch { continue; }
+          editadoEl.set(r, d._updatedAt);
+          editadoEl.set(canonica('/es' + rutaDe(d)), d._updatedAt);
+        }
 
         for (const { pathname } of pages) {
           const sinIdioma = sinPrefijoIdioma(pathname);
@@ -411,7 +426,8 @@ function sitemapYRobots() {
           // tenemos fecha de modificacion fiable —el mtime del fuente se reinicia en
           // cada clon— y un lastmod inventado es peor que ninguno: Google deja de
           // hacerle caso al feed entero.
-          const lastmod = html.match(/"dateModified"\s*:\s*"([^"]+)"/)?.[1] ?? null;
+          const fechas = [html.match(/"dateModified"\s*:\s*"([^"]+)"/)?.[1], editadoEl.get(canonica(ruta))].filter(Boolean).sort();
+          const lastmod = fechas.at(-1) ?? null;
 
           // Los alternates salen del MISMO hreflang que ya lleva la pagina, asi que
           // no pueden contradecirlo.
@@ -445,18 +461,48 @@ function sitemapYRobots() {
 
         await fs.writeFile(path.join(raiz.pathname, 'sitemap.xml'), xml, 'utf8');
 
+        // Buscadores y asistentes que citan y enlazan: entran. Recolectores para entrenar
+        // modelos: fuera. Nombres comprobados en la documentacion oficial el 21-oct-2026:
+        //   Anthropic          support.claude.com
+        //   OpenAI             developers.openai.com/api/docs/bots
+        //   Perplexity         docs.perplexity.ai/guides/bots
+        //   Google             developers.google.com/search/docs/crawling-indexing/google-common-crawlers
+        //   Bing               blogs.bing.com/webmaster (lo escribe «bingbot»; el user-agent no
+        //                      distingue mayusculas: RFC 9309 y robots_txt de Google)
+        //   Apple              support.apple.com/en-us/119829
+        //   Common Crawl       commoncrawl.org/ccbot
+        //   Meta               developers.facebook.com/docs/sharing/webmasters/web-crawlers
+        // Bytespider no tiene pagina oficial de ByteDance: sigue «a verificar».
+        const PERMITIDOS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User', 'Bingbot', 'Googlebot', 'Applebot'];
+        const BLOQUEADOS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Bytespider', 'meta-externalagent'];
+        const VERIFICADOS = new Set([...PERMITIDOS, ...BLOQUEADOS].filter((ua) => ua !== 'Bytespider'));
+        const nota = (ua) => (VERIFICADOS.has(ua) ? '' : ' # a verificar');
         const robots = [
+          '# /api/ es el endpoint de formularios: no es contenido y solo acepta POST.',
           'User-agent: *',
           'Allow: /',
-          '',
-          '# El endpoint de formularios no es contenido y solo acepta POST.',
           'Disallow: /api/',
+          '',
+          '# Busqueda y asistentes que enlazan al sitio.',
+          ...PERMITIDOS.flatMap((ua) => [`User-agent: ${ua}${nota(ua)}`]),
+          'Allow: /',
+          'Disallow: /api/',
+          '',
+          '# Recoleccion para entrenar modelos.',
+          ...BLOQUEADOS.flatMap((ua) => [`User-agent: ${ua}${nota(ua)}`]),
+          'Disallow: /',
           '',
           `Sitemap: ${new URL('/sitemap.xml', SITIO).href}`,
           '',
         ].join('\n');
 
         await fs.writeFile(path.join(raiz.pathname, 'robots.txt'), robots, 'utf8');
+
+        // /llms.txt: el negocio y las paginas indexables, desde Sanity.
+        if (docs.length) {
+          const enSitemap = new Set(entradas.map((e) => canonica(e.ruta)));
+          await fs.writeFile(path.join(raiz.pathname, 'llms.txt'), llmsDesde(docs, { sitio: SITIO, enSitemap, rutaDe, canonica }), 'utf8');
+        }
 
         const conFecha = entradas.filter((e) => e.lastmod).length;
         logger.info(
@@ -515,6 +561,26 @@ if (!HAY_CORREO && !process.env.LEAD_WEBHOOK_URL) {
 }
 
 // https://astro.build/config
+/**
+ * De donde salio el contenido de ESTE build, fuera de dist/ (no se publica):
+ * .cache/ultimo-build.json. Lo lee scripts/sanity/cobertura.mjs (check:sanity-cobertura)
+ * para no dar por bueno un dist construido desde el repo.
+ */
+function marcarFuente() {
+  return {
+    name: 'pergola-marcar-fuente',
+    hooks: {
+      'astro:build:done': async ({ pages }) => {
+        const instantanea = FUENTE === 'sanity'
+          ? JSON.parse(await fs.readFile('.cache/sanity/contenido.json', 'utf8')).leido
+          : null;
+        await fs.mkdir('.cache', { recursive: true });
+        await fs.writeFile('.cache/ultimo-build.json', JSON.stringify({ fuente: FUENTE, instantanea, paginas: pages.length }, null, 1) + '\n');
+      },
+    },
+  };
+}
+
 export default defineConfig({
   // `site` alimenta las canonicas del BaseLayout, el sitemap, el robots, el JSON-LD
   // y los <link>/<guid> de /resources/blog/rss.xml. Nada deriva el dominio por su
@@ -534,7 +600,10 @@ export default defineConfig({
 
   // El orden importa: primero se dimensionan las imagenes y luego se genera el
   // sitemap, que lee el HTML ya final para sacar los hreflang y el lastmod.
-  integrations: [dimensionarHtml(), sitemapYRobots()],
+  integrations: [dimensionarHtml(), sitemapYRobots(), marcarFuente()],
+
+  // siteSettings horneado para jsonld.ts (y la funcion /api/lead): src/lib/sanity/vite.mjs.
+  vite: { define: ajustesSanity() },
 
   // Redirects 301. Van en la config y no en JavaScript de cliente: un redirect que
   // necesita que el navegador ejecute algo no lo sigue ningun buscador, y pierde el

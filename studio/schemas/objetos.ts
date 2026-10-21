@@ -111,12 +111,6 @@ export const imagen = defineType({
       description: 'Describe lo que se ve, para quien no puede ver la imagen y para los buscadores.',
       type: 'textoI18n',
       hidden: ({ parent }) => parent?.decorativa === true,
-      validation: (r) =>
-        r.custom((alt: { en?: string } | undefined, ctx) => {
-          const padre = ctx.parent as { decorativa?: boolean; asset?: unknown } | undefined;
-          if (!padre?.asset || padre.decorativa) return true;
-          return alt?.en?.trim() ? true : 'Falta el texto alternativo en inglés';
-        }),
     }),
     defineField({
       name: 'procedencia',
@@ -139,6 +133,11 @@ export const imagen = defineType({
       hidden: ({ parent }) => parent?.procedencia !== 'real-cliente',
     }),
   ],
+  // En la imagen y no en el campo `alt`: Sanity no valida un campo objeto que no existe, y
+  // al subir una foto nueva `alt` no existe (medido en el Studio: sin aviso).
+  validation: (r) =>
+    r.custom((img: { asset?: unknown; decorativa?: boolean; alt?: { en?: string } } | undefined) =>
+      !img?.asset || img.decorativa || img.alt?.en?.trim() ? true : { message: 'Falta el texto alternativo en inglés', path: ['alt'] }),
 });
 
 /** SEO por documento. Los avisos de longitud NO bloquean: los títulos los elige el cliente. */
@@ -147,6 +146,8 @@ export const seo = defineType({
   title: 'SEO',
   type: 'object',
   options: { collapsible: true, collapsed: true },
+  // El titulo es obligatorio (es el <title> de la pagina); la descripcion, aviso.
+  validation: (r) => r.custom((v: { titulo?: { en?: string } } | undefined) => (!v || v.titulo?.en?.trim() ? true : 'Falta el título (pestaña y Google)')),
   fields: [
     defineField({
       name: 'titulo',
@@ -162,11 +163,13 @@ export const seo = defineType({
       name: 'descripcion',
       title: 'Descripción (Google)',
       type: 'textoLargoI18n',
-      validation: (r) =>
+      validation: (r) => [
+        r.custom((t: { en?: string } | undefined) => (t?.en?.trim() ? true : 'Sin descripción: Google pondrá un trozo del texto')).warning(),
         r.custom((t: { en?: string; es?: string } | undefined) => {
           const largos = (['en', 'es'] as const).filter((k) => (t?.[k]?.length ?? 0) > 160);
           return largos.length ? `Más de 160 caracteres en ${largos.join(' y ')}: Google puede cortarla` : true;
         }).warning(),
+      ],
     }),
     defineField({ name: 'imagenOg', title: 'Imagen al compartir', type: 'imagen' }),
     defineField({
@@ -248,7 +251,13 @@ export const imagenClave = defineType({
   name: 'imagenClave',
   title: 'Imagen',
   type: 'object',
-  fields: [claveFija, defineField({ name: 'imagen', title: 'Imagen', type: 'imagenPlantilla' })],
+  fields: [claveFija, defineField({
+    name: 'imagen',
+    title: 'Imagen',
+    type: 'imagenPlantilla',
+    // Toda imagen de una plantilla se pinta: sin fichero la pagina no se puede construir.
+    validation: (r) => r.custom((v: { asset?: unknown } | undefined) => (v?.asset ? true : 'Falta la imagen')),
+  })],
   preview: { select: { title: 'clave', media: 'imagen' } },
 });
 
@@ -295,7 +304,22 @@ export const referenciaClave = defineType({
   name: 'referenciaClave',
   title: 'Producto',
   type: 'object',
-  fields: [claveFija, defineField({ name: 'destino', title: 'Producto', type: 'reference', to: [{ type: 'product' }], validation: (r) => r.required() })],
+  fields: [claveFija, defineField({
+    name: 'destino',
+    title: 'Producto',
+    description: 'Solo productos con «Tarjeta del producto»: es la que se pinta aquí.',
+    type: 'reference',
+    to: [{ type: 'product' }],
+    // «Compare» pinta la tarjeta del producto: sin ella el build no puede pintar la ficha
+    // (src/lib/sanity/fuente.mjs lanza). Se comprueba al publicar, sobre el producto
+    // publicado o su borrador.
+    validation: (r) => r.required().custom(async (v: { _ref?: string } | undefined, ctx) => {
+      if (!v?._ref) return true;
+      const id = v._ref.replace(/^drafts\./, '');
+      const con = await ctx.getClient({ apiVersion: '2025-01-01' }).fetch('count(*[_id in [$id, "drafts." + $id] && defined(tarjeta)])', { id });
+      return con > 0 ? true : 'Ese producto no tiene tarjeta («Tarjeta del producto»): no se puede comparar';
+    }),
+  })],
   preview: { select: { title: 'destino.nombre.en' } },
 });
 
@@ -308,9 +332,11 @@ export const bloque = defineType({
     defineField({ name: 'textos', title: 'Textos', type: 'array', of: [{ type: 'textoClave' }] }),
     defineField({ name: 'imagenes', title: 'Imágenes', type: 'array', of: [{ type: 'imagenClave' }] }),
     defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [{ type: 'enlaceClave' }] }),
-    defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }] }),
-    defineField({ name: 'elementos', title: 'Fotos de la galería', type: 'array', of: [{ type: 'elementoLista' }] }),
-    defineField({ name: 'referencias', title: 'Productos que se comparan', type: 'array', of: [{ type: 'referenciaClave' }] }),
+    // La estructura de cada seccion la fija su plantilla del codigo: una lista que la
+    // seccion no usa (vacia) no se enseña, para que el editor no vea huecos que no son.
+    defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }], hidden: ({ value }) => !value?.length }),
+    defineField({ name: 'elementos', title: 'Fotos de la galería', type: 'array', of: [{ type: 'elementoLista' }], hidden: ({ value }) => !value?.length }),
+    defineField({ name: 'referencias', title: 'Productos que se comparan', type: 'array', of: [{ type: 'referenciaClave' }], hidden: ({ value }) => !value?.length }),
   ],
   preview: {
     select: { clave: 'clave', t: 'textos.0.texto.en' },

@@ -69,6 +69,7 @@ const url = new URL(canonica(`/resources/blog/${categoria.slug}`), site).href;
     descripcion: copy.meta,
     entradas,
     site: site.href,
+    migas: [['Blog', '/resources/blog'], [categoria.nombre, `/resources/blog/${categoria.slug}`]],
   })}
 >
   <BlogListado activa={categoria.slug} titulo={categoria.nombre} intro={copy.intro} />

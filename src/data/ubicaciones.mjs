@@ -12,13 +12,15 @@
  * ciudades que cuelgan de cada uno); el municipio es el toponimo con el que el CMS
  * titula la pagina y con el que la traduce src/i18n/ubicaciones.es.ts. Nada inventado.
  */
-export const CONDADOS = {
+import { ubicacionesSanity } from '../lib/sanity/traducidas.mjs';
+
+const CONDADOS_REPO = {
   'miami-dade-pergola-contractor': 'Miami-Dade County',
   'broward-county-pergola-contractor': 'Broward County',
   'palm-beach-county-pergola-contractor': 'Palm Beach County',
 };
 
-export const CIUDADES = {
+const CIUDADES_REPO = {
   'aventura-pergola-builders': { municipio: 'Aventura', condado: 'Miami-Dade County' },
   'coral-gables': { municipio: 'Coral Gables', condado: 'Miami-Dade County' },
   'doral-pergola-builders': { municipio: 'Doral', condado: 'Miami-Dade County' },
@@ -45,6 +47,12 @@ export const CIUDADES = {
   'wellington-contractors': { municipio: 'Wellington', condado: 'Palm Beach County' },
   'west-palm-beach-contractors': { municipio: 'West Palm Beach', condado: 'Palm Beach County' },
 };
+
+// Con PP_FUENTE=sanity, de los documentos county y city (src/lib/sanity/traducidas.mjs):
+// una ciudad creada en el Studio entra en enlazarCiudades() y en el JSON-LD.
+const S = ubicacionesSanity({ CONDADOS: CONDADOS_REPO, CIUDADES: CIUDADES_REPO });
+export const CONDADOS = S?.CONDADOS ?? CONDADOS_REPO;
+export const CIUDADES = S?.CIUDADES ?? CIUDADES_REPO;
 
 /** Slug de la pagina de condado a partir de su nombre. */
 export const SLUG_CONDADO = Object.fromEntries(Object.entries(CONDADOS).map(([s, n]) => [n, s]));

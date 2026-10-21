@@ -7,6 +7,7 @@ import { PAGINAS_ES, diccionarioDe, type PaginaEs } from '../../i18n/paginas.es'
 import { CON_RESENAS } from '../../lib/resenas-rutas.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 
 // Todas las páginas estáticas traducidas, con UNA ruta.
 //
@@ -37,10 +38,16 @@ const m = (meta as Record<string, {
 }>)[p.en];
 if (!m) throw new Error(`[i18n] no hay metadatos para ${p.en}: ¿está en RUTAS de generar-paginas.mjs?`);
 
-const original = fragmentos['../../contenido-migrado/estaticas/' + m.fragmento];
-if (!original) throw new Error(`[i18n] no hay fragmento ${m.fragmento} para ${p.en}`);
+// Con PP_FUENTE=sanity, el texto español es el del documento page-<id> (sin diccionario).
+const doc = FUENTE === 'sanity' ? paginaDe(p.en) : null;
+const original = doc ? '' : fragmentos['../../contenido-migrado/estaticas/' + m.fragmento];
+if (!doc && !original) throw new Error(`[i18n] no hay fragmento ${m.fragmento} para ${p.en}`);
 
-const { html, traducidas, faltan } = traducirHtml(original as string, diccionarioDe(p));
+const { html, traducidas, faltan } = doc
+  ? { html: fragmentoEstatica(doc, 'es'), traducidas: 0, faltan: [] as string[] }
+  : traducirHtml(original as string, diccionarioDe(p));
+const title = doc ? doc.seo.titulo.es ?? doc.seo.titulo.en : p.title;
+const description = doc ? doc.seo.descripcion?.es ?? doc.seo.descripcion?.en : p.description;
 
 // El build AVISA de lo que se quedó en inglés en vez de dejarlo pasar. No rompe: una
 // cadena sin traducir sale en inglés, que es un degradado aceptable; una build rota,
@@ -66,15 +73,16 @@ const bandaPropia = !resenas && CON_RESENAS.has(p.en);
 // (mismo @id): no son dos empresas, es una con dos idiomas.
 const site = Astro.site!.href;
 const esContacto = p.en.startsWith('/contact-us/');
-const jsonLd = grafo(
+// El 404 no lleva migas (igual que el ingles): no es una pagina del arbol del sitio.
+const jsonLd = p.en === '/404' ? undefined : grafo(
   esContacto && p.en === '/contact-us/get-in-touch' ? localBusiness(site) : null,
-  breadcrumbs(site, [[p.title.split('|')[0]!.trim(), p.es]], 'es'),
+  breadcrumbs(site, [[title.split('|')[0]!.trim(), p.es]], 'es'),
 );
 ---
 
 <BaseLayout
-  title={p.title}
-  description={p.description}
+  title={title}
+  description={description}
   {/* La gemela española del 404. La inglesa se sirve con status 404, pero esta
       responde 200, asi que sin noindex es un soft-404 de manual. Se marca aqui
       porque esta ruta la pinta el catch-all, no un .astro suyo. */}

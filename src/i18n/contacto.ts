@@ -23,6 +23,9 @@
  *     (el traductor solo toca nodos de texto, no atributos).
  */
 
+import { FUENTE, sanity, rutaImagen, hrefDe, contacto } from '../lib/sanity/fuente.mjs';
+import { propiasDesde as desde } from '../lib/sanity/propias.mjs';
+
 export interface Dato {
   rotulo: string;
   apoyo: string;
@@ -82,7 +85,7 @@ export const PERFILES = [
 ] as const;
 
 /** Los tres condados. Imagen, enlace y `alt` no dependen del idioma. */
-export const CONDADOS = [
+const CONDADOS_REPO = [
   {
     clave: 'miami',
     nombre: 'Miami-Dade County',
@@ -106,6 +109,14 @@ export const CONDADOS = [
   },
 ] as const;
 
+/**
+ * Con PP_FUENTE=sanity la copia de contacto, los condados y las demas paginas propias
+ * salen de sus documentos page-<ruta> (src/lib/sanity/propias.mjs). El `data-county` de
+ * cada condado es diseño (lo lee el script de la seccion): se queda aqui, por posicion.
+ */
+export const propiasSanity = FUENTE === 'sanity' ? desde(sanity(), { rutaImagen, hrefDe, contacto: contacto() }, CONDADOS_REPO.map((x) => x.clave)) : null;
+export const CONDADOS: typeof CONDADOS_REPO = propiasSanity?.CONDADOS ?? CONDADOS_REPO;
+
 /** Telefono y direccion de ESTA pagina, no del sitio. El cliente lo pidio asi en la
  *  aprobacion del 12-oct-2026 (Gmail 1a1326d5b4f338d3): «En la página de contacto,
  *  nuestra dirección le falta "Suite 110". Y el teléfono que queremos listed en la
@@ -119,7 +130,7 @@ export const DIRECCION = '980 N Federal Hwy, Suite 110, Boca Raton, FL 33432';
 export const MAPA =
   'https://www.google.com/maps/search/?api=1&query=980+N+Federal+Hwy%2C+Boca+Raton%2C+FL+33432';
 
-export const CONTACTO_EN: CopiaContacto = {
+export const CONTACTO_EN: CopiaContacto = propiasSanity?.CONTACTO_EN ?? {
   eyebrow: 'Contact us',
   titulo: 'Get in touch',
   intro:
@@ -213,7 +224,7 @@ export const CONTACTO_EN: CopiaContacto = {
   },
 };
 
-export const CONTACTO_ES: CopiaContacto = {
+export const CONTACTO_ES: CopiaContacto = propiasSanity?.CONTACTO_ES ?? {
   eyebrow: 'Contacto',
   titulo: 'Hablemos',
   intro:

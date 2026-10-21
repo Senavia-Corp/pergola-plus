@@ -159,8 +159,16 @@ if (TIPOS.has('siteSettings')) {
     notaCita: i18n(CONTACTO_EN.datos.oficina.nota, CONTACTO_ES.datos.oficina.nota),
     redes: [...NEGOCIO.redes],
     condadosServidos: [...NEGOCIO.condados],
-    resumenResenas: { media: r.media, total: r.total, leidoEl: r.leidoEl, fuente: r.fuente },
+    resumenResenas: {
+      media: r.media, total: r.total, leidoEl: r.leidoEl, fuente: r.fuente,
+      parcial: resenas.parcial === true,
+      ...(resenas.actualizado ? { actualizado: resenas.actualizado } : {}),
+      ...(resenas.perfil?.url ? { fichaGoogle: resenas.perfil.url } : {}),
+    },
     logo: await imagen('/images/logo-pergola-plus-florida.png', { en: 'Pergola Plus Florida logo' }),
+    // El video del hero se queda en el codigo; su poster es editable. Sin alt: es el
+    // fondo del hero y hoy no lleva ninguno (decorativa).
+    videoHero: { poster: await imagen('/images/hero-pergola-plus-florida-poster.avif', null) },
   });
 }
 
@@ -305,6 +313,8 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
 
   if (TIPOS.has('post')) {
     const { posts } = await cargarTs('src/lib/blog.ts');
+    const { cuerpoHtml, huellaCuerpo } = await import('../src/lib/sanity/blog.mjs');
+    const convCuerpo = { rutaImagen: (b) => b.origen, hrefDe: (d) => (d.destino ? rutaDeId(d.destino._ref) : d.href) + (d.ancla ? `#${d.ancla}` : '') };
     const { POSTS_ES } = await cargarTs('src/i18n/blog.es.ts');
     const { ALTS_ES } = await import('./lib/posts.mjs');
     const items = JSON.parse(await fs.readFile('src/contenido-migrado/post/_items.json', 'utf8'));
@@ -313,6 +323,7 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
       if (!item) throw new Error(`[post] ${p.slug} sin _items.json`);
       const es = POSTS_ES[p.slug];
       const cuerpoEs = html('post', p.slug, 'es');
+      const cuerpoEn = bloqueI18n(html('post', p.slug, 'en'), cuerpoEs);
       if (Boolean(es) !== Boolean(cuerpoEs)) throw new Error(`[post] ${p.slug}: metadatos ES y cuerpo ES no van a la par`);
       docs.push({
         _id: `post-${p.slug}`,
@@ -323,13 +334,16 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
         resumen: i18nLargo(p.resumen, es?.resumen),
         principal: await imagen(p.principal.src, p.altPrincipal ? { en: p.altPrincipal, es: ALTS_ES[p.altPrincipal] } : null),
         miniatura: await imagen(p.miniatura.src, p.altMiniatura ? { en: p.altMiniatura, es: ALTS_ES[p.altMiniatura] } : null),
-        cuerpo: bloqueI18n(html('post', p.slug, 'en'), cuerpoEs),
+        cuerpo: cuerpoEn,
         categoria: ref(`blogCategory-${p.categoria.slug}`, 'blogCategory'),
         destacado: p.destacadoCms,
         principalDelBlog: p.esHero,
         fechaCreacion: p.creado.toISOString(),
         fechaPublicacion: p.publicado.toISOString(),
         fechaActualizacion: p.actualizado.toISOString(),
+        // El recuento de hoy (del cuerpo del CSV de Webflow) con la huella del cuerpo que
+        // se importa: el build lo usa mientras el texto no cambie (src/lib/sanity/blog.mjs).
+        lectura: { palabras: p.palabras, huella: huellaCuerpo(cuerpoHtml(cuerpoEn.en, convCuerpo)) },
         seo: {
           _type: 'seo',
           titulo: i18n(item.title, es?.tituloLargo),
@@ -365,11 +379,11 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
 // ---------------------------------------------------------------------------
 // Colecciones con plantilla (src/plantillas/<tipo>.html)
 // ---------------------------------------------------------------------------
-const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project'].filter((t) => TIPOS.has(t));
+const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project', 'legalPage'].filter((t) => TIPOS.has(t));
 const tarjetas = {};
 if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
   const { paginasDe, derivarColeccion, derivarReferencias } = await import('./sanity/plantillas.mjs');
-  const { aBloques, opcionalesA, plano, CAMPOS_OPCIONALES } = await import('../src/lib/plantilla-sanity.mjs');
+  const { aBloques, opcionalesA, plano, CAMPOS_OPCIONALES, formaDeBloque } = await import('../src/lib/plantilla-sanity.mjs');
   const { decodificar } = await import('../src/lib/portable.mjs');
   const ES_DE = {
     product: async () => (await cargarTs('src/i18n/productos.es.ts')).PRODUCTOS_ES,
@@ -408,12 +422,34 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
     await igualAlCodigo(`${tipo}.json`, JSON.stringify(d.huecos, null, 1) + '\n');
     if (d.heredados.some((h) => Object.keys(h).length)) await igualAlCodigo(`${tipo}.heredado.json`, JSON.stringify(Object.fromEntries(paginas.map((p, i) => [p.slug, d.heredados[i]])), null, 1) + '\n');
     docs.push({ _id: `plantilla-${tipo}`, _type: 'plantilla', coleccion: tipo, secciones: aBloques(d.huecos, d.compartidos, 'compartido', conv) });
+    if (tipo === 'product') {
+      // «One We Built»: el titular y la entradilla de la seccion de proyecto de la ficha
+      // (src/components/ProyectoDeFicha.astro), tal como los pasan hoy las dos rutas.
+      const enSrc = await fs.readFile(path.join(RAIZ, 'src/pages/products/[slug].astro'), 'utf8');
+      const esSrc = await fs.readFile(path.join(RAIZ, 'src/pages/es/products/[slug].astro'), 'utf8');
+      const props = (src) => src.match(/<ProyectoDeFicha [^>]*titulo="([^"]+)"\s+entradilla="([^"]+)"/);
+      const [, tEn, eEn] = props(enSrc) ?? [], [, tEs, eEs] = props(esSrc) ?? [];
+      if (!tEn || !tEs) throw new Error('[product] no encuentro el titular de ProyectoDeFicha en las rutas');
+      docs[docs.length - 1].secciones.push({ _type: 'bloque', _key: 'proyectoDeFicha', clave: 'proyectoDeFicha', textos: textosClave([
+        { clave: 'proyectoDeFicha.titulo', en: tEn, es: tEs },
+        { clave: 'proyectoDeFicha.entradilla', en: eEn, es: eEs },
+      ]) });
+    }
     // Las tarjetas de producto que las fichas copian en «Compare»: una vez, en su producto.
     const refs = derivarReferencias(d);
     for (const [col, dr] of Object.entries(refs.porColeccion)) {
       await igualAlCodigo(`${col}.tarjeta.html`, dr.plantilla);
       await igualAlCodigo(`${col}.tarjeta.json`, JSON.stringify(dr.huecos, null, 1) + '\n');
       tarjetas[col] = Object.fromEntries(dr.slugs.map((slug, j) => [slug, plano(aBloques(dr.huecos, dr.valores[j], 'pagina', conv), { _type: 'bloque', clave: 'tarjeta' })]));
+    }
+    if (tipo === 'legalPage') {
+      // El documento ya lleva titulo, cuerpo y SEO (arriba): aqui, el CTA del pie.
+      paginas.forEach((p, i) => {
+        const doc = docs.find((x) => x._id === `legalPage-${p.slug}`);
+        if (!doc) throw new Error(`[legalPage] ${p.slug} no esta en la tanda`);
+        doc.secciones = aBloques(d.huecos, d.valores[i], 'pagina', conv);
+      });
+      continue;
     }
     if (ES_DE[tipo]) {
       const ES = await ES_DE[tipo]();
@@ -437,7 +473,17 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
           secciones: aBloques(d.huecos, d.valores[i], 'pagina', conv),
           seo: { _type: 'seo', titulo: i18n(p.item.title, es?.title), ...(p.item.description ? { descripcion: i18nLargo(p.item.description, es?.description) } : {}), indexable: true },
         };
-        for (const [bloque, b] of Object.entries(opcionalesA(d.huecos, d.valores[i], conv))) doc[CAMPOS_OPCIONALES[bloque].campo] = b;
+        // Los bloques opcionales van en su campo de forma fija (titulo, texto, URL; imagen y alt).
+        // El bloque de antes (video, cabeceraVideo, cabeceraImagen) se conserva para el
+        // codigo anterior; el codigo de ahora lee el campo de forma fija.
+        const ANTES = { 'video-section': 'video', 'w-video': 'cabeceraVideo', 'hero_media-img': 'cabeceraImagen' };
+        const TIPO_FORMA = { videoFicha: 'videoFicha', videoCabecera: 'videoCabecera', imagenCabecera: 'imagen' };
+        for (const [bloque, b] of Object.entries(opcionalesA(d.huecos, d.valores[i], conv))) {
+          const def = CAMPOS_OPCIONALES[bloque];
+          doc[ANTES[bloque]] = b;
+          doc[def.campo] = formaDeBloque(b, def.forma, TIPO_FORMA[def.campo]);
+          if (def.campo === 'imagenCabecera') doc[def.campo] = { ...doc[def.campo], decorativa: false };
+        }
         // Las preguntas de la biblioteca que la ficha sube a su FAQ (src/data/faqs.ts).
         if ((tipo === 'product' || tipo === 'service') && PROMOVIDAS[p.slug]?.length) doc.faqsPromovidas = PROMOVIDAS[p.slug].map((id) => ({ ...ref(`faq-${id}`), _key: id }));
         if (tipo === 'product' && ESPECIFICACIONES[p.slug]) {
@@ -469,7 +515,7 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
           if (prods.length) doc.productos = prods.map((slug) => ({ ...ref(`product-${slug}`), _key: slug }));
         }
         if (tipo === 'project') {
-          const conVideo = Boolean(doc.cabeceraVideo), conImagen = Boolean(doc.cabeceraImagen);
+          const conVideo = Boolean(doc.videoCabecera), conImagen = Boolean(doc.imagenCabecera);
           if (conVideo === conImagen) throw new Error(`[project] ${p.slug}: la cabecera tiene que ser video o imagen, una de las dos`);
           doc.cabecera = conVideo ? 'video' : 'imagen';
         }
@@ -521,15 +567,68 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
       return { _type: 'seo', titulo: i18n(en.title, es?.title), ...(en.description ? { descripcion: i18nLargo(en.description, es?.description) } : {}), indexable: !en.noindex };
     };
     const nombreDe = (seo) => i18n(seo.titulo.en.split('|')[0].trim(), seo.titulo.es?.split('|')[0].trim());
-    for (const p of await estaticasDe()) {
+    const estaticas = await estaticasDe();
+    // Los listados (src/lib/sanity/listados.mjs): la tarjeta en el codigo, su copia en
+    // cada documento (tarjetas[<id>], con su posicion) y lo comun en la pagina.
+    const { derivarListados } = await import('./sanity/listados.mjs');
+    const { conMarcas } = await import('../src/lib/sanity/listados.mjs');
+    const { rutaDe } = await import('../src/lib/rutas-sanity.mjs');
+    const listados = derivarListados(estaticas, docs, rutaDe);
+    const comunesDe = {};
+    for (const x of listados) {
+      await igualAlCodigo(`listado-${x.l.id}.html`, x.plantilla);
+      await igualAlCodigo(`listado-${x.l.id}.json`, JSON.stringify(x.huecos, null, 1) + '\n');
+      const deTarjeta = Object.fromEntries(Object.entries(x.huecos).filter(([, h]) => h.fuente === 'tarjeta'));
+      const sectores = {};
+      for (const t of x.porDoc) {
+        const doc = docs.find((dd) => dd._id === t.id);
+        doc.tarjetas ??= [];
+        doc.tarjetas.push(plano(aBloques(deTarjeta, t.valores, 'pagina', conv), {
+          _type: 'bloque', _key: x.l.id, clave: x.l.id,
+          valores: [{ _type: 'valorClave', _key: 'orden', clave: 'orden', valor: String(t.orden) }],
+        }));
+        if (t.campos.sector) {
+          const valor = t.campos.sector.en.toLowerCase();
+          if (!['residential', 'commercial'].includes(valor)) throw new Error(`[listados] ${t.id}: sector desconocido ${t.campos.sector.en}`);
+          if (doc.sector && doc.sector !== valor) throw new Error(`[listados] ${t.id}: dos sectores`);
+          doc.sector = valor;
+          const prev = sectores[valor];
+          if (prev && (prev.en !== t.campos.sector.en || prev.es !== t.campos.sector.es)) throw new Error(`[listados] rotulo de sector distinto: ${valor}`);
+          sectores[valor] = t.campos.sector;
+        }
+        if (t.campos.producto) {
+          const pr = docs.find((dd) => dd._id === doc.productos?.[0]?._ref);
+          if (!pr) throw new Error(`[listados] ${t.id}: etiqueta de producto sin project.productos`);
+          const et = i18n(decodificar(t.campos.producto.en), t.campos.producto.es && decodificar(t.campos.producto.es));
+          if (pr.etiquetaGaleria && JSON.stringify(pr.etiquetaGaleria) !== JSON.stringify(et)) throw new Error(`[listados] ${pr._id}: dos etiquetas de galeria`);
+          pr.etiquetaGaleria = et;
+        }
+      }
+      // Lo comun de la tarjeta y los rotulos de sector, con el id del listado delante (no
+      // se mezclan con los huecos de la pagina).
+      const comun = plano(aBloques(x.huecos, x.compartidos, 'compartido', conv), {});
+      const pre = (lista) => (lista ?? []).map((e) => ({ ...e, _key: `${x.l.id}-${e._key}`.slice(0, 120), clave: `${x.l.id}|${e.clave}` }));
+      const textosSector = Object.entries(sectores).map(([v, t]) => ({ _type: 'textoClave', _key: `sector-${v}`, clave: `sector.${v}`, texto: i18nLargo(decodificar(t.en), t.es && decodificar(t.es)) }));
+      (comunesDe[x.l.pagina] ??= []).push({
+        _type: 'bloque', _key: `listado-${x.l.id}`, clave: `listado:${x.l.id}`,
+        ...Object.fromEntries(['textos', 'imagenes', 'enlaces', 'valores'].map((k) => [k, pre(k === 'textos' ? [...(comun.textos ?? []), ...textosSector] : comun[k])]).filter(([, v]) => v.length)),
+      });
+    }
+    for (const p of estaticas) {
       const d = derivar([p], '', { sinReferencias: true, todoContenido: true });
       d.heredados = [{}];
       const f = paridad(d, [p]);
       if (f.length) throw new Error(`[page] ${p.ruta}: paridad\n${f.join('\n')}`);
-      await igualAlCodigo(`${p.id}.html`, d.plantilla);
-      await igualAlCodigo(`${p.id}.json`, JSON.stringify(d.huecos, null, 1) + '\n');
+      const m = conMarcas(d.plantilla, d.huecos, p.ruta);
+      await igualAlCodigo(`${p.id}.html`, m.plantilla);
+      await igualAlCodigo(`${p.id}.json`, JSON.stringify(m.huecos, null, 1) + '\n');
       const seo = seoPagina(p.ruta);
-      docs.push({ _id: p.id, _type: 'page', ruta: p.ruta, titulo: nombreDe(seo), secciones: aBloques(d.huecos, d.valores[0], 'pagina', conv), seo });
+      // Las secciones son las de la pagina COMPLETA (con las tarjetas): las claves de la
+      // plantilla nueva son un subconjunto, y el codigo anterior (que pinta las tarjetas
+      // desde la pagina) sigue construyendo con el mismo dataset. Las claves de tarjeta que
+      // ya no lee nadie se retiran cuando ese codigo deje de construirse.
+      const completa = comunesDe[p.ruta] ? derivar([{ ...p, en: p.enCompleto, es: p.esCompleto }], '', { sinReferencias: true, todoContenido: true }) : d;
+      docs.push({ _id: p.id, _type: 'page', ruta: p.ruta, titulo: nombreDe(seo), secciones: [...aBloques(completa.huecos, completa.valores[0], 'pagina', conv), ...(comunesDe[p.ruta] ?? [])], seo });
     }
     // Las propias: su copia (src/i18n/paginas-propias.ts, contacto.ts) como textos con clave.
     const { PROPIAS_EN, PROPIAS_ES } = await cargarTs('src/i18n/paginas-propias.ts');
@@ -575,34 +674,33 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
   // Menu y pie: textos de src/i18n/shell.ts y estructura de Nav.astro y Footer.astro
   // -------------------------------------------------------------------------
   if (TIPOS.has('navigation')) {
-    const { menuDe, pieDe } = await import('./sanity/navegacion.mjs');
+    // Menu y pie: la estructura de src/lib/menu.ts (la que pintan Nav.astro y Footer.astro)
+    // y los textos de src/i18n/shell.ts.
+    const { MENU_REPO, PIE_REPO, menuDesde } = await cargarTs('src/lib/menu.ts');
     const { SHELL } = await cargarTs('src/i18n/shell.ts');
-    const { readFileSync } = await import('node:fs');
-    const menu = menuDe(readFileSync(path.join(RAIZ, 'src/components/Nav.astro'), 'utf8'));
-    const pie = pieDe(readFileSync(path.join(RAIZ, 'src/components/Footer.astro'), 'utf8'));
-    const columna = (c, n) => ({
-      _type: 'bloque', _key: c.titulo ?? (c.verTodo ? 'ver-todo' : `columna-${n}`), clave: c.titulo ?? (c.verTodo ? 'verTodo' : `columna-${n}`),
-      ...(c.enlaces.length ? { enlaces: c.enlaces.map((e) => ({ _type: 'enlaceClave', _key: e.claves[0], clave: e.claves.join('+'), ...conv.enlace(e.href) })) } : {}),
+    const enlaceMenu = (e, k) => ({ _type: 'enlaceMenu', _key: clave(e.claves?.[0] ?? `e${k}`), ...conv.enlace(e.href), ...(e.claves ? { claves: [...e.claves] } : {}) });
+    const columnaMenu = (c, n) => ({
+      _type: 'columnaMenu', _key: c.titulo ?? (c.verTodo ? 'ver-todo' : `columna-${n}`),
+      ...(c.titulo ? { titulo: c.titulo } : {}), ...(c.verTodo ? { verTodo: true } : {}),
+      enlaces: c.enlaces.map(enlaceMenu),
     });
-    docs.push({
+    const doc = {
       _id: 'navigation',
       _type: 'navigation',
       textos: textosClave(aplanar(SHELL.en, SHELL.es)),
-      menu: menu.map((g) => ({
+      menu: MENU_REPO.map((g) => ({
         _type: 'grupoMenu', _key: g.clave, clave: g.clave,
         ...(SHELL.en[g.clave] ? { texto: i18n(SHELL.en[g.clave], SHELL.es[g.clave]) } : {}),
         ...(g.destino ? { destino: refRuta(g.destino) } : {}),
-        ...(g.columnas.length ? { subgrupos: g.columnas.map(columna) } : {}),
+        ...(g.columnas.length ? { columnas: g.columnas.map(columnaMenu) } : {}),
       })),
-      pie: pie.map(columna),
-    });
-    // Paridad: la estructura que sale del documento es la del componente.
-    const hrefDe = (e) => (e.destino ? rutaDeId(e.destino._ref) : e.href);
-    const doc = docs[docs.length - 1];
-    const deVuelta = (b) => ({ enlaces: (b.enlaces ?? []).map((e) => ({ href: hrefDe(e), claves: e.clave.split('+') })) });
-    const plano = (c) => ({ enlaces: c.enlaces });
-    if (JSON.stringify(doc.menu.map((g) => [g.clave, g.destino ? rutaDeId(g.destino._ref) : null, (g.subgrupos ?? []).map(deVuelta)])) !== JSON.stringify(menu.map((g) => [g.clave, g.destino ?? null, g.columnas.map(plano)]))) throw new Error('[navigation] el menu no se reconstruye');
-    if (JSON.stringify(doc.pie.map(deVuelta)) !== JSON.stringify(pie.map(plano))) throw new Error('[navigation] el pie no se reconstruye');
+      pie: PIE_REPO.map(columnaMenu),
+    };
+    docs.push(doc);
+    // Paridad: la estructura que sale del documento es la del codigo.
+    const r = menuDesde(doc, (ref) => rutaDeId(ref._ref));
+    if (JSON.stringify(r.menu) !== JSON.stringify(MENU_REPO)) throw new Error('[navigation] el menu no se reconstruye');
+    if (JSON.stringify(r.pie) !== JSON.stringify(PIE_REPO)) throw new Error('[navigation] el pie no se reconstruye');
     const { desaplanar } = await import('../src/lib/plantilla-sanity.mjs');
     if (JSON.stringify({ en: desaplanar(doc.textos, 'en'), es: desaplanar(doc.textos, 'es') }) !== JSON.stringify(SHELL)) throw new Error('[navigation] los textos no son los de shell.ts');
   }

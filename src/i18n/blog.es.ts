@@ -17,6 +17,7 @@
  * y el articulo entero en ingles, que es peor que no tenerla.
  */
 import type { Post, Categoria } from '../lib/blog';
+import { blogSanity } from '../lib/blog';
 
 export type Idioma = 'en' | 'es';
 
@@ -75,7 +76,7 @@ export const TEXTOS: Record<Idioma, TextosBlog> = {
 };
 
 /** Las 5 categorias con articulos. Las 3 vacias del CMS no generan ruta. */
-export const CATEGORIAS_ES: Record<string, string> = {
+export const CATEGORIAS_ES: Record<string, string> = blogSanity?.categoriasEs ?? {
   'buying-guides-cost': 'Guías de compra y precios',
   'materials-engineering': 'Materiales e ingeniería',
   'outdoor-living-design': 'Diseño de exteriores',
@@ -89,7 +90,7 @@ export interface CopyCategoriaEs {
   intro: string;
 }
 
-export const COPY_CATEGORIAS_ES: Record<string, CopyCategoriaEs> = {
+export const COPY_CATEGORIAS_ES: Record<string, CopyCategoriaEs> = blogSanity?.copyCategoriasEs ?? {
   'buying-guides-cost': {
     titulo: 'Guías de compra y precios de pérgolas en Florida',
     meta: 'Lo que cuesta una pérgola en el sur de Florida, qué entra en el precio y cómo comparar presupuestos.',
@@ -128,6 +129,9 @@ export interface PostEs {
   /** El `<title>` de la pagina. */
   tituloLargo: string;
   descripcionSeo: string;
+  /** El alt español de la miniatura y de la principal (Sanity, alt.es). Sin el, el ingles. */
+  altMiniatura?: string;
+  altPrincipal?: string;
 }
 
 /**
@@ -138,7 +142,7 @@ export interface PostEs {
  * hace una pérgola coste...?", es "¿Cuánto cuesta una pérgola en el sur de Florida?".
  * Las cifras y los nombres propios se respetan tal cual.
  */
-export const POSTS_ES: Record<string, PostEs> = {
+export const POSTS_ES: Record<string, PostEs> = blogSanity?.postsEs ?? {
   'pergola-cost-south-florida': {
     titulo: '¿Cuánto cuesta una pérgola en el sur de Florida?',
     resumen: 'Desglose de lo que cuesta una pérgola en el sur de Florida en 2026.',
@@ -296,7 +300,11 @@ const modulos = import.meta.glob<{ default: Record<string, string> }>('./posts/*
   eager: true,
 });
 
-export const CUERPOS_ES: Record<string, Record<string, string>> = Object.fromEntries(
+// Con Sanity el cuerpo español es el del documento (src/lib/sanity/blog.mjs): aqui solo
+// queda el registro de cuales lo tienen, que es lo que lee `traducidos`.
+export const CUERPOS_ES: Record<string, Record<string, string>> = blogSanity
+  ? Object.fromEntries(Object.entries(blogSanity.cuerpos).filter(([, c]) => c.es).map(([s]) => [s, {}]))
+  : Object.fromEntries(
   Object.entries(modulos).map(([ruta, mod]) => [
     ruta.replace('./posts/', '').replace(/\.ts$/, ''),
     mod.default,
@@ -341,6 +349,8 @@ export function traducirPost(p: Post, idioma: Idioma): Post {
     tituloLargo: t?.tituloLargo ?? p.tituloLargo,
     resumen: t?.resumen ?? p.resumen,
     descripcionSeo: t?.descripcionSeo ?? p.descripcionSeo,
+    altMiniatura: t?.altMiniatura ?? p.altMiniatura,
+    altPrincipal: t?.altPrincipal ?? p.altPrincipal,
     categoria: cat ? { ...p.categoria, nombre: cat } : p.categoria,
   };
 }

@@ -1,5 +1,5 @@
 /**
- * F7 · Lightbox nativo de las 23 galerias (a.w-lightbox + script.w-json). Construye el
+ * F7 · Lightbox nativo de las 23 galerias (a.w-lightbox con su <img>). Construye el
  * MISMO DOM que el modulo `lightbox` de webflow.js (clases .w-lightbox-*, ids, roles y
  * aria medidos sobre el build de F8, 20-oct-2026), asi que el CSS de webflow.css lo
  * viste sin tocar nada. Lo que hace: fondo que se funde en 300 ms, vista con la foto
@@ -199,20 +199,19 @@ function ocultar() {
   }, 300);
 }
 
-// Los enlaces: un grupo por `group` del JSON (en orden de documento), o uno propio si no
-// tiene grupo. El indice del enlace es la posicion de su primer item dentro del grupo.
-const grupos = new Map<string, Grupo>();
-document.querySelectorAll<HTMLAnchorElement>('a.w-lightbox').forEach((a, n) => {
-  let json: { items?: Item[]; group?: string } = {};
-  try { json = JSON.parse(a.querySelector('script.w-json')?.textContent ?? '{}'); } catch { /* sin datos: no abre */ }
-  const grupo = grupos.get(json.group || `#${n}`) ?? { items: [] };
-  grupos.set(json.group || `#${n}`, grupo);
+// Los enlaces: la foto de cada uno es el `src` de su <img> (el JSON w-json de Webflow
+// se retiro en 3f: llevaba siempre un item con esa misma url, src/lib/sin-webflow-cms.mjs).
+// Un grupo por pagina, en orden de documento: ninguna pagina tenia mas de un grupo.
+const grupo: Grupo = { items: [] };
+document.querySelectorAll<HTMLAnchorElement>('a.w-lightbox').forEach((a) => {
+  const img = a.querySelector('img');
+  const url = img?.getAttribute('src');
+  if (!url) return;
   const indice = grupo.items.length;
-  const alt = a.querySelector('img')?.alt ?? '';
-  grupo.items.push(...(json.items ?? []).map((it) => ({ ...it, alt })));
+  grupo.items.push({ url, alt: img!.alt ?? '' });
   attrs(a, { 'aria-label': 'open lightbox', 'aria-haspopup': 'dialog' });
   a.addEventListener('click', (e) => {
     e.preventDefault();
-    if (grupo.items.length) abrir(grupo, indice, a);
+    abrir(grupo, indice, a);
   });
 });

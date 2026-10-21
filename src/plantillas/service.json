@@ -211,10 +211,6 @@
   "tipo": "texto",
   "alcance": "pagina"
  },
- "s1.div-w-dyn-hide.div.t": {
-  "tipo": "texto",
-  "alcance": "compartido"
- },
  "s1.div-w-layout-blockcontainer.div-pp-faq-media.img-pp-faq-img": {
   "tipo": "imagen",
   "alcance": "pagina"
@@ -650,7 +646,7 @@
  "lista:0": {
   "tipo": "lista",
   "alcance": "pagina",
-  "plantilla": "<div fs-slider-element=\"slide\" role=\"listitem\" class=\"fs-slider-gallery-section_slide w-dyn-item w-dyn-repeater-item\"><a href=\"#\" class=\"lightbox-link-gallery-page w-inline-block w-lightbox\"><img src=\"\u0001L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image\u0001\" loading=\"lazy\" alt=\"\u0001L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image.alt\u0001\" class=\"fs-slider-gallery-section_image\"/>\u0001L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image.json\u0001</a></div>",
+  "plantilla": "<div fs-slider-element=\"slide\" role=\"listitem\" class=\"fs-slider-gallery-section_slide w-dyn-item w-dyn-repeater-item\"><a href=\"#\" class=\"lightbox-link-gallery-page w-inline-block w-lightbox\"><img src=\"\u0001L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image\u0001\" loading=\"lazy\" alt=\"\u0001L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image.alt\u0001\" class=\"fs-slider-gallery-section_image\"/></a></div>",
   "huecos": {
    "L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image": {
     "tipo": "imagen",
@@ -659,19 +655,7 @@
    "L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image.alt": {
     "tipo": "atributo",
     "alcance": "pagina"
-   },
-   "L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image.json": {
-    "tipo": "derivado",
-    "alcance": "pagina",
-    "de": "L0.s0.div-fs-slider-gallery-section-slide.a-lightbox-link-gallery-page.img-fs-slider-gallery-section-image",
-    "modo": "src",
-    "crudo": true,
-    "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
    }
   }
- },
- "heredado:0": {
-  "tipo": "heredado",
-  "alcance": "codigo"
  }
 }

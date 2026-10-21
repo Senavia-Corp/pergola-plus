@@ -17,6 +17,8 @@
  *   valor     el src del video embebido y su proporcion -> texto sin traducir
  *   etiqueta  una <img> cuyo juego de atributos depende de la foto (srcset, sizes, width…):
  *             la etiqueta entera sale del src, una variante por prefijo de ruta
+ *   listado   las tarjetas de un listado de una coleccion (src/lib/sanity/listados.mjs)
+ *   cuerpo    el texto enriquecido de un documento (Portable Text) -> HTML del lector
  *   derivado  un `srcset` que sale del `src`      -> lo calcula el codigo, no se guarda
  *             (con `soloRaster`, el par ` srcset sizes` entero, que no va si la imagen no
  *             es raster)
@@ -27,6 +29,8 @@
  * ingles y en español.
  */
 export const MARCA = '\u0001';
+/** Una foto que el editor cambio en Sanity: se descarga en el build a /cms-img/sanity/. */
+const FOTO_NUEVA = /^\/cms-img\/sanity\//;
 // Como el export de Webflow: el apostrofo siempre `&#x27;`, la comilla `&quot;` (en el
 // texto, salvo donde el original la lleva literal: hueco con `comillas: 'literal'`).
 const ESC = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#x27;');
@@ -62,7 +66,11 @@ export function rellenar(plantilla, huecos, valor) {
       // <img> entera derivada del src: la variante del prefijo de ruta mas largo que casa.
       const src = valor(h.de);
       if (src == null) throw new Error(`[plantilla] ${clave}: falta la imagen ${h.de}`);
-      const v = h.variantes.filter((x) => src.startsWith(x.prefijo)).sort((a, b) => b.prefijo.length - a.prefijo.length)[0];
+      // Una foto cambiada en Sanity (FOTO_NUEVA) no casa con ningun prefijo: va la primera
+      // variante, y sus medidas y su srcset las rehace limpiarFotosNuevas() sobre dist/.
+      const v = FOTO_NUEVA.test(src)
+        ? h.variantes[0]
+        : h.variantes.filter((x) => src.startsWith(x.prefijo)).sort((a, b) => b.prefijo.length - a.prefijo.length)[0];
       if (!v) throw new Error(`[plantilla] ${clave}: ninguna variante para ${src}`);
       return v.patron
         .split(MARCA + 'src' + MARCA).join(ESC_ATTR(src))
@@ -79,6 +87,18 @@ export function rellenar(plantilla, huecos, valor) {
       // Bloque que tienen unas paginas y otras no (el video de las fichas de producto).
       const l = valor(clave);
       return l ? rellenar(h.plantilla, h.huecos, l) : '';
+    }
+    if (h.tipo === 'listado') {
+      // Las tarjetas de un listado (src/lib/sanity/listados.mjs): el lector las trae pintadas.
+      const html = valor(clave);
+      if (html == null) throw new Error(`[plantilla] ${clave}: listado sin resolver`);
+      return html;
+    }
+    if (h.tipo === 'cuerpo') {
+      // Texto enriquecido (los legales): el lector lo trae ya en HTML desde Portable Text.
+      const html = valor(clave);
+      if (html == null) throw new Error(`[plantilla] ${clave}: sin cuerpo`);
+      return html;
     }
     if (h.tipo === 'heredado') {
       // Marcado heredado de Webflow que ningun codigo lee (x-wf-template): va tal cual,

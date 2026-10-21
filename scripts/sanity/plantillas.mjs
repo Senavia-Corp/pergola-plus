@@ -29,6 +29,7 @@ import { cargarTs, cerrarTs } from './cargar-ts.mjs';
 import { MARCA, rellenar } from '../../src/lib/plantilla.mjs';
 import { decodificar } from '../../src/lib/portable.mjs';
 import { DATA_PRODUCT } from '../lib/fichas.mjs';
+import { vaciarListados, conMarcas } from '../../src/lib/sanity/listados.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 
@@ -40,7 +41,25 @@ export const COLECCIONES = {
   service: { carpeta: 'services', es: async () => { const { SERVICIOS_ES } = await cargarTs('src/i18n/servicios.es.ts'); return (slug) => SERVICIOS_ES[slug] && SERVICIOS_ES[slug].dic; } },
   brand: { carpeta: 'brands', es: async () => { const { MARCAS_ES } = await cargarTs('src/i18n/marcas.es.ts'); return (slug) => MARCAS_ES[slug] && MARCAS_ES[slug].dic; } },
   project: { carpeta: 'project', es: async () => { const { PROYECTOS_ES } = await cargarTs('src/i18n/proyectos.es.ts'); return (slug) => PROYECTOS_ES[slug] && PROYECTOS_ES[slug].dic; } },
+  // Los textos legales: el envoltorio y el CTA del pie son plantilla; el texto, Portable
+  // Text en el documento (hueco `cuerpo`, src/lib/portable.mjs).
+  legalPage: { carpeta: 'articles', cuerpo: '<div class="w-richtext"', es: async () => { const { ARTICULOS_ES } = await cargarTs('src/i18n/articulos.es.ts'); return (slug) => ARTICULOS_ES[slug] && ARTICULOS_ES[slug].dic; } },
 };
+
+/** Vacia el <div> del texto enriquecido (equilibrando la profundidad): ese hueco es el `cuerpo`. */
+function vaciarCuerpo(html, marcador) {
+  const inicio = html.indexOf(marcador);
+  if (inicio < 0) throw new Error(`[plantillas] sin ${marcador}`);
+  const desde = html.indexOf('>', inicio) + 1;
+  let prof = 1;
+  const re = /<div\b|<\/div>/g;
+  re.lastIndex = desde;
+  for (let m; (m = re.exec(html));) {
+    prof += m[0] === '</div>' ? -1 : 1;
+    if (prof === 0) return html.slice(0, desde) + html.slice(m.index);
+  }
+  throw new Error(`[plantillas] ${marcador} sin cerrar`);
+}
 
 // Elementos que son COPIA de otro documento: la tarjeta de producto de «Compare» de las
 // fichas es la de /products con su texto de ancla (scripts/lib/transformar.mjs,
@@ -512,6 +531,15 @@ function opcionalesDe(paginas, abre) {
 }
 
 export function derivarColeccion(paginas) {
+  const d = derivarColeccion_(paginas);
+  if (!paginas[0]?.cuerpo) return d;
+  // El texto enriquecido es un solo hueco `cuerpo` (Portable Text en el documento).
+  const vacio = `${paginas[0].cuerpo}></div>`;
+  if (d.plantilla.split(vacio).length !== 2) throw new Error(`[plantillas] la plantilla no tiene un unico ${vacio}`);
+  return { ...d, plantilla: d.plantilla.replace(vacio, `${paginas[0].cuerpo}>${MARCA}cuerpo${MARCA}</div>`), huecos: { ...d.huecos, cuerpo: { tipo: 'cuerpo' } } };
+}
+
+function derivarColeccion_(paginas) {
   // 1. Bloques opcionales. Se deriva; si la estructura diverge, los hijos del elemento
   //    abierto en ese punto se tratan como bloques opcionales (fuera del fragmento, marca
   //    en su sitio, vacia en las paginas que no lo tienen) y se reintenta.
@@ -654,6 +682,7 @@ export function lector(huecos, valoresPagina, compartidos, idioma, heredados = {
       return lector(h.huecos, v, comp, idioma, her, resolver);
     }
     if (h.tipo === 'heredado') return heredados[clave];
+    if (h.tipo === 'cuerpo' || h.tipo === 'listado') return ''; // la paridad compara con el cuerpo y los listados vaciados
     const v = h.alcance === 'compartido' ? compartidos[clave] : valoresPagina[clave];
     if (v == null) return undefined;
     if (h.tipo === 'imagen') return v.vacia ? h.respaldo : v.src;
@@ -684,7 +713,10 @@ export async function estaticasDe() {
     const en = await fs.readFile(path.join(RAIZ, 'src/contenido-migrado/estaticas', meta[ruta].fragmento), 'utf8');
     const dic = ruta === '/' ? { ...HOME_ES, ...MINIATURAS_ES } : diccionarioDe(PAGINAS_ES.find((p) => p.en === ruta));
     const id = idDeRuta(ruta).id;
-    paginas.push({ ruta, id, slug: id.replace(/^page-/, ''), en, es: traducirHtml(en, dic).html });
+    const es = traducirHtml(en, dic).html;
+    // Los listados de la pagina (src/lib/sanity/listados.mjs) se derivan aparte: la
+    // plantilla de la pagina lleva sus contenedores vacios (y su marca).
+    paginas.push({ ruta, id, slug: id.replace(/^page-/, ''), en: vaciarListados(en, ruta), es: vaciarListados(es, ruta), enCompleto: en, esCompleto: es });
   }
   return paginas;
 }
@@ -701,7 +733,9 @@ export async function paginasDe(tipo) {
   for (const item of items) {
     const en = await fs.readFile(path.join(dir, `${item.slug}.html`), 'utf8');
     const dic = dicEs(item.slug);
-    paginas.push({ slug: item.slug, item, en, es: dic ? traducirHtml(en, { ...COMUN_ES, ...dic }).html : null });
+    const es = dic ? traducirHtml(en, { ...COMUN_ES, ...dic }).html : null;
+    if (c.cuerpo) paginas.push({ slug: item.slug, item, en: vaciarCuerpo(en, c.cuerpo), es: es && vaciarCuerpo(es, c.cuerpo), cuerpo: c.cuerpo });
+    else paginas.push({ slug: item.slug, item, en, es });
   }
   return paginas;
 }
@@ -809,8 +843,10 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
     console.log(`${p.ruta.padEnd(32)} textos ${cuenta('texto')} atributos ${cuenta('atributo')} imagenes ${cuenta('imagen')} enlaces ${cuenta('enlace')} videos ${cuenta('valor')} · paridad ${2 - f.length}/2`);
     for (const x of f) console.log('  FALLO', x);
     if (process.argv.includes('--escribir') && !f.length) {
-      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.html`), d.plantilla);
-      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.json`), JSON.stringify(d.huecos, null, 1) + '\n');
+      // Con la marca de sus listados (scripts/sanity/listados.mjs).
+      const m = conMarcas(d.plantilla, d.huecos, p.ruta);
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.html`), m.plantilla);
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.json`), JSON.stringify(m.huecos, null, 1) + '\n');
     }
   }
   console.log(JSON.stringify({ paginas: paginas.length, comparadas: paginas.length * 2, identicas: paginas.length * 2 - fallos }));

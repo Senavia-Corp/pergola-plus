@@ -1,0 +1,47 @@
+{
+ "s0.div-slider-projects.div-header-slider-projects.img-slider-image-projects": {
+  "tipo": "imagen",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-slider-projects.div-header-slider-projects.img-slider-image-projects.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-slider-projects.div-header-slider-projects.img-slider-image-projects.etiqueta": {
+  "tipo": "etiqueta",
+  "alcance": "pagina",
+  "de": "s0.div-slider-projects.div-header-slider-projects.img-slider-image-projects",
+  "alt": "s0.div-slider-projects.div-header-slider-projects.img-slider-image-projects.alt",
+  "variantes": [
+   {
+    "prefijo": "/cms-img/projects/",
+    "patron": "<img alt=\"\u0001alt\u0001\" loading=\"lazy\" src=\"\u0001src\u0001\" class=\"slider-image-projects\"/>"
+   },
+   {
+    "prefijo": "/images/cliente/",
+    "patron": "<img alt=\"\u0001alt\u0001\" loading=\"lazy\" src=\"\u0001src\u0001\" class=\"slider-image-projects\" srcset=\"\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001-1920.avif 1920w, \u0001raiz\u0001.avif 2500w\" sizes=\"(min-width: 992px) 50vw, 100vw\" width=\"2500\" height=\"1406\"/>"
+   }
+  ]
+ },
+ "s0.div-slider-card-content.h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-slider-card-content.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-slider-card-content.div-wrapper-buttons-mini.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina",
+  "fuente": "ruta"
+ },
+ "s0.div-wrapper-buttons-mini.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ }
+}

@@ -34,6 +34,12 @@
  * hasta el resultado para no presentar como maximo una cifra que no lo es.
  */
 
+import { FUENTE, sanity, rutaImagen, rutaDeRef } from '../lib/sanity/fuente.mjs';
+import { estimadorDesde } from '../lib/sanity/estimador.mjs';
+
+/** Con PP_FUENTE=sanity las tarifas y las opciones salen del documento `estimador`. */
+export const estimadorSanity = FUENTE === 'sanity' ? estimadorDesde(sanity(), { rutaImagen, rutaDeRef }) : null;
+
 export type Fuente = 'publicada' | 'mercado' | 'sin-confirmar';
 
 export interface Tarifa {
@@ -71,7 +77,7 @@ export interface Producto {
   siempreExenta?: boolean;
 }
 
-export const PRODUCTOS: Producto[] = [
+export const PRODUCTOS: Producto[] = estimadorSanity?.PRODUCTOS ?? [
   {
     id: 'open-air',
     imagen: '/images/cliente/open-air-pergolas.avif',
@@ -152,7 +158,7 @@ export const soloCotizacion = (p: Producto) => p.tarifa === null;
 // necesita dos postes en vez de cuatro a seis, con sus zapatas. Factor sobre la
 // tarifa del producto.
 
-export const MONTAJE = { adosada: 0.92, exenta: 1.0 };
+export const MONTAJE: { adosada: number; exenta: number } = estimadorSanity?.MONTAJE ?? { adosada: 0.92, exenta: 1.0 };
 export type Montaje = keyof typeof MONTAJE;
 
 // -----------------------------------------------------------------------------
@@ -168,7 +174,7 @@ export type Montaje = keyof typeof MONTAJE;
 export type Superficie = 'losa-ok' | 'pavers-ok' | 'nueva-losa' | 'nueva-pavers' | 'deck-madera';
 
 /** Por pie cuadrado, sobre el area de la estructura. */
-export const SUPERFICIES: Record<Superficie, Tarifa> = {
+export const SUPERFICIES: Record<Superficie, Tarifa> = estimadorSanity?.SUPERFICIES ?? {
   'losa-ok': { min: 0, max: 0, fuente: 'publicada' },
   'pavers-ok': { min: 0, max: 0, fuente: 'publicada' },
   'nueva-losa': {
@@ -204,7 +210,7 @@ export const SUPERFICIE_MAX = Math.max(...Object.values(SUPERFICIES).map((s) => 
 // son zona de viento de alta velocidad y exigen mas calculo y mas tasas que Palm
 // Beach, y eso mueve el minimo, no el techo.
 
-export const INGENIERIA: Tarifa = { min: 2000, max: 5000, techoAbierto: true, fuente: 'publicada' };
+export const INGENIERIA: Tarifa = estimadorSanity?.INGENIERIA ?? { min: 2000, max: 5000, techoAbierto: true, fuente: 'publicada' };
 
 export type Condado = 'miami-dade' | 'broward' | 'palm-beach';
 
@@ -220,7 +226,7 @@ export type Condado = 'miami-dade' | 'broward' | 'palm-beach';
  * publicada entera y marca el campo para la visita. Si algun dia hace falta el ZIP
  * exacto, la tabla completa va justo aqui.
  */
-export const CONDADOS: { id: Condado; desde: number; hasta: number; min: number; max: number }[] = [
+export const CONDADOS: { id: Condado; desde: number; hasta: number; min: number; max: number }[] = estimadorSanity?.CONDADOS ?? [
   { id: 'miami-dade', desde: 33010, hasta: 33299, min: 3500, max: 5000 },
   { id: 'broward', desde: 33300, hasta: 33399, min: 3000, max: 5000 },
   { id: 'palm-beach', desde: 33400, hasta: 33499, min: 2000, max: 4000 },
@@ -250,7 +256,7 @@ export const ingenieriaDe = (c: Condado | null) => {
 // clientes reales, pero NO aparece en la guia de costes publicada ni en el articulo
 // que la corrobora. Es la unica del fichero sin respaldo documental.
 
-export const WATERFRONT: Tarifa = {
+export const WATERFRONT: Tarifa = estimadorSanity?.WATERFRONT ?? {
   min: 5000,
   max: 15000,
   fuente: 'sin-confirmar',
@@ -276,7 +282,7 @@ export interface Mejora {
   grupo?: string;
 }
 
-export const MEJORAS: Mejora[] = [
+export const MEJORAS: Mejora[] = estimadorSanity?.MEJORAS ?? [
   {
     id: 'Integrated-LED-Lighting',
     grupo: 'electrico',
@@ -320,22 +326,22 @@ export const MEJORAS: Mejora[] = [
 // Los limites viven aqui y no duplicados entre los atributos min/max del HTML y las
 // constantes del script, que es como estaban.
 
-export const MIN_FT = 8;
-export const MAX_FT = 60;
+export const MIN_FT: number = estimadorSanity?.MIN_FT ?? 8;
+export const MAX_FT: number = estimadorSanity?.MAX_FT ?? 60;
 
 /**
  * Los presets del paso 3. "Popular" va preseleccionado a proposito: anclar en el
  * tamano mas pequeno arrastra la expectativa hacia abajo desde el primer segundo.
  */
-export const PRESETS = [
+export const PRESETS: { id: string; ancho: number; largo: number }[] = estimadorSanity?.PRESETS ?? [
   { id: 'intimo', ancho: 12, largo: 14 },
   { id: 'popular', ancho: 16, largo: 20 },
   { id: 'grande', ancho: 20, largo: 24 },
 ];
 
-export const PRESET_POR_DEFECTO = 'popular';
-export const ANCHO_POR_DEFECTO = 16;
-export const LARGO_POR_DEFECTO = 20;
+export const PRESET_POR_DEFECTO: string = estimadorSanity?.PRESET_POR_DEFECTO ?? 'popular';
+export const ANCHO_POR_DEFECTO: number = estimadorSanity?.ANCHO_POR_DEFECTO ?? 16;
+export const LARGO_POR_DEFECTO: number = estimadorSanity?.LARGO_POR_DEFECTO ?? 20;
 
 // -----------------------------------------------------------------------------
 // LA LISTA DE FIRMA

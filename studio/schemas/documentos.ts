@@ -4,18 +4,42 @@
  */
 import { defineArrayMember, defineField, defineType } from 'sanity';
 import { slugFijo, CON_PAGINA } from './objetos';
+import { plantillaInicial } from './plantilla-inicial';
 
-const seo = defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo' });
+const seo = defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo', validation: (r) => r.required() });
 const grupos = [
   { name: 'contenido', title: 'Contenido', default: true },
   { name: 'seo', title: 'SEO' },
 ];
+/**
+ * Campo que el sitio NO lee (medido el 21-oct-2026 con grep sobre src/): lo que pinta va
+ * en `secciones`/`tarjetas` o esta fijo en el codigo. Oculto para que el editor no rellene
+ * algo que no cambia nada; los datos que ya tenga se conservan. Para usarlo, conectarlo
+ * en src/lib/sanity y quitar esta marca.
+ */
+const SIN_USO = { hidden: true };
 const nombre = (title = 'Nombre') => defineField({ name: 'nombre', title, type: 'textoI18n', group: 'contenido', validation: (r) => r.required() });
-const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'bloque' }], group: 'contenido' });
-const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array', of: [{ type: 'imagen' }], group: 'contenido' });
+// Una pagina sin secciones (el calculador: lo pinta su componente desde el documento
+// «Estimador de proyectos») no enseña la lista vacia.
+const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'bloque' }], group: 'contenido', hidden: ({ document, value }) => document?._type === 'page' && !value?.length });
+const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array', of: [{ type: 'imagen' }], group: 'contenido', ...SIN_USO });
 const ref = (name: string, title: string, a: string[]) =>
   defineField({ name, title, type: 'array', of: [defineArrayMember({ type: 'reference', to: a.map((type) => ({ type })) })], group: 'contenido' });
 const vistaNombre = { select: { title: 'nombre.en', subtitle: 'slug.current' } };
+/**
+ * Como sale el documento en cada listado del sitio (/products, la home, la galeria, las
+ * marcas, las zonas…): un bloque por listado, con su copia y su posicion (`orden`). Lo que
+ * la tarjeta comparte con la ficha (foto de cabecera, nombre, enlace) sale de la ficha.
+ * Ver src/lib/sanity/listados.mjs.
+ */
+const tarjetas = defineField({
+  name: 'tarjetas',
+  title: 'Tarjetas en los listados',
+  description: 'Un bloque por listado: texto propio de la tarjeta y su posición («orden»). Sin bloque, el documento no sale en los listados que llevan texto propio.',
+  type: 'array',
+  of: [{ type: 'bloque' }],
+  group: 'contenido',
+});
 
 // ---------------------------------------------------------------------------
 // Singletons
@@ -27,7 +51,7 @@ export const siteSettings = defineType({
   type: 'document',
   fields: [
     defineField({ name: 'nombreComercial', title: 'Nombre comercial', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'razonSocial', title: 'Razón social', type: 'string' }),
+    defineField({ name: 'razonSocial', title: 'Razón social', type: 'string', ...SIN_USO }),
     defineField({
       name: 'direccion',
       title: 'Dirección',
@@ -93,6 +117,15 @@ export const siteSettings = defineType({
         defineField({ name: 'total', title: 'Número de reseñas', type: 'number', validation: (r) => r.min(0).integer() }),
         defineField({ name: 'leidoEl', title: 'Leído el', type: 'date' }),
         defineField({ name: 'fuente', title: 'Fuente', type: 'string' }),
+        defineField({
+          name: 'parcial',
+          title: 'Las reseñas cargadas son solo una parte',
+          description: 'Activado: la nota y el total publicados son los de la ficha (arriba), no el recuento de las tarjetas.',
+          type: 'boolean',
+          initialValue: false,
+        }),
+        defineField({ name: 'actualizado', title: 'Fecha de la copia de las reseñas', type: 'date' }),
+        defineField({ name: 'fichaGoogle', title: 'Ficha de Google (enlace «ver en Google»)', type: 'url' }),
       ],
     }),
     defineField({ name: 'logo', title: 'Logo', type: 'imagen' }),
@@ -102,14 +135,51 @@ export const siteSettings = defineType({
       title: 'Vídeo de la portada',
       type: 'object',
       fields: [
-        defineField({ name: 'mp4', title: 'MP4 (escritorio)', type: 'file' }),
-        defineField({ name: 'mp4Movil', title: 'MP4 (móvil)', type: 'file' }),
-        defineField({ name: 'webm', title: 'WebM', type: 'file' }),
+        defineField({ name: 'mp4', title: 'MP4 (escritorio)', type: 'file', ...SIN_USO }),
+        defineField({ name: 'mp4Movil', title: 'MP4 (móvil)', type: 'file', ...SIN_USO }),
+        defineField({ name: 'webm', title: 'WebM', type: 'file', ...SIN_USO }),
         defineField({ name: 'poster', title: 'Fotograma de espera', type: 'imagen' }),
       ],
     }),
   ],
   preview: { prepare: () => ({ title: 'Datos del negocio' }) },
+});
+
+/**
+ * Un enlace del menu o del pie. Los migrados llevan `claves` (sus textos en «Textos
+ * comunes», abajo) y su diseño en el codigo (src/lib/menu.ts). Uno NUEVO lleva su
+ * texto aqui y sale con el aspecto base de su columna.
+ */
+const enlaceMenu = defineArrayMember({
+  name: 'enlaceMenu',
+  title: 'Enlace',
+  type: 'object',
+  fields: [
+    defineField({ name: 'destino', title: 'Página del sitio', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
+    defineField({ name: 'href', title: 'Enlace externo (si no es una página del sitio)', type: 'string' }),
+    defineField({ name: 'claves', title: 'Claves de texto (enlaces migrados)', type: 'array', of: [{ type: 'string' }], readOnly: true, hidden: ({ value }) => !value?.length }),
+    defineField({ name: 'texto', title: 'Texto', description: 'Para un enlace nuevo. Los migrados usan sus «Textos comunes».', type: 'textoI18n' }),
+    defineField({ name: 'descripcion', title: 'Descripción (desplegables pequeños)', type: 'textoI18n' }),
+  ],
+  validation: (r) => r.custom((v: { destino?: unknown; href?: string; claves?: string[]; texto?: { en?: string } } | undefined) => {
+    if (!v) return true;
+    if (!v.destino && !v.href) return 'Falta el destino';
+    if (!v.claves?.length && !v.texto?.en) return 'Falta el texto del enlace';
+    return true;
+  }),
+  preview: { select: { title: 'texto.en', subtitle: 'claves.0', ref: 'destino._ref' }, prepare: ({ title, subtitle, ref: r }) => ({ title: title ?? subtitle, subtitle: r }) },
+});
+
+const columnaMenu = defineArrayMember({
+  name: 'columnaMenu',
+  title: 'Columna',
+  type: 'object',
+  fields: [
+    defineField({ name: 'titulo', title: 'Clave del título', type: 'string', readOnly: true }),
+    defineField({ name: 'verTodo', title: '«Ver todos…»', type: 'boolean', readOnly: true }),
+    defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [enlaceMenu] }),
+  ],
+  preview: { select: { title: 'titulo' }, prepare: ({ title }) => ({ title: title ?? 'Columna' }) },
 });
 
 export const navigation = defineType({
@@ -129,13 +199,13 @@ export const navigation = defineType({
             defineField({ name: 'clave', title: 'Grupo', type: 'string', readOnly: true }),
             defineField({ name: 'texto', title: 'Texto', type: 'textoI18n' }),
             defineField({ name: 'destino', title: 'Lleva a', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
-            defineField({ name: 'subgrupos', title: 'Columnas', type: 'array', of: [{ type: 'bloque' }] }),
+            defineField({ name: 'columnas', title: 'Columnas', type: 'array', of: [columnaMenu] }),
           ],
           preview: { select: { title: 'texto.en', subtitle: 'clave' } },
         }),
       ],
     }),
-    defineField({ name: 'pie', title: 'Pie', type: 'array', of: [{ type: 'bloque' }] }),
+    defineField({ name: 'pie', title: 'Pie', type: 'array', of: [columnaMenu] }),
     defineField({ name: 'textos', title: 'Textos comunes (botones, avisos)', type: 'array', of: [{ type: 'textoClave' }] }),
   ],
   preview: { prepare: () => ({ title: 'Menú y pie' }) },
@@ -165,6 +235,20 @@ export const page = defineType({
     seo,
   ],
   preview: { select: { title: 'titulo.en', subtitle: 'ruta' } },
+});
+
+/** Un campo de antes de la forma fija: se conserva para el codigo anterior, oculto y de solo lectura. */
+const antiguo = (name: string, nuevo: string) => defineField({
+  name, title: `(antiguo, sustituido por «${nuevo}»)`, type: 'bloque', readOnly: true, hidden: true, group: 'contenido',
+});
+
+/** La URL del video incrustado: la de insercion de embedly, o la de un video de YouTube. */
+const urlVideo = defineField({
+  name: 'url',
+  title: 'URL del vídeo',
+  description: 'La de un vídeo de YouTube (https://www.youtube.com/watch?v=…) o la de inserción que da embedly (//cdn.embedly.com/widgets/media.html?…).',
+  type: 'string',
+  validation: (r) => r.required().custom((v?: string) => (!v || /^\/\/cdn\.embedly\.com\/widgets\/media\.html\?/.test(v) || /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)/.test(v) ? true : 'Tiene que ser de YouTube o de embedly')),
 });
 
 const filaEspecificacion = defineArrayMember({
@@ -201,16 +285,34 @@ const enlaceEspecificacion = defineArrayMember({
   preview: { select: { title: 'texto.en', subtitle: 'junto' } },
 });
 
+/** Las fichas de EXCEPCIONES en scripts/comprobar-ritmo.mjs (se retiran a la vez). */
+const EXCEPCIONES_RITMO = new Set(['product-screen-enclosures']);
+
 export const product = defineType({
   name: 'product',
+  // La ficha alterna bandas claras y oscuras: la oscura detras de las reseñas es el video
+  // o «One We Built» (un proyecto con este producto). Sin ninguno de los dos salen dos
+  // claras seguidas (lo mide check:ritmo). Las excepciones de check:ritmo (hoy
+  // screen-enclosures) solo avisan: con error, su ficha no se podria publicar.
+  validation: (r) => [false, true].map((excepcion) => {
+    const regla = r.custom(async (doc: { _id?: string; videoFicha?: unknown; especificaciones?: unknown } | undefined, ctx) => {
+      if (!doc?.especificaciones || doc.videoFicha) return true;
+      const id = String(doc._id).replace(/^drafts\./, '');
+      if (EXCEPCIONES_RITMO.has(id) !== excepcion) return true;
+      const n = await ctx.getClient({ apiVersion: '2025-01-01' }).fetch('count(*[_type == "project" && !(_id in path("drafts.**")) && references($id)])', { id });
+      return n > 0 ? true : 'Sin «Sección de vídeo», la ficha necesita al menos un proyecto con este producto (sección «One We Built»): si no, salen dos bandas claras seguidas';
+    });
+    return excepcion ? regla.warning() : regla;
+  }),
+  initialValue: plantillaInicial('product', ['secciones', 'tarjetas', 'tarjeta', 'especificaciones']),
   title: 'Producto',
   type: 'document',
   groups: grupos,
   fields: [
     nombre(),
     slugFijo(),
-    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido' }),
-    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
+    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido', ...SIN_USO }),
+    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
     defineField({
       name: 'especificaciones',
@@ -237,12 +339,19 @@ export const product = defineType({
       ],
     }),
     galeria,
+    antiguo('video', 'videoFicha'),
     defineField({
-      name: 'video',
+      name: 'videoFicha',
       title: 'Sección de vídeo (opcional)',
       description: 'Solo la tienen las fichas con vídeo. Sin este campo, la ficha no pinta la sección.',
-      type: 'bloque',
+      type: 'object',
       group: 'contenido',
+      options: { collapsible: true },
+      fields: [
+        defineField({ name: 'titulo', title: 'Título', type: 'textoI18n', validation: (r) => r.required() }),
+        defineField({ name: 'texto', title: 'Texto', type: 'textoLargoI18n', validation: (r) => r.required() }),
+        urlVideo,
+      ],
     }),
     defineField({
       name: 'tarjeta',
@@ -251,7 +360,15 @@ export const product = defineType({
       type: 'bloque',
       group: 'contenido',
     }),
-    ref('marcas', 'Marcas', ['brand']),
+    tarjetas,
+    defineField({
+      name: 'etiquetaGaleria',
+      title: 'Etiqueta en la galería de proyectos',
+      description: 'El rótulo corto con que sale en las tarjetas de los proyectos que lo usan (p. ej. «Solid Roof Pergolas»).',
+      type: 'textoI18n',
+      group: 'contenido',
+    }),
+    { ...ref('marcas', 'Marcas', ['brand']), ...SIN_USO },
     ref('faqsPromovidas', 'Preguntas frecuentes de la ficha', ['faq']),
     seo,
   ],
@@ -260,16 +377,18 @@ export const product = defineType({
 
 export const service = defineType({
   name: 'service',
+  initialValue: plantillaInicial('service', ['secciones', 'tarjetas']),
   title: 'Servicio',
   type: 'document',
   groups: grupos,
   fields: [
     nombre(),
     slugFijo(),
-    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido' }),
-    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
+    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido', ...SIN_USO }),
+    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
     galeria,
+    tarjetas,
     ref('faqsPromovidas', 'Preguntas frecuentes de la ficha', ['faq']),
     seo,
   ],
@@ -278,24 +397,26 @@ export const service = defineType({
 
 export const brand = defineType({
   name: 'brand',
+  initialValue: plantillaInicial('brand', ['secciones', 'tarjetas']),
   title: 'Marca',
   type: 'document',
   groups: grupos,
-  fields: [nombre(), slugFijo(), defineField({ name: 'logo', title: 'Logo', type: 'imagen', group: 'contenido' }), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }), cuerpo, galeria, seo],
+  fields: [nombre(), slugFijo(), defineField({ name: 'logo', title: 'Logo', type: 'imagen', group: 'contenido', ...SIN_USO }), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }), cuerpo, galeria, tarjetas, seo],
   preview: vistaNombre,
 });
 
 export const project = defineType({
   name: 'project',
+  initialValue: plantillaInicial('project', ['secciones', 'tarjetas', 'cabecera']),
   title: 'Proyecto',
   type: 'document',
   groups: grupos,
   fields: [
     nombre(),
     slugFijo(),
-    defineField({ name: 'ubicacion', title: 'Ubicación', type: 'textoI18n', group: 'contenido' }),
+    defineField({ name: 'ubicacion', title: 'Ubicación', type: 'textoI18n', group: 'contenido', ...SIN_USO }),
     defineField({
-      name: 'portada',
+      name: 'portada', ...SIN_USO,
       title: 'Portada',
       description: 'En el portafolio, foto real del cliente siempre que exista.',
       type: 'imagen',
@@ -315,25 +436,38 @@ export const project = defineType({
       group: 'contenido',
       validation: (r) => r.required(),
     }),
+    antiguo('cabeceraVideo', 'videoCabecera'),
+    antiguo('cabeceraImagen', 'imagenCabecera'),
     defineField({
-      name: 'cabeceraVideo',
+      name: 'videoCabecera',
       title: 'Vídeo de cabecera',
-      type: 'bloque',
+      type: 'object',
+      fields: [urlVideo],
       group: 'contenido',
       hidden: ({ document }) => document?.cabecera !== 'video',
       validation: (r) => r.custom((v, ctx) => (ctx.document?.cabecera === 'video' && !v ? 'Falta el vídeo de la cabecera' : true)),
     }),
     defineField({
-      name: 'cabeceraImagen',
+      name: 'imagenCabecera',
       title: 'Imagen de cabecera',
-      type: 'bloque',
+      type: 'imagen',
       group: 'contenido',
       hidden: ({ document }) => document?.cabecera !== 'imagen',
       validation: (r) => r.custom((v, ctx) => (ctx.document?.cabecera === 'imagen' && !v ? 'Falta la imagen de la cabecera' : true)),
     }),
     galeria,
+    defineField({
+      name: 'sector',
+      title: 'Sector',
+      description: 'El rótulo de la tarjeta en la galería (Residential / Commercial).',
+      type: 'string',
+      options: { list: [{ title: 'Residential', value: 'residential' }, { title: 'Commercial', value: 'commercial' }], layout: 'radio' },
+      group: 'contenido',
+      validation: (r) => r.custom((v, ctx) => ((ctx.document as { tarjetas?: { clave?: string }[] })?.tarjetas?.some((t) => t.clave === 'galeria') && !v ? 'La tarjeta de la galería necesita el sector' : true)),
+    }),
+    tarjetas,
     ref('productos', 'Productos', ['product']),
-    defineField({ name: 'ordenDestacado', title: 'Orden en «Featured Projects» (vacío = no destacado)', type: 'number', group: 'contenido' }),
+    defineField({ name: 'ordenDestacado', title: 'Orden en «Featured Projects» (vacío = no destacado)', type: 'number', group: 'contenido', ...SIN_USO }),
     seo,
   ],
   preview: vistaNombre,
@@ -370,6 +504,20 @@ export const post = defineType({
     defineField({ name: 'fechaCreacion', title: 'Fecha de creación (ordena el listado)', type: 'datetime', group: 'contenido', validation: (r) => r.required() }),
     defineField({ name: 'fechaPublicacion', title: 'Fecha de publicación (la que se muestra)', type: 'datetime', group: 'contenido', validation: (r) => r.required() }),
     defineField({ name: 'fechaActualizacion', title: 'Última actualización', type: 'datetime', group: 'contenido' }),
+    defineField({
+      name: 'lectura',
+      title: 'Recuento de palabras migrado',
+      description: 'El del export de Webflow (alimenta «min read»). Vale mientras el texto inglés no cambie; si cambia, el sitio cuenta las palabras del texto nuevo.',
+      type: 'object',
+      readOnly: true,
+      group: 'contenido',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({ name: 'palabras', title: 'Palabras', type: 'number' }),
+        defineField({ name: 'huella', title: 'Huella del texto migrado', type: 'string' }),
+      ],
+    }),
+    tarjetas,
     seo,
   ],
   orderings: [{ title: 'Más recientes', name: 'recientes', by: [{ field: 'fechaCreacion', direction: 'desc' }] }],
@@ -386,22 +534,25 @@ export const blogCategory = defineType({
     slugFijo(),
     defineField({ name: 'descripcion', title: 'Descripción', type: 'textoLargoI18n', group: 'contenido' }),
     defineField({ name: 'tienePagina', title: 'Tiene página propia', type: 'boolean', initialValue: false, group: 'contenido' }),
-    seo,
+    // Solo las categorias con pagina (las que tienen articulos) necesitan SEO.
+    defineField({ name: 'seo', title: 'SEO', type: 'seo', group: 'seo', validation: (r) => r.custom((v, ctx) => (ctx.document?.tienePagina && !v ? 'Requerido' : true)) }),
   ],
   preview: vistaNombre,
 });
 
 export const county = defineType({
   name: 'county',
+  initialValue: plantillaInicial('county', ['secciones']),
   title: 'Condado',
   type: 'document',
   groups: grupos,
-  fields: [nombre(), slugFijo(), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }), cuerpo, seo],
+  fields: [nombre(), slugFijo(), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }), cuerpo, seo],
   preview: vistaNombre,
 });
 
 export const city = defineType({
   name: 'city',
+  initialValue: plantillaInicial('city', ['secciones', 'tarjetas']),
   title: 'Ciudad',
   type: 'document',
   groups: grupos,
@@ -409,8 +560,9 @@ export const city = defineType({
     nombre(),
     slugFijo(),
     defineField({ name: 'condado', title: 'Condado', type: 'reference', to: [{ type: 'county' }], group: 'contenido', validation: (r) => r.required() }),
-    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
+    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
+    tarjetas,
     seo,
   ],
   preview: vistaNombre,
@@ -418,6 +570,7 @@ export const city = defineType({
 
 export const legalPage = defineType({
   name: 'legalPage',
+  initialValue: plantillaInicial('legalPage', ['secciones']),
   title: 'Texto legal',
   type: 'document',
   groups: grupos,
@@ -431,6 +584,8 @@ export const legalPage = defineType({
       type: 'bloqueI18n',
       group: 'contenido',
     }),
+    // El bloque del pie (CTA) que pinta la plantilla de la coleccion (src/plantillas/legalPage.html).
+    cuerpo,
     seo,
   ],
   preview: { select: { title: 'titulo.en', subtitle: 'slug.current' } },

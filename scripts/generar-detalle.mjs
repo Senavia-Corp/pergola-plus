@@ -101,7 +101,7 @@ const COLECCIONES = [
   { dir: 'brands', ruta: 'brands', sanity: 'brand', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
   { dir: 'countries', ruta: 'countries', sanity: 'county', resenas: true, csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
   { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', sanity: 'city', resenas: true, csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
-  { dir: 'articles', ruta: 'articles', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
+  { dir: 'articles', ruta: 'articles', sanity: 'legalPage', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
 ];
 
 /**

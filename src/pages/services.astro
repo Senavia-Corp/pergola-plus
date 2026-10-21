@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import html from '../contenido-migrado/estaticas/services.html?raw';
+import htmlRepo from '../contenido-migrado/estaticas/services.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../lib/sanity/fuente.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Our Services","/services"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/services") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /services.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Outdoor Construction & Patio Services | South Florida"
-  description="Custom pergolas, pavers, driveways, decks, fencing & full outdoor remodels in Miami-Dade, Broward & Palm Beach. Engineered for Florida's climate."
+  title={doc ? doc.seo.titulo.en : "Outdoor Construction & Patio Services | South Florida"}
+  description={doc ? doc.seo.descripcion?.en : "Custom pergolas, pavers, driveways, decks, fencing & full outdoor remodels in Miami-Dade, Broward & Palm Beach. Engineered for Florida's climate."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

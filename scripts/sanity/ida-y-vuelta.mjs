@@ -45,12 +45,12 @@ export async function textosEnriquecidos() {
 }
 
 // Dentro de una etiqueta, el espacio entre atributos no significa nada (`alt="x"  loading` = `alt="x" loading`).
-const normalizar = (h) => decodificar(h.replace(/<[^>]+>/g, (t) => t.replace(/\s+/g, ' ').replace(/\s*\/?>$/, '>')));
+export const normalizar = (h) => decodificar(h.replace(/<[^>]+>/g, (t) => t.replace(/\s+/g, ' ').replace(/\s*\/?>$/, '>')));
 
 // Con --ndjson, la comparacion es contra lo que se va a IMPORTAR: los `href` internos
 // salen de la referencia (rutaDeId), asi que se comparan en forma canonica, que es la que
 // deja el build (canonizarEnlaces) en los dos casos.
-const hrefsCanonicos = (h) => h.replace(/href="(\/(?!\/)[^"]*)"/g, (_t, r) => `href="${canonica(decodificar(r))}"`);
+export const hrefsCanonicos = (h) => h.replace(/href="(\/(?!\/)[^"]*)"/g, (_t, r) => `href="${canonica(decodificar(r))}"`);
 
 if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--ndjson')) {
   const casos = await textosEnriquecidos();

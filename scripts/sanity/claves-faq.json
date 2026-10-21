@@ -1,0 +1,80 @@
+{
+ "faq-cabanas-luz-ventilador": [
+  "LED"
+ ],
+ "faq-carports-uv": [
+  "UV"
+ ],
+ "faq-concrete-permiso": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-decks-material": [
+  "UV"
+ ],
+ "faq-decks-permiso": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-driveways-permiso": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-fences-permiso": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-integraciones-luz-ventilador": [
+  "LED"
+ ],
+ "faq-material-domotica": [
+  "Alexa"
+ ],
+ "faq-material-iluminacion": [
+  "LED"
+ ],
+ "faq-material-lacado": [
+  "UV"
+ ],
+ "faq-material-policarbonato-vida": [
+  "UV"
+ ],
+ "faq-open-air-iluminacion": [
+  "LED"
+ ],
+ "faq-patio-permiso": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-pavers-plazo": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-pergola-build-permiso": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-pergola-build-plazo": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-pergola-carport-granizo": [
+  "UV"
+ ],
+ "faq-polycarbonate-amarilleo": [
+  "UV"
+ ],
+ "faq-polycarbonate-uv": [
+  "UV"
+ ],
+ "faq-revalorizacion-vivienda": [
+  "Broward",
+  "Palm Beach"
+ ],
+ "faq-screens-calor": [
+  "UV"
+ ],
+ "faq-solid-roof-ventilador-tv": [
+  "LED"
+ ]
+}

@@ -25,11 +25,10 @@ interface Props {
 
 const { tema, idioma = 'en' } = Astro.props;
 
-if (!TEMAS_FICHA.has(tema as Tema)) {
-  throw new Error(`[faqs] "${tema}" no es un tema de ficha: no puede recibir ?t=`);
-}
-
-const cuantas = traducidas(idioma).filter((f) => f.tema === tema).length;
+// Una ficha sin tema de preguntas (p. ej. una creada en el Studio sin su faqTheme) no
+// pinta el enlace: no hay biblioteca filtrada a la que mandar. Que las migradas sigan
+// teniendo el suyo lo comprueba check:sanity-cobertura.
+const cuantas = TEMAS_FICHA.has(tema as Tema) ? traducidas(idioma).filter((f) => f.tema === tema).length : 0;
 const t = TEXTOS_FAQ[idioma];
 const base = idioma === 'es' ? '/es/resources/faq' : '/resources/faq';
 const rotulo = t.verTodas

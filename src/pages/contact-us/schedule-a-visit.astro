@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/contact-us__schedule-a-visit.html?raw';
+import htmlRepo from '../../contenido-migrado/estaticas/contact-us__schedule-a-visit.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Schedule a Visit","/contact-us/schedule-a-visit"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/contact-us/schedule-a-visit") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /contact-us/schedule-a-visit.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Book a Free Design Consultation | Pergola Plus"
-  description="Schedule a consultation to review design options, system features and the right shade structure for your outdoor space."
+  title={doc ? doc.seo.titulo.en : "Book a Free Design Consultation | Pergola Plus"}
+  description={doc ? doc.seo.descripcion?.en : "Schedule a consultation to review design options, system features and the right shade structure for your outdoor space."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

@@ -17,6 +17,9 @@
  * rotulos en español, comprobarlo.
  */
 
+// Con PP_FUENTE=sanity los textos salen de `estimador.textos` (src/lib/sanity/estimador.mjs).
+import { estimadorSanity } from '../data/estimador';
+
 export interface OpcionTexto {
   nombre: string;
   nota: string;
@@ -153,7 +156,7 @@ export interface TextosEstimador {
 }
 
 
-export const ESTIMADOR_EN: TextosEstimador = {
+export const ESTIMADOR_EN: TextosEstimador = estimadorSanity?.ESTIMADOR_EN ?? {
   h1: 'Project Estimator',
   entradilla:
     'Answer a few questions about your yard and watch the range narrow as you go.'
@@ -363,7 +366,7 @@ export const ESTIMADOR_EN: TextosEstimador = {
   },
 };
 
-export const ESTIMADOR_ES: TextosEstimador = {
+export const ESTIMADOR_ES: TextosEstimador = estimadorSanity?.ESTIMADOR_ES ?? {
   h1: 'Calculador de presupuesto',
   entradilla:
     'Responda unas preguntas sobre su patio y vea cómo se estrecha el rango sobre la'

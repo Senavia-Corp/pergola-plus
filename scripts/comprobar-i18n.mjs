@@ -20,6 +20,7 @@
  * ser reciproco y apuntar SOLO a paginas que existen. Antes, 106 paginas declaraban
  * una traduccion inexistente.
  */
+import { fichas } from './lib/esperado.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
@@ -607,7 +608,7 @@ for (const rel of servicios) {
 }
 // Autocomprobacion: si el extractor dejara de casar el markup, la lista saldria vacia
 // y esto pasaria en verde sin haber mirado un solo atributo.
-decir(servicios.length === 7 && atrsMirados > 100,
+decir(servicios.length === fichas().serviciosEs && atrsMirados > 100,
   `${atrsMirados} atributos mirados en el cuerpo de ${servicios.length} paginas /es/services/`,
   ['sin esto, una lista vacia significaria «no he extraido nada», no «esta todo traducido»']);
 decir(sinTraducir.length === 0,

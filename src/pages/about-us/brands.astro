@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/about-us__brands.html?raw';
+import htmlRepo from '../../contenido-migrado/estaticas/about-us__brands.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Our Brands","/about-us/brands"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/about-us/brands") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/brands.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Our Brand Partners | Pergola Plus Florida"
-  description="The manufacturers behind our systems — FORTE, Equinox, Renaissance, Fenetex and Apollo — and what each one is engineered for."
+  title={doc ? doc.seo.titulo.en : "Our Brand Partners | Pergola Plus Florida"}
+  description={doc ? doc.seo.descripcion?.en : "The manufacturers behind our systems — FORTE, Equinox, Renaissance, Fenetex and Apollo — and what each one is engineered for."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

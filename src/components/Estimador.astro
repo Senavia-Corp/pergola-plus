@@ -608,9 +608,12 @@ const paginaActual = Astro.url.pathname;
 
           {/* Proxies: hacen .click() sobre los botones reales de #est-nav en vez
               de duplicar la navegacion. Toda la validacion y el salto de pasos
-              siguen pasando por el mismo camino que en escritorio. */}
+              siguen pasando por el mismo camino que en escritorio.
+              "Atras" nace oculto, como lo deja pintar() en el paso 1: si naciera
+              visible, al ocultarlo "Siguiente" se ensancha y Lighthouse lo cuenta
+              como CLS (0,013-0,018 en movil, medido el 21-oct). */}
           <div class="est-pie-nav">
-            <button type="button" class="button secundary w-button" id="est-pie-atras">{t.atras}</button>
+            <button type="button" class="button secundary w-button" id="est-pie-atras" hidden>{t.atras}</button>
             <button type="button" class="button w-button" id="est-pie-siguiente">{t.siguiente}</button>
           </div>
         </div>

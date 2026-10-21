@@ -18,7 +18,7 @@
  * que /es/resources/faq baje del 98 % que exige check:i18n.
  */
 import type { Chip, Tema } from '../data/faqs';
-import { FAQS } from '../data/faqs';
+import { FAQS, faqsSanity } from '../data/faqs';
 export type { Idioma } from './blog.es';
 import type { Idioma } from './blog.es';
 
@@ -55,7 +55,7 @@ export interface TextosFaq {
   ctaBoton: string;
 }
 
-export const CHIPS_COPY: Record<Idioma, Record<Chip, string>> = {
+export const CHIPS_COPY: Record<Idioma, Record<Chip, string>> = faqsSanity?.CHIPS_COPY ?? {
   en: {
     permisos: 'Permits & Code',
     precios: 'Pricing & Timelines',
@@ -74,7 +74,7 @@ export const CHIPS_COPY: Record<Idioma, Record<Chip, string>> = {
   },
 };
 
-export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = {
+export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = faqsSanity?.TEMAS_COPY ?? {
   en: {
     'motorized-louvered-pergolas': 'Motorized Louvered Pergolas',
     'solid-roof-pergolas': 'Insulated Solid Roof Pergolas',
@@ -164,7 +164,7 @@ export const TEXTOS_FAQ: Record<Idioma, TextosFaq> = {
   },
 };
 
-export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = {
+export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FAQS_COPY ?? {
   en: {
     'permiso-sur-florida': {
       'pregunta': 'Do I need a permit to install a pergola in South Florida?',

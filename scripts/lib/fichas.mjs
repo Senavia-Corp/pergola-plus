@@ -60,6 +60,9 @@ export const DATA_PRODUCT = {
   'polycarbonate-pergolas': 'polycarbonate',
   'solar-pergolas': 'solar',
   sukkha: 'sukkha',
+  // El slug se corrigio a `sukkah` (30-sep-2026); el gancho del script sigue siendo el de
+  // siempre. Lo leen las tarjetas que salen del documento (src/lib/sanity/fuente.mjs).
+  sukkah: 'sukkha',
   cabanas: 'cabana',
   carports: 'carport',
   'screen-enclosures': 'enclosure',

@@ -947,14 +947,6 @@
   "tipo": "atributo",
   "alcance": "pagina"
  },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
- },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2": {
   "tipo": "imagen",
   "alcance": "pagina"
@@ -962,14 +954,6 @@
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2.alt": {
   "tipo": "atributo",
   "alcance": "pagina"
- },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-2",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
  },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3": {
   "tipo": "imagen",
@@ -979,14 +963,6 @@
   "tipo": "atributo",
   "alcance": "pagina"
  },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-3",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
- },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4": {
   "tipo": "imagen",
   "alcance": "pagina"
@@ -994,14 +970,6 @@
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4.alt": {
   "tipo": "atributo",
   "alcance": "pagina"
- },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-4",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
  },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5": {
   "tipo": "imagen",
@@ -1011,14 +979,6 @@
   "tipo": "atributo",
   "alcance": "pagina"
  },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-5",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
- },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6": {
   "tipo": "imagen",
   "alcance": "pagina"
@@ -1026,14 +986,6 @@
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6.alt": {
   "tipo": "atributo",
   "alcance": "pagina"
- },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-6",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
  },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7": {
   "tipo": "imagen",
@@ -1043,14 +995,6 @@
   "tipo": "atributo",
   "alcance": "pagina"
  },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-7",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
- },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8": {
   "tipo": "imagen",
   "alcance": "pagina"
@@ -1058,14 +1002,6 @@
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8.alt": {
   "tipo": "atributo",
   "alcance": "pagina"
- },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-8",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
  },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9": {
   "tipo": "imagen",
@@ -1075,14 +1011,6 @@
   "tipo": "atributo",
   "alcance": "pagina"
  },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-9",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
- },
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10": {
   "tipo": "imagen",
   "alcance": "pagina"
@@ -1090,14 +1018,6 @@
  "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10.alt": {
   "tipo": "atributo",
   "alcance": "pagina"
- },
- "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10.json": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-fs-slider-gallery-section-slide.a-lightbox-link.img-fs-slider-gallery-section-image-10",
-  "modo": "src",
-  "crudo": true,
-  "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Gallery\"\n}</script>"
  },
  "s1.div-left-content.div-title-deco.t": {
   "tipo": "texto",
@@ -1184,252 +1104,6 @@
   "alcance": "pagina"
  },
  "s1.div-header-projects.div.t": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects.srcset": {
-  "tipo": "derivado",
-  "alcance": "pagina",
-  "de": "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects",
-  "patron": "\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001-1920.avif 1920w, \u0001raiz\u0001.avif 2500w"
- },
- "s1.div-slider-card-content.h3.t": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-2.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-2": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-2": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-2": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-2.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-2": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-3.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-3": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-3": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-3": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-3.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-3": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-4.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-4": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-4": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-4": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-4.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-4": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-5.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-5": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-5": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-5": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-5.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-5": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-6.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-6": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-6": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-6": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-6.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-6": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-7.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-7": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-7": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-7": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-7.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-7": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-8.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-8": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-8": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-8": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-8.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-8": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-9.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-9": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-9": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-9": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-9.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-9": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-10.alt": {
-  "tipo": "atributo",
-  "alcance": "pagina"
- },
- "s1.div-slider-projects.div-header-slider-projects.img-slider-image-projects-10": {
-  "tipo": "imagen",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.h3.t-10": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div.t-10": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-slider-card-content.div-wrapper-buttons-mini.a-button-10.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-wrapper-buttons-mini.a-button.t-10": {
   "tipo": "texto",
   "alcance": "pagina"
  },
@@ -1526,5 +1200,9 @@
  "s2.section-call-to-action-footer.img-image-call-to-action": {
   "tipo": "imagen",
   "alcance": "pagina"
+ },
+ "listado:sectores-proyectos": {
+  "tipo": "listado",
+  "id": "sectores-proyectos"
  }
 }

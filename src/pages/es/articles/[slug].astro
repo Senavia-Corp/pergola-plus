@@ -5,6 +5,7 @@ import { traducirHtml } from '../../../i18n';
 import { ARTICULOS_ES } from '../../../i18n/articulos.es';
 import { COMUN_ES } from '../../../i18n/comun.es';
 import { grafo, breadcrumbs } from '../../../lib/jsonld';
+import { FUENTE, sanity, fragmentoColeccion, itemDe, enIdioma } from '../../../lib/sanity/fuente.mjs';
 
 // Los artículos legales en español. Solo se genera el que tiene diccionario en
 // ARTICULOS_ES — hoy, únicamente el aviso de privacidad. El porqué está escrito en
@@ -15,17 +16,24 @@ const fragmentos = import.meta.glob('../../../contenido-migrado/articles/*.html'
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    // Con Sanity: el texto legal en español existe si el documento lo tiene.
+    return sanity().deTipo('legalPage').filter((doc) => doc.cuerpo?.es?.length)
+      .map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }
   return items
     .filter((item) => ARTICULOS_ES[item.slug])
     .map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const traduccion = ARTICULOS_ES[item.slug]!;
-const original = fragmentos['../../../contenido-migrado/articles/' + item.slug + '.html'];
-if (!original) throw new Error(`[i18n] sin fragmento para articles/${item.slug}`);
+const { item, doc } = Astro.props;
+const traduccion = doc
+  ? { nombre: doc.titulo.es ?? doc.titulo.en, title: enIdioma(doc.seo?.titulo, 'es'), description: enIdioma(doc.seo?.descripcion, 'es'), dic: {} }
+  : ARTICULOS_ES[item.slug]!;
+const original = doc ? '' : fragmentos['../../../contenido-migrado/articles/' + item.slug + '.html'];
+if (!doc && !original) throw new Error(`[i18n] sin fragmento para articles/${item.slug}`);
 
-const { html, traducidas, faltan } = traducirHtml(original as string, {
+const { html, traducidas, faltan } = doc ? { html: fragmentoColeccion(doc, 'es'), traducidas: 0, faltan: [] as string[] } : traducirHtml(original as string, {
   ...COMUN_ES,
   ...traduccion.dic,
 });

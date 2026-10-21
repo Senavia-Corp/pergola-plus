@@ -5,6 +5,10 @@ import Carrusel from '../components/Carrusel.astro';
 import Formulario from '../components/Formulario.astro';
 import Agenda from '../components/Agenda.astro';
 import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
+import { SITIO } from '../lib/ajustes';
+import { NEGOCIO } from '../lib/jsonld';
+import { dimensionesOg } from '../lib/og.mjs';
+import { FUENTE, ogDeRuta } from '../lib/sanity/fuente.mjs';
 // Va PRIMERO: define los @font-face, y el CSS migrado que viene después ya usa Inter.
 import '../styles/fuentes.css';
 import '../styles/tipografia.css';
@@ -119,12 +123,17 @@ interface Props {
    * nombre, y anadir uno obligaria a tocar las 25 paginas que ya lo usan.
    */
   jsonLd?: unknown;
+  /**
+   * Fechas reales del articulo (las mismas del BlogPosting): article:published_time y
+   * article:modified_time. Solo los posts.
+   */
+  articulo?: { publicado: string; modificado: string; seccion?: string };
 }
 
 const {
   title,
   description = 'Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote.',
-  ogImage = '/images/og-pergola-plus-florida.jpg',
+  ogImage: ogImageProp = '/images/og-pergola-plus-florida.jpg',
   preloadImagen,
   canonical,
   noindex = false,
@@ -132,6 +141,7 @@ const {
   wfSite,
   ogType = 'website',
   jsonLd,
+  articulo,
 } = Astro.props;
 
 // Falla CERRADO: se indexa solo si el deploy se declara produccion. Un preview que
@@ -147,7 +157,11 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 // es la misma pieza que decide la canonica — asi que en un build provisional apunta a
 // localhost, igual que todo lo demas, y eso es lo correcto: esas paginas van
 // `noindex` y sin sitemap. Una URL ya absoluta pasa intacta por `new URL`.
+// Con Sanity, la del documento de la ruta (seo.imagenOg) o la por defecto de siteSettings:
+// el editor la cambia en el Studio. La prop y su valor por defecto quedan para PP_FUENTE=repo.
+const ogImage = (FUENTE === 'sanity' ? ogDeRuta(Astro.url.pathname) : undefined) ?? ogImageProp;
 const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+const ogMedidas = ogImage ? await dimensionesOg(ogImage) : null;
 
 // El idioma sale de la ruta: todo lo que cuelgue de /es/ es español. Sin esto el
 // <html lang="en"> mentiria en la version española, y lang es lo que usan los
@@ -180,6 +194,11 @@ const alternativas = encontradas.length > 1
 const xDefault = alternativas.length > 1
   ? alternativas.find((a) => a.hreflang === 'en')?.href ?? null
   : null;
+
+// og:locale de la pagina y, si tiene gemela, la del otro idioma (formato de Open Graph).
+const LOCALE_OG = { en: 'en_US', es: 'es_US' } as const;
+const ogLocale = LOCALE_OG[idiomaPagina === 'es' ? 'es' : 'en'];
+const ogLocaleAlterna = alternativas.length > 1 ? LOCALE_OG[idiomaPagina === 'es' ? 'en' : 'es'] : null;
 ---
 
 <!DOCTYPE html>
@@ -196,6 +215,15 @@ const xDefault = alternativas.length > 1
     <meta content="summary_large_image" name="twitter:card" />
     {ogImageUrl && <meta content={ogImageUrl} property="og:image" />}
     {ogImageUrl && <meta content={ogImageUrl} name="twitter:image" />}
+    {ogMedidas && <meta content={String(ogMedidas.ancho)} property="og:image:width" />}
+    {ogMedidas && <meta content={String(ogMedidas.alto)} property="og:image:height" />}
+    <meta content={canonicalUrl} property="og:url" />
+    <meta content={NEGOCIO.nombre} property="og:site_name" />
+    <meta content={ogLocale} property="og:locale" />
+    {ogLocaleAlterna && <meta content={ogLocaleAlterna} property="og:locale:alternate" />}
+    {articulo && <meta content={articulo.publicado} property="article:published_time" />}
+    {articulo && <meta content={articulo.modificado} property="article:modified_time" />}
+    {articulo?.seccion && <meta content={articulo.seccion} property="article:section" />}
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     {!indexable && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
@@ -327,15 +355,15 @@ const xDefault = alternativas.length > 1
     <div class="botones-flotantes">
       <a
         class="boton-flotante boton-flotante--tel"
-        href="tel:+15617108363"
-        aria-label="Call Pergola Plus Florida at (561) 710-8363">
+        href={SITIO.tel.href}
+        aria-label={`Call Pergola Plus Florida at ${SITIO.tel.visible}`}>
         <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" focusable="false">
           <path d="M20.33,21.48l2.24-2.24a2.19,2.19,0,0,1,2.34-.48l2.73,1.09a2.18,2.18,0,0,1,1.36,2v5A2.17,2.17,0,0,1,26.72,29C7.59,27.81,3.73,11.61,3,5.41A2.17,2.17,0,0,1,5.17,3H10a2.16,2.16,0,0,1,2,1.36l1.09,2.73a2.16,2.16,0,0,1-.47,2.34l-2.24,2.24S11.67,20.4,20.33,21.48Z"></path>
         </svg>
       </a>
       <a
         class="boton-flotante boton-flotante--wa"
-        href="https://wa.me/15617108363"
+        href={SITIO.tel.wa}
         target="_blank"
         rel="noopener"
         aria-label="Chat with Pergola Plus Florida on WhatsApp (opens in a new tab)">

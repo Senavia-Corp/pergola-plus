@@ -10,7 +10,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { PROPIAS_ES } from '../../../i18n/paginas-propias';
 import BlogListado from '../../../components/BlogListado.astro';
 import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../../lib/blog';
-import { traducirPost } from '../../../i18n/blog.es';
+import { traducirPost, TEXTOS } from '../../../i18n/blog.es';
 
 const c = PROPIAS_ES.blog;
 const TITULO = c.title;
@@ -32,6 +32,7 @@ const url = new URL(canonica('/es/resources/blog'), site).href;
     descripcion: DESCRIPCION,
     entradas: posts.map((p) => traducirPost(p, 'es')),
     site: site.href,
+    migas: [[TEXTOS.es.migaBlog, '/es/resources/blog']],
   })}
 >
   <BlogListado

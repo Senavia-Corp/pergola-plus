@@ -10,10 +10,13 @@
 // Los data-w-id de aqui SI son IX2 (SCROLL_INTO_VIEW). No borrarlos.
 import { idiomaDeRuta } from '../i18n';
 import { traductor } from '../i18n/shell';
+import { PIE, textoEnlace } from '../lib/menu';
 
 const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
 const esActiva = (href: string) => ruta === href || ruta.startsWith(href + '/');
-const t = traductor(idiomaDeRuta(Astro.url.pathname));
+const idioma = idiomaDeRuta(Astro.url.pathname);
+const t = traductor(idioma);
+const MARCA_ACTUAL = new Set(['/project-estimator']);
 ---
   <footer class="footer">
     <div class="w-layout-blockcontainer container-menu w-container">
@@ -88,53 +91,11 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
           <div class="text-block">{t('footerLegal')}</div>
         </div>
         <div class="column-right-footer">
-          <div class="item-footer">
-            <div class="heading-footer">{t('footerHelp')}</div>
-            <ul role="list" class="list-footer">
-              <li>
-                <a href="/products" class="link-footer">{t('footerProductos')}</a>
-              </li>
-              <li>
-                <a href="/services" class="link-footer">{t('footerServicios')}</a>
-              </li>
-              <li>
-                <a href="/project-gallery" class="link-footer">{t('footerGaleria')}</a>
-              </li>
-              <li>
-                <a href="/project-estimator" class:list={["link-footer", { "w--current": esActiva("/project-estimator") }]} aria-current={esActiva("/project-estimator") ? "page" : undefined}>{t('footerEstimador')}</a>
-              </li>
-              <li>
-                <a href="/contact-us/get-in-touch" class="link-footer">{t('footerContacto')}</a>
-              </li>
-              <li>
-                <a href="/resources/blog" class="link-footer">{t('footerBlog')}</a>
-              </li>
-              <li>
-                <a href="/resources/faq" class="link-footer">{t('footerFaq')}</a>
-              </li>
-            </ul>
-          </div>
-          <div class="item-footer">
-            <div class="heading-footer">{t('footerCompany')}</div>
-            <ul role="list" class="list-footer">
-              <li>
-                <a href="/about-us/about-us" class="link-footer">{t('footerAbout')}</a>
-              </li>
-              <li>
-                <a href="/about-us/brands" class="link-footer">{t('footerBrands')}</a>
-              </li>
-              <li>
-                <a href="/about-us/where-we-work" class="link-footer">{t('footerWhere')}</a>
-              </li>
-              <li>
-                <a href="/about-us/industries-we-serve" class="link-footer">{t('footerIndustries')}</a>
-              </li>
-              <li>
-                {/* Venia con href="#" del export. La pagina existe. */}
-                <a href="/about-us/testimonials" class="link-footer">{t('footerTestimonials')}</a>
-              </li>
-            </ul>
-          </div>
+          {/* Las columnas de enlaces salen de `navigation` (src/lib/menu.ts). «Follow»
+              es la de las redes y se pinta aqui; la columna sin titulo son los legales,
+              abajo. Solo el enlace al estimador marca la pagina actual, como hasta ahora
+              (MARCA_ACTUAL). */}
+          {PIE.filter((c) => c.titulo).map((c) => c.titulo === 'footerFollow' ? (
           <div class="item-footer">
             <div class="heading-footer">{t('footerFollow')}</div>
             <ul role="list" class="list-footer-social">
@@ -160,6 +121,20 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
               </li>
             </ul>
           </div>
+          ) : (
+          <div class="item-footer">
+            <div class="heading-footer">{t(c.titulo as any)}</div>
+            <ul role="list" class="list-footer">
+              {c.enlaces.map((e) => (
+              <li>
+                {MARCA_ACTUAL.has(e.href)
+                  ? <a href={e.href} class:list={["link-footer", { "w--current": esActiva(e.href) }]} aria-current={esActiva(e.href) ? "page" : undefined}>{textoEnlace(e, t, idioma)}</a>
+                  : <a href={e.href} class="link-footer">{textoEnlace(e, t, idioma)}</a>}
+              </li>
+              ))}
+            </ul>
+          </div>
+          ))}
         </div>
       </div>
       <div data-w-id="9e3abbef-7c3b-f086-0635-e97421a15e4b" class="div-block-7">
@@ -196,8 +171,9 @@ const t = traductor(idiomaDeRuta(Astro.url.pathname));
             escriben tal cual: son dos, no necesitan coleccion. */}
         <div>
           <div class="collection-list-articles">
-            <a href="/articles/privacy-policy" class="link-footer">{t('footerPrivacidad')}</a>
-            <a href="/articles/terms-of-service" class="link-footer">{t('footerTerminos')}</a>
+            {PIE.filter((c) => !c.titulo).flatMap((c) => c.enlaces).map((e) => (
+            <a href={e.href} class="link-footer">{textoEnlace(e, t, idioma)}</a>
+            ))}
           </div>
         </div>
       </div>
