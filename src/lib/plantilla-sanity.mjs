@@ -121,7 +121,7 @@ function indice(bloques) {
 
 /**
  * @param doc  el documento (con `secciones`), un elemento de lista o un bloque opcional
- * @param conv {{ rutaImagen(imagen): string, hrefDe(enlace): string, tarjeta(destino, idioma): string }}
+ * @param conv {{ rutaImagen(imagen): string, hrefDe(enlace): string, tarjeta(destino, idioma): string, cuerpo(doc, idioma): string }}
  * @param heredados  marcado heredado de la pagina (y `@legado` dentro de una lista)
  */
 export function lectorSanity(huecos, doc, docPlantilla, idioma, conv, heredados = {}, pre = '', comIdx = null) {
@@ -132,6 +132,7 @@ export function lectorSanity(huecos, doc, docPlantilla, idioma, conv, heredados 
     if (clave === '@legado') return heredados['@legado'];
     const h = huecos[clave];
     if (h.tipo === 'heredado') return heredados[clave];
+    if (h.tipo === 'cuerpo') return conv.cuerpo(raiz, idioma);
     if (h.tipo === 'lista') {
       const legado = Boolean(heredados[clave.replace('lista:', 'heredado:')]);
       return (pag.lista[clave] ?? []).map((el) => lectorSanity(h.huecos, el, null, idioma, conv, { '@legado': legado }, pre, com));

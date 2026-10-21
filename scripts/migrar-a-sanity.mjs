@@ -159,7 +159,12 @@ if (TIPOS.has('siteSettings')) {
     notaCita: i18n(CONTACTO_EN.datos.oficina.nota, CONTACTO_ES.datos.oficina.nota),
     redes: [...NEGOCIO.redes],
     condadosServidos: [...NEGOCIO.condados],
-    resumenResenas: { media: r.media, total: r.total, leidoEl: r.leidoEl, fuente: r.fuente },
+    resumenResenas: {
+      media: r.media, total: r.total, leidoEl: r.leidoEl, fuente: r.fuente,
+      parcial: resenas.parcial === true,
+      ...(resenas.actualizado ? { actualizado: resenas.actualizado } : {}),
+      ...(resenas.perfil?.url ? { fichaGoogle: resenas.perfil.url } : {}),
+    },
     logo: await imagen('/images/logo-pergola-plus-florida.png', { en: 'Pergola Plus Florida logo' }),
   });
 }
@@ -305,6 +310,8 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
 
   if (TIPOS.has('post')) {
     const { posts } = await cargarTs('src/lib/blog.ts');
+    const { cuerpoHtml, huellaCuerpo } = await import('../src/lib/sanity/blog.mjs');
+    const convCuerpo = { rutaImagen: (b) => b.origen, hrefDe: (d) => (d.destino ? rutaDeId(d.destino._ref) : d.href) + (d.ancla ? `#${d.ancla}` : '') };
     const { POSTS_ES } = await cargarTs('src/i18n/blog.es.ts');
     const { ALTS_ES } = await import('./lib/posts.mjs');
     const items = JSON.parse(await fs.readFile('src/contenido-migrado/post/_items.json', 'utf8'));
@@ -313,6 +320,7 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
       if (!item) throw new Error(`[post] ${p.slug} sin _items.json`);
       const es = POSTS_ES[p.slug];
       const cuerpoEs = html('post', p.slug, 'es');
+      const cuerpoEn = bloqueI18n(html('post', p.slug, 'en'), cuerpoEs);
       if (Boolean(es) !== Boolean(cuerpoEs)) throw new Error(`[post] ${p.slug}: metadatos ES y cuerpo ES no van a la par`);
       docs.push({
         _id: `post-${p.slug}`,
@@ -323,13 +331,16 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
         resumen: i18nLargo(p.resumen, es?.resumen),
         principal: await imagen(p.principal.src, p.altPrincipal ? { en: p.altPrincipal, es: ALTS_ES[p.altPrincipal] } : null),
         miniatura: await imagen(p.miniatura.src, p.altMiniatura ? { en: p.altMiniatura, es: ALTS_ES[p.altMiniatura] } : null),
-        cuerpo: bloqueI18n(html('post', p.slug, 'en'), cuerpoEs),
+        cuerpo: cuerpoEn,
         categoria: ref(`blogCategory-${p.categoria.slug}`, 'blogCategory'),
         destacado: p.destacadoCms,
         principalDelBlog: p.esHero,
         fechaCreacion: p.creado.toISOString(),
         fechaPublicacion: p.publicado.toISOString(),
         fechaActualizacion: p.actualizado.toISOString(),
+        // El recuento de hoy (del cuerpo del CSV de Webflow) con la huella del cuerpo que
+        // se importa: el build lo usa mientras el texto no cambie (src/lib/sanity/blog.mjs).
+        lectura: { palabras: p.palabras, huella: huellaCuerpo(cuerpoHtml(cuerpoEn.en, convCuerpo)) },
         seo: {
           _type: 'seo',
           titulo: i18n(item.title, es?.tituloLargo),
@@ -365,7 +376,7 @@ if (TIPOS.has('post') || TIPOS.has('legalPage')) {
 // ---------------------------------------------------------------------------
 // Colecciones con plantilla (src/plantillas/<tipo>.html)
 // ---------------------------------------------------------------------------
-const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project'].filter((t) => TIPOS.has(t));
+const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project', 'legalPage'].filter((t) => TIPOS.has(t));
 const tarjetas = {};
 if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
   const { paginasDe, derivarColeccion, derivarReferencias } = await import('./sanity/plantillas.mjs');
@@ -408,12 +419,34 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
     await igualAlCodigo(`${tipo}.json`, JSON.stringify(d.huecos, null, 1) + '\n');
     if (d.heredados.some((h) => Object.keys(h).length)) await igualAlCodigo(`${tipo}.heredado.json`, JSON.stringify(Object.fromEntries(paginas.map((p, i) => [p.slug, d.heredados[i]])), null, 1) + '\n');
     docs.push({ _id: `plantilla-${tipo}`, _type: 'plantilla', coleccion: tipo, secciones: aBloques(d.huecos, d.compartidos, 'compartido', conv) });
+    if (tipo === 'product') {
+      // «One We Built»: el titular y la entradilla de la seccion de proyecto de la ficha
+      // (src/components/ProyectoDeFicha.astro), tal como los pasan hoy las dos rutas.
+      const enSrc = await fs.readFile(path.join(RAIZ, 'src/pages/products/[slug].astro'), 'utf8');
+      const esSrc = await fs.readFile(path.join(RAIZ, 'src/pages/es/products/[slug].astro'), 'utf8');
+      const props = (src) => src.match(/<ProyectoDeFicha [^>]*titulo="([^"]+)"\s+entradilla="([^"]+)"/);
+      const [, tEn, eEn] = props(enSrc) ?? [], [, tEs, eEs] = props(esSrc) ?? [];
+      if (!tEn || !tEs) throw new Error('[product] no encuentro el titular de ProyectoDeFicha en las rutas');
+      docs[docs.length - 1].secciones.push({ _type: 'bloque', _key: 'proyectoDeFicha', clave: 'proyectoDeFicha', textos: textosClave([
+        { clave: 'proyectoDeFicha.titulo', en: tEn, es: tEs },
+        { clave: 'proyectoDeFicha.entradilla', en: eEn, es: eEs },
+      ]) });
+    }
     // Las tarjetas de producto que las fichas copian en «Compare»: una vez, en su producto.
     const refs = derivarReferencias(d);
     for (const [col, dr] of Object.entries(refs.porColeccion)) {
       await igualAlCodigo(`${col}.tarjeta.html`, dr.plantilla);
       await igualAlCodigo(`${col}.tarjeta.json`, JSON.stringify(dr.huecos, null, 1) + '\n');
       tarjetas[col] = Object.fromEntries(dr.slugs.map((slug, j) => [slug, plano(aBloques(dr.huecos, dr.valores[j], 'pagina', conv), { _type: 'bloque', clave: 'tarjeta' })]));
+    }
+    if (tipo === 'legalPage') {
+      // El documento ya lleva titulo, cuerpo y SEO (arriba): aqui, el CTA del pie.
+      paginas.forEach((p, i) => {
+        const doc = docs.find((x) => x._id === `legalPage-${p.slug}`);
+        if (!doc) throw new Error(`[legalPage] ${p.slug} no esta en la tanda`);
+        doc.secciones = aBloques(d.huecos, d.valores[i], 'pagina', conv);
+      });
+      continue;
     }
     if (ES_DE[tipo]) {
       const ES = await ES_DE[tipo]();

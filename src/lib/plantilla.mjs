@@ -17,6 +17,7 @@
  *   valor     el src del video embebido y su proporcion -> texto sin traducir
  *   etiqueta  una <img> cuyo juego de atributos depende de la foto (srcset, sizes, width…):
  *             la etiqueta entera sale del src, una variante por prefijo de ruta
+ *   cuerpo    el texto enriquecido de un documento (Portable Text) -> HTML del lector
  *   derivado  un `srcset` que sale del `src`      -> lo calcula el codigo, no se guarda
  *             (con `soloRaster`, el par ` srcset sizes` entero, que no va si la imagen no
  *             es raster)
@@ -79,6 +80,12 @@ export function rellenar(plantilla, huecos, valor) {
       // Bloque que tienen unas paginas y otras no (el video de las fichas de producto).
       const l = valor(clave);
       return l ? rellenar(h.plantilla, h.huecos, l) : '';
+    }
+    if (h.tipo === 'cuerpo') {
+      // Texto enriquecido (los legales): el lector lo trae ya en HTML desde Portable Text.
+      const html = valor(clave);
+      if (html == null) throw new Error(`[plantilla] ${clave}: sin cuerpo`);
+      return html;
     }
     if (h.tipo === 'heredado') {
       // Marcado heredado de Webflow que ningun codigo lee (x-wf-template): va tal cual,

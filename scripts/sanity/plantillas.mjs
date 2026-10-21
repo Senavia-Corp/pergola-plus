@@ -40,7 +40,25 @@ export const COLECCIONES = {
   service: { carpeta: 'services', es: async () => { const { SERVICIOS_ES } = await cargarTs('src/i18n/servicios.es.ts'); return (slug) => SERVICIOS_ES[slug] && SERVICIOS_ES[slug].dic; } },
   brand: { carpeta: 'brands', es: async () => { const { MARCAS_ES } = await cargarTs('src/i18n/marcas.es.ts'); return (slug) => MARCAS_ES[slug] && MARCAS_ES[slug].dic; } },
   project: { carpeta: 'project', es: async () => { const { PROYECTOS_ES } = await cargarTs('src/i18n/proyectos.es.ts'); return (slug) => PROYECTOS_ES[slug] && PROYECTOS_ES[slug].dic; } },
+  // Los textos legales: el envoltorio y el CTA del pie son plantilla; el texto, Portable
+  // Text en el documento (hueco `cuerpo`, src/lib/portable.mjs).
+  legalPage: { carpeta: 'articles', cuerpo: '<div class="w-richtext"', es: async () => { const { ARTICULOS_ES } = await cargarTs('src/i18n/articulos.es.ts'); return (slug) => ARTICULOS_ES[slug] && ARTICULOS_ES[slug].dic; } },
 };
+
+/** Vacia el <div> del texto enriquecido (equilibrando la profundidad): ese hueco es el `cuerpo`. */
+function vaciarCuerpo(html, marcador) {
+  const inicio = html.indexOf(marcador);
+  if (inicio < 0) throw new Error(`[plantillas] sin ${marcador}`);
+  const desde = html.indexOf('>', inicio) + 1;
+  let prof = 1;
+  const re = /<div\b|<\/div>/g;
+  re.lastIndex = desde;
+  for (let m; (m = re.exec(html));) {
+    prof += m[0] === '</div>' ? -1 : 1;
+    if (prof === 0) return html.slice(0, desde) + html.slice(m.index);
+  }
+  throw new Error(`[plantillas] ${marcador} sin cerrar`);
+}
 
 // Elementos que son COPIA de otro documento: la tarjeta de producto de «Compare» de las
 // fichas es la de /products con su texto de ancla (scripts/lib/transformar.mjs,
@@ -512,6 +530,15 @@ function opcionalesDe(paginas, abre) {
 }
 
 export function derivarColeccion(paginas) {
+  const d = derivarColeccion_(paginas);
+  if (!paginas[0]?.cuerpo) return d;
+  // El texto enriquecido es un solo hueco `cuerpo` (Portable Text en el documento).
+  const vacio = `${paginas[0].cuerpo}></div>`;
+  if (d.plantilla.split(vacio).length !== 2) throw new Error(`[plantillas] la plantilla no tiene un unico ${vacio}`);
+  return { ...d, plantilla: d.plantilla.replace(vacio, `${paginas[0].cuerpo}>${MARCA}cuerpo${MARCA}</div>`), huecos: { ...d.huecos, cuerpo: { tipo: 'cuerpo' } } };
+}
+
+function derivarColeccion_(paginas) {
   // 1. Bloques opcionales. Se deriva; si la estructura diverge, los hijos del elemento
   //    abierto en ese punto se tratan como bloques opcionales (fuera del fragmento, marca
   //    en su sitio, vacia en las paginas que no lo tienen) y se reintenta.
@@ -654,6 +681,7 @@ export function lector(huecos, valoresPagina, compartidos, idioma, heredados = {
       return lector(h.huecos, v, comp, idioma, her, resolver);
     }
     if (h.tipo === 'heredado') return heredados[clave];
+    if (h.tipo === 'cuerpo') return ''; // la paridad compara con el cuerpo vaciado
     const v = h.alcance === 'compartido' ? compartidos[clave] : valoresPagina[clave];
     if (v == null) return undefined;
     if (h.tipo === 'imagen') return v.vacia ? h.respaldo : v.src;
@@ -701,7 +729,9 @@ export async function paginasDe(tipo) {
   for (const item of items) {
     const en = await fs.readFile(path.join(dir, `${item.slug}.html`), 'utf8');
     const dic = dicEs(item.slug);
-    paginas.push({ slug: item.slug, item, en, es: dic ? traducirHtml(en, { ...COMUN_ES, ...dic }).html : null });
+    const es = dic ? traducirHtml(en, { ...COMUN_ES, ...dic }).html : null;
+    if (c.cuerpo) paginas.push({ slug: item.slug, item, en: vaciarCuerpo(en, c.cuerpo), es: es && vaciarCuerpo(es, c.cuerpo), cuerpo: c.cuerpo });
+    else paginas.push({ slug: item.slug, item, en, es });
   }
   return paginas;
 }

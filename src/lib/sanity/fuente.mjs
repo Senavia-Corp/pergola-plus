@@ -10,8 +10,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { rellenar } from '../plantilla.mjs';
 import { lectorSanity } from '../plantilla-sanity.mjs';
-import { rutaDe, rutaDeId } from '../rutas-sanity.mjs';
+import { rutaDe, rutaDeId, idDeRuta } from '../rutas-sanity.mjs';
 import { partesAsset } from './assets.mjs';
+import { cuerpoHtml } from './blog.mjs';
 
 export const FUENTE = process.env.PP_FUENTE === 'sanity' ? 'sanity' : 'repo';
 
@@ -52,12 +53,16 @@ export function rutaDeRef(ref) {
 /** href de un `enlaceClave`: pagina del sitio (+ ancla) o enlace externo. */
 export const hrefDe = (e) => (e.destino ? rutaDeRef(e.destino) : e.href) + (e.ancla ? `#${e.ancla}` : '');
 
-// Plantillas del codigo (src/plantillas), empaquetadas con el build.
-const HTML = import.meta.glob('../../plantillas/*.html', { query: '?raw', import: 'default', eager: true });
-const JSON_ = import.meta.glob('../../plantillas/*.json', { import: 'default', eager: true });
+// Plantillas del codigo (src/plantillas), empaquetadas con el build. Perezosas: un
+// script que importe un modulo de datos con Node a secas (sin Vite) no las necesita.
+let G = null;
+const globs = () => (G ??= {
+  HTML: import.meta.glob('../../plantillas/*.html', { query: '?raw', import: 'default', eager: true }),
+  JSON_: import.meta.glob('../../plantillas/*.json', { import: 'default', eager: true }),
+});
 const plantilla = (nombre) => {
-  const h = HTML[`../../plantillas/${nombre}.html`];
-  const j = JSON_[`../../plantillas/${nombre}.json`];
+  const h = globs().HTML[`../../plantillas/${nombre}.html`];
+  const j = globs().JSON_[`../../plantillas/${nombre}.json`];
   if (h == null || !j) throw new Error(`[sanity] falta la plantilla src/plantillas/${nombre}`);
   return { html: h, huecos: j };
 };
@@ -65,6 +70,8 @@ const plantilla = (nombre) => {
 const conv = {
   rutaImagen,
   hrefDe,
+  // El texto enriquecido (legales), serializado como el export de Webflow.
+  cuerpo: (doc, idioma) => cuerpoHtml((idioma === 'es' ? doc.cuerpo?.es : null) ?? doc.cuerpo?.en, { rutaImagen, hrefDe }),
   // La tarjeta de «Compare»: plantilla de la tarjeta + el campo `tarjeta` del producto.
   tarjeta: (destino, idioma) => {
     const d = sanity().doc(destino._ref);
@@ -80,14 +87,31 @@ import { DATA_PRODUCT } from '../../../scripts/lib/fichas.mjs';
 
 /**
  * El fragmento de una pagina de coleccion (city, county, product, service, brand,
- * project), en un idioma, pintado con su plantilla y su documento.
+ * project, legalPage), en un idioma, pintado con su plantilla y su documento.
  */
 export function fragmentoColeccion(doc, idioma) {
   const tipo = doc._type;
   const t = plantilla(tipo);
-  const heredados = JSON_[`../../plantillas/${tipo}.heredado.json`]?.[doc.slug.current] ?? {};
+  const heredados = globs().JSON_[`../../plantillas/${tipo}.heredado.json`]?.[doc.slug.current] ?? {};
   const comun = sanity().doc(`plantilla-${tipo}`);
   return rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, comun, idioma, conv, heredados));
+}
+
+/**
+ * El fragmento de una pagina estatica (documento `page-<id>`) en un idioma, pintado con
+ * su plantilla de pagina (src/plantillas/page-<id>.html: todo contenido).
+ */
+export function fragmentoEstatica(doc, idioma) {
+  const t = plantilla(doc._id);
+  return rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, null, idioma, conv));
+}
+
+/** El documento `page-<id>` de una ruta estatica (o lanza: con Sanity, la pagina tiene que estar). */
+export function paginaDe(ruta) {
+  const id = idDeRuta(ruta).id;
+  const d = sanity().doc(id);
+  if (!d) throw new Error(`[sanity] falta el documento ${id} de ${ruta}`);
+  return d;
 }
 
 /**

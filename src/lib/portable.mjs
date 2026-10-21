@@ -31,6 +31,9 @@ export const decodificar = (s) =>
   });
 const escTexto = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => escTexto(s).replace(/"/g, '&quot;');
+// Como el export de Webflow (y src/lib/plantilla.mjs): el apostrofo `&#x27;` y la comilla
+// `&quot;` tambien en el texto. Es la forma en que el sitio publica hoy los cuerpos.
+const escWf = (s) => escAttr(s).replace(/'/g, '&#x27;');
 
 // ---------------------------------------------------------------------------
 // HTML -> Portable Text
@@ -178,10 +181,17 @@ const ETIQUETA = { normal: 'p', h1: 'h1', h2: 'h2', h3: 'h3' };
 
 /**
  * @param {object[]} bloques
- * @param {{ hrefDe?: (anotacion: object) => string, imagen: (bloque: object) => { src: string, alt: string } }} opc
+ * @param {{ hrefDe?: (anotacion: object) => string, imagen: (bloque: object) => { src: string, alt: string }, webflow?: boolean }} opc
+ *   webflow: serializa como el export de Webflow que publica hoy el sitio (`&#x27;` y
+ *   `&quot;` en el texto, `<br/>`, `<img … alt="…"  loading="lazy"/>`), byte a byte. Sin
+ *   ella, la forma minima que usa la prueba de ida y vuelta.
  */
 export function portableAHtml(bloques, opc) {
   const hrefDe = (d) => (d.href ? d.href : opc.hrefDe(d));
+  const escTexto_ = opc.webflow ? escWf : escTexto;
+  const escAttr_ = opc.webflow ? escWf : escAttr;
+  const BR = opc.webflow ? '<br/>' : '<br>';
+  const LAZY = opc.webflow ? '  loading="lazy"' : ' loading="lazy"';
   const linea = (b) => {
     const defs = Object.fromEntries((b.markDefs ?? []).map((d) => [d._key, d]));
     let html = '';
@@ -191,8 +201,8 @@ export function portableAHtml(bloques, opc) {
       let comun = 0;
       while (comun < abiertas.length && comun < s.marks.length && abiertas[comun] === s.marks[comun]) comun++;
       cerrarHasta(comun);
-      for (const m of s.marks.slice(comun)) { html += defs[m] ? `<a href="${escAttr(hrefDe(defs[m]))}">` : `<${m}>`; abiertas.push(m); }
-      html += s.text.split('\n').map(escTexto).join('<br>');
+      for (const m of s.marks.slice(comun)) { html += defs[m] ? `<a href="${escAttr_(hrefDe(defs[m]))}">` : `<${m}>`; abiertas.push(m); }
+      html += s.text.split('\n').map(escTexto_).join(BR);
     }
     cerrarHasta(0);
     return html;
@@ -211,15 +221,15 @@ export function portableAHtml(bloques, opc) {
     if (b._type === 'block') html += `<${ETIQUETA[b.style]}>${linea(b)}</${ETIQUETA[b.style]}>`;
     else if (b._type === 'imagenCuerpo') {
       const { src, alt } = opc.imagen(b);
-      html += `<figure class="${FIGURA}"><div><img src="${escAttr(src)}" alt="${escAttr(alt)}"${b.cargaDiferida ? ' loading="lazy"' : ''}/></div></figure>`;
+      html += `<figure class="${FIGURA}"><div><img src="${escAttr_(src)}" alt="${escAttr_(alt)}"${b.cargaDiferida ? LAZY : ''}/></div></figure>`;
     } else if (b._type === 'botones') {
       const clase = { primario: 'button w-button', secundario: 'button secundary w-button' };
-      html += `<div class="pp-post-cta">${b.items.map((x) => `<a href="${escAttr(hrefDe(x))}" class="${clase[x.estilo]}">${escTexto(x.texto)}</a>`).join('')}</div>`;
+      html += `<div class="pp-post-cta">${b.items.map((x) => `<a href="${escAttr_(hrefDe(x))}" class="${clase[x.estilo]}">${escTexto_(x.texto)}</a>`).join('')}</div>`;
     } else if (b._type === 'tabla') {
-      html += `<div class="pp-tabla-scroll" role="region" tabindex="0"${b.etiquetaAccesible ? ` aria-label="${escAttr(b.etiquetaAccesible)}"` : ''}><table class="pp-tabla">`
-        + (b.titulo ? `<caption>${escTexto(b.titulo)}</caption>` : '')
-        + `<thead><tr>${b.cabecera.map((c) => `<th scope="col">${escTexto(c)}</th>`).join('')}</tr></thead>`
-        + `<tbody>${b.filas.map((f) => `<tr><th scope="row">${escTexto(f.celdas[0])}</th>${f.celdas.slice(1).map((c) => `<td>${escTexto(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      html += `<div class="pp-tabla-scroll" role="region" tabindex="0"${b.etiquetaAccesible ? ` aria-label="${escAttr_(b.etiquetaAccesible)}"` : ''}><table class="pp-tabla">`
+        + (b.titulo ? `<caption>${escTexto_(b.titulo)}</caption>` : '')
+        + `<thead><tr>${b.cabecera.map((c) => `<th scope="col">${escTexto_(c)}</th>`).join('')}</tr></thead>`
+        + `<tbody>${b.filas.map((f) => `<tr><th scope="row">${escTexto_(f.celdas[0])}</th>${f.celdas.slice(1).map((c) => `<td>${escTexto_(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     } else throw new Error(`[portable] tipo de bloque desconocido: ${b._type}`);
   }
   cerrarLista();
