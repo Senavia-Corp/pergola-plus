@@ -22,7 +22,8 @@
  },
  "s0.div-div-block.div-block-logo-brand.img-img-logo-brand.alt": {
   "tipo": "atributo",
-  "alcance": "compartido"
+  "alcance": "pagina",
+  "fuente": "tarjeta"
  },
  "s0.div-box-detail-brands.div.t": {
   "tipo": "texto",

@@ -100,7 +100,7 @@
    },
    "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.alt": {
     "tipo": "atributo",
-    "alcance": "compartido"
+    "alcance": "pagina"
    }
   }
  }

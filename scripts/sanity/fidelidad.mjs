@@ -34,10 +34,23 @@ const editados = c.docs.filter(editado).map((d) => `${d._id} (${d._updatedAt})`)
 
 const fallos = [];
 let comparadas = 0;
+// Bloque S: el alt de las imagenes de contenido que el repo pintaba vacio
+// (scripts/sanity/migrar-alts-contenido.mjs). Se acepta SOLO alt="" en el repo -> texto
+// en Sanity, en la misma posicion, con el resto identico; se cuentan.
+let altsNuevos = 0;
+const ALT = / alt="([^"]*)"/g;
+const soloAltsNuevos = (hoy, sanity) => {
+  if (hoy.replace(ALT, ' alt=""') !== sanity.replace(ALT, ' alt=""')) return false;
+  const a = [...hoy.matchAll(ALT)].map((m) => m[1]), b = [...sanity.matchAll(ALT)].map((m) => m[1]);
+  let n = 0;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) { if (a[i] !== '') return false; n++; }
+  altsNuevos += n;
+  return true;
+};
 const comparar = (id, idioma, repo, sanity) => {
   comparadas++;
   const hoy = sinWebflowCms(repo);
-  if (hoy === sanity) return;
+  if (hoy === sanity || soloAltsNuevos(hoy, sanity)) return;
   let k = 0; while (k < hoy.length && hoy[k] === sanity[k]) k++;
   fallos.push(`${id} ${idioma}: difiere en ${k}\n      repo:   …${hoy.slice(Math.max(0, k - 60), k + 60)}\n      sanity: …${sanity.slice(Math.max(0, k - 60), k + 60)}`);
 };
@@ -64,7 +77,7 @@ for (const tipo of Object.keys(COLECCIONES)) {
   }
 }
 await cerrarTs();
-console.log(`paginas: ${comparadas} fragmentos comparados, ${fallos.length} difieren`);
+console.log(`paginas: ${comparadas} fragmentos comparados, ${fallos.length} difieren (${altsNuevos} alt nuevos donde el repo los tenia vacios)`);
 for (const f of fallos.slice(0, 30)) console.log(`  FALLO  ${f}`);
 
 // 2. Datos. Un tipo con documentos editados tras la migracion no se compara.
