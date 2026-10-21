@@ -90,7 +90,11 @@ export function blogDesde(c, conv) {
   const postsEs = {};
   for (const d of docsPost) {
     if (!d.titulo.es) continue;
-    postsEs[d.slug.current] = { titulo: d.titulo.es, resumen: d.resumen.es, tituloLargo: d.tituloLargo?.es ?? d.seo?.titulo?.es, descripcionSeo: d.seo?.descripcion?.es };
+    postsEs[d.slug.current] = {
+      titulo: d.titulo.es, resumen: d.resumen.es, tituloLargo: d.tituloLargo?.es ?? d.seo?.titulo?.es, descripcionSeo: d.seo?.descripcion?.es,
+      ...(d.miniatura?.alt?.es ? { altMiniatura: d.miniatura.alt.es } : {}),
+      ...(d.principal?.alt?.es ? { altPrincipal: d.principal.alt.es } : {}),
+    };
   }
   return { categorias, posts, copy, categoriasEs, copyCategoriasEs, postsEs, cuerpos };
 }

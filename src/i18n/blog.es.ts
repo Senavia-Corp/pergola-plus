@@ -129,6 +129,9 @@ export interface PostEs {
   /** El `<title>` de la pagina. */
   tituloLargo: string;
   descripcionSeo: string;
+  /** El alt español de la miniatura y de la principal (Sanity, alt.es). Sin el, el ingles. */
+  altMiniatura?: string;
+  altPrincipal?: string;
 }
 
 /**
@@ -346,6 +349,8 @@ export function traducirPost(p: Post, idioma: Idioma): Post {
     tituloLargo: t?.tituloLargo ?? p.tituloLargo,
     resumen: t?.resumen ?? p.resumen,
     descripcionSeo: t?.descripcionSeo ?? p.descripcionSeo,
+    altMiniatura: t?.altMiniatura ?? p.altMiniatura,
+    altPrincipal: t?.altPrincipal ?? p.altPrincipal,
     categoria: cat ? { ...p.categoria, nombre: cat } : p.categoria,
   };
 }

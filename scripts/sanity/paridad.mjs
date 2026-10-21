@@ -95,7 +95,9 @@ const TIPOS = {
     for (const cat of B.categoriasConPosts) igual(S.copy[cat.slug], B.copyDe(cat), `blog.copy.${cat.slug}`);
     igual(S.categoriasEs, E.CATEGORIAS_ES, 'blog.categoriasEs');
     igual(S.copyCategoriasEs, E.COPY_CATEGORIAS_ES, 'blog.copyCategoriasEs');
-    igual(S.postsEs, E.POSTS_ES, 'blog.postsEs');
+    // altMiniatura/altPrincipal: alt.es nuevos del bloque S (scripts/sanity/migrar-alts-es.mjs), que el repo no tiene.
+    const sinAltEs = (o) => Object.fromEntries(Object.entries(o).map(([k, { altMiniatura, altPrincipal, ...v }]) => [k, v]));
+    igual(sinAltEs(S.postsEs), E.POSTS_ES, 'blog.postsEs');
     igual(Object.keys(S.cuerpos).filter((s) => S.cuerpos[s].es).sort(), Object.keys(E.CUERPOS_ES).sort(), 'blog.traducidos');
   },
 };
