@@ -59,20 +59,18 @@ decir(robots !== null, 'existe robots.txt');
 
 if (!ES_PRODUCCION) {
   // --- Modo provisional: nada de esto puede llegar a un buscador ---
-  // Rastreable A PROPOSITO (GH-002): Google solo lee el <meta noindex> si puede
-  // entrar. Un Disallow: / lo taparia, y una URL de la copia enlazada desde fuera
-  // podria salir en el indice como «URL sin contenido». La exclusion la hace el meta
-  // de las 217 paginas (se comprueba abajo); robots solo abre la puerta para que se
-  // lea.
+  // Bloqueante (decidido el 21-oct-2026; antes Allow por GH-002, ver astro.config.mjs):
+  // User-agent: * con Disallow: / y nada que lo abra. El meta noindex de las 217
+  // paginas se sigue exigiendo abajo, como segunda capa.
   decir(
-    !/^\s*Disallow:\s*\/\s*$/m.test(robots ?? ''),
-    'robots.txt NO lleva Disallow: / (taparia el noindex)',
+    /^\s*User-agent:\s*\*\s*\n\s*Disallow:\s*\/\s*$/m.test(robots ?? '') && !/^\s*Allow:/m.test(robots ?? ''),
+    'robots.txt es bloqueante: User-agent: * / Disallow: /, sin Allow',
     [String(robots).split('\n').filter(Boolean).join(' | ')],
   );
-  decir(/^\s*Allow:\s*\/\s*$/m.test(robots ?? ''), 'robots.txt lleva Allow: / (el noindex se puede leer)');
   decir(!/^\s*Sitemap:/m.test(robots ?? ''), 'robots.txt NO anuncia un sitemap');
   decir(!(await existe('sitemap.xml')), 'no se ha escrito sitemap.xml');
   decir(!(await existe('resources/blog/rss.xml')), 'no se ha escrito el RSS');
+  decir(!(await existe('llms.txt')), 'no se ha escrito llms.txt');
 
   // El <meta> tiene que estar en TODAS. Una sola pagina sin el es la que se indexa.
   const sinMeta = [];
@@ -105,11 +103,29 @@ if (!ES_PRODUCCION) {
   );
 } else {
   // --- Modo produccion: que el candado no se haya quedado puesto ---
-  decir(/^\s*Allow:\s*\/\s*$/m.test(robots ?? ''), 'robots.txt lleva Allow: /');
-  decir(!/^\s*Disallow:\s*\/\s*$/m.test(robots ?? ''), 'robots.txt NO lleva Disallow: /');
+  // Por grupo (RFC 9309: lineas User-agent seguidas y sus reglas). El candado no puede
+  // estar en `*` ni en los buscadores y asistentes que enlazan; los recolectores para
+  // entrenar modelos SI lo llevan (politica del bloque S, astro.config.mjs).
+  const grupos = [];
+  for (const l of String(robots ?? '').split('\n').map((x) => x.replace(/#.*/, '').trim()).filter(Boolean)) {
+    const [k, ...v] = l.split(':'); const val = v.join(':').trim();
+    if (/^user-agent$/i.test(k)) { const g = grupos.at(-1); if (g && !g.reglas.length) g.agentes.push(val); else grupos.push({ agentes: [val], reglas: [] }); }
+    else grupos.at(-1)?.reglas.push(`${k.trim()}: ${val}`);
+  }
+  const grupoDe = (ua) => grupos.find((g) => g.agentes.includes(ua));
+  const cerrado = (g) => g?.reglas.includes('Disallow: /');
+  decir(grupoDe('*')?.reglas.includes('Allow: /') && !cerrado(grupoDe('*')), 'robots.txt: User-agent * lleva Allow: / y no Disallow: /');
+  for (const ua of ['Googlebot', 'Bingbot', 'Applebot', 'OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User']) {
+    decir(!cerrado(grupoDe(ua) ?? grupoDe('*')), `robots.txt: ${ua} puede entrar`);
+  }
+  for (const ua of ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Bytespider', 'meta-externalagent']) {
+    decir(cerrado(grupoDe(ua)), `robots.txt: ${ua} lleva Disallow: /`);
+  }
+  decir(grupos.every((g) => cerrado(g) || g.reglas.includes('Disallow: /api/')), 'robots.txt: /api/ fuera en todos los grupos abiertos');
   decir(/^\s*Sitemap:/m.test(robots ?? ''), 'robots.txt anuncia el sitemap');
   decir(await existe('sitemap.xml'), 'se ha escrito sitemap.xml');
   decir(await existe('resources/blog/rss.xml'), 'se ha escrito el RSS');
+  decir(await existe('llms.txt'), 'se ha escrito llms.txt');
 
   // Estas cuatro lo llevan A PROPOSITO, con la prop `noindex` de BaseLayout: no son
   // contenido y responden 200 (salvo la inglesa de error, que Vercel sirve con 404).

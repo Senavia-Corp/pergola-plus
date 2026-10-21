@@ -29,6 +29,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { canonica } from '../src/lib/canonica.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const CONFIG = path.join(RAIZ, '.vercel/output/config.json');
@@ -57,6 +58,26 @@ const destino = path.join(RAIZ, '.vercel/output/static', RUTA_404_ES.dest);
 await fs.access(destino).catch(() => {
   throw new Error(`[rutas] no existe ${RUTA_404_ES.dest} en la salida: no se enruta a una pagina que no esta`);
 });
+
+// ---------------------------------------------------------------------------
+// Forma canonica (barra final) en los 301, antes de validarlos
+// ---------------------------------------------------------------------------
+// Astro escribe los 301 tal como estan en astro.config.mjs y src/data/
+// redirecciones-dominio.mjs: origen `^/about-us$` y destino `/about-us/about-us`, sin
+// barra. Con la regla de barra final de mas abajo eso son DOS saltos (301 + 308), y la
+// variante del origen con barra (`/about-us/`) no casaba con nada y daba 404. Aqui el
+// destino pasa a su forma canonica y el origen acepta las dos formas: un solo salto,
+// siempre a la URL del canonical. Se hace sobre la salida para que valga para todos los
+// 301, tambien los que se añadan sin pensar en la barra.
+let canonizados = 0;
+for (const r of config.routes) {
+  // Los de patron (`$1`, el de las imagenes de Apollo) apuntan a ficheros: se quedan.
+  if (r.status !== 301 || !r.headers?.Location || r.headers.Location.includes('$')) continue;
+  const destino = canonica(r.headers.Location);
+  if (destino !== r.headers.Location) { r.headers.Location = destino; canonizados++; }
+  if (r.src.endsWith('$') && !r.src.endsWith('/?$')) r.src = r.src.replace(/\$$/, '/?$');
+}
+console.log(`[rutas] 301: ${canonizados} destinos llevados a su forma canonica; los origenes aceptan con y sin barra`);
 
 // Lo mismo para los 301: un destino que no existe cambia un 404 por un redirect a un 404,
 // y un origen que ES una pagina real la tapa (en Vercel los redirects van antes que los
@@ -125,7 +146,19 @@ const CABECERAS = [
   // Assets versionados por nombre (derivados, fuentes, video) o por hash (/js/*.<hash>.js,
   // ver versionarJs). /css/* ya no lo pide ningun HTML (el CSS va inline) y se deja
   // immutable por si alguien lo tiene enlazado.
-  { src: '^/(fonts|videos|images|cms-img|css|js)/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
+  // /js/*.<hash>.js lleva huella (versionarJs) y /css/* ya no lo pide ningun HTML (el
+  // CSS va inline; se deja por si alguien lo tiene enlazado): immutable de un año.
+  { src: '^/(css|js)/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
+  // H-07 (verificacion del 20-oct-2026). Imagenes, derivados, fuentes y video NO llevan
+  // huella en el nombre: si se sustituye uno con el mismo nombre (una foto nueva del
+  // cliente, un derivado regenerado), `immutable` de un año lo dejaba un año viejo en
+  // cada navegador que ya lo tuviera. Un dia fresco y hasta 30 de stale-while-revalidate:
+  // dentro del dia no hay peticion; despues se sirve lo que hay y se revalida por detras
+  // (304 con ETag), asi que un cambio se ve como mucho una visita tarde. La primera
+  // visita, que es lo que mide Lighthouse, no cambia. Huella en el nombre seria lo ideal,
+  // pero obliga a reescribir las 1.564 rutas de asset del HTML; con Sanity (Fase 4) las
+  // imagenes del CMS pasan a su CDN, que ya versiona.
+  { src: '^/(fonts|videos|images|cms-img)/(.*)$', headers: { 'cache-control': 'public, max-age=86400, stale-while-revalidate=2592000' }, continue: true },
   { src: '^/(.*)$', headers: {
     'x-content-type-options': 'nosniff',
     'referrer-policy': 'strict-origin-when-cross-origin',
@@ -135,6 +168,31 @@ const CABECERAS = [
   // La CSP solo en documentos: en una imagen o una fuente no aplica y son 3 KB por respuesta.
   { src: '^/(?!_astro/|fonts/|videos/|images/|cms-img/|css/|js/|api/)(.*)$', headers: { [MODO_CSP === 'enforce' ? 'content-security-policy' : 'content-security-policy-report-only']: CSP }, continue: true },
 ];
+// ---------------------------------------------------------------------------
+// Barra final: /products/cabanas -> 308 -> /products/cabanas/
+// ---------------------------------------------------------------------------
+// La forma canonica lleva barra (canonical, sitemap, hreflang y, desde la Fase 2 de
+// entrega, todos los href internos). Sin regla, la otra forma depende de como resuelva
+// Vercel un directorio sin barra: o un 200 duplicado o lo que el haga. Con ella la
+// respuesta es siempre la misma y de un salto. Son los patrones EXACTOS de
+// `trailingSlash: true` de Vercel (@vercel/routing-utils, convertTrailingSlash): no se
+// usa trailingSlash: 'always' de Astro porque ademas cambia el servidor de desarrollo
+// (404 a todo enlace sin barra) y como Astro construye Astro.url.
+// Fuera de la regla: /api/ (un POST a /api/lead no debe redirigirse), las rutas
+// internas de Astro (/_image, /_server-islands) y /.well-known.
+// Va DETRAS de los 301 explicitos (que ya aceptan las dos formas y van directos al
+// destino) y DELANTE de las cabeceras y del filesystem.
+const RUTA_BARRA = {
+  src: '^/(?!api(?:/|$)|_|\\.well-known(?:/|$))((?:[^/]+/)*[^/\\.]+)$',
+  headers: { Location: '/$1/' },
+  status: 308,
+};
+if (!config.routes.some((r) => r.src === RUTA_BARRA.src)) {
+  const iPrimeraCabecera = config.routes.findIndex((r) => r.continue && r.headers && !r.status);
+  if (iPrimeraCabecera === -1) throw new Error('[rutas] no encuentro las reglas de cabeceras para colocar la de la barra final delante');
+  config.routes.splice(iPrimeraCabecera, 0, RUTA_BARRA);
+}
+
 const yaConCabeceras = config.routes.some((r) => r.headers?.['x-content-type-options']);
 if (!yaConCabeceras) {
   const iAstro = config.routes.findIndex((r) => /_astro/.test(r.src ?? '') && r.continue);
@@ -150,6 +208,22 @@ if (i === -1) {
     + '  Lo escribe @astrojs/vercel y su forma ha cambiado. Sin el, el 404 español\n'
     + '  no se enruta y las URLs rotas de /es/ vuelven a servirse en ingles.',
   );
+}
+
+// La carpeta de imagenes de Apollo se renombro de `brands/appolo` a `brands/apollo`
+// (20-oct-2026; peticion del cliente del 29-sep sobre los nombres de fichero). El
+// preview fue publico hasta el 18-oct, asi que las rutas viejas se sirvieron. Va aqui y
+// no en `redirects` de astro.config.mjs porque Astro solo admite un redirect dinamico
+// hacia una RUTA suya, no hacia ficheros de public/. Junto al 301 de la pagina.
+const RUTA_APOLLO_IMG = {
+  src: '^/cms-img/brands/appolo/(.+)$',
+  headers: { Location: '/cms-img/brands/apollo/$1' },
+  status: 301,
+};
+if (!config.routes.some((r) => r.src === RUTA_APOLLO_IMG.src)) {
+  const iMarca = config.routes.findIndex((r) => /^\^\/brands\/appolo(\/\?)?\$$/.test(r.src));
+  if (iMarca === -1) throw new Error('[rutas] no encuentro el 301 de /brands/appolo para colocar el de sus imagenes al lado');
+  config.routes.splice(iMarca + 1, 0, RUTA_APOLLO_IMG);
 }
 
 const yaEsta = config.routes.some((r) => r.src === RUTA_404_ES.src);

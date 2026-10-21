@@ -1,15 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import html from '../contenido-migrado/estaticas/404.html?raw';
+import htmlRepo from '../contenido-migrado/estaticas/404.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../lib/sanity/fuente.mjs';
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/404") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /404.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Page Not Found | Pergola Plus Florida"
+  title={doc ? doc.seo.titulo.en : "Page Not Found | Pergola Plus Florida"}
   noindex
-  description="That page does not exist. Browse our pergola systems, services and project gallery, or get in touch with our South Florida team."
+  description={doc ? doc.seo.descripcion?.en : "That page does not exist. Browse our pergola systems, services and project gallery, or get in touch with our South Florida team."}
   wfSite="6903b7794d5df3d76a7a2488"
 >
   <Fragment set:html={html} />

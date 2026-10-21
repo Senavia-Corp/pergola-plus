@@ -1,0 +1,59 @@
+{
+ "s0.div-brands-grid-item.a-brands-card-page.href": {
+  "tipo": "enlace",
+  "alcance": "pagina",
+  "fuente": "ruta"
+ },
+ "s0.a-brands-card-page.div-box-img-brand.img-brands-card-image": {
+  "tipo": "imagen",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.a-brands-card-page.div-box-img-brand.img-brands-card-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-div-block.div-block-logo-brand.img-img-logo-brand": {
+  "tipo": "imagen",
+  "alcance": "pagina",
+  "respaldo": "/cms-img/brands/pergola-plus-forte/brand-logo-logo-black.svg",
+  "fuente": "tarjeta"
+ },
+ "s0.div-div-block.div-block-logo-brand.img-img-logo-brand.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-box-detail-brands.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-box-detail-brands.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-box-detail-brands.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-brands-card-body-page.h3-projects-card-h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "doc",
+  "ruta": "nombre"
+ },
+ "s0.div-brands-card-body-page.div-projects-card-text.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "doc",
+  "ruta": "secciones[s0.div-hero-btn-row].textos[s0.div-hero-btn-row.div.t].texto"
+ },
+ "s0.div-projects-card-link-page.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ }
+}

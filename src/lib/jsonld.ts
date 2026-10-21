@@ -26,9 +26,15 @@
  *   priceRange       el rango real depende del proyecto y no esta publicado.
  *   offers           las paginas de producto no publican precio.
  */
+import { canonica } from './canonica.mjs';
+import { negocioDesde } from './sanity/negocio.mjs';
+import { ajustes } from './ajustes.ts';
 
-/** Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. */
-export const NEGOCIO = {
+/**
+ * Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. Con
+ * PP_FUENTE=sanity salen de `siteSettings` con la misma forma (src/lib/sanity/negocio.mjs).
+ */
+const NEGOCIO_REPO = {
   nombre: 'Pergola Plus Florida',
   telefono: '+1-561-710-8363',
   email: 'info@pergolaplusflorida.com',
@@ -48,8 +54,11 @@ export const NEGOCIO = {
   /** Los tres condados que el sitio dice servir, en todas sus paginas. */
   condados: ['Miami-Dade County', 'Broward County', 'Palm Beach County'],
 } as const;
+export const NEGOCIO: typeof NEGOCIO_REPO = ajustes ? negocioDesde(ajustes) : NEGOCIO_REPO;
 
-const absoluta = (site: string, ruta: string) => new URL(ruta, site).href;
+// Siempre en forma canonica (con barra final): las URL del JSON-LD son las mismas que
+// el canonical de cada pagina, no una variante sin barra (ver src/lib/canonica.mjs).
+const absoluta = (site: string, ruta: string) => new URL(canonica(ruta), site).href;
 
 /** El negocio, con `@id` estable para poder referenciarlo desde otros nodos. */
 export function localBusiness(site: string) {

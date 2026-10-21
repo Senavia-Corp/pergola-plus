@@ -36,6 +36,13 @@ export async function bajarFaltantes({ htmls, cuerpo, mapa, locales, destino }) 
       // a appointment el 30-sep-2026: sin esto, cada regeneracion lo volveria a bajar con
       // el nombre viejo y el fragmento lo seguiria pidiendo.
       .replace(/^appoiment-(?=[.-])/, 'appointment');
+    // Ya descargado en una pasada anterior (esta en git): se usa sin red. Sin esto,
+    // regenerar dependia de que el CDN de Webflow contestara, y en un entorno sin
+    // salida a internet check:generadores no podia correr.
+    if (locales.has(nombre)) {
+      mapa[url] = { src: `/images/${nombre}` };
+      continue;
+    }
     try {
       const r = await fetch(url);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);

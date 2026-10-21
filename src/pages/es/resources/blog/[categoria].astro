@@ -5,12 +5,13 @@
  * Mismas reglas que la inglesa: SOLO las categorias con articulos. Las 3 vacias del
  * CMS y el `view-all` no generan ruta.
  */
+import { canonica } from '../../../../lib/canonica.mjs';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import BlogListado from '../../../../components/BlogListado.astro';
 import {
   categoriasConPosts, postsDe, jsonLdBlog, WF_PAGE, WF_SITE, type Categoria,
 } from '../../../../lib/blog';
-import { COPY_CATEGORIAS_ES, traducirCategoria, traducirPost } from '../../../../i18n/blog.es';
+import { COPY_CATEGORIAS_ES, traducirCategoria, traducirPost, TEXTOS } from '../../../../i18n/blog.es';
 
 export function getStaticPaths() {
   return categoriasConPosts.map((categoria) => ({
@@ -33,7 +34,7 @@ const copy = COPY_CATEGORIAS_ES[categoria.slug] ?? {
 const entradas = postsDe(categoria.slug).map((p) => traducirPost(p, 'es'));
 
 const site = Astro.site!;
-const url = new URL(`/es/resources/blog/${categoria.slug}`, site).href;
+const url = new URL(canonica(`/es/resources/blog/${categoria.slug}`), site).href;
 ---
 
 <BaseLayout
@@ -49,6 +50,7 @@ const url = new URL(`/es/resources/blog/${categoria.slug}`, site).href;
     descripcion: copy.meta,
     entradas,
     site: site.href,
+    migas: [[TEXTOS.es.migaBlog, '/es/resources/blog'], [cat.nombre, `/es/resources/blog/${categoria.slug}`]],
   })}
 >
   <BlogListado activa={categoria.slug} titulo={cat.nombre} intro={copy.intro} idioma="es" />

@@ -1,0 +1,266 @@
+{
+ "s0.div-wrapper-hero-page.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-title-deco.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-serve-block.div-serve-column-right.img-serve-image",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1024w"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-title-deco.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.h2.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-3.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-4.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-2.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-serve-block.div-serve-column-right.img-serve-image-2",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1024w"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-title-deco.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.h2.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-w-dyn-item.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-5.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-column-left.div-service-action.a-button-6.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.div-service-action.a-button.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-3.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s1.div-serve-block.div-serve-column-right.img-serve-image-3",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001.avif 1024w"
+ },
+ "s1.div-serve-block.div-serve-column-right.img-serve-image-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-header-locations.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-header-locations.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-title-locations.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-text-mini-locations.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-left.a-location-card-link.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.a-location-card-link.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-title-locations.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-text-mini-locations.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-left.a-location-card-link-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.a-location-card-link.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-2.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-2": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-title-locations.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-left.div-text-mini-locations.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-left.a-location-card-link-3.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s1.a-location-card-link.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.div-locations-grid.div-locations-right.img-img-location-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s2.section-call-to-action-footer.img-image-call-to-action",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001-p-1080.avif 1080w, \u0001raiz\u0001.avif 2000w"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "listado:zonas-miami-dade": {
+  "tipo": "listado",
+  "id": "zonas-miami-dade"
+ },
+ "listado:zonas-broward": {
+  "tipo": "listado",
+  "id": "zonas-broward"
+ },
+ "listado:zonas-palm-beach": {
+  "tipo": "listado",
+  "id": "zonas-palm-beach"
+ }
+}

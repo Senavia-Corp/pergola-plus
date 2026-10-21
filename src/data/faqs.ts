@@ -20,6 +20,15 @@
  * el buscador, no los chips.
  */
 
+import { FUENTE, sanity, rutaDeRef } from '../lib/sanity/fuente.mjs';
+import { faqsDesde } from '../lib/sanity/faqs.mjs';
+
+/**
+ * Con PP_FUENTE=sanity la biblioteca sale de los documentos `faq`, `faqTopic` y
+ * `faqTheme` (src/lib/sanity/faqs.mjs), con la misma forma que las constantes de aqui.
+ */
+export const faqsSanity = FUENTE === 'sanity' ? faqsDesde(sanity(), rutaDeRef) : null;
+
 /** La tira de filtros. Anade uno aqui y hay que darle rotulo en faqs.es.ts. */
 export type Chip = 'permisos' | 'precios' | 'pergolas' | 'sombra' | 'obra' | 'materiales';
 
@@ -34,10 +43,10 @@ export type Tema =
   | 'general-materiales' | 'general-proceso' | 'general-empresa';
 
 /** Orden en que se pintan las secciones. 'todo' no es un chip: es el estado sin filtro. */
-export const CHIPS: Chip[] = ['permisos', 'precios', 'pergolas', 'sombra', 'obra', 'materiales'];
+export const CHIPS: Chip[] = faqsSanity?.CHIPS ?? ['permisos', 'precios', 'pergolas', 'sombra', 'obra', 'materiales'];
 
 /** Los temas que son una ficha real, y por tanto pueden llegar por ?t=. */
-export const TEMAS_FICHA = new Set<Tema>([
+export const TEMAS_FICHA: Set<Tema> = faqsSanity?.TEMAS_FICHA ?? new Set<Tema>([
   'motorized-louvered-pergolas', 'solid-roof-pergolas', 'open-air-pergolas',
   'polycarbonate-pergolas', 'solar-pergolas', 'sukkah',
   'cabanas', 'carports', 'screen-enclosures', 'motorized-screens',
@@ -61,7 +70,7 @@ export const TEMAS_FICHA = new Set<Tema>([
  * Las dos que NO suben —`pergola-lamas-que-angulo` y `material-lamas-sin-luz`— son
  * la materia prima de la seccion «Como funciona». Reparto cerrado, cero duplicacion.
  */
-export const PROMOVIDAS: Record<string, string[]> = {
+export const PROMOVIDAS: Record<string, string[]> = faqsSanity?.PROMOVIDAS ?? {
   'motorized-louvered-pergolas': [
     'material-lamas-mecanismo',
     'material-sensor-lluvia-falla',
@@ -226,7 +235,7 @@ export interface Faq {
   claves?: string[];
 }
 
-export const FAQS: Faq[] = [
+export const FAQS: Faq[] = faqsSanity?.FAQS ?? [
   { id: 'permiso-sur-florida', chip: 'permisos', tema: 'general-permisos', origen: 'pagina', enlace: '/services/pergola-design-construction', destacada: true, claves: ['NOA', 'Miami-Dade', 'Broward', 'Palm Beach'] },
   { id: 'huracan-homologacion', chip: 'permisos', tema: 'general-permisos', origen: 'pagina', enlace: '/products/motorized-louvered-pergolas', destacada: true, claves: ['HVHZ', 'NOA'] },
   { id: 'precio-pergola-aluminio', chip: 'precios', tema: 'general-precios', origen: 'pagina', enlace: '/services/pergola-design-construction', destacada: true, claves: ['Miami-Dade', 'Broward', 'Palm Beach'] },

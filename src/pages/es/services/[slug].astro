@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { FUENTE, sanity, fragmentoColeccion, itemDe, enIdioma } from '../../../lib/sanity/fuente.mjs';
 import items from '../../../contenido-migrado/services/_items.json';
 import { traducirHtml } from '../../../i18n';
 import { SERVICIOS_ES } from '../../../i18n/servicios.es';
@@ -9,7 +10,7 @@ import FaqPromovidas from '../../../components/FaqPromovidas.astro';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
 import { partirTrasFaq, partirEnMarca, extraerBanda, paresFaq, MARCA_RESENAS } from '../../../lib/faq-ficha';
 import { grafo, breadcrumbs, servicio, faqPage } from '../../../lib/jsonld';
-import { PROMOVIDAS } from '../../../data/faqs';
+import { PROMOVIDAS } from '../../../lib/sanity/datos.mjs';
 import { porId } from '../../../i18n/faqs.es';
 
 // Las páginas de servicio en español.
@@ -26,17 +27,24 @@ const fragmentos = import.meta.glob('../../../contenido-migrado/services/*.html'
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('service').filter((doc) => doc.nombre?.es)
+      .map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }
   return items
     .filter((item) => SERVICIOS_ES[item.slug])
     .map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const traduccion = SERVICIOS_ES[item.slug]!;
-const original = fragmentos['../../../contenido-migrado/services/' + item.slug + '.html'];
-if (!original) throw new Error(`[i18n] sin fragmento para services/${item.slug}`);
+const { item, doc } = Astro.props;
+// Con Sanity, el texto español ya viene del documento: no se traduce con diccionario.
+const traduccion = doc
+  ? { nombre: doc.nombre.es, title: enIdioma(doc.seo?.titulo, 'es'), description: enIdioma(doc.seo?.descripcion, 'es'), dic: {} }
+  : SERVICIOS_ES[item.slug]!;
+const original = doc ? '' : fragmentos['../../../contenido-migrado/services/' + item.slug + '.html'];
+if (!doc && !original) throw new Error(`[i18n] sin fragmento para services/${item.slug}`);
 
-const { html, traducidas, faltan } = traducirHtml(original as string, {
+const { html, traducidas, faltan } = doc ? { html: fragmentoColeccion(doc, 'es'), traducidas: 0, faltan: [] as string[] } : traducirHtml(original as string, {
   ...COMUN_ES,
   ...traduccion.dic,
 });

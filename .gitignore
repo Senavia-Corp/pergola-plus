@@ -80,3 +80,8 @@ auditoria-imagenes/iconos/
 # JSON de la sonda y el informe del diff visual con los PNG de las diferencias.
 implementation-reports/**/capturas/
 implementation-reports/**/diff-png/
+
+# Contenido de Sanity del build (scripts/sanity/instantanea.mjs) y fotos nuevas que
+# subio el cliente: se regeneran en cada build con PP_FUENTE=sanity.
+.cache/
+public/cms-img/sanity/

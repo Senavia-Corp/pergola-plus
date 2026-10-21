@@ -1,0 +1,300 @@
+{
+ "s0.section-appointment-section.div-appointment-column-left.img-image-3": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.section-appointment-section.div-appointment-column-left.img-image-3.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s0.section-appointment-section.div-appointment-column-left.img-image-3",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001-p-1080.avif 1080w, \u0001raiz\u0001.avif 1600w"
+ },
+ "s0.section-appointment-section.div-appointment-column-left.img-image-3.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page-transparent.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page-transparent.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-header-form.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-header-form.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.label-text-block-6.strong.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-7": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-8": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-9": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-10": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-11": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.label-text-block-6.strong.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-12": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-13": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-14": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-15": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-16": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-17": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-18": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-bugget-form.div-text-mini-form.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-msf-step.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.span-w-form-label.strong.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.span-w-form-label.strong.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.span-w-form-label.strong.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.span-w-form-label.strong.t-4": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.span-w-form-label.strong.t-5": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.span-w-form-label.strong.t-6": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-header-form.h2.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-header-form.div.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-bugget-form.label-text-block-6.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-19": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-20": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-21": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-22": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-23": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.select-select-field.option.t-24": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form.placeholder": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form.aria-label": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-2.placeholder": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-2.aria-label": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-3.placeholder": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-3.aria-label": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-header-form.h2.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-header-form.div.t-3": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-4.placeholder": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-4.aria-label": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-5.placeholder": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-5.aria-label": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-6.placeholder": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-step.input-text-field-form-6.aria-label": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.label-w-checkbox.span-text-mini-form.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons-center-form.div-text-mini-form.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons-center-form.div-text-mini-form.a.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.div-text-mini-form.a.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons-center-form.div-text-mini-form.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons-center-form.div-text-mini-form.a-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.div-text-mini-form.a.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-msf-buttons.button-msf-back.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-msf-buttons.button-msf-next.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-buttons.input-button.data-wait": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-step-wrapper.div-msf-buttons.input-button.value": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s1.h2.strong.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s3.div-wrapper-buttons-center-form.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s3.div-wrapper-buttons-center-form.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s4.div-w-form-fail.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ }
+}

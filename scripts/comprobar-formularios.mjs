@@ -36,7 +36,11 @@ import { raizHtml } from './lib/dist.mjs';
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const DIST = await raizHtml();
 const LEADS = path.join(RAIZ, '.leads/leads.ndjson');
-const PUERTO = 4331; // fuera del 4321 de dev y del 4330 del panel del navegador
+// Fuera del 4321 de dev y del 4330 del panel del navegador. PUERTO_FORMULARIOS lo
+// cambia para cuando el 4331 ya lo ocupa OTRO checkout (p. ej. desde un worktree):
+// `astro dev status` solo ve el servidor de su propio proyecto, y sin esto la puerta
+// mandaria sus POST de prueba al servidor ajeno y anotaria los leads en su .leads/.
+const PUERTO = Number(process.env.PUERTO_FORMULARIOS ?? 4331);
 
 let fallos = 0;
 const decir = (ok, msg, detalle = []) => {

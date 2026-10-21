@@ -31,6 +31,8 @@
  * — el mismo principio que el listado del blog.
  */
 import datos from '../data/reviews-google.json';
+import { FUENTE, sanity } from './sanity/fuente.mjs';
+import { resenasDesde } from './sanity/resenas.mjs';
 import plantillas from '../data/reviews-plantilla.json';
 
 export interface Resena {
@@ -91,7 +93,9 @@ interface Snapshot {
   parcial?: boolean;
 }
 
-const SNAPSHOT = datos as unknown as Snapshot;
+// Con PP_FUENTE=sanity el snapshot sale de los documentos `review` y de siteSettings,
+// con la misma forma (src/lib/sanity/resenas.mjs).
+const SNAPSHOT = (FUENTE === 'sanity' ? resenasDesde(sanity()) : datos) as unknown as Snapshot;
 
 /**
  * Las resenas publicadas, de la mas larga a la mas corta.

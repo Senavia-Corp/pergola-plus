@@ -11,6 +11,7 @@
  * el diseño y el formulario no pueden divergir entre idiomas.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROPIAS_EN } from '../../i18n/paginas-propias';
 import PaginaContacto from '../../components/PaginaContacto.astro';
 import { CONTACTO_EN } from '../../i18n/contacto';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
@@ -23,8 +24,8 @@ const jsonLd = grafo(
 ---
 
 <BaseLayout
-  title="Contact Pergola Plus Florida | Boca Raton, FL"
-  description="Call, email or write to our Boca Raton team about pergolas, patio covers and screen enclosures anywhere in South Florida."
+  title={PROPIAS_EN.contacto.title}
+  description={PROPIAS_EN.contacto.description}
   wfPage="698a91c07b51ec699ca6f4f8"
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}

@@ -10,16 +10,18 @@
  * Convive con src/pages/resources/blog/[categoria].astro igual que products.astro
  * convive con products/[slug].astro.
  */
+import { canonica } from '../../lib/canonica.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROPIAS_EN } from '../../i18n/paginas-propias';
 import BlogListado from '../../components/BlogListado.astro';
 import { posts, jsonLdBlog, WF_PAGE, WF_SITE } from '../../lib/blog';
 
-const TITULO = 'Outdoor Living Blog | Pergola Plus Florida';
-const DESCRIPCION =
-  'Expert insights on aluminum pergolas, motorized louvered roofs and outdoor shade systems engineered for South Florida homes.';
+const c = PROPIAS_EN.blog;
+const TITULO = c.title;
+const DESCRIPCION = c.description;
 
 const site = Astro.site!;
-const url = new URL('/resources/blog', site).href;
+const url = new URL(canonica('/resources/blog'), site).href;
 ---
 
 <BaseLayout
@@ -29,15 +31,16 @@ const url = new URL('/resources/blog', site).href;
   wfSite={WF_SITE}
   jsonLd={jsonLdBlog({
     url,
-    nombre: 'Pergola Plus Florida Blog',
+    nombre: c.nombre,
     descripcion: DESCRIPCION,
     entradas: posts,
     site: site.href,
+    migas: [['Blog', '/resources/blog']],
   })}
 >
   <BlogListado
     activa="todo"
-    titulo="blog & tips"
-    intro="Explore expert insights on aluminum pergolas, motorized louvered roofs, and outdoor shade systems engineered for Florida’s climate, durability, and elevated outdoor living design."
+    titulo={c.titulo}
+    intro={c.intro}
   />
 </BaseLayout>

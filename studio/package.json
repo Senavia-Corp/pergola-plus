@@ -1,0 +1,24 @@
+{
+  "name": "pergola-plus-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sanity Studio de Pergola Plus Florida (proyecto n0ct9t3k, dataset production)",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "schema:deploy": "sanity schema deploy",
+    "validar": "sanity schema validate"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "@sanity/locale-es-es": "1.2.39",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sanity": "6.17.0",
+    "styled-components": "6.5.3"
+  }
+}

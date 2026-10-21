@@ -23,7 +23,10 @@ funciona hasta que alguien regenera y se lo lleva por delante — pasó con la
 retirada del widget de Google Reviews, que hubo que rehacer dentro del
 transformador (`ELFSIGHT_RESENAS`).
 
-La puerta es `npm run check:generadores`. Cubre los **dos** modos de deriva:
+Desde el corte de fuente a Sanity (octubre de 2026) el build lee del dataset y
+`check:generadores` y `check:paridad` (comparación con el Webflow en vivo) salieron de
+`npm run check`; los scripts siguen en `scripts/` y se corren con `node` contra el
+repo (`PP_FUENTE=repo`). Lo que sigue describe la puerta tal como era. Cubría los **dos** modos de deriva:
 
 | | Qué detecta | Caso real |
 |---|---|---|
@@ -200,8 +203,10 @@ npm run check
 | `check:enlaces` | Que vuelva un `href="#"` sin destino |
 | `check:carruseles` | Que los slides 2..N vuelvan a ser inalcanzables |
 | `check:imagenes` | Que el sitio pida una imagen que no está en local |
-| `check:paridad` | Que se pierda un `data-w-id` y muera una animación en silencio |
-| `check:generadores` | Que alguien edite salida generada a mano y la siguiente regeneración se lo lleve |
+| `check:sanity-cobertura` | Que una página o un tipo de contenido deje de salir de Sanity, o que se dé por bueno un build hecho desde el repo |
+| `check:sanity-fidelidad` | Que el contenido de Sanity deje de reproducir el migrado (salvo lo editado en el Studio después de la migración, que se lista) |
+| `check:sanity-esquema` | Que un documento publicado incumpla las reglas del Studio |
+| `check:urls-antiguas` | Que una de las 64 URL del dominio actual dé 404 o más de una redirección |
 | `check:formularios` | Que un formulario deje de enviar, o que el endpoint acepte basura |
 | `check:i18n` | Que se publique español a medias o un `hreflang` que miente |
 | `check:seo` | Que vuelva un título duplicado, una canónica cruzada o un campo vacío del CMS |

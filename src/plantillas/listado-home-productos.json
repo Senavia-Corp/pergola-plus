@@ -1,0 +1,53 @@
+{
+ "s0.div-products-display-item.div-product-card.img-product-card-image": {
+  "tipo": "imagen",
+  "alcance": "pagina",
+  "fuente": "doc",
+  "ruta": "secciones[s0.section-hero-product].imagenes[s0.section-hero-product.div-img-bg-hero-product.img-image-4].imagen"
+ },
+ "s0.div-products-display-item.div-product-card.img-product-card-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-products-display-item.div-product-card.img-product-card-image.etiqueta": {
+  "tipo": "etiqueta",
+  "alcance": "pagina",
+  "de": "s0.div-products-display-item.div-product-card.img-product-card-image",
+  "alt": "s0.div-products-display-item.div-product-card.img-product-card-image.alt",
+  "variantes": [
+   {
+    "prefijo": "/images/cliente/",
+    "patron": "<img alt=\"\u0001alt\u0001\" loading=\"lazy\" src=\"\u0001src\u0001\" class=\"product-card-image\" srcset=\"\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001-1920.avif 1920w, \u0001raiz\u0001.avif 2500w\" sizes=\"(min-width: 992px) 50vw, 100vw\" width=\"2500\" height=\"1406\"/>"
+   },
+   {
+    "prefijo": "/cms-img/products/",
+    "patron": "<img alt=\"\u0001alt\u0001\" loading=\"lazy\" src=\"\u0001src\u0001\" class=\"product-card-image\"/>"
+   }
+  ]
+ },
+ "s0.div-product-card-body.h3-product-card-h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-product-card-body.div-product-card-text.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-product-card-body.div-wrapper-buttons-mini.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina",
+  "fuente": "ruta"
+ },
+ "s0.div-wrapper-buttons-mini.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "tarjeta.dataProduct": {
+  "tipo": "valor",
+  "alcance": "codigo",
+  "de": "DATA_PRODUCT[slug] en scripts/lib/fichas.mjs"
+ }
+}

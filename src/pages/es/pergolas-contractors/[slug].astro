@@ -14,6 +14,7 @@ import { grafo, breadcrumbs, areaDeServicio } from '../../../lib/jsonld';
 import { CIUDADES } from '../../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../../lib/faq-ficha';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
+import { FUENTE, sanity, fragmentoColeccion, itemDe, enIdioma } from '../../../lib/sanity/fuente.mjs';
 
 // Las páginas de ubicación en español. Misma estructura que /es/services/[slug]: el
 // fragmento y los metadatos salen de los MISMOS ficheros que la versión inglesa.
@@ -25,17 +26,24 @@ const fragmentos = import.meta.glob('../../../contenido-migrado/pergolas-contrac
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('city').filter((doc) => doc.nombre?.es)
+      .map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }
   return items
     .filter((item) => UBICACIONES_ES[item.slug])
     .map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const traduccion = UBICACIONES_ES[item.slug]!;
-const original = fragmentos['../../../contenido-migrado/pergolas-contractors/' + item.slug + '.html'];
-if (!original) throw new Error(`[i18n] sin fragmento para pergolas-contractors/${item.slug}`);
+const { item, doc } = Astro.props;
+// Con Sanity, el texto español ya viene del documento: no se traduce con diccionario.
+const traduccion = doc
+  ? { nombre: doc.nombre.es, title: enIdioma(doc.seo?.titulo, 'es'), description: enIdioma(doc.seo?.descripcion, 'es'), dic: {} }
+  : UBICACIONES_ES[item.slug]!;
+const original = doc ? '' : fragmentos['../../../contenido-migrado/pergolas-contractors/' + item.slug + '.html'];
+if (!doc && !original) throw new Error(`[i18n] sin fragmento para pergolas-contractors/${item.slug}`);
 
-const { html, traducidas, faltan } = traducirHtml(original as string, {
+const { html, traducidas, faltan } = doc ? { html: fragmentoColeccion(doc, 'es'), traducidas: 0, faltan: [] as string[] } : traducirHtml(original as string, {
   ...COMUN_ES,
   ...MINIATURAS_ES,
   ...traduccion.dic,

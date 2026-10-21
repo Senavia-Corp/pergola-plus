@@ -1,0 +1,42 @@
+{
+ "s0.div-blog-card.div-box-card-blog-image.img-card-blog-image": {
+  "tipo": "imagen",
+  "alcance": "pagina",
+  "fuente": "doc",
+  "ruta": "miniatura"
+ },
+ "s0.div-blog-card.div-box-card-blog-image.img-card-blog-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-box-card-blog-info.div-text-mini-blog.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-card-blog-info.div-text-mini-blog.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div.h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "tarjeta"
+ },
+ "s0.div-blog-card.div.a-blog-card-link.href": {
+  "tipo": "enlace",
+  "alcance": "pagina",
+  "fuente": "ruta"
+ },
+ "s0.a-blog-card-link.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ }
+}

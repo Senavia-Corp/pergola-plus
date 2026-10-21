@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/brands/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
+import { FUENTE, sanity, fragmentoColeccion, itemDe } from '../../lib/sanity/fuente.mjs';
 
 // Generado por scripts/generar-detalle.mjs — NO editar a mano.
 //
@@ -14,11 +15,14 @@ const fragmentos = import.meta.glob('../../contenido-migrado/brands/*.html', {
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('brand').map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }
   return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const html = fragmentos['../../contenido-migrado/brands/' + item.slug + '.html'];
+const { item, doc } = Astro.props;
+const html = doc ? fragmentoColeccion(doc, 'en') : fragmentos['../../contenido-migrado/brands/' + item.slug + '.html'];
 if (!html) throw new Error('sin fragmento para brands/' + item.slug);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran

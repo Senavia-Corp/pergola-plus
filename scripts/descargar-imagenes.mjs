@@ -120,6 +120,9 @@ const ERRATAS_NOMBRE = new Map([
   ['appolo-logo', 'apollo-logo'],
   ['rennaissance-logo', 'renaissance-logo'],
 ]);
+/** Lo mismo para la CARPETA, que sale del slug del CMS: el slug de Webflow sigue
+ *  siendo `appolo` y la carpeta se renombro a `brands/apollo` el 20-oct-2026. */
+const ERRATAS_CARPETA = new Map([['appolo', 'apollo']]);
 /**
  * En el CMS alguien pego la meta description del articulo detras del alt de su foto
  * («…backyard Meta Description: High-end aluminum…»). Se corrigio en el repo el
@@ -450,7 +453,7 @@ async function main() {
     for (const fila of filas) {
       const slug = fila.Slug || slugify(fila.Name || '');
       const subject = { type: col.tipo, slug, name: fila.Name || '' };
-      const dir = path.join('content', col.dir, slug);
+      const dir = path.join('content', col.dir, ERRATAS_CARPETA.get(slug) ?? slug);
 
       for (const campo of col.campos) {
         const raw = fila[campo.col];

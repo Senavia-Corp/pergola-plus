@@ -18,7 +18,9 @@
  * Los valores llevan barra final porque es la forma CANONICA que sirve Astro, y
  * Google solo hace caso a un hreflang si coincide con la canonica de la pagina.
  */
-export const TRADUCIDAS = {
+import { conColeccionesDeSanity } from '../lib/sanity/traducidas.mjs';
+
+const TRADUCIDAS_REPO = {
   '/': '/es/',
   // Ruta de conversion: lo que recorre un visitante desde que llega hasta que deja
   // sus datos. Se tradujo primero por eso — traducir una pagina de blog antes que el
@@ -112,8 +114,8 @@ export const TRADUCIDAS = {
   '/countries/broward-county-pergola-contractor': '/es/countries/broward-county-pergola-contractor/',
   '/countries/miami-dade-pergola-contractor': '/es/countries/miami-dade-pergola-contractor/',
   '/countries/palm-beach-county-pergola-contractor': '/es/countries/palm-beach-county-pergola-contractor/',
-  // Solo el aviso de privacidad: el contrato de obra NO se traduce (ver
-  // src/i18n/articulos.es.ts).
+  // Con PP_FUENTE=repo solo el aviso de privacidad. Con Sanity, tambien los terminos
+  // (traduccion de cortesia, ver src/i18n/articulos.es.ts): los añade traducidas.mjs.
   '/articles/privacy-policy': '/es/articles/privacy-policy/',
   // El blog. El indice y las 5 categorias con articulos.
   '/resources/blog': '/es/resources/blog/',
@@ -150,6 +152,12 @@ export const TRADUCIDAS = {
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
 };
+
+/**
+ * Con PP_FUENTE=sanity, las de las colecciones salen del dataset: una pagina creada en el
+ * Studio con su español entra sola (src/lib/sanity/traducidas.mjs).
+ */
+export const TRADUCIDAS = conColeccionesDeSanity(TRADUCIDAS_REPO);
 
 /** Inverso, construido una vez. */
 export const DESDE_ES = Object.fromEntries(

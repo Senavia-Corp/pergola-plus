@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/about-us__where-we-work.html?raw';
+import htmlRepo from '../../contenido-migrado/estaticas/about-us__where-we-work.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Where We Work","/about-us/where-we-work"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/about-us/where-we-work") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /about-us/where-we-work.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Where We Work | South Florida Service Areas"
-  description="The cities and counties we build in across Miami-Dade, Broward and Palm Beach, with a dedicated page for each service area."
+  title={doc ? doc.seo.titulo.en : "Where We Work | South Florida Service Areas"}
+  description={doc ? doc.seo.descripcion?.en : "The cities and counties we build in across Miami-Dade, Broward and Palm Beach, with a dedicated page for each service area."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

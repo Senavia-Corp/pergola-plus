@@ -1,0 +1,18 @@
+{
+ "s0.div-products-menu-item.div-products-menu-link.a-link-product.href": {
+  "tipo": "enlace",
+  "alcance": "pagina",
+  "fuente": "ruta"
+ },
+ "s0.a-link-product.h3-products-menu-link-text.t": {
+  "tipo": "texto",
+  "alcance": "pagina",
+  "fuente": "doc",
+  "ruta": "secciones[s0.div-wrapper-hero-product].textos[s0.div-wrapper-hero-product.h1.t].texto"
+ },
+ "tarjeta.dataProduct": {
+  "tipo": "valor",
+  "alcance": "codigo",
+  "de": "DATA_PRODUCT[slug] en scripts/lib/fichas.mjs"
+ }
+}

@@ -1,0 +1,107 @@
+{
+ "s0.div-hero-content.h1-heading-portfolio.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-hero-btn-row.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-hero-btn-row.div-wrapper-buttons.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-buttons.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.div-wrapper-buttons.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s0.div-w-layout-blockcontainer.div-hero-media.div-w-video.style": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "modo": "proveedor",
+  "de": "s0.div-hero-media.div-w-video.iframe-embedly-embed.src",
+  "mapa": {
+   "YouTube": "padding-top:56.20608899297424%",
+   "Vimeo": "padding-top:42.1875%"
+  }
+ },
+ "s0.div-hero-media.div-w-video.iframe-embedly-embed.src": {
+  "tipo": "valor",
+  "alcance": "pagina"
+ },
+ "s0.div-hero-media.div-w-video.iframe-embedly-embed.etiqueta": {
+  "tipo": "etiqueta",
+  "alcance": "pagina",
+  "por": "proveedor",
+  "de": "s0.div-hero-media.div-w-video.iframe-embedly-embed.src",
+  "variantes": [
+   {
+    "proveedor": "YouTube",
+    "patron": "<iframe class=\"embedly-embed\" src=\"\u0001src\u0001\" width=\"854\" height=\"480\" scrolling=\"no\" title=\"YouTube embed\" frameborder=\"0\" allow=\"autoplay; fullscreen; encrypted-media; picture-in-picture;\" allowfullscreen=\"true\">"
+   },
+   {
+    "proveedor": "Vimeo",
+    "patron": "<iframe class=\"embedly-embed\" src=\"\u0001src\u0001\" width=\"1920\" height=\"810\" scrolling=\"no\" title=\"Vimeo embed\" frameborder=\"0\" allow=\"autoplay; fullscreen; encrypted-media; picture-in-picture;\" allowfullscreen=\"true\">"
+   }
+  ]
+ },
+ "s1.div-featured-left.h2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-featured-left.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-buttons.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-wrapper-buttons.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-box-call-to-action.h2.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-box-call-to-action.div.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-process-cta.a-button.t": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.div-process-cta.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "compartido"
+ },
+ "s1.section-body-page.section-call-to-action-footer.img-image-call-to-action.alt": {
+  "tipo": "atributo",
+  "alcance": "compartido"
+ },
+ "s1.section-body-page.section-call-to-action-footer.img-image-call-to-action": {
+  "tipo": "imagen",
+  "alcance": "compartido"
+ },
+ "lista:0": {
+  "tipo": "lista",
+  "alcance": "pagina",
+  "plantilla": "<div fs-slider-element=\"slide\" role=\"listitem\" class=\"fs-slider-feature-gallery_slide w-dyn-item w-dyn-repeater-item\"><a href=\"#\" class=\"lightbox-link-gallery w-inline-block w-lightbox\"><img loading=\"lazy\" src=\"\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img\u0001\" alt=\"\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.alt\u0001\" class=\"gallery_img\"/></a></div>",
+  "huecos": {
+   "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img": {
+    "tipo": "imagen",
+    "alcance": "pagina"
+   },
+   "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.alt": {
+    "tipo": "atributo",
+    "alcance": "pagina"
+   }
+  }
+ }
+}

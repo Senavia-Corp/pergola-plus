@@ -1009,7 +1009,9 @@ html.menu-movil-abierto body:before {
     transition: opacity 500ms ease-in-out;
   }
 
-  .menu .dropdown:has(.submenu-item:is(:hover, :focus)) .preview-image-cover {
+  /* Solo los items con foto propia (is-N): un enlace nuevo del Studio no tiene foto y
+     deja la portada a la vista en lugar de un panel vacio. */
+  .menu .dropdown:has(.submenu-item:is(.is-1, .is-2, .is-3, .is-4, .is-5, .is-6, .is-7, .is-8, .is-9, .is-10):is(:hover, :focus)) .preview-image-cover {
     opacity: 0;
     transition: none;
   }

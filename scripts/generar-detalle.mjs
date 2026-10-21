@@ -89,19 +89,19 @@ const SEO_CMS = JSON.parse(await fs.readFile(path.join(RAIZ, 'assets-migracion/s
  * project, brands, countries, pergolas-contractors y articles.
  */
 const COLECCIONES = [
-  { dir: 'products', ruta: 'products', faq: true, ficha: true, promovidas: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products/' },
+  { dir: 'products', ruta: 'products', sanity: 'product', faq: true, ficha: true, promovidas: true, csv: '- Products -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'producto', miga: 'Our Products', migaRuta: '/products/' },
   // `reordenarResenas` SOLO aqui: sube la banda `reviews` por delante de
   // `service-areas` y `process`, para que las resenas caigan donde caen en producto.
   // No vale para las otras dos colecciones con resenas: `pergolas-contractors` va
   // `… process · projects · reviews · blog` —sin `service-areas` y con `reviews` sin
   // ser la ultima—, asi que ahi el reordenado no tiene ni las bandas que mover.
-  { dir: 'services', ruta: 'services', faq: true, promovidas: true, resenas: true, reordenarResenas: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
+  { dir: 'services', ruta: 'services', sanity: 'service', faq: true, promovidas: true, resenas: true, reordenarResenas: true, csv: '- Services -', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'servicio', miga: 'Our Services', migaRuta: '/services/' },
   { dir: 'post', ruta: 'post', csv: 'Blog Posts', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', paginaPropia: true },
-  { dir: 'project', ruta: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery/' },
-  { dir: 'brands', ruta: 'brands', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
-  { dir: 'countries', ruta: 'countries', resenas: true, csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
-  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', resenas: true, csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
-  { dir: 'articles', ruta: 'articles', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
+  { dir: 'project', ruta: 'project', sanity: 'project', csv: 'Projects', tSeo: 'Title SEO', dSeo: 'Metadescription', ld: 'ninguno', miga: 'Project Gallery', migaRuta: '/project-gallery/' },
+  { dir: 'brands', ruta: 'brands', sanity: 'brand', csv: 'Brands', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'ninguno', miga: 'Our Brands', migaRuta: '/about-us/brands/' },
+  { dir: 'countries', ruta: 'countries', sanity: 'county', resenas: true, csv: 'Countries', tSeo: 'Title SEO', dSeo: 'Metadescription SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
+  { dir: 'pergolas-contractors', ruta: 'pergolas-contractors', sanity: 'city', resenas: true, csv: 'Pergolas Contractors', tSeo: 'Title SEO', dSeo: 'Metadescripcion SEO', ld: 'area', miga: 'Where We Work', migaRuta: '/about-us/where-we-work/' },
+  { dir: 'articles', ruta: 'articles', sanity: 'legalPage', csv: 'Articles', tSeo: null, dSeo: null, ld: 'ninguno', miga: null, migaRuta: null },
 ];
 
 /**
@@ -288,17 +288,18 @@ for (const col of COLECCIONES) {
       "import EspecificacionesFicha from '../../components/EspecificacionesFicha.astro';",
       "import ProyectoDeFicha from '../../components/ProyectoDeFicha.astro';",
       "import ReseñasGoogle from '../../components/ReseñasGoogle.astro';",
-      "import { ESPECIFICACIONES } from '../../data/especificaciones';",
-      "import { filasDe } from '../../i18n/especificaciones.es';",
+      "import { ESPECIFICACIONES, filasDe } from '../../lib/sanity/datos.mjs';",
     ] : []),
     ...(col.resenas && !col.ficha ? [
       "import ReseñasGoogle from '../../components/ReseñasGoogle.astro';",
     ] : []),
     ...(promovidas ? [
       "import FaqPromovidas from '../../components/FaqPromovidas.astro';",
-      "import { PROMOVIDAS } from '../../data/faqs';",
+      "import { PROMOVIDAS } from '../../lib/sanity/datos.mjs';",
       "import { porId } from '../../i18n/faqs.es';",
     ] : []),
+    // Lectura desde Sanity con PP_FUENTE=sanity (src/lib/sanity/fuente.mjs).
+    ...(col.sanity ? ["import { FUENTE, sanity, fragmentoColeccion, itemDe } from '../../lib/sanity/fuente.mjs';"] : []),
     '',
   ].join('\n');
 
@@ -444,12 +445,16 @@ const fragmentos = import.meta.glob('../../contenido-migrado/${col.dir}/*.html',
   query: '?raw', import: 'default', eager: true,
 });
 
-export function getStaticPaths() {
+export function getStaticPaths() {${col.sanity ? `
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('${col.sanity}').map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }` : ''}
   return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const html = fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];
+${col.sanity ? `const { item, doc } = Astro.props;
+const html = doc ? fragmentoColeccion(doc, 'en') : fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];` : `const { item } = Astro.props;
+const html = fragmentos['../../contenido-migrado/${col.dir}/' + item.slug + '.html'];`}
 if (!html) throw new Error('sin fragmento para ${col.dir}/' + item.slug);${bloqueFicha}
 ${col.faq ? `// El enlace a la biblioteca va DENTRO de la lista de preguntas, asi que el\n// fragmento se parte ahi. Ver src/lib/faq-ficha.ts.\nconst faq = partirTrasFaq(${cuerpoFaq}, '${col.dir}/' + item.slug);\n` : ''}${bloqueResenas ? bloqueResenas + '\n' : ''}
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran

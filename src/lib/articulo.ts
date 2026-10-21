@@ -59,7 +59,7 @@ function slugificar(texto: string): string {
  * No vale un indexOf del cierre: el rich text lleva <figure>, listas y divs
  * anidados, asi que hay que contar aperturas y cierres.
  */
-function extraerDiv(html: string, marcador: string): string | null {
+export function extraerDiv(html: string, marcador: string): string | null {
   const inicio = html.indexOf(marcador);
   if (inicio < 0) return null;
   const desde = html.indexOf('>', inicio) + 1;

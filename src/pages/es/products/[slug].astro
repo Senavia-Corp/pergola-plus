@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { FUENTE, sanity, fragmentoColeccion, itemDe, enIdioma } from '../../../lib/sanity/fuente.mjs';
 import items from '../../../contenido-migrado/products/_items.json';
 import { traducirHtml } from '../../../i18n';
 import { PRODUCTOS_ES } from '../../../i18n/productos.es';
@@ -11,9 +12,8 @@ import ProyectoDeFicha from '../../../components/ProyectoDeFicha.astro';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
 import { partirTrasFaq, partirEnMarca, paresFaq, MARCA_SECCIONES } from '../../../lib/faq-ficha';
 import { grafo, breadcrumbs, producto, faqPage } from '../../../lib/jsonld';
-import { ESPECIFICACIONES } from '../../../data/especificaciones';
-import { filasDe } from '../../../i18n/especificaciones.es';
-import { PROMOVIDAS } from '../../../data/faqs';
+import { ESPECIFICACIONES, filasDe } from '../../../lib/sanity/datos.mjs';
+import { PROMOVIDAS } from '../../../lib/sanity/datos.mjs';
 import { porId } from '../../../i18n/faqs.es';
 
 // Las fichas de producto en español.
@@ -36,17 +36,24 @@ const fragmentos = import.meta.glob('../../../contenido-migrado/products/*.html'
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('product').filter((doc) => doc.nombre?.es)
+      .map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items), doc } }));
+  }
   return items
     .filter((item) => PRODUCTOS_ES[item.slug])
     .map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
-const { item } = Astro.props;
-const traduccion = PRODUCTOS_ES[item.slug]!;
-const original = fragmentos['../../../contenido-migrado/products/' + item.slug + '.html'];
-if (!original) throw new Error(`[i18n] sin fragmento para products/${item.slug}`);
+const { item, doc } = Astro.props;
+// Con Sanity, el texto español ya viene del documento: no se traduce con diccionario.
+const traduccion = doc
+  ? { nombre: doc.nombre.es, title: enIdioma(doc.seo?.titulo, 'es'), description: enIdioma(doc.seo?.descripcion, 'es'), dic: {} }
+  : PRODUCTOS_ES[item.slug]!;
+const original = doc ? '' : fragmentos['../../../contenido-migrado/products/' + item.slug + '.html'];
+if (!doc && !original) throw new Error(`[i18n] sin fragmento para products/${item.slug}`);
 
-const { html, traducidas, faltan } = traducirHtml(original as string, {
+const { html, traducidas, faltan } = doc ? { html: fragmentoColeccion(doc, 'es'), traducidas: 0, faltan: [] as string[] } : traducirHtml(original as string, {
   ...COMUN_ES,
   ...traduccion.dic,
 });

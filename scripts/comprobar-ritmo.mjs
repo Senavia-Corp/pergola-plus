@@ -48,6 +48,7 @@
  * identicos en las 217 paginas y ahi no puede aparecer un defecto por ficha. Lo que
  * si se comprueba es la COSTURA con esa region (ver el punto 3).
  */
+import { fichas as esperadoFichas } from './lib/esperado.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
@@ -174,8 +175,10 @@ for (const base of ['products', 'es/products', 'services', 'es/services']) {
 // construyen menos, esto lo dice en vez de medir menos paginas en silencio.
 const PRODUCTOS = fichas.filter((f) => f.ruta.includes('products/')).length;
 const SERVICIOS = fichas.filter((f) => f.ruta.includes('services/')).length;
-decir(PRODUCTOS === 20, `${PRODUCTOS} fichas de producto construidas (esperaba 20)`);
-decir(SERVICIOS === 14, `${SERVICIOS} paginas de servicio construidas (esperaba 14)`);
+// Las cifras, de la fuente activa (scripts/lib/esperado.mjs).
+const E = esperadoFichas();
+decir(PRODUCTOS === E.productos, `${PRODUCTOS} fichas de producto construidas (esperaba ${E.productos})`);
+decir(SERVICIOS === E.servicios, `${SERVICIOS} paginas de servicio construidas (esperaba ${E.servicios})`);
 
 for (const ficha of fichas) {
   const html = await fs.readFile(ficha.f, 'utf8');

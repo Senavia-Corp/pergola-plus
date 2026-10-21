@@ -1,0 +1,56 @@
+{
+ "s0.div-wrapper-hero-page.h1.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-wrapper-hero-page.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s1.div-wrapper-projects-page.h2-pp-sr.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.h2.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.div-box-call-to-action.div-process-cta.a-button-2.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s2.div-process-cta.a-button.t-2": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.srcset": {
+  "tipo": "derivado",
+  "alcance": "pagina",
+  "de": "s2.section-call-to-action-footer.img-image-call-to-action",
+  "patron": "\u0001raiz\u0001-p-500.avif 500w, \u0001raiz\u0001-p-800.avif 800w, \u0001raiz\u0001-p-1080.avif 1080w, \u0001raiz\u0001.avif 2000w"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s2.section-call-to-action-footer.img-image-call-to-action": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "listado:galeria": {
+  "tipo": "listado",
+  "id": "galeria"
+ }
+}

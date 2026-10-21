@@ -1,12 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/about-us__industries-we-serve.html?raw';
+import htmlRepo from '../../contenido-migrado/estaticas/about-us__industries-we-serve.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Industries We Serve","/about-us/industries-we-serve"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/about-us/industries-we-serve") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 const resenas = partirEnMarca(html, "/about-us/industries-we-serve", MARCA_RESENAS);
 
@@ -15,8 +21,8 @@ const resenas = partirEnMarca(html, "/about-us/industries-we-serve", MARCA_RESEN
 ---
 
 <BaseLayout
-  title="Industries We Serve | Pergola Plus Florida"
-  description="Residential, hospitality, commercial and property management projects across Miami-Dade, Broward and Palm Beach counties."
+  title={doc ? doc.seo.titulo.en : "Industries We Serve | Pergola Plus Florida"}
+  description={doc ? doc.seo.descripcion?.en : "Residential, hospitality, commercial and property management projects across Miami-Dade, Broward and Palm Beach counties."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

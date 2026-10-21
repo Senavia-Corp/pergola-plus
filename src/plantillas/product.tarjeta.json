@@ -1,0 +1,47 @@
+{
+ "s0.div-product-card-page.img-product-card-image": {
+  "tipo": "imagen",
+  "alcance": "pagina"
+ },
+ "s0.div-product-card-page.img-product-card-image.alt": {
+  "tipo": "atributo",
+  "alcance": "pagina"
+ },
+ "s0.div-product-card-page.img-product-card-image.etiqueta": {
+  "tipo": "etiqueta",
+  "alcance": "pagina",
+  "de": "s0.div-product-card-page.img-product-card-image",
+  "alt": "s0.div-product-card-page.img-product-card-image.alt",
+  "variantes": [
+   {
+    "prefijo": "/cms-img/products/",
+    "patron": "<img src=\"\u0001src\u0001\" loading=\"lazy\" alt=\"\u0001alt\u0001\" class=\"product-card-image\"/>"
+   },
+   {
+    "prefijo": "/images/cliente/",
+    "patron": "<img src=\"\u0001src\u0001\" loading=\"lazy\" alt=\"\u0001alt\u0001\" class=\"product-card-image\" srcset=\"\u0001raiz\u0001-640.avif 640w, \u0001raiz\u0001-960.avif 960w, \u0001raiz\u0001-1280.avif 1280w, \u0001raiz\u0001-1920.avif 1920w, \u0001raiz\u0001.avif 2500w\" sizes=\"(min-width: 992px) 50vw, 100vw\" width=\"2500\" height=\"1406\"/>"
+   }
+  ]
+ },
+ "s0.div-product-card-body-page.h3-product-card-h3.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-product-card-body-page.div-product-card-text.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "s0.div-product-card-page.div-product-card-body-page.a-product-card-link-page.href": {
+  "tipo": "enlace",
+  "alcance": "pagina"
+ },
+ "s0.a-product-card-link-page.div.t": {
+  "tipo": "texto",
+  "alcance": "pagina"
+ },
+ "tarjeta.dataProduct": {
+  "tipo": "valor",
+  "alcance": "codigo",
+  "de": "DATA_PRODUCT[slug] en scripts/lib/fichas.mjs"
+ }
+}

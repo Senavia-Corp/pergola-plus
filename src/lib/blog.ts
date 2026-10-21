@@ -6,9 +6,13 @@
  * portatil; aqui rompe el build en Vercel, porque esta pagina si renderiza desde el
  * CSV. Se copian al repo a proposito.
  *
- * Fase 3: este modulo es el unico que cambia. En vez de parsear CSV consulta Sanity
- * y devuelve la misma forma; las plantillas no se enteran.
+ * Fase 3: con PP_FUENTE=sanity los posts y las categorias salen de Sanity
+ * (src/lib/sanity/blog.mjs) con la misma forma; las plantillas no se enteran.
  */
+import { canonica } from './canonica.mjs';
+import { NEGOCIO, grafo, breadcrumbs } from './jsonld';
+import { FUENTE, sanity, rutaImagen, hrefDe, contacto } from './sanity/fuente.mjs';
+import { blogDesde } from './sanity/blog.mjs';
 import { parseCSV } from '../../scripts/lib/csv.mjs';
 import { img, imgAlt, type EntradaImagen } from './img';
 import csvPosts from '../data/blog-posts.csv?raw';
@@ -86,6 +90,9 @@ function slugCategoria(celda: string): string {
   return celda.split(/;\s*/)[0]!.trim();
 }
 
+/** El blog leido de Sanity, o null si el build lee del repo. */
+export const blogSanity = FUENTE === 'sanity' ? blogDesde(sanity(), { rutaImagen, hrefDe, contacto: contacto() }) : null;
+
 const filasCategorias = parseCSV(csvCategorias).filter(
   (c) => c.Slug !== SLUG_VER_TODO && c.Archived !== 'true' && c.Draft !== 'true',
 );
@@ -105,7 +112,7 @@ const porSlug = new Map<string, Categoria>(
 );
 
 /** Las 8 categorias reales del CMS, incluidas las 3 vacias. Mas llenas primero. */
-export const categorias: Categoria[] = [...porSlug.values()].sort(
+export const categorias: Categoria[] = blogSanity?.categorias ?? [...porSlug.values()].sort(
   (a, b) => b.total - a.total || a.nombre.localeCompare(b.nombre),
 );
 
@@ -124,7 +131,7 @@ export const categoriasConPosts: Categoria[] = categorias.filter((c) => c.total 
  * segundo (Feb 23 2026 23:00:35), asi que seria un empate de 20. Se usa solo para
  * MOSTRAR la fecha y para el JSON-LD, que es donde corresponde.
  */
-export const posts: Post[] = filasPosts
+export const posts: Post[] = blogSanity?.posts ?? filasPosts
   .map((f): Post => {
     const cat = porSlug.get(slugCategoria(f.Categories!));
     if (!cat) throw new Error(`[blog] categoria desconocida en ${f.Slug}: ${f.Categories}`);
@@ -229,7 +236,7 @@ const COPY: Record<string, CopyCategoria> = {
 
 export function copyDe(cat: Categoria): CopyCategoria {
   return (
-    COPY[cat.slug] ?? {
+    (blogSanity ? blogSanity.copy[cat.slug] : COPY[cat.slug]) ?? {
       titulo: cat.nombre,
       meta: `${cat.nombre} articles from Pergola Plus Florida.`,
       intro: `Articles filed under ${cat.nombre}.`,
@@ -274,8 +281,11 @@ export const WF_SITE = '6903b7794d5df3d76a7a2488';
  */
 export const organizacion = (site: string) => ({
   '@type': 'Organization',
-  name: 'Pergola Plus Florida',
+  // El mismo `@id` que el negocio de src/lib/jsonld.ts (localBusiness): es la misma entidad.
+  '@id': new URL('/#negocio', site).href,
+  name: NEGOCIO.nombre,
   url: new URL('/', site).href,
+  logo: new URL('/images/logo-pergola-plus-florida.png', site).href,
 });
 
 /** JSON-LD del listado y de cada categoria. */
@@ -287,10 +297,11 @@ export function jsonLdBlog(opciones: {
   site: string;
   /** BCP 47. Las 6 paginas de /es/resources/blog publicaban en-US bajo lang="es" (SD-R1). */
   idioma?: string;
+  /** Las migas desde la raiz, sin la home: [nombre, ruta]. */
+  migas?: [string, string][];
 }) {
-  const { url, nombre, descripcion, entradas, site, idioma = 'en-US' } = opciones;
-  return {
-    '@context': 'https://schema.org',
+  const { url, nombre, descripcion, entradas, site, idioma = 'en-US', migas } = opciones;
+  const blog = {
     '@type': 'Blog',
     '@id': `${url}#blog`,
     url,
@@ -302,10 +313,11 @@ export function jsonLdBlog(opciones: {
       '@type': 'BlogPosting',
       headline: p.titulo,
       description: p.resumen,
-      url: new URL(`/post/${p.slug}`, site).href,
+      url: new URL(canonica(`/post/${p.slug}`), site).href,
       image: new URL(p.principal.src, site).href,
       datePublished: p.publicado.toISOString(),
       articleSection: p.categoria.nombre,
     })),
   };
+  return grafo(blog, migas && breadcrumbs(site, migas, idioma.startsWith('es') ? 'es' : 'en'));
 }

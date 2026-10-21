@@ -1,5 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { PROPIAS_EN } from '../i18n/paginas-propias';
+import { SITIO } from '../lib/ajustes';
+import { breadcrumbs, grafo } from '../lib/jsonld';
+
+const t = PROPIAS_EN.gracias;
 
 // /thank-you — CODIGO DE AUTORIA PROPIA. Se edita a mano.
 //
@@ -25,8 +30,9 @@ const ESCUDO_SVG =
 
 <BaseLayout
   noindex
-  title="Thank You — We Received Your Request | Pergola Plus Florida"
-  description="Your request reached our team. Here is what happens next, how soon we reply, and how to reach us if your project is time-sensitive."
+  title={t.title}
+  description={t.description}
+  jsonLd={grafo(breadcrumbs(Astro.site!.href, [[t.h1, '/thank-you']], 'en'))}
   wfPage="69912a4897ff2b5abc998884"
   wfSite="6903b7794d5df3d76a7a2488"
 >
@@ -34,33 +40,28 @@ const ESCUDO_SVG =
     <div class="utility-page-content">
       <div set:html={ESCUDO_SVG} />
 
-      <h1>Thank you — we have your request.</h1>
+      <h1>{t.h1}</h1>
 
-      <p id="ty-intro" class="ty-intro">
-        A member of our design team is reviewing what you sent.
+      <p id="ty-intro" class="ty-intro" data-quote={t.porFormulario.quote} data-contact={t.porFormulario.contact} data-footer={t.porFormulario.footer} data-estimador={t.porFormulario.estimador}>
+        {t.intro}
       </p>
 
-      <h2 class="ty-subtitulo">What happens next</h2>
+      <h2 class="ty-subtitulo">{t.subtitulo}</h2>
       <ol class="ty-pasos">
         <li>
-          <strong>Within one business day</strong> we reply by email to confirm we
-          received your request and to ask anything we still need.
+          <strong>{t.pasos[0].fuerte}</strong> {t.pasos[0].texto}
         </li>
         <!-- "Your location" y no "your address": el estimador pide el codigo
              postal y nunca la calle, asi que prometer que revisamos una direccion
              que el visitante no ha dado era falso en ese camino. -->
         <li>
-          <strong>We check your location</strong> against the counties we build in —
-          Miami-Dade, Broward and Palm Beach — and against local permitting and
-          wind-load requirements.
+          <strong>{t.pasos[1].fuerte}</strong> {t.pasos[1].texto}
         </li>
         <li>
-          <strong>We propose a site visit</strong> so we can measure, look at the
-          structure we would attach to, and talk through options in person.
+          <strong>{t.pasos[2].fuerte}</strong> {t.pasos[2].texto}
         </li>
         <li>
-          <strong>You get a written proposal</strong> with the system, the scope and
-          the price. No obligation.
+          <strong>{t.pasos[3].fuerte}</strong> {t.pasos[3].texto}
         </li>
       </ol>
 
@@ -68,35 +69,29 @@ const ESCUDO_SVG =
            precede a un elemento cuando esta al final de linea, y salia
            "Call(561) 710-8363" y "write toinfo@pergolaplusflorida.com". -->
       <p class="ty-prisa">
-        In a hurry, or would you rather talk it through now? Call{' '}
-        <a href="tel:+15617108363">(561) 710-8363</a> during business hours
-        (Mon–Fri, 8:00 AM – 5:00 PM) or write to{' '}
-        <a href="mailto:info@pergolaplusflorida.com">info@pergolaplusflorida.com</a>.
+        {t.prisa.antes}{' '}
+        <a href={SITIO.tel.href}>{SITIO.tel.visible}</a> {t.prisa.entre}{' '}
+        <a href={`mailto:${SITIO.correo}`}>{SITIO.correo}</a>{t.prisa.despues}
       </p>
 
       <div class="wrapper-buttons-center-form">
-        <a href="/project-gallery" class="button w-button">See our recent work</a>
-        <a href="/" class="button secundary w-button">Back to the main page</a>
+        <a href="/project-gallery" class="button w-button">{t.botones.obras}</a>
+        <a href="/" class="button secundary w-button">{t.botones.inicio}</a>
       </div>
     </div>
   </div>
 </BaseLayout>
 
 <script>
-  // El `?de=` lo pone el endpoint (303) y tambien el envio por fetch. Solo cambia
-  // UNA frase: sin JavaScript se queda la de por defecto, que es cierta para los
-  // cuatro formularios.
-  const POR_FORMULARIO = {
-    quote: 'A member of our design team is reviewing your project details.',
-    contact: 'A member of our team is reading your message.',
-    footer: 'You are on the list — we will send you our outdoor living updates.',
-    estimador:
-      'Your itemized estimate is on its way to your inbox, and a project consultant'
-      + ' will call you within one business day.',
-  };
+  // El `?de=` lo pone el endpoint (303) y tambien el envio por fetch. Solo cambia UNA
+  // frase, y su texto va en los data-* de #ty-intro (copia de la pagina, editable en
+  // Sanity): sin JavaScript se queda la de por defecto, que es cierta para los cuatro
+  // formularios. El mismo script en las dos gemelas.
+  const FORMULARIOS = ['quote', 'contact', 'footer', 'estimador'];
   const de = new URLSearchParams(location.search).get('de');
   const intro = document.getElementById('ty-intro');
-  if (intro && de && POR_FORMULARIO[de]) intro.textContent = POR_FORMULARIO[de];
+  const texto = intro && de && FORMULARIOS.includes(de) ? intro.dataset[de] : null;
+  if (intro && texto) intro.textContent = texto;
 </script>
 
 <style>
