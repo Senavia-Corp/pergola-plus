@@ -1,0 +1,4 @@
+{
+ "_nota": "Fin de la ultima importacion de la migracion al dataset (max _updatedAt de lo importado). Un documento con _updatedAt posterior lo edito alguien en el Studio: check:sanity-fidelidad no lo compara con el repo. Se actualiza en cada importacion de la migracion.",
+ "ultimaMigracion": "2026-10-21T01:51:25Z"
+}

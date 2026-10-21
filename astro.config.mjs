@@ -11,6 +11,7 @@ import { haciaEspanol } from './src/i18n/rutas.mjs';
 import { canonica } from './src/lib/canonica.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
 import { ajustesSanity } from './src/lib/sanity/vite.mjs';
+import { FUENTE } from './src/lib/sanity/fuente.mjs';
 
 /**
  * Si este build se puede indexar. FALLA CERRADO: hay que declararlo, y quien no lo
@@ -517,6 +518,26 @@ if (!HAY_CORREO && !process.env.LEAD_WEBHOOK_URL) {
 }
 
 // https://astro.build/config
+/**
+ * De donde salio el contenido de ESTE build, fuera de dist/ (no se publica):
+ * .cache/ultimo-build.json. Lo lee scripts/sanity/cobertura.mjs (check:sanity-cobertura)
+ * para no dar por bueno un dist construido desde el repo.
+ */
+function marcarFuente() {
+  return {
+    name: 'pergola-marcar-fuente',
+    hooks: {
+      'astro:build:done': async ({ pages }) => {
+        const instantanea = FUENTE === 'sanity'
+          ? JSON.parse(await fs.readFile('.cache/sanity/contenido.json', 'utf8')).leido
+          : null;
+        await fs.mkdir('.cache', { recursive: true });
+        await fs.writeFile('.cache/ultimo-build.json', JSON.stringify({ fuente: FUENTE, instantanea, paginas: pages.length }, null, 1) + '\n');
+      },
+    },
+  };
+}
+
 export default defineConfig({
   // `site` alimenta las canonicas del BaseLayout, el sitemap, el robots, el JSON-LD
   // y los <link>/<guid> de /resources/blog/rss.xml. Nada deriva el dominio por su
@@ -536,7 +557,7 @@ export default defineConfig({
 
   // El orden importa: primero se dimensionan las imagenes y luego se genera el
   // sitemap, que lee el HTML ya final para sacar los hreflang y el lastmod.
-  integrations: [dimensionarHtml(), sitemapYRobots()],
+  integrations: [dimensionarHtml(), sitemapYRobots(), marcarFuente()],
 
   // siteSettings horneado para jsonld.ts (y la funcion /api/lead): src/lib/sanity/vite.mjs.
   vite: { define: ajustesSanity() },
