@@ -59,17 +59,14 @@ decir(robots !== null, 'existe robots.txt');
 
 if (!ES_PRODUCCION) {
   // --- Modo provisional: nada de esto puede llegar a un buscador ---
-  // Rastreable A PROPOSITO (GH-002): Google solo lee el <meta noindex> si puede
-  // entrar. Un Disallow: / lo taparia, y una URL de la copia enlazada desde fuera
-  // podria salir en el indice como «URL sin contenido». La exclusion la hace el meta
-  // de las 217 paginas (se comprueba abajo); robots solo abre la puerta para que se
-  // lea.
+  // Bloqueante (decidido el 21-oct-2026; antes Allow por GH-002, ver astro.config.mjs):
+  // User-agent: * con Disallow: / y nada que lo abra. El meta noindex de las 217
+  // paginas se sigue exigiendo abajo, como segunda capa.
   decir(
-    !/^\s*Disallow:\s*\/\s*$/m.test(robots ?? ''),
-    'robots.txt NO lleva Disallow: / (taparia el noindex)',
+    /^\s*User-agent:\s*\*\s*\n\s*Disallow:\s*\/\s*$/m.test(robots ?? '') && !/^\s*Allow:/m.test(robots ?? ''),
+    'robots.txt es bloqueante: User-agent: * / Disallow: /, sin Allow',
     [String(robots).split('\n').filter(Boolean).join(' | ')],
   );
-  decir(/^\s*Allow:\s*\/\s*$/m.test(robots ?? ''), 'robots.txt lleva Allow: / (el noindex se puede leer)');
   decir(!/^\s*Sitemap:/m.test(robots ?? ''), 'robots.txt NO anuncia un sitemap');
   decir(!(await existe('sitemap.xml')), 'no se ha escrito sitemap.xml');
   decir(!(await existe('resources/blog/rss.xml')), 'no se ha escrito el RSS');

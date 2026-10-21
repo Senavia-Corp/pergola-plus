@@ -28,11 +28,12 @@ import MIGRACION from './src/data/sanity-migracion.json' with { type: 'json' };
  * mudo, nunca el ruidoso.
  *
  * Cuando es false, cinco cosas a la vez y ninguna sobra:
- *   robots.txt   rastreable (Allow: /) pero SIN linea Sitemap (ver sitemapYRobots).
- *                Rastreable A PROPOSITO: Google solo lee el <meta noindex> si puede
- *                entrar en la pagina. Con Disallow: / no la lee, y una URL de la
- *                copia enlazada desde fuera podia salir en el indice como «URL sin
- *                contenido» (GH-002). El noindex es la exclusion; robots solo abre.
+ *   robots.txt   bloqueante (User-agent: * / Disallow: /) y SIN linea Sitemap.
+ *                Decidido el 21-oct-2026 (el encargo pedia «bloqueante»; antes era
+ *                Allow por GH-002). Coste conocido: con Disallow: / Google no lee el
+ *                <meta noindex>, y una URL de la copia enlazada desde fuera podria
+ *                salir como «URL sin contenido». Hoy los previews van ademas con
+ *                Vercel Authentication, que los cierra antes que robots.
  *   sitemap.xml  se borra de la salida
  *   rss.xml      se borra de la salida, y el <link> que lo anuncia desaparece
  *   <meta>       noindex,nofollow en las 211 paginas (ver BaseLayout)
@@ -368,14 +369,11 @@ function sitemapYRobots() {
             path.join(raiz.pathname, 'robots.txt'),
             [
               'User-agent: *',
-              'Allow: /',
-              'Disallow: /api/',
+              'Disallow: /',
               '',
               '# Build sin PUBLIC_ES_PRODUCCION=1: copia provisional, no es el sitio.',
-              '# Se deja rastrear A PROPOSITO: la exclusion la hace el <meta name="robots"',
-              '# content="noindex,nofollow"> de cada pagina, y Google solo lo lee si puede',
-              '# entrar. Un Disallow: / lo taparia y una URL enlazada desde fuera podria',
-              '# salir en el indice sin contenido. Sin sitemap ni RSS.',
+              '# Cerrada a todos los rastreadores, y ademas cada pagina lleva',
+              '# <meta name="robots" content="noindex,nofollow">. Sin sitemap ni RSS.',
               '# El sitio en vivo es https://www.pergolaplusflorida.com',
               '',
             ].join('\n'),
