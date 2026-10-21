@@ -380,7 +380,7 @@ const CON_PLANTILLA = ['county', 'city', 'product', 'service', 'brand', 'project
 const tarjetas = {};
 if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
   const { paginasDe, derivarColeccion, derivarReferencias } = await import('./sanity/plantillas.mjs');
-  const { aBloques, opcionalesA, plano, CAMPOS_OPCIONALES } = await import('../src/lib/plantilla-sanity.mjs');
+  const { aBloques, opcionalesA, plano, CAMPOS_OPCIONALES, formaDeBloque } = await import('../src/lib/plantilla-sanity.mjs');
   const { decodificar } = await import('../src/lib/portable.mjs');
   const ES_DE = {
     product: async () => (await cargarTs('src/i18n/productos.es.ts')).PRODUCTOS_ES,
@@ -470,7 +470,17 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
           secciones: aBloques(d.huecos, d.valores[i], 'pagina', conv),
           seo: { _type: 'seo', titulo: i18n(p.item.title, es?.title), ...(p.item.description ? { descripcion: i18nLargo(p.item.description, es?.description) } : {}), indexable: true },
         };
-        for (const [bloque, b] of Object.entries(opcionalesA(d.huecos, d.valores[i], conv))) doc[CAMPOS_OPCIONALES[bloque].campo] = b;
+        // Los bloques opcionales van en su campo de forma fija (titulo, texto, URL; imagen y alt).
+        // El bloque de antes (video, cabeceraVideo, cabeceraImagen) se conserva para el
+        // codigo anterior; el codigo de ahora lee el campo de forma fija.
+        const ANTES = { 'video-section': 'video', 'w-video': 'cabeceraVideo', 'hero_media-img': 'cabeceraImagen' };
+        const TIPO_FORMA = { videoFicha: 'videoFicha', videoCabecera: 'videoCabecera', imagenCabecera: 'imagen' };
+        for (const [bloque, b] of Object.entries(opcionalesA(d.huecos, d.valores[i], conv))) {
+          const def = CAMPOS_OPCIONALES[bloque];
+          doc[ANTES[bloque]] = b;
+          doc[def.campo] = formaDeBloque(b, def.forma, TIPO_FORMA[def.campo]);
+          if (def.campo === 'imagenCabecera') doc[def.campo] = { ...doc[def.campo], decorativa: false };
+        }
         // Las preguntas de la biblioteca que la ficha sube a su FAQ (src/data/faqs.ts).
         if ((tipo === 'product' || tipo === 'service') && PROMOVIDAS[p.slug]?.length) doc.faqsPromovidas = PROMOVIDAS[p.slug].map((id) => ({ ...ref(`faq-${id}`), _key: id }));
         if (tipo === 'product' && ESPECIFICACIONES[p.slug]) {
@@ -502,7 +512,7 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
           if (prods.length) doc.productos = prods.map((slug) => ({ ...ref(`product-${slug}`), _key: slug }));
         }
         if (tipo === 'project') {
-          const conVideo = Boolean(doc.cabeceraVideo), conImagen = Boolean(doc.cabeceraImagen);
+          const conVideo = Boolean(doc.videoCabecera), conImagen = Boolean(doc.imagenCabecera);
           if (conVideo === conImagen) throw new Error(`[project] ${p.slug}: la cabecera tiene que ser video o imagen, una de las dos`);
           doc.cabecera = conVideo ? 'video' : 'imagen';
         }

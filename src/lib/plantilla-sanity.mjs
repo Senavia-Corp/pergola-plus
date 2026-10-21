@@ -25,10 +25,57 @@ const claveArray = (clave) => clave.replace(/[^a-zA-Z0-9_-]+/g, '-').slice(0, 12
  * cabecera del proyecto tiene que ser ese.
  */
 export const CAMPOS_OPCIONALES = {
-  'video-section': { campo: 'video' },
-  'hero_media-img': { campo: 'cabeceraImagen', cabecera: 'imagen' },
-  'w-video': { campo: 'cabeceraVideo', cabecera: 'video' },
+  // Campos de forma fija en el documento (titulo, texto, URL; imagen y alt): `forma` dice
+  // que hueco de la plantilla es cada uno ('.' = el propio campo, una imagen). Los bloques
+  // de antes (video, cabeceraVideo, cabeceraImagen) siguen en el dataset para el codigo
+  // anterior, ocultos en el Studio, hasta que se retiren.
+  'video-section': { campo: 'videoFicha', forma: { 's0.div-header-video-title.h2.t': 'titulo', 's0.div-hedet-video-text.div.t': 'texto', 's0.div-div-block-11.div-w-video.iframe-embedly-embed.src': 'url' } },
+  'hero_media-img': { campo: 'imagenCabecera', cabecera: 'imagen', forma: { 's0.img-hero-media-img': '.', 's0.img-hero-media-img.alt': 'alt' } },
+  'w-video': { campo: 'videoCabecera', cabecera: 'video', forma: { 's0.div-w-video.iframe-embedly-embed.src': 'url' } },
 };
+
+/**
+ * La URL que pinta el iframe del video: la de insercion de embedly tal cual (la de los
+ * videos migrados) o, si se pega la de un video de YouTube, la de insercion con el patron
+ * de las demas.
+ */
+export function urlInsercion(url) {
+  if (!url || url.startsWith('//cdn.embedly.com/')) return url;
+  const id = url.match(/^https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/)?.[1];
+  if (!id) return url;
+  const e = encodeURIComponent;
+  return `//cdn.embedly.com/widgets/media.html?src=${e(`https://www.youtube.com/embed/${id}?feature=oembed`)}&display_name=YouTube&url=${e(`https://www.youtube.com/watch?v=${id}`)}&image=${e(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`)}&type=text%2Fhtml&schema=youtube`;
+}
+
+/** Campo de forma fija -> el bloque con claves que lee la plantilla. */
+export function bloqueDeForma(obj, forma) {
+  if (!obj) return null;
+  const b = { textos: [], imagenes: [], valores: [] };
+  for (const [clave, campo] of Object.entries(forma)) {
+    const v = campo === '.' ? obj : obj[campo];
+    if (v == null) continue;
+    if (campo === '.') b.imagenes.push({ clave, imagen: v });
+    else if (typeof v === 'string') b.valores.push({ clave, valor: campo === 'url' ? urlInsercion(v) : v });
+    else b.textos.push({ clave, texto: v });
+  }
+  return b;
+}
+
+/** La inversa, para la migracion: el bloque derivado -> el campo de forma fija. */
+export function formaDeBloque(b, forma, tipo) {
+  const obj = { _type: tipo };
+  for (const [clave, campo] of Object.entries(forma)) {
+    const t = b.textos?.find((x) => x.clave === clave);
+    const im = b.imagenes?.find((x) => x.clave === clave);
+    const v = b.valores?.find((x) => x.clave === clave);
+    if (campo === '.') { if (!im) throw new Error(`[forma] falta la imagen ${clave}`); Object.assign(obj, im.imagen, { _type: tipo }); }
+    else if (v) obj[campo] = v.valor;
+    else if (t) obj[campo] = { ...t.texto, _type: campo === 'texto' ? 'textoLargoI18n' : 'textoI18n' };
+  }
+  const usadas = new Set(Object.keys(forma));
+  for (const k of ['textos', 'imagenes', 'valores', 'enlaces', 'referencias']) for (const x of b[k] ?? []) if (!usadas.has(x.clave)) throw new Error(`[forma] hueco sin campo: ${x.clave}`);
+  return obj;
+}
 
 /** Junta varios bloques en uno (un elemento de lista, un bloque opcional). */
 export const plano = (bloques, extra) => {
@@ -144,7 +191,7 @@ export function lectorSanity(huecos, doc, docPlantilla, idioma, conv, heredados 
       if (h.siLegado) return heredados[h.siLegado] ? lectorSanity(h.huecos, { secciones: [] }, null, idioma, conv, her, subPre, com) : null;
       const def = CAMPOS_OPCIONALES[h.bloque];
       if (!def) throw new Error(`[sanity] bloque opcional sin campo: ${h.bloque}`);
-      const b = raiz?.[def.campo];
+      const b = def.forma ? bloqueDeForma(raiz?.[def.campo], def.forma) : raiz?.[def.campo];
       if (!b || (def.cabecera && raiz.cabecera !== def.cabecera)) return null;
       return lectorSanity(h.huecos, { secciones: [b] }, null, idioma, conv, her, subPre, com);
     }

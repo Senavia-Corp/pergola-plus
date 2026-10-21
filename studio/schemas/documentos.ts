@@ -227,6 +227,20 @@ export const page = defineType({
   preview: { select: { title: 'titulo.en', subtitle: 'ruta' } },
 });
 
+/** Un campo de antes de la forma fija: se conserva para el codigo anterior, oculto y de solo lectura. */
+const antiguo = (name: string, nuevo: string) => defineField({
+  name, title: `(antiguo, sustituido por «${nuevo}»)`, type: 'bloque', readOnly: true, hidden: true, group: 'contenido',
+});
+
+/** La URL del video incrustado: la de insercion de embedly, o la de un video de YouTube. */
+const urlVideo = defineField({
+  name: 'url',
+  title: 'URL del vídeo',
+  description: 'La de un vídeo de YouTube (https://www.youtube.com/watch?v=…) o la de inserción que da embedly (//cdn.embedly.com/widgets/media.html?…).',
+  type: 'string',
+  validation: (r) => r.required().custom((v?: string) => (!v || /^\/\/cdn\.embedly\.com\/widgets\/media\.html\?/.test(v) || /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)/.test(v) ? true : 'Tiene que ser de YouTube o de embedly')),
+});
+
 const filaEspecificacion = defineArrayMember({
   name: 'filaEspecificacion',
   type: 'object',
@@ -297,12 +311,19 @@ export const product = defineType({
       ],
     }),
     galeria,
+    antiguo('video', 'videoFicha'),
     defineField({
-      name: 'video',
+      name: 'videoFicha',
       title: 'Sección de vídeo (opcional)',
       description: 'Solo la tienen las fichas con vídeo. Sin este campo, la ficha no pinta la sección.',
-      type: 'bloque',
+      type: 'object',
       group: 'contenido',
+      options: { collapsible: true },
+      fields: [
+        defineField({ name: 'titulo', title: 'Título', type: 'textoI18n', validation: (r) => r.required() }),
+        defineField({ name: 'texto', title: 'Texto', type: 'textoLargoI18n', validation: (r) => r.required() }),
+        urlVideo,
+      ],
     }),
     defineField({
       name: 'tarjeta',
@@ -384,18 +405,21 @@ export const project = defineType({
       group: 'contenido',
       validation: (r) => r.required(),
     }),
+    antiguo('cabeceraVideo', 'videoCabecera'),
+    antiguo('cabeceraImagen', 'imagenCabecera'),
     defineField({
-      name: 'cabeceraVideo',
+      name: 'videoCabecera',
       title: 'Vídeo de cabecera',
-      type: 'bloque',
+      type: 'object',
+      fields: [urlVideo],
       group: 'contenido',
       hidden: ({ document }) => document?.cabecera !== 'video',
       validation: (r) => r.custom((v, ctx) => (ctx.document?.cabecera === 'video' && !v ? 'Falta el vídeo de la cabecera' : true)),
     }),
     defineField({
-      name: 'cabeceraImagen',
+      name: 'imagenCabecera',
       title: 'Imagen de cabecera',
-      type: 'bloque',
+      type: 'imagen',
       group: 'contenido',
       hidden: ({ document }) => document?.cabecera !== 'imagen',
       validation: (r) => r.custom((v, ctx) => (ctx.document?.cabecera === 'imagen' && !v ? 'Falta la imagen de la cabecera' : true)),
