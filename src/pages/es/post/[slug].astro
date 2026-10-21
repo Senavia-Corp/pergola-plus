@@ -141,6 +141,7 @@ const jsonLd = [
   wfPage={item.wfPage ?? undefined}
   wfSite={item.wfSite ?? undefined}
   ogType="article"
+  articulo={{ publicado: post.publicado.toISOString(), modificado: post.actualizado.toISOString() }}
   jsonLd={jsonLd}
 >
   <Articulo
