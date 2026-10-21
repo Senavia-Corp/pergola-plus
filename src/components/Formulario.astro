@@ -11,10 +11,12 @@ import '../styles/formulario.css';
 ---
 
 <script>
+  // El telefono del sitio (siteSettings), horneado por Vite: src/lib/sanity/vite.mjs.
+  declare const __PP_TEL__: string;
   const T = {
     en: {
       enviando: 'Sending…',
-      fallo: 'We could not send your request. Please call (561) 710-8363.',
+      fallo: 'We could not send your request. Please call ' + __PP_TEL__ + '.',
       resumen: 'Please review these fields:',
       requerido: 'This field is required.',
       email: 'Enter a valid email address.',
@@ -30,7 +32,7 @@ import '../styles/formulario.css';
     },
     es: {
       enviando: 'Enviando…',
-      fallo: 'No pudimos enviar tu solicitud. Llámanos al (561) 710-8363.',
+      fallo: 'No pudimos enviar tu solicitud. Llámanos al ' + __PP_TEL__ + '.',
       resumen: 'Revisa estos campos:',
       requerido: 'Este campo es obligatorio.',
       email: 'Escribe un correo válido.',

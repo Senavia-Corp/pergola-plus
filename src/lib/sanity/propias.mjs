@@ -9,7 +9,8 @@ const RUTAS = { contacto: '/contact-us/get-in-touch', blog: '/resources/blog', f
 const idDe = (ruta) => `page-${ruta.slice(1).replace(/\//g, '__')}`;
 
 /**
- * @param conv {{ rutaImagen(imagen): string, hrefDe(enlace): string }}
+ * @param conv {{ rutaImagen(imagen): string, hrefDe(enlace): string, contacto?: object }}
+ *   contacto: src/lib/sanity/contacto-sitio.mjs (telefono, correo y direccion del sitio)
  * @param clavesCondado  el `data-county` de cada condado, por posicion (es diseño: lo
  *   lee el script de la seccion, no se edita)
  */
@@ -34,10 +35,20 @@ export function propiasDesde(c, conv, clavesCondado) {
     img: conv.rutaImagen(de(cd.imagenes, `condados.${i}.img`).imagen),
     alt: de(cd.textos, `condados.${i}.alt`).texto.en,
   }));
+  // Las fichas de correo, telefono y oficina: los datos de siteSettings (el telefono
+  // de contacto y la direccion con suite, que esta pagina si muestra).
+  const datos = (copia) => {
+    if (!conv.contacto) return copia;
+    const k = conv.contacto;
+    copia.datos.email = { ...copia.datos.email, valor: k.correo, href: `mailto:${k.correo}` };
+    copia.datos.telefono = { ...copia.datos.telefono, valor: k.telContacto.visible, href: k.telContacto.href };
+    copia.datos.oficina = { ...copia.datos.oficina, valor: k.direccionContacto };
+    return copia;
+  };
   return {
     PROPIAS_EN, PROPIAS_ES,
-    CONTACTO_EN: desaplanar(bloque('contacto').textos, 'en'),
-    CONTACTO_ES: desaplanar(bloque('contacto').textos, 'es'),
+    CONTACTO_EN: datos(desaplanar(bloque('contacto').textos, 'en')),
+    CONTACTO_ES: datos(desaplanar(bloque('contacto').textos, 'es')),
     CONDADOS,
   };
 }

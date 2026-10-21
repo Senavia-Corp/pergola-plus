@@ -20,6 +20,7 @@
 import '../styles/menu.css';
 import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 import { traductor } from '../i18n/shell';
+import { SITIO } from '../lib/ajustes';
 
 // La pagina actual se compara en su equivalente INGLES, que es como estan escritos los
 // href de este componente (enlazarEnEspanol los pasa a /es/ despues, sobre dist). Con
@@ -73,10 +74,10 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
             {/* Venia con href="#" del export: el bloque enseñaba el telefono en
                 las 107 paginas y no llamaba. Mismo numero que ya usan el hero y
                 el boton flotante de BaseLayout. */}
-            <a href="tel:+15617108363" class="wrapper-box-call w-inline-block"><img loading="lazy" src="/images/phone.svg" alt="" class="icon-phone">
+            <a href={SITIO.tel.href} class="wrapper-box-call w-inline-block"><img loading="lazy" src="/images/phone.svg" alt="" class="icon-phone">
               <div class="div-block-call">
                 <div class="heading-call">{t('callUs')}</div>
-                <div class="phone-call">(561) 710-8363</div>
+                <div class="phone-call">{SITIO.tel.visible}</div>
               </div>
             </a>
             <div data-delay="0" data-hover="false" class="dropdown w-dropdown">
@@ -412,17 +413,17 @@ const idiomaActual = IDIOMAS.find((i) => i.activo)!;
             <div class="nav-button">
               <a href="/contact-us/get-a-quote" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/get-a-quote") }]}  aria-current={esActiva("/contact-us/get-a-quote") ? "page" : undefined}>{t('getAQuote')}</a>
               <a href="/contact-us/schedule-a-visit" class:list={["button-menu secundary w-button", { "w--current": esActiva("/contact-us/schedule-a-visit") }]}  aria-current={esActiva("/contact-us/schedule-a-visit") ? "page" : undefined}>{t('scheduleAVisit')}</a>
-              <a href="tel:+15617108363" class="block-call-menu w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewbox="0 0 32 32" app="ikonik" class="ikonik-icxtx">
+              <a href={SITIO.tel.href} class="block-call-menu w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewbox="0 0 32 32" app="ikonik" class="ikonik-icxtx">
                   <rect fill="none" width="32" height="32" app="ikonik"></rect>
                   <path d="M20.33,21.48l2.24-2.24a2.19,2.19,0,0,1,2.34-.48l2.73,1.09a2.18,2.18,0,0,1,1.36,2v5A2.17,2.17,0,0,1,26.72,29C7.59,27.81,3.73,11.61,3,5.41A2.17,2.17,0,0,1,5.17,3H10a2.16,2.16,0,0,1,2,1.36l1.09,2.73a2.16,2.16,0,0,1-.47,2.34l-2.24,2.24S11.67,20.4,20.33,21.48Z" app="ikonik"></path>
                 </svg></a>
             </div>
-            <a href="tel:+15617108363" class="link-block-call-movil w-inline-block">
+            <a href={SITIO.tel.href} class="link-block-call-movil w-inline-block">
               <div class="block-movil-call"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="25" height="25" viewbox="0 0 32 32" app="ikonik" class="ikonik-icxtx">
                   <rect fill="none" width="32" height="32" app="ikonik"></rect>
                   <path d="M20.33,21.48l2.24-2.24a2.19,2.19,0,0,1,2.34-.48l2.73,1.09a2.18,2.18,0,0,1,1.36,2v5A2.17,2.17,0,0,1,26.72,29C7.59,27.81,3.73,11.61,3,5.41A2.17,2.17,0,0,1,5.17,3H10a2.16,2.16,0,0,1,2,1.36l1.09,2.73a2.16,2.16,0,0,1-.47,2.34l-2.24,2.24S11.67,20.4,20.33,21.48Z" app="ikonik"></path>
                 </svg>
-                <div>(561) 710-8363</div>
+                <div>{SITIO.tel.visible}</div>
               </div>
             </a>
           </div>

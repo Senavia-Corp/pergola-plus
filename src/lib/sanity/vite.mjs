@@ -11,6 +11,7 @@
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { contactoSitio } from './contacto-sitio.mjs';
 
 export function ajustesSanity(raiz = process.cwd()) {
   let doc = null;
@@ -19,5 +20,7 @@ export function ajustesSanity(raiz = process.cwd()) {
     doc = JSON.parse(readFileSync(f, 'utf8')).docs.find((d) => d._id === 'siteSettings');
     if (!doc) throw new Error('[sanity] la instantanea no trae siteSettings');
   }
-  return { __PP_AJUSTES__: JSON.stringify(doc) };
+  // __PP_TEL__: el telefono del sitio para los scripts de cliente (mensajes de error de
+  // los formularios); solo la cadena, no el documento entero.
+  return { __PP_AJUSTES__: JSON.stringify(doc), __PP_TEL__: JSON.stringify(contactoSitio(doc).tel.visible) };
 }

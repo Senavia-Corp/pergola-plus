@@ -10,7 +10,7 @@
  * (src/lib/sanity/blog.mjs) con la misma forma; las plantillas no se enteran.
  */
 import { canonica } from './canonica.mjs';
-import { FUENTE, sanity, rutaImagen, hrefDe } from './sanity/fuente.mjs';
+import { FUENTE, sanity, rutaImagen, hrefDe, contacto } from './sanity/fuente.mjs';
 import { blogDesde } from './sanity/blog.mjs';
 import { parseCSV } from '../../scripts/lib/csv.mjs';
 import { img, imgAlt, type EntradaImagen } from './img';
@@ -90,7 +90,7 @@ function slugCategoria(celda: string): string {
 }
 
 /** El blog leido de Sanity, o null si el build lee del repo. */
-export const blogSanity = FUENTE === 'sanity' ? blogDesde(sanity(), { rutaImagen, hrefDe }) : null;
+export const blogSanity = FUENTE === 'sanity' ? blogDesde(sanity(), { rutaImagen, hrefDe, contacto: contacto() }) : null;
 
 const filasCategorias = parseCSV(csvCategorias).filter(
   (c) => c.Slug !== SLUG_VER_TODO && c.Archived !== 'true' && c.Draft !== 'true',

@@ -23,7 +23,7 @@
  *     (el traductor solo toca nodos de texto, no atributos).
  */
 
-import { FUENTE, sanity, rutaImagen, hrefDe } from '../lib/sanity/fuente.mjs';
+import { FUENTE, sanity, rutaImagen, hrefDe, contacto } from '../lib/sanity/fuente.mjs';
 import { propiasDesde as desde } from '../lib/sanity/propias.mjs';
 
 export interface Dato {
@@ -114,7 +114,7 @@ const CONDADOS_REPO = [
  * salen de sus documentos page-<ruta> (src/lib/sanity/propias.mjs). El `data-county` de
  * cada condado es diseño (lo lee el script de la seccion): se queda aqui, por posicion.
  */
-export const propiasSanity = FUENTE === 'sanity' ? desde(sanity(), { rutaImagen, hrefDe }, CONDADOS_REPO.map((x) => x.clave)) : null;
+export const propiasSanity = FUENTE === 'sanity' ? desde(sanity(), { rutaImagen, hrefDe, contacto: contacto() }, CONDADOS_REPO.map((x) => x.clave)) : null;
 export const CONDADOS: typeof CONDADOS_REPO = propiasSanity?.CONDADOS ?? CONDADOS_REPO;
 
 /** Telefono y direccion de ESTA pagina, no del sitio. El cliente lo pidio asi en la

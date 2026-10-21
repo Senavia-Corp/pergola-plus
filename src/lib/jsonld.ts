@@ -28,10 +28,7 @@
  */
 import { canonica } from './canonica.mjs';
 import { negocioDesde } from './sanity/negocio.mjs';
-
-// siteSettings horneado por Vite (src/lib/sanity/vite.mjs), o null leyendo del repo.
-declare const __PP_AJUSTES__: object | null | undefined;
-const ajustes = typeof __PP_AJUSTES__ === 'undefined' ? null : __PP_AJUSTES__;
+import { ajustes } from './ajustes.ts';
 
 /**
  * Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. Con

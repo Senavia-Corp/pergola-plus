@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITIO } from '../../lib/ajustes';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import htmlOriginal from '../../contenido-migrado/estaticas/index.html?raw';
 import { traducirHtml } from '../../i18n';
@@ -92,8 +93,8 @@ if (faltan.length) {
         <a href="/es/project-estimator/">calculador de presupuesto</a> y las páginas de
         contacto. Solo los <a href="/articles/terms-of-service/">términos y condiciones</a>
         siguen en inglés. Si prefiere que le atendamos en español, escríbanos por
-        <a href="https://wa.me/15617108363" target="_blank" rel="noopener">WhatsApp</a>
-        o llámenos al <a href="tel:+15617108363">(561) 710-8363</a>.
+        <a href={SITIO.tel.wa} target="_blank" rel="noopener">WhatsApp</a>
+        o llámenos al <a href={SITIO.tel.href}>{SITIO.tel.visible}</a>.
       </p>
     </div>
   </section>

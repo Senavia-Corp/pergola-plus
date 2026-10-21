@@ -10,6 +10,7 @@
 import crypto from 'node:crypto';
 import { partesAsset } from './assets.mjs';
 import { portableAHtml } from '../portable.mjs';
+import { aplicarContacto } from './contacto-sitio.mjs';
 
 /** Palabras por minuto para el tiempo de lectura (el mismo PPM de src/lib/blog.ts). */
 const PPM = 200;
@@ -20,11 +21,13 @@ const contar = (html) => html.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boole
  * que publica hoy el sitio: scripts/sanity/paridad.mjs).
  */
 export function cuerpoHtml(bloques, conv) {
-  return portableAHtml(bloques ?? [], {
+  const html = portableAHtml(bloques ?? [], {
     webflow: true,
     hrefDe: conv.hrefDe,
     imagen: (b) => ({ src: conv.rutaImagen(b), alt: b.alt ?? '' }),
   });
+  // Telefono y correo escritos en el texto: los del sitio (siteSettings), si se pasan.
+  return conv.contacto ? aplicarContacto(html, conv.contacto) : html;
 }
 
 /** Huella del cuerpo inglés: si cambia, el recuento migrado ya no vale y se recalcula. */

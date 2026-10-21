@@ -13,6 +13,11 @@ import { lectorSanity } from '../plantilla-sanity.mjs';
 import { rutaDe, rutaDeId, idDeRuta } from '../rutas-sanity.mjs';
 import { partesAsset } from './assets.mjs';
 import { cuerpoHtml } from './blog.mjs';
+import { contactoSitio, aplicarContacto } from './contacto-sitio.mjs';
+
+/** Telefono, correo y direccion del sitio (siteSettings): src/lib/sanity/contacto-sitio.mjs. */
+let C = null;
+export const contacto = () => (C ??= contactoSitio(sanity().doc('siteSettings')));
 
 export const FUENTE = process.env.PP_FUENTE === 'sanity' ? 'sanity' : 'repo';
 
@@ -94,7 +99,7 @@ export function fragmentoColeccion(doc, idioma) {
   const t = plantilla(tipo);
   const heredados = globs().JSON_[`../../plantillas/${tipo}.heredado.json`]?.[doc.slug.current] ?? {};
   const comun = sanity().doc(`plantilla-${tipo}`);
-  return rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, comun, idioma, conv, heredados));
+  return aplicarContacto(rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, comun, idioma, conv, heredados)), contacto());
 }
 
 /**
@@ -103,7 +108,7 @@ export function fragmentoColeccion(doc, idioma) {
  */
 export function fragmentoEstatica(doc, idioma) {
   const t = plantilla(doc._id);
-  return rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, null, idioma, conv));
+  return aplicarContacto(rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, null, idioma, conv)), contacto());
 }
 
 /** El documento `page-<id>` de una ruta estatica (o lanza: con Sanity, la pagina tiene que estar). */
