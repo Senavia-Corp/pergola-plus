@@ -6,23 +6,21 @@
  */
 import { ESPECIFICACIONES as E_REPO } from '../../data/especificaciones';
 import { SPECS_COPY as C_REPO } from '../../i18n/especificaciones.es';
-import { PROMOVIDAS as P_REPO } from '../../data/faqs';
+import { PROMOVIDAS as P_REPO, faqsSanity } from '../../data/faqs';
 import { FUENTE, sanity, rutaDeRef } from './fuente.mjs';
 import { desdeDocumento } from './especificaciones.mjs';
 
 function deSanity() {
-  const E = {}, C = { en: {}, es: {} }, P = {};
+  const E = {}, C = { en: {}, es: {} };
   for (const d of [...sanity().deTipo('product'), ...sanity().deTipo('service')]) {
     const slug = d.slug.current;
     if (d.especificaciones) {
       const r = desdeDocumento(d.especificaciones, rutaDeRef);
       E[slug] = r.ficha; C.en[slug] = r.copy.en; C.es[slug] = r.copy.es;
     }
-    // ponytail: el id de la pregunta sale del _id migrado (faq-<id>); en la 3c las
-    // preguntas pasan a leerse de Sanity y esto deja de depender del prefijo.
-    if (d.faqsPromovidas?.length) P[slug] = d.faqsPromovidas.map((r) => r._ref.replace(/^faq-/, ''));
   }
-  return { E, C, P };
+  // Las promovidas, por el id estable de cada pregunta (src/lib/sanity/faqs.mjs).
+  return { E, C, P: faqsSanity.PROMOVIDAS };
 }
 
 const D = FUENTE === 'sanity' ? deSanity() : { E: E_REPO, C: C_REPO, P: P_REPO };

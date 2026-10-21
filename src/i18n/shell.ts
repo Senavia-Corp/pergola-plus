@@ -6,6 +6,11 @@
  * texto.
  */
 import type { Idioma } from './index';
+import { FUENTE, sanity } from '../lib/sanity/fuente.mjs';
+import { desaplanar } from '../lib/plantilla-sanity.mjs';
+
+/** Con PP_FUENTE=sanity los rotulos salen de `navigation.textos`, con las mismas claves. */
+const nav = FUENTE === 'sanity' ? sanity().doc('navigation') : null;
 
 type Claves =
   | 'callUs' | 'ourProducts' | 'ourServices' | 'projectGallery' | 'aboutUs'
@@ -34,7 +39,9 @@ type Claves =
   | 'footerDerechos' | 'footerDesarrollado'
   | 'footerFormOk' | 'footerFormError' | 'footerEspera' | 'footerLicencia';
 
-export const SHELL: Record<Idioma, Record<Claves, string>> = {
+export const SHELL: Record<Idioma, Record<Claves, string>> = nav
+  ? { en: desaplanar(nav.textos, 'en'), es: desaplanar(nav.textos, 'es') } as Record<Idioma, Record<Claves, string>>
+  : {
   en: {
     callUs: 'Call Us!',
     ourProducts: 'Our Products',
