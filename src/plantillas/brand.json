@@ -65,10 +65,6 @@
   "tipo": "texto",
   "alcance": "compartido"
  },
- "s1.div-w-dyn-hide.div.t": {
-  "tipo": "texto",
-  "alcance": "compartido"
- },
  "s1.div-box-call-to-action.h2.t": {
   "tipo": "texto",
   "alcance": "compartido"
@@ -96,7 +92,7 @@
  "lista:0": {
   "tipo": "lista",
   "alcance": "pagina",
-  "plantilla": "<div fs-slider-element=\"slide\" role=\"listitem\" class=\"fs-slider-feature-gallery_slide w-dyn-item w-dyn-repeater-item\"><a href=\"#\" class=\"lightbox-link-gallery w-inline-block w-lightbox\"><img loading=\"lazy\" src=\"\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img\u0001\" alt=\"\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.alt\u0001\" class=\"gallery_img\"/>\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.json\u0001</a></div>",
+  "plantilla": "<div fs-slider-element=\"slide\" role=\"listitem\" class=\"fs-slider-feature-gallery_slide w-dyn-item w-dyn-repeater-item\"><a href=\"#\" class=\"lightbox-link-gallery w-inline-block w-lightbox\"><img loading=\"lazy\" src=\"\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img\u0001\" alt=\"\u0001L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.alt\u0001\" class=\"gallery_img\"/></a></div>",
   "huecos": {
    "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img": {
     "tipo": "imagen",
@@ -105,19 +101,7 @@
    "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.alt": {
     "tipo": "atributo",
     "alcance": "compartido"
-   },
-   "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img.json": {
-    "tipo": "derivado",
-    "alcance": "pagina",
-    "de": "L0.s0.div-fs-slider-feature-gallery-slide.a-lightbox-link-gallery.img-gallery-img",
-    "modo": "src",
-    "crudo": true,
-    "patron": "<script is:inline type=\"application/json\" class=\"w-json\">{\n  \"items\": [\n    {\n      \"url\": \"\u0001src\u0001\",\n      \"type\": \"image\"\n    }\n  ],\n  \"group\": \"Brand Gallery\"\n}</script>"
    }
   }
- },
- "heredado:0": {
-  "tipo": "heredado",
-  "alcance": "codigo"
  }
 }

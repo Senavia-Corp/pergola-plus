@@ -7,7 +7,8 @@
  *
  *   1. Paginas: el fragmento de cada pagina estatica y de cada documento de coleccion,
  *      EN y ES, pintado desde Sanity (fragmentoEstatica/fragmentoColeccion) igual al
- *      fragmento del repo (el que se pinta con PP_FUENTE=repo), byte a byte.
+ *      fragmento del repo (el que se pinta con PP_FUENTE=repo), byte a byte, una vez
+ *      quitado del repo lo que retiro 3f del marcado de Webflow (src/lib/sin-webflow-cms.mjs).
  *   2. Datos: scripts/sanity/paridad.mjs (blog, FAQ, reseñas, estimador, negocio,
  *      navegacion, paginas propias), objeto a objeto.
  *
@@ -20,6 +21,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { cargarTs, cerrarTs } from './cargar-ts.mjs';
 import { estaticasDe, paginasDe, COLECCIONES } from './plantillas.mjs';
+import { sinWebflowCms } from '../../src/lib/sin-webflow-cms.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 process.chdir(RAIZ);
@@ -32,8 +34,9 @@ const editados = c.docs.filter(editado).map((d) => `${d._id} (${d._updatedAt})`)
 
 const fallos = [];
 let comparadas = 0;
-const comparar = (id, idioma, hoy, sanity) => {
+const comparar = (id, idioma, repo, sanity) => {
   comparadas++;
+  const hoy = sinWebflowCms(repo);
   if (hoy === sanity) return;
   let k = 0; while (k < hoy.length && hoy[k] === sanity[k]) k++;
   fallos.push(`${id} ${idioma}: difiere en ${k}\n      repo:   …${hoy.slice(Math.max(0, k - 60), k + 60)}\n      sanity: …${sanity.slice(Math.max(0, k - 60), k + 60)}`);
