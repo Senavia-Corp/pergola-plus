@@ -21,10 +21,10 @@ import path from 'node:path';
 export const ALTS_ES_NUEVOS = {
   'Motorized screen systems integrated with pergolas and patio covers for enhanced comfort and privacy in South Florida homes.':
     'Sistemas de cortinas motorizadas integrados con pérgolas y cubiertas de patio para más confort y privacidad en viviendas del sur de Florida.',
-  'Custom Renaissance pergola installed in Boca Raton, integrated with a luxury poolside patio design.':
-    'Pérgola Renaissance a medida instalada en Boca Raton, integrada en el diseño de un patio de lujo junto a la piscina.',
-  'Comparison of aluminum vs wood pergolas in high-humidity environments.':
-    'Comparación de pérgolas de aluminio y de madera en entornos de alta humedad.',
+  'Custom Renaissance pergola installed in Boca Raton, integrated with a luxury patio design.':
+    'Pérgola Renaissance a medida instalada en Boca Raton, integrada en el diseño de un patio de lujo.',
+  'Aluminum pergola with a wood-look insulated ceiling, a ceiling fan and privacy slats.':
+    'Pérgola de aluminio con techo aislado de aspecto madera, ventilador y lamas de privacidad.',
   'Engineered insulated roof pergolas designed for heat reduction and long-term performance in South Florida outdoor living spaces.':
     'Pérgolas de techo aislado con cálculo estructural, diseñadas para reducir el calor y durar en los espacios exteriores del sur de Florida.',
   'Aluminum pergola installed in coastal Florida waterfront home':
@@ -37,22 +37,22 @@ export const ALTS_ES_NUEVOS = {
     'Pérgola de aluminio a medida con cálculo estructural, instalada en una residencia de lujo del sur de Florida con columnas reforzadas.',
   'Custom Equinox louvered pergola professionally installed in Boca Raton, engineered for luxury outdoor living in South Florida.':
     'Pérgola de lamas Equinox a medida instalada por profesionales en Boca Raton, con cálculo estructural para la vida exterior de lujo en el sur de Florida.',
-  'Aluminum pergola installation process in South Florida':
-    'Proceso de instalación de una pérgola de aluminio en el sur de Florida',
+  'Finished aluminum pergola with privacy slats and a ceiling fan beside a pool and the water in South Florida':
+    'Pérgola de aluminio terminada con lamas de privacidad y ventilador junto a una piscina y al agua en el sur de Florida',
   'Hurricane-rated aluminum pergola in South Florida backyard':
     'Pérgola de aluminio con certificación para huracanes en un jardín del sur de Florida',
   'Custom louvered roof pergola systems professionally installed in South Florida, delivering adjustable shade and engineered durability for luxury properties.':
     'Sistemas de pérgola con techo de lamas a medida instalados por profesionales en el sur de Florida, con sombra regulable y durabilidad calculada para propiedades de lujo.',
-  'Luxury aluminum louvered pergola in South Florida backyard':
-    'Pérgola de lamas de aluminio de lujo en un jardín del sur de Florida',
-  'Contemporary luxury backyard design with motorized pergola in South Florida.':
-    'Diseño contemporáneo de un jardín de lujo con pérgola motorizada en el sur de Florida.',
+  'Luxury aluminum pergola with a wood-look roof in a South Florida backyard':
+    'Pérgola de aluminio de lujo con techo de aspecto madera en un jardín del sur de Florida',
+  'Contemporary luxury backyard design with an attached pergola and privacy slats in South Florida.':
+    'Diseño contemporáneo de un jardín de lujo con pérgola adosada y lamas de privacidad en el sur de Florida.',
   'Custom Equinox roof pergola installation in South Florida, designed and built for upscale residential properties.':
     'Instalación de una pérgola de techo Equinox a medida en el sur de Florida, diseñada y construida para viviendas de alto nivel.',
   'Luxury pergola integrated with outdoor kitchen and deck in South Florida residence.':
     'Pérgola de lujo integrada con cocina exterior y deck en una residencia del sur de Florida.',
-  'Luxury aluminum pergola overlooking waterfront property in Florida.':
-    'Pérgola de aluminio de lujo con vistas al agua en una propiedad de Florida.',
+  'Luxury white aluminum patio cover with ceiling fans attached to a light-blue Florida home.':
+    'Cubierta de patio de aluminio blanca de lujo, con ventiladores, adosada a una casa azul claro de Florida.',
   'Modern aluminum louvered pergola installed in a tropical South Florida backyard with pool.':
     'Pérgola moderna de lamas de aluminio instalada en un jardín tropical con piscina del sur de Florida.',
   'Fully permitted patio remodeling project in South Florida luxury home.':
