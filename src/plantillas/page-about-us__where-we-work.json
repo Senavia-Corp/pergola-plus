@@ -19,62 +19,6 @@
   "tipo": "texto",
   "alcance": "pagina"
  },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-2.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-2": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-3.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-3": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-4.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-4": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-5.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-5": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-6.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-6": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-7.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-7": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
  "s1.div-serve-column-left.div-service-action.a-button.href": {
   "tipo": "enlace",
   "alcance": "pagina"
@@ -117,78 +61,6 @@
   "tipo": "texto",
   "alcance": "pagina"
  },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-8.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-8": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-9.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-9": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-10.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-10": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-11.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-11": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-12.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-12": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-13.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-13": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-14.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-14": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-15.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-15": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-16.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-16": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
  "s1.div-serve-column-left.div-service-action.a-button-3.href": {
   "tipo": "enlace",
   "alcance": "pagina"
@@ -228,78 +100,6 @@
   "alcance": "pagina"
  },
  "s1.div-w-dyn-item.div.t-3": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-17.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-17": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-18.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-18": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-19.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-19": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-20.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-20": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-21.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-21": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-22.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-22": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-23.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-23": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-24.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-24": {
-  "tipo": "texto",
-  "alcance": "pagina"
- },
- "s1.div-collection-list-2.div-w-dyn-item.a-link-2-25.href": {
-  "tipo": "enlace",
-  "alcance": "pagina"
- },
- "s1.div-w-dyn-item.a-link-2.t-25": {
   "tipo": "texto",
   "alcance": "pagina"
  },
@@ -450,5 +250,17 @@
  "s2.section-call-to-action-footer.img-image-call-to-action": {
   "tipo": "imagen",
   "alcance": "pagina"
+ },
+ "listado:zonas-miami-dade": {
+  "tipo": "listado",
+  "id": "zonas-miami-dade"
+ },
+ "listado:zonas-broward": {
+  "tipo": "listado",
+  "id": "zonas-broward"
+ },
+ "listado:zonas-palm-beach": {
+  "tipo": "listado",
+  "id": "zonas-palm-beach"
  }
 }

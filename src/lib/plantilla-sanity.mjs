@@ -133,6 +133,7 @@ export function lectorSanity(huecos, doc, docPlantilla, idioma, conv, heredados 
     const h = huecos[clave];
     if (h.tipo === 'heredado') return heredados[clave];
     if (h.tipo === 'cuerpo') return conv.cuerpo(raiz, idioma);
+    if (h.tipo === 'listado') return conv.listado(h.id, idioma);
     if (h.tipo === 'lista') {
       const legado = Boolean(heredados[clave.replace('lista:', 'heredado:')]);
       return (pag.lista[clave] ?? []).map((el) => lectorSanity(h.huecos, el, null, idioma, conv, { '@legado': legado }, pre, com));

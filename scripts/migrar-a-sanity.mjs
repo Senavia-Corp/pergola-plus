@@ -554,15 +554,68 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
       return { _type: 'seo', titulo: i18n(en.title, es?.title), ...(en.description ? { descripcion: i18nLargo(en.description, es?.description) } : {}), indexable: !en.noindex };
     };
     const nombreDe = (seo) => i18n(seo.titulo.en.split('|')[0].trim(), seo.titulo.es?.split('|')[0].trim());
-    for (const p of await estaticasDe()) {
+    const estaticas = await estaticasDe();
+    // Los listados (src/lib/sanity/listados.mjs): la tarjeta en el codigo, su copia en
+    // cada documento (tarjetas[<id>], con su posicion) y lo comun en la pagina.
+    const { derivarListados } = await import('./sanity/listados.mjs');
+    const { conMarcas } = await import('../src/lib/sanity/listados.mjs');
+    const { rutaDe } = await import('../src/lib/rutas-sanity.mjs');
+    const listados = derivarListados(estaticas, docs, rutaDe);
+    const comunesDe = {};
+    for (const x of listados) {
+      await igualAlCodigo(`listado-${x.l.id}.html`, x.plantilla);
+      await igualAlCodigo(`listado-${x.l.id}.json`, JSON.stringify(x.huecos, null, 1) + '\n');
+      const deTarjeta = Object.fromEntries(Object.entries(x.huecos).filter(([, h]) => h.fuente === 'tarjeta'));
+      const sectores = {};
+      for (const t of x.porDoc) {
+        const doc = docs.find((dd) => dd._id === t.id);
+        doc.tarjetas ??= [];
+        doc.tarjetas.push(plano(aBloques(deTarjeta, t.valores, 'pagina', conv), {
+          _type: 'bloque', _key: x.l.id, clave: x.l.id,
+          valores: [{ _type: 'valorClave', _key: 'orden', clave: 'orden', valor: String(t.orden) }],
+        }));
+        if (t.campos.sector) {
+          const valor = t.campos.sector.en.toLowerCase();
+          if (!['residential', 'commercial'].includes(valor)) throw new Error(`[listados] ${t.id}: sector desconocido ${t.campos.sector.en}`);
+          if (doc.sector && doc.sector !== valor) throw new Error(`[listados] ${t.id}: dos sectores`);
+          doc.sector = valor;
+          const prev = sectores[valor];
+          if (prev && (prev.en !== t.campos.sector.en || prev.es !== t.campos.sector.es)) throw new Error(`[listados] rotulo de sector distinto: ${valor}`);
+          sectores[valor] = t.campos.sector;
+        }
+        if (t.campos.producto) {
+          const pr = docs.find((dd) => dd._id === doc.productos?.[0]?._ref);
+          if (!pr) throw new Error(`[listados] ${t.id}: etiqueta de producto sin project.productos`);
+          const et = i18n(decodificar(t.campos.producto.en), t.campos.producto.es && decodificar(t.campos.producto.es));
+          if (pr.etiquetaGaleria && JSON.stringify(pr.etiquetaGaleria) !== JSON.stringify(et)) throw new Error(`[listados] ${pr._id}: dos etiquetas de galeria`);
+          pr.etiquetaGaleria = et;
+        }
+      }
+      // Lo comun de la tarjeta y los rotulos de sector, con el id del listado delante (no
+      // se mezclan con los huecos de la pagina).
+      const comun = plano(aBloques(x.huecos, x.compartidos, 'compartido', conv), {});
+      const pre = (lista) => (lista ?? []).map((e) => ({ ...e, _key: `${x.l.id}-${e._key}`.slice(0, 120), clave: `${x.l.id}|${e.clave}` }));
+      const textosSector = Object.entries(sectores).map(([v, t]) => ({ _type: 'textoClave', _key: `sector-${v}`, clave: `sector.${v}`, texto: i18nLargo(decodificar(t.en), t.es && decodificar(t.es)) }));
+      (comunesDe[x.l.pagina] ??= []).push({
+        _type: 'bloque', _key: `listado-${x.l.id}`, clave: `listado:${x.l.id}`,
+        ...Object.fromEntries(['textos', 'imagenes', 'enlaces', 'valores'].map((k) => [k, pre(k === 'textos' ? [...(comun.textos ?? []), ...textosSector] : comun[k])]).filter(([, v]) => v.length)),
+      });
+    }
+    for (const p of estaticas) {
       const d = derivar([p], '', { sinReferencias: true, todoContenido: true });
       d.heredados = [{}];
       const f = paridad(d, [p]);
       if (f.length) throw new Error(`[page] ${p.ruta}: paridad\n${f.join('\n')}`);
-      await igualAlCodigo(`${p.id}.html`, d.plantilla);
-      await igualAlCodigo(`${p.id}.json`, JSON.stringify(d.huecos, null, 1) + '\n');
+      const m = conMarcas(d.plantilla, d.huecos, p.ruta);
+      await igualAlCodigo(`${p.id}.html`, m.plantilla);
+      await igualAlCodigo(`${p.id}.json`, JSON.stringify(m.huecos, null, 1) + '\n');
       const seo = seoPagina(p.ruta);
-      docs.push({ _id: p.id, _type: 'page', ruta: p.ruta, titulo: nombreDe(seo), secciones: aBloques(d.huecos, d.valores[0], 'pagina', conv), seo });
+      // Las secciones son las de la pagina COMPLETA (con las tarjetas): las claves de la
+      // plantilla nueva son un subconjunto, y el codigo anterior (que pinta las tarjetas
+      // desde la pagina) sigue construyendo con el mismo dataset. Las claves de tarjeta que
+      // ya no lee nadie se retiran cuando ese codigo deje de construirse.
+      const completa = comunesDe[p.ruta] ? derivar([{ ...p, en: p.enCompleto, es: p.esCompleto }], '', { sinReferencias: true, todoContenido: true }) : d;
+      docs.push({ _id: p.id, _type: 'page', ruta: p.ruta, titulo: nombreDe(seo), secciones: [...aBloques(completa.huecos, completa.valores[0], 'pagina', conv), ...(comunesDe[p.ruta] ?? [])], seo });
     }
     // Las propias: su copia (src/i18n/paginas-propias.ts, contacto.ts) como textos con clave.
     const { PROPIAS_EN, PROPIAS_ES } = await cargarTs('src/i18n/paginas-propias.ts');

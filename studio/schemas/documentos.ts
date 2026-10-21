@@ -16,6 +16,20 @@ const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array',
 const ref = (name: string, title: string, a: string[]) =>
   defineField({ name, title, type: 'array', of: [defineArrayMember({ type: 'reference', to: a.map((type) => ({ type })) })], group: 'contenido' });
 const vistaNombre = { select: { title: 'nombre.en', subtitle: 'slug.current' } };
+/**
+ * Como sale el documento en cada listado del sitio (/products, la home, la galeria, las
+ * marcas, las zonas…): un bloque por listado, con su copia y su posicion (`orden`). Lo que
+ * la tarjeta comparte con la ficha (foto de cabecera, nombre, enlace) sale de la ficha.
+ * Ver src/lib/sanity/listados.mjs.
+ */
+const tarjetas = defineField({
+  name: 'tarjetas',
+  title: 'Tarjetas en los listados',
+  description: 'Un bloque por listado: texto propio de la tarjeta y su posición («orden»). Sin bloque, el documento no sale en los listados que llevan texto propio.',
+  type: 'array',
+  of: [{ type: 'bloque' }],
+  group: 'contenido',
+});
 
 // ---------------------------------------------------------------------------
 // Singletons
@@ -260,6 +274,14 @@ export const product = defineType({
       type: 'bloque',
       group: 'contenido',
     }),
+    tarjetas,
+    defineField({
+      name: 'etiquetaGaleria',
+      title: 'Etiqueta en la galería de proyectos',
+      description: 'El rótulo corto con que sale en las tarjetas de los proyectos que lo usan (p. ej. «Solid Roof Pergolas»).',
+      type: 'textoI18n',
+      group: 'contenido',
+    }),
     ref('marcas', 'Marcas', ['brand']),
     ref('faqsPromovidas', 'Preguntas frecuentes de la ficha', ['faq']),
     seo,
@@ -279,6 +301,7 @@ export const service = defineType({
     defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
     cuerpo,
     galeria,
+    tarjetas,
     ref('faqsPromovidas', 'Preguntas frecuentes de la ficha', ['faq']),
     seo,
   ],
@@ -290,7 +313,7 @@ export const brand = defineType({
   title: 'Marca',
   type: 'document',
   groups: grupos,
-  fields: [nombre(), slugFijo(), defineField({ name: 'logo', title: 'Logo', type: 'imagen', group: 'contenido' }), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }), cuerpo, galeria, seo],
+  fields: [nombre(), slugFijo(), defineField({ name: 'logo', title: 'Logo', type: 'imagen', group: 'contenido' }), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }), cuerpo, galeria, tarjetas, seo],
   preview: vistaNombre,
 });
 
@@ -341,6 +364,16 @@ export const project = defineType({
       validation: (r) => r.custom((v, ctx) => (ctx.document?.cabecera === 'imagen' && !v ? 'Falta la imagen de la cabecera' : true)),
     }),
     galeria,
+    defineField({
+      name: 'sector',
+      title: 'Sector',
+      description: 'El rótulo de la tarjeta en la galería (Residential / Commercial).',
+      type: 'string',
+      options: { list: [{ title: 'Residential', value: 'residential' }, { title: 'Commercial', value: 'commercial' }], layout: 'radio' },
+      group: 'contenido',
+      validation: (r) => r.custom((v, ctx) => ((ctx.document as { tarjetas?: { clave?: string }[] })?.tarjetas?.some((t) => t.clave === 'galeria') && !v ? 'La tarjeta de la galería necesita el sector' : true)),
+    }),
+    tarjetas,
     ref('productos', 'Productos', ['product']),
     defineField({ name: 'ordenDestacado', title: 'Orden en «Featured Projects» (vacío = no destacado)', type: 'number', group: 'contenido' }),
     seo,
@@ -392,6 +425,7 @@ export const post = defineType({
         defineField({ name: 'huella', title: 'Huella del texto migrado', type: 'string' }),
       ],
     }),
+    tarjetas,
     seo,
   ],
   orderings: [{ title: 'Más recientes', name: 'recientes', by: [{ field: 'fechaCreacion', direction: 'desc' }] }],
@@ -433,6 +467,7 @@ export const city = defineType({
     defineField({ name: 'condado', title: 'Condado', type: 'reference', to: [{ type: 'county' }], group: 'contenido', validation: (r) => r.required() }),
     defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
     cuerpo,
+    tarjetas,
     seo,
   ],
   preview: vistaNombre,

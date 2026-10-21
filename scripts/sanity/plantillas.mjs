@@ -29,6 +29,7 @@ import { cargarTs, cerrarTs } from './cargar-ts.mjs';
 import { MARCA, rellenar } from '../../src/lib/plantilla.mjs';
 import { decodificar } from '../../src/lib/portable.mjs';
 import { DATA_PRODUCT } from '../lib/fichas.mjs';
+import { vaciarListados, conMarcas } from '../../src/lib/sanity/listados.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 
@@ -681,7 +682,7 @@ export function lector(huecos, valoresPagina, compartidos, idioma, heredados = {
       return lector(h.huecos, v, comp, idioma, her, resolver);
     }
     if (h.tipo === 'heredado') return heredados[clave];
-    if (h.tipo === 'cuerpo') return ''; // la paridad compara con el cuerpo vaciado
+    if (h.tipo === 'cuerpo' || h.tipo === 'listado') return ''; // la paridad compara con el cuerpo y los listados vaciados
     const v = h.alcance === 'compartido' ? compartidos[clave] : valoresPagina[clave];
     if (v == null) return undefined;
     if (h.tipo === 'imagen') return v.vacia ? h.respaldo : v.src;
@@ -712,7 +713,10 @@ export async function estaticasDe() {
     const en = await fs.readFile(path.join(RAIZ, 'src/contenido-migrado/estaticas', meta[ruta].fragmento), 'utf8');
     const dic = ruta === '/' ? { ...HOME_ES, ...MINIATURAS_ES } : diccionarioDe(PAGINAS_ES.find((p) => p.en === ruta));
     const id = idDeRuta(ruta).id;
-    paginas.push({ ruta, id, slug: id.replace(/^page-/, ''), en, es: traducirHtml(en, dic).html });
+    const es = traducirHtml(en, dic).html;
+    // Los listados de la pagina (src/lib/sanity/listados.mjs) se derivan aparte: la
+    // plantilla de la pagina lleva sus contenedores vacios (y su marca).
+    paginas.push({ ruta, id, slug: id.replace(/^page-/, ''), en: vaciarListados(en, ruta), es: vaciarListados(es, ruta), enCompleto: en, esCompleto: es });
   }
   return paginas;
 }
@@ -839,8 +843,10 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes('--
     console.log(`${p.ruta.padEnd(32)} textos ${cuenta('texto')} atributos ${cuenta('atributo')} imagenes ${cuenta('imagen')} enlaces ${cuenta('enlace')} videos ${cuenta('valor')} · paridad ${2 - f.length}/2`);
     for (const x of f) console.log('  FALLO', x);
     if (process.argv.includes('--escribir') && !f.length) {
-      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.html`), d.plantilla);
-      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.json`), JSON.stringify(d.huecos, null, 1) + '\n');
+      // Con la marca de sus listados (scripts/sanity/listados.mjs).
+      const m = conMarcas(d.plantilla, d.huecos, p.ruta);
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.html`), m.plantilla);
+      await fs.writeFile(path.join(RAIZ, `src/plantillas/${p.id}.json`), JSON.stringify(m.huecos, null, 1) + '\n');
     }
   }
   console.log(JSON.stringify({ paginas: paginas.length, comparadas: paginas.length * 2, identicas: paginas.length * 2 - fallos }));

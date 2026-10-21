@@ -14,6 +14,7 @@ import { rutaDe, rutaDeId, idDeRuta } from '../rutas-sanity.mjs';
 import { partesAsset } from './assets.mjs';
 import { cuerpoHtml } from './blog.mjs';
 import { contactoSitio, aplicarContacto } from './contacto-sitio.mjs';
+import { LISTADOS, miembros, tarjetaDe, valorEn } from './listados.mjs';
 
 /** Telefono, correo y direccion del sitio (siteSettings): src/lib/sanity/contacto-sitio.mjs. */
 let C = null;
@@ -85,6 +86,48 @@ const conv = {
     const lec = lectorSanity(t.huecos, { secciones: [d.tarjeta] }, null, idioma, conv);
     return rellenar(t.html, t.huecos, (k) => (k === 'tarjeta.dataProduct' ? DATA_PRODUCT[d.slug.current] ?? d.slug.current : lec(k)));
   },
+};
+
+/**
+ * Las tarjetas de un listado (src/lib/sanity/listados.mjs): los documentos de su
+ * coleccion, en su orden, pintados con la plantilla de la tarjeta. Cada hueco sale de
+ * donde dice su `fuente`.
+ */
+conv.listado = (id, idioma) => {
+  const l = LISTADOS.find((x) => x.id === id);
+  if (!l) throw new Error(`[sanity] listado desconocido: ${id}`);
+  const t = plantilla(`listado-${id}`);
+  const pagina = paginaDe(l.pagina);
+  const comun = pagina.secciones?.find((b) => b.clave === `listado:${id}`) ?? {};
+  // Lo comun guarda sus claves con el id delante: se quita para el lector.
+  const sinPre = (lista) => (lista ?? []).map((e) => ({ ...e, clave: e.clave.replace(`${id}|`, '') }));
+  const docComun = { secciones: [{ textos: sinPre(comun.textos), imagenes: sinPre(comun.imagenes), enlaces: sinPre(comun.enlaces), valores: sinPre(comun.valores) }] };
+  const textoComun = (clave) => enIdioma(docComun.secciones[0].textos.find((x) => x.clave === clave)?.texto, idioma);
+  return miembros(l, t.huecos, sanity().docs).map((doc) => {
+    const base = lectorSanity(t.huecos, { secciones: [tarjetaDe(doc, id) ?? {}] }, docComun, idioma, conv);
+    return rellenar(t.html, t.huecos, (k) => {
+      const h = t.huecos[k];
+      if (k === 'tarjeta.dataProduct') return DATA_PRODUCT[doc.slug.current] ?? doc.slug.current;
+      if (h.fuente === 'ruta') return rutaDe(doc);
+      if (h.fuente === 'doc') {
+        const v = valorEn(doc, h.ruta);
+        if (v == null) throw new Error(`[sanity] ${doc._id}: el listado ${id} necesita ${h.ruta}`);
+        return h.tipo === 'imagen' ? rutaImagen(v) : enIdioma(v, idioma);
+      }
+      if (h.fuente === 'campo' && h.campo === 'sector') {
+        const r = textoComun(`sector.${doc.sector}`);
+        if (r == null) throw new Error(`[sanity] ${doc._id}: sector sin rotulo (${doc.sector})`);
+        return r;
+      }
+      if (h.fuente === 'campo' && h.campo === 'producto') {
+        const pr = doc.productos?.[0] && sanity().doc(doc.productos[0]._ref);
+        const r = enIdioma(pr?.etiquetaGaleria, idioma);
+        if (r == null) throw new Error(`[sanity] ${doc._id}: la galeria necesita su producto con etiqueta`);
+        return r;
+      }
+      return base(k);
+    });
+  }).join('');
 };
 
 // `data-product` de las tarjetas (scripts/lib/fichas.mjs): no es el slug.
