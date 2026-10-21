@@ -661,34 +661,33 @@ if (CON_PLANTILLA.length || TIPOS.has('page') || TIPOS.has('navigation')) {
   // Menu y pie: textos de src/i18n/shell.ts y estructura de Nav.astro y Footer.astro
   // -------------------------------------------------------------------------
   if (TIPOS.has('navigation')) {
-    const { menuDe, pieDe } = await import('./sanity/navegacion.mjs');
+    // Menu y pie: la estructura de src/lib/menu.ts (la que pintan Nav.astro y Footer.astro)
+    // y los textos de src/i18n/shell.ts.
+    const { MENU_REPO, PIE_REPO, menuDesde } = await cargarTs('src/lib/menu.ts');
     const { SHELL } = await cargarTs('src/i18n/shell.ts');
-    const { readFileSync } = await import('node:fs');
-    const menu = menuDe(readFileSync(path.join(RAIZ, 'src/components/Nav.astro'), 'utf8'));
-    const pie = pieDe(readFileSync(path.join(RAIZ, 'src/components/Footer.astro'), 'utf8'));
-    const columna = (c, n) => ({
-      _type: 'bloque', _key: c.titulo ?? (c.verTodo ? 'ver-todo' : `columna-${n}`), clave: c.titulo ?? (c.verTodo ? 'verTodo' : `columna-${n}`),
-      ...(c.enlaces.length ? { enlaces: c.enlaces.map((e) => ({ _type: 'enlaceClave', _key: e.claves[0], clave: e.claves.join('+'), ...conv.enlace(e.href) })) } : {}),
+    const enlaceMenu = (e, k) => ({ _type: 'enlaceMenu', _key: clave(e.claves?.[0] ?? `e${k}`), ...conv.enlace(e.href), ...(e.claves ? { claves: [...e.claves] } : {}) });
+    const columnaMenu = (c, n) => ({
+      _type: 'columnaMenu', _key: c.titulo ?? (c.verTodo ? 'ver-todo' : `columna-${n}`),
+      ...(c.titulo ? { titulo: c.titulo } : {}), ...(c.verTodo ? { verTodo: true } : {}),
+      enlaces: c.enlaces.map(enlaceMenu),
     });
-    docs.push({
+    const doc = {
       _id: 'navigation',
       _type: 'navigation',
       textos: textosClave(aplanar(SHELL.en, SHELL.es)),
-      menu: menu.map((g) => ({
+      menu: MENU_REPO.map((g) => ({
         _type: 'grupoMenu', _key: g.clave, clave: g.clave,
         ...(SHELL.en[g.clave] ? { texto: i18n(SHELL.en[g.clave], SHELL.es[g.clave]) } : {}),
         ...(g.destino ? { destino: refRuta(g.destino) } : {}),
-        ...(g.columnas.length ? { subgrupos: g.columnas.map(columna) } : {}),
+        ...(g.columnas.length ? { columnas: g.columnas.map(columnaMenu) } : {}),
       })),
-      pie: pie.map(columna),
-    });
-    // Paridad: la estructura que sale del documento es la del componente.
-    const hrefDe = (e) => (e.destino ? rutaDeId(e.destino._ref) : e.href);
-    const doc = docs[docs.length - 1];
-    const deVuelta = (b) => ({ enlaces: (b.enlaces ?? []).map((e) => ({ href: hrefDe(e), claves: e.clave.split('+') })) });
-    const plano = (c) => ({ enlaces: c.enlaces });
-    if (JSON.stringify(doc.menu.map((g) => [g.clave, g.destino ? rutaDeId(g.destino._ref) : null, (g.subgrupos ?? []).map(deVuelta)])) !== JSON.stringify(menu.map((g) => [g.clave, g.destino ?? null, g.columnas.map(plano)]))) throw new Error('[navigation] el menu no se reconstruye');
-    if (JSON.stringify(doc.pie.map(deVuelta)) !== JSON.stringify(pie.map(plano))) throw new Error('[navigation] el pie no se reconstruye');
+      pie: PIE_REPO.map(columnaMenu),
+    };
+    docs.push(doc);
+    // Paridad: la estructura que sale del documento es la del codigo.
+    const r = menuDesde(doc, (ref) => rutaDeId(ref._ref));
+    if (JSON.stringify(r.menu) !== JSON.stringify(MENU_REPO)) throw new Error('[navigation] el menu no se reconstruye');
+    if (JSON.stringify(r.pie) !== JSON.stringify(PIE_REPO)) throw new Error('[navigation] el pie no se reconstruye');
     const { desaplanar } = await import('../src/lib/plantilla-sanity.mjs');
     if (JSON.stringify({ en: desaplanar(doc.textos, 'en'), es: desaplanar(doc.textos, 'es') }) !== JSON.stringify(SHELL)) throw new Error('[navigation] los textos no son los de shell.ts');
   }

@@ -135,6 +135,43 @@ export const siteSettings = defineType({
   preview: { prepare: () => ({ title: 'Datos del negocio' }) },
 });
 
+/**
+ * Un enlace del menu o del pie. Los migrados llevan `claves` (sus textos en «Textos
+ * comunes», abajo) y su diseño en el codigo (src/lib/menu.ts). Uno NUEVO lleva su
+ * texto aqui y sale con el aspecto base de su columna.
+ */
+const enlaceMenu = defineArrayMember({
+  name: 'enlaceMenu',
+  title: 'Enlace',
+  type: 'object',
+  fields: [
+    defineField({ name: 'destino', title: 'Página del sitio', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
+    defineField({ name: 'href', title: 'Enlace externo (si no es una página del sitio)', type: 'string' }),
+    defineField({ name: 'claves', title: 'Claves de texto (enlaces migrados)', type: 'array', of: [{ type: 'string' }], readOnly: true, hidden: ({ value }) => !value?.length }),
+    defineField({ name: 'texto', title: 'Texto', description: 'Para un enlace nuevo. Los migrados usan sus «Textos comunes».', type: 'textoI18n' }),
+    defineField({ name: 'descripcion', title: 'Descripción (desplegables pequeños)', type: 'textoI18n' }),
+  ],
+  validation: (r) => r.custom((v: { destino?: unknown; href?: string; claves?: string[]; texto?: { en?: string } } | undefined) => {
+    if (!v) return true;
+    if (!v.destino && !v.href) return 'Falta el destino';
+    if (!v.claves?.length && !v.texto?.en) return 'Falta el texto del enlace';
+    return true;
+  }),
+  preview: { select: { title: 'texto.en', subtitle: 'claves.0', ref: 'destino._ref' }, prepare: ({ title, subtitle, ref: r }) => ({ title: title ?? subtitle, subtitle: r }) },
+});
+
+const columnaMenu = defineArrayMember({
+  name: 'columnaMenu',
+  title: 'Columna',
+  type: 'object',
+  fields: [
+    defineField({ name: 'titulo', title: 'Clave del título', type: 'string', readOnly: true }),
+    defineField({ name: 'verTodo', title: '«Ver todos…»', type: 'boolean', readOnly: true }),
+    defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [enlaceMenu] }),
+  ],
+  preview: { select: { title: 'titulo' }, prepare: ({ title }) => ({ title: title ?? 'Columna' }) },
+});
+
 export const navigation = defineType({
   name: 'navigation',
   title: 'Menú y pie',
@@ -152,13 +189,13 @@ export const navigation = defineType({
             defineField({ name: 'clave', title: 'Grupo', type: 'string', readOnly: true }),
             defineField({ name: 'texto', title: 'Texto', type: 'textoI18n' }),
             defineField({ name: 'destino', title: 'Lleva a', type: 'reference', to: CON_PAGINA.map((type) => ({ type })) }),
-            defineField({ name: 'subgrupos', title: 'Columnas', type: 'array', of: [{ type: 'bloque' }] }),
+            defineField({ name: 'columnas', title: 'Columnas', type: 'array', of: [columnaMenu] }),
           ],
           preview: { select: { title: 'texto.en', subtitle: 'clave' } },
         }),
       ],
     }),
-    defineField({ name: 'pie', title: 'Pie', type: 'array', of: [{ type: 'bloque' }] }),
+    defineField({ name: 'pie', title: 'Pie', type: 'array', of: [columnaMenu] }),
     defineField({ name: 'textos', title: 'Textos comunes (botones, avisos)', type: 'array', of: [{ type: 'textoClave' }] }),
   ],
   preview: { prepare: () => ({ title: 'Menú y pie' }) },
