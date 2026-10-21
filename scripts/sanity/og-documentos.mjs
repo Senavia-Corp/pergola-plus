@@ -56,8 +56,13 @@ if (process.argv.includes('--generar')) {
   const plan = [];
   for (const { d, ruta, f } of docsConPagina()) {
     let og = DEFECTO, src = null, alt = { en: '', es: '' };
-    if (d._type === 'product') og = rutaOg(d.slug.current);
-    else if (!POR_DEFECTO.has(ruta)) {
+    if (d._type === 'product') {
+      // La suya, de generar-og.mjs; el alt y la procedencia, los del hero de su pagina.
+      og = rutaOg(d.slug.current);
+      const h = hero(fs.readFileSync(f, 'utf8'));
+      const fEs = path.join(DIST, 'es', ruta, 'index.html');
+      if (h) { src = h.src; alt = { en: h.alt, es: fs.existsSync(fEs) ? (hero(fs.readFileSync(fEs, 'utf8'))?.alt ?? '') : '' }; }
+    } else if (!POR_DEFECTO.has(ruta)) {
       const h = hero(fs.readFileSync(f, 'utf8'));
       if (h) {
         // El original, no un derivado de ancho (-800.avif) si existe.
@@ -75,6 +80,8 @@ if (process.argv.includes('--generar')) {
     }
     plan.push({ id: d._id, ruta, og, src, alt });
   }
+  // Una pagina cuyo hero es decorativo (alt="") toma el alt de otra con la misma imagen og.
+  for (const p of plan) if (!p.alt.en) Object.assign(p.alt, plan.find((q) => q.og === p.og && q.alt.en)?.alt ?? {});
   fs.writeFileSync(PLAN, JSON.stringify(plan, null, 1));
   const unicos = new Set(plan.map((p) => p.og));
   console.log(`${plan.length} documentos con pagina, ${unicos.size} imagenes og (${plan.filter((p) => p.og === DEFECTO).length} con la de la marca); plan en ${path.relative(RAIZ, PLAN)}`);
@@ -86,7 +93,10 @@ if (process.argv.includes('--subir')) {
   const { createRequire } = await import('node:module');
   const { getCliClient } = await import(createRequire(path.join(RAIZ, 'studio/package.json')).resolve('sanity/cli'));
   const c = getCliClient({ apiVersion: '2025-01-01' });
-  const { ultimaMigracion } = JSON.parse(fs.readFileSync(path.join(RAIZ, 'src/data/sanity-migracion.json'), 'utf8'));
+  // --hasta <fecha>: aceptar tambien lo editado hasta esa fecha. SOLO si esas ediciones son
+  // de quien migra (comprobado antes que no hay ninguna posterior de otra persona).
+  const hasta = process.argv.includes('--hasta') ? process.argv[process.argv.indexOf('--hasta') + 1] : null;
+  const ultimaMigracion = hasta ?? JSON.parse(fs.readFileSync(path.join(RAIZ, 'src/data/sanity-migracion.json'), 'utf8')).ultimaMigracion;
   const plan = JSON.parse(fs.readFileSync(PLAN, 'utf8'));
   const docs = await c.fetch('*[!(_id in path("drafts.**")) && !(_type match "sanity.*")]');
   const porId = new Map(docs.map((d) => [d._id, d]));
@@ -132,7 +142,9 @@ if (process.argv.includes('--subir')) {
   const parches = [], saltados = [];
   for (const p of plan) {
     const d = porId.get(p.id);
-    if (!d || d.seo?.imagenOg?.asset) continue;
+    // Ya con imagen: solo se completa el alt de una que este script dejo decorativa sin serlo.
+    const completarAlt = d?.seo?.imagenOg?.asset && d.seo.imagenOg.origen === p.og && d.seo.imagenOg.decorativa && p.alt.en;
+    if (!d || (d.seo?.imagenOg?.asset && !completarAlt)) continue;
     if (d._updatedAt > ultimaMigracion) { saltados.push(`${d._id} (${d._updatedAt})`); continue; }
     parches.push({ id: d._id, rev: d._rev, set: { 'seo.imagenOg': await imagen(p.og, p.src, p.alt) } });
   }
