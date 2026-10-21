@@ -166,6 +166,9 @@ if (TIPOS.has('siteSettings')) {
       ...(resenas.perfil?.url ? { fichaGoogle: resenas.perfil.url } : {}),
     },
     logo: await imagen('/images/logo-pergola-plus-florida.png', { en: 'Pergola Plus Florida logo' }),
+    // El video del hero se queda en el codigo; su poster es editable. Sin alt: es el
+    // fondo del hero y hoy no lleva ninguno (decorativa).
+    videoHero: { poster: await imagen('/images/hero-pergola-plus-florida-poster.avif', null) },
   });
 }
 

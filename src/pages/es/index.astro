@@ -10,7 +10,7 @@ import { HOME_ES } from '../../i18n/home.es';
 import { MINIATURAS_ES } from '../../../scripts/lib/miniaturas.mjs';
 import { grafo, localBusiness, sitioWeb } from '../../lib/jsonld';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
-import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
+import { FUENTE, paginaDe, fragmentoEstatica, posterHero } from '../../lib/sanity/fuente.mjs';
 
 // Home en español.
 //
@@ -57,7 +57,7 @@ if (faltan.length) {
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
   ogImage="/images/og-pergola-plus-florida.jpg"
-  preloadImagen="/images/hero-pergola-plus-florida-poster.avif"
+  preloadImagen={doc ? posterHero() : "/images/hero-pergola-plus-florida-poster.avif"}
 >
   {/* Las mismas reseñas que la home inglesa, y en el MISMO sitio: dentro de la
       banda `reviews`, entre su titular y el botón a testimonios. Esta página no

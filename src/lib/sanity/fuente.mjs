@@ -151,8 +151,18 @@ export function fragmentoColeccion(doc, idioma) {
  */
 export function fragmentoEstatica(doc, idioma) {
   const t = plantilla(doc._id);
-  return aplicarContacto(rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, null, idioma, conv)), contacto());
+  let html = aplicarContacto(rellenar(t.html, t.huecos, lectorSanity(t.huecos, doc, null, idioma, conv)), contacto());
+  // La home: el poster del video del hero, de siteSettings (el video sigue en el codigo).
+  if (doc._id === 'page-index') html = html.split(POSTER_MIGRADO).join(posterHero());
+  return html;
 }
+
+const POSTER_MIGRADO = '/images/hero-pergola-plus-florida-poster.avif';
+/** El poster del video de la home (siteSettings.videoHero.poster), o el migrado. */
+export const posterHero = () => {
+  const p = sanity().doc('siteSettings')?.videoHero?.poster;
+  return p?.asset ? rutaImagen(p) : POSTER_MIGRADO;
+};
 
 /** El documento `page-<id>` de una ruta estatica (o lanza: con Sanity, la pagina tiene que estar). */
 export function paginaDe(ruta) {

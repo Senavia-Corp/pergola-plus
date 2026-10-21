@@ -254,7 +254,7 @@ for (const ruta of RUTAS) {
     // 1200x630 del mismo video. Va AQUI por lo mismo que el noindex de arriba:
     // src/pages/index.astro es salida generada.
     ruta === '/' ? 'ogImage="/images/og-pergola-plus-florida.jpg"' : null,
-    ruta === '/' ? 'preloadImagen="/images/hero-pergola-plus-florida-poster.avif"' : null,
+    ruta === '/' ? 'preloadImagen={doc ? posterHero() : "/images/hero-pergola-plus-florida-poster.avif"}' : null,
     m.wfSite ? `wfSite=${JSON.stringify(m.wfSite)}` : null,
     nodos.length ? 'jsonLd={jsonLd}' : null,
   ].filter(Boolean).join('\n  ');
@@ -293,7 +293,7 @@ for (const ruta of RUTAS) {
   const salida = `---
 import BaseLayout from '${rel}layouts/BaseLayout.astro';
 import htmlRepo from '${rel}contenido-migrado/estaticas/${nombre}?raw';
-import { FUENTE, paginaDe, fragmentoEstatica } from '${rel}lib/sanity/fuente.mjs';
+import { FUENTE, paginaDe, fragmentoEstatica${ruta === '/' ? ', posterHero' : ''} } from '${rel}lib/sanity/fuente.mjs';
 ${importaResenas}${importaPartir}${importaLd}${
   nodos.length
     ? `\nconst site = Astro.site!.href;\nconst jsonLd = grafo(${nodos.join(', ')});\n`

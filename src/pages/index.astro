@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import htmlRepo from '../contenido-migrado/estaticas/index.html?raw';
-import { FUENTE, paginaDe, fragmentoEstatica } from '../lib/sanity/fuente.mjs';
+import { FUENTE, paginaDe, fragmentoEstatica, posterHero } from '../lib/sanity/fuente.mjs';
 import ReseñasGoogle from '../components/ReseñasGoogle.astro';
 import { partirEnMarca, MARCA_RESENAS } from '../lib/faq-ficha';
 import { grafo, localBusiness, sitioWeb, breadcrumbs } from '../lib/jsonld';
@@ -24,7 +24,7 @@ const resenas = partirEnMarca(html, "/", MARCA_RESENAS);
   title={doc ? doc.seo.titulo.en : "Pergola Plus Florida | Custom Pergolas & Outdoor Living"}
   description={doc ? doc.seo.descripcion?.en : "Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote."}
   ogImage="/images/og-pergola-plus-florida.jpg"
-  preloadImagen="/images/hero-pergola-plus-florida-poster.avif"
+  preloadImagen={doc ? posterHero() : "/images/hero-pergola-plus-florida-poster.avif"}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >
