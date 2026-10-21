@@ -12,6 +12,10 @@ import { canonica } from './src/lib/canonica.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
 import { ajustesSanity } from './src/lib/sanity/vite.mjs';
 import { FUENTE } from './src/lib/sanity/fuente.mjs';
+import { docsSanity } from './src/lib/sanity/traducidas.mjs';
+import { llmsDesde } from './src/lib/sanity/llms.mjs';
+import { rutaDe } from './src/lib/rutas-sanity.mjs';
+import MIGRACION from './src/data/sanity-migracion.json' with { type: 'json' };
 
 /**
  * Si este build se puede indexar. FALLA CERRADO: hay que declararlo, y quien no lo
@@ -385,16 +389,26 @@ function sitemapYRobots() {
           // provisional deja a sus lectores apuntando a una URL que va a morir. Es
           // ademas lo unico que el visitante se lleva a otro programa, donde el <meta
           // noindex> no le protege — un lector de RSS no lee <meta>.
-          for (const muerto of ['sitemap.xml', 'resources/blog/rss.xml']) {
+          for (const muerto of ['sitemap.xml', 'resources/blog/rss.xml', 'llms.txt']) {
             await fs.rm(path.join(raiz.pathname, muerto), { force: true });
           }
           logger.info(
-            'sin PUBLIC_ES_PRODUCCION=1: robots.txt rastreable sin sitemap, sin RSS y noindex en todo',
+            'sin PUBLIC_ES_PRODUCCION=1: robots.txt rastreable sin sitemap, sin RSS, sin llms.txt y noindex en todo',
           );
           return;
         }
 
         const entradas = [];
+        // Documentos editados en el Studio DESPUES de la ultima migracion: su _updatedAt es
+        // una fecha de modificacion real. Los demas lo llevan de la importacion, que no lo es.
+        const docs = docsSanity() ?? [];
+        const editadoEl = new Map();
+        for (const d of docs) {
+          if (!(d._updatedAt > MIGRACION.ultimaMigracion)) continue;
+          let r; try { r = canonica(rutaDe(d)); } catch { continue; }
+          editadoEl.set(r, d._updatedAt);
+          editadoEl.set(canonica('/es' + rutaDe(d)), d._updatedAt);
+        }
 
         for (const { pathname } of pages) {
           const sinIdioma = sinPrefijoIdioma(pathname);
@@ -414,7 +428,8 @@ function sitemapYRobots() {
           // tenemos fecha de modificacion fiable —el mtime del fuente se reinicia en
           // cada clon— y un lastmod inventado es peor que ninguno: Google deja de
           // hacerle caso al feed entero.
-          const lastmod = html.match(/"dateModified"\s*:\s*"([^"]+)"/)?.[1] ?? null;
+          const fechas = [html.match(/"dateModified"\s*:\s*"([^"]+)"/)?.[1], editadoEl.get(canonica(ruta))].filter(Boolean).sort();
+          const lastmod = fechas.at(-1) ?? null;
 
           // Los alternates salen del MISMO hreflang que ya lleva la pagina, asi que
           // no pueden contradecirlo.
@@ -448,18 +463,40 @@ function sitemapYRobots() {
 
         await fs.writeFile(path.join(raiz.pathname, 'sitemap.xml'), xml, 'utf8');
 
+        // Buscadores y asistentes que citan y enlazan: entran. Recolectores para entrenar
+        // modelos: fuera. Nombres comprobados en la documentacion oficial el 21-oct-2026
+        // solo los de Anthropic (support.claude.com); el resto, «a verificar» (las
+        // paginas oficiales no eran alcanzables desde el entorno del build).
+        const PERMITIDOS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User', 'Bingbot', 'Googlebot', 'Applebot'];
+        const BLOQUEADOS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Bytespider', 'meta-externalagent'];
+        const VERIFICADOS = new Set(['Claude-SearchBot', 'Claude-User', 'ClaudeBot']);
+        const nota = (ua) => (VERIFICADOS.has(ua) ? '' : ' # a verificar');
         const robots = [
+          '# /api/ es el endpoint de formularios: no es contenido y solo acepta POST.',
           'User-agent: *',
           'Allow: /',
-          '',
-          '# El endpoint de formularios no es contenido y solo acepta POST.',
           'Disallow: /api/',
+          '',
+          '# Busqueda y asistentes que enlazan al sitio.',
+          ...PERMITIDOS.flatMap((ua) => [`User-agent: ${ua}${nota(ua)}`]),
+          'Allow: /',
+          'Disallow: /api/',
+          '',
+          '# Recoleccion para entrenar modelos.',
+          ...BLOQUEADOS.flatMap((ua) => [`User-agent: ${ua}${nota(ua)}`]),
+          'Disallow: /',
           '',
           `Sitemap: ${new URL('/sitemap.xml', SITIO).href}`,
           '',
         ].join('\n');
 
         await fs.writeFile(path.join(raiz.pathname, 'robots.txt'), robots, 'utf8');
+
+        // /llms.txt: el negocio y las paginas indexables, desde Sanity.
+        if (docs.length) {
+          const enSitemap = new Set(entradas.map((e) => canonica(e.ruta)));
+          await fs.writeFile(path.join(raiz.pathname, 'llms.txt'), llmsDesde(docs, { sitio: SITIO, enSitemap, rutaDe, canonica }), 'utf8');
+        }
 
         const conFecha = entradas.filter((e) => e.lastmod).length;
         logger.info(
