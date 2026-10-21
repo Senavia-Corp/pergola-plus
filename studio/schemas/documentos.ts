@@ -19,7 +19,9 @@ const grupos = [
  */
 const SIN_USO = { hidden: true };
 const nombre = (title = 'Nombre') => defineField({ name: 'nombre', title, type: 'textoI18n', group: 'contenido', validation: (r) => r.required() });
-const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'bloque' }], group: 'contenido' });
+// Una pagina sin secciones (el calculador: lo pinta su componente desde el documento
+// «Estimador de proyectos») no enseña la lista vacia.
+const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'bloque' }], group: 'contenido', hidden: ({ document, value }) => document?._type === 'page' && !value?.length });
 const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array', of: [{ type: 'imagen' }], group: 'contenido', ...SIN_USO });
 const ref = (name: string, title: string, a: string[]) =>
   defineField({ name, title, type: 'array', of: [defineArrayMember({ type: 'reference', to: a.map((type) => ({ type })) })], group: 'contenido' });

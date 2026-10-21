@@ -332,9 +332,11 @@ export const bloque = defineType({
     defineField({ name: 'textos', title: 'Textos', type: 'array', of: [{ type: 'textoClave' }] }),
     defineField({ name: 'imagenes', title: 'Imágenes', type: 'array', of: [{ type: 'imagenClave' }] }),
     defineField({ name: 'enlaces', title: 'Enlaces', type: 'array', of: [{ type: 'enlaceClave' }] }),
-    defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }] }),
-    defineField({ name: 'elementos', title: 'Fotos de la galería', type: 'array', of: [{ type: 'elementoLista' }] }),
-    defineField({ name: 'referencias', title: 'Productos que se comparan', type: 'array', of: [{ type: 'referenciaClave' }] }),
+    // La estructura de cada seccion la fija su plantilla del codigo: una lista que la
+    // seccion no usa (vacia) no se enseña, para que el editor no vea huecos que no son.
+    defineField({ name: 'valores', title: 'Vídeos', type: 'array', of: [{ type: 'valorClave' }], hidden: ({ value }) => !value?.length }),
+    defineField({ name: 'elementos', title: 'Fotos de la galería', type: 'array', of: [{ type: 'elementoLista' }], hidden: ({ value }) => !value?.length }),
+    defineField({ name: 'referencias', title: 'Productos que se comparan', type: 'array', of: [{ type: 'referenciaClave' }], hidden: ({ value }) => !value?.length }),
   ],
   preview: {
     select: { clave: 'clave', t: 'textos.0.texto.en' },
