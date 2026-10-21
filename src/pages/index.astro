@@ -1,12 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import html from '../contenido-migrado/estaticas/index.html?raw';
+import htmlRepo from '../contenido-migrado/estaticas/index.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../lib/sanity/fuente.mjs';
 import ReseñasGoogle from '../components/ReseñasGoogle.astro';
 import { partirEnMarca, MARCA_RESENAS } from '../lib/faq-ficha';
 import { grafo, localBusiness, sitioWeb, breadcrumbs } from '../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(localBusiness(site), sitioWeb(site, 'en'));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 const resenas = partirEnMarca(html, "/", MARCA_RESENAS);
 
@@ -15,8 +21,8 @@ const resenas = partirEnMarca(html, "/", MARCA_RESENAS);
 ---
 
 <BaseLayout
-  title="Pergola Plus Florida | Custom Pergolas & Outdoor Living"
-  description="Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote."
+  title={doc ? doc.seo.titulo.en : "Pergola Plus Florida | Custom Pergolas & Outdoor Living"}
+  description={doc ? doc.seo.descripcion?.en : "Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote."}
   ogImage="/images/og-pergola-plus-florida.jpg"
   preloadImagen="/images/hero-pergola-plus-florida-poster.avif"
   wfSite="6903b7794d5df3d76a7a2488"

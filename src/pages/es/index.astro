@@ -9,6 +9,7 @@ import { HOME_ES } from '../../i18n/home.es';
 import { MINIATURAS_ES } from '../../../scripts/lib/miniaturas.mjs';
 import { grafo, localBusiness, sitioWeb } from '../../lib/jsonld';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 
 // Home en español.
 //
@@ -22,7 +23,11 @@ import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 // la que IX2 resuelve los ids page-scoped (los que llevan "|"), y esta página
 // usa exactamente esos elementos.
 
-const { html, traducidas, faltan } = traducirHtml(htmlOriginal, { ...HOME_ES, ...MINIATURAS_ES });
+// Con PP_FUENTE=sanity, el texto español es el del documento page-index (sin diccionario).
+const doc = FUENTE === 'sanity' ? paginaDe('/') : null;
+const { html, traducidas, faltan } = doc
+  ? { html: fragmentoEstatica(doc, 'es'), traducidas: 0, faltan: [] as string[] }
+  : traducirHtml(htmlOriginal, { ...HOME_ES, ...MINIATURAS_ES });
 
 // Se parte sobre el HTML YA TRADUCIDO: es el que se sirve, y `traducirHtml`
 // conserva los comentarios. `partirEnMarca` LANZA si la marca no esta.
@@ -43,10 +48,10 @@ if (faltan.length) {
 ---
 
 <BaseLayout
-  title="Pergola Plus Florida | Pérgolas a medida y vida al aire libre"
+  title={doc ? doc.seo.titulo.es : "Pergola Plus Florida | Pérgolas a medida y vida al aire libre"}
   {/* 158 caracteres. Estaba en 194 y Google corta alrededor de 160: la frase que
       cerraba —"Presupuesto gratis"— no llegaba a leerse. */}
-  description="Contratista de pérgolas con licencia en el sur de Florida. Pérgolas de lamas motorizadas, cubiertas de patio y cerramientos a medida, con presupuesto gratis."
+  description={doc ? doc.seo.descripcion?.es : "Contratista de pérgolas con licencia en el sur de Florida. Pérgolas de lamas motorizadas, cubiertas de patio y cerramientos a medida, con presupuesto gratis."}
   wfPage="6903b77b4d5df3d76a7a25a2"
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}

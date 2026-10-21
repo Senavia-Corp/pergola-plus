@@ -1,12 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import html from '../../contenido-migrado/estaticas/about-us__testimonials.html?raw';
+import htmlRepo from '../../contenido-migrado/estaticas/about-us__testimonials.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../../lib/sanity/fuente.mjs';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import { grafo, localBusiness, breadcrumbs } from '../../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Testimonials","/about-us/testimonials"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/about-us/testimonials") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 const resenas = partirEnMarca(html, "/about-us/testimonials", MARCA_RESENAS);
 
@@ -15,8 +21,8 @@ const resenas = partirEnMarca(html, "/about-us/testimonials", MARCA_RESENAS);
 ---
 
 <BaseLayout
-  title="Client Reviews & Testimonials | Pergola Plus"
-  description="What South Florida homeowners and businesses say about working with us, from the first design meeting to the finished installation."
+  title={doc ? doc.seo.titulo.en : "Client Reviews & Testimonials | Pergola Plus"}
+  description={doc ? doc.seo.descripcion?.en : "What South Florida homeowners and businesses say about working with us, from the first design meeting to the finished installation."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

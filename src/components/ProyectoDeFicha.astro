@@ -33,6 +33,7 @@
  */
 import { proyectosDeFicha } from '../lib/proyectos-ficha';
 import { PROYECTOS_ES } from '../i18n/proyectos.es';
+import { FUENTE, sanity, paginaDe, fragmentoEstatica, enIdioma } from '../lib/sanity/fuente.mjs';
 
 interface Props {
   /** El slug de la ficha de producto. */
@@ -43,11 +44,27 @@ interface Props {
   entradilla: string;
 }
 
-const { slug, idioma = 'en', titulo, entradilla } = Astro.props;
+const props = Astro.props;
+const { slug, idioma = 'en' } = props;
+
+// Con PP_FUENTE=sanity: la galeria es la pagina /project-gallery pintada desde su
+// documento (el mismo HTML), el titular y la entradilla son textos de la coleccion
+// (plantilla-product, bloque `proyectoDeFicha`) y el español de cada tarjeta, el de su
+// documento `project`.
+const S = FUENTE === 'sanity' ? sanity() : null;
+const textos = S?.doc('plantilla-product')?.secciones?.find((b: any) => b.clave === 'proyectoDeFicha')?.textos ?? [];
+const textoDe = (clave: string) => enIdioma(textos.find((t: any) => t.clave === clave)?.texto, idioma);
+const titulo = (S && textoDe('proyectoDeFicha.titulo')) || props.titulo;
+const entradilla = (S && textoDe('proyectoDeFicha.entradilla')) || props.entradilla;
+const esDe = (s: string) => {
+  if (!S) return PROYECTOS_ES[s];
+  const d = S.deTipo('project').find((x: any) => x.slug.current === s);
+  return d?.nombre?.es ? { nombre: d.nombre.es, description: enIdioma(d.seo?.descripcion, 'es') } : undefined;
+};
 
 // El HTML de la galeria se importa en crudo, igual que los fragmentos de las fichas.
 // Es salida generada y por tanto la unica fuente donde vive la etiqueta de producto.
-const galeria = Object.values(import.meta.glob(
+const galeria = S ? fragmentoEstatica(paginaDe('/project-gallery'), 'en') : Object.values(import.meta.glob(
   '../contenido-migrado/estaticas/project-gallery.html',
   { query: '?raw', import: 'default', eager: true },
 ))[0] as string;
@@ -55,7 +72,7 @@ const galeria = Object.values(import.meta.glob(
 const tarjetas = proyectosDeFicha(galeria, slug)
   .map((t) => {
     if (idioma !== 'es') return { ...t, ruta: `/project/${t.slug}` };
-    const es = PROYECTOS_ES[t.slug];
+    const es = esDe(t.slug);
     if (!es) return null;
     return { ...t, ruta: `/es/project/${t.slug}/`, titulo: es.nombre, texto: es.description };
   })

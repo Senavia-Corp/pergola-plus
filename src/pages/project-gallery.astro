@@ -1,18 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import html from '../contenido-migrado/estaticas/project-gallery.html?raw';
+import htmlRepo from '../contenido-migrado/estaticas/project-gallery.html?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '../lib/sanity/fuente.mjs';
 import { grafo, localBusiness, breadcrumbs } from '../lib/jsonld';
 
 const site = Astro.site!.href;
 const jsonLd = grafo(breadcrumbs(site, [["Project Gallery","/project-gallery"]]));
+
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe("/project-gallery") : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
 
 // Generado por scripts/generar-paginas.mjs desde el HTML real de /project-gallery.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
 
 <BaseLayout
-  title="Project Gallery | Pergola Plus Florida"
-  description="Browse custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County. Engineered for Florida codes."
+  title={doc ? doc.seo.titulo.en : "Project Gallery | Pergola Plus Florida"}
+  description={doc ? doc.seo.descripcion?.en : "Browse custom pergola, patio cover, and outdoor living projects across Miami-Dade, Broward, and Palm Beach County. Engineered for Florida codes."}
   wfSite="6903b7794d5df3d76a7a2488"
   jsonLd={jsonLd}
 >

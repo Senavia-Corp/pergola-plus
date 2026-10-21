@@ -11,6 +11,8 @@
  * El marcado de /thank-you sigue en su .astro: lo que hay aqui es su texto, trozo a
  * trozo, en el orden en que se pinta.
  */
+import { propiasSanity } from './contacto';
+
 export interface SeoPagina {
   title: string;
   description: string;
@@ -33,7 +35,8 @@ export interface CopiaGracias extends SeoPagina {
   botones: { obras: string; inicio: string };
 }
 
-export const PROPIAS_EN = {
+// Con PP_FUENTE=sanity, del documento page-<ruta> de cada una (src/lib/sanity/propias.mjs).
+export const PROPIAS_EN = propiasSanity?.PROPIAS_EN ?? {
   contacto: {
     title: 'Contact Pergola Plus Florida | Boca Raton, FL',
     description: 'Call, email or write to our Boca Raton team about pergolas, patio covers and screen enclosures anywhere in South Florida.',
@@ -77,7 +80,7 @@ export const PROPIAS_EN = {
   } as CopiaGracias,
 };
 
-export const PROPIAS_ES: typeof PROPIAS_EN = {
+export const PROPIAS_ES: typeof PROPIAS_EN = propiasSanity?.PROPIAS_ES ?? {
   contacto: {
     title: 'Contacte con Pergola Plus Florida | Boca Ratón',
     description: 'Llame, escriba o visítenos en Boca Ratón para hablar de pérgolas, cubiertas de patio y cerramientos en cualquier punto del sur de Florida.',

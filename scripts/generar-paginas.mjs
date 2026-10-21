@@ -235,8 +235,10 @@ for (const ruta of RUTAS) {
     ? `import { grafo, localBusiness, ${ld?.negocio ? 'sitioWeb, ' : ''}breadcrumbs } from '${rel}lib/jsonld';\n`
     : '';
 
+  // Con PP_FUENTE=sanity el contenido y el SEO salen del documento page-<id>; el
+  // literal de abajo es el del repo (y el de hoy).
   const props = [
-    `title=${JSON.stringify(propio.title ?? m.title ?? 'Pergola Plus Florida')}`,
+    `title={doc ? doc.seo.titulo.en : ${JSON.stringify(propio.title ?? m.title ?? 'Pergola Plus Florida')}}`,
     // Las que responden 200 y NO son contenido se declaran no indexables. Va AQUI y
     // no a mano en el .astro porque src/pages/ es salida generada: un `noindex`
     // escrito a mano lo revierte el siguiente regenerado, en silencio y justo en las
@@ -244,7 +246,7 @@ for (const ruta of RUTAS) {
     // notarse. Lo caza check:generadores, que fue quien lo cazó.
     NO_INDEXABLES.has(ruta) ? 'noindex' : null,
     (propio.description ?? m.description)
-      ? `description=${JSON.stringify(propio.description ?? m.description)}` : null,
+      ? `description={doc ? doc.seo.descripcion?.en : ${JSON.stringify(propio.description ?? m.description)}}` : null,
     m.ogImage ? `ogImage=${JSON.stringify(m.ogImage)}` : null,
     // La home: su elemento LCP es el poster del video del hero (paso 4m de
     // transformar.mjs) y es la unica pagina que lo sabe. El preload con prioridad
@@ -290,11 +292,17 @@ for (const ruta of RUTAS) {
 
   const salida = `---
 import BaseLayout from '${rel}layouts/BaseLayout.astro';
-import html from '${rel}contenido-migrado/estaticas/${nombre}?raw';
+import htmlRepo from '${rel}contenido-migrado/estaticas/${nombre}?raw';
+import { FUENTE, paginaDe, fragmentoEstatica } from '${rel}lib/sanity/fuente.mjs';
 ${importaResenas}${importaPartir}${importaLd}${
   nodos.length
     ? `\nconst site = Astro.site!.href;\nconst jsonLd = grafo(${nodos.join(', ')});\n`
-    : ''}${bloqueResenas}
+    : ''}
+// Con PP_FUENTE=sanity, el documento page-<id> pintado con su plantilla
+// (src/plantillas/page-<id>.html); si no, el fragmento migrado.
+const doc = FUENTE === 'sanity' ? paginaDe(${JSON.stringify(ruta)}) : null;
+const html = doc ? fragmentoEstatica(doc, 'en') : htmlRepo;
+${bloqueResenas}
 // Generado por scripts/generar-paginas.mjs desde el HTML real de ${ruta}.
 // NO editar a mano. El nav y el footer los pone BaseLayout.
 ---
