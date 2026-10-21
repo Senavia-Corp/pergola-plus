@@ -276,16 +276,24 @@ const enlaceEspecificacion = defineArrayMember({
   preview: { select: { title: 'texto.en', subtitle: 'junto' } },
 });
 
+/** Las fichas de EXCEPCIONES en scripts/comprobar-ritmo.mjs (se retiran a la vez). */
+const EXCEPCIONES_RITMO = new Set(['product-screen-enclosures']);
+
 export const product = defineType({
   name: 'product',
   // La ficha alterna bandas claras y oscuras: la oscura detras de las reseñas es el video
   // o «One We Built» (un proyecto con este producto). Sin ninguno de los dos salen dos
-  // claras seguidas (lo mide check:ritmo).
-  validation: (r) => r.custom(async (doc: { _id?: string; videoFicha?: unknown; especificaciones?: unknown } | undefined, ctx) => {
-    if (!doc?.especificaciones || doc.videoFicha) return true;
-    const id = String(doc._id).replace(/^drafts\./, '');
-    const n = await ctx.getClient({ apiVersion: '2025-01-01' }).fetch('count(*[_type == "project" && !(_id in path("drafts.**")) && references($id)])', { id });
-    return n > 0 ? true : 'Sin «Sección de vídeo», la ficha necesita al menos un proyecto con este producto (sección «One We Built»): si no, salen dos bandas claras seguidas';
+  // claras seguidas (lo mide check:ritmo). Las excepciones de check:ritmo (hoy
+  // screen-enclosures) solo avisan: con error, su ficha no se podria publicar.
+  validation: (r) => [false, true].map((excepcion) => {
+    const regla = r.custom(async (doc: { _id?: string; videoFicha?: unknown; especificaciones?: unknown } | undefined, ctx) => {
+      if (!doc?.especificaciones || doc.videoFicha) return true;
+      const id = String(doc._id).replace(/^drafts\./, '');
+      if (EXCEPCIONES_RITMO.has(id) !== excepcion) return true;
+      const n = await ctx.getClient({ apiVersion: '2025-01-01' }).fetch('count(*[_type == "project" && !(_id in path("drafts.**")) && references($id)])', { id });
+      return n > 0 ? true : 'Sin «Sección de vídeo», la ficha necesita al menos un proyecto con este producto (sección «One We Built»): si no, salen dos bandas claras seguidas';
+    });
+    return excepcion ? regla.warning() : regla;
   }),
   initialValue: plantillaInicial('product', ['secciones', 'tarjetas', 'tarjeta', 'especificaciones']),
   title: 'Producto',

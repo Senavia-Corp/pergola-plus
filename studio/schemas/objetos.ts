@@ -111,12 +111,6 @@ export const imagen = defineType({
       description: 'Describe lo que se ve, para quien no puede ver la imagen y para los buscadores.',
       type: 'textoI18n',
       hidden: ({ parent }) => parent?.decorativa === true,
-      validation: (r) =>
-        r.custom((alt: { en?: string } | undefined, ctx) => {
-          const padre = ctx.parent as { decorativa?: boolean; asset?: unknown } | undefined;
-          if (!padre?.asset || padre.decorativa) return true;
-          return alt?.en?.trim() ? true : 'Falta el texto alternativo en inglés';
-        }),
     }),
     defineField({
       name: 'procedencia',
@@ -139,6 +133,11 @@ export const imagen = defineType({
       hidden: ({ parent }) => parent?.procedencia !== 'real-cliente',
     }),
   ],
+  // En la imagen y no en el campo `alt`: Sanity no valida un campo objeto que no existe, y
+  // al subir una foto nueva `alt` no existe (medido en el Studio: sin aviso).
+  validation: (r) =>
+    r.custom((img: { asset?: unknown; decorativa?: boolean; alt?: { en?: string } } | undefined) =>
+      !img?.asset || img.decorativa || img.alt?.en?.trim() ? true : { message: 'Falta el texto alternativo en inglés', path: ['alt'] }),
 });
 
 /** SEO por documento. Los avisos de longitud NO bloquean: los títulos los elige el cliente. */
