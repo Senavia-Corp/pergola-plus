@@ -11,9 +11,16 @@ const grupos = [
   { name: 'contenido', title: 'Contenido', default: true },
   { name: 'seo', title: 'SEO' },
 ];
+/**
+ * Campo que el sitio NO lee (medido el 21-oct-2026 con grep sobre src/): lo que pinta va
+ * en `secciones`/`tarjetas` o esta fijo en el codigo. Oculto para que el editor no rellene
+ * algo que no cambia nada; los datos que ya tenga se conservan. Para usarlo, conectarlo
+ * en src/lib/sanity y quitar esta marca.
+ */
+const SIN_USO = { hidden: true };
 const nombre = (title = 'Nombre') => defineField({ name: 'nombre', title, type: 'textoI18n', group: 'contenido', validation: (r) => r.required() });
 const cuerpo = defineField({ name: 'secciones', title: 'Secciones', type: 'array', of: [{ type: 'bloque' }], group: 'contenido' });
-const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array', of: [{ type: 'imagen' }], group: 'contenido' });
+const galeria = defineField({ name: 'galeria', title: 'Galería', type: 'array', of: [{ type: 'imagen' }], group: 'contenido', ...SIN_USO });
 const ref = (name: string, title: string, a: string[]) =>
   defineField({ name, title, type: 'array', of: [defineArrayMember({ type: 'reference', to: a.map((type) => ({ type })) })], group: 'contenido' });
 const vistaNombre = { select: { title: 'nombre.en', subtitle: 'slug.current' } };
@@ -42,7 +49,7 @@ export const siteSettings = defineType({
   type: 'document',
   fields: [
     defineField({ name: 'nombreComercial', title: 'Nombre comercial', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'razonSocial', title: 'Razón social', type: 'string' }),
+    defineField({ name: 'razonSocial', title: 'Razón social', type: 'string', ...SIN_USO }),
     defineField({
       name: 'direccion',
       title: 'Dirección',
@@ -126,9 +133,9 @@ export const siteSettings = defineType({
       title: 'Vídeo de la portada',
       type: 'object',
       fields: [
-        defineField({ name: 'mp4', title: 'MP4 (escritorio)', type: 'file' }),
-        defineField({ name: 'mp4Movil', title: 'MP4 (móvil)', type: 'file' }),
-        defineField({ name: 'webm', title: 'WebM', type: 'file' }),
+        defineField({ name: 'mp4', title: 'MP4 (escritorio)', type: 'file', ...SIN_USO }),
+        defineField({ name: 'mp4Movil', title: 'MP4 (móvil)', type: 'file', ...SIN_USO }),
+        defineField({ name: 'webm', title: 'WebM', type: 'file', ...SIN_USO }),
         defineField({ name: 'poster', title: 'Fotograma de espera', type: 'imagen' }),
       ],
     }),
@@ -302,8 +309,8 @@ export const product = defineType({
   fields: [
     nombre(),
     slugFijo(),
-    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido' }),
-    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
+    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido', ...SIN_USO }),
+    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
     defineField({
       name: 'especificaciones',
@@ -359,7 +366,7 @@ export const product = defineType({
       type: 'textoI18n',
       group: 'contenido',
     }),
-    ref('marcas', 'Marcas', ['brand']),
+    { ...ref('marcas', 'Marcas', ['brand']), ...SIN_USO },
     ref('faqsPromovidas', 'Preguntas frecuentes de la ficha', ['faq']),
     seo,
   ],
@@ -375,8 +382,8 @@ export const service = defineType({
   fields: [
     nombre(),
     slugFijo(),
-    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido' }),
-    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
+    defineField({ name: 'resumen', title: 'Resumen (tarjetas y menú)', type: 'textoLargoI18n', group: 'contenido', ...SIN_USO }),
+    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
     galeria,
     tarjetas,
@@ -392,7 +399,7 @@ export const brand = defineType({
   title: 'Marca',
   type: 'document',
   groups: grupos,
-  fields: [nombre(), slugFijo(), defineField({ name: 'logo', title: 'Logo', type: 'imagen', group: 'contenido' }), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }), cuerpo, galeria, tarjetas, seo],
+  fields: [nombre(), slugFijo(), defineField({ name: 'logo', title: 'Logo', type: 'imagen', group: 'contenido', ...SIN_USO }), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }), cuerpo, galeria, tarjetas, seo],
   preview: vistaNombre,
 });
 
@@ -405,9 +412,9 @@ export const project = defineType({
   fields: [
     nombre(),
     slugFijo(),
-    defineField({ name: 'ubicacion', title: 'Ubicación', type: 'textoI18n', group: 'contenido' }),
+    defineField({ name: 'ubicacion', title: 'Ubicación', type: 'textoI18n', group: 'contenido', ...SIN_USO }),
     defineField({
-      name: 'portada',
+      name: 'portada', ...SIN_USO,
       title: 'Portada',
       description: 'En el portafolio, foto real del cliente siempre que exista.',
       type: 'imagen',
@@ -458,7 +465,7 @@ export const project = defineType({
     }),
     tarjetas,
     ref('productos', 'Productos', ['product']),
-    defineField({ name: 'ordenDestacado', title: 'Orden en «Featured Projects» (vacío = no destacado)', type: 'number', group: 'contenido' }),
+    defineField({ name: 'ordenDestacado', title: 'Orden en «Featured Projects» (vacío = no destacado)', type: 'number', group: 'contenido', ...SIN_USO }),
     seo,
   ],
   preview: vistaNombre,
@@ -537,7 +544,7 @@ export const county = defineType({
   title: 'Condado',
   type: 'document',
   groups: grupos,
-  fields: [nombre(), slugFijo(), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }), cuerpo, seo],
+  fields: [nombre(), slugFijo(), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }), cuerpo, seo],
   preview: vistaNombre,
 });
 
@@ -551,7 +558,7 @@ export const city = defineType({
     nombre(),
     slugFijo(),
     defineField({ name: 'condado', title: 'Condado', type: 'reference', to: [{ type: 'county' }], group: 'contenido', validation: (r) => r.required() }),
-    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido' }),
+    defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
     tarjetas,
     seo,
