@@ -4,7 +4,7 @@ import path from 'node:path';
 import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
-import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades } from './scripts/lib/transformar.mjs';
+import { dimensionarImagenes, responsivizarImagenes, precargarLcp, enlazarCiudades, limpiarFotosNuevas } from './scripts/lib/transformar.mjs';
 import { unirCss, versionarJs } from './scripts/lib/css.mjs';
 import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'json' };
 import { haciaEspanol } from './src/i18n/rutas.mjs';
@@ -216,7 +216,8 @@ function dimensionarHtml() {
             if (e.isDirectory()) { await recorrer(p); continue; }
             if (!e.name.endsWith('.html')) continue;
             const antes = await fs.readFile(p, 'utf8');
-            let despues = dimensionarImagenes(antes);
+            // Las fotos cambiadas en Sanity, sin las medidas ni el srcset de la de antes.
+            let despues = dimensionarImagenes(limpiarFotosNuevas(antes));
             // srcset ANTES del preload: el preload copia el srcset del <img>.
             const r1 = responsivizarImagenes(despues);
             despues = r1.html; resp.con += r1.con; resp.sinSizes += r1.sinSizes; resp.incompletas += r1.incompletas;

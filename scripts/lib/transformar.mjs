@@ -1227,7 +1227,10 @@ const DIMENSIONES = await (async () => {
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
   const f = fileURLToPath(new URL('../../src/lib/img-dim.json', import.meta.url));
-  try { return JSON.parse(await readFile(f, 'utf8')); } catch { return {}; }
+  const dims = await readFile(f, 'utf8').then(JSON.parse, () => ({}));
+  // Las fotos que el editor cambio en Sanity, medidas al descargarlas (scripts/sanity/instantanea.mjs).
+  const sanity = fileURLToPath(new URL('../../.cache/sanity/dimensiones.json', import.meta.url));
+  return { ...dims, ...(await readFile(sanity, 'utf8').then(JSON.parse, () => ({}))) };
 })();
 
 /**
@@ -1352,6 +1355,15 @@ export function candidatosCms(src) {
  *     Aqui no se lanza porque el primer build de un clon sin derivados tiene que
  *     poder terminar para que derivar-cms.mjs lea de el que fotos se pintan.
  */
+/**
+ * Las fotos que el editor cambio en Sanity (/cms-img/sanity/, descargadas en el build con
+ * sus derivados): fuera el srcset y las medidas que traiga la plantilla, que son los de la
+ * foto de antes. dimensionarImagenes() y responsivizarImagenes() ponen los suyos despues.
+ */
+export function limpiarFotosNuevas(html) {
+  return html.replace(/<img\s[^>]*\bsrc="\/cms-img\/sanity\/[^"]*"[^>]*>/g, (t) => t.replace(/\s(srcset|width|height)="[^"]*"/g, ''));
+}
+
 export function responsivizarImagenes(html) {
   const cuenta = { con: 0, sinSizes: 0, incompletas: 0, pequenas: 0 };
   const salida = html.replace(/<img\s([^>]*?)(\/?)>/g, (tal_cual, attrs, cierre) => {

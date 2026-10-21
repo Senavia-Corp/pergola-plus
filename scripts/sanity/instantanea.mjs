@@ -10,7 +10,8 @@
  * 2. Imagenes. Cada imagen migrada guarda su `origen` (la ruta de public/ de la que
  *    salio); mientras el asset sea ese fichero (el sha1 va en el id del asset) se pinta
  *    esa ruta, con su srcset de siempre. Si el editor cambio la foto, el asset nuevo se
- *    descarga de cdn.sanity.io a public/cms-img/sanity/<sha1>.<ext> (no va a git).
+ *    descarga de cdn.sanity.io a public/cms-img/sanity/<sha1>.<ext> (no va a git), con
+ *    sus derivados AVIF y sus medidas (.cache/sanity/dimensiones.json).
  * 3. Cerrado si falta algo: si la API no responde, o faltan los singletons, o una imagen
  *    no se puede resolver, lanza y el build no publica.
  *
@@ -20,10 +21,14 @@ import fs from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import sharp from 'sharp';
 import { partesAsset } from '../../src/lib/sanity/assets.mjs';
+import { CMS_ANCHOS } from '../lib/transformar.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '../..');
 export const SALIDA = path.join(RAIZ, '.cache/sanity/contenido.json');
+/** Medidas de las fotos descargadas (las lee scripts/lib/transformar.mjs: width/height y srcset). */
+const DIMENSIONES = path.join(RAIZ, '.cache/sanity/dimensiones.json');
 const PROYECTO = process.env.SANITY_PROJECT_ID ?? 'n0ct9t3k';
 const DATASET = process.env.SANITY_DATASET ?? 'production';
 const VERSION = process.env.SANITY_API_VERSION ?? '2025-01-01';
@@ -67,14 +72,36 @@ export async function instantanea() {
     Object.values(x).forEach(visitar);
   };
   visitar(docs);
+  const DIR = path.join(RAIZ, 'public/cms-img/sanity');
+  const dimensiones = {};
   for (const { url, ruta } of descargas.values()) {
     const destino = path.join(RAIZ, 'public', ruta);
-    if (existsSync(destino)) continue;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(`[sanity] no se puede descargar ${url}: HTTP ${r.status}`);
-    await fs.mkdir(path.dirname(destino), { recursive: true });
-    await fs.writeFile(destino, Buffer.from(await r.arrayBuffer()));
+    if (!existsSync(destino)) {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`[sanity] no se puede descargar ${url}: HTTP ${r.status}`);
+      await fs.mkdir(path.dirname(destino), { recursive: true });
+      await fs.writeFile(destino, Buffer.from(await r.arrayBuffer()));
+    }
+    // Sus medidas (width/height horneados) y sus derivados AVIF, los mismos anchos que el
+    // resto de fotos del CMS: el sitio la sirve desde aqui con su srcset, nunca desde
+    // cdn.sanity.io (scripts/lib/transformar.mjs lee .cache/sanity/dimensiones.json).
+    const meta = await sharp(destino).metadata();
+    dimensiones[ruta] = [meta.width, meta.height];
+    const base = destino.replace(/\.\w+$/, '');
+    for (const w of CMS_ANCHOS.filter((x) => x < meta.width)) {
+      const der = `${base}-${w}.avif`;
+      if (!existsSync(der)) await sharp(destino).resize({ width: w }).avif({ quality: 60 }).toFile(der);
+    }
   }
+  // Fuera lo que ya no pide ninguna imagen (una foto que el editor volvio a cambiar).
+  if (existsSync(DIR)) {
+    const vivas = new Set([...descargas.values()].map((d) => path.basename(d.ruta).replace(/\.\w+$/, '')));
+    for (const f of await fs.readdir(DIR)) {
+      if (!vivas.has(f.replace(/(-\d+)?\.\w+$/, ''))) await fs.rm(path.join(DIR, f));
+    }
+  }
+  await fs.mkdir(path.dirname(DIMENSIONES), { recursive: true });
+  await fs.writeFile(DIMENSIONES, JSON.stringify(dimensiones));
   const contenido = { leido: new Date().toISOString(), proyecto: PROYECTO, dataset: DATASET, docs, origenes };
   await fs.mkdir(path.dirname(SALIDA), { recursive: true });
   await fs.writeFile(SALIDA, JSON.stringify(contenido));

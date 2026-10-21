@@ -29,6 +29,8 @@
  * ingles y en español.
  */
 export const MARCA = '\u0001';
+/** Una foto que el editor cambio en Sanity: se descarga en el build a /cms-img/sanity/. */
+const FOTO_NUEVA = /^\/cms-img\/sanity\//;
 // Como el export de Webflow: el apostrofo siempre `&#x27;`, la comilla `&quot;` (en el
 // texto, salvo donde el original la lleva literal: hueco con `comillas: 'literal'`).
 const ESC = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#x27;');
@@ -64,7 +66,11 @@ export function rellenar(plantilla, huecos, valor) {
       // <img> entera derivada del src: la variante del prefijo de ruta mas largo que casa.
       const src = valor(h.de);
       if (src == null) throw new Error(`[plantilla] ${clave}: falta la imagen ${h.de}`);
-      const v = h.variantes.filter((x) => src.startsWith(x.prefijo)).sort((a, b) => b.prefijo.length - a.prefijo.length)[0];
+      // Una foto cambiada en Sanity (FOTO_NUEVA) no casa con ningun prefijo: va la primera
+      // variante, y sus medidas y su srcset las rehace limpiarFotosNuevas() sobre dist/.
+      const v = FOTO_NUEVA.test(src)
+        ? h.variantes[0]
+        : h.variantes.filter((x) => src.startsWith(x.prefijo)).sort((a, b) => b.prefijo.length - a.prefijo.length)[0];
       if (!v) throw new Error(`[plantilla] ${clave}: ninguna variante para ${src}`);
       return v.patron
         .split(MARCA + 'src' + MARCA).join(ESC_ATTR(src))
