@@ -1,13 +1,13 @@
 # Recomendaciones opcionales, fuera del alcance del diseño aprobado; aplicarlas requiere aprobación escrita del cliente
 
-Bloque S, noche del 21-oct-2026 (rama `entrega/cms-sanity-nube`). Nada de lo que sigue está aplicado. Cada punto dice qué cambiaría, dónde y cómo se comprueba.
+Bloque S, noche del 21-oct-2026 (rama `entrega/cms-sanity-nube`). Nada de lo que sigue está aplicado, salvo el punto 1, que se hizo después a petición (ver §7b del informe). Cada punto dice qué cambiaría, dónde y cómo se comprueba.
 
-## 1. Texto alternativo de 104 imágenes de contenido
+## 1. Texto alternativo de 104 imágenes de contenido (HECHO después, a revisar)
 
-- **Hoy:** en el build de producción, 104 ficheros de imagen de contenido se pintan con `alt=""`: galerías de ciudades, condados, servicios, marcas y proyectos; el marquee de fotos; las tarjetas del estimador; los logos de marca y el sello BBB. La lista, con el número de apariciones, está en `06-anexo-S2-alt-vacios.md`.
-- **Por qué no se hizo esta noche:** escribir esos alt cambia el `<body>` (es un atributo que no se ve). Además obliga a describir cada foto, y un texto sin la foto delante sería inventado.
-- **Propuesta:** que el cliente (o quien conozca cada proyecto) escriba el alt en inglés en el Studio. El español se traduce después y queda marcado para revisar.
-- **Cómo se comprueba:** `node scripts/perf/crawl.mjs <carpeta>` y el recuento de `alt=""` por clase.
+Se hizo a petición, después de este documento: ver §7b del informe.
+
+- Quedan vacíos a propósito: el sello BBB (su enlace lleva `aria-label`), las 9 fotos decorativas del estimador y las copias del marquee de logos.
+- **Lo que queda por hacer:** revisar los textos, en inglés y en español, en `scripts/sanity/migrar-alts-contenido.mjs` o en el Studio.
 
 ## 2. Títulos y descripciones largos (textos del cliente, sin tocar)
 
