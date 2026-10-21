@@ -12,19 +12,21 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { raizHtml } from './lib/dist.mjs';
 import { MINIATURAS_ES } from './lib/miniaturas.mjs';
+import { blog, ciudades as ciudadesEsperadas } from './lib/esperado.mjs';
 
 const RAIZ = path.resolve(import.meta.dirname, '..');
 const HTML = await raizHtml();
 const DIST = path.join(HTML, 'resources/blog');
 
-/** Las cuentas salen del CSV del CMS. Si el cliente publica mas, hay que subirlas. */
+/**
+ * Las cuentas salen de la fuente activa (scripts/lib/esperado.mjs): la instantanea de
+ * Sanity o, leyendo del repo, las del CSV del CMS.
+ */
+const B = blog();
+const TOTAL = B.total;
 const ESPERADO = {
-  index: 20, // 21 menos el destacado, que ya sale entero arriba
-  'buying-guides-cost': 9,
-  'outdoor-living-design': 6,
-  'materials-engineering': 3,
-  'pergolas-shade-systems': 2,
-  'maintenance-care': 1,
+  index: TOTAL - 1, // menos el destacado, que ya sale entero arriba
+  ...B.porCategoria,
 };
 
 /**
@@ -34,12 +36,7 @@ const ESPERADO = {
  * Las otras tres estan creadas y vacias; service-areas ademas chocaria con las 29
  * paginas reales de zonas de servicio del sitio.
  */
-const SIN_RUTA = [
-  'commercial-projects',
-  'patio-hardscape-services',
-  'service-areas',
-  'view-all',
-];
+const SIN_RUTA = [...B.sinRuta, 'view-all'];
 
 /** Cualquier <li> de tarjeta, sin depender del orden de los atributos. */
 const TARJETA = /<li [^>]*data-slug="[^"]*"[^>]*>/g;
@@ -61,8 +58,8 @@ for (const [ruta, n] of Object.entries(ESPERADO)) {
   const todas = html.match(TARJETA) ?? [];
   const visibles = todas.filter((t) => !OCULTA.test(t)).length;
   decir(
-    visibles === n && todas.length === 21,
-    `${ruta}: ${visibles} visibles de ${todas.length} en el DOM (esperado ${n} de 21)`,
+    visibles === n && todas.length === TOTAL,
+    `${ruta}: ${visibles} visibles de ${todas.length} en el DOM (esperado ${n} de ${TOTAL})`,
   );
 }
 
@@ -141,7 +138,7 @@ decir(
 if (process.env.PUBLIC_ES_PRODUCCION === '1') {
   const rss = await fs.readFile(path.join(DIST, 'rss.xml'), 'utf8');
   const items = (rss.match(/<item>/g) ?? []).length;
-  decir(items === 21, `el RSS trae los 21 items (trae ${items})`);
+  decir(items === TOTAL, `el RSS trae los ${TOTAL} items (trae ${items})`);
   decir(!/&(?!amp;|lt;|gt;|quot;|apos;|#)/.test(rss), 'el RSS no tiene ampersands sin escapar');
 } else {
   const hay = await fs.access(path.join(DIST, 'rss.xml')).then(() => true, () => false);
@@ -156,7 +153,7 @@ const rutasPost = (await fs.readdir(path.join(HTML, 'post'), { withFileTypes: tr
   .filter((d) => d.isDirectory())
   .map((d) => d.name);
 
-decir(rutasPost.length === 21, `se generan los 21 posts (${rutasPost.length})`);
+decir(rutasPost.length === TOTAL, `se generan los ${TOTAL} posts (${rutasPost.length})`);
 
 let conH1Malo = 0;
 let conOpacidad = 0;
@@ -212,14 +209,14 @@ decir(uno.includes('"dateModified"'), 'dateModified en el BlogPosting');
  * portada en el CMS y la tabla se queda atras, esto falla en vez de publicar una
  * tarjeta que ya no se parece al articulo que abre.
  */
-console.log('\nminiaturas de la banda de blog (home + 25 paginas de ciudad)');
+console.log('\nminiaturas de la banda de blog (home + paginas de ciudad)');
 
 const CIUDADES = path.join(HTML, 'pergolas-contractors');
 const ciudades = (await fs.readdir(CIUDADES, { withFileTypes: true }))
   .filter((d) => d.isDirectory())
   .map((d) => d.name);
 
-decir(ciudades.length === 25, `se generan las 25 paginas de ciudad (${ciudades.length})`);
+decir(ciudades.length === ciudadesEsperadas(), `se generan las ${ciudadesEsperadas()} paginas de ciudad (${ciudades.length})`);
 
 /** Portada de cada articulo, leida de su propia pagina construida. */
 const portada = {};

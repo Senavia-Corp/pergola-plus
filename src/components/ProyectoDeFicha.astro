@@ -31,7 +31,7 @@
  * se etiqueta un proyecto que no esta traducido, la tarjeta se queda fuera de /es/ en
  * vez de salir en ingles, igual que hace el listado del blog.
  */
-import { proyectosDeFicha } from '../lib/proyectos-ficha';
+import { proyectosDeFicha, tarjetasProyecto } from '../lib/proyectos-ficha';
 import { PROYECTOS_ES } from '../i18n/proyectos.es';
 import { FUENTE, sanity, paginaDe, fragmentoEstatica, enIdioma } from '../lib/sanity/fuente.mjs';
 
@@ -69,7 +69,15 @@ const galeria = S ? fragmentoEstatica(paginaDe('/project-gallery'), 'en') : Obje
   { query: '?raw', import: 'default', eager: true },
 ))[0] as string;
 
-const tarjetas = proyectosDeFicha(galeria, slug)
+// Con Sanity, los proyectos de la ficha son los que la llevan en `project.productos`; la
+// tarjeta es la de la galeria (mismo orden).
+const deLaFicha = S
+  ? (() => {
+    const suyos = new Set(S.deTipo('project').filter((p: any) => p.productos?.some((r: any) => S.doc(r._ref)?.slug?.current === slug)).map((p: any) => p.slug.current));
+    return tarjetasProyecto(galeria).filter((t) => suyos.has(t.slug));
+  })()
+  : proyectosDeFicha(galeria, slug);
+const tarjetas = deLaFicha
   .map((t) => {
     if (idioma !== 'es') return { ...t, ruta: `/project/${t.slug}` };
     const es = esDe(t.slug);

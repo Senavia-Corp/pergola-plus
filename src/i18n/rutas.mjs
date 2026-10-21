@@ -18,7 +18,9 @@
  * Los valores llevan barra final porque es la forma CANONICA que sirve Astro, y
  * Google solo hace caso a un hreflang si coincide con la canonica de la pagina.
  */
-export const TRADUCIDAS = {
+import { conColeccionesDeSanity } from '../lib/sanity/traducidas.mjs';
+
+const TRADUCIDAS_REPO = {
   '/': '/es/',
   // Ruta de conversion: lo que recorre un visitante desde que llega hasta que deja
   // sus datos. Se tradujo primero por eso — traducir una pagina de blog antes que el
@@ -150,6 +152,12 @@ export const TRADUCIDAS = {
   // que anotarle un hreflang no le dice nada a nadie. La pagina se construye igual
   // porque getStaticPaths lee PAGINAS_ES, no este mapa.
 };
+
+/**
+ * Con PP_FUENTE=sanity, las de las colecciones salen del dataset: una pagina creada en el
+ * Studio con su español entra sola (src/lib/sanity/traducidas.mjs).
+ */
+export const TRADUCIDAS = conColeccionesDeSanity(TRADUCIDAS_REPO);
 
 /** Inverso, construido una vez. */
 export const DESDE_ES = Object.fromEntries(
