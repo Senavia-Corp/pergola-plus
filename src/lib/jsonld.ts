@@ -27,9 +27,17 @@
  *   offers           las paginas de producto no publican precio.
  */
 import { canonica } from './canonica.mjs';
+import { negocioDesde } from './sanity/negocio.mjs';
 
-/** Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. */
-export const NEGOCIO = {
+// siteSettings horneado por Vite (src/lib/sanity/vite.mjs), o null leyendo del repo.
+declare const __PP_AJUSTES__: object | null | undefined;
+const ajustes = typeof __PP_AJUSTES__ === 'undefined' ? null : __PP_AJUSTES__;
+
+/**
+ * Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. Con
+ * PP_FUENTE=sanity salen de `siteSettings` con la misma forma (src/lib/sanity/negocio.mjs).
+ */
+const NEGOCIO_REPO = {
   nombre: 'Pergola Plus Florida',
   telefono: '+1-561-710-8363',
   email: 'info@pergolaplusflorida.com',
@@ -49,6 +57,7 @@ export const NEGOCIO = {
   /** Los tres condados que el sitio dice servir, en todas sus paginas. */
   condados: ['Miami-Dade County', 'Broward County', 'Palm Beach County'],
 } as const;
+export const NEGOCIO: typeof NEGOCIO_REPO = ajustes ? negocioDesde(ajustes) : NEGOCIO_REPO;
 
 // Siempre en forma canonica (con barra final): las URL del JSON-LD son las mismas que
 // el canonical de cada pagina, no una variante sin barra (ver src/lib/canonica.mjs).

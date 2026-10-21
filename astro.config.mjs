@@ -10,6 +10,7 @@ import CLASES_RUNTIME from './scripts/lib/clases-runtime.json' with { type: 'jso
 import { haciaEspanol } from './src/i18n/rutas.mjs';
 import { canonica } from './src/lib/canonica.mjs';
 import { REDIRECCIONES_DOMINIO } from './src/data/redirecciones-dominio.mjs';
+import { ajustesSanity } from './src/lib/sanity/vite.mjs';
 
 /**
  * Si este build se puede indexar. FALLA CERRADO: hay que declararlo, y quien no lo
@@ -535,6 +536,9 @@ export default defineConfig({
   // El orden importa: primero se dimensionan las imagenes y luego se genera el
   // sitemap, que lee el HTML ya final para sacar los hreflang y el lastmod.
   integrations: [dimensionarHtml(), sitemapYRobots()],
+
+  // siteSettings horneado para jsonld.ts (y la funcion /api/lead): src/lib/sanity/vite.mjs.
+  vite: { define: ajustesSanity() },
 
   // Redirects 301. Van en la config y no en JavaScript de cliente: un redirect que
   // necesita que el navegador ejecute algo no lo sigue ningun buscador, y pierde el
