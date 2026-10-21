@@ -33,6 +33,8 @@ export interface CopiaGracias extends SeoPagina {
   /** «… Call [telefono] during business hours … or write to [correo].» */
   prisa: { antes: string; entre: string; despues: string };
   botones: { obras: string; inicio: string };
+  /** La frase de entrada segun el formulario de origen (`?de=`), en data-* para el script. */
+  porFormulario: { quote: string; contact: string; footer: string; estimador: string };
 }
 
 // Con PP_FUENTE=sanity, del documento page-<ruta> de cada una (src/lib/sanity/propias.mjs).
@@ -77,6 +79,12 @@ export const PROPIAS_EN = propiasSanity?.PROPIAS_EN ?? {
       despues: '.',
     },
     botones: { obras: 'See our recent work', inicio: 'Back to the main page' },
+    porFormulario: {
+      quote: 'A member of our design team is reviewing your project details.',
+      contact: 'A member of our team is reading your message.',
+      footer: 'You are on the list — we will send you our outdoor living updates.',
+      estimador: 'Your itemized estimate is on its way to your inbox, and a project consultant will call you within one business day.',
+    },
   } as CopiaGracias,
 };
 
@@ -121,5 +129,11 @@ export const PROPIAS_ES: typeof PROPIAS_EN = propiasSanity?.PROPIAS_ES ?? {
       despues: '.',
     },
     botones: { obras: 'Vea nuestro trabajo', inicio: 'Volver a la página principal' },
+    porFormulario: {
+      quote: 'Alguien de nuestro equipo de diseño está revisando los detalles de su proyecto.',
+      contact: 'Alguien de nuestro equipo está leyendo su mensaje.',
+      footer: 'Ya está en la lista: le enviaremos nuestras novedades de vida al aire libre.',
+      estimador: 'Su estimado desglosado va camino de su correo, y un asesor de proyecto le llamará en un día laborable.',
+    },
   },
 };
