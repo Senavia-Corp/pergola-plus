@@ -1,5 +1,11 @@
 # Entrega 2026-10 · Qué falta para terminar · 21-oct-2026
 
+> **Actualización 21-oct, tarde:**
+> - PR #1, #2 y #3 fusionados: `main` está en `7509dc9` y el deploy de producción está en READY, verificado (218 páginas con `noindex`, robots bloqueante, 64/64 URL antiguas).
+> - El deploy hook apunta a `main` (`sanity-production-main`, webhook «Vercel producción · main», probado de extremo a extremo). El hook viejo está revocado y el webhook viejo, desactivado.
+> - El equipo de Vercel pasó a Pro, después de que las escrituras en masa en Sanity, con el webhook activo, agotaran el cupo de 100 deploys diarios de Hobby.
+> - Por eso el bloqueante 1 y el P1 10 están **resueltos**.
+
 Medido hoy sobre `entrega/cms-sanity-nube` (`8313f95`), el proyecto de Vercel `pergola-plus-preview` y el proyecto de Sanity `n0ct9t3k`. Todas las lecturas fueron de solo lectura.
 
 ## Veredicto
@@ -35,7 +41,7 @@ El SEO técnico de las páginas está terminado y medido. Lo que bloquea el lanz
 
 | # | Qué | Por qué bloquea | Dueño | Acción |
 |---|---|---|---|---|
-| 1 | **El trabajo no está en `main`** | Producción en Vercel sirve `main` (`7feee86`, 18-oct), sin rendimiento ni Sanity | Senavia | Fusionar en orden: PR #1 (`perf/100-cwv` → `main`), PR #2 (`nube` → `entrega/cms-sanity`) y uno nuevo `entrega/cms-sanity` → `main`. Cambiar después la rama del deploy hook a `main` |
+| 1 | ~~**El trabajo no está en `main`**~~ **RESUELTO** (`7509dc9`) | Producción en Vercel sirve `main` (`7feee86`, 18-oct), sin rendimiento ni Sanity | Senavia | Fusionar en orden: PR #1 (`perf/100-cwv` → `main`), PR #2 (`nube` → `entrega/cms-sanity`) y uno nuevo `entrega/cms-sanity` → `main`. Cambiar después la rama del deploy hook a `main` |
 | 2 | **SMTP sin configurar** | Sin `SMTP_*` ni `LEAD_WEBHOOK_URL`, `/api/lead` devuelve 500 y el visitante ve el teléfono: **los formularios no captan** | Daniel (buzón y App Password) / Senavia | Definir `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `LEAD_NOTIFY_TO` en Vercel (production), o `LEAD_WEBHOOK_URL`. Probar los 3 formularios EN/ES |
 | 3 | **Antibot sin secreto** | Sin `TURNSTILE_SECRET_KEY` los leads entran `verificado:false`; el widget ya está montado en las 2 páginas de captación | Daniel / Senavia | Crear el secreto en Cloudflare Turnstile para el dominio y definirlo en Vercel |
 | 4 | **DNS y dominio** | `www.pergolaplusflorida.com` sigue en el Webflow antiguo; el proyecto de Vercel no tiene dominio propio | Daniel (o acceso para `sebastian@senaviacorp.com`) | Añadir el dominio en Vercel y cambiar A/CNAME. Mismo día: `PUBLIC_SITE_URL` = dominio, `PUBLIC_ES_PRODUCCION=1`, quitar Vercel Authentication de producción y redeploy |
@@ -56,7 +62,7 @@ El SEO técnico de las páginas está terminado y medido. Lo que bloquea el lanz
 | 7 | Google Business Profile: credenciales de la API para el carrusel de reseñas (hoy el snapshot es manual) y NAP idéntico al del sitio y el JSON-LD | Cliente | Los 4 pasos de la cabecera de `scripts/traer-resenas.mjs` |
 | 8 | Recorrer las animaciones en un navegador visible (home, producto, servicio, post) | Senavia | Pendiente desde `docs/estado-final.md` |
 | 9 | Copy de los 3 proyectos nuevos (Boca Beach Sukkah, Elan Polo Club, Jupiter Ocean Club) y decisión sobre `/contact-us/get-services` | Cliente | — |
-| 10 | Webhook de Sanity: hoy cada publicación lanza un build del preview de `entrega/cms-sanity-nube`, y un cambio masivo deja varios en cola | Senavia | Al fusionar, el deploy hook va a `main` |
+| 10 | ~~Webhook de Sanity a la rama del preview~~ **RESUELTO**: apunta a `main`. Ojo: cada publicación reconstruye producción, así que las escrituras en masa se hacen con el webhook desactivado | Senavia | — |
 | 11 | RSS: no difundirlo hasta confirmar el dominio (los `<guid>` son permanentes) | Senavia | — |
 
 ## 4. Mejoras (P2)
@@ -73,7 +79,7 @@ El SEO técnico de las páginas está terminado y medido. Lo que bloquea el lanz
 
 ## 5. Plan del día del lanzamiento
 
-1. Fusionar la cadena de PRs a `main` y confirmar en Vercel que producción sirve el commit nuevo (READY).
+1. ~~Fusionar la cadena de PRs a `main`~~ Hecho (`7509dc9`, READY). Si hay commits nuevos, confirmar que producción sirve el último.
 2. Variables de producción en Vercel:
    - `SMTP_*` (o `LEAD_WEBHOOK_URL`);
    - `TURNSTILE_SECRET_KEY`;
@@ -104,4 +110,4 @@ El SEO técnico de las páginas está terminado y medido. Lo que bloquea el lanz
 
 ## 7. Siguiente paso
 
-La auditoría profunda por roles está en `docs/PROMPT-AUDITORIA-SEO-ENTREGA.md`. Su entregable irá en `08-AUDITORIA-SEO-ENTREGA.md`. Conviene ejecutarla después de fusionar a `main` y antes del cambio de DNS.
+La auditoría final, completa, está en `docs/PROMPT-AUDITORIA-SEO-ENTREGA.md`: sitio, Vercel, Sanity y el Webflow en vivo como línea base, sin las restricciones heredadas de Webflow. Su entregable irá en `08-AUDITORIA-SEO-FINAL.md`. Ya se puede ejecutar: `main` está fusionado. Tiene que ser antes del cambio de DNS.
