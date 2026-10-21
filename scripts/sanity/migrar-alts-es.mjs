@@ -20,7 +20,7 @@ import path from 'node:path';
 
 export const ALTS_ES_NUEVOS = {
   'Motorized screen systems integrated with pergolas and patio covers for enhanced comfort and privacy in South Florida homes.':
-    'Sistemas de pantallas motorizadas integrados con pérgolas y cubiertas de patio para más confort y privacidad en viviendas del sur de Florida.',
+    'Sistemas de cortinas motorizadas integrados con pérgolas y cubiertas de patio para más confort y privacidad en viviendas del sur de Florida.',
   'Custom Renaissance pergola installed in Boca Raton, integrated with a luxury poolside patio design.':
     'Pérgola Renaissance a medida instalada en Boca Raton, integrada en el diseño de un patio de lujo junto a la piscina.',
   'Comparison of aluminum vs wood pergolas in high-humidity environments.':
@@ -32,7 +32,7 @@ export const ALTS_ES_NUEVOS = {
   'Structural patio renovation with reinforced base at South Florida luxury home.':
     'Renovación estructural de un patio con base reforzada en una vivienda de lujo del sur de Florida.',
   'Professionally installed screen enclosures designed for comfort, protection, and seamless outdoor integration in South Florida.':
-    'Cerramientos de mosquitero instalados por profesionales, diseñados para el confort, la protección y la integración con el exterior en el sur de Florida.',
+    'Cerramientos con mosquitero instalados por profesionales, diseñados para el confort, la protección y la integración con el exterior en el sur de Florida.',
   'Custom engineered aluminum pergola installed on luxury South Florida residence with structural reinforced columns.':
     'Pérgola de aluminio a medida con cálculo estructural, instalada en una residencia de lujo del sur de Florida con columnas reforzadas.',
   'Custom Equinox louvered pergola professionally installed in Boca Raton, engineered for luxury outdoor living in South Florida.':
