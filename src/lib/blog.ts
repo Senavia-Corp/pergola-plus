@@ -6,10 +6,12 @@
  * portatil; aqui rompe el build en Vercel, porque esta pagina si renderiza desde el
  * CSV. Se copian al repo a proposito.
  *
- * Fase 3: este modulo es el unico que cambia. En vez de parsear CSV consulta Sanity
- * y devuelve la misma forma; las plantillas no se enteran.
+ * Fase 3: con PP_FUENTE=sanity los posts y las categorias salen de Sanity
+ * (src/lib/sanity/blog.mjs) con la misma forma; las plantillas no se enteran.
  */
 import { canonica } from './canonica.mjs';
+import { FUENTE, sanity, rutaImagen, hrefDe } from './sanity/fuente.mjs';
+import { blogDesde } from './sanity/blog.mjs';
 import { parseCSV } from '../../scripts/lib/csv.mjs';
 import { img, imgAlt, type EntradaImagen } from './img';
 import csvPosts from '../data/blog-posts.csv?raw';
@@ -87,6 +89,9 @@ function slugCategoria(celda: string): string {
   return celda.split(/;\s*/)[0]!.trim();
 }
 
+/** El blog leido de Sanity, o null si el build lee del repo. */
+export const blogSanity = FUENTE === 'sanity' ? blogDesde(sanity(), { rutaImagen, hrefDe }) : null;
+
 const filasCategorias = parseCSV(csvCategorias).filter(
   (c) => c.Slug !== SLUG_VER_TODO && c.Archived !== 'true' && c.Draft !== 'true',
 );
@@ -106,7 +111,7 @@ const porSlug = new Map<string, Categoria>(
 );
 
 /** Las 8 categorias reales del CMS, incluidas las 3 vacias. Mas llenas primero. */
-export const categorias: Categoria[] = [...porSlug.values()].sort(
+export const categorias: Categoria[] = blogSanity?.categorias ?? [...porSlug.values()].sort(
   (a, b) => b.total - a.total || a.nombre.localeCompare(b.nombre),
 );
 
@@ -125,7 +130,7 @@ export const categoriasConPosts: Categoria[] = categorias.filter((c) => c.total 
  * segundo (Feb 23 2026 23:00:35), asi que seria un empate de 20. Se usa solo para
  * MOSTRAR la fecha y para el JSON-LD, que es donde corresponde.
  */
-export const posts: Post[] = filasPosts
+export const posts: Post[] = blogSanity?.posts ?? filasPosts
   .map((f): Post => {
     const cat = porSlug.get(slugCategoria(f.Categories!));
     if (!cat) throw new Error(`[blog] categoria desconocida en ${f.Slug}: ${f.Categories}`);
@@ -230,7 +235,7 @@ const COPY: Record<string, CopyCategoria> = {
 
 export function copyDe(cat: Categoria): CopyCategoria {
   return (
-    COPY[cat.slug] ?? {
+    (blogSanity ? blogSanity.copy[cat.slug] : COPY[cat.slug]) ?? {
       titulo: cat.nombre,
       meta: `${cat.nombre} articles from Pergola Plus Florida.`,
       intro: `Articles filed under ${cat.nombre}.`,

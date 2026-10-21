@@ -20,7 +20,8 @@ import { canonica } from '../../lib/canonica.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/post/_items.json';
 import Articulo from '../../components/Articulo.astro';
-import { posts, postsDe, fechaLarga, fechaIso, organizacion } from '../../lib/blog';
+import { posts, postsDe, fechaLarga, fechaIso, organizacion, blogSanity } from '../../lib/blog';
+import { FUENTE, sanity, itemDe } from '../../lib/sanity/fuente.mjs';
 import { prepararArticulo } from '../../lib/articulo';
 import '../../styles/blog.css';
 
@@ -31,11 +32,18 @@ const fragmentos = import.meta.glob('../../contenido-migrado/post/*.html', {
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('post').map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items) } }));
+  }
   return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
 const { item } = Astro.props;
-const bruto = fragmentos['../../contenido-migrado/post/' + item.slug + '.html'] as string | undefined;
+// Con Sanity, el texto del articulo sale del documento (Portable Text) con el mismo
+// envoltorio que el fragmento: prepararArticulo hace el resto igual.
+const bruto = (blogSanity
+  ? `<div class="rich-text-block w-richtext">${blogSanity.cuerpos[item.slug]!.en}</div>`
+  : fragmentos['../../contenido-migrado/post/' + item.slug + '.html']) as string | undefined;
 if (!bruto) throw new Error('sin fragmento para post/' + item.slug);
 
 // Los metadatos (categoria, fecha, tiempo de lectura) NO estan en _items.json:

@@ -14,7 +14,8 @@ import { canonica } from '../../../lib/canonica.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import items from '../../../contenido-migrado/post/_items.json';
 import Articulo from '../../../components/Articulo.astro';
-import { posts, postsDe, organizacion } from '../../../lib/blog';
+import { posts, postsDe, organizacion, blogSanity } from '../../../lib/blog';
+import { FUENTE, sanity, itemDe } from '../../../lib/sanity/fuente.mjs';
 import { prepararArticulo } from '../../../lib/articulo';
 import { traducirHtml } from '../../../i18n';
 import {
@@ -34,14 +35,18 @@ const fragmentos = import.meta.glob('../../../contenido-migrado/post/*.html', {
 });
 
 export function getStaticPaths() {
+  if (FUENTE === 'sanity') {
+    return sanity().deTipo('post').filter((doc) => traducidos(doc.slug.current))
+      .map((doc) => ({ params: { slug: doc.slug.current }, props: { item: itemDe(doc, items) } }));
+  }
   return items
     .filter((item) => traducidos(item.slug))
     .map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
 const { item } = Astro.props;
-const bruto = fragmentos['../../../contenido-migrado/post/' + item.slug + '.html'] as string | undefined;
-if (!bruto) throw new Error('sin fragmento para post/' + item.slug);
+const bruto = blogSanity ? '' : fragmentos['../../../contenido-migrado/post/' + item.slug + '.html'] as string | undefined;
+if (!blogSanity && !bruto) throw new Error('sin fragmento para post/' + item.slug);
 
 const i = posts.findIndex((p) => p.slug === item.slug);
 if (i === -1) throw new Error(`[post] ${item.slug} no esta en el CSV del CMS`);
@@ -54,7 +59,10 @@ const meta = POSTS_ES[item.slug]!;
 // COMUN_ES cubre lo que el fragmento comparte con el resto del sitio: las tarjetas
 // del bloque de destacados y el CTA del pie. El diccionario del articulo solo trae
 // SU texto, y manda sobre lo comun si coinciden.
-const { html, traducidas, faltan } = traducirHtml(bruto, { ...COMUN_ES, ...ALTS_ES, ...CUERPOS_ES[item.slug]! });
+// Con Sanity el texto español ya viene del documento: no se traduce con diccionario.
+const { html, traducidas, faltan } = blogSanity
+  ? { html: `<div class="rich-text-block w-richtext">${blogSanity.cuerpos[item.slug]!.es}</div>`, traducidas: 0, faltan: [] as string[] }
+  : traducirHtml(bruto as string, { ...COMUN_ES, ...ALTS_ES, ...CUERPOS_ES[item.slug]! });
 if (faltan.length) {
   console.warn(`\n  [i18n] /es/post/${item.slug} — ${traducidas} traducidas, ${faltan.length} SIN traducir:`);
   for (const f of faltan) console.warn(`         · ${f.slice(0, 110)}`);
