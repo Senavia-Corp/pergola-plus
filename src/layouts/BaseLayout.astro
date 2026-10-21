@@ -8,6 +8,7 @@ import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 import { SITIO } from '../lib/ajustes';
 import { NEGOCIO } from '../lib/jsonld';
 import { dimensionesOg } from '../lib/og.mjs';
+import { FUENTE, ogDeRuta } from '../lib/sanity/fuente.mjs';
 // Va PRIMERO: define los @font-face, y el CSS migrado que viene después ya usa Inter.
 import '../styles/fuentes.css';
 import '../styles/tipografia.css';
@@ -132,7 +133,7 @@ interface Props {
 const {
   title,
   description = 'Licensed South Florida pergola contractor. Custom motorized louvered pergolas, patio covers & outdoor structures. 10+ years experience. Free quote.',
-  ogImage = '/images/og-pergola-plus-florida.jpg',
+  ogImage: ogImageProp = '/images/og-pergola-plus-florida.jpg',
   preloadImagen,
   canonical,
   noindex = false,
@@ -156,6 +157,9 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 // es la misma pieza que decide la canonica — asi que en un build provisional apunta a
 // localhost, igual que todo lo demas, y eso es lo correcto: esas paginas van
 // `noindex` y sin sitemap. Una URL ya absoluta pasa intacta por `new URL`.
+// Con Sanity, la del documento de la ruta (seo.imagenOg) o la por defecto de siteSettings:
+// el editor la cambia en el Studio. La prop y su valor por defecto quedan para PP_FUENTE=repo.
+const ogImage = (FUENTE === 'sanity' ? ogDeRuta(Astro.url.pathname) : undefined) ?? ogImageProp;
 const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
 const ogMedidas = ogImage ? await dimensionesOg(ogImage) : null;
 

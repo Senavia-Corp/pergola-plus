@@ -172,11 +172,30 @@ export function paginaDe(ruta) {
   return d;
 }
 
+/** og:image de un documento: su `seo.imagenOg` (scripts/sanity/og-documentos.mjs). */
+const ogDe = (doc) => (doc?.seo?.imagenOg?.asset ? rutaImagen(doc.seo.imagenOg) : undefined);
+
+let porRuta = null;
 /**
- * Metadatos de una pagina de coleccion para BaseLayout. title/description salen del SEO
- * del documento; wfPage/wfSite (atributos heredados de Webflow, iguales en toda la
- * coleccion) y la imagen OG generada (scripts/generar-og.mjs) salen de _items.json, y
- * un documento nuevo hereda los de la coleccion y se queda sin OG propia.
+ * og:image de una ruta del sitio (EN o /es/): la de su documento y, si no tiene, la de
+ * siteSettings.imagenOgPorDefecto. Los documentos creados en el Studio se encuentran
+ * igual, por su tipo y su slug.
+ */
+export function ogDeRuta(pathname) {
+  const c = sanity();
+  if (!porRuta) {
+    porRuta = new Map();
+    for (const d of c.docs) { try { porRuta.set(rutaDe(d), d); } catch { /* sin pagina */ } }
+  }
+  const r = pathname.replace(/^\/es(?=\/|$)/, '').replace(/\/+$/, '') || '/';
+  const defecto = c.doc('siteSettings')?.imagenOgPorDefecto;
+  return ogDe(porRuta.get(r)) ?? (defecto?.asset ? rutaImagen(defecto) : undefined);
+}
+
+/**
+ * Metadatos de una pagina de coleccion para BaseLayout. title/description y la imagen OG
+ * salen del SEO del documento; wfPage/wfSite (atributos heredados de Webflow, iguales en
+ * toda la coleccion) salen de _items.json, y un documento nuevo hereda los de la coleccion.
  */
 export function itemDe(doc, items, idioma = 'en') {
   const slug = doc.slug.current;
@@ -185,7 +204,7 @@ export function itemDe(doc, items, idioma = 'en') {
     slug,
     title: enIdioma(doc.seo?.titulo, idioma) ?? enIdioma(doc.nombre, idioma),
     description: enIdioma(doc.seo?.descripcion, idioma) ?? null,
-    ogImage: viejo?.ogImage ?? null,
+    ogImage: ogDe(doc) ?? viejo?.ogImage ?? null,
     wfPage: viejo?.wfPage ?? items[0]?.wfPage ?? null,
     wfSite: viejo?.wfSite ?? items[0]?.wfSite ?? null,
   };
