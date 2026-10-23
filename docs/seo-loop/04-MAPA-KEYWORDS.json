@@ -761,16 +761,18 @@
       "seoptimer": null
     },
     "/products/cabanas/": {
-      "principal": "aluminum cabanas",
+      "principal": "cabanas",
       "intencion": "comercial",
       "secundarias": [
+        "aluminum cabanas",
         "pool cabana florida",
         "custom cabana south florida"
       ],
       "evidenciaSerp": [
         "S05"
       ],
-      "seoptimer": null
+      "seoptimer": null,
+      "nota": "Principal = el nombre del producto (H1), que el cliente pidió mantener y que el módulo de productos de la home pinta (R3, R4). Cambio del 23-oct-2026, F2."
     },
     "/products/carports/": {
       "principal": "aluminum carports",
@@ -851,21 +853,24 @@
       ]
     },
     "/products/motorized-screens/": {
-      "principal": "motorized patio screens",
+      "principal": "motorized screens",
       "intencion": "comercial",
       "secundarias": [
+        "motorized patio screens",
         "motorized pergola screens",
         "retractable patio screens florida"
       ],
       "evidenciaSerp": [
         "S04"
       ],
-      "seoptimer": null
+      "seoptimer": null,
+      "nota": "Principal = el nombre del producto (H1), que el cliente pidió mantener y que el módulo de productos de la home pinta (R3, R4). Cambio del 23-oct-2026, F2."
     },
     "/products/open-air-pergolas/": {
-      "principal": "open-air aluminum pergolas",
+      "principal": "open-air pergolas",
       "intencion": "comercial",
       "secundarias": [
+        "open-air aluminum pergolas",
         "aluminum pergola",
         "modern aluminum pergola"
       ],
@@ -886,31 +891,36 @@
           "cpc": 9.74,
           "competencia": "Bajo"
         }
-      ]
+      ],
+      "nota": "Principal = el nombre del producto (H1), que el cliente pidió mantener y que el módulo de productos de la home pinta (R3, R4). Cambio del 23-oct-2026, F2."
     },
     "/products/polycarbonate-pergolas/": {
-      "principal": "polycarbonate roof pergolas",
+      "principal": "polycarbonate pergolas",
       "intencion": "comercial",
       "secundarias": [
+        "polycarbonate roof pergolas",
         "polycarbonate patio cover",
         "clear roof pergola"
       ],
       "evidenciaSerp": [
         "S11"
       ],
-      "seoptimer": null
+      "seoptimer": null,
+      "nota": "Principal = el nombre del producto (H1), que el cliente pidió mantener y que el módulo de productos de la home pinta (R3, R4). Cambio del 23-oct-2026, F2."
     },
     "/products/screen-enclosures/": {
-      "principal": "pool screen enclosures",
+      "principal": "screen enclosures",
       "intencion": "comercial",
       "secundarias": [
+        "pool screen enclosures",
         "screen enclosure south florida",
         "patio screen enclosure"
       ],
       "evidenciaSerp": [
         "S08"
       ],
-      "seoptimer": null
+      "seoptimer": null,
+      "nota": "Principal = el nombre del producto (H1), que el cliente pidió mantener y que el módulo de productos de la home pinta (R3, R4). Cambio del 23-oct-2026, F2."
     },
     "/products/solar-pergolas/": {
       "principal": "solar pergolas",
@@ -960,16 +970,18 @@
       ]
     },
     "/products/sukkah/": {
-      "principal": "aluminum sukkah",
+      "principal": "sukkah",
       "intencion": "comercial",
       "secundarias": [
+        "aluminum sukkah",
         "sukkah 3000",
         "permanent sukkah florida"
       ],
       "evidenciaSerp": [
         "S05"
       ],
-      "seoptimer": null
+      "seoptimer": null,
+      "nota": "Principal = el nombre del producto (H1), que el cliente pidió mantener y que el módulo de productos de la home pinta (R3, R4). Cambio del 23-oct-2026, F2."
     },
     "/project-estimator/": {
       "principal": "pergola cost calculator",

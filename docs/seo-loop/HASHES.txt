@@ -65,3 +65,6 @@ fecc2362c3c7fce562bd85d1f881fa9d0e8796d374dab85d7fbbf3d6bccea4fc  scripts/compro
 # FIRMA: Sebastian 2026-10-23 · en el chat: «Firmo los hashes nuevos de scripts/seo-loop/juez.mjs y lib/lighthouse.mjs» · iteración 01, commit 83830e3: el juez quita las variables en modo cerrado y el ok de --solo es booleano; Lighthouse repite las corridas ruidosas hasta 4 veces con 90 s de pausa (antes 2 con 30 s). Umbrales sin cambios
 4236ddc5b1b1cc6265984644bf353c98e913a801097d7d3e082edfbb60de38ad  scripts/seo-loop/juez.mjs
 2e1d2e6d218f370dc8c3ebceb412097eb41f65d737f18e5681d0b5bd807ff1d4  scripts/seo-loop/lib/lighthouse.mjs
+
+# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 en la F2: la keyword principal de 6 fichas (/products/cabanas, motorized-screens, open-air-pergolas, polycarbonate-pergolas, screen-enclosures, sukkah) pasa a ser su nombre, que el cliente pidió mantener como H1 y que pinta el módulo de productos de la home (R3, R4, conflicto X8); la anterior queda como secundaria
+e4d96616c4fde129b83ac6c7677c68e6f131ffe416cfe4e736909d38f2fa7483  docs/seo-loop/04-MAPA-KEYWORDS.json
