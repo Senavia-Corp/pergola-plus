@@ -58,3 +58,6 @@ d69d64b3ee4ccf76246f6a13289ae51fd579ebf665c43d430c0ea4aba904bb86  scripts/sanity
 c33d0ab60c001732c6ee7fc96775d664a8130c667c0826aa5b93662c5c8cb86c  scripts/sanity/esquema.mjs
 66536518253458c7beb575ee6973c04dba3d73ab34ca5110bb7f064268e85a22  scripts/sanity/fidelidad.mjs
 03b8cc09a65e0add61f1c356906cf6dcd61dcfab5262a8d9fed59ec4c2de2491  package.json#scripts.check
+
+# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 en la F1 (commit 8ca98e6): check:noindex exige la política de robots de §0 (entrenamiento permitido, Bytespider bloqueado) en vez de la anterior (entrenamiento bloqueado)
+fecc2362c3c7fce562bd85d1f881fa9d0e8796d374dab85d7fbbf3d6bccea4fc  scripts/comprobar-noindex.mjs
