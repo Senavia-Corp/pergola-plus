@@ -156,24 +156,20 @@ export function producto(site: string, opciones: {
    */
   propiedades?: { nombre: string; valor: string }[] | null;
 }) {
+  // `Service`, no `Product` (informe 08, T4): son instalaciones a medida sin precio publicado,
+  // y un `Product` sin offers, review ni aggregateRating es un error en Search Console. Service no
+  // admite `material` ni `additionalProperty`: la tabla de especificaciones sigue en la pagina, y
+  // aqui solo va lo que el tipo admite.
   return {
-    '@type': 'Product',
+    '@type': 'Service',
     name: opciones.nombre,
+    serviceType: opciones.nombre,
     description: opciones.descripcion,
     url: absoluta(site, opciones.ruta),
-    // La marca es el propio negocio: estos sistemas los diseña e instala el
-    // cliente. No se declara `offers` porque no hay precio publicado, y un precio
-    // inventado en JSON-LD es motivo de penalizacion.
+    provider: refNegocio(site),
+    areaServed: NEGOCIO.condados.map((n) => ({ '@type': 'AdministrativeArea', name: n })),
     brand: { '@type': 'Brand', name: NEGOCIO.nombre },
     ...(opciones.imagen ? { image: absoluta(site, opciones.imagen) } : {}),
-    ...(opciones.material ? { material: opciones.material } : {}),
-    ...(opciones.propiedades?.length
-      ? {
-        additionalProperty: opciones.propiedades.map((p) => ({
-          '@type': 'PropertyValue', name: p.nombre, value: p.valor,
-        })),
-      }
-      : {}),
   };
 }
 
