@@ -45,7 +45,18 @@
     "check:sanity-fidelidad": "node scripts/sanity/fidelidad.mjs",
     "check:sanity-esquema": "node scripts/sanity/esquema.mjs",
     "check:og": "node scripts/comprobar-og.mjs",
-    "check:jsonld": "node scripts/comprobar-jsonld.mjs"
+    "check:jsonld": "node scripts/comprobar-jsonld.mjs",
+    "check:seo-estricto": "node scripts/seo-loop/j05-seo-estricto.mjs",
+    "check:sanity-completo": "node scripts/seo-loop/j06-sanity-completo.mjs",
+    "check:jsonld-google": "node scripts/seo-loop/j07-jsonld-google.mjs",
+    "check:silo": "node scripts/seo-loop/j08-silo.mjs",
+    "check:lastmod": "node scripts/seo-loop/j09-lastmod.mjs",
+    "check:es-florida": "node scripts/seo-loop/j10-es-florida.mjs",
+    "check:geo": "node scripts/seo-loop/j11-geo.mjs",
+    "check:aeo": "node scripts/seo-loop/j12-aeo.mjs",
+    "check:contenido-local": "node scripts/seo-loop/j13-contenido-local.mjs",
+    "check:canibalizacion": "node scripts/seo-loop/j14-canibalizacion.mjs",
+    "juez": "node scripts/seo-loop/juez.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.16",

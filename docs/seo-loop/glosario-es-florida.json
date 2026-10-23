@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "fecha": "2026-10-23",
+  "fuente": "Decisión del chat (00-ESPECIFICACION-LOOP.md §0, fila «Español») e informe 08 §3.3 (C3). Recuentos de línea base: J10 sobre las 107 páginas /es/ (texto visible, title, description y alt) del dist de producción (sin /es/articles/, fuera del loop), 23-oct-2026.",
+  "regla": "J10 (scripts/seo-loop/j10-es-florida.mjs) falla por cada aparición de un término de `prohibidos` en /es/ (texto visible del body, <title>, meta description y alt), sin distinguir mayúsculas, como palabra completa. `preferidos` y `seQuedanEnIngles` son guía para quien escribe: J10 no los cuenta. Fichero fijado en HASHES.txt.",
+  "prohibidos": [
+    {
+      "patron": "hormigón|hormigones",
+      "usar": "concreto",
+      "lineaBase": 249,
+      "por": "§0: en Florida se dice concreto"
+    },
+    {
+      "patron": "vallados?|vallas?",
+      "usar": "cerca / cercas",
+      "lineaBase": 177,
+      "por": "§0: cerca"
+    },
+    {
+      "patron": "entradas? de (coches?|vehículos)",
+      "usar": "entrada de autos / driveway",
+      "lineaBase": 161,
+      "por": "§0: auto y driveway (se queda en inglés)"
+    },
+    {
+      "patron": "coches?",
+      "usar": "auto / autos",
+      "lineaBase": 82,
+      "por": "§0: auto"
+    },
+    {
+      "patron": "contacte con",
+      "usar": "contáctenos / comuníquese con",
+      "lineaBase": 108,
+      "por": "§0: Contáctenos"
+    },
+    {
+      "patron": "(el|su|al|del|un|tu|teléfono) móvil",
+      "usar": "celular",
+      "lineaBase": 6,
+      "por": "§0: celular. Solo el teléfono: «móvil» como adjetivo no se cuenta"
+    },
+    {
+      "patron": "cerramientos?",
+      "usar": "screen enclosure / screen enclosures",
+      "lineaBase": 482,
+      "por": "§0: screen enclosure se queda en inglés"
+    },
+    {
+      "patron": "adoquinados?|adoquín|adoquines",
+      "usar": "pavers",
+      "lineaBase": 280,
+      "por": "§0: pavers se queda en inglés"
+    },
+    {
+      "patron": "cocheras?",
+      "usar": "carport / carports",
+      "lineaBase": 233,
+      "por": "§0: carport se queda en inglés"
+    },
+    {
+      "patron": "boca ratón",
+      "usar": "Boca Raton",
+      "lineaBase": 84,
+      "por": "§0 y J10: nombre oficial, sin tilde"
+    },
+    {
+      "patron": "comunidad(es)? de propietarios",
+      "usar": "HOA / la asociación (HOA)",
+      "lineaBase": 45,
+      "por": "§0: HOA se queda en inglés"
+    },
+    {
+      "patron": "ayuntamientos?",
+      "usar": "la ciudad / el municipio / el condado",
+      "lineaBase": 4,
+      "por": "En Florida no hay ayuntamiento: el permiso lo da la ciudad o el condado"
+    },
+    {
+      "patron": "fontanería",
+      "usar": "plomería",
+      "lineaBase": 18,
+      "por": "Peninsularismo; en Florida, plomería"
+    },
+    {
+      "patron": "aparcamientos?",
+      "usar": "estacionamiento",
+      "lineaBase": 2,
+      "por": "Peninsularismo"
+    },
+    {
+      "patron": "tejados?",
+      "usar": "techo",
+      "lineaBase": 5,
+      "por": "Peninsularismo"
+    },
+    {
+      "patron": "ordenador|vosotros|vuestr[oa]s?",
+      "usar": "computadora / ustedes / su",
+      "lineaBase": 0,
+      "por": "Peninsularismo (control)"
+    }
+  ],
+  "preferidos": [
+    {
+      "termino": "presupuesto",
+      "mejor": "cotización (en botones y formularios) o estimado",
+      "lineaBase": 590,
+      "nota": "Se entiende en Florida; el cambio solo se propone en las llamadas a la acción y en la página de cotización"
+    },
+    {
+      "termino": "mosquitero",
+      "mejor": "malla / screen",
+      "lineaBase": 152
+    },
+    {
+      "termino": "parcela",
+      "mejor": "lote / terreno / propiedad",
+      "lineaBase": 42
+    },
+    {
+      "termino": "jardín (por backyard)",
+      "mejor": "patio / backyard",
+      "lineaBase": 255,
+      "nota": "Solo cuando traduce backyard"
+    },
+    {
+      "termino": "reforma",
+      "mejor": "remodelación",
+      "lineaBase": 6
+    }
+  ],
+  "seQuedanEnIngles": [
+    "pavers",
+    "screen enclosure",
+    "carport",
+    "driveway",
+    "HOA",
+    "deck",
+    "hardscape",
+    "louvered roof (en nombres de producto)",
+    "Boca Raton"
+  ],
+  "anglicismosDeUso": [
+    "concreto",
+    "cerca",
+    "auto",
+    "Contáctenos",
+    "celular"
+  ]
+}

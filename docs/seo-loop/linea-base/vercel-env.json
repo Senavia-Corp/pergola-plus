@@ -1,0 +1,25 @@
+{
+  "leido": "2026-10-23, conector de Vercel (filter_project_envs, sin descifrar)",
+  "proyecto": "prj_o1iyrhzM9Jax4NXwvVCgtI4dhYie",
+  "equipo": "senaviacorp",
+  "variables": [
+    {
+      "key": "PUBLIC_ES_PRODUCCION",
+      "id": "p8pqbvnT7M28K3iY",
+      "target": [
+        "production"
+      ],
+      "type": "plain",
+      "updatedAt": 1792341987565
+    },
+    {
+      "key": "PUBLIC_SITE_URL",
+      "id": "Stgwzk2EpeZstGdB",
+      "target": [
+        "production"
+      ],
+      "type": "sensitive",
+      "updatedAt": 1787083220312
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "modo": "borradores",
+  "perspectiva": "drafts",
+  "comprobado": "2026-10-23: client.releases.create (CLI, sesión de Sebastian) → 403 «active release count exceeds the limit of 0»: el plan Free no admite Content Releases. 0 Releases antes y después; el webhook de producción sin entregas nuevas.",
+  "regla": "El contenido del loop va a borradores `drafts.<id>` (§0 y §6.2). Nunca se publica. juez.mjs construye con PP_PERSPECTIVA=drafts (lo implementa la F1 en scripts/sanity/instantanea.mjs; sin eso, el build lee lo publicado)."
+}

@@ -1,0 +1,60 @@
+# HASHES del loop SEO · ficheros fijados (00-ESPECIFICACION-LOOP.md §3)
+# Formato: <sha256>  <ruta>. «package.json#scripts.check» = sha256 del texto del script check (las 26 puertas).
+# Un bloque cuenta solo si lo abre «# FIRMA: Sebastian <AAAA-MM-DD> …». Para cada ruta vale la última línea de un bloque firmado.
+# Lo comprueba J0 (scripts/seo-loop/lib/fijados.mjs) en cada corrida del juez.
+
+# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 al cerrar la F0 (commit en la rama seo/loop-optimizacion)
+984371c39e0fd447c8c44d4a205d714f50c37bb2add953ba73e18ba71bce1aee  docs/seo-loop/01-REGISTRO-PETICIONES-CLIENTE.md
+60bed20e5e75060ea1398810a72ebc8a147bd8c226624996f27d015c9272892c  docs/seo-loop/02-VACIOS-PERMITIDOS.json
+f9acb9088e30e0f71156bbebdc307a8d75e716c5761fbc2d07fc20d916cc73eb  docs/seo-loop/04-MAPA-KEYWORDS.json
+5cc8947cb47ef7f8efe0e4583b8fdfc5e0f85cb57722037d4e15b1b58d0ff570  docs/seo-loop/glosario-es-florida.json
+f32f076bf463b91fca29a8462a4a284194dabc5af348fe39f41986bad9075a3f  docs/seo-loop/RELEASE.json
+2dffc668032197be5098382bd81ecbe97da807f479a24b37a4abd75ba77da3db  docs/seo-loop/linea-base/lighthouse-medianas.json
+8f06f7e5de565b5296747494f9f245206a77a06624bfa1e72151541253f233f8  docs/seo-loop/linea-base/registro-cliente.json
+cafcebe6f1ebcc166634a2b02237f8a516591433a84f3dd87375b987c2a1ab41  docs/seo-loop/linea-base/sanity-webhook.json
+c492530f8651e5e6e50d2ffe1c78f8dfbd0d6ee0382f3e4caaf669fb7fdcf8a9  docs/seo-loop/linea-base/vercel-env.json
+c4c2965fccb6cb89843c1c06f1438e47ecaf14ba0a2ff5b2591f1fc2e7919e10  scripts/seo-loop/j05-seo-estricto.mjs
+d8e0d1997655530308df7c3b89812ef46c4a086f495a1bf48f07de12904086fd  scripts/seo-loop/j06-sanity-completo.mjs
+20c2f3f276003d3b1c19766047846f1696ae61b56d7b25be2cb5bccad4964fca  scripts/seo-loop/j07-jsonld-google.mjs
+c11a05e8b1964e162e161bbfbc8114e7d4865ff153f1204d66a4c89401f49519  scripts/seo-loop/j08-silo.mjs
+257c0f9408b034ab2fb1b189300caa34db7fbfbf925e187404c3a51f1ac800c4  scripts/seo-loop/j09-lastmod.mjs
+48f6a23d96b13c93ca660170c96c73534eb3e6d579a185c9ddd35a6b28b22d41  scripts/seo-loop/j10-es-florida.mjs
+d92864cd060b5f1709cbeac6f358318a97cf887c96af42c7c6c2c444e61ab3a8  scripts/seo-loop/j11-geo.mjs
+99bb632aa71742f915601a03b6bc85a30ce0128b90ac9e99517f952cb3d7b788  scripts/seo-loop/j12-aeo.mjs
+3c401f2e3277fba2762a3e2914d56d8813fa9f7c2e4221e01cfc285173e95c12  scripts/seo-loop/j13-contenido-local.mjs
+5e457b30223bd5221c02fdc9b8fa1ac8a25e8a395c7ecceaf04088ed2a457ee1  scripts/seo-loop/j14-canibalizacion.mjs
+7433bc9447b7a75fedccc3d3974692e166a8e46ee52df202a5f1a6bc5baf349b  scripts/seo-loop/j15-lighthouse.mjs
+5e24d79d8ec55532fa2905be1834052370ce58be970da1fa08d92ee866386917  scripts/seo-loop/j16-registro-cliente.mjs
+0f5f8ffc2b584adcef499d123f93fab05f242fb0b86e8862a96ce6250099530b  scripts/seo-loop/j17-fuera-del-loop.mjs
+f2d8c9d36bf20272d9ec42173605f380a517761ea9f380ab6b3ba26b273f5073  scripts/seo-loop/juez.mjs
+11245f151f7321f0285843fe522866b98ed898a231e43f4690b971609ab2d1b8  scripts/seo-loop/lib/comun.mjs
+1b63a3169276197d7a798afc23e99dd6a97309658aeedf5137e474f06ec8192f  scripts/seo-loop/lib/fijados.mjs
+30553151ff097547fc4f47d2e86b6b7f3fc62bb6bcf4c836134a47ffc9e538f6  scripts/seo-loop/lib/lighthouse.mjs
+3ece0e876a21a6875b5f2adcc134006359187df5ef0b1065952378db0cf2bb31  scripts/seo-loop/lib/registro-cliente.mjs
+e353d94f8e5c3685d1897ce67c456de18c0e111e7fc89783cb37ad7a9bab458e  scripts/seo-loop/lib/sanity-leer.mjs
+e5945fdaa2c7542617b1352c5697866d9b74b60ebbb310f8ad462be45c6f1a21  scripts/comprobar-animaciones.mjs
+10c869628c7d86815e22378dcfe96e32f649f5207ee716fd2491f7f913362645  scripts/comprobar-blog.mjs
+e22cbba95f2d261acde442f283b5b0833716e7010e4af71941dcab2321f34046  scripts/comprobar-carruseles.mjs
+e4721b997d5894efc69c9587af41e1ab1f4671167a87266c43448dec3ec43cb6  scripts/comprobar-correo.mjs
+b50ff5de99f08a47ff580134093ee9c5e1d613992d6ef941926e03c87c3548f2  scripts/comprobar-cta.mjs
+62b6722d00a253642a4434ef1732704617d603822fc8a003db4d6d7bbc3af526  scripts/comprobar-enlaces-canonicos.mjs
+08245d59c2a3ea5c524710a163205578b10900ef959432f78b31616ee14a16fb  scripts/comprobar-enlaces-muertos.mjs
+f62ca1bbbdb94a284618f6be654a0279747cfd73ed7dc2670b5b2b94d8baf189  scripts/comprobar-estimador.mjs
+4e10bc168959272c87dc35e16de05d05ca9a3b40b318618155c26825def89df2  scripts/comprobar-formularios.mjs
+d343ab0054e1ba68bcf65842ac5b3d8f3cf373029931ebe6e9c1cd08bed0b53e  scripts/comprobar-i18n.mjs
+ceabe5948958c24f731fc2f790d71c9f0d1969a7c35ff2fc60d73c2e38fb47e9  scripts/comprobar-iconos.mjs
+dd213e8c853ff60ef171fe6d396e8f1ba7982cd08927b5ceaf1b197671a6563b  scripts/comprobar-imagenes.mjs
+bc42254fc9e32ed93bbd81d70baea3b35654cdf8b489eb40ae85f056a7163206  scripts/comprobar-jsonld.mjs
+6354f2af2f42fc9253a477c545e9498debbacd117f6601adffffd389217a9e3b  scripts/comprobar-marquee.mjs
+c0e0e5b140d86dfe9c4b43db677495c7a7e87285f21697f398a0e8a8e468e122  scripts/comprobar-noindex.mjs
+1e9b3a132aac163b79558e75598540f054e6d77a4f794bfa26a0b9f2d2f7859f  scripts/comprobar-og.mjs
+4c7d973e347d863f88b0eacea13df7dd6cd08f30f44bd50c55d726f63cbdf1ef  scripts/comprobar-pagina-actual.mjs
+2e9c9d02625d5dc3ae1d82081f00fdf607e93b95571bdfebd5d7b05bcc4707b6  scripts/comprobar-paginas.mjs
+48d3a61a0ee9e5fe7b03b40aaea34b3de3dd63795ce0619c0b1f302d925adeb9  scripts/comprobar-resenas.mjs
+82b85eade416d340a79ba750db31187fd3dba6fb79dddd9dad89af83ee5538cb  scripts/comprobar-ritmo.mjs
+bf9394938bb3866bc33471473ca55e32504ebea2008d85748d723ea4d43d7d62  scripts/comprobar-seo.mjs
+f06137d8ad5b922ce1a2457be0845c74ed27e4a6776837606260d693b4b037bb  scripts/comprobar-urls-antiguas.mjs
+d69d64b3ee4ccf76246f6a13289ae51fd579ebf665c43d430c0ea4aba904bb86  scripts/sanity/cobertura.mjs
+c33d0ab60c001732c6ee7fc96775d664a8130c667c0826aa5b93662c5c8cb86c  scripts/sanity/esquema.mjs
+66536518253458c7beb575ee6973c04dba3d73ab34ca5110bb7f064268e85a22  scripts/sanity/fidelidad.mjs
+03b8cc09a65e0add61f1c356906cf6dcd61dcfab5262a8d9fed59ec4c2de2491  package.json#scripts.check

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "fecha": "2026-10-23",
+  "fuente": "implementation-reports/ENTREGA-2026-10/06-NUBE-NOCHE-2026-10-21.md, C9 («Lo que queda vacío y por qué»), y §1 de 00-ESPECIFICACION-LOOP.md",
+  "regla": "J6 (scripts/seo-loop/j06-sanity-completo.mjs) falla por todo campo vacío del esquema que no case con una fila de aquí. Un patrón es la ruta del campo desde el tipo de documento («faq.claves»); «[]» es un elemento de lista y «*» un segmento cualquiera. `ids`, si está, limita la fila a esos documentos. No cuentan como vacíos: los campos ocultos (hidden), las listas vacías dentro de una sección (la plantilla del código fija qué listas usa cada sección) y destino/href/ancla de un enlace cuando hay uno de los tres. Solo Sebastian añade o quita filas (fichero fijado en HASHES.txt).",
+  "inventarioLineaBase": {
+    "fecha": "2026-10-23",
+    "medido": "node scripts/seo-loop/j06-sanity-completo.mjs --inventario sobre el dataset publicado (405 documentos, 0 borradores)",
+    "vacios": {
+      "faq.claves": 196,
+      "post.tarjetas": 11,
+      "page.secciones[].textos[].texto.es": 6,
+      "legalPage.secciones[].textos[].texto.es": 5,
+      "product.videoFicha": 5,
+      "review.respuestaDueno": 5
+    },
+    "noPermitidosEnLineaBase": "page.secciones[].textos[].texto.es ×6 en page-contact-us__get-in-touch (nombre y alt ES de los 3 condados de la sección «condados»): es un hueco real y va al backlog; 55 alt con alt.es = alt.en (51 seo.imagenOg.alt de C9, 3 imagenCabecera.alt de proyectos y el og del blog)."
+  },
+  "campos": [
+    {
+      "campo": "faq.claves",
+      "motivo": "Términos que no se traducen. Las 196 preguntas sin ellos no traen ningún término así (siglas, marcas, condados, unidades): vacío es su valor (C9)."
+    },
+    {
+      "campo": "post.tarjetas",
+      "motivo": "Decide qué posts salen en el carrusel de la home. Esos 11 no salen: rellenarlo cambiaría la home (C9)."
+    },
+    {
+      "campo": "product.videoFicha",
+      "motivo": "Esas 5 fichas no tienen vídeo y no hay fichero que poner (C9)."
+    },
+    {
+      "campo": "review.respuestaDueno",
+      "motivo": "Esas reseñas no tienen respuesta del dueño en Google. Escribirla sería inventar una declaración del negocio en una reseña real (C9)."
+    },
+    {
+      "campo": "legalPage.*",
+      "ids": ["legalPage-terms-of-service", "legalPage-privacy-policy"],
+      "motivo": "Los textos legales están fuera del loop (§1.4 y §1.5 de la especificación): el loop no los toca, tampoco su bloque de llamada a la acción."
+    }
+  ]
+}

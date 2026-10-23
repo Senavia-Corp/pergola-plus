@@ -1,0 +1,322 @@
+{
+  "blog-categoria|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "blog-categoria|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/98*/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 2,
+    "ruidosas": 1
+  },
+  "blog-indice|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "blog-indice|mobile": {
+    "perf": 98,
+    "perfCorridas": "99/98*/98",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 2,
+    "ruidosas": 1
+  },
+  "ciudad|desktop": {
+    "perf": 99,
+    "perfCorridas": "99/99/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "ciudad|mobile": {
+    "perf": 96,
+    "perfCorridas": "97/96/96",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "condado|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "condado|mobile": {
+    "perf": 93,
+    "perfCorridas": "93/93*/93*",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 1,
+    "ruidosas": 2
+  },
+  "contacto-quote|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 96,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "contacto-quote|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/99/99",
+    "a11y": 100,
+    "bp": 96,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "estimador|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "estimador|mobile": {
+    "perf": 99,
+    "perfCorridas": "98/99/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "faq|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "faq|mobile": {
+    "perf": 100,
+    "perfCorridas": "100*/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 2,
+    "ruidosas": 1
+  },
+  "galeria|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "galeria|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/99/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "home|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "home-es|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "home-es|mobile": {
+    "perf": 95,
+    "perfCorridas": "95/95/95*",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001834729374678125,
+    "validas": 2,
+    "ruidosas": 1
+  },
+  "home|mobile": {
+    "perf": 95,
+    "perfCorridas": "95/95/96",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "post|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "post|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/100/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "producto|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "producto|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/99/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "productos-indice|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "productos-indice|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/99/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "proyecto|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "proyecto|mobile": {
+    "perf": 97,
+    "perfCorridas": "97*/97/97",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 2,
+    "ruidosas": 1
+  },
+  "servicio|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "servicio|mobile": {
+    "perf": 98,
+    "perfCorridas": "98/98/98",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0.0001845224446504156,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "servicios-indice|desktop": {
+    "perf": 100,
+    "perfCorridas": "100/100/100",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  },
+  "servicios-indice|mobile": {
+    "perf": 99,
+    "perfCorridas": "99/99/99",
+    "a11y": 100,
+    "bp": 100,
+    "seo": 100,
+    "cls": 0,
+    "validas": 3,
+    "ruidosas": 0
+  }
+}
