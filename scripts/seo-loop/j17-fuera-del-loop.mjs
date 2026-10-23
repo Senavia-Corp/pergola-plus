@@ -5,19 +5,19 @@
  *     la analitica (ninguna linea cambiada con *-src, Content-Security-Policy, googletagmanager, gtag…);
  *   - en Sanity: 0 Releases publicadas; 0 versiones del loop de los textos legales; 0 entregas nuevas
  *     del webhook «Vercel producción · main» desde la linea base (algo publico: se para el loop, §6.3);
- *   - en Vercel: las variables del proyecto (claves, destinos y fecha de cambio, nunca valores) iguales a
- *     docs/seo-loop/linea-base/vercel-env.json. Lee con VERCEL_TOKEN o con la sesion del CLI de Vercel;
- *     si no puede leer, NO PASA.
+ *   - en Vercel: variables (claves, destinos y fecha de cambio, nunca valores), ssoProtection,
+ *     passwordProtection y dominios iguales a docs/seo-loop/linea-base/vercel-env.json, segun la foto
+ *     que escribe el juez con el conector de Vercel. Sin foto reciente, NO PASA.
  * Necesita .cache/seo-loop/sanity.json fresco (lib/sanity-leer.mjs, que juez.mjs corre antes).
  */
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { puerta, RAIZ, leerJson, sanityLoop } from './lib/comun.mjs';
 
 const PROHIBIDOS = ['src/lib/lead.ts', 'src/pages/api/lead.ts', 'api/lead.ts', 'src/i18n/articulos.es.ts', 'docs/politica-privacidad-borrador.md'];
-const LINEA_CSP = /Content-Security-Policy|(script|connect|img|frame|style|font|default)-src|googletagmanager|google-analytics|googleadservices|doubleclick|gtag\(|GTM-|consent/i;
+// Sin «consent» suelto: casaba con el «SMS-Consent» de los formularios, que no es la CSP ni la analítica.
+const LINEA_CSP = /Content-Security-Policy|(script|connect|img|frame|style|font|default)-src|googletagmanager|google-analytics|googleadservices|doubleclick|gtag\(|GTM-|consent mode|ad_storage|analytics_storage/i;
 const git = (...a) => spawnSync('git', a, { cwd: RAIZ, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
 
 await puerta('J17', 'fuera del loop', async () => {
@@ -28,7 +28,7 @@ await puerta('J17', 'fuera del loop', async () => {
   const cambiados = git('diff', base, '--name-only').stdout.split('\n').filter(Boolean);
   for (const f of cambiados) if (PROHIBIDOS.includes(f)) fallos.push(`git diff main toca ${f} (§1)`);
   // Solo codigo y configuracion: la documentacion puede nombrar la CSP sin tocarla.
-  for (const l of git('diff', base, '-U0', '--', '.', ':(exclude)docs', ':(exclude)implementation-reports', ':(exclude)*.md').stdout.split('\n')) if (/^[+-](?![+-])/.test(l) && LINEA_CSP.test(l)) fallos.push(`git diff main cambia una linea de CSP o analitica: ${l.slice(0, 140)}`);
+  for (const l of git('diff', base, '-U0', '--', '.', ':(exclude)docs', ':(exclude)implementation-reports', ':(exclude)*.md', ':(exclude)scripts/seo-loop').stdout.split('\n')) if (/^[+-](?![+-])/.test(l) && LINEA_CSP.test(l)) fallos.push(`git diff main cambia una linea de CSP o analitica: ${l.slice(0, 140)}`);
 
   const s = sanityLoop();
   const publicadas = s.releases.filter((r) => r.state === 'published' || r.publishedAt);
@@ -42,14 +42,23 @@ await puerta('J17', 'fuera del loop', async () => {
   const nuevas = fechas.filter((f) => f > lb.ultimaEntrega);
   if (nuevas.length) fallos.push(`${nuevas.length} entrega(s) nuevas del webhook de produccion desde ${lb.ultimaEntrega}: ${nuevas.join(', ')} (algo se publico: §6.3, se para el loop)`);
 
+  // Vercel: el juez, antes de juez.mjs, lee el proyecto con el conector MCP de Vercel (solo lectura:
+  // filter_project_envs, get_project, list_project_domains) y deja la foto en FOTO, sin ningun valor de
+  // variable. Un script no puede llamar al conector. Sin foto, o con una de hace mas de 3 h, NO PASA.
   const lbv = leerJson('docs/seo-loop/linea-base/vercel-env.json');
-  let token = process.env.VERCEL_TOKEN;
-  if (!token) try { token = JSON.parse(fs.readFileSync(path.join(os.homedir(), 'Library/Application Support/com.vercel.cli/auth.json'), 'utf8')).token; } catch { /* sin sesion */ }
-  const r = token ? await fetch(`https://api.vercel.com/v9/projects/${lbv.proyecto}/env?slug=${lbv.equipo}`, { headers: { Authorization: `Bearer ${token}` } }).then((x) => x.json(), (e) => ({ error: { message: e.message } })) : { error: { message: 'sin VERCEL_TOKEN ni sesion del CLI de Vercel' } };
-  if (r.error) fallos.push(`NO CORRIO: no se pueden leer las variables de Vercel (${r.error.message}). Hace falta VERCEL_TOKEN de lectura o \`vercel login\``);
+  const FOTO = '/Users/senavia/Sites/pp-exports/loop-juez/vercel-snapshot.json';
+  if (!fs.existsSync(FOTO)) fallos.push(`NO CORRIO: no hay foto de Vercel en ${FOTO} (la escribe el juez con el conector antes de juez.mjs)`);
   else {
-    const ahora = r.envs.map((e) => ({ key: e.key, id: e.id, target: e.target, type: e.type, updatedAt: e.updatedAt })).sort((a, b) => a.id.localeCompare(b.id));
-    if (JSON.stringify(ahora) !== JSON.stringify(lbv.variables)) fallos.push(`las variables de Vercel cambiaron: ${JSON.stringify(ahora)}`);
+    const foto = JSON.parse(fs.readFileSync(FOTO, 'utf8'));
+    if (!(Date.now() - Date.parse(foto.leido) < 3 * 3600 * 1000)) fallos.push(`NO CORRIO: la foto de Vercel es del ${foto.leido} (mas de 3 h)`);
+    if (JSON.stringify(foto).match(/"value"/)) fallos.push('la foto de Vercel trae valores de variables: no se usa (y hay que borrarla)');
+    const orden = (xs) => [...(xs ?? [])].map(({ key, id, target, type, updatedAt }) => ({ key, id, target: [...target].sort(), type, updatedAt })).sort((a, b) => a.id.localeCompare(b.id));
+    for (const [campo, a, b] of [
+      ['variables', orden(lbv.variables), orden(foto.variables)],
+      ['ssoProtection', lbv.ssoProtection, foto.ssoProtection],
+      ['passwordProtection', lbv.passwordProtection, foto.passwordProtection],
+      ['dominios', [...lbv.dominios].sort(), [...(foto.dominios ?? [])].sort()],
+    ]) if (JSON.stringify(a) !== JSON.stringify(b)) fallos.push(`Vercel: ${campo} cambio: ${JSON.stringify(b)} (linea base ${JSON.stringify(a)})`);
   }
   return { fallos, extra: { ficherosCambiados: cambiados.length } };
 });

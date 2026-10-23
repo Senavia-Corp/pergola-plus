@@ -1,5 +1,5 @@
 {
-  "leido": "2026-10-23, conector de Vercel (filter_project_envs, sin descifrar)",
+  "leido": "2026-10-23, conector de Vercel (filter_project_envs sin descifrar, get_project, list_project_domains)",
   "proyecto": "prj_o1iyrhzM9Jax4NXwvVCgtI4dhYie",
   "equipo": "senaviacorp",
   "variables": [
@@ -21,5 +21,17 @@
       "type": "sensitive",
       "updatedAt": 1787083220312
     }
+  ],
+  "equipoId": "team_S7aSWbSFopAYosvDC7LIdMUS",
+  "ssoProtection": {
+    "enabled": true,
+    "deploymentType": "all"
+  },
+  "passwordProtection": {
+    "enabled": false,
+    "deploymentType": null
+  },
+  "dominios": [
+    "pergola-plus-preview.vercel.app"
   ]
 }
