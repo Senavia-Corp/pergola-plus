@@ -345,7 +345,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
       ctaTexto: 'Ask us these five',
       filas: {
-        // Fuente: la pregunta `pergola-carport-coche`.
+        // Fuente: la pregunta `pergola-carport-auto`.
         altura: { etiqueta: 'Clear height', valor: 'Specified from what you actually park, roof racks included, not from a catalogue figure' },
         // Fuente: la pregunta `pergola-carport-granizo`. El «no es un garaje» se queda.
         protege: { etiqueta: 'What it protects against', valor: 'Sun above all — constant UV is what fades paint and cracks a dashboard — plus rain and falling debris. It is not a garage and it does not stop wind-driven rain' },
@@ -385,7 +385,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       huecosEntradilla: 'These are the numbers a buyer should ask three contractors for. We would rather leave them blank here than print one we cannot back up.',
       ctaTexto: 'Ask us these five',
       filas: {
-        // Fuente: la pregunta `pergola-cerramiento-mansarda`.
+        // Fuente: la pregunta `pergola-screen enclosure-mansarda`.
         forma: { etiqueta: 'Roof shape', valor: 'Mansard, gable or dome. The shape sets the headroom, how it sheds water across a span, and most of the price' },
         // Fuente: la pregunta `material-mosquitera-tipos`.
         malla: { etiqueta: 'Mesh', valor: 'Fibreglass insect mesh, tighter no-see-um for waterfront lots, solar screen against heat and glare, or pet-resistant on the lower panels. They can be mixed on one cage' },
@@ -727,8 +727,8 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         altura: { etiqueta: 'Altura libre', valor: 'Se define por lo que usted aparca de verdad, bacas incluidas, y no por una cifra de catálogo' },
         protege: { etiqueta: 'De qué protege', valor: 'Del sol sobre todo —el UV constante es lo que descolora la pintura y agrieta el salpicadero—, y de la lluvia y lo que cae. No es un garaje y no para la lluvia con viento' },
         techo: { etiqueta: 'Opciones de techo', valor: 'Aislado, macizo o de policarbonato, sobre la misma estructura de aluminio calculada' },
-        desague: { etiqueta: 'Desagüe', valor: 'Drenaje interior oculto que lleva el agua lejos de los coches y de la entrada' },
-        montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa o exenta sobre la entrada. La posición de los pilares la marca cómo se abren las puertas del coche' },
+        desague: { etiqueta: 'Desagüe', valor: 'Drenaje interior oculto que lleva el agua lejos de los autos y de la entrada' },
+        montaje: { etiqueta: 'Montaje', valor: 'Adosada a la casa o exenta sobre la entrada. La posición de los pilares la marca cómo se abren las puertas del auto' },
         material: { etiqueta: 'Material de la estructura', valor: 'Aluminio estructural calculado, con recubrimiento en polvo' },
         acabado: { etiqueta: 'Acabado', valor: 'De la carta de recubrimiento en polvo, liso o con textura tipo madera, a juego con la casa' },
         privacidad: { etiqueta: 'Celosías laterales', valor: 'Se pueden cerrar uno o los dos lados abiertos con celosías, para ganar privacidad frente a la calle o al vecino' },
@@ -762,7 +762,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         forma: { etiqueta: 'Forma del techo', valor: 'Mansarda, a dos aguas o cúpula. La forma fija la altura libre, cómo evacúa el agua en luces grandes y casi todo el precio' },
         malla: { etiqueta: 'Mosquitero', valor: 'Fibra de vidrio estándar, malla fina antimosquito para parcelas frente al agua, malla solar contra el calor y el reflejo, o malla resistente a mascotas en los paños bajos. Se pueden mezclar en la misma jaula' },
         barrera: { etiqueta: 'Como barrera de piscina', valor: 'Puede cumplir con la ley de seguridad de piscinas de Florida si rodea la piscina por completo y las puertas cierran y enclavan solas a la altura exigida. Se decide en el diseño' },
-        puertas: { etiqueta: 'Puertas', valor: 'Con herrajes de cierre automático cuando el cerramiento hace de barrera; la puerta para mascotas va en un paño con marco y no en la propia malla' },
+        puertas: { etiqueta: 'Puertas', valor: 'Con herrajes de cierre automático cuando el screen enclosure hace de barrera; la puerta para mascotas va en un paño con marco y no en la propia malla' },
         reparacion: { etiqueta: 'Remallar o sustituir', valor: 'Si la estructura está sana y las zapatas intactas, remallar sale mucho más barato y es lo que toca. Sustituir es para una estructura corroída en la base o con la tornillería fallando' },
         material: { etiqueta: 'Material de la estructura', valor: 'Aluminio estructural calculado, con recubrimiento en polvo' },
         acabado: { etiqueta: 'Acabado', valor: 'Estructura blanca o bronce, de la carta de recubrimiento en polvo' },
@@ -776,7 +776,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         aleacion: 'Aleación del aluminio, temple y espesor de pared. Es lo que separa dos estructuras que parecen iguales, y su sitio es el cálculo, no una línea de marketing.',
         garantia: 'Años de garantía, y cómo se reparte entre estructura, acabado y las partes móviles. Son garantías distintas y no las vamos a resumir en una palabra.',
         financiacion: 'Condiciones de financiación. Pregúntenos: preferimos decírselo por teléfono antes que publicar un tipo que cambia.',
-        medidas: 'Luz máxima y altura del cerramiento. Cada jaula se corta a la geometría de su piscina, y no publicamos un máximo de catálogo.',
+        medidas: 'Luz máxima y altura del screen enclosure. Cada jaula se corta a la geometría de su piscina, y no publicamos un máximo de catálogo.',
       },
       enlaces: {
         plazo: 'Cuánto se tarda en instalar una pérgola en Florida',
@@ -827,7 +827,7 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
       huecosEntradilla: 'Estos son los números que un comprador debería pedirle a tres contratistas. Preferimos dejarlos en blanco antes que publicar uno que no podamos respaldar.',
       ctaTexto: 'Pregúntenos estos cinco',
       filas: {
-        produccion: { etiqueta: 'Producción', valor: 'Va con la superficie de cubierta y la orientación. Un campo del tamaño de una pérgola suele ser un complemento útil —bomba de piscina, iluminación, recargar el coche—, no un sistema para toda la casa' },
+        produccion: { etiqueta: 'Producción', valor: 'Va con la superficie de cubierta y la orientación. Un campo del tamaño de una pérgola suele ser un complemento útil —bomba de piscina, iluminación, recargar el auto—, no un sistema para toda la casa' },
         estanqueidad: { etiqueta: 'Seco debajo', valor: 'Con sombra siempre; seco solo si se especifica. Los paneles montados con juntas selladas y canalón se comportan como una cubierta maciza; sobre rieles con separación, no' },
         carga: { etiqueta: 'Lo que añade a la estructura', valor: 'El peso propio del campo más la succión sobre cada panel, calculados en la estructura desde el principio y no añadidos después' },
         aprobaciones: { etiqueta: 'Aprobaciones', valor: 'Permisos de estructura y electricidad, más el acuerdo de interconexión con su compañía eléctrica y, en muchos municipios, una revisión solar aparte' },
@@ -865,12 +865,12 @@ export const SPECS_COPY: Record<Idioma, Record<string, CopyEspecificaciones>> = 
         techo: { etiqueta: 'Techo', valor: 'Paneles aislados o macizos, con techo acabado por debajo' },
         cerramiento: { etiqueta: 'Cómo se cierra', valor: 'Cortinas motorizadas, paneles decorativos fijos, paredes parciales o cortinaje de exterior; normalmente una combinación, y normalmente no en los cuatro lados' },
         instalaciones: { etiqueta: 'Corriente e iluminación', valor: 'Focos empotrados, ventiladores y enchufes por dentro de la estructura, con el techo acabado por encima' },
-        fontaneria: { etiqueta: 'Fontanería', valor: 'Una ducha exterior o un baño se puede y es habitual junto a la piscina; trae permisos de fontanería, conexión de desagüe y, si es baño, requisitos de ventilación' },
+        fontaneria: { etiqueta: 'Plomería', valor: 'Una ducha exterior o un baño se puede y es habitual junto a la piscina; trae permisos de plomería, conexión de desagüe y, si es baño, requisitos de ventilación' },
         almacen: { etiqueta: 'Almacenaje', valor: 'Puede hacer también de cuarto de máquinas de la piscina, pero ese vano va separado y ventilado: los productos químicos y los cloradores salinos corroen el metal y la electrónica en un espacio cerrado' },
         material: { etiqueta: 'Material de la estructura', valor: 'Aluminio estructural calculado, con recubrimiento en polvo' },
         acabado: { etiqueta: 'Acabado', valor: 'De la carta de recubrimiento en polvo, liso o con textura tipo madera' },
-        permiso: { etiqueta: 'Permisos', valor: 'Es una estructura permanente y se permisa como tal. La fontanería, si la quiere, se permisa a la vez' },
-        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; más si hay fontanería, porque las líneas van antes que el pavimento de alrededor' },
+        permiso: { etiqueta: 'Permisos', valor: 'Es una estructura permanente y se permisa como tal. La plomería, si la quiere, se permisa a la vez' },
+        plazo: { etiqueta: 'Plazo', valor: 'Varias semanas desde la aprobación del permiso hasta el final; más si hay plomería, porque las líneas van antes que el pavimento de alrededor' },
         inversion: { etiqueta: 'Inversión', valor: 'Una banda estimada de 120 a 175 dólares por pie cuadrado instalado y hacia arriba, de nuestra propia guía de costes del sur de Florida. Está por encima de una pérgola abierta de la misma superficie, y tiene que estarlo' },
         donde: { etiqueta: 'Dónde construimos, y con qué licencia', valor: 'Miami-Dade, Broward y Palm Beach. CGC1539940, con licencia y seguro en Florida' },
       },

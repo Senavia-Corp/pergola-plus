@@ -4,6 +4,7 @@ import items from '../../contenido-migrado/countries/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
 import { CIUDADES, CONDADOS } from '../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
+import { conLocal } from '../../lib/local.mjs';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { FUENTE, sanity, fragmentoColeccion, itemDe } from '../../lib/sanity/fuente.mjs';
 
@@ -31,7 +32,8 @@ if (!html) throw new Error('sin fragmento para countries/' + item.slug);
 // La marca la escribe el paso 6b de scripts/lib/transformar.mjs, que es un .mjs y
 // no puede importar este .ts: `partirEnMarca` LANZA si no esta, y esa es toda la
 // comprobacion que mantiene los dos ficheros de acuerdo.
-const resenas = partirEnMarca(html, item.slug, MARCA_RESENAS);
+// El contenido local (campo `local`) va como sección propia tras la intro (src/lib/local.mjs).
+const resenas = partirEnMarca(conLocal(html, doc, 'en'), item.slug, MARCA_RESENAS);
 
 // JSON-LD. Antes de la Fase 4 estas 83 paginas no declaraban NADA: para Google eran
 // paginas sin negocio detras, sin telefono y sin area de servicio. Los datos salen de

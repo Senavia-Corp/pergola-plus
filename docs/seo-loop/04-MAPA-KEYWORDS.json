@@ -1,0 +1,2920 @@
+{
+  "version": 1,
+  "fecha": "2026-10-23",
+  "regla": "Una keyword principal por URL indexable (EN y ES), con intención, 2–4 secundarias (1 en ES cuando no hay más con sentido) y la evidencia de SERP. J5 exige la principal en el title y la description (y en el H1 salvo excepcionH1 R1/R8); J14, que no se repita entre URL. «Casa» = mismas palabras con significado, sin orden, sin tildes y singular = plural. seoptimer = null: SEOptimer no dio dato para esa keyword exacta (no se inventa volumen). Se recalibra con Search Console a las 4 semanas del lanzamiento. Fichero fijado en HASHES.txt.",
+  "fuentes": {
+    "seoptimer": {
+      "busquedas": 1,
+      "gastadas": 25,
+      "fichero": "docs/seo-loop/evidencia/seoptimer-2026-10-23-busqueda-01.json",
+      "nota": "SEOptimer cuenta cada keyword como una búsqueda: una sola consulta de 25 keywords gastó las 25 del periodo de prueba (07-BLOQUEOS.md, B1). Devolvió 652 relacionadas en EE. UU./inglés; se guardaron 200 (B2). Sin datos en español."
+    },
+    "webSearch": {
+      "consultas": 16,
+      "nota": "SERP de EE. UU. por intención; los títulos y dominios que posicionan están en evidenciasSerp"
+    },
+    "anexo08": "implementation-reports/ENTREGA-2026-10/08-anexo-titulos.md (columna Keyword), revisado: la principal se elige para que el H1 actual la conserve siempre que se pueda (R13)"
+  },
+  "evidenciasSerp": {
+    "S01": {
+      "consulta": "pergola contractor south florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Directorios (HomeAdvisor ×5), un fabricante con páginas de ciudad (theluxurypergola.com) y un proveedor de kits; ningún contratista local con página propia en cabeza",
+      "quienPosiciona": [
+        "homeadvisor.com",
+        "theluxurypergola.com",
+        "heartlandpergolas.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S02": {
+      "consulta": "pergola contractor boca raton",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Directorios (HomeAdvisor ×3, Porch, Thumbtack) y la ficha de Pergola Plus Florida en lantern.llc; intención local transaccional",
+      "quienPosiciona": [
+        "homeadvisor.com",
+        "pro.porch.com",
+        "thumbtack.com",
+        "lantern.llc"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S03": {
+      "consulta": "pergola contractor broward county",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Notas de prensa, perfiles de Google Business, HomeGuide, HomeAdvisor y la página de ciudad de un fabricante (Parkland)",
+      "quienPosiciona": [
+        "homeguide.com",
+        "business.google.com",
+        "theluxurypergola.com",
+        "homeadvisor.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S04": {
+      "consulta": "motorized louvered pergola south florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Páginas de ciudad de un fabricante (Pinecrest, Coral Gables, Weston) y fichas técnicas de ARCAT (Azenco, Hialeah); intención comercial de producto",
+      "quienPosiciona": [
+        "theluxurypergola.com",
+        "arcat.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S05": {
+      "consulta": "aluminum pergolas south florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Blogs de fabricante (theluxurypergola.com ×6) y artículos de baja calidad; sin contratistas locales",
+      "quienPosiciona": [
+        "theluxurypergola.com",
+        "expertphotography.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S06": {
+      "consulta": "how much does a pergola cost in south florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Calculadoras de coste por ciudad (contractorplus.app Miami y Tampa), páginas de fabricante y guía nacional de LawnStarter; intención informacional con número",
+      "quienPosiciona": [
+        "contractorplus.app",
+        "theluxurypergola.com",
+        "lawnstarter.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S07": {
+      "consulta": "do I need a permit for a pergola in Palm Beach County Florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Documentos oficiales (royalpalmbeachfl.gov, discover.pbcgov.org, miamisprings-fl.gov), prensa local y un podcast; Google da peso a las fuentes .gov",
+      "quienPosiciona": [
+        "royalpalmbeachfl.gov",
+        "pbcgov.org",
+        "miamisprings-fl.gov",
+        "gotowncrier.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S08": {
+      "consulta": "pool screen enclosure south florida contractor",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "BuildZoom, cámaras de comercio y perfiles de empresas de screen enclosures (Naples, Jupiter, Stuart)",
+      "quienPosiciona": [
+        "buildzoom.com",
+        "thebluebook.com",
+        "napleschamber.org"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S09": {
+      "consulta": "aluminum carport south florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "ArchiExpo, BuildZoom, BBB, ARCAT y HomeAdvisor; fabricantes y contratistas de aluminio",
+      "quienPosiciona": [
+        "archiexpo.com",
+        "buildzoom.com",
+        "bbb.org",
+        "arcat.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S10": {
+      "consulta": "paver installation boca raton",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "HomeAdvisor (con coste medio de Boca Raton), perfiles de Google Business y directorios de paving",
+      "quienPosiciona": [
+        "homeadvisor.com",
+        "business.google.com",
+        "thebuildermarket.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S11": {
+      "consulta": "patio cover contractor south florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Angi (Miami), Thumbtack, HomeAdvisor por ciudad (Delray Beach, West Palm Beach), BuildZoom; «patio cover» tiene intención de contratista local",
+      "quienPosiciona": [
+        "angi.com",
+        "thumbtack.com",
+        "homeadvisor.com",
+        "buildzoom.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S12": {
+      "consulta": "HOA rules pergola Florida",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Gestoras de HOA (fsresidential.com ×3), blogs de pérgolas y un foro; cita F.S. §720.3045",
+      "quienPosiciona": [
+        "fsresidential.com",
+        "flexpatio.com",
+        "3drenderingpro.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S13": {
+      "consulta": "Apollo louvered roof system",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Distribuidores de Apollo (Walpole Outdoors), CADdetails, ARCAT y el perfil del fabricante en Houzz; búsqueda de marca",
+      "quienPosiciona": [
+        "walpoleoutdoors.com",
+        "caddetails.com",
+        "arcat.com",
+        "houzz.jp"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S14": {
+      "consulta": "pérgolas de aluminio Miami",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Los resultados son en inglés (theluxurypergola.com, expertphotography.com): no hay competencia local en español con página propia",
+      "quienPosiciona": [
+        "theluxurypergola.com",
+        "expertphotography.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S15": {
+      "consulta": "techo de aluminio para patio Miami precio",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Marketplaces (eBay Miami, Accio), habitissimo (España) y guías genéricas: hueco de contenido en español de Florida con precio",
+      "quienPosiciona": [
+        "ebay.com",
+        "accio.com",
+        "habitissimo.es"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    },
+    "S16": {
+      "consulta": "screen enclosure para piscina Miami",
+      "fecha": "2026-10-23",
+      "herramienta": "WebSearch (EE. UU.)",
+      "tipoResultado": "Resultados en inglés: HomeAdvisor Miami, BlueBook, blogs de empresas de piscinas; el término «screen enclosure» se busca tal cual en español",
+      "quienPosiciona": [
+        "homeadvisor.com",
+        "thebluebook.com"
+      ],
+      "preguntasRelacionadas": "WebSearch no devuelve el bloque «People also ask»: sin dato"
+    }
+  },
+  "urls": {
+    "/": {
+      "principal": "pergola contractor south florida",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergola contractors near me",
+        "custom pergolas south florida",
+        "louvered roof pergola",
+        "patio covers south florida"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola contractor near me",
+          "volumen": 480,
+          "cpc": 21.71,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "pergola louvered roof",
+          "volumen": 320,
+          "cpc": 7.44,
+          "competencia": "Bajo"
+        }
+      ],
+      "excepcionH1": "R1"
+    },
+    "/about-us/about-us/": {
+      "principal": "pergola plus florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "licensed pergola contractor",
+        "CGC licensed contractor boca raton"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/about-us/brands/": {
+      "principal": "pergola brands",
+      "intencion": "comercial",
+      "secundarias": [
+        "louvered roof brands",
+        "patio cover brands",
+        "pergola manufacturers we install"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/about-us/industries-we-serve/": {
+      "principal": "commercial pergolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "commercial pergola contractor florida",
+        "restaurant pergola",
+        "hotel cabanas"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null
+    },
+    "/about-us/testimonials/": {
+      "principal": "pergola plus florida reviews",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola contractor reviews boca raton",
+        "customer reviews"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/about-us/where-we-work/": {
+      "principal": "pergola service areas south florida",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergola contractor near me",
+        "pergola contractor palm beach broward miami-dade"
+      ],
+      "evidenciaSerp": [
+        "S01",
+        "S03"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola contractor near me",
+          "volumen": 480,
+          "cpc": 21.71,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/articles/privacy-policy/": {
+      "fueraDelLoop": "§1.4 y §1.5: texto legal"
+    },
+    "/articles/terms-of-service/": {
+      "fueraDelLoop": "§1.4 y §1.5: texto legal"
+    },
+    "/brands/apollo/": {
+      "principal": "apollo louvered roof",
+      "intencion": "comercial",
+      "secundarias": [
+        "apollo opening roof",
+        "apollo pergola installer south florida",
+        "motorized louvered roof"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/brands/equinox/": {
+      "principal": "equinox louvered roof",
+      "intencion": "comercial",
+      "secundarias": [
+        "equinox pergola",
+        "equinox adjustable roof south florida"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": {
+        "keyword": "equinox louvered roof",
+        "volumen": 260,
+        "cpc": 8.03,
+        "competencia": "Bajo",
+        "fuente": "seoptimer 2026-10-23 (búsqueda 1)"
+      }
+    },
+    "/brands/fenetex/": {
+      "principal": "fenetex motorized screens",
+      "intencion": "comercial",
+      "secundarias": [
+        "fenetex hurricane screens",
+        "fenetex installer south florida"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/brands/pergola-plus-forte/": {
+      "principal": "forte aluminum pergola",
+      "intencion": "comercial",
+      "secundarias": [
+        "forte pergola system",
+        "forte plus pergola"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/brands/renaissance/": {
+      "principal": "renaissance patio covers",
+      "intencion": "comercial",
+      "secundarias": [
+        "renaissance pergolas",
+        "renaissance patio cover installer florida"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null
+    },
+    "/contact-us/get-a-quote/": {
+      "principal": "free pergola quote",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergola estimate south florida",
+        "pergola installation quote"
+      ],
+      "evidenciaSerp": [
+        "S06"
+      ],
+      "seoptimer": null
+    },
+    "/contact-us/get-in-touch/": {
+      "principal": "contact pergola plus florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola plus phone",
+        "pergola contractor boca raton office"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/contact-us/schedule-a-visit/": {
+      "principal": "pergola design consultation",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "free design consultation",
+        "pergola site visit south florida"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null
+    },
+    "/countries/broward-county-pergola-contractor/": {
+      "principal": "pergola contractor broward county",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas broward county",
+        "louvered pergola broward",
+        "pergola permit broward county"
+      ],
+      "evidenciaSerp": [
+        "S03"
+      ],
+      "seoptimer": null
+    },
+    "/countries/miami-dade-pergola-contractor/": {
+      "principal": "pergola contractor miami-dade county",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas miami-dade",
+        "hvhz pergola miami-dade",
+        "pergola miami florida"
+      ],
+      "evidenciaSerp": [
+        "S03",
+        "S04"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola miami florida",
+          "volumen": 720,
+          "cpc": 9.49,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/countries/palm-beach-county-pergola-contractor/": {
+      "principal": "pergola contractor palm beach county",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas palm beach county",
+        "pergola permit palm beach county"
+      ],
+      "evidenciaSerp": [
+        "S03",
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/post/add-shade-backyard-south-florida/": {
+      "principal": "backyard shade south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "how to add shade to backyard",
+        "backyard shade ideas florida"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale/": {
+      "principal": "aluminum pergola cost boca raton",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola cost fort lauderdale",
+        "aluminum pergola price"
+      ],
+      "evidenciaSerp": [
+        "S06"
+      ],
+      "seoptimer": null
+    },
+    "/post/aluminum-vs-wood-pergolas-humid-climate/": {
+      "principal": "aluminum vs wood pergola",
+      "intencion": "informacional",
+      "secundarias": [
+        "aluminum or wood pergola florida",
+        "best pergola material humid climate"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/post/best-outdoor-structures-rain-sun-florida/": {
+      "principal": "outdoor structures rain sun florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "patio cover for rain florida",
+        "louvered roof vs solid roof"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null
+    },
+    "/post/best-pergola-materials-coastal-florida/": {
+      "principal": "best pergola materials coastal florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "powder coated aluminum pergola",
+        "pergola salt air"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "powder coated aluminum pergola",
+          "volumen": 880,
+          "cpc": 12.13,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/post/building-custom-pergola-south-florida/": {
+      "principal": "building a custom pergola south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "custom pergola process",
+        "how a pergola is built"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null
+    },
+    "/post/can-you-use-your-patio-year-round-in-south-florida/": {
+      "principal": "patio year-round south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "year round outdoor living florida",
+        "covered patio florida"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null
+    },
+    "/post/design-build-pergola-process-south-florida/": {
+      "principal": "design-build pergola process",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola design build south florida",
+        "pergola project timeline"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null
+    },
+    "/post/hoa-rules-pergolas-south-florida/": {
+      "principal": "hoa rules pergolas south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "hoa pergola approval florida",
+        "florida statute 720 pergola"
+      ],
+      "evidenciaSerp": [
+        "S12"
+      ],
+      "seoptimer": null
+    },
+    "/post/how-long-pergola-installation-florida/": {
+      "principal": "how long pergola installation florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola installation time",
+        "pergola permit timeline"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/post/hurricane-resistant-pergolas-south-florida/": {
+      "principal": "hurricane-resistant pergolas south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "hurricane rated pergola",
+        "pergola wind rating florida"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/post/is-a-louvered-roof-pergola-worth-it-in-florida/": {
+      "principal": "louvered roof pergola worth it florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "louvered pergola cost",
+        "adjustable louvered pergola"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "adjustable louvered pergola",
+          "volumen": 720,
+          "cpc": 4.75,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/post/luxury-pergola-ideas-for-south-florida-backyards/": {
+      "principal": "luxury pergola ideas south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "luxury backyard pergola",
+        "modern aluminum pergola ideas"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/post/modern-outdoor-living-trends-in-south-florida/": {
+      "principal": "outdoor living trends south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "outdoor living trends 2026",
+        "modern backyard trends"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/post/pergola-building-codes-broward-palm-beach/": {
+      "principal": "pergola building codes broward palm beach",
+      "intencion": "informacional",
+      "secundarias": [
+        "florida building code pergola",
+        "pergola wind load broward"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/post/pergola-cost-south-florida/": {
+      "principal": "pergola cost south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola installation cost",
+        "how much does a pergola cost",
+        "motorized pergola cost"
+      ],
+      "evidenciaSerp": [
+        "S06"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola installation cost",
+          "volumen": 880,
+          "cpc": 8.19,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "motorized pergola cost",
+          "volumen": 210,
+          "cpc": 5.65,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/post/pergola-design-ideas-waterfront-properties/": {
+      "principal": "pergola design ideas waterfront",
+      "intencion": "informacional",
+      "secundarias": [
+        "waterfront pergola florida",
+        "dock pergola ideas"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/post/pergola-permit-south-florida/": {
+      "principal": "pergola permit south florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola permit florida",
+        "do i need a permit for a pergola"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola permit florida",
+          "volumen": 110,
+          "cpc": null,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/post/plan-pergola-south-florida-backyard/": {
+      "principal": "plan a pergola south florida backyard",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola planning checklist",
+        "pergola size and placement"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null
+    },
+    "/post/poolside-pergola-ideas-for-florida-homes/": {
+      "principal": "poolside pergola ideas florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "pool pergola ideas",
+        "pergola next to pool"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/post/resort-style-backyard-boca-raton/": {
+      "principal": "resort-style backyard boca raton",
+      "intencion": "informacional",
+      "secundarias": [
+        "luxury backyard boca raton",
+        "resort backyard ideas"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/products/cabanas/": {
+      "principal": "aluminum cabanas",
+      "intencion": "comercial",
+      "secundarias": [
+        "pool cabana florida",
+        "custom cabana south florida"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null,
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal.",
+      "excepcionH1": "R4"
+    },
+    "/products/carports/": {
+      "principal": "aluminum carports",
+      "intencion": "comercial",
+      "secundarias": [
+        "aluminum carport south florida",
+        "carport installation florida"
+      ],
+      "evidenciaSerp": [
+        "S09"
+      ],
+      "seoptimer": null
+    },
+    "/products/": {
+      "principal": "aluminum pergolas south florida",
+      "intencion": "comercial",
+      "secundarias": [
+        "aluminum pergola",
+        "aluminum roof pergola",
+        "outdoor shade systems"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola aluminum",
+          "volumen": 590,
+          "cpc": 6.49,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "aluminum roof pergola",
+          "volumen": 590,
+          "cpc": 4.61,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/products/motorized-louvered-pergolas/": {
+      "principal": "motorized louvered pergolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "adjustable louvered pergola",
+        "louvered roof system",
+        "motorized pergola louvers"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": {
+        "keyword": "motorized louvered pergola",
+        "volumen": 880,
+        "cpc": 12.12,
+        "competencia": "Bajo",
+        "fuente": "seoptimer 2026-10-23 (búsqueda 1)"
+      },
+      "seoptimerSecundarias": [
+        {
+          "keyword": "adjustable louvered pergola",
+          "volumen": 720,
+          "cpc": 4.75,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "louvered roof system",
+          "volumen": 480,
+          "cpc": 16.48,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "motorized pergola louvers",
+          "volumen": 880,
+          "cpc": 12.12,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/products/motorized-screens/": {
+      "principal": "motorized patio screens",
+      "intencion": "comercial",
+      "secundarias": [
+        "motorized pergola screens",
+        "retractable patio screens florida"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null,
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal.",
+      "excepcionH1": "R4"
+    },
+    "/products/open-air-pergolas/": {
+      "principal": "open-air aluminum pergolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "aluminum pergola",
+        "modern aluminum pergola"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola aluminum",
+          "volumen": 590,
+          "cpc": 6.49,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "modern aluminum pergola",
+          "volumen": 320,
+          "cpc": 9.74,
+          "competencia": "Bajo"
+        }
+      ],
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal.",
+      "excepcionH1": "R4"
+    },
+    "/products/polycarbonate-pergolas/": {
+      "principal": "polycarbonate roof pergolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "polycarbonate patio cover",
+        "clear roof pergola"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null,
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal.",
+      "excepcionH1": "R4"
+    },
+    "/products/screen-enclosures/": {
+      "principal": "pool screen enclosures",
+      "intencion": "comercial",
+      "secundarias": [
+        "screen enclosure south florida",
+        "patio screen enclosure"
+      ],
+      "evidenciaSerp": [
+        "S08"
+      ],
+      "seoptimer": null,
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal.",
+      "excepcionH1": "R4"
+    },
+    "/products/solar-pergolas/": {
+      "principal": "solar pergolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "solar pergola installation",
+        "solar patio cover"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "solar pergola installation",
+          "volumen": 210,
+          "cpc": null,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/products/solid-roof-pergolas/": {
+      "principal": "solid roof pergolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "insulated aluminum patio cover",
+        "insulated patio cover",
+        "aluminum roof pergola"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "insulated aluminum patio cover",
+          "volumen": 260,
+          "cpc": 6.72,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "aluminum roof pergola",
+          "volumen": 590,
+          "cpc": 4.61,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/products/sukkah/": {
+      "principal": "aluminum sukkah",
+      "intencion": "comercial",
+      "secundarias": [
+        "sukkah 3000",
+        "permanent sukkah florida"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null,
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal.",
+      "excepcionH1": "R4"
+    },
+    "/project-estimator/": {
+      "principal": "pergola cost calculator",
+      "intencion": "comercial",
+      "secundarias": [
+        "pergola price estimate",
+        "pergola installation cost"
+      ],
+      "evidenciaSerp": [
+        "S06"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "pergola installation cost",
+          "volumen": 880,
+          "cpc": 8.19,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/project-gallery/": {
+      "principal": "pergola projects south florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola photos",
+        "patio cover projects"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/project/attached-forte-pergola-in-west-palm-beach/": {
+      "principal": "attached forte pergola west palm beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola west palm beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton/": {
+      "principal": "forte plus pergola intracoastal boca raton",
+      "intencion": "navegacional",
+      "secundarias": [
+        "waterfront pergola boca raton"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/custom-sukkah-pergola-at-boca-beach/": {
+      "principal": "custom sukkah pergola boca beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "event sukkah boca raton"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach/": {
+      "principal": "eclipse cabanas forte pergola riviera beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "commercial pergola riviera beach",
+        "hotel cabanas"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club/": {
+      "principal": "forte pergola outdoor kitchen elan polo club",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola wellington fl"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens/": {
+      "principal": "forte pergola partial privacy wall palm beach gardens",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola palm beach gardens"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach/": {
+      "principal": "forte pergola motorized screen delray beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola delray beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach/": {
+      "principal": "forte pergola privacy wall tv mount delray beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pergola privacy wall"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-pergolas-in-greenacres-pool-patio/": {
+      "principal": "forte pergolas greenacres pool patio",
+      "intencion": "navegacional",
+      "secundarias": [
+        "pool pergola greenacres"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-plus-aluminum-carport-installation-in-pompano-beach/": {
+      "principal": "forte plus aluminum carport pompano beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "carport pompano beach"
+      ],
+      "evidenciaSerp": [
+        "S09"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach/": {
+      "principal": "forte plus pergola outdoor kitchen delray beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "outdoor kitchen pergola"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/forte-plus-pergolas-in-hillsboro-beach-estate/": {
+      "principal": "forte plus pergolas hillsboro beach",
+      "intencion": "navegacional",
+      "secundarias": [
+        "estate pergola broward"
+      ],
+      "evidenciaSerp": [
+        "S03"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club/": {
+      "principal": "oceanfront pool deck cabanas jupiter",
+      "intencion": "navegacional",
+      "secundarias": [
+        "jupiter ocean club cabanas"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/resources/blog/": {
+      "principal": "pergola outdoor living blog",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola guides",
+        "outdoor living south florida"
+      ],
+      "evidenciaSerp": [
+        "S06"
+      ],
+      "seoptimer": null
+    },
+    "/resources/blog/buying-guides-cost/": {
+      "principal": "pergola cost buying guides",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola price guide south florida"
+      ],
+      "evidenciaSerp": [
+        "S06"
+      ],
+      "seoptimer": null
+    },
+    "/resources/blog/maintenance-care/": {
+      "principal": "pergola maintenance care",
+      "intencion": "informacional",
+      "secundarias": [
+        "aluminum pergola cleaning",
+        "coastal pergola maintenance"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/resources/blog/materials-engineering/": {
+      "principal": "pergola materials engineering",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola wind load",
+        "aluminum vs wood pergola"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/resources/blog/outdoor-living-design/": {
+      "principal": "outdoor living design ideas",
+      "intencion": "informacional",
+      "secundarias": [
+        "backyard design south florida",
+        "patio design ideas"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/resources/blog/pergolas-shade-systems/": {
+      "principal": "pergolas shade systems",
+      "intencion": "informacional",
+      "secundarias": [
+        "louvered vs solid roof",
+        "shade structures florida"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null
+    },
+    "/resources/faq/": {
+      "principal": "pergola faqs",
+      "intencion": "informacional",
+      "secundarias": [
+        "pergola permit questions",
+        "pergola cost questions"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/resources/warranties/": {
+      "principal": "pergola warranty",
+      "intencion": "navegacional",
+      "secundarias": [
+        "louvered roof warranty",
+        "screen warranty"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/services/": {
+      "principal": "outdoor construction services south florida",
+      "intencion": "comercial",
+      "secundarias": [
+        "patio contractor south florida",
+        "outdoor living contractor"
+      ],
+      "evidenciaSerp": [
+        "S01",
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/concrete/": {
+      "principal": "structural concrete services",
+      "intencion": "comercial",
+      "secundarias": [
+        "concrete patio slab",
+        "pergola footings"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/deck-builders/": {
+      "principal": "deck builders",
+      "intencion": "comercial",
+      "secundarias": [
+        "composite deck builders south florida",
+        "aluminum deck"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/driveways/": {
+      "principal": "paver driveways",
+      "intencion": "comercial",
+      "secundarias": [
+        "driveway pavers boca raton",
+        "driveway installation"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/fence-solutions/": {
+      "principal": "aluminum fence installation",
+      "intencion": "comercial",
+      "secundarias": [
+        "privacy fence south florida",
+        "fence contractor"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/full-outdoor-remodel/": {
+      "principal": "full outdoor remodel",
+      "intencion": "comercial",
+      "secundarias": [
+        "backyard remodel south florida",
+        "outdoor renovation"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/pavers/": {
+      "principal": "paver installation",
+      "intencion": "comercial",
+      "secundarias": [
+        "paver patio",
+        "pool deck pavers",
+        "pavers boca raton"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/services/pergola-design-construction/": {
+      "principal": "pergola design construction",
+      "intencion": "comercial",
+      "secundarias": [
+        "custom pergola builders",
+        "custom aluminum pergola",
+        "custom built pergola"
+      ],
+      "evidenciaSerp": [
+        "S01"
+      ],
+      "seoptimer": null,
+      "seoptimerSecundarias": [
+        {
+          "keyword": "custom pergola builders",
+          "volumen": 140,
+          "cpc": 41.73,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "custom aluminum pergola",
+          "volumen": 260,
+          "cpc": 21.07,
+          "competencia": "Bajo"
+        },
+        {
+          "keyword": "custom-built pergola",
+          "volumen": 170,
+          "cpc": 14.47,
+          "competencia": "Bajo"
+        }
+      ]
+    },
+    "/pergolas-contractors/aventura-pergola-builders/": {
+      "principal": "pergola contractor aventura",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas aventura fl",
+        "louvered pergola aventura",
+        "patio cover aventura"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/boca-raton-pergola-contractor/": {
+      "principal": "pergola contractor boca raton",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas boca raton fl",
+        "louvered pergola boca raton",
+        "patio cover boca raton"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/boynton-beach-contractors/": {
+      "principal": "pergola contractor boynton beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas boynton beach fl",
+        "louvered pergola boynton beach",
+        "patio cover boynton beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/cooper-city-pergola-installation/": {
+      "principal": "pergola contractor cooper city",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas cooper city fl",
+        "louvered pergola cooper city",
+        "patio cover cooper city"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/coral-gables/": {
+      "principal": "pergola contractor coral gables",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas coral gables fl",
+        "louvered pergola coral gables",
+        "patio cover coral gables"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "nota": "X6: el cliente dice que no trabaja Coral Gables; la URL sigue indexable mientras no decida"
+    },
+    "/pergolas-contractors/coral-springs-installation/": {
+      "principal": "pergola contractor coral springs",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas coral springs fl",
+        "louvered pergola coral springs",
+        "patio cover coral springs"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/davie-installation/": {
+      "principal": "pergola contractor davie",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas davie fl",
+        "louvered pergola davie",
+        "patio cover davie"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/delray-beach-contractors/": {
+      "principal": "pergola contractor delray beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas delray beach fl",
+        "louvered pergola delray beach",
+        "patio cover delray beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/doral-pergola-builders/": {
+      "principal": "pergola contractor doral",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas doral fl",
+        "louvered pergola doral",
+        "patio cover doral"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/fort-lauderdale-installation/": {
+      "principal": "pergola contractor fort lauderdale",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas fort lauderdale fl",
+        "louvered pergola fort lauderdale",
+        "patio cover fort lauderdale"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/hollywood-pergola-installation/": {
+      "principal": "pergola contractor hollywood",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas hollywood fl",
+        "louvered pergola hollywood",
+        "patio cover hollywood"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/jupiter-contractors/": {
+      "principal": "pergola contractor jupiter",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas jupiter fl",
+        "louvered pergola jupiter",
+        "patio cover jupiter"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/key-biscayne-pergola-builders/": {
+      "principal": "pergola contractor key biscayne",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas key biscayne fl",
+        "louvered pergola key biscayne",
+        "patio cover key biscayne"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/miami-beach-pergola-design/": {
+      "principal": "pergola contractor miami beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas miami beach fl",
+        "louvered pergola miami beach",
+        "patio cover miami beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/miami-pergola-experts/": {
+      "principal": "pergola contractor miami",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas miami fl",
+        "louvered pergola miami",
+        "patio cover miami"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/miramar-installation/": {
+      "principal": "pergola contractor miramar",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas miramar fl",
+        "louvered pergola miramar",
+        "patio cover miramar"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/palm-beach-contractors/": {
+      "principal": "pergola contractor palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas palm beach fl",
+        "louvered pergola palm beach",
+        "patio cover palm beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/palm-beach-gardens/": {
+      "principal": "pergola contractor palm beach gardens",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas palm beach gardens fl",
+        "louvered pergola palm beach gardens",
+        "patio cover palm beach gardens"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/parkland-installation/": {
+      "principal": "pergola contractor parkland",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas parkland fl",
+        "louvered pergola parkland",
+        "patio cover parkland"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/pembroke-pines-pergola-installation/": {
+      "principal": "pergola contractor pembroke pines",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas pembroke pines fl",
+        "louvered pergola pembroke pines",
+        "patio cover pembroke pines"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/royal-palm-beach-contractors/": {
+      "principal": "pergola contractor royal palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas royal palm beach fl",
+        "louvered pergola royal palm beach",
+        "patio cover royal palm beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/sunny-isles-beach-pergola-builders/": {
+      "principal": "pergola contractor sunny isles beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas sunny isles beach fl",
+        "louvered pergola sunny isles beach",
+        "patio cover sunny isles beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/wellington-contractors/": {
+      "principal": "pergola contractor wellington",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas wellington fl",
+        "louvered pergola wellington",
+        "patio cover wellington"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/west-palm-beach-contractors/": {
+      "principal": "pergola contractor west palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas west palm beach fl",
+        "louvered pergola west palm beach",
+        "patio cover west palm beach"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/pergolas-contractors/weston-pergola-solutions/": {
+      "principal": "pergola contractor weston",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pergolas weston fl",
+        "louvered pergola weston",
+        "patio cover weston"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/es/": {
+      "principal": "pérgolas sur de florida",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "contratista de pérgolas",
+        "pérgolas de aluminio",
+        "techo de aluminio para patio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R1"
+    },
+    "/es/about-us/about-us/": {
+      "principal": "sobre pergola plus florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "contratista con licencia boca raton"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/es/about-us/brands/": {
+      "principal": "marcas de pérgolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "marcas de techos de lamas",
+        "modelos de cubierta"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/es/about-us/industries-we-serve/": {
+      "principal": "pérgolas comerciales",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgolas para restaurantes",
+        "cabañas para hoteles"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/about-us/testimonials/": {
+      "principal": "opiniones pergola plus florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "reseñas de clientes"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/es/about-us/where-we-work/": {
+      "principal": "zonas de servicio pérgolas sur de florida",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "contratista de pérgolas cerca"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/articles/privacy-policy/": {
+      "fueraDelLoop": "§1.4 y §1.5: texto legal"
+    },
+    "/es/articles/terms-of-service/": {
+      "fueraDelLoop": "§1.4 y §1.5: texto legal"
+    },
+    "/es/brands/apollo/": {
+      "principal": "techos de lamas apollo",
+      "intencion": "comercial",
+      "secundarias": [
+        "apollo techo motorizado"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/es/brands/equinox/": {
+      "principal": "techos de lamas equinox",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgola equinox"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/es/brands/fenetex/": {
+      "principal": "cortinas motorizadas fenetex",
+      "intencion": "comercial",
+      "secundarias": [
+        "cortinas antihuracán fenetex"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/es/brands/pergola-plus-forte/": {
+      "principal": "sistemas de pérgola forte",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgola forte de aluminio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/brands/renaissance/": {
+      "principal": "cubiertas de patio renaissance",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgolas renaissance"
+      ],
+      "evidenciaSerp": [
+        "S11"
+      ],
+      "seoptimer": null
+    },
+    "/es/contact-us/get-a-quote/": {
+      "principal": "cotización de pérgola",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "precio pérgola",
+        "cotización gratis"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/contact-us/get-in-touch/": {
+      "principal": "contacto pergola plus florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "teléfono pergola plus"
+      ],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null
+    },
+    "/es/contact-us/schedule-a-visit/": {
+      "principal": "consulta de diseño de pérgola",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "visita gratis"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/countries/broward-county-pergola-contractor/": {
+      "principal": "pérgolas condado de broward",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas de aluminio broward",
+        "permiso pérgola broward"
+      ],
+      "evidenciaSerp": [
+        "S03"
+      ],
+      "seoptimer": null
+    },
+    "/es/countries/miami-dade-pergola-contractor/": {
+      "principal": "pérgolas condado de miami-dade",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas de aluminio miami",
+        "hvhz miami-dade"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/countries/palm-beach-county-pergola-contractor/": {
+      "principal": "pérgolas condado de palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "permiso pérgola palm beach"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/add-shade-backyard-south-florida/": {
+      "principal": "sombra para el patio sur de florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "cómo dar sombra al patio"
+      ],
+      "evidenciaSerp": [
+        "S05"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale/": {
+      "principal": "precio pérgola de aluminio boca raton",
+      "intencion": "informacional",
+      "secundarias": [
+        "precio pérgola fort lauderdale"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/aluminum-vs-wood-pergolas-humid-climate/": {
+      "principal": "pérgolas de aluminio o de madera",
+      "intencion": "informacional",
+      "secundarias": [
+        "pérgola aluminio o madera florida"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/best-outdoor-structures-rain-sun-florida/": {
+      "principal": "estructuras exteriores sol lluvia florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "techo para patio lluvia"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/best-pergola-materials-coastal-florida/": {
+      "principal": "mejores materiales pérgola costa",
+      "intencion": "informacional",
+      "secundarias": [
+        "aluminio con pintura en polvo"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/building-custom-pergola-south-florida/": {
+      "principal": "construir una pérgola a medida",
+      "intencion": "informacional",
+      "secundarias": [
+        "paso a paso pérgola"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/can-you-use-your-patio-year-round-in-south-florida/": {
+      "principal": "usar el patio todo el año sur de florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "patio techado florida"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/design-build-pergola-process-south-florida/": {
+      "principal": "proceso de diseño y obra de una pérgola",
+      "intencion": "informacional",
+      "secundarias": [
+        "diseño y construcción de pérgolas"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/hoa-rules-pergolas-south-florida/": {
+      "principal": "hoa pérgola",
+      "intencion": "informacional",
+      "secundarias": [
+        "reglas de la hoa para pérgolas",
+        "aprobación de la hoa"
+      ],
+      "evidenciaSerp": [
+        "S12"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/how-long-pergola-installation-florida/": {
+      "principal": "cuánto se tarda en instalar una pérgola",
+      "intencion": "informacional",
+      "secundarias": [
+        "plazos de instalación de pérgola"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/hurricane-resistant-pergolas-south-florida/": {
+      "principal": "pérgolas resistentes a huracanes",
+      "intencion": "informacional",
+      "secundarias": [
+        "pérgola para huracanes florida"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/is-a-louvered-roof-pergola-worth-it-in-florida/": {
+      "principal": "pérgola de techo de lamas compensa florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "precio pérgola de lamas"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/luxury-pergola-ideas-for-south-florida-backyards/": {
+      "principal": "ideas de pérgola sur de florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "ideas de pérgola de lujo"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/modern-outdoor-living-trends-in-south-florida/": {
+      "principal": "tendencias de exterior sur de florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "tendencias patio 2026"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/pergola-building-codes-broward-palm-beach/": {
+      "principal": "normativa de pérgolas broward palm beach",
+      "intencion": "informacional",
+      "secundarias": [
+        "florida building code pérgola"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/pergola-cost-south-florida/": {
+      "principal": "cuánto cuesta una pérgola sur de florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "precio pérgola",
+        "precio pérgola de aluminio"
+      ],
+      "evidenciaSerp": [
+        "S06",
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/pergola-design-ideas-waterfront-properties/": {
+      "principal": "ideas de pérgola casas frente al agua",
+      "intencion": "informacional",
+      "secundarias": [
+        "pérgola frente al mar"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/pergola-permit-south-florida/": {
+      "principal": "permiso para una pérgola sur de florida",
+      "intencion": "informacional",
+      "secundarias": [
+        "permiso pérgola florida"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/plan-pergola-south-florida-backyard/": {
+      "principal": "cómo planificar una pérgola",
+      "intencion": "informacional",
+      "secundarias": [
+        "planificar pérgola patio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/poolside-pergola-ideas-for-florida-homes/": {
+      "principal": "ideas de pérgola junto a la piscina",
+      "intencion": "informacional",
+      "secundarias": [
+        "pérgola para piscina"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/post/resort-style-backyard-boca-raton/": {
+      "principal": "patio estilo resort boca raton",
+      "intencion": "informacional",
+      "secundarias": [
+        "jardín de lujo boca raton"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/products/cabanas/": {
+      "principal": "cabañas de aluminio",
+      "intencion": "comercial",
+      "secundarias": [
+        "cabaña para piscina"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R4",
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal."
+    },
+    "/es/products/carports/": {
+      "principal": "carports de aluminio",
+      "intencion": "comercial",
+      "secundarias": [
+        "carport de aluminio florida"
+      ],
+      "evidenciaSerp": [
+        "S09"
+      ],
+      "seoptimer": null
+    },
+    "/es/products/": {
+      "principal": "pérgolas de aluminio sur de florida",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgolas de aluminio",
+        "sistemas de sombra"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/products/motorized-louvered-pergolas/": {
+      "principal": "pérgolas de lamas motorizadas",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgola bioclimática",
+        "techo de lamas motorizado"
+      ],
+      "evidenciaSerp": [
+        "S04",
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/products/motorized-screens/": {
+      "principal": "cortinas motorizadas para patio",
+      "intencion": "comercial",
+      "secundarias": [
+        "cortinas motorizadas para pérgola"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R4",
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal."
+    },
+    "/es/products/open-air-pergolas/": {
+      "principal": "pérgolas de aluminio abiertas",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgola abierta"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R4",
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal."
+    },
+    "/es/products/polycarbonate-pergolas/": {
+      "principal": "pérgolas de policarbonato",
+      "intencion": "comercial",
+      "secundarias": [
+        "techo de policarbonato para patio"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R4",
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal."
+    },
+    "/es/products/screen-enclosures/": {
+      "principal": "screen enclosures para piscina",
+      "intencion": "comercial",
+      "secundarias": [
+        "screen enclosure para patio",
+        "malla para piscina"
+      ],
+      "evidenciaSerp": [
+        "S16"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R4",
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal."
+    },
+    "/es/products/solar-pergolas/": {
+      "principal": "pérgolas solares",
+      "intencion": "comercial",
+      "secundarias": [
+        "techo solar para patio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/products/solid-roof-pergolas/": {
+      "principal": "pérgolas de techo sólido",
+      "intencion": "comercial",
+      "secundarias": [
+        "techo de aluminio aislado",
+        "techo de aluminio para patio"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/products/sukkah/": {
+      "principal": "sukkah de aluminio",
+      "intencion": "comercial",
+      "secundarias": [
+        "sukkah 3000"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R4",
+      "nota": "Solo el H1 queda exento (R4): el H1 de la ficha es el nombre del producto que pinta el módulo de productos de la home, que el cliente pidió mantener (R3, R4, conflicto X8). El title y la descripción siguen exigiendo la principal."
+    },
+    "/es/project-estimator/": {
+      "principal": "calculadora de precio de pérgola",
+      "intencion": "comercial",
+      "secundarias": [
+        "precio pérgola",
+        "estimado de pérgola"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/project-gallery/": {
+      "principal": "proyectos de pérgolas sur de florida",
+      "intencion": "navegacional",
+      "secundarias": [
+        "fotos de pérgolas"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/project/attached-forte-pergola-in-west-palm-beach/": {
+      "principal": "pérgola forte adosada west palm beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton/": {
+      "principal": "pérgola forte plus intracoastal boca raton",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/custom-sukkah-pergola-at-boca-beach/": {
+      "principal": "sukkah a medida boca beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach/": {
+      "principal": "cabañas eclipse pérgola forte riviera beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club/": {
+      "principal": "pérgola forte cocina exterior elan polo club",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens/": {
+      "principal": "pérgola forte muro de privacidad parcial palm beach gardens",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach/": {
+      "principal": "pérgola forte cortina motorizada delray beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach/": {
+      "principal": "pérgola forte muro de privacidad soporte de tv delray beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-pergolas-in-greenacres-pool-patio/": {
+      "principal": "pérgolas forte patio de piscina greenacres",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-plus-aluminum-carport-installation-in-pompano-beach/": {
+      "principal": "carport de aluminio forte plus pompano beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S09"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach/": {
+      "principal": "pérgola forte plus cocina exterior delray beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/forte-plus-pergolas-in-hillsboro-beach-estate/": {
+      "principal": "pérgolas forte plus hillsboro beach",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S03"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club/": {
+      "principal": "terraza de piscina cabañas jupiter ocean club",
+      "intencion": "navegacional",
+      "secundarias": [],
+      "evidenciaSerp": [
+        "S02"
+      ],
+      "seoptimer": null,
+      "excepcionH1": "R8"
+    },
+    "/es/resources/blog/": {
+      "principal": "blog de pérgolas y exteriores",
+      "intencion": "informacional",
+      "secundarias": [
+        "guías de pérgolas"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/blog/buying-guides-cost/": {
+      "principal": "guías de compra y precios de pérgolas",
+      "intencion": "informacional",
+      "secundarias": [
+        "precio pérgola"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/blog/maintenance-care/": {
+      "principal": "mantenimiento de pérgolas",
+      "intencion": "informacional",
+      "secundarias": [
+        "limpieza pérgola de aluminio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/blog/materials-engineering/": {
+      "principal": "materiales e ingeniería de pérgolas",
+      "intencion": "informacional",
+      "secundarias": [
+        "carga de viento pérgola"
+      ],
+      "evidenciaSerp": [
+        "S04"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/blog/outdoor-living-design/": {
+      "principal": "diseño de exteriores",
+      "intencion": "informacional",
+      "secundarias": [
+        "ideas de patio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/blog/pergolas-shade-systems/": {
+      "principal": "pérgolas y sistemas de sombra",
+      "intencion": "informacional",
+      "secundarias": [
+        "techo de lamas o techo sólido"
+      ],
+      "evidenciaSerp": [
+        "S15"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/faq/": {
+      "principal": "preguntas frecuentes sobre pérgolas",
+      "intencion": "informacional",
+      "secundarias": [
+        "permiso pérgola preguntas"
+      ],
+      "evidenciaSerp": [
+        "S07"
+      ],
+      "seoptimer": null
+    },
+    "/es/resources/warranties/": {
+      "principal": "garantía de pérgolas",
+      "intencion": "navegacional",
+      "secundarias": [
+        "garantía techo de lamas"
+      ],
+      "evidenciaSerp": [
+        "S13"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/": {
+      "principal": "construcción exterior sur de florida",
+      "intencion": "comercial",
+      "secundarias": [
+        "servicios de patio"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/concrete/": {
+      "principal": "concreto estructural",
+      "intencion": "comercial",
+      "secundarias": [
+        "losa de concreto para patio"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/deck-builders/": {
+      "principal": "constructores de decks",
+      "intencion": "comercial",
+      "secundarias": [
+        "deck de aluminio"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/driveways/": {
+      "principal": "driveways de pavers",
+      "intencion": "comercial",
+      "secundarias": [
+        "entrada de autos con pavers"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/fence-solutions/": {
+      "principal": "cercas de aluminio",
+      "intencion": "comercial",
+      "secundarias": [
+        "cercas de privacidad"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/full-outdoor-remodel/": {
+      "principal": "remodelación exterior integral",
+      "intencion": "comercial",
+      "secundarias": [
+        "remodelación de patio"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/pavers/": {
+      "principal": "instalación de pavers",
+      "intencion": "comercial",
+      "secundarias": [
+        "pavers para piscina",
+        "pavers para patio"
+      ],
+      "evidenciaSerp": [
+        "S10"
+      ],
+      "seoptimer": null
+    },
+    "/es/services/pergola-design-construction/": {
+      "principal": "diseño y construcción de pérgolas",
+      "intencion": "comercial",
+      "secundarias": [
+        "pérgolas a medida"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/aventura-pergola-builders/": {
+      "principal": "pérgolas de aluminio aventura",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas aventura",
+        "techo de aluminio aventura"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/boca-raton-pergola-contractor/": {
+      "principal": "pérgolas de aluminio boca raton",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas boca raton",
+        "techo de aluminio boca raton"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/boynton-beach-contractors/": {
+      "principal": "pérgolas de aluminio boynton beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas boynton beach",
+        "techo de aluminio boynton beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/cooper-city-pergola-installation/": {
+      "principal": "pérgolas de aluminio cooper city",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas cooper city",
+        "techo de aluminio cooper city"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/coral-gables/": {
+      "principal": "pérgolas de aluminio coral gables",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas coral gables",
+        "techo de aluminio coral gables"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null,
+      "nota": "X6"
+    },
+    "/es/pergolas-contractors/coral-springs-installation/": {
+      "principal": "pérgolas de aluminio coral springs",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas coral springs",
+        "techo de aluminio coral springs"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/davie-installation/": {
+      "principal": "pérgolas de aluminio davie",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas davie",
+        "techo de aluminio davie"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/delray-beach-contractors/": {
+      "principal": "pérgolas de aluminio delray beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas delray beach",
+        "techo de aluminio delray beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/doral-pergola-builders/": {
+      "principal": "pérgolas de aluminio doral",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas doral",
+        "techo de aluminio doral"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/fort-lauderdale-installation/": {
+      "principal": "pérgolas de aluminio fort lauderdale",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas fort lauderdale",
+        "techo de aluminio fort lauderdale"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/hollywood-pergola-installation/": {
+      "principal": "pérgolas de aluminio hollywood",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas hollywood",
+        "techo de aluminio hollywood"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/jupiter-contractors/": {
+      "principal": "pérgolas de aluminio jupiter",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas jupiter",
+        "techo de aluminio jupiter"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/key-biscayne-pergola-builders/": {
+      "principal": "pérgolas de aluminio key biscayne",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas key biscayne",
+        "techo de aluminio key biscayne"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/miami-beach-pergola-design/": {
+      "principal": "pérgolas de aluminio miami beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas miami beach",
+        "techo de aluminio miami beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/miami-pergola-experts/": {
+      "principal": "pérgolas de aluminio miami",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas miami",
+        "techo de aluminio miami"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/miramar-installation/": {
+      "principal": "pérgolas de aluminio miramar",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas miramar",
+        "techo de aluminio miramar"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/palm-beach-contractors/": {
+      "principal": "pérgolas de aluminio palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas palm beach",
+        "techo de aluminio palm beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/palm-beach-gardens/": {
+      "principal": "pérgolas de aluminio palm beach gardens",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas palm beach gardens",
+        "techo de aluminio palm beach gardens"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/parkland-installation/": {
+      "principal": "pérgolas de aluminio parkland",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas parkland",
+        "techo de aluminio parkland"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/pembroke-pines-pergola-installation/": {
+      "principal": "pérgolas de aluminio pembroke pines",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas pembroke pines",
+        "techo de aluminio pembroke pines"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/royal-palm-beach-contractors/": {
+      "principal": "pérgolas de aluminio royal palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas royal palm beach",
+        "techo de aluminio royal palm beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/sunny-isles-beach-pergola-builders/": {
+      "principal": "pérgolas de aluminio sunny isles beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas sunny isles beach",
+        "techo de aluminio sunny isles beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/wellington-contractors/": {
+      "principal": "pérgolas de aluminio wellington",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas wellington",
+        "techo de aluminio wellington"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/west-palm-beach-contractors/": {
+      "principal": "pérgolas de aluminio west palm beach",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas west palm beach",
+        "techo de aluminio west palm beach"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    },
+    "/es/pergolas-contractors/weston-pergola-solutions/": {
+      "principal": "pérgolas de aluminio weston",
+      "intencion": "transaccional-local",
+      "secundarias": [
+        "pérgolas weston",
+        "techo de aluminio weston"
+      ],
+      "evidenciaSerp": [
+        "S14"
+      ],
+      "seoptimer": null
+    }
+  }
+}

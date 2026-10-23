@@ -244,7 +244,7 @@ export const CONTACTO_ES: CopiaContacto = propiasSanity?.CONTACTO_ES ?? {
     },
     oficina: {
       rotulo: 'Oficina',
-      apoyo: 'Visítenos en Boca Ratón, Florida, para una consulta',
+      apoyo: 'Visítenos en Boca Raton, Florida, para una consulta',
       valor: DIRECCION,
       href: MAPA,
       nota: 'Solo con cita previa',
@@ -306,13 +306,13 @@ export const CONTACTO_ES: CopiaContacto = propiasSanity?.CONTACTO_ES ?? {
     deco: 'Reseñas y testimonios',
     titulo: 'Lo que dicen nuestros clientes sobre nuestro trabajo',
     intro:
-      'Descubra cómo nuestros contratistas transforman espacios exteriores instalando pérgolas, cubiertas de patio, cerramientos de piscina y techos de lamas por todo el sur de Florida.',
+      'Descubra cómo nuestros contratistas transforman espacios exteriores instalando pérgolas, cubiertas de patio, screen enclosures de piscina y techos de lamas por todo el sur de Florida.',
     boton: 'Leer reseñas de clientes',
   },
   cta: {
     titulo: 'Solicite su presupuesto gratis',
     texto:
-      'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluamos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o cerramientos de piscina.',
+      'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluamos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o screen enclosures de piscina.',
     presupuesto: 'Pedir presupuesto',
     visita: 'Agendar una visita',
   },

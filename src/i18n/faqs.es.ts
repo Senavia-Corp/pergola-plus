@@ -68,7 +68,7 @@ export const CHIPS_COPY: Record<Idioma, Record<Chip, string>> = faqsSanity?.CHIP
     permisos: 'Permisos y normativa',
     precios: 'Precios y plazos',
     pergolas: 'Pérgolas y techos',
-    sombra: 'Sombra y cerramientos',
+    sombra: 'Sombra y screen enclosures',
     obra: 'Obra y exteriores',
     materiales: 'Materiales y mantenimiento',
   },
@@ -109,14 +109,14 @@ export const TEMAS_COPY: Record<Idioma, Record<Tema, string>> = faqsSanity?.TEMA
     sukkah: 'Sistema Sukkah 3000',
     cabanas: 'Cabañas de aluminio',
     carports: 'Carports de aluminio',
-    'screen-enclosures': 'Cerramientos con mosquitero',
+    'screen-enclosures': 'Screen enclosures',
     'motorized-screens': 'Cortinas motorizadas',
     'pergola-design-construction': 'Pérgolas a medida',
-    pavers: 'Adoquinado',
-    driveways: 'Entradas de coche',
-    concrete: 'Hormigón estructural',
+    pavers: 'Pavers',
+    driveways: 'Entradas de autos',
+    concrete: 'Concreto estructural',
     'deck-builders': 'Decks',
-    'fence-solutions': 'Vallado',
+    'fence-solutions': 'Cercas',
     'full-outdoor-remodel': 'Remodelación exterior integral',
     'general-pergolas': 'Pérgolas y techos',
     'general-permisos': 'Permisos, normativa y comunidad',
@@ -854,7 +854,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'A cabana is priced like a small building rather than like a shade cover: it carries a solid roof, often walls or screens, and usually power. Expect it above a comparable open pergola of the same footprint. Size, roof type and whether it is plumbed move the number most.',
       'claves': 'cabana cost price pool house cost per square foot',
     },
-    'precio-cuanto-cuesta-cerramiento': {
+    'precio-cuanto-cuesta-screen enclosure': {
       'pregunta': 'How is a screen enclosure priced?',
       'respuesta':
         'Mostly by the enclosed volume and the span of the roof, because those set the aluminium sizing. A tall dome over a large pool costs considerably more than a low mansard over a patio of the same floor area. Screen type, door count and any existing footer to reuse also matter.',
@@ -968,7 +968,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Prices do not swing seasonally, but schedules do. Demand climbs ahead of the winter season, so booking in the slower, wetter months usually buys you a faster slot rather than a lower price — which, given permit timelines, is often the more valuable of the two.',
       'claves': 'season cheaper best time year discount schedule availability',
     },
-    'precio-plazo-cerramiento': {
+    'precio-plazo-screen enclosure': {
       'pregunta': 'How long does a pool enclosure take to build?',
       'respuesta':
         'Fabrication is the long pole: the frame is cut to your pool\'s geometry, so nothing is off the shelf. Once material arrives, erecting the frame and screening it is usually a matter of days for a typical residential cage, longer for a large dome with multiple doors.',
@@ -1299,7 +1299,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'A properly assembled one does not. Noise in wind almost always means something is loose — a fastener backed out, an end cap missing, a screen track not fully seated. It is worth chasing rather than living with, because a rattle is a component working itself further loose.',
       'claves': 'noise rattle hum wind vibration loose fastener creaking',
     },
-    'pergola-carport-coche': {
+    'pergola-carport-auto': {
       'pregunta': 'Will a carport actually fit my vehicle?',
       'respuesta':
         'Measure height, not just length. A standard sedan is easy; a lifted truck, a van with a roof rack or an RV needs clear height specified up front, and roof-mounted accessories are what usually catch people out. Post placement also has to leave room to open the doors.',
@@ -1323,13 +1323,13 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'It can, and it is a good use of the volume, but keep the equipment side separate and ventilated: pool chemicals and salt systems corrode metal and electronics in an enclosed space. A louvered or screened door on that bay handles it without giving up the look.',
       'claves': 'cabana storage pool equipment chemicals pump ventilation',
     },
-    'pergola-cerramiento-mansarda': {
+    'pergola-screen enclosure-mansarda': {
       'pregunta': 'Mansard, gable or dome — what\'s the difference?',
       'respuesta':
         'It is mostly about height and how the roof sheds. A flat or mansard cage is lower and cheaper and suits a patio; a gable or dome gains headroom over a pool and handles water better on a large span. Local wind requirements sometimes rule out the tallest option.',
       'claves': 'mansard gable dome hip enclosure roof style height span',
     },
-    'pergola-cerramiento-hojas': {
+    'pergola-screen enclosure-hojas': {
       'pregunta': 'Do enclosures keep leaves and pollen out of the pool?',
       'respuesta':
         'Leaves and larger debris, yes, and that is the saving most owners notice: less skimming and less pump load. Pollen is fine enough to pass through insect mesh. A tighter no-see-um mesh catches more of it at the cost of some airflow and some view.',
@@ -1353,7 +1353,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Rarely. Most spaces need one or two: the side the afternoon sun comes from and the side facing a neighbour or a road. Screening every opening turns an outdoor room into a box and costs four times as much. Start with the worst side and add later if the tracks are planned for.',
       'claves': 'how many screens sides four all around partial coverage',
     },
-    'pergola-cerramiento-mascota': {
+    'pergola-screen enclosure-mascota': {
       'pregunta': 'Can I add a pet door to an enclosure?',
       'respuesta':
         'Yes, and it is easier to build in than to cut in later. It goes in a framed panel rather than in the mesh itself, so the structure and the screen tension are unaffected. Position matters: away from the pool side if the point is to keep the animal out of the water.',
@@ -1413,7 +1413,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Colour matters more than material: a light travertine or a pale concrete paver is walkable barefoot at midday where a dark stone is not. Texture helps too — a shell-stone or tumbled finish reflects and grips better than a smooth dark surface.',
       'claves': 'cool pavers barefoot hot pool deck travertine shell stone colour',
     },
-    'obra-adoquin-entrada-coche': {
+    'obra-adoquin-entrada-auto': {
       'pregunta': 'Is a paver driveway built differently from a patio?',
       'respuesta':
         'Yes, and the difference is under the surface: a driveway needs a deeper compacted base and usually a thicker paver to take vehicle loads, plus attention to where the tyres turn. A patio base under a driveway is the single most common reason a drive ruts within a couple of years.',
@@ -1473,25 +1473,25 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Yes, and it is a good way to rescue a cracked or ugly slab without demolition. The framing sits on sleepers with a gap for drainage and airflow underneath. The catch is height: the finished deck ends up a few inches higher, which can affect a door threshold.',
       'claves': 'deck over concrete slab sleepers existing height threshold',
     },
-    'obra-valla-aluminio-vs-pvc': {
+    'obra-cerca-aluminio-vs-pvc': {
       'pregunta': 'Aluminium, vinyl or wood fencing?',
       'respuesta':
         'Aluminium for a see-through boundary that survives salt air and meets pool code; vinyl for privacy with no painting; wood for the look, accepting the maintenance. In a hurricane zone, a solid fence catches wind that a picket aluminium one lets through, which changes the post spec.',
       'claves': 'fence aluminium vinyl wood privacy pool code wind',
     },
-    'obra-valla-piscina-normativa': {
+    'obra-cerca-piscina-normativa': {
       'pregunta': 'What does pool fencing have to comply with?',
       'respuesta':
         'Florida\'s pool safety requirements set a minimum height, a maximum gap between pickets and at the bottom, no horizontal members a child can climb, and self-closing self-latching gates with the latch above a set height. A decorative fence that misses any of those does not qualify as a barrier.',
       'claves': 'pool fence code height gap picket gate latch barrier safety',
     },
-    'obra-valla-lindero': {
+    'obra-cerca-lindero': {
       'pregunta': 'Who owns and maintains a fence on the property line?',
       'respuesta':
         'It depends on where it actually sits, which is what the survey tells you. A fence built inside your line is yours; one straddling the line is usually shared, and that is worth agreeing in writing with the neighbour before it goes up rather than after it needs replacing.',
       'claves': 'fence property line ownership neighbour shared survey maintain',
     },
-    'obra-valla-huracan': {
+    'obra-cerca-huracan': {
       'pregunta': 'Do fences survive hurricanes here?',
       'respuesta':
         'Aluminium picket fencing generally does, because wind passes through it. Solid vinyl and wood privacy fences are the ones that go down, since they act as a sail and load the posts hard. Post depth and spacing, and whether the posts are set in concrete, decide the outcome.',
@@ -1650,12 +1650,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'carports-uv': {
       'pregunta': '¿Frenan los rayos UV?',
       'respuesta':
-        'Sí. Frenan los rayos UV y el calor fuerte del sur de Florida, así que la pintura y el interior del coche no se estropean con el sol.',
+        'Sí. Frenan los rayos UV y el calor fuerte del sur de Florida, así que la pintura y el interior del auto no se estropean con el sol.',
     },
     'carports-viento': {
       'pregunta': '¿Aguantan viento fuerte?',
       'respuesta':
-        'Cada cochera se calcula para superar las cargas de viento que exige Florida, con la protección que hace falta frente a un huracán.',
+        'Cada carport se calcula para superar las cargas de viento que exige Florida, con la protección que hace falta frente a un huracán.',
     },
     'carports-diseno': {
       'pregunta': '¿Puede ir a juego con mi casa?',
@@ -1670,12 +1670,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'carports-permiso': {
       'pregunta': '¿Hace falta permiso de obra?',
       'respuesta':
-        'Sí, una cochera permanente lleva permiso. Nos ocupamos del cálculo y de toda la tramitación para que la instalación sea legal y sin complicaciones.',
+        'Sí, un carport permanente lleva permiso. Nos ocupamos del cálculo y de toda la tramitación para que la instalación sea legal y sin complicaciones.',
     },
     'louvered-funcionamiento': {
       'pregunta': '¿Cómo funciona una pérgola de lamas?',
       'respuesta':
-        'Llevan lamas de aluminio orientables en el techo, que se manejan con mando o desde el móvil. Así ajusta al momento la sombra, la luz y la ventilación del patio.',
+        'Llevan lamas de aluminio orientables en el techo, que se manejan con mando o desde el celular. Así ajusta al momento la sombra, la luz y la ventilación del patio.',
     },
     'louvered-huracan': {
       'pregunta': '¿Son seguras en un huracán?',
@@ -1773,14 +1773,14 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Sí. Adaptamos cada pérgola a su casa: color de estructura y nivel de tinte del panel a elegir según la estética y la sombra que necesite.',
     },
     'enclosures-brisa': {
-      'pregunta': '¿Un cerramiento corta la brisa?',
+      'pregunta': '¿Un screen enclosure corta la brisa?',
       'respuesta':
         'No. La malla de alta visibilidad frena insectos y suciedad, pero deja pasar el aire, que es justo lo que refresca el patio.',
     },
     'enclosures-normativa': {
       'pregunta': '¿Cumplen la normativa antihuracán?',
       'respuesta':
-        'Sí. Cada cerramiento se construye con criterios estrictos de cálculo estructural para aguantar vientos de huracán y el clima costero.',
+        'Sí. Cada screen enclosure se construye con criterios estrictos de cálculo estructural para aguantar vientos de huracán y el clima costero.',
     },
     'enclosures-mosquitera': {
       'pregunta': '¿La malla se descuelga con el tiempo?',
@@ -1873,29 +1873,29 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Sí. El Sukkah 3000 es una ampliación arquitectónica permanente y calculada, que aumenta mucho el valor de la vivienda.',
     },
     'concrete-armado': {
-      'pregunta': '¿Por qué es importante el hormigón armado en un proyecto exterior?',
+      'pregunta': '¿Por qué es importante el concreto armado en un proyecto exterior?',
       'respuesta':
-        'El hormigón armado es lo que sostiene pérgolas, decks, patios y entradas de coche. Un buen armado y una buena nivelación evitan grietas y asentamientos en los suelos del sur de Florida.',
+        'El concreto armado es lo que sostiene pérgolas, decks, patios y entradas de autos. Un buen armado y una buena nivelación evitan grietas y asentamientos en los suelos del sur de Florida.',
     },
     'concrete-fraguado': {
-      'pregunta': '¿Cuánto tarda el hormigón en curar del todo?',
+      'pregunta': '¿Cuánto tarda el concreto en curar del todo?',
       'respuesta':
-        'El hormigón coge resistencia inicial en días, pero sigue curando durante varias semanas. Curarlo bien es lo que le da durabilidad y aguante frente al clima.',
+        'El concreto gana resistencia inicial en días, pero sigue curando durante varias semanas. Curarlo bien es lo que le da durabilidad y aguante frente al clima.',
     },
     'concrete-permiso': {
-      'pregunta': '¿Hace falta permiso para un trabajo de hormigón estructural?',
+      'pregunta': '¿Hace falta permiso para un trabajo de concreto estructural?',
       'respuesta':
-        'Muchos trabajos de hormigón estructural requieren permiso en Palm Beach y Broward. Nosotros gestionamos la documentación, las inspecciones y el cumplimiento normativo.',
+        'Muchos trabajos de concreto estructural requieren permiso en Palm Beach y Broward. Nosotros gestionamos la documentación, las inspecciones y el cumplimiento normativo.',
     },
     'concrete-soporte': {
-      'pregunta': '¿Una losa de hormigón puede sostener una pérgola o un deck?',
+      'pregunta': '¿Una losa de concreto puede sostener una pérgola o un deck?',
       'respuesta':
         'Sí. Una losa calculada es la base que necesitan las pérgolas de aluminio, los decks de composite y las cocinas exteriores en las viviendas del sur de Florida.',
     },
     'concrete-durabilidad': {
-      'pregunta': '¿Cuánto dura el hormigón estructural?',
+      'pregunta': '¿Cuánto dura el concreto estructural?',
       'respuesta':
-        'Bien armado y bien ejecutado, el hormigón estructural en el sur de Florida dura décadas sosteniendo las estructuras de exterior.',
+        'Bien armado y bien ejecutado, el concreto estructural en el sur de Florida dura décadas sosteniendo las estructuras de exterior.',
     },
     'decks-material': {
       'pregunta': '¿Qué material es mejor para un deck en Florida?',
@@ -1915,7 +1915,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'decks-pergola': {
       'pregunta': '¿Se puede integrar un deck con una pérgola?',
       'respuesta':
-        'Sí. Diseñamos decks de composite y aluminio que se integran con pérgolas, patios adoquinados y zonas de piscina para que el exterior sea un conjunto.',
+        'Sí. Diseñamos decks de composite y aluminio que se integran con pérgolas, patios de pavers y zonas de piscina para que el exterior sea un conjunto.',
     },
     'decks-revalorizacion': {
       'pregunta': '¿Instalar un deck revaloriza la casa?',
@@ -1923,12 +1923,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Un deck bien instalado hace el exterior más útil y mejora la imagen de la casa. En el sur de Florida suele influir de forma positiva en el valor de reventa.',
     },
     'driveways-material': {
-      'pregunta': '¿Qué material es mejor para una entrada de coche en el sur de Florida?',
+      'pregunta': '¿Qué material es mejor para una entrada de autos en el sur de Florida?',
       'respuesta':
-        'El adoquín de hormigón es lo ideal por cómo soporta el peso y por su flexibilidad. Una entrada adoquinada y reforzada resiste mejor las grietas que una losa de hormigón cuando llueve fuerte y aprieta el sol.',
+        'El paver de concreto es lo ideal por cómo soporta el peso y por su flexibilidad. Una entrada de pavers bien reforzada resiste mejor las grietas que una losa de concreto cuando llueve fuerte y aprieta el sol.',
     },
     'driveways-permiso': {
-      'pregunta': '¿Hace falta permiso para hacer una entrada de coche?',
+      'pregunta': '¿Hace falta permiso para hacer una entrada de autos?',
       'respuesta':
         'Depende del municipio. Nosotros gestionamos permisos, inspecciones y cumplimiento en Palm Beach y Broward para que su entrada cumpla la normativa local.',
     },
@@ -1938,9 +1938,9 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Una entrada adoquinada bien instalada en el sur de Florida puede durar décadas si va sobre una base reforzada. La compactación y el drenaje son lo que marca la diferencia.',
     },
     'driveways-sustitucion': {
-      'pregunta': '¿Se puede sustituir una entrada de hormigón vieja?',
+      'pregunta': '¿Se puede sustituir una entrada de concreto vieja?',
       'respuesta':
-        'Sí. Retiramos el hormigón dañado e instalamos una entrada de adoquín a medida o de hormigón reforzado, calculada para durar más y mejorar la fachada.',
+        'Sí. Retiramos el concreto dañado e instalamos una entrada de pavers a medida o de concreto reforzado, calculada para durar más y mejorar la fachada.',
     },
     'driveways-revalorizacion': {
       'pregunta': '¿Una entrada nueva revaloriza la casa?',
@@ -1953,29 +1953,29 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'El aluminio es lo ideal en el sur de Florida por su resistencia a la corrosión y al viento. Rinde mucho mejor que la madera en ambientes húmedos y costeros.',
     },
     'fences-permiso': {
-      'pregunta': '¿Hace falta permiso para instalar un vallado?',
+      'pregunta': '¿Hace falta permiso para instalar una cerca?',
       'respuesta':
         'Depende del municipio y de las normas de la comunidad. Nosotros gestionamos el cumplimiento y nos aseguramos de que la instalación esté aprobada en Palm Beach y Broward.',
     },
     'fences-durabilidad': {
-      'pregunta': '¿Cuánto dura un vallado de aluminio en Florida?',
+      'pregunta': '¿Cuánto dura una cerca de aluminio en Florida?',
       'respuesta':
-        'Un vallado de aluminio con recubrimiento en polvo puede durar décadas en el sur de Florida con muy poco mantenimiento, incluso con mucha humedad y salitre.',
+        'Una cerca de aluminio con recubrimiento en polvo puede durar décadas en el sur de Florida con muy poco mantenimiento, incluso con mucha humedad y salitre.',
     },
     'fences-viento': {
-      'pregunta': '¿El vallado de aluminio resiste el viento?',
+      'pregunta': '¿La cerca de aluminio resiste el viento?',
       'respuesta':
-        'Sí. Un vallado de aluminio bien instalado lleva postes reforzados y anclajes calculados para las cargas de viento de Florida.',
+        'Sí. Una cerca de aluminio bien instalada lleva postes reforzada y anclajes calculados para las cargas de viento de Florida.',
     },
     'fences-revalorizacion': {
       'pregunta': '¿Vallar revaloriza la casa?',
       'respuesta':
-        'Un buen vallado aporta privacidad, seguridad y mejor imagen, y eso suele traducirse en más valor en el mercado residencial del sur de Florida.',
+        'Una buena cerca aporta privacidad, seguridad y mejor imagen, y eso suele traducirse en más valor en el mercado residencial del sur de Florida.',
     },
     'patio-permiso': {
       'pregunta': '¿Hace falta permiso para remodelar el exterior en el sur de Florida?',
       'respuesta':
-        'Las remodelaciones que tocan estructura casi siempre requieren permiso, y una que toca adoquinado, hormigón y una estructura techada necesita varios a la vez. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
+        'Las remodelaciones que tocan estructura casi siempre requieren permiso, y una que toca pavers, concreto y una estructura techada necesita varios a la vez. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
     },
     'patio-plazo': {
       'pregunta': '¿Cuánto se tarda en remodelar el exterior?',
@@ -1985,7 +1985,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'patio-pergola': {
       'pregunta': '¿Se puede añadir una pérgola durante la remodelación?',
       'respuesta':
-        'Sí, y es el momento más barato para hacerlo. Integrar pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta con el terreno ya abierto deja el exterior como un conjunto y evita pagar dos veces la misma obra de base.',
+        'Sí, y es el momento más barato para hacerlo. Integrar pérgolas de aluminio, cortinas motorizadas y pavers de gama alta con el terreno ya abierto deja el exterior como un conjunto y evita pagar dos veces la misma obra de base.',
     },
     'patio-revalorizacion': {
       'pregunta': '¿Remodelar el exterior revaloriza la casa?',
@@ -1995,20 +1995,20 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'patio-material': {
       'pregunta': '¿Qué materiales son mejores para remodelar el exterior?',
       'respuesta':
-        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una remodelación aguante el clima del sur de Florida.',
+        'Pavers de alto rendimiento, losas de concreto armado y sistemas de sombra de aluminio son lo ideal para que una remodelación aguante el clima del sur de Florida.',
     },
     'pavers-durabilidad': {
-      'pregunta': '¿Cuánto dura un adoquinado bien instalado en Florida?',
+      'pregunta': '¿Cuánto dura un pavimento de pavers bien instalado en Florida?',
       'respuesta':
-        'Un adoquinado bien instalado en el sur de Florida puede durar décadas si va sobre una base bien compactada y reforzada. En nuestro proceso lo primero es planificar el drenaje y asegurar la estabilidad, que es lo que evita que se mueva o se hunda.',
+        'Un pavimento de pavers bien instalado en el sur de Florida puede durar décadas si va sobre una base bien compactada y reforzada. En nuestro proceso lo primero es planificar el drenaje y asegurar la estabilidad, que es lo que evita que se mueva o se hunda.',
     },
     'pavers-vs-hormigon': {
-      'pregunta': '¿Es mejor adoquinar un patio que hacerlo de hormigón?',
+      'pregunta': '¿Es mejor adoquinar un patio que hacerlo de concreto?',
       'respuesta':
-        'El adoquinado tiene más flexibilidad y resiste mejor las grietas que una losa de hormigón. En el clima del sur de Florida absorbe mejor la dilatación por calor y las lluvias fuertes, y además da muchas más opciones de diseño.',
+        'Los pavers tienen más flexibilidad y resisten mejor las grietas que una losa de concreto. En el clima del sur de Florida absorbe mejor la dilatación por calor y las lluvias fuertes, y además da muchas más opciones de diseño.',
     },
     'pavers-drenaje': {
-      'pregunta': '¿Un patio adoquinado necesita drenaje?',
+      'pregunta': '¿Un patio de pavers necesita drenaje?',
       'respuesta':
         'Sí. Las pendientes y el drenaje son críticos en el sur de Florida. Diseñamos la instalación para que no se encharque, para proteger la cimentación y para que aguante con los años.',
     },
@@ -2020,7 +2020,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'pavers-revalorizacion': {
       'pregunta': '¿Adoquinar revaloriza la propiedad?',
       'respuesta':
-        'Un patio o una entrada adoquinados mejoran la fachada y hacen el exterior más útil. Un buen adoquinado en el sur de Florida suele influir de forma positiva en el valor de reventa.',
+        'Un patio o una entrada de pavers mejoran la fachada y hacen el exterior más útil. Un buen trabajo de pavers en el sur de Florida suele influir de forma positiva en el valor de reventa.',
     },
     'pergola-build-permiso': {
       'pregunta': '¿Hace falta permiso para construir una pérgola en el sur de Florida?',
@@ -2051,7 +2051,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'pregunta': '¿Cuánto se tarda en conseguir el permiso de una pérgola en el sur de Florida?',
       'respuesta':
         'Depende del municipio. En la mayoría de jurisdicciones de Palm Beach, Broward y Miami-Dade el permiso residencial de una pérgola tarda varias semanas desde que se presenta, y más si el revisor devuelve comentarios. Las zonas costeras e históricas añaden revisiones. Nosotros presentamos el paquete de ingeniería completo desde el principio para que el expediente avance en vez de ir acumulando correcciones.',
-      'claves': 'permiso plazo tramite licencia papeles ayuntamiento',
+      'claves': 'permiso plazo tramite licencia papeles ciudad',
     },
     'permiso-quien-lo-tramita': {
       'pregunta': '¿El permiso lo tramitan ustedes o el propietario?',
@@ -2067,7 +2067,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'permiso-noa-que-es': {
       'pregunta': '¿Qué es una NOA y cuándo la necesita mi proyecto?',
       'respuesta':
-        'La Notice of Acceptance es la homologación de producto de Miami-Dade: el documento que acredita que un sistema concreto superó los ensayos de impacto y carga de viento que exige la zona de vientos altos. Miami-Dade y Broward están en esa zona, así que los techos de lamas, las cortinas y los cerramientos suelen necesitar NOA o Florida Product Approval en el expediente del permiso.',
+        'La Notice of Acceptance es la homologación de producto de Miami-Dade: el documento que acredita que un sistema concreto superó los ensayos de impacto y carga de viento que exige la zona de vientos altos. Miami-Dade y Broward están en esa zona, así que los techos de lamas, las cortinas y los screen enclosures suelen necesitar NOA o Florida Product Approval en el expediente del permiso.',
       'claves': 'NOA homologacion producto aprobacion certificacion',
     },
     'permiso-hvhz-que-es': {
@@ -2134,10 +2134,10 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'claves': 'velocidad viento mph carga calculo ingenieria exposicion',
     },
     'permiso-piscina-barrera': {
-      'pregunta': '¿Un cerramiento con mosquitero vale como barrera de seguridad de la piscina?',
+      'pregunta': '¿Un screen enclosure vale como barrera de seguridad de la piscina?',
       'respuesta':
-        'Puede valer. La ley de seguridad en piscinas de Florida admite un cerramiento que rodee por completo el vaso y cumpla los requisitos de barrera, incluidas puertas con cierre y pestillo automáticos a la altura exigida. Que el suyo cumpla depende de cómo encuentre el cerramiento con la casa y de las puertas de ese tramo.',
-      'claves': 'piscina barrera seguridad cerramiento cierre pestillo',
+        'Puede valer. La ley de seguridad en piscinas de Florida admite un screen enclosure que rodee por completo el vaso y cumpla los requisitos de barrera, incluidas puertas con cierre y pestillo automáticos a la altura exigida. Que el suyo cumpla depende de cómo encuentre el screen enclosure con la casa y de las puertas de ese tramo.',
+      'claves': 'piscina barrera seguridad screen enclosure cierre pestillo',
     },
     'permiso-ampliar-existente': {
       'pregunta': '¿Pueden legalizar una ampliación sobre algo que construyó otro?',
@@ -2188,7 +2188,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'permiso-cocina-exterior': {
       'pregunta': '¿Una cocina exterior bajo la pérgola lleva permisos propios?',
       'respuesta':
-        'Normalmente más de uno: eléctrico para los circuitos, fontanería si hay fregadero y gas si hay barbacoa con toma. Las distancias entre un foco de calor y un material combustible o un techo bajo se comprueban en la inspección, así que el reparto conviene resolverlo en el diseño y no en obra.',
+        'Normalmente más de uno: eléctrico para los circuitos, plomería si hay fregadero y gas si hay barbacoa con toma. Las distancias entre un foco de calor y un material combustible o un techo bajo se comprueban en la inspección, así que el reparto conviene resolverlo en el diseño y no en obra.',
       'claves': 'cocina exterior barbacoa gas fontaneria fregadero distancia',
     },
     'permiso-vecino': {
@@ -2252,14 +2252,14 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'precio-cuanto-cuesta-cabana': {
       'pregunta': '¿Cuánto cuesta una cabaña de aluminio a medida?',
       'respuesta':
-        'Una cabaña se presupuesta como una construcción pequeña, no como un simple techo de sombra: lleva cubierta maciza, muchas veces paredes o mosquitero, y casi siempre corriente. Cuente con que salga por encima de una pérgola abierta de la misma superficie. Lo que más mueve la cifra es el tamaño, el tipo de cubierta y si lleva fontanería.',
+        'Una cabaña se presupuesta como una construcción pequeña, no como un simple techo de sombra: lleva cubierta maciza, muchas veces paredes o mosquitero, y casi siempre corriente. Cuente con que salga por encima de una pérgola abierta de la misma superficie. Lo que más mueve la cifra es el tamaño, el tipo de cubierta y si lleva plomería.',
       'claves': 'cabana precio coste caseta piscina superficie',
     },
-    'precio-cuanto-cuesta-cerramiento': {
-      'pregunta': '¿Cómo se presupuesta un cerramiento con mosquitero?',
+    'precio-cuanto-cuesta-screen enclosure': {
+      'pregunta': '¿Cómo se presupuesta un screen enclosure?',
       'respuesta':
         'Sobre todo por el volumen cerrado y por la luz de la cubierta, que son los que fijan la sección del aluminio. Una cúpula alta sobre una piscina grande cuesta bastante más que una mansarda baja sobre un patio de la misma superficie. También cuentan el tipo de malla, el número de puertas y si hay zuncho aprovechable.',
-      'claves': 'cerramiento mosquitero precio piscina cupula mansarda',
+      'claves': 'screen enclosure mosquitero precio piscina cupula mansarda',
     },
     'precio-motorizada-vs-fija': {
       'pregunta': '¿Cuánto más cuesta un techo de lamas motorizado que uno fijo?',
@@ -2351,9 +2351,9 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'claves': 'tasas permiso coste municipal partida valor obra',
     },
     'precio-losa-aparte': {
-      'pregunta': '¿La losa de hormigón entra en el precio de la pérgola?',
+      'pregunta': '¿La losa de concreto entra en el precio de la pérgola?',
       'respuesta':
-        'Por defecto no. Una pérgola necesita zapatas, y esas sí van incluidas; el suelo acabado de debajo —losa, adoquín, deck— es otra obra con su alcance y su precio. Presupuestamos las dos cuando las quiere juntas, pero siempre van como partidas separadas.',
+        'Por defecto no. Una pérgola necesita zapatas, y esas sí van incluidas; el suelo acabado de debajo —losa, paver, deck— es otra obra con su alcance y su precio. Presupuestamos las dos cuando las quiere juntas, pero siempre van como partidas separadas.',
       'claves': 'losa incluida hormigon suelo adoquin deck zapata',
     },
     'precio-visita-necesaria': {
@@ -2368,22 +2368,22 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Los precios no se mueven por temporada; los plazos sí. La demanda sube antes de la temporada de invierno, así que contratar en los meses más flojos y más lluviosos suele comprarle un hueco antes, no un precio menor — que, con los plazos de permiso, muchas veces vale más.',
       'claves': 'temporada barato mejor epoca descuento hueco disponibilidad',
     },
-    'precio-plazo-cerramiento': {
-      'pregunta': '¿Cuánto se tarda en montar un cerramiento de piscina?',
+    'precio-plazo-screen enclosure': {
+      'pregunta': '¿Cuánto se tarda en montar un screen enclosure de piscina?',
       'respuesta':
-        'Lo que marca el plazo es la fabricación: la estructura se corta a la geometría de su piscina, así que no hay nada de catálogo. Con el material en obra, levantar el pórtico y colocar la malla suele ser cuestión de días en un cerramiento residencial normal, y más en una cúpula grande con varias puertas.',
-      'claves': 'cerramiento plazo cuanto tarda malla fabricacion',
+        'Lo que marca el plazo es la fabricación: la estructura se corta a la geometría de su piscina, así que no hay nada de catálogo. Con el material en obra, levantar el pórtico y colocar la malla suele ser cuestión de días en un screen enclosure residencial normal, y más en una cúpula grande con varias puertas.',
+      'claves': 'screen enclosure plazo cuanto tarda malla fabricacion',
     },
     'precio-reparar-vs-sustituir': {
-      'pregunta': '¿Sale más barato remallar un cerramiento viejo o sustituirlo?',
+      'pregunta': '¿Sale más barato remallar un screen enclosure viejo o sustituirlo?',
       'respuesta':
         'Si la estructura de aluminio está sana y las zapatas intactas, remallar es mucho más barato y es lo correcto. Sustituir tiene sentido cuando el perfil está corroído por la base, la tornillería está fallando, o la estructura es anterior al código de viento que hoy se le exige a su dirección.',
-      'claves': 'remallar sustituir reparar cerramiento viejo corroido coste',
+      'claves': 'remallar sustituir reparar screen enclosure viejo corroido coste',
     },
     'precio-adoquin-vs-hormigon-coste': {
-      'pregunta': '¿El adoquín es más caro que el hormigón vertido?',
+      'pregunta': '¿El paver es más caro que el concreto vertido?',
       'respuesta':
-        'De entrada, normalmente sí. Con el tiempo la diferencia se estrecha: una losa de hormigón agrietada se repara sustituyendo un paño que no va a casar, mientras que un adoquín dañado se levanta y se cambia de uno en uno. Y si alguna vez hay que abrir para una tubería, el adoquín se repone sin que se note.',
+        'De entrada, normalmente sí. Con el tiempo la diferencia se estrecha: una losa de concreto agrietada se repara sustituyendo un paño que no va a casar, mientras que un paver dañado se levanta y se cambia de uno en uno. Y si alguna vez hay que abrir para una tubería, el paver se repone sin que se note.',
       'claves': 'adoquin hormigon precio coste barato reparacion',
     },
     'precio-emergencia-tormenta': {
@@ -2395,7 +2395,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'precio-quien-instala': {
       'pregunta': '¿Subcontratan el montaje?',
       'respuesta':
-        'El montaje estructural lo hace nuestro propio equipo. Los oficios que exigen licencia propia —electricidad, fontanería, gas— los ejecutan subcontratistas con licencia dentro del permiso, que es como lo exige el código. En cualquier caso usted tiene un único interlocutor.',
+        'El montaje estructural lo hace nuestro propio equipo. Los oficios que exigen licencia propia —electricidad, plomería, gas— los ejecutan subcontratistas con licencia dentro del permiso, que es como lo exige el código. En cualquier caso usted tiene un único interlocutor.',
       'claves': 'subcontrata equipo propio instalador licencia oficios',
     },
     'material-aluminio-extruido': {
@@ -2493,13 +2493,13 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'material-mosquitera-tipos': {
       'pregunta': '¿Qué tipos de malla hay?',
       'respuesta':
-        'Mosquitera estándar de fibra de vidrio, malla más tupida anti-jején para parcelas costeras y frente al agua, malla solar que corta calor y deslumbramiento a cambio de algo de vistas, y malla reforzada anti-mascotas para los paños bajos. Se pueden mezclar en el mismo cerramiento, paño a paño.',
+        'Mosquitera estándar de fibra de vidrio, malla más tupida anti-jején para parcelas costeras y frente al agua, malla solar que corta calor y deslumbramiento a cambio de algo de vistas, y malla reforzada anti-mascotas para los paños bajos. Se pueden mezclar en el mismo screen enclosure, paño a paño.',
       'claves': 'malla mosquitera tipos jejen solar mascotas fibra vidrio',
     },
     'material-mosquitera-duracion': {
       'pregunta': '¿Cada cuánto hay que cambiar la malla?',
       'respuesta':
-        'Lo que la envejece es el sol, así que los paños sur y oeste caen primero y los de sombra les sacan años. Cuente con remallar las caras expuestas antes que el cerramiento entero. Los paños se cambian de uno en uno sin tocar la estructura, que es justo para lo que está el sistema de junquillo.',
+        'Lo que la envejece es el sol, así que los paños sur y oeste caen primero y los de sombra les sacan años. Cuente con remallar las caras expuestas antes que el screen enclosure entero. Los paños se cambian de uno en uno sin tocar la estructura, que es justo para lo que está el sistema de junquillo.',
       'claves': 'malla cambiar remallar duracion sol paño junquillo',
     },
     'material-lamas-mecanismo': {
@@ -2565,12 +2565,12 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'pregunta': '¿Mejor cerrar con cristal que con mosquitera?',
       'respuesta':
         'El cristal convierte una estancia exterior en una climatizada, y eso cambia la clasificación del permiso, la estructura y bastante el coste. La mosquitera lo deja fuera: ventilación, sin carga de aire acondicionado, mucho más barato. Elija por si quiere que ese espacio sea interior o exterior, no por estética.',
-      'claves': 'cristal cerramiento acristalado ventana climatizado galeria',
+      'claves': 'cristal screen enclosure acristalado ventana climatizado galeria',
     },
     'material-suelo-bajo': {
       'pregunta': '¿Qué suelo funciona mejor bajo una pérgola?',
       'respuesta':
-        'Cualquiera que drene y no achicharre los pies descalzos. Adoquín y porcelánico sobre una capa drenante son las respuestas habituales; los colores claros siguen siendo pisables a mediodía, la piedra oscura no. Si la estructura es de lamas, recuerde que el suelo se moja: elija algo con resistencia al deslizamiento.',
+        'Cualquiera que drene y no achicharre los pies descalzos. Paver y porcelánico sobre una capa drenante son las respuestas habituales; los colores claros siguen siendo pisables a mediodía, la piedra oscura no. Si la estructura es de lamas, recuerde que el suelo se moja: elija algo con resistencia al deslizamiento.',
       'claves': 'suelo bajo pergola adoquin porcelanico travertino caliente deslizante',
     },
     'material-abejas-nidos': {
@@ -2645,8 +2645,8 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'pergola-solar-cuanto-produce': {
       'pregunta': '¿Cuánto puede producir de verdad una pérgola solar?',
       'respuesta':
-        'Escala con la superficie de cubierta y la orientación, no con las ganas. Una instalación del tamaño de una pérgola suele ser un complemento útil —bomba de la piscina, iluminación, recarga del coche— más que un sistema para toda la casa. La conversación de diseño empieza por su consumo, no por cuántos paneles caben.',
-      'claves': 'solar produccion kW paneles compensar bomba piscina coche',
+        'Escala con la superficie de cubierta y la orientación, no con las ganas. Una instalación del tamaño de una pérgola suele ser un complemento útil —bomba de la piscina, iluminación, recarga del auto— más que un sistema para toda la casa. La conversación de diseño empieza por su consumo, no por cuántos paneles caben.',
+      'claves': 'solar produccion kW paneles compensar bomba piscina auto',
     },
     'pergola-solar-sombra-debajo': {
       'pregunta': '¿Debajo de una pérgola solar hay sombra y se está seco?',
@@ -2674,7 +2674,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'pergola-piscina-cloro': {
       'pregunta': '¿Es problema construir justo encima de la piscina?',
       'respuesta':
-        'No, pero cambia los detalles. El cloro y el agua con cloración salina son corrosivos en forma de vapor, así que la especificación de herrajes importa más, y todo lo que quede colgado arriba tiene que poder revisarse sin vaciar la piscina. Las zapatas además tienen que librar el vaso y su fontanería.',
+        'No, pero cambia los detalles. El cloro y el agua con cloración salina son corrosivos en forma de vapor, así que la especificación de herrajes importa más, y todo lo que quede colgado arriba tiene que poder revisarse sin vaciar la piscina. Las zapatas además tienen que librar el vaso y su plomería.',
       'claves': 'encima piscina cloro sal corrosion vaso fontaneria zapata',
     },
     'pergola-viento-ruido': {
@@ -2683,14 +2683,14 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Una bien montada, no. El ruido con viento casi siempre significa que algo está flojo: un tornillo que se ha salido, un tapón de remate que falta, una guía de cortina mal asentada. Conviene perseguirlo y no convivir con ello, porque un traqueteo es una pieza que se está soltando más.',
       'claves': 'ruido vibracion viento traqueteo tornillo flojo crujido',
     },
-    'pergola-carport-coche': {
-      'pregunta': '¿Cabe de verdad mi coche en el carport?',
+    'pergola-carport-auto': {
+      'pregunta': '¿Cabe de verdad mi auto en el carport?',
       'respuesta':
         'Mida la altura, no solo el largo. Un turismo normal es fácil; una pickup elevada, una furgoneta con baca o una autocaravana necesitan altura libre definida desde el principio, y lo que suele pillar a la gente son los accesorios del techo. La posición de los pilares también tiene que dejar abrir las puertas.',
       'claves': 'carport tamano altura autocaravana furgoneta puertas',
     },
     'pergola-carport-granizo': {
-      'pregunta': '¿Un carport protege el coche de algo más que del sol?',
+      'pregunta': '¿Un carport protege el auto de algo más que del sol?',
       'respuesta':
         'El sol es lo principal aquí, y no es poca cosa: el UV constante es lo que apaga la pintura y agrieta los salpicaderos. Una cubierta maciza además aparta la lluvia y lo que caiga de los árboles. Lo que un carport abierto no hace es proteger de la lluvia batiente ni de nada que viaje de lado en una tormenta.',
       'claves': 'carport proteccion sol UV pintura granizo lluvia viento',
@@ -2698,7 +2698,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'pergola-cabana-bano': {
       'pregunta': '¿Una cabaña puede llevar baño o ducha exterior?',
       'respuesta':
-        'Sí, y es una petición habitual junto a la piscina, pero cambia el proyecto: permisos de fontanería, conexión de saneamiento y, si hay baño, requisitos de ventilación. Pasar la acometida y el desagüe sale mucho más barato antes de ejecutar el pavimento de alrededor que después.',
+        'Sí, y es una petición habitual junto a la piscina, pero cambia el proyecto: permisos de plomería, conexión de saneamiento y, si hay baño, requisitos de ventilación. Pasar la acometida y el desagüe sale mucho más barato antes de ejecutar el pavimento de alrededor que después.',
       'claves': 'cabana bano ducha fontaneria caseta piscina saneamiento',
     },
     'pergola-cabana-almacen': {
@@ -2707,14 +2707,14 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Puede, y es buen aprovechamiento del volumen, pero mantenga esa parte separada y ventilada: los químicos de piscina y los sistemas de sal corroen metal y electrónica en un espacio cerrado. Una puerta de lamas o con mosquitero en ese hueco lo resuelve sin renunciar al aspecto.',
       'claves': 'cabana almacen depuradora quimicos bomba ventilacion',
     },
-    'pergola-cerramiento-mansarda': {
+    'pergola-screen enclosure-mansarda': {
       'pregunta': 'Mansarda, a dos aguas o cúpula: ¿en qué se diferencian?',
       'respuesta':
-        'Sobre todo en altura y en cómo evacúa la cubierta. Un cerramiento plano o de mansarda queda más bajo, cuesta menos y encaja en un patio; el de dos aguas o la cúpula ganan altura sobre la piscina y evacúan mejor en luces grandes. Los requisitos de viento locales a veces descartan la opción más alta.',
-      'claves': 'mansarda dos aguas cupula cerramiento cubierta altura luz',
+        'Sobre todo en altura y en cómo evacúa la cubierta. Un screen enclosure plano o de mansarda queda más bajo, cuesta menos y encaja en un patio; el de dos aguas o la cúpula ganan altura sobre la piscina y evacúan mejor en luces grandes. Los requisitos de viento locales a veces descartan la opción más alta.',
+      'claves': 'mansarda dos aguas cupula screen enclosure cubierta altura luz',
     },
-    'pergola-cerramiento-hojas': {
-      'pregunta': '¿Un cerramiento evita las hojas y el polen en la piscina?',
+    'pergola-screen enclosure-hojas': {
+      'pregunta': '¿Un screen enclosure evita las hojas y el polen en la piscina?',
       'respuesta':
         'Las hojas y lo grueso sí, y ese es el ahorro que más se nota: menos recoger y menos trabajo de bomba. El polen es lo bastante fino como para atravesar una mosquitera normal. Una malla anti-jején más tupida retiene más, a costa de algo de ventilación y de vistas.',
       'claves': 'hojas suciedad polen piscina limpieza skimmer malla',
@@ -2737,10 +2737,10 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
         'Rara vez. Casi todos los espacios necesitan una o dos: la del sol de tarde y la que da al vecino o a la calle. Cerrar todos los huecos convierte una estancia exterior en una caja y cuesta cuatro veces más. Empiece por el peor lado y amplíe después si las guías van previstas.',
       'claves': 'cuantas cortinas lados cuatro parcial cobertura',
     },
-    'pergola-cerramiento-mascota': {
-      'pregunta': '¿Se puede poner una puerta para mascotas en el cerramiento?',
+    'pergola-screen enclosure-mascota': {
+      'pregunta': '¿Se puede poner una puerta para mascotas en el screen enclosure?',
       'respuesta': 'Sí, y es más fácil dejarla prevista que abrirla después. Va en un paño con marco, no en la propia malla, así que no afecta ni a la estructura ni al tensado. La posición importa: lejos del lado de la piscina si de lo que se trata es de que el animal no se meta en el agua.',
-      'claves': 'puerta mascota perro gato cerramiento paño instalar',
+      'claves': 'puerta mascota perro gato screen enclosure paño instalar',
     },
     'pergola-policarbonato-vs-macizo': {
       'pregunta': '¿Policarbonato o cubierta maciza aislada?',
@@ -2773,56 +2773,56 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'claves': 'huracan garantia aguantar viento daño parte',
     },
     'obra-adoquin-hundimiento': {
-      'pregunta': '¿Por qué se hunde o se desnivela un patio de adoquín?',
+      'pregunta': '¿Por qué se hunde o se desnivela un patio de pavers?',
       'respuesta':
-        'Casi siempre por la base, no por el adoquín. Lo que reparte la carga es una base de zahorra compactada con el espesor correcto; si se escatima o no se compacta por tongadas, la superficie se asienta en la primera temporada de lluvias. La otra mitad es el confinamiento de borde: sin él, el paño se abre hacia fuera.',
+        'Casi siempre por la base, no por el paver. Lo que reparte la carga es una base de zahorra compactada con el espesor correcto; si se escatima o no se compacta por tongadas, la superficie se asienta en la primera temporada de lluvias. La otra mitad es el confinamiento de borde: sin él, el paño se abre hacia fuera.',
       'claves': 'adoquin hundimiento asiento desnivel base compactacion borde',
     },
     'obra-adoquin-sellado': {
-      'pregunta': '¿Hay que sellar el adoquín?',
+      'pregunta': '¿Hay que sellar el paver?',
       'respuesta':
-        'Es opcional y tiene contrapartida. El sellado aviva el color, protege de manchas y fija la arena de junta, pero hay que repetirlo cada cierto tiempo y un sellador brillante resbala en mojado, cosa que importa alrededor de una piscina. Mucha gente sella la entrada de coches y deja la playa de piscina sin sellar.',
+        'Es opcional y tiene contrapartida. El sellado aviva el color, protege de manchas y fija la arena de junta, pero hay que repetirlo cada cierto tiempo y un sellador brillante resbala en mojado, cosa que importa alrededor de una piscina. Mucha gente sella la entrada de autos y deja la playa de piscina sin sellar.',
       'claves': 'sellar adoquin sellador brillo resbala mancha arena junta',
     },
     'obra-adoquin-hierba': {
-      'pregunta': '¿Cómo evito que salga hierba entre los adoquines?',
+      'pregunta': '¿Cómo evito que salga hierba entre los pavers?',
       'respuesta':
         'La hierba germina en la junta a partir de semilla que cae encima, no desde abajo si la base está bien hecha. La defensa habitual es arena polimérica de junta, que endurece y resiste tanto el lavado como la germinación. Rellenar las juntas cada pocos años hace más que cualquier herbicida.',
       'claves': 'hierba mala hierba adoquin junta arena polimerica hormigas',
     },
     'obra-adoquin-piscina-caliente': {
-      'pregunta': '¿Qué adoquín se mantiene más fresco junto a la piscina?',
+      'pregunta': '¿Qué paver se mantiene más fresco junto a la piscina?',
       'respuesta':
-        'Importa más el color que el material: un travertino claro o un adoquín de hormigón pálido se pisa descalzo a mediodía donde una piedra oscura no. La textura también ayuda: un acabado tipo piedra concha o envejecido refleja y agarra mejor que una superficie oscura y lisa.',
+        'Importa más el color que el material: un travertino claro o un paver de concreto pálido se pisa descalzo a mediodía donde una piedra oscura no. La textura también ayuda: un acabado tipo piedra concha o envejecido refleja y agarra mejor que una superficie oscura y lisa.',
       'claves': 'adoquin fresco descalzo caliente piscina travertino color',
     },
-    'obra-adoquin-entrada-coche': {
-      'pregunta': '¿Una entrada de coches se construye distinto que un patio?',
+    'obra-adoquin-entrada-auto': {
+      'pregunta': '¿Una entrada de autos se construye distinto que un patio?',
       'respuesta':
-        'Sí, y la diferencia está bajo la superficie: una entrada necesita una base compactada de más espesor y normalmente un adoquín más grueso para asumir la carga de vehículos, además de cuidado donde giran las ruedas. Una base de patio bajo una entrada es la razón más habitual de que se hagan roderas en un par de años.',
-      'claves': 'entrada coche base espesor carga vehiculo roderas patio',
+        'Sí, y la diferencia está bajo la superficie: una entrada necesita una base compactada de más espesor y normalmente un paver más grueso para asumir la carga de vehículos, además de cuidado donde giran las ruedas. Una base de patio bajo una entrada es la razón más habitual de que se hagan roderas en un par de años.',
+      'claves': 'entrada auto base espesor carga vehiculo roderas patio',
     },
     'obra-entrada-manchas-aceite': {
-      'pregunta': '¿Se quitan las manchas de aceite de una entrada de adoquín?',
+      'pregunta': '¿Se quitan las manchas de aceite de una entrada de pavers?',
       'respuesta':
-        'Normalmente sí, y aquí es donde el adoquín gana al hormigón: una mancha que no sale se resuelve cambiando las piezas afectadas, y si guardó unos cuantos adoquines del palé original la reparación no se nota. El aceite fresco responde a un desengrasante; el viejo, ya absorbido, casi nunca.',
+        'Normalmente sí, y aquí es donde el paver gana al concreto: una mancha que no sale se resuelve cambiando las piezas afectadas, y si guardó unos cuantos pavers del palé original la reparación no se nota. El aceite fresco responde a un desengrasante; el viejo, ya absorbido, casi nunca.',
       'claves': 'aceite mancha entrada quitar desengrasante cambiar adoquin',
     },
     'obra-hormigon-grietas': {
-      'pregunta': '¿Por qué se agrieta el hormigón? ¿Se puede evitar?',
+      'pregunta': '¿Por qué se agrieta el concreto? ¿Se puede evitar?',
       'respuesta':
-        'El hormigón retrae al fraguar y va a agrietar; la cuestión es dónde. Las juntas de retracción se cortan para que agriete por una línea elegida y no por el medio. El armado, una buena dosificación y un curado correcto controlan el ancho de la fisura, no que exista.',
+        'El concreto retrae al fraguar y va a agrietar; la cuestión es dónde. Las juntas de retracción se cortan para que agriete por una línea elegida y no por el medio. El armado, una buena dosificación y un curado correcto controlan el ancho de la fisura, no que exista.',
       'claves': 'hormigon grieta fisura junta retraccion armado curado',
     },
     'obra-hormigon-pisar': {
-      'pregunta': '¿Cuándo puedo pisar o aparcar sobre hormigón nuevo?',
-      'respuesta': 'A pie normalmente al día siguiente; con vehículos, bastante más: el hormigón sigue ganando resistencia durante semanas y alcanza la de proyecto mucho después de parecer terminado. Aparcar antes de tiempo es la forma más habitual de que una entrada nueva se lleve su primera marca permanente. Le damos las fechas de su hormigonado.',
+      'pregunta': '¿Cuándo puedo pisar o estacionar sobre concreto nuevo?',
+      'respuesta': 'A pie normalmente al día siguiente; con vehículos, bastante más: el concreto sigue ganando resistencia durante semanas y alcanza la de proyecto mucho después de parecer terminado. Estacionar antes de tiempo es la forma más habitual de que una entrada nueva se lleve su primera marca permanente. Le damos las fechas de su hormigonado.',
       'claves': 'pisar aparcar hormigon nuevo curado resistencia dias',
     },
     'obra-hormigon-vs-adoquin-cual': {
-      'pregunta': '¿Cuándo es mejor hormigón vertido que adoquín?',
+      'pregunta': '¿Cuándo es mejor concreto vertido que paver?',
       'respuesta':
-        'Cuando quiere una superficie grande y continua, cuando el presupuesto aprieta, o debajo de algo que se va a construir encima después. El hormigón también es más fácil de mantener limpio. El adoquín gana en reparabilidad, en poder acceder a lo enterrado, y en no dejar un parche a la vista.',
+        'Cuando quiere una superficie grande y continua, cuando el presupuesto aprieta, o debajo de algo que se va a construir encima después. El concreto también es más fácil de mantener limpio. El paver gana en reparabilidad, en poder acceder a lo enterrado, y en no dejar un parche a la vista.',
       'claves': 'hormigon adoquin cuando mejor losa grande limpio',
     },
     'obra-drenaje-patio': {
@@ -2840,7 +2840,7 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
     'obra-patio-por-donde-empezar': {
       'pregunta': '¿En qué orden se hace una obra exterior?',
       'respuesta':
-        'Primero todo lo que va enterrado: drenaje, tubos, fontanería, zapatas. Después la estructura, después el pavimento y por último la plantación. Ejecutar el pavimento antes que las zapatas de la pérgola significa romper obra nueva, y ese es el error más habitual y más evitable.',
+        'Primero todo lo que va enterrado: drenaje, tubos, plomería, zapatas. Después la estructura, después el pavimento y por último la plantación. Ejecutar el pavimento antes que las zapatas de la pérgola significa romper obra nueva, y ese es el error más habitual y más evitable.',
       'claves': 'orden secuencia fases primero pavimento pergola tubo drenaje',
     },
     'obra-deck-material-cual': {
@@ -2850,33 +2850,33 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'claves': 'composite madera deck Florida calor pudricion termitas',
     },
     'obra-deck-sobre-hormigon': {
-      'pregunta': '¿Se puede montar un deck sobre una losa de hormigón que ya existe?',
+      'pregunta': '¿Se puede montar un deck sobre una losa de concreto que ya existe?',
       'respuesta': 'Sí, y es una buena forma de rescatar una losa agrietada o fea sin derribarla. El entramado apoya sobre rastreles dejando hueco para drenaje y ventilación por debajo. La pega es la altura: el deck acabado queda unas pulgadas más alto, y eso puede afectar al umbral de una puerta.',
       'claves': 'deck sobre hormigon losa rastrel existente altura umbral',
     },
-    'obra-valla-aluminio-vs-pvc': {
-      'pregunta': '¿Valla de aluminio, de PVC o de madera?',
+    'obra-cerca-aluminio-vs-pvc': {
+      'pregunta': '¿Cerca de aluminio, de PVC o de madera?',
       'respuesta':
-        'Aluminio para un cerramiento transparente que aguanta el salitre y cumple la normativa de piscinas; PVC para intimidad sin pintar; madera por estética, asumiendo el mantenimiento. En zona de huracanes, una valla ciega agarra el viento que una de barrotes de aluminio deja pasar, y eso cambia la especificación de los postes.',
-      'claves': 'valla aluminio PVC madera intimidad piscina viento',
+        'Aluminio para un screen enclosure transparente que aguanta el salitre y cumple la normativa de piscinas; PVC para intimidad sin pintar; madera por estética, asumiendo el mantenimiento. En zona de huracanes, una cerca ciega agarra el viento que una de barrotes de aluminio deja pasar, y eso cambia la especificación de los postes.',
+      'claves': 'cerca aluminio PVC madera intimidad piscina viento',
     },
-    'obra-valla-piscina-normativa': {
-      'pregunta': '¿Qué tiene que cumplir una valla de piscina?',
+    'obra-cerca-piscina-normativa': {
+      'pregunta': '¿Qué tiene que cumplir una cerca de piscina?',
       'respuesta':
-        'La normativa de seguridad en piscinas de Florida fija altura mínima, separación máxima entre barrotes y por abajo, prohibición de travesaños horizontales por los que un niño pueda trepar, y puertas con cierre y pestillo automáticos con el pestillo por encima de cierta altura. Una valla decorativa que falle en cualquiera de esos puntos no cuenta como barrera.',
-      'claves': 'valla piscina normativa altura separacion barrote puerta pestillo',
+        'La normativa de seguridad en piscinas de Florida fija altura mínima, separación máxima entre barrotes y por abajo, prohibición de travesaños horizontales por los que un niño pueda trepar, y puertas con cierre y pestillo automáticos con el pestillo por encima de cierta altura. Una cerca decorativa que falle en cualquiera de esos puntos no cuenta como barrera.',
+      'claves': 'cerca piscina normativa altura separacion barrote puerta pestillo',
     },
-    'obra-valla-lindero': {
-      'pregunta': '¿De quién es y quién mantiene una valla en el lindero?',
+    'obra-cerca-lindero': {
+      'pregunta': '¿De quién es y quién mantiene una cerca en el lindero?',
       'respuesta':
-        'Depende de dónde esté realmente, y eso lo dice el levantamiento topográfico. Una valla construida dentro de su línea es suya; una a caballo del lindero suele ser compartida, y eso conviene acordarlo por escrito con el vecino antes de levantarla, no cuando haya que cambiarla.',
-      'claves': 'valla lindero propiedad vecino compartida levantamiento',
+        'Depende de dónde esté realmente, y eso lo dice el levantamiento topográfico. Una cerca construida dentro de su línea es suya; una a caballo del lindero suele ser compartida, y eso conviene acordarlo por escrito con el vecino antes de levantarla, no cuando haya que cambiarla.',
+      'claves': 'cerca lindero propiedad vecino compartida levantamiento',
     },
-    'obra-valla-huracan': {
-      'pregunta': '¿Las vallas aguantan los huracanes aquí?',
+    'obra-cerca-huracan': {
+      'pregunta': '¿Las cercas aguantan los huracanes aquí?',
       'respuesta':
-        'Las de barrotes de aluminio normalmente sí, porque el viento las atraviesa. Las que caen son las ciegas de PVC y de madera, que hacen de vela y cargan mucho los postes. Lo que decide el resultado es la profundidad y la separación de los postes, y si van recibidos con hormigón.',
-      'claves': 'valla huracan viento aguantar ciega poste hormigon profundidad',
+        'Las de barrotes de aluminio normalmente sí, porque el viento las atraviesa. Las que caen son las ciegas de PVC y de madera, que hacen de vela y cargan mucho los postes. Lo que decide el resultado es la profundidad y la separación de los postes, y si van recibidos con concreto.',
+      'claves': 'cerca huracan viento aguantar ciega poste hormigon profundidad',
     },
     'obra-hormigon-espesor': {
       'pregunta': '¿Qué espesor debe tener una losa de patio o de entrada?',
@@ -2885,15 +2885,15 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'claves': 'losa espesor canto entrada patio armadura mallazo subbase',
     },
     'obra-cuanto-dura-adoquin': {
-      'pregunta': '¿Cuánto debería durar un adoquinado?',
+      'pregunta': '¿Cuánto deberían durar los pavers?',
       'respuesta':
-        'Décadas, si la base se hizo bien: las piezas duran más que el propio montaje. Lo que envejece es la arena de junta y el confinamiento de borde, y las dos cosas se pueden reponer. Un adoquinado que a los cinco años parece cansado le está hablando de su base, no de sus adoquines.',
+        'Décadas, si la base se hizo bien: las piezas duran más que el propio montaje. Lo que envejece es la arena de junta y el confinamiento de borde, y las dos cosas se pueden reponer. Un pavimento de pavers que a los cinco años parece cansado le está hablando de su base, no de sus pavers.',
       'claves': 'adoquin duracion cuanto dura decadas base junta borde',
     },
     'obra-reutilizar-adoquin': {
-      'pregunta': '¿Se pueden levantar y reutilizar mis adoquines actuales?',
+      'pregunta': '¿Se pueden levantar y reutilizar mis pavers actuales?',
       'respuesta':
-        'Muchas veces sí, y es un ahorro real cuando el adoquín está sano pero la base ha fallado. Cuente con alguna rotura al levantarlos y con diferencias de color donde la cara vista se ha envejecido de otra forma. Presupueste un porcentaje de reposición de la misma gama, si se sigue fabricando.',
+        'Muchas veces sí, y es un ahorro real cuando el paver está sano pero la base ha fallado. Cuente con alguna rotura al levantarlos y con diferencias de color donde la cara vista se ha envejecido de otra forma. Presupueste un porcentaje de reposición de la misma gama, si se sigue fabricando.',
       'claves': 'reutilizar adoquin levantar recuperar rotura color',
     },
     'obra-pergola-sobre-deck': {
@@ -2915,10 +2915,10 @@ export const FAQS_COPY: Record<Idioma, Record<string, CopyFaq>> = faqsSanity?.FA
       'claves': 'cesped daño maquinaria acceso tepe reponer proteccion',
     },
     'obra-entrada-ancho': {
-      'pregunta': '¿Qué ancho debe tener una entrada de coches?',
+      'pregunta': '¿Qué ancho debe tener una entrada de autos?',
       'respuesta':
-        'El suficiente para abrir la puerta del coche sin pisar el jardín, que es más de lo que se suele dibujar. Un carril necesita sitio para caminar al lado; uno doble necesita ancho para poder usar los dos coches a la vez. La zona de maniobra importa más que el tramo recto.',
-      'claves': 'entrada ancho carril doble puerta coche maniobra',
+        'El suficiente para abrir la puerta del auto sin pisar el jardín, que es más de lo que se suele dibujar. Un carril necesita sitio para caminar al lado; uno doble necesita ancho para poder usar los dos autos a la vez. La zona de maniobra importa más que el tramo recto.',
+      'claves': 'entrada ancho carril doble puerta auto maniobra',
     },
     'obra-entrada-acera': {
       'pregunta': '¿Puedo cambiar por dónde la entrada llega a la calle?',

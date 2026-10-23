@@ -29,6 +29,7 @@
 import { canonica } from './canonica.mjs';
 import { negocioDesde } from './sanity/negocio.mjs';
 import { ajustes } from './ajustes.ts';
+import { FUENTE, ogDeRuta } from './sanity/fuente.mjs';
 
 /**
  * Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. Con
@@ -70,6 +71,8 @@ export function localBusiness(site: string) {
     // PNG de 512x512 generado desde el unico logotipo del repo (scripts/generar-logo.mjs).
     // Google pide >= 112 px y rasterizable; un SVG no vale aqui.
     logo: absoluta(site, '/images/logo-pergola-plus-florida.png'),
+    // La imagen al compartir por defecto (JPEG 1200x630, siteSettings): una foto real de obra (F4).
+    ...(FUENTE === 'sanity' && ogDeRuta('/') ? { image: absoluta(site, ogDeRuta('/')!) } : {}),
     telephone: NEGOCIO.telefono,
     email: NEGOCIO.email,
     address: {
@@ -156,24 +159,20 @@ export function producto(site: string, opciones: {
    */
   propiedades?: { nombre: string; valor: string }[] | null;
 }) {
+  // `Service`, no `Product` (informe 08, T4): son instalaciones a medida sin precio publicado,
+  // y un `Product` sin offers, review ni aggregateRating es un error en Search Console. Service no
+  // admite `material` ni `additionalProperty`: la tabla de especificaciones sigue en la pagina, y
+  // aqui solo va lo que el tipo admite.
   return {
-    '@type': 'Product',
+    '@type': 'Service',
     name: opciones.nombre,
+    serviceType: opciones.nombre,
     description: opciones.descripcion,
     url: absoluta(site, opciones.ruta),
-    // La marca es el propio negocio: estos sistemas los diseña e instala el
-    // cliente. No se declara `offers` porque no hay precio publicado, y un precio
-    // inventado en JSON-LD es motivo de penalizacion.
+    provider: refNegocio(site),
+    areaServed: NEGOCIO.condados.map((n) => ({ '@type': 'AdministrativeArea', name: n })),
     brand: { '@type': 'Brand', name: NEGOCIO.nombre },
     ...(opciones.imagen ? { image: absoluta(site, opciones.imagen) } : {}),
-    ...(opciones.material ? { material: opciones.material } : {}),
-    ...(opciones.propiedades?.length
-      ? {
-        additionalProperty: opciones.propiedades.map((p) => ({
-          '@type': 'PropertyValue', name: p.nombre, value: p.valor,
-        })),
-      }
-      : {}),
   };
 }
 

@@ -52,15 +52,15 @@ const PRODUCTOS: Record<string, string> = {
   'Custom Open-Air Aluminum Pergolas': 'Pérgolas abiertas de aluminio a medida',
     'Luxury Custom Outdoor Cabanas': 'Cabañas exteriores de lujo a medida',
     'Custom Screen Enclosures for Outdoor Living':
-    'Cerramientos con mosquitero a medida',
+    'Screen enclosures a medida',
   'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida, they preserve airflow and visibility, ensuring comfortable evenings while matching your home’s architectural integrity.':
-    'Proteja su espacio exterior de insectos y suciedad con nuestros cerramientos con mosquitero a medida, con todos los permisos en regla. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes sean cómodas, sin romper la línea arquitectónica de su casa.',
+    'Proteja su espacio exterior de insectos y suciedad con nuestros screen enclosures a medida, con todos los permisos en regla. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes sean cómodas, sin romper la línea arquitectónica de su casa.',
   'Integrated Motorized Screen Systems': 'Cortinas motorizadas integradas',
   'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas, patios, and covered outdoor spaces, these premium systems enhance comfort while maintaining a sleek, modern appearance.':
     'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted quiere, con una automatización que no se nota. Pensadas para integrarse en pérgolas, patios y porches, aportan confort manteniendo una estética limpia y actual.',
-  'Engineered Aluminum Carport Structures': 'Cocheras de aluminio calculadas',
+  'Engineered Aluminum Carport Structures': 'Carports de aluminio calculados',
   'Our aluminum carports protect luxury vehicles from harsh sun and rain while elevating your home’s architecture. Built for structural integrity and long-term durability, they offer premium, stylish protection. The perfect blend of strength and design.':
-    'Nuestras cocheras de aluminio protegen los vehículos del sol y la lluvia y a la vez suman a la arquitectura de la casa. Construidas para aguantar y durar, ofrecen una protección premium con buen diseño. Resistencia y estética a partes iguales.',
+    'Nuestros carports de aluminio protegen los vehículos del sol y la lluvia y a la vez suman a la arquitectura de la casa. Construidas para aguantar y durar, ofrecen una protección premium con buen diseño. Resistencia y estética a partes iguales.',
   'Solar-Integrated Shade Structures': 'Estructuras de sombra con solar integrada',
   'Solar roof structures combine architectural strength with energy innovation. Engineered to support solar panel integration, these systems provide shade and weather protection while allowing homeowners to invest in sustainable, high-performance outdoor infrastructure.':
     'Las estructuras con techo solar unen solidez arquitectónica e innovación energética. Calculadas para integrar paneles solares, dan sombra y protección frente al clima a la vez que convierten el exterior en una inversión sostenible y de alto rendimiento.',
@@ -78,10 +78,10 @@ const SERVICIOS: Record<string, string> = {
   'Luxury Outdoor Construction &amp; Patio Services in South Florida':
     'Construcción exterior y servicios de patio de lujo en el sur de Florida',
   'We design and build custom pergolas, pavers, driveways, decks, fencing, and full outdoor remodels across Miami-Dade, Broward, and Palm Beach County—engineered for Florida’s climate and luxury outdoor living.':
-    'Diseñamos y construimos pérgolas a medida, adoquinado, entradas de coche, decks, vallado y remodelaciones exteriores integrales en Miami-Dade, Broward y Palm Beach, calculados para el clima de Florida y para vivir el exterior con calidad.',
+    'Diseñamos y construimos pérgolas a medida, pavers, entradas de autos, decks, cercas y remodelaciones exteriores integrales en Miami-Dade, Broward y Palm Beach, calculados para el clima de Florida y para vivir el exterior con calidad.',
   'Custom Pergolas &amp; Patio Covers': 'Pérgolas y cubiertas de patio a medida',
         Deck: 'Decks',
-    Fence: 'Vallado',
+    Fence: 'Cercas',
     'Full Outdoor Remodel': 'Remodelación exterior integral',
   };
 
@@ -101,8 +101,8 @@ const PRESUPUESTO: Record<string, string> = {
   'Polycarbonate Pergola': 'Pérgola de policarbonato',
   'Open-Air Pergola': 'Pérgola abierta',
   'Aluminum Cabana': 'Cabaña de aluminio',
-  'Screen Enclosure': 'Cerramiento con mosquitero',
-  'Aluminum Carport': 'Cochera de aluminio',
+  'Screen Enclosure': 'Screen enclosure',
+  'Aluminum Carport': 'Carport de aluminio',
   'Solar Roof Structure': 'Estructura con techo solar',
   'Sukkah 3000 System': 'Sistema Sukkah 3000',
   'Not Sure – Need Guidance': 'No lo tengo claro, necesito orientación',
@@ -117,7 +117,7 @@ const PRESUPUESTO: Record<string, string> = {
   'Motorized Screens': 'Cortinas motorizadas',
   'Drainage System': 'Sistema de drenaje',
   'Outdoor Kitchen Integration': 'Integración de cocina exterior',
-  'Paver Extension': 'Ampliación de adoquinado',
+  'Paver Extension': 'Ampliación de pavers',
   'Project Property Address': 'Dirección de la propiedad',
   'Enter the address where the project will take place so we can confirm service availability and prepare an accurate estimate.':
     'Indique la dirección donde se hará el proyecto para que podamos confirmar que damos servicio en la zona y preparar un presupuesto ajustado.',
@@ -156,7 +156,7 @@ const CONTACTO: Record<string, string> = {
   'Call us during business hours': 'Llámenos en horario comercial',
   Office: 'Oficina',
   'Visit us in Boca Raton, Florida for consultations':
-    'Visítenos en Boca Ratón, Florida, para una consulta',
+    'Visítenos en Boca Raton, Florida, para una consulta',
   'By Appointment Only': 'Solo con cita previa',
   'Hours Of Service': 'Horario de atención',
   'Contact us during business hours': 'Contáctenos en horario comercial',
@@ -210,7 +210,7 @@ const GALERIA: Record<string, string> = {
   'Oceanfront Pool Deck &amp; Cabanas at Jupiter Ocean Club':
     'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
   'A resort pool deck steps from the Atlantic, with wide paver decking, turf inlays and white flat-roof cabanas along the water side.':
-    'Una terraza de piscina a un paso del Atlántico, con pavimento amplio de adoquín, franjas de césped y cabañas blancas de techo plano junto al agua.',
+    'Una terraza de piscina a un paso del Atlántico, con pavimento amplio de pavers, franjas de césped y cabañas blancas de techo plano junto al agua.',
   'Custom Sukkah Pergola at Boca Beach':
     'Sukkah a medida en Boca Beach',
   'A white open-air sukkah pergola over an event terrace, clear-span across the dining area and dressed with greenery and string lighting.':
@@ -376,13 +376,13 @@ export const PAGINAS_ES: PaginaEs[] = [
   {
     en: '/products', es: '/es/products',
     title: 'Pérgolas de lujo y soluciones de sombra | Pergola Plus',
-    description: 'Pérgolas de aluminio a medida, techos de lamas motorizados, cerramientos y cocheras, diseñados e instalados en el sur de Florida.',
+    description: 'Pérgolas de aluminio a medida, techos de lamas motorizados, screen enclosures y carports, diseñados e instalados en el sur de Florida.',
     dic: PRODUCTOS,
   },
   {
     en: '/services', es: '/es/services',
     title: 'Servicios de construcción exterior | Sur de Florida',
-    description: 'Pérgolas a medida, adoquinado, entradas de coche, hormigón, decks, vallado y reformas integrales de patio en Miami-Dade, Broward y Palm Beach.',
+    description: 'Pérgolas a medida, pavers, entradas de autos, concreto, decks, cercas y reformas integrales de patio en Miami-Dade, Broward y Palm Beach.',
     dic: SERVICIOS,
   },
   {

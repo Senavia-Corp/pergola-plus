@@ -11,8 +11,9 @@ import { COMUN_ES } from '../../../i18n/comun.es';
 // Ver MINIATURAS_ES en scripts/lib/miniaturas.mjs.
 import { MINIATURAS_ES } from '../../../../scripts/lib/miniaturas.mjs';
 import { grafo, breadcrumbs, areaDeServicio } from '../../../lib/jsonld';
-import { CIUDADES } from '../../../data/ubicaciones.mjs';
+import { CIUDADES, SLUG_CONDADO } from '../../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../../lib/faq-ficha';
+import { conLocal } from '../../../lib/local.mjs';
 import ReseñasGoogle from '../../../components/ReseñasGoogle.astro';
 import { FUENTE, sanity, fragmentoColeccion, itemDe, enIdioma } from '../../../lib/sanity/fuente.mjs';
 
@@ -59,10 +60,16 @@ if (faltan.length) {
 // Se parte sobre el HTML YA TRADUCIDO y no sobre el original: es el que se sirve, y
 // `traducirHtml` conserva los comentarios. Mismo orden que en es/services/[slug].
 // `partirEnMarca` LANZA si la marca no esta.
-const resenas = partirEnMarca(html, 'es/pergolas-contractors/' + item.slug, MARCA_RESENAS);
+// El contenido local (campo `local`) va como sección propia tras la intro (src/lib/local.mjs).
+const resenas = partirEnMarca(conLocal(html, doc, 'es'), 'es/pergolas-contractors/' + item.slug, MARCA_RESENAS);
 
 const site = Astro.site!.href;
 const ruta = `/es/pergolas-contractors/${item.slug}/`;
+// Inicio › Dónde trabajamos › Condado › Ciudad (silo, T3).
+const condado = CIUDADES[item.slug as keyof typeof CIUDADES]?.condado;
+const migaCondado = condado && SLUG_CONDADO[condado]
+  ? [[`Condado de ${condado.replace(' County', '')}`, `/es/countries/${SLUG_CONDADO[condado]}/`] as [string, string]]
+  : [];
 const jsonLd = grafo(
   areaDeServicio(site, {
     nombre: `Pérgolas en ${traduccion.nombre}`,
@@ -70,7 +77,7 @@ const jsonLd = grafo(
     ruta,
     area: CIUDADES[item.slug as keyof typeof CIUDADES],
   }),
-  breadcrumbs(site, [['Dónde trabajamos', '/es/about-us/where-we-work/'], [traduccion.nombre, ruta]], 'es'),
+  breadcrumbs(site, [['Dónde trabajamos', '/es/about-us/where-we-work/'], ...migaCondado, [traduccion.nombre, ruta]], 'es'),
 );
 ---
 

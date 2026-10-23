@@ -16,6 +16,12 @@
  *    no se puede resolver, lanza y el build no publica.
  *
  * Con PP_FUENTE=repo no hace nada: el build lee los literales migrados del repo.
+ *
+ * PP_PERSPECTIVA=drafts (o el id de una Release) lee el contenido como lo veria el Studio con
+ * los borradores (o esa Release) aplicados: lo usa el loop SEO para construir y juzgar su
+ * contenido sin publicarlo (docs/seo-loop/RELEASE.json). Esos documentos son privados: hace
+ * falta un token de lectura, SANITY_AUTH_TOKEN o, en local, la sesion del CLI de Sanity. Sin
+ * la variable (Vercel) se lee lo publicado, como siempre.
  */
 import fs from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
@@ -34,13 +40,27 @@ const PROYECTO = process.env.SANITY_PROJECT_ID ?? 'n0ct9t3k';
 const DATASET = process.env.SANITY_DATASET ?? 'production';
 const VERSION = process.env.SANITY_API_VERSION ?? '2025-01-01';
 const SINGLETONS = ['siteSettings', 'navigation', 'estimador'];
+const PERSPECTIVA = process.env.PP_PERSPECTIVA || null;
+
+/** Token de lectura para PP_PERSPECTIVA: la variable o la sesion del CLI. Nunca se imprime. */
+function token() {
+  if (process.env.SANITY_AUTH_TOKEN) return process.env.SANITY_AUTH_TOKEN;
+  try { return JSON.parse(readFileSync(path.join(process.env.HOME ?? '', '.config/sanity/config.json'), 'utf8')).authToken; } catch { return null; }
+}
 
 async function consulta(q) {
   const u = new URL(`https://${PROYECTO}.api.sanity.io/v${VERSION}/data/query/${DATASET}`);
   u.searchParams.set('query', q);
+  const cabeceras = {};
+  if (PERSPECTIVA) {
+    const t = token();
+    if (!t) throw new Error(`[sanity] PP_PERSPECTIVA=${PERSPECTIVA} necesita SANITY_AUTH_TOKEN o la sesion del CLI (sanity login)`);
+    u.searchParams.set('perspective', PERSPECTIVA);
+    cabeceras.Authorization = `Bearer ${t}`;
+  }
   for (let intento = 1; ; intento++) {
     try {
-      const r = await fetch(u);
+      const r = await fetch(u, { headers: cabeceras });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       return (await r.json()).result;
     } catch (e) {
@@ -103,10 +123,10 @@ export async function instantanea() {
   }
   await fs.mkdir(path.dirname(DIMENSIONES), { recursive: true });
   await fs.writeFile(DIMENSIONES, JSON.stringify(dimensiones));
-  const contenido = { leido: new Date().toISOString(), proyecto: PROYECTO, dataset: DATASET, docs, origenes };
+  const contenido = { leido: new Date().toISOString(), proyecto: PROYECTO, dataset: DATASET, perspectiva: PERSPECTIVA ?? 'published', docs, origenes };
   await fs.mkdir(path.dirname(SALIDA), { recursive: true });
   await fs.writeFile(SALIDA, JSON.stringify(contenido));
-  return { documentos: docs.length, imagenesDescargadas: descargas.size };
+  return { documentos: docs.length, imagenesDescargadas: descargas.size, perspectiva: PERSPECTIVA ?? 'published' };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

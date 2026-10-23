@@ -21,6 +21,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/post/_items.json';
 import Articulo from '../../components/Articulo.astro';
 import { posts, postsDe, fechaLarga, fechaIso, organizacion, blogSanity } from '../../lib/blog';
+import { localBusiness } from '../../lib/jsonld';
 import { FUENTE, sanity, itemDe } from '../../lib/sanity/fuente.mjs';
 import { prepararArticulo } from '../../lib/articulo';
 import '../../styles/blog.css';
@@ -99,6 +100,8 @@ const jsonLd = [
     publisher: organizacion(site),
     isPartOf: { '@type': 'Blog', '@id': `${urlBlog}#blog` },
   },
+  // El nodo del negocio al que apuntan author y publisher (src/lib/blog.ts, organizacion).
+  { '@context': 'https://schema.org', ...localBusiness(site) },
   {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

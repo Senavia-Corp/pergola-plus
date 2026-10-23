@@ -1,0 +1,356 @@
+{
+  "hilosRevisados": 40,
+  "mensajesDeDaniel": 50,
+  "peticiones": [
+    {
+      "fecha": "2025-05-14",
+      "asunto": "Vistual mtgs",
+      "hiloId": "196cff839e1b0e51",
+      "cita": "En el formulario para hacer un booking de un virtual meeting, el campo para poner un teléfono debe ser mandatorio.",
+      "elemento": "Formulario de reserva de consulta virtual (campo teléfono obligatorio)",
+      "yaRegistrada": null,
+      "nota": "Sitio viejo (Webflow). SENAVIA confirmó hecho el 19-may-2025. Comprobar que el formulario/estimador del sitio nuevo mantiene el teléfono obligatorio."
+    },
+    {
+      "fecha": "2025-06-24",
+      "asunto": "Chatbot",
+      "hiloId": "1979fdfdf688c9c5",
+      "cita": "este es el código del chat bot para hacer quotes que queremos integrar al website.",
+      "elemento": "Widget de terceros (Landbot, chatbot de cotizaciones) en todas las páginas",
+      "yaRegistrada": null,
+      "nota": "Instalado el 26-jun-2025 en el sitio viejo. En 2026 SENAVIA dejó los widgets de terceros; en el sitio nuevo el 'Chat con AI' figura como pendiente de confirmación de Daniel (correo SENAVIA 1-oct-2026)."
+    },
+    {
+      "fecha": "2025-06-26",
+      "asunto": "Chatbot",
+      "hiloId": "1979fdfdf688c9c5",
+      "cita": "cuando un lead hace cita en el calendario de la página, Buildertrend automáticamente cree un lead contact",
+      "elemento": "Integración del calendario/formulario de citas del sitio con el CRM (Buildertrend)",
+      "yaRegistrada": null,
+      "nota": "Integración de back-end, sin efecto SEO directo. Lo repite el 14-ago-2026 (hilo 19fcee21df196c17): 'si es importante el tracking y que los leads vayan al CRM en automático'."
+    },
+    {
+      "fecha": "2025-07-03",
+      "asunto": "Actualización landbot",
+      "hiloId": "197ce598be784dfb",
+      "cita": "Te paso un nuevo script del Landbot para que porfa lo actualicemos en la página.",
+      "elemento": "Widget Landbot (actualizar script)",
+      "yaRegistrada": null,
+      "nota": "SENAVIA lo actualizó el 3-jul-2025. Script de terceros cargado al primer mouseover/touch."
+    },
+    {
+      "fecha": "2025-12-28",
+      "asunto": "Fwd: Ads disapproved (3)",
+      "hiloId": "19b6666913e51a46",
+      "cita": "Todos estos ads están apuntados a un website que no sirve/existe: https://www.pergolaplusflorida.com/aluminum-pergolas",
+      "elemento": "URL /aluminum-pergolas (destino de anuncios)",
+      "yaRegistrada": "R12",
+      "nota": "SENAVIA respondió que eran anuncios antiguos y los desactivó; no se pidió crear la página."
+    },
+    {
+      "fecha": "2026-02-27",
+      "asunto": "Notas: “Pérgola Plus Website Review” (Gemini)",
+      "hiloId": "19ca0ed004976124",
+      "cita": "Sebastian Navia eliminará el carrusel de las marcas de todas las páginas del sitio web, dejándolo solo en el home.",
+      "elemento": "Carrusel de marcas, licencia en About y pie, quitar página 'Service', vídeo en hero, sin imágenes IA",
+      "yaRegistrada": "R5",
+      "nota": "Notas automáticas de Gemini, no un correo de Daniel. Añaden dos puntos no listados en R5: 'ajustar el diseño del sitio para diferentes tamaños de pantalla' y que Daniel autorizó contratar el hosting. Daniel se comprometió a enviar revisiones de textos y fotos."
+    },
+    {
+      "fecha": "2026-03-06",
+      "asunto": "Re: Pergola Plus / Follow-Up Meeting",
+      "hiloId": "19cc3b782d6aa002",
+      "cita": "Cuando navegas encima, se abren. Y cuando bajas para seleccionar algo dentro del dropdown, se cierra antes de que puedas seleccionar.",
+      "elemento": "Menú desplegable (comportamiento hover)",
+      "yaRegistrada": null,
+      "nota": "Bug de UX en el preview Webflow; sin efecto SEO directo salvo que los enlaces del menú sean inaccesibles."
+    },
+    {
+      "fecha": "2026-03-06",
+      "asunto": "Re: Pergola Plus / Follow-Up Meeting",
+      "hiloId": "19cc3b782d6aa002",
+      "cita": "En el module del home page que muesra los diferentes productos, los nombres de cada uno debería ser links también.",
+      "elemento": "Módulo de productos de la home (nombres como enlaces)",
+      "yaRegistrada": "R4",
+      "nota": ""
+    },
+    {
+      "fecha": "2026-03-06",
+      "asunto": "Re: Pergola Plus / Follow-Up Meeting",
+      "hiloId": "19cc3b782d6aa002",
+      "cita": "el segundo módulo siempre dice 'About us'. Por favor quitar 'About Us' ahí.",
+      "elemento": "Páginas de producto: encabezado del segundo módulo",
+      "yaRegistrada": "R4",
+      "nota": ""
+    },
+    {
+      "fecha": "2026-03-06",
+      "asunto": "Re: Pergola Plus / Follow-Up Meeting",
+      "hiloId": "19cc3b782d6aa002",
+      "cita": "Hay que refrescar las fotos. Te estamos preparando un folder.",
+      "elemento": "Imágenes del sitio (sustitución general)",
+      "yaRegistrada": null,
+      "nota": "Se concreta después en el correo del 11-ago-2026 (carpetas de Drive). El 4-may-2026 (hilo 19d40a2bd8407dd5) pregunta cómo mandarlas."
+    },
+    {
+      "fecha": "2026-03-06",
+      "asunto": "Re: Pergola Plus / Follow-Up Meeting",
+      "hiloId": "19cc3b782d6aa002",
+      "cita": "Ver comentarios específicos de textos para limpiar en las imagenes adjuntas.",
+      "elemento": "Textos de 'Get in touch', hero de la home, menús About Us / producto / Our Services",
+      "yaRegistrada": null,
+      "nota": "Las peticiones concretas están en 5 capturas PNG que el conector no permite leer (ver noLegibles)."
+    },
+    {
+      "fecha": "2026-05-04",
+      "asunto": "Re: Pergola Plus Florida – Website Ready for Launch | Pending Items",
+      "hiloId": "19d40a2bd8407dd5",
+      "cita": "Cual es la mejor forma de hacer londe las imagenes? Lo trato de hacer esta semana para pasartelas",
+      "elemento": "Imágenes de reemplazo",
+      "yaRegistrada": null,
+      "nota": "No es una petición nueva: confirma que quiere sustituir imágenes. SENAVIA le abrió una carpeta de Drive."
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "El diseño/font de los drop down menus del sitio actual nos gustaban mucho mas.",
+      "elemento": "Diseño de los menús desplegables (tipografía y cuadrícula como en el sitio viejo)",
+      "yaRegistrada": null,
+      "nota": "Visual; comparación en capturas no legibles."
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "El drop down menu de Our Product, reemplazemos con estas fotos",
+      "elemento": "Fotos de los menús Our Products y Our Services",
+      "yaRegistrada": null,
+      "nota": "Fotos en carpetas de Google Drive (no abiertas). Afecta a imágenes y su alt, no al texto."
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "Featured Projects: [carpeta] Pongamos estos de primeros: / Home Page PHOTOS [carpeta] para reemplazar",
+      "elemento": "Orden de Featured Projects y fotos de la home",
+      "yaRegistrada": null,
+      "nota": "Carpetas de Drive no abiertas; cuáles proyectos van primero no consta en el texto."
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "\"Live Outdoors. Beautifully.\" \"South Florida's trusted experts in outdoor remodels, hardscape, and custom shade structures",
+      "elemento": "Hero de la home: titular y subtítulo",
+      "yaRegistrada": "R1",
+      "nota": ""
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "Ajustar el texto de este primer pantallazo, y quitar esos elementos que parecen botones, pero no son.",
+      "elemento": "Hero de la home: quitar elementos con aspecto de botón",
+      "yaRegistrada": null,
+      "nota": "Mismo correo que R1, pero esta parte (quitar pseudo-botones) no está en R1. Si esos elementos eran chips con palabras clave/servicios, quitarlos reduce texto en el primer pantallazo."
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "Link roto: DECK BUILDERS no sirve el link",
+      "elemento": "Enlace/página Deck Builders",
+      "yaRegistrada": null,
+      "nota": "Relevante para SEO: un enlace interno roto a la página de deck builders. Verificar que la URL exista en el sitio nuevo y redirija desde la antigua."
+    },
+    {
+      "fecha": "2026-08-14",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "cita": "Mientras no tengamos downtime en la página, adelante.",
+      "elemento": "Aprobación de la migración Webflow → Vercel/Sanity",
+      "yaRegistrada": null,
+      "nota": "Aprobación condicionada a no tener caída del sitio. Ese mismo día: 'Lo veo bien' sobre el estimado y el plan de lanzamiento."
+    },
+    {
+      "fecha": "2026-08-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "Lo que va a llegar son los appts que la gente hace en la página? Esos me deberian llegar a mi a este correo",
+      "elemento": "Destinatario de las notificaciones de formularios/citas (daniel@)",
+      "yaRegistrada": null,
+      "nota": "Sin efecto SEO. Info@ lo leen la office admin y Wendy."
+    },
+    {
+      "fecha": "2026-09-04",
+      "asunto": "Terms y Privacy Policy",
+      "hiloId": "1a06e7c4b5c8a74e",
+      "cita": "puedes por fa sumar en nuestros Terms and Conditions los siguientes párrafos",
+      "elemento": "Términos y condiciones / Privacy Policy (texto SMS)",
+      "yaRegistrada": "R11",
+      "nota": "El texto pegado repite tres veces la misma frase de exclusión del opt-in SMS (contenido duplicado si se pega literal)."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "Change \"Coves\" to \"Covers\". ... Change to standard English: \"Pergolas & Patio Covers\".",
+      "elemento": "Menú Our Products: nombre de la categoría",
+      "yaRegistrada": "R3",
+      "nota": ""
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "\"Solid protection from trusted pergola contractors in South Florida you can rely on.\" - Fix: It is missing a preposition",
+      "elemento": "Descripción del menú: Warranty & Protection",
+      "yaRegistrada": null,
+      "nota": "Del mismo correo que R2/R3; corrección concreta no registrada aparte."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "Change \"for home\" to \"for your home\"",
+      "elemento": "Descripción del menú: Our Brand Partners",
+      "yaRegistrada": null,
+      "nota": "Del mismo correo que R2/R3."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "The word \"always\" at the end feels grammatically awkward. Lets remove it.",
+      "elemento": "Descripción del menú: Industries We Serve",
+      "yaRegistrada": null,
+      "nota": "Del mismo correo que R2/R3."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "Help Center & FAQs description ... Fix: take out \"for projects\".",
+      "elemento": "Descripción del menú: Help Center & FAQs",
+      "yaRegistrada": null,
+      "nota": "Del mismo correo que R2/R3."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "The footer copyright reads \"© 2025\" on every page — Fix: Should be 2026.",
+      "elemento": "Pie de página: año de copyright",
+      "yaRegistrada": "R3",
+      "nota": ""
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "\"Licensed &Insured In Florida\" is missing a space after the ampersand. It appears on 45 pages",
+      "elemento": "Bloque 'About Pergola Plus' de páginas de producto/servicio y chips de contacto",
+      "yaRegistrada": "R3",
+      "nota": ""
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "\"We Build It Right\" ends with a double period ... Fix: Add: 'to us\". Leave it all to us",
+      "elemento": "Tarjetas 'How We Build It' (home y About)",
+      "yaRegistrada": "R3",
+      "nota": "R3 recoge 'Leave it all to us'; el doble punto de 'We Build It Right' es la otra mitad del mismo punto."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "The Apollo brand page spells the name \"Appolo\" in the heading and the URL is /brands/appolo",
+      "elemento": "Página de marca Apollo: H1 y URL /brands/appolo",
+      "yaRegistrada": "R3",
+      "nota": "Implica cambiar la URL a /brands/apollo: necesita 301 desde /brands/appolo."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "the product says \"Sukkha\" everywhere (nav, product page, URL /products/sukkha, image alt \"Sukkha 3000\") ... Change to Sukkah everywhere",
+      "elemento": "Producto Sukkah: menú, página, URL /products/sukkha y alt",
+      "yaRegistrada": "R3",
+      "nota": "También es la fuente de 'Sukkah 3000' (R10). Cambio de URL: necesita 301 desde /products/sukkha."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "Recommendation: Diversify your descriptions! Write them for the human reading the menu.",
+      "elemento": "Descripciones del menú (keyword 'pergola contractors in South Florida' repetida)",
+      "yaRegistrada": "R2",
+      "nota": "Los ejemplos que propone son la fuente de 'family-owned' y 'no-obligation' (R10). No hay ningún correo de Daniel del 30-sep-2026: R10 sale solo de este del 29-sep."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "The Renaissance logo file path is spelled brand-logo-rennaissance-logo.png (Double 'n' at the beginning).",
+      "elemento": "Nombres de fichero de imágenes (logos Apollo y Renaissance)",
+      "yaRegistrada": null,
+      "nota": "Él mismo lo marca como 'Low Priority'. Renombrar ficheros cambia URLs de imagen (impacto mínimo en Google Imágenes)."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "Can we tighten these elements over this white background. There's too much white space between elements.",
+      "elemento": "Espaciado de una sección sobre fondo blanco",
+      "yaRegistrada": null,
+      "nota": "La sección está identificada solo por una captura (Screenshot 2026-09-15) no legible. En el mismo correo dice 'Dandole una ultima revisadsa a las fotos', sin más detalle."
+    },
+    {
+      "fecha": "2026-10-12",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "cita": "En la página de contacto, nuestra dirección le falta \"Suite 110\" Y el telefono que queremos listed en la página es: (561) 292-5054",
+      "elemento": "Página de contacto: dirección y teléfono; aprobación final",
+      "yaRegistrada": "R9",
+      "nota": "Con eso: 'APROBADO – pueden continuar'."
+    },
+    {
+      "fecha": "2025-03-18",
+      "asunto": "Material Producción - Pergola Plus (comentarios Google Docs)",
+      "hiloId": "195aac8c53b799a1",
+      "cita": "Hay que vender el \"Just Do It\", no el stitching del zapato.",
+      "elemento": "Guion de vídeo/VO de Pergolas & Patio Covers (no es el sitio)",
+      "yaRegistrada": null,
+      "nota": "Contexto, no es petición del sitio: pide copy de beneficios (uso todo el año, espacios para la familia, sombra, plusvalía) antes que lo técnico. En el mismo documento, sobre Solar Patio Covers: 'No es la prioridada'."
+    }
+  ],
+  "noLegibles": [
+    {
+      "fecha": "2026-03-06",
+      "asunto": "Re: Pergola Plus / Follow-Up Meeting",
+      "hiloId": "19cc3b782d6aa002",
+      "motivo": "5 capturas PNG con las correcciones de texto concretas (Get in touch.png, Home Page Hero.png, Menu About Us.png, Menu producto.png, Manu Our Services.png). El conector de Gmail no descarga adjuntos. SENAVIA dijo el 9-mar haber procesado 'algunos cambios'."
+    },
+    {
+      "fecha": "2026-08-11",
+      "asunto": "Re: Desactivación de widgets en pergolaplusflorida.com",
+      "hiloId": "19fcee21df196c17",
+      "motivo": "3 capturas (menús desplegables actual vs. nuevo, hero) y 4 carpetas de Google Drive con las fotos de reemplazo y el orden de Featured Projects; no abiertas."
+    },
+    {
+      "fecha": "2026-09-29",
+      "asunto": "Re: Pergola Plus: preview del sitio y últimos pasos antes de publicar",
+      "hiloId": "1a01f7a1105937f8",
+      "motivo": "Captura 'Screenshot 2026-09-15 at 4.22.17 PM.png' que identifica la sección con exceso de espacio en blanco; no legible."
+    },
+    {
+      "fecha": "2026-02-27",
+      "asunto": "Notas: “Pérgola Plus Website Review” (Gemini)",
+      "hiloId": "19ca0ed004976124",
+      "motivo": "Solo se leyó el resumen del correo; la transcripción y la grabación enlazadas (Docs/Drive) no se abrieron, pueden contener más peticiones dichas en voz."
+    }
+  ]
+}

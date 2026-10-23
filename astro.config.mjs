@@ -402,7 +402,7 @@ function sitemapYRobots() {
         const docs = docsSanity() ?? [];
         const editadoEl = new Map();
         for (const d of docs) {
-          if (!(d._updatedAt > MIGRACION.ultimaMigracion)) continue;
+          if (!(d._updatedAt > (MIGRACION.ultimaEscrituraTecnica ?? MIGRACION.ultimaMigracion))) continue;
           let r; try { r = canonica(rutaDe(d)); } catch { continue; }
           editadoEl.set(r, d._updatedAt);
           editadoEl.set(canonica('/es' + rutaDe(d)), d._updatedAt);
@@ -461,8 +461,10 @@ function sitemapYRobots() {
 
         await fs.writeFile(path.join(raiz.pathname, 'sitemap.xml'), xml, 'utf8');
 
-        // Buscadores y asistentes que citan y enlazan: entran. Recolectores para entrenar
-        // modelos: fuera. Nombres comprobados en la documentacion oficial el 21-oct-2026:
+        // Buscadores, asistentes y tambien los rastreadores de entrenamiento: entran todos, con
+        // /api/ fuera (decision del 23-oct-2026, docs/seo-loop/00-ESPECIFICACION-LOOP.md §0).
+        // Bytespider sigue fuera: no tiene documentacion oficial. Nombres comprobados en la
+        // documentacion oficial el 21-oct-2026:
         //   Anthropic          support.claude.com
         //   OpenAI             developers.openai.com/api/docs/bots
         //   Perplexity         docs.perplexity.ai/guides/bots
@@ -473,8 +475,9 @@ function sitemapYRobots() {
         //   Common Crawl       commoncrawl.org/ccbot
         //   Meta               developers.facebook.com/docs/sharing/webmasters/web-crawlers
         // Bytespider no tiene pagina oficial de ByteDance: sigue «a verificar».
-        const PERMITIDOS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User', 'Bingbot', 'Googlebot', 'Applebot'];
-        const BLOQUEADOS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Bytespider', 'meta-externalagent'];
+        const PERMITIDOS = ['OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User', 'Bingbot', 'Googlebot', 'Applebot',
+          'GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'meta-externalagent'];
+        const BLOQUEADOS = ['Bytespider'];
         const VERIFICADOS = new Set([...PERMITIDOS, ...BLOQUEADOS].filter((ua) => ua !== 'Bytespider'));
         const nota = (ua) => (VERIFICADOS.has(ua) ? '' : ' # a verificar');
         const robots = [
@@ -483,12 +486,12 @@ function sitemapYRobots() {
           'Allow: /',
           'Disallow: /api/',
           '',
-          '# Busqueda y asistentes que enlazan al sitio.',
+          '# Busqueda, asistentes y entrenamiento de modelos.',
           ...PERMITIDOS.flatMap((ua) => [`User-agent: ${ua}${nota(ua)}`]),
           'Allow: /',
           'Disallow: /api/',
           '',
-          '# Recoleccion para entrenar modelos.',
+          '# Sin documentacion oficial.',
           ...BLOQUEADOS.flatMap((ua) => [`User-agent: ${ua}${nota(ua)}`]),
           'Disallow: /',
           '',

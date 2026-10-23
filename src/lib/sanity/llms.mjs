@@ -21,6 +21,7 @@ const SECCIONES = [
   { tipo: 'city', en: 'Service areas: cities', es: 'Zonas de servicio: ciudades' },
   { tipo: 'project', en: 'Projects', es: 'Proyectos' },
   { tipo: 'post', en: 'Blog', es: 'Blog', orden: (a, b) => fecha(b).localeCompare(fecha(a)) },
+  { tipo: 'blogCategory', en: 'Blog categories', es: 'Categorías del blog' },
   { tipo: 'page', en: 'Company and resources', es: 'Empresa y recursos' },
   { tipo: 'legalPage', en: 'Legal', es: 'Legal' },
 ];
@@ -31,7 +32,7 @@ export function llmsDesde(docs, { sitio, enSitemap, rutaDe, canonica }) {
   if (!s || !home) throw new Error('[llms] faltan siteSettings o page-index');
   const url = (ruta) => new URL(canonica(ruta), sitio).href;
   const nombre = (d, idioma) => {
-    const n = d._type === 'post' ? d.titulo : d.nombre;
+    const n = d._type === 'post' || d._type === 'blogCategory' ? d.titulo : d.nombre;
     return limpio((idioma === 'es' ? n?.es : n?.en) ?? (idioma === 'es' ? d.seo?.titulo?.es : d.seo?.titulo?.en)).replace(QUITAR_MARCA, '');
   };
   const linea = (d, idioma) => {
@@ -42,7 +43,7 @@ export function llmsDesde(docs, { sitio, enSitemap, rutaDe, canonica }) {
   };
   const bloque = (idioma) => SECCIONES.flatMap((sec) => {
     const lista = docs
-      .filter((d) => d._type === sec.tipo && d._id !== 'page-index' && (d._type !== 'blogCategory'))
+      .filter((d) => d._type === sec.tipo && d._id !== 'page-index')
       .sort(sec.orden ?? ((a, b) => nombre(a, 'en').localeCompare(nombre(b, 'en'))))
       .map((d) => linea(d, idioma))
       .filter(Boolean);

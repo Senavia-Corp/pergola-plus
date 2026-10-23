@@ -63,9 +63,9 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'White aluminum louvered roof attached to a two-storey white stucco home, louvers angled to throw striped shade over a covered dining terrace.':
         'Techo de lamas de aluminio blanco adosado a una casa de estuco blanco de dos plantas, con las lamas inclinadas proyectando sombra rayada sobre un comedor exterior cubierto.',
       'Bronze louvered pergola attached to a tile-roof home, louvers open over a travertine pool deck, with the gutter downspout running down inside the post.':
-        'Pérgola de lamas bronce adosada a una casa con tejado de teja, con las lamas abiertas sobre una terraza de travertino junto a la piscina y la bajante del canalón por dentro del poste.',
+        'Pérgola de lamas bronce adosada a una casa con techo de teja, con las lamas abiertas sobre una terraza de travertino junto a la piscina y la bajante del canalón por dentro del poste.',
       'Louvered roof section built alongside an existing solid patio cover, louvers fully open to the sky over a brick paver dining patio.':
-        'Tramo de techo de lamas construido junto a una cubierta sólida existente, con las lamas completamente abiertas al cielo sobre un patio de adoquín con comedor.',
+        'Tramo de techo de lamas construido junto a una cubierta sólida existente, con las lamas completamente abiertas al cielo sobre un patio de pavers con comedor.',
       'Freestanding louvered pergola on a deck at the pool edge, white louvers open, framed by a ficus hedge and palms.':
         'Pérgola de lamas exenta sobre tarima al borde de la piscina, con las lamas blancas abiertas, entre un seto de ficus y palmeras.',
       'White louvered pergola attached to a yellow stucco home, shading an outdoor dining and grill area beside the pool.':
@@ -85,7 +85,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Engineered to Florida Wind Code': 'Calculada para el viento de Florida',
       'Louvered Roof Pergola Contractors in South Florida': 'Especialistas en pérgolas de techo de lamas en el sur de Florida',
       'Pergola Plus designs and installs premium louvered roof pergolas across Miami-Dade, Broward, and Palm Beach County. Our custom aluminum systems feature motorized louvers that provide precise control over sunlight, ventilation, and rain protection—engineered specifically for the South Florida climate. We serve cities including Boca Raton, Fort Lauderdale, Weston, Delray Beach, and Palm Beach Gardens, delivering durable, architecturally refined outdoor living solutions.':
-        'Pergola Plus diseña e instala pérgolas de techo de lamas de gama alta en Miami-Dade, Broward y Palm Beach. Nuestros sistemas de aluminio a medida llevan lamas motorizadas que dan control preciso sobre el sol, la ventilación y la lluvia, calculados para el clima del sur de Florida. Trabajamos en Boca Ratón, Fort Lauderdale, Weston, Delray Beach y Palm Beach Gardens, entre otras, con soluciones duraderas y de buen diseño.',
+        'Pergola Plus diseña e instala pérgolas de techo de lamas de gama alta en Miami-Dade, Broward y Palm Beach. Nuestros sistemas de aluminio a medida llevan lamas motorizadas que dan control preciso sobre el sol, la ventilación y la lluvia, calculados para el clima del sur de Florida. Trabajamos en Boca Raton, Fort Lauderdale, Weston, Delray Beach y Palm Beach Gardens, entre otras, con soluciones duraderas y de buen diseño.',
       'Smart Motorized Louvered Pergola Features': 'Qué trae una pérgola de lamas motorizada',
       'Take absolute control of your outdoor environment with smart, adaptive shade. Discover the innovative technology, weather resistance, and automated features that set our bioclimatic pergolas apart.':
         'Tome el control total de su exterior con una sombra que se adapta. Estas son la tecnología, la resistencia y la automatización que distinguen a nuestras pérgolas bioclimáticas.',
@@ -124,7 +124,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // ahora identicas, letra por letra, a las de src/i18n/faqs.es.ts.
       'How do louvered pergolas work?': '¿Cómo funciona una pérgola de lamas?',
       'Motorized louvered pergolas use adjustable aluminum roof slats controlled via remote or app, allowing you to instantly adjust shade, sunlight, and patio airflow.':
-        'Llevan lamas de aluminio orientables en el techo, que se manejan con mando o desde el móvil. Así ajusta al momento la sombra, la luz y la ventilación del patio.',
+        'Llevan lamas de aluminio orientables en el techo, que se manejan con mando o desde el celular. Así ajusta al momento la sombra, la luz y la ventilación del patio.',
       'Are they safe in hurricanes?': '¿Son seguras en un huracán?',
       'Yes. Our smart louvered roof systems are heavily engineered for Miami’s wind-load codes, delivering maximum structural strength and safety during severe storms.':
         'Sí. Nuestros techos de lamas se calculan para la normativa de carga de viento de Miami, con la resistencia estructural que exige una tormenta seria.',
@@ -174,7 +174,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Attached, dark bronze frame, louvers open at the edge of the pool':
         'Adosada, marco en bronce oscuro, lamas abiertas al borde de la piscina',
       'Attached to a white soffit, louvers open over a paver patio and outdoor dining area':
-        'Adosada a un sofito blanco, lamas abiertas sobre un patio de adoquín con comedor exterior',
+        'Adosada a un sofito blanco, lamas abiertas sobre un patio de pavers con comedor exterior',
       'Freestanding, white louvers, poolside against a clipped hedge':
         'Exenta, lamas blancas, junto a la piscina contra un seto recortado',
       'Attached, white frame, over the patio of a yellow stucco house':
@@ -326,7 +326,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Attached solid roof pergola with a dark bronze frame and a flat insulated panel roof with a ceiling fan, spanning a paver patio with a built-in outdoor kitchen, seen across the pool.':
-        'Pérgola de techo macizo adosada, con estructura de aluminio bronce oscuro y techo de panel aislado liso con ventilador de techo, sobre un patio adoquinado con cocina exterior de obra, vista desde el otro lado de la piscina.',
+        'Pérgola de techo macizo adosada, con estructura de aluminio bronce oscuro y techo de panel aislado liso con ventilador de techo, sobre un patio de pavers con cocina exterior de obra, vista desde el otro lado de la piscina.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Insulated roof pergola builders in South Florida designing custom aluminum patio covers engineered for heat reduction and all-weather protection.':
@@ -451,7 +451,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Attached to the house, over the trellis and the planters':
         'Adosada a la casa, sobre el enrejado y las macetas',
       'Looking up: rafters, trellis and the tile roof behind':
-        'Mirando hacia arriba: travesaños, enrejado y el tejado de teja detrás',
+        'Mirando hacia arriba: travesaños, enrejado y el techo de teja detrás',
       'Freestanding by the pool, against the bamboo hedge':
         'Exenta junto a la piscina, contra el seto de bambú',
       'White, with privacy screens along the lap pool':
@@ -500,7 +500,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Open-air pergola with a dark bronze rafter grid open to the sky, attached along the upper floor of a Mediterranean-style house with arched windows and a barrel-tile roof.':
-        'Pérgola abierta con retícula de vigas bronce oscuro y el cielo a la vista, adosada a lo largo de la planta alta de una casa de estilo mediterráneo con ventanas de arco y tejado de teja árabe.',
+        'Pérgola abierta con retícula de vigas bronce oscuro y el cielo a la vista, adosada a lo largo de la planta alta de una casa de estilo mediterráneo con ventanas de arco y techo de teja árabe.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Open-air pergola builders in South Florida creating architectural aluminum pergolas that define outdoor living spaces with modern design.':
@@ -590,25 +590,25 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Power, Lighting And Fans':
         'Corriente, luz y ventiladores',
       'Plumbed, If You Want It Plumbed':
-        'Con fontanería, si la quiere',
+        'Con plomería, si la quiere',
       'Design visualisation of a freestanding aluminum cabana beside a pool, with a slatted privacy wall on one side and a lounge beneath.':
         'Visualización de diseño de una cabaña de aluminio exenta junto a la piscina, con una celosía de privacidad en un lado y un salón debajo.',
       'The Four Decisions A Cabana Makes That A Pergola Does Not':
         'Las cuatro decisiones que toma una cabaña y una pérgola no',
       'Everything else on this site is a roof. A cabana is closer to a small building, and that changes four things: what it costs and why, how you close it, whether it is plumbed, and what you keep in it.':
-        'Todo lo demás en este sitio es un techo. Una cabaña se parece más a un edificio pequeño, y eso cambia cuatro cosas: cuánto cuesta y por qué, cómo se cierra, si lleva fontanería y qué guarda dentro.',
+        'Todo lo demás en este sitio es un techo. Una cabaña se parece más a un edificio pequeño, y eso cambia cuatro cosas: cuánto cuesta y por qué, cómo se cierra, si lleva plomería y qué guarda dentro.',
       'Why It Costs More Than A Pergola':
         'Por qué cuesta más que una pérgola',
       'It is priced like a small building rather than like a shade cover: solid roof, often walls or screens, and usually power. Expect it above a comparable open pergola of the same footprint. Size, roof type and whether it is plumbed move the number more than the finish does.':
-        'Se cotiza como un edificio pequeño y no como una cubierta de sombra: techo macizo, muchas veces paredes o celosías, y normalmente corriente. Cuente con que esté por encima de una pérgola abierta comparable de la misma superficie. El tamaño, el tipo de techo y si lleva fontanería mueven la cifra más que el acabado.',
+        'Se cotiza como un edificio pequeño y no como una cubierta de sombra: techo macizo, muchas veces paredes o celosías, y normalmente corriente. Cuente con que esté por encima de una pérgola abierta comparable de la misma superficie. El tamaño, el tipo de techo y si lleva plomería mueven la cifra más que el acabado.',
       'How You Close It':
         'Cómo se cierra',
       'Motorised screens, fixed decorative panels, partial walls or outdoor-grade drapery — usually a combination, and usually not on all four sides. Which side gets which is decided by where the sun and the neighbours are, the same conversation as on a screen, only here it also changes how the structure reads.':
         'Cortinas motorizadas, paneles decorativos fijos, paredes parciales o cortinaje de exterior; normalmente una combinación, y normalmente no en los cuatro lados. Qué lleva cada lado lo decide dónde están el sol y los vecinos, la misma conversación que con una cortina, solo que aquí además cambia cómo se lee la estructura.',
       'Whether It Is Plumbed':
-        'Si lleva fontanería',
+        'Si lleva plomería',
       'A shower or a bathroom is a common request next to a pool and it changes the project: plumbing permits, a drainage connection, and ventilation requirements for a bathroom. Running supply and waste before the surrounding hardscape goes down is far cheaper than opening it up afterwards — so this is a decision for now, not later.':
-        'Una ducha o un baño es una petición habitual junto a la piscina y cambia el proyecto: permisos de fontanería, conexión de desagüe y requisitos de ventilación si es baño. Pasar la acometida y el desagüe antes de que se coloque el pavimento de alrededor sale mucho más barato que abrirlo después, así que esta es una decisión de ahora y no de luego.',
+        'Una ducha o un baño es una petición habitual junto a la piscina y cambia el proyecto: permisos de plomería, conexión de desagüe y requisitos de ventilación si es baño. Pasar la acometida y el desagüe antes de que se coloque el pavimento de alrededor sale mucho más barato que abrirlo después, así que esta es una decisión de ahora y no de luego.',
       'What You Keep In It':
         'Qué guarda dentro',
       'A cabana can double as pool equipment storage and it is a good use of the volume, but keep that side separate and ventilated: pool chemicals and salt systems corrode metal and electronics in an enclosed space. A louvered or screened door on that bay handles it without giving up the look.':
@@ -673,7 +673,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       '100% Rust-Proof': '100% a prueba de óxido',
       'Aluminum Cabana Builders in South Florida': 'Constructores de cabañas de aluminio en el sur de Florida',
       'We design and construct custom aluminum cabanas across Miami-Dade, Broward, and Palm Beach County. These luxury outdoor retreats provide shaded comfort and privacy while elevating the overall aesthetic of your pool or backyard space. Serving Weston, Boca Raton, Lighthouse Point, and Jupiter, we create resort-style environments built for long-term performance.':
-        'Diseñamos y construimos cabañas de aluminio a medida en Miami-Dade, Broward y Palm Beach. Son refugios exteriores que dan sombra, comodidad y privacidad, y que elevan la estética de la zona de piscina o del jardín. Trabajamos en Weston, Boca Ratón, Lighthouse Point y Jupiter, creando ambientes de resort hechos para durar.',
+        'Diseñamos y construimos cabañas de aluminio a medida en Miami-Dade, Broward y Palm Beach. Son refugios exteriores que dan sombra, comodidad y privacidad, y que elevan la estética de la zona de piscina o del jardín. Trabajamos en Weston, Boca Raton, Lighthouse Point y Jupiter, creando ambientes de resort hechos para durar.',
       'Luxury Cabana Features &amp; Enhancements': 'Qué trae una cabaña y qué se le puede añadir',
       'Designed to redefine outdoor living, our luxury cabanas combine privacy, comfort, and architectural elegance. Discover the premium features that transform your backyard into a personal resort-style oasis.':
         'Nuestras cabañas combinan privacidad, confort y buen diseño. Estas son las prestaciones que convierten un jardín en un oasis propio.',
@@ -721,20 +721,20 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
   },
 
   'screen-enclosures': {
-    nombre: 'Cerramientos con mosquitero',
-    title: 'Cerramientos con mosquitero | Sur de Florida',
-    description: 'Cerramientos calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción resistente a mascotas.',
+    nombre: 'Screen enclosures',
+    title: 'Screen enclosures | Sur de Florida',
+    description: 'Screen enclosures calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción resistente a mascotas.',
     dic: {
       'Engineered to Florida Wind Code':
         'Calculado para la normativa de viento de Florida',
       'Looking up inside a screen enclosure: the dark aluminum framing radiating from the ridge with cloud and blue sky through the mesh.':
-        'Vista hacia arriba dentro de un cerramiento: la estructura de aluminio oscuro saliendo de la cumbrera, con nubes y cielo azul a través de la malla.',
+        'Vista hacia arriba dentro de un screen enclosure: la estructura de aluminio oscuro saliendo de la cumbrera, con nubes y cielo azul a través de la malla.',
       'Screen enclosure over a pool and spa beside a lit house at dusk, the white framing running the length of the lanai.':
-        'Cerramiento con mosquitero sobre una piscina y un spa junto a una casa iluminada al anochecer, con la estructura blanca recorriendo todo el porche.',
+        'Screen enclosure sobre una piscina y un spa junto a una casa iluminada al anochecer, con la estructura blanca recorriendo todo el porche.',
       'Screen enclosure with a high mansard roof over a pool and spa, opening onto a lake through the mesh.':
-        'Cerramiento con techo de mansarda alto sobre una piscina y un spa, abierto a un lago a través de la malla.',
+        'Screen enclosure con techo de mansarda alto sobre una piscina y un spa, abierto a un lago a través de la malla.',
       'Pool screen enclosure in dark aluminum seen from the deck, with travertine paving and a lake beyond the mesh.':
-        'Cerramiento de piscina en aluminio oscuro visto desde la terraza, con pavimento de travertino y un lago detrás de la malla.',
+        'Screen enclosure de piscina en aluminio oscuro visto desde la terraza, con pavimento de travertino y un lago detrás de la malla.',
       'Mansard, Gable Or Dome':
         'Mansarda, dos aguas o cúpula',
       'The shape of the roof is the decision that moves everything else. A flat or mansard cage sits lower, costs less and suits a patio; a gable or a dome gains headroom over a pool and sheds water better across a big span. Local wind requirements sometimes make the choice for you. Everything after that — mesh, doors, kickplates — is fitted to the shape you land on.':
@@ -748,11 +748,11 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Doors And Kickplates To Suit':
         'Puertas y zócalos a medida',
       'Screen enclosure with a curved mansard roof over a pool and spa, opening to a lake through the mesh.':
-        'Cerramiento con techo de mansarda curva sobre una piscina y un spa, abierto a un lago a través de la malla.',
+        'Screen enclosure con techo de mansarda curva sobre una piscina y un spa, abierto a un lago a través de la malla.',
       'What The Cage Actually Buys You':
         'Lo que le compra de verdad la jaula',
       'A screen enclosure is aluminium and mesh, and the four things worth knowing before you sign are the ones a quote will not tell you: which mesh goes where, which panels wear out first, whether it counts as a pool barrier, and what it does and does not keep out.':
-        'Un cerramiento con mosquitero es aluminio y malla, y las cuatro cosas que conviene saber antes de firmar son las que un presupuesto no le dice: qué malla va en cada sitio, qué paños se gastan primero, si vale como barrera de piscina y qué deja fuera y qué no.',
+        'Un screen enclosure es aluminio y malla, y las cuatro cosas que conviene saber antes de firmar son las que un presupuesto no le dice: qué malla va en cada sitio, qué paños se gastan primero, si vale como barrera de piscina y qué deja fuera y qué no.',
       'Which Mesh Goes Where':
         'Qué malla va en cada sitio',
       'Standard fibreglass insect mesh, tighter no-see-um mesh for coastal and waterfront lots, solar screen that cuts heat and glare at the cost of some view, and heavy pet-resistant mesh for the lower panels. They can be mixed on the same cage, and mixing them is usually the right answer rather than paying for the expensive one everywhere.':
@@ -764,15 +764,15 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Whether It Counts As A Pool Barrier':
         'Si vale como barrera de piscina',
       'It can. Florida pool safety law accepts an enclosure that fully surrounds the pool and meets the barrier requirements, including self-closing and self-latching doors with the latch at the required height. Whether yours qualifies is decided at design, not afterwards, so raise it before the drawings are done.':
-        'Puede valer. La ley de seguridad de piscinas de Florida admite un cerramiento que rodee la piscina por completo y cumpla los requisitos de barrera, incluidas puertas de cierre y enclavamiento automáticos con el pestillo a la altura exigida. Si el suyo cumple se decide en el diseño y no después, así que sáquelo antes de que estén los planos.',
+        'Puede valer. La ley de seguridad de piscinas de Florida admite un screen enclosure que rodee la piscina por completo y cumpla los requisitos de barrera, incluidas puertas de cierre y enclavamiento automáticos con el pestillo a la altura exigida. Si el suyo cumple se decide en el diseño y no después, así que sáquelo antes de que estén los planos.',
       'What It Keeps Out, And What It Does Not':
         'Qué deja fuera y qué no',
       'Leaves and larger debris, yes, and that is the saving most owners notice: less skimming and less pump load. Pollen is fine enough to pass straight through insect mesh. A tighter no-see-um mesh catches more of it, at the cost of some airflow — which is the trade, and there is no mesh that does both.':
         'Hojas y suciedad gruesa sí, y ese es el ahorro que casi todo el mundo nota: menos recoger con la red y menos trabajo de bomba. El polen es tan fino que pasa directamente a través de la malla antiinsectos. Una malla antimosquito más tupida retiene más, a cambio de algo de ventilación: ese es el intercambio, y no hay malla que haga las dos cosas.',
       'Screen enclosure over a pool with the lake behind, its dark framing dividing the view into panels.':
-        'Cerramiento con mosquitero sobre una piscina con el lago detrás, con su estructura oscura dividiendo la vista en paños.',
+        'Screen enclosure sobre una piscina con el lago detrás, con su estructura oscura dividiendo la vista en paños.',
       'A long lanai enclosure beside the pool at dusk':
-        'Un cerramiento largo de porche junto a la piscina al anochecer',
+        'Un screen enclosure largo de porche junto a la piscina al anochecer',
       'High cage over the pool, open to the lake':
         'Jaula alta sobre la piscina, abierta al lago',
       'Over the pool and the covered terrace together':
@@ -784,27 +784,27 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Enclosing the lanai of a two-storey house':
         'Cerrando el porche de una casa de dos plantas',
       'Screen enclosure running the length of a lanai beside a pool and spa, with the house lit from inside at dusk.':
-        'Cerramiento con mosquitero recorriendo todo un porche junto a una piscina y un spa, con la casa iluminada por dentro al anochecer.',
+        'Screen enclosure recorriendo todo un porche junto a una piscina y un spa, con la casa iluminada por dentro al anochecer.',
       'Tall screen enclosure over a pool and spa, its framing dividing a view out over a lake and low planting.':
-        'Cerramiento alto sobre una piscina y un spa, con la estructura dividiendo la vista hacia un lago y plantación baja.',
+        'Screen enclosure alto sobre una piscina y un spa, con la estructura dividiendo la vista hacia un lago y plantación baja.',
       'Screen enclosure spanning both a pool and the covered terrace beside it, on a home with a tile roof and palms.':
-        'Cerramiento que cubre a la vez la piscina y la terraza cubierta de al lado, en una casa con tejado de teja y palmeras.',
+        'Screen enclosure que cubre a la vez la piscina y la terraza cubierta de al lado, en una casa con techo de teja y palmeras.',
       'Inside a screen enclosure looking up at the aluminum framing over a pool, with palms and a lake showing through the mesh.':
-        'Dentro de un cerramiento, mirando hacia arriba a la estructura de aluminio sobre la piscina, con palmeras y un lago asomando por la malla.',
+        'Dentro de un screen enclosure, mirando hacia arriba a la estructura de aluminio sobre la piscina, con palmeras y un lago asomando por la malla.',
       'Wide screen enclosure over a pool, spa and fire table on a travertine deck, with a lake behind the mesh.':
-        'Cerramiento amplio sobre una piscina, un spa y una mesa de fuego en una terraza de travertino, con un lago detrás de la malla.',
+        'Screen enclosure amplio sobre una piscina, un spa y una mesa de fuego en una terraza de travertino, con un lago detrás de la malla.',
       'Screen enclosure closing the lanai of a two-storey Florida home, with the pool visible through the mesh from the garden.':
-        'Cerramiento cerrando el porche de una casa de dos plantas en Florida, con la piscina visible a través de la malla desde el jardín.',
+        'Screen enclosure cerrando el porche de una casa de dos plantas en Florida, con la piscina visible a través de la malla desde el jardín.',
       'Meet with our exterior designers for a free consultation. We&#x27;ll measure the pool and the deck, ask how you use the space, and pick the roof shape and the mesh around both.':
         'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos la piscina y la terraza, preguntamos cómo usa el espacio y elegimos la forma del techo y la malla a partir de las dos cosas.',
       'Other Ways To Close A Space':
         'Otras formas de cerrar un espacio',
       'Enclosures, Screens Or A Roof':
-        'Cerramientos, cortinas o un techo',
+        'Screen enclosures, cortinas o un techo',
       'An enclosure closes the whole space in mesh, permanently. If you would rather close one side at a time, put a roof over part of it, or build a structure of its own, these are the other four we build.':
-        'Un cerramiento cierra el espacio entero con malla, de forma permanente. Si prefiere cerrar un lado cada vez, poner techo solo a una parte o levantar una estructura propia, estos son los otros cuatro que construimos.',
+        'Un screen enclosure cierra el espacio entero con malla, de forma permanente. Si prefiere cerrar un lado cada vez, poner techo solo a una parte o levantar una estructura propia, estos son los otros cuatro que construimos.',
       'Do enclosures block the breeze?':
-        '¿Los cerramientos cortan la brisa?',
+        '¿Los screen enclosures cortan la brisa?',
       'Do they meet hurricane codes?':
         '¿Cumplen la normativa de huracanes?',
       'Will the screen mesh sag easily?':
@@ -818,21 +818,21 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Looking up into the frame of an aluminum screen enclosure: dark trusses and bolted joints crossing the sky, with the screen mesh stretched between them.':
-        'Vista desde abajo hacia la estructura de un cerramiento de aluminio: vigas oscuras y uniones atornilladas cruzando el cielo, con la malla tensada entre ellas.',
+        'Vista desde abajo hacia la estructura de un screen enclosure de aluminio: vigas oscuras y uniones atornilladas cruzando el cielo, con la malla tensada entre ellas.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Screen enclosure contractors in South Florida installing custom aluminum screen rooms for patios and pool areas with code-compliant engineering.':
-        'Especialistas en cerramientos con mosquitero en el sur de Florida instalando habitaciones de aluminio a medida para patios y piscinas, conforme a la normativa.',
-      'Screen Enclosures': 'Cerramientos con mosquitero',
+        'Especialistas en screen enclosures en el sur de Florida instalando habitaciones de aluminio a medida para patios y piscinas, conforme a la normativa.',
+      'Screen Enclosures': 'Screen enclosures',
       'Expands Living Space': 'Amplía el espacio habitable',
       'High-Visibility Mesh': 'Malla de alta visibilidad',
       'Extreme Weather Rated': 'Homologado para tiempo extremo',
-      'Screen Enclosure Contractors in South Florida': 'Especialistas en cerramientos con mosquitero en el sur de Florida',
+      'Screen Enclosure Contractors in South Florida': 'Especialistas en screen enclosures en el sur de Florida',
       'Pergola Plus installs professionally engineered screen enclosures throughout South Florida. Our custom-built systems protect outdoor spaces from insects and debris while preserving airflow and visibility. We serve Davie, Coral Springs, Palm Beach Gardens, and surrounding cities with fully permitted, structurally sound enclosures designed for year-round usability.':
-        'Pergola Plus instala cerramientos con mosquitero calculados por todo el sur de Florida. Protegen el exterior de insectos y suciedad sin cortar la ventilación ni las vistas. Trabajamos en Davie, Coral Springs, Palm Beach Gardens y alrededores, con cerramientos sólidos, con todos los permisos y pensados para usarse todo el año.',
-      'Screen Enclosure Features &amp; Durability': 'Qué trae un cerramiento y cuánto aguanta',
+        'Pergola Plus instala screen enclosures calculados por todo el sur de Florida. Protegen el exterior de insectos y suciedad sin cortar la ventilación ni las vistas. Trabajamos en Davie, Coral Springs, Palm Beach Gardens y alrededores, con screen enclosures sólidos, con todos los permisos y pensados para usarse todo el año.',
+      'Screen Enclosure Features &amp; Durability': 'Qué trae un screen enclosure y cuánto aguanta',
       'Enjoy your pool and patio year-round, completely free from insects and debris. Explore the high-strength engineering, premium mesh options, and panoramic views provided by our custom-built enclosures.':
-        'Disfrute de la piscina y del patio todo el año, sin insectos ni suciedad. Esta es la ingeniería, las mallas y las vistas panorámicas de nuestros cerramientos a medida.',
+        'Disfrute de la piscina y del patio todo el año, sin insectos ni suciedad. Esta es la ingeniería, las mallas y las vistas panorámicas de nuestros screen enclosures a medida.',
       'Pet-Resistant Screen Upgrades': 'Malla resistente a mascotas',
       'Opt for ultra-durable, pet-resistant mesh materials that withstand scratching and pawing, ensuring long-lasting protection and peace of mind for pet owners.':
         'Elija una malla ultrarresistente que aguanta arañazos y empujones, para que dure y usted no esté pendiente.',
@@ -850,20 +850,20 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Las estructuras se calculan para cumplir las cargas de viento locales, con la seguridad que pide la costa.',
       'Custom Configurations': 'Configuraciones a medida',
       'Each enclosure is custom-designed to fit patios, pools, and lanais with precision, ensuring seamless integration with your existing structure.':
-        'Cada cerramiento se diseña a medida para encajar con precisión en patios, piscinas y porches, integrándose con lo que ya hay.',
+        'Cada screen enclosure se diseña a medida para encajar con precisión en patios, piscinas y porches, integrándose con lo que ya hay.',
       'View professionally installed screen enclosures that extend outdoor living while maintaining airflow and visibility. Discover clean integrations that enhance comfort year-round.':
-        'Vea cerramientos ya instalados que amplían el exterior sin quitar aire ni vistas, integrados de forma limpia y cómodos todo el año.',
+        'Vea screen enclosures ya instalados que amplían el exterior sin quitar aire ni vistas, integrados de forma limpia y cómodos todo el año.',
       'Frame finishes are available in modern, weather-resistant colors designed to integrate effortlessly with your patio, pool area, and existing architecture.':
         'Los acabados de la estructura están en colores actuales y resistentes a la intemperie, pensados para integrarse con el patio, la piscina y la casa.',
-      'Screen Enclosures FAQs': 'Preguntas sobre cerramientos con mosquitero',
+      'Screen Enclosures FAQs': 'Preguntas sobre screen enclosures',
       'Have questions? Learn how our wind-rated screen enclosures keep South Florida bugs out while letting coastal breezes flow.':
-        '¿Dudas? Así dejan fuera a los insectos nuestros cerramientos homologados sin cortar la brisa de la costa.',
-      '1. Do enclosures block the breeze?': '1. ¿Un cerramiento corta la brisa?',
+        '¿Dudas? Así dejan fuera a los insectos nuestros screen enclosures homologados sin cortar la brisa de la costa.',
+      '1. Do enclosures block the breeze?': '1. ¿Un screen enclosure corta la brisa?',
       'Not at all. Our premium pool screen enclosures feature high-visibility mesh that stops insects and debris while maximizing refreshing natural airflow on your patio.':
         'No. La malla de alta visibilidad frena insectos y suciedad, pero deja pasar el aire, que es justo lo que refresca el patio.',
       '2. Do they meet hurricane codes?': '2. ¿Cumplen la normativa antihuracán?',
       'Yes. Pergola Plus Florida builds every aluminum screen enclosure to strict structural engineering standards to withstand hurricane-force winds and coastal weather.':
-        'Sí. Cada cerramiento se construye con criterios estrictos de cálculo estructural para aguantar vientos de huracán y el clima costero.',
+        'Sí. Cada screen enclosure se construye con criterios estrictos de cálculo estructural para aguantar vientos de huracán y el clima costero.',
       '3. Will the screen mesh sag easily?': '3. ¿La malla se descuelga con el tiempo?',
       'No. We install ultra-durable, high-tensile, and pet-resistant screening materials using precision tensioning to prevent sagging or tearing over years of heavy use.':
         'No. Instalamos mallas de alta tensión, muy resistentes y aptas para mascotas, con un tensado preciso que evita que se descuelguen o se rasguen.',
@@ -971,7 +971,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Other Ways To Close A Space':
         'Otras formas de cerrar un espacio',
       'Screens, Enclosures Or A Roof':
-        'Cortinas, cerramientos o un techo',
+        'Cortinas, screen enclosures o un techo',
       'A motorized screen closes a side and rolls away. If you want the whole space enclosed permanently, a roof that opens and shuts, a roof that never moves, or a structure of its own, these are the other four we build.':
         'Una cortina motorizada cierra un lado y se recoge. Si lo que quiere es cerrar el espacio entero de forma permanente, un techo que se abra y se cierre, uno que no se mueva nunca o una estructura propia, estos son los otros cuatro que construimos.',
 
@@ -1002,7 +1002,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Coastal Wind Rated': 'Homologada para viento de costa',
       'Motorized Screen Installers in South Florida': 'Instaladores de cortinas motorizadas en el sur de Florida',
       'We provide premium motorized screen systems across Miami-Dade, Broward, and Palm Beach County. These retractable solutions offer on-demand shade, privacy, and wind control while seamlessly integrating into pergolas and covered patios. Serving Fort Lauderdale, Weston, Boca Raton, and Wellington, we bring automation and comfort to high-end outdoor spaces.':
-        'Instalamos cortinas motorizadas de gama alta en Miami-Dade, Broward y Palm Beach. Son soluciones retráctiles que dan sombra, privacidad y control del viento cuando usted quiere, integradas en pérgolas y porches. Trabajamos en Fort Lauderdale, Weston, Boca Ratón y Wellington, llevando automatización y confort al exterior.',
+        'Instalamos cortinas motorizadas de gama alta en Miami-Dade, Broward y Palm Beach. Son soluciones retráctiles que dan sombra, privacidad y control del viento cuando usted quiere, integradas en pérgolas y porches. Trabajamos en Fort Lauderdale, Weston, Boca Raton y Wellington, llevando automatización y confort al exterior.',
       'Motorized Retractable Screen Features': 'Qué trae una cortina motorizada',
       'Instant shade, privacy, and climate control at the touch of a button. Learn how our seamlessly integrated motorized screens elevate your outdoor comfort while keeping insects and harsh weather at bay.':
         'Sombra, privacidad y control del ambiente al pulsar un botón. Así mejoran el confort nuestras cortinas motorizadas, dejando fuera insectos y mal tiempo.',
@@ -1011,10 +1011,10 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'Tejidos técnicos que reducen el calor y los reflejos sin quitar la vista hacia fuera ni la ventilación.',
       'Smart Home Compatibility': 'Compatible con la domótica',
       'Compatible with modern smart systems, allowing control via mobile app or voice command for ultimate convenience.':
-        'Compatible con los sistemas domóticos actuales, para manejarla desde el móvil o por voz.',
+        'Compatible con los sistemas domóticos actuales, para manejarla desde el celular o por voz.',
       'Retractable Automation System': 'Automatización del recogido',
       'Deploy or retract your screens instantly with remote or smart control, allowing flexible protection from sun, wind, and insects.':
-        'Baje o suba las cortinas al momento con el mando o desde el móvil, y protéjase del sol, del viento o de los insectos según convenga.',
+        'Baje o suba las cortinas al momento con el mando o desde el celular, y protéjase del sol, del viento o de los insectos según convenga.',
       'Obstacle Detection Technology': 'Detección de obstáculos',
       'Advanced built-in sensors automatically halt the screen&#x27;s descent if an obstacle is detected, ensuring the safety of children, pets, and outdoor furniture.':
         'Unos sensores detienen la bajada si detectan un obstáculo, por la seguridad de los niños, las mascotas y los muebles.',
@@ -1052,24 +1052,24 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
   },
 
   carports: {
-    nombre: 'Cocheras de aluminio',
-    title: 'Cocheras de aluminio | Sur de Florida',
-    description: 'Cocheras de aluminio calculadas para las cargas de viento de Florida, con drenaje oculto y acabados que se integran con la casa.',
+    nombre: 'Carports de aluminio',
+    title: 'Carports de aluminio | Sur de Florida',
+    description: 'Carports de aluminio calculados para las cargas de viento de Florida, con drenaje oculto y acabados que se integran con la casa.',
     dic: {
       'Engineered to Florida Wind Code':
         'Calculada para la normativa de viento de Florida',
       'Aluminum carport with a warm wood-look soffit and a slatted side screen over a stamped concrete driveway, attached to a stone-fronted home.':
-        'Cochera de aluminio con sofito de textura tipo madera y celosía lateral sobre una entrada de hormigón estampado, adosada a una casa con frente de piedra.',
+        'Carport de aluminio con sofito de textura tipo madera y celosía lateral sobre una entrada de concreto estampado, adosada a una casa con frente de piedra.',
       'Carport with a dark bronze frame and wood-look soffit over a stamped driveway, with a slatted screen closing the side towards the neighbour.':
-        'Cochera con estructura bronce oscuro y sofito tipo madera sobre una entrada estampada, con una celosía cerrando el lado que da al vecino.',
+        'Carport con estructura bronce oscuro y sofito tipo madera sobre una entrada estampada, con una celosía cerrando el lado que da al vecino.',
       'Aluminum carport seen from the driveway, its slatted screens closing two sides and the wood-look ceiling lit by recessed downlights.':
-        'Cochera de aluminio vista desde la entrada, con celosías cerrando dos lados y el techo tipo madera iluminado con focos empotrados.',
+        'Carport de aluminio vista desde la entrada, con celosías cerrando dos lados y el techo tipo madera iluminado con focos empotrados.',
       'Aluminum carport with a wood-look soffit and slatted screen, seen from the driveway of a single-storey Florida home.':
-        'Cochera de aluminio con sofito tipo madera y celosía, vista desde la entrada de una casa de una planta en Florida.',
+        'Carport de aluminio con sofito tipo madera y celosía, vista desde la entrada de una casa de una planta en Florida.',
       'It Has To Fit The Car And The House':
-        'Tiene que caberle al coche y pegarle a la casa',
+        'Tiene que caberle al auto y pegarle a la casa',
       'A carport is the one structure on this site that has to satisfy two things at once: the vehicle that goes under it and the elevation it is attached to. Clear height is decided by what you actually park, not by a catalogue; post placement is decided by how you open the doors. After that it is the ceiling, the side screens and whether the roofline reads as part of the house.':
-        'Una cochera es la única estructura de este sitio que tiene que contentar a dos cosas a la vez: el vehículo que va debajo y la fachada a la que se pega. La altura libre la decide lo que usted aparca de verdad, no un catálogo; la posición de los pilares la decide cómo abre las puertas. Después vienen el techo, las celosías laterales y si la línea de cubierta se lee como parte de la casa.',
+        'Un carport es la única estructura de este sitio que tiene que contentar a dos cosas a la vez: el vehículo que va debajo y la fachada a la que se pega. La altura libre la decide lo que usted aparca de verdad, no un catálogo; la posición de los pilares la decide cómo abre las puertas. Después vienen el techo, las celosías laterales y si la línea de cubierta se lee como parte de la casa.',
       'Clear Height For Your Vehicle':
         'Altura libre para su vehículo',
       'Posts Placed Around The Doors':
@@ -1079,11 +1079,11 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Roofline Matched To The House':
         'Línea de cubierta a juego con la casa',
       'Close view of a carport slatted screen in wood-look aluminum, with a weatherproof outdoor socket and switch mounted on the post beside it.':
-        'Vista cercana de la celosía de una cochera en aluminio con textura tipo madera, con un enchufe estanco de exterior y un interruptor montados en el pilar de al lado.',
+        'Vista cercana de la celosía de un carport en aluminio con textura tipo madera, con un enchufe estanco de exterior y un interruptor montados en el pilar de al lado.',
       'What A Carport Protects Against, And What It Does Not':
-        'De qué protege una cochera, y de qué no',
+        'De qué protege un carport, y de qué no',
       'A carport is a roof on posts, and the honest version of what that buys you is narrower than the brochure. Four things decide whether it is worth it: whether your vehicle fits, what it actually protects against, where the water goes, and which roof you put on it.':
-        'Una cochera es un techo sobre pilares, y la versión honesta de lo que eso le compra es más estrecha que la del folleto. Hay cuatro cosas que deciden si compensa: si le cabe el vehículo, de qué protege de verdad, por dónde se va el agua y qué techo le pone.',
+        'Un carport es un techo sobre pilares, y la versión honesta de lo que eso le compra es más estrecha que la del folleto. Hay cuatro cosas que deciden si compensa: si le cabe el vehículo, de qué protege de verdad, por dónde se va el agua y qué techo le pone.',
       'Whether Your Vehicle Fits':
         'Si le cabe el vehículo',
       'Measure height, not just length. A sedan is easy; a lifted truck, a van with a roof rack or an RV needs clear height specified up front, and roof-mounted accessories are what usually catch people out. Post placement matters as much: it is decided by how you open the doors, not by where the slab happens to end.':
@@ -1091,11 +1091,11 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'What It Actually Protects Against':
         'De qué protege de verdad',
       'Sun, mainly, and that is not trivial: constant UV is what fades paint and cracks a dashboard. A solid roof also keeps rain and falling debris off. What an open carport does not do is stop wind-driven rain, and it is not a garage — if you want the car sealed away, this is the wrong structure and we will say so.':
-        'Del sol, sobre todo, y no es poca cosa: el UV constante es lo que descolora la pintura y agrieta el salpicadero. Un techo macizo además le quita de encima la lluvia y lo que cae. Lo que una cochera abierta no hace es parar la lluvia con viento, y no es un garaje: si lo que quiere es el coche cerrado, esta no es la estructura y se lo vamos a decir.',
+        'Del sol, sobre todo, y no es poca cosa: el UV constante es lo que descolora la pintura y agrieta el salpicadero. Un techo macizo además le quita de encima la lluvia y lo que cae. Lo que un carport abierto no hace es parar la lluvia con viento, y no es un garaje: si lo que quiere es el auto cerrado, esta no es la estructura y se lo vamos a decir.',
       'Where The Water Goes':
         'Por dónde se va el agua',
       'Into drainage built inside the structure, routed away from the vehicles and the driveway. That is the difference between a carport and a lean-to: nothing sheets off the front edge onto the car you just walked around, and there is no pooling at the foot of the posts.':
-        'A un drenaje que va por dentro de la estructura y lleva el agua lejos de los coches y de la entrada. Esa es la diferencia entre una cochera y un cobertizo: no cae una cortina de agua por el borde delantero sobre el coche que acaba de rodear, y no se encharca al pie de los pilares.',
+        'A un drenaje que va por dentro de la estructura y lleva el agua lejos de los autos y de la entrada. Esa es la diferencia entre un carport y un cobertizo: no cae una cortina de agua por el borde delantero sobre el auto que acaba de rodear, y no se encharca al pie de los pilares.',
       'Which Roof You Put On It':
         'Qué techo le pone',
       'Insulated, solid or polycarbonate — the same three roofs we build over a patio, sized for a driveway. Insulated is the coolest and quietest, solid is the plain workhorse, polycarbonate keeps the light. The frame underneath is the same engineered aluminium in all three.':
@@ -1113,19 +1113,19 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'A double bay, with the drive laid in slabs':
         'Doble plaza, con la entrada en losas',
       'Wood-look aluminum slatted screen closing the side of a carport, seen straight on from a stamped concrete driveway.':
-        'Celosía de aluminio con textura tipo madera cerrando el lateral de una cochera, vista de frente desde una entrada de hormigón estampado.',
+        'Celosía de aluminio con textura tipo madera cerrando el lateral de un carport, vista de frente desde una entrada de concreto estampado.',
       'Aluminum carport attached to a single-storey home, its dark frame and wood-look soffit spanning a stamped concrete driveway.':
-        'Cochera de aluminio adosada a una casa de una planta, con su estructura oscura y sofito tipo madera cubriendo una entrada de hormigón estampado.',
+        'Carport de aluminio adosado a una casa de una planta, con su estructura oscura y sofito tipo madera cubriendo una entrada de concreto estampado.',
       'Underside of a carport roof in wood-look aluminum, looking out past the posts to a canal and moored boats.':
-        'Cara inferior del techo de una cochera en aluminio con textura tipo madera, mirando entre los pilares hacia un canal con barcos amarrados.',
+        'Cara inferior del techo de un carport en aluminio con textura tipo madera, mirando entre los pilares hacia un canal con barcos amarrados.',
       'Aluminum carport on the approach to a home, framed by palms, with a slatted screen on the far side.':
-        'Cochera de aluminio en el acceso a una casa, enmarcada por palmeras, con una celosía en el lado del fondo.',
+        'Carport de aluminio en el acceso a una casa, enmarcada por palmeras, con una celosía en el lado del fondo.',
       'Slim white aluminum carport attached to a modern waterfront home, a saloon car parked under it beside the seawall.':
-        'Cochera de aluminio blanca y esbelta adosada a una casa moderna frente al agua, con un sedán aparcado debajo junto al muro de contención.',
+        'Carport de aluminio blanco y esbelto adosado a una casa moderno frente al agua, con un sedán aparcado debajo junto al muro de contención.',
       'White aluminum carport over a double parking bay with two dark cars, on a driveway laid in large concrete slabs between palms.':
-        'Cochera de aluminio blanca sobre una doble plaza con dos coches oscuros, en una entrada de grandes losas de hormigón entre palmeras.',
+        'Carport de aluminio blanco sobre una doble plaza con dos autos oscuros, en una entrada de grandes losas de concreto entre palmeras.',
       'Dark aluminum carport spanning the entry of a two-storey white home, its flat roof aligned with the roofline behind.':
-        'Cochera de aluminio oscura cubriendo la entrada de una casa blanca de dos plantas, con su techo plano alineado con la línea de cubierta de detrás.',
+        'Carport de aluminio oscuro cubriendo la entrada de una casa blanco de dos plantas, con su techo plano alineado con la línea de cubierta de detrás.',
       'Meet with our exterior designers for a free consultation. We&#x27;ll measure the driveway, measure what you park on it, and draw the structure around both.':
         'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Medimos la entrada, medimos lo que aparca en ella y dibujamos la estructura a partir de las dos cosas.',
       'Other Structures':
@@ -1133,15 +1133,15 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Other Structures We Build':
         'Otras estructuras que construimos',
       'A carport is a roof for the driveway. The same engineered frames and the same roofs go over a patio, a pool deck or a lounge — these are the four we build most often.':
-        'Una cochera es un techo para la entrada. Las mismas estructuras calculadas y los mismos techos van sobre un patio, una zona de piscina o un salón exterior: estos son los cuatro que más construimos.',
+        'Un carport es un techo para la entrada. Las mismas estructuras calculadas y los mismos techos van sobre un patio, una zona de piscina o un salón exterior: estos son los cuatro que más construimos.',
       'Do carports block UV sun rays?':
-        '¿Las cocheras bloquean los rayos UV?',
+        '¿Los carports bloquean los rayos UV?',
       'Are they built for high winds?':
         '¿Están hechas para vientos fuertes?',
       'Can the design match my home?':
         '¿El diseño puede pegar con mi casa?',
       'Will the aluminum carport rust?':
-        '¿La cochera de aluminio se oxida?',
+        '¿El carport de aluminio se oxida?',
       'Do I need a building permit?':
         '¿Necesito permiso de obra?',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
@@ -1149,52 +1149,52 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Aluminum carport with a warm wood-grain soffit and slatted side screen over a paver driveway in Plantation, Florida.':
-        'Cochera de aluminio con cara inferior en veta de madera y celosía lateral de listones, sobre una entrada de coches adoquinada en Plantation, Florida.',
+        'Carport de aluminio con cara inferior en veta de madera y celosía lateral de listones, sobre una entrada de autos adoquinada en Plantation, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Aluminum carport builders in South Florida constructing custom vehicle protection structures engineered for sun, rain, and high-wind conditions.':
-        'Constructores de cocheras de aluminio en el sur de Florida levantando estructuras a medida que protegen el coche del sol, la lluvia y el viento fuerte.',
+        'Constructores de carports de aluminio en el sur de Florida levantando estructuras a medida que protegen el auto del sol, la lluvia y el viento fuerte.',
       'Premium Sun Protection': 'Protección solar de verdad',
       'Custom Home Integration': 'Integrada con su casa',
       'Wind-Code Compliant': 'Cumple la normativa de viento',
-      'Aluminum Carport Contractors in South Florida': 'Especialistas en cocheras de aluminio en el sur de Florida',
+      'Aluminum Carport Contractors in South Florida': 'Especialistas en carports de aluminio en el sur de Florida',
       'Pergola Plus designs and installs custom aluminum carports throughout South Florida. Engineered to protect vehicles from intense sun exposure and heavy rain, our structures combine durability with architectural refinement. We serve Boynton Beach, Jupiter, Davie, and Plantation with fully customized, professionally installed solutions.':
-        'Pergola Plus diseña e instala cocheras de aluminio a medida por todo el sur de Florida. Están calculadas para proteger los coches del sol fuerte y de la lluvia, y son tan duraderas como cuidadas de diseño. Trabajamos en Boynton Beach, Jupiter, Davie y Plantation, con soluciones a medida e instalación profesional.',
-      'Engineered Aluminum Carport Features': 'Qué trae una cochera de aluminio',
+        'Pergola Plus diseña e instala carports de aluminio a medida por todo el sur de Florida. Están calculados para proteger los autos del sol fuerte y de la lluvia, y son tan duraderas como cuidadas de diseño. Trabajamos en Boynton Beach, Jupiter, Davie y Plantation, con soluciones a medida e instalación profesional.',
+      'Engineered Aluminum Carport Features': 'Qué trae un carport de aluminio',
       'Delivering superior vehicle protection without sacrificing curb appeal. Explore the structural integrity, premium materials, and custom design elements that make our carports the ideal choice for Florida homes.':
-        'Protege el coche sin afear la casa. Esta es la solidez, los materiales y el diseño a medida que hacen de nuestras cocheras la opción adecuada en Florida.',
+        'Protege el auto sin afear la casa. Esta es la solidez, los materiales y el diseño a medida que hacen de nuestros carports la opción adecuada en Florida.',
       'Integrated Gutter &amp; Drainage System': 'Canalón y drenaje integrados',
       'Concealed internal drainage systems efficiently route rainwater away from your vehicles and driveway, preventing pooling and maintaining a clean, dry parking area.':
-        'El drenaje va oculto por dentro y saca el agua de lluvia lejos de los coches y de la entrada, así que no se encharca y la zona queda limpia y seca.',
+        'El drenaje va oculto por dentro y saca el agua de lluvia lejos de los autos y de la entrada, así que no se encharca y la zona queda limpia y seca.',
       'High-Performance Roofing Systems': 'Techos de altas prestaciones',
       'Choose from insulated, solid, or polycarbonate roofing options to protect vehicles from intense UV exposure, heavy rain, and environmental debris while maintaining a refined architectural appearance.':
-        'Elija techo aislado, macizo o de policarbonato para proteger los coches del sol fuerte, de la lluvia y de la suciedad, sin renunciar a un buen acabado.',
+        'Elija techo aislado, macizo o de policarbonato para proteger los autos del sol fuerte, de la lluvia y de la suciedad, sin renunciar a un buen acabado.',
       'Engineered Structural Aluminum Frame': 'Estructura de aluminio calculada',
       'Our aluminum carports are fully engineered to meet strict Florida building codes, including wind-load requirements for coastal environments. Designed for structural integrity and long-term durability, they provide reliable protection year after year.':
-        'Nuestras cocheras se calculan para cumplir la normativa de Florida, incluidas las cargas de viento de la costa. Sólidas y duraderas, protegen año tras año.',
+        'Nuestros carports se calculan para cumplir la normativa de Florida, incluidas las cargas de viento de la costa. Sólidas y duraderas, protegen año tras año.',
       'Each carport is custom-designed to align with your home’s architecture, rooflines, and exterior finishes, ensuring it enhances — not detracts from — property value.':
-        'Cada cochera se diseña a medida para seguir la arquitectura de su casa, sus cubiertas y sus acabados, de modo que sume valor a la propiedad en vez de restarlo.',
+        'Cada carport se diseña a medida para seguir la arquitectura de su casa, sus cubiertas y sus acabados, de modo que sume valor a la propiedad en vez de restarlo.',
       'Corrosion-Resistant Construction': 'Construcción que no se corroe',
       'Premium powder-coated aluminum resists rust, oxidation, and deterioration — making it ideal for South Florida’s humidity and salt-air exposure.':
         'El aluminio con recubrimiento en polvo no se oxida ni se degrada, así que va bien con la humedad y el aire salino del sur de Florida.',
       'Attached or Freestanding Options': 'Adosada o exenta',
       'Whether integrated into your home’s structure or installed as a freestanding solution, every system is engineered for stability and seamless visual cohesion.':
-        'Se integre en la estructura de la casa o se monte exenta, cada cochera se calcula para ser estable y para verse como parte del conjunto.',
+        'Se integre en la estructura de la casa o se monte exenta, cada carport se calcula para ser estable y para verse como parte del conjunto.',
       'Browse custom aluminum carport installations designed to protect vehicles while complementing residential architecture with strength and style.':
-        'Vea cocheras de aluminio ya instaladas: protegen los coches y acompañan a la arquitectura de la casa con solidez y estilo.',
+        'Vea carports de aluminio ya instalados: protegen los autos y acompañan a la arquitectura de la casa con solidez y estilo.',
       'Select from premium exterior finishes and contemporary tones that complement your home’s façade while ensuring long-lasting durability in Florida’s climate.':
         'Elija entre acabados exteriores de calidad y tonos actuales que acompañen a la fachada y aguanten el clima de Florida.',
       'Discover how custom aluminum carports protect vehicles from sun and rain while enhancing your home’s architectural presence.':
-        'Vea cómo una cochera de aluminio a medida protege los coches del sol y de la lluvia mientras mejora la presencia de la casa.',
-      'Aluminum Carports FAQs': 'Preguntas sobre cocheras de aluminio',
+        'Vea cómo un carport de aluminio a medida protege los autos del sol y de la lluvia mientras mejora la presencia de la casa.',
+      'Aluminum Carports FAQs': 'Preguntas sobre carports de aluminio',
       'Find answers on our durable aluminum carports. We protect South Florida vehicles from harsh sun and severe tropical weather.':
-        'Respuestas sobre nuestras cocheras de aluminio, que protegen los coches del sur de Florida del sol fuerte y del mal tiempo.',
+        'Respuestas sobre nuestros carports de aluminio, que protegen los autos del sur de Florida del sol fuerte y del mal tiempo.',
       '1. Do carports block UV sun rays?': '1. ¿Frenan los rayos UV?',
       'Yes, our premium aluminum carports block harmful UV rays and intense South Florida heat, protecting your vehicle&#x27;s paint and interior from severe sun damage.':
-        'Sí. Frenan los rayos UV y el calor fuerte del sur de Florida, así que la pintura y el interior del coche no se estropean con el sol.',
+        'Sí. Frenan los rayos UV y el calor fuerte del sur de Florida, así que la pintura y el interior del auto no se estropean con el sol.',
       '2. Are they built for high winds?': '2. ¿Aguantan viento fuerte?',
       'Every custom carport is structurally engineered to surpass Florida wind-load codes, guaranteeing top-tier hurricane protection and durability for your vehicles.':
-        'Cada cochera se calcula para superar las cargas de viento que exige Florida, con la protección que hace falta frente a un huracán.',
+        'Cada carport se calcula para superar las cargas de viento que exige Florida, con la protección que hace falta frente a un huracán.',
       '3. Can the design match my home?': '3. ¿Puede ir a juego con mi casa?',
       'Absolutely. We offer fully custom modern carports with premium powder-coating to perfectly complement your home&#x27;s exterior, roofline, and luxury curb appeal.':
         'Sí. Las hacemos a medida y con recubrimiento en polvo, para que acompañen al exterior de su casa, a la cubierta y a la fachada.',
@@ -1203,7 +1203,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
         'No. El aluminio con recubrimiento en polvo no se oxida, no se corroe y no pierde color: es una estructura duradera y sin mantenimiento, también en la costa.',
       '5. Do I need a building permit?': '5. ¿Hace falta permiso de obra?',
       'Yes, permanent carports require permits. Pergola Plus Florida handles the entire engineering and permitting process for a hassle-free, code-compliant installation.':
-        'Sí, una cochera permanente lleva permiso. Nos ocupamos del cálculo y de toda la tramitación para que la instalación sea legal y sin complicaciones.',
+        'Sí, un carport permanente lleva permiso. Nos ocupamos del cálculo y de toda la tramitación para que la instalación sea legal y sin complicaciones.',
     },
   },
 
@@ -1327,7 +1327,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Impact-Resistant Roofing': 'Techo resistente a impactos',
       'Polycarbonate Pergola Contractors in South Florida': 'Especialistas en pérgolas de policarbonato en el sur de Florida',
       'We install custom polycarbonate pergolas across Miami-Dade, Broward, and Palm Beach County. Featuring UV-blocking translucent panels and reinforced aluminum framing, these systems provide protection while maintaining natural light. Ideal for patios and pool areas in Boca Raton, Boynton Beach, and Fort Lauderdale, they combine performance, brightness, and modern design.':
-        'Instalamos pérgolas de policarbonato a medida en Miami-Dade, Broward y Palm Beach. Llevan paneles translúcidos que frenan los UV sobre estructura de aluminio reforzada: protegen sin quitar la luz natural. Van muy bien en patios y zonas de piscina de Boca Ratón, Boynton Beach y Fort Lauderdale, con prestaciones, luminosidad y un diseño actual.',
+        'Instalamos pérgolas de policarbonato a medida en Miami-Dade, Broward y Palm Beach. Llevan paneles translúcidos que frenan los UV sobre estructura de aluminio reforzada: protegen sin quitar la luz natural. Van muy bien en patios y zonas de piscina de Boca Raton, Boynton Beach y Fort Lauderdale, con prestaciones, luminosidad y un diseño actual.',
       'Polycarbonate Pergola Features': 'Qué trae una pérgola de policarbonato',
       'Bathe your patio in natural light while staying protected from harsh UV rays and rain. Discover the benefits of pairing heavy-duty aluminum framing with advanced, impact-resistant translucent roofing.':
         'Luz natural en el patio y, a la vez, protección frente a los UV y la lluvia. Esto es lo que aporta unir una estructura de aluminio robusta a un techo translúcido resistente a impactos.',
@@ -1395,7 +1395,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Start With The Consumption, Not The Roof':
         'Empiece por el consumo, no por el techo',
       'A solar pergola is two projects in one, and they are usually planned in the wrong order. The array scales with roof area and orientation, so the useful conversation starts with what you actually consume — the pool pump, the lighting, the car — and works back to the size of the structure. Where it lands and how the panels are mounted follow from that, not the other way round.':
-        'Una pérgola solar son dos proyectos en uno, y casi siempre se planifican en el orden equivocado. El campo va con la superficie de cubierta y la orientación, así que la conversación útil empieza por lo que usted consume de verdad —la bomba de la piscina, la iluminación, el coche— y desde ahí se va hacia atrás hasta el tamaño de la estructura. Dónde se apoya y cómo se montan los paneles salen de eso, y no al revés.',
+        'Una pérgola solar son dos proyectos en uno, y casi siempre se planifican en el orden equivocado. El campo va con la superficie de cubierta y la orientación, así que la conversación útil empieza por lo que usted consume de verdad —la bomba de la piscina, la iluminación, el auto— y desde ahí se va hacia atrás hasta el tamaño de la estructura. Dónde se apoya y cómo se montan los paneles salen de eso, y no al revés.',
       'Sized From What You Consume':
         'Dimensionada según su consumo',
       'Oriented For The Array':
@@ -1413,7 +1413,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'How Much It Realistically Produces':
         'Cuánto produce de verdad',
       'It scales with roof area and orientation, not with ambition. A pergola-sized array is typically a useful supplement — pool pump, lighting, topping up a car — rather than a whole-house system. That is not a small thing, but it is a different thing, and the design conversation should start with your consumption rather than with the roof.':
-        'Va con la superficie de cubierta y la orientación, no con la ilusión que se le ponga. Un campo del tamaño de una pérgola suele ser un complemento útil —bomba de piscina, iluminación, recargar el coche— y no un sistema para toda la casa. No es poca cosa, pero es otra cosa, y la conversación de diseño debería empezar por su consumo y no por la cubierta.',
+        'Va con la superficie de cubierta y la orientación, no con la ilusión que se le ponga. Un campo del tamaño de una pérgola suele ser un complemento útil —bomba de piscina, iluminación, recargar el auto— y no un sistema para toda la casa. No es poca cosa, pero es otra cosa, y la conversación de diseño debería empezar por su consumo y no por la cubierta.',
       'Whether It Is Dry Underneath':
         'Si debajo se está seco',
       'Shaded, always: the panels are opaque. Dry depends entirely on how they are mounted. Panels laid with sealed joints and a gutter behave like a solid roof; panels on rails with gaps between them do not. If you want a dry lounge under there, it has to be specified up front, not assumed.':
@@ -1437,7 +1437,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Visualisation: the structure lit after dark':
         'Visualización: la estructura iluminada de noche',
       'Visualisation: a solar canopy over parking':
-        'Visualización: una marquesina solar sobre el aparcamiento',
+        'Visualización: una marquesina solar sobre el estacionamiento',
       'Visualisation: array, terrace and planting':
         'Visualización: campo solar, terraza y plantación',
       'Design visualisation of a solar pergola in which the photovoltaic panels form the entire roof plane over a garden terrace.':
@@ -1449,7 +1449,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Design visualisation of a solar pergola at night, integrated strip lighting along the beams over a lounge setting.':
         'Visualización de diseño de una pérgola solar de noche, con tiras LED integradas en las vigas sobre un salón exterior.',
       'Design visualisation of a solar canopy over a parking area, the panel roof spanning two bays with cars beneath.':
-        'Visualización de diseño de una marquesina solar sobre una zona de aparcamiento, con la cubierta de paneles salvando dos plazas con coches debajo.',
+        'Visualización de diseño de una marquesina solar sobre una zona de estacionamiento, con la cubierta de paneles salvando dos plazas con autos debajo.',
       'Design visualisation of a solar pergola over a terrace, with the panel roof above and tropical planting around the posts.':
         'Visualización de diseño de una pérgola solar sobre una terraza, con la cubierta de paneles encima y plantación tropical alrededor de los pilares.',
       'What A Solar Roof Involves':
@@ -1483,7 +1483,7 @@ export const PRODUCTOS_ES: Record<string, ProductoEs> = {
       'Eco-Friendly Luxury': 'Lujo sostenible',
       'Solar Roof Structure Builders in South Florida': 'Constructores de estructuras solares en el sur de Florida',
       'We build solar-ready roof structures designed to integrate photovoltaic systems without compromising strength or aesthetics. Serving Miami-Dade, Broward, and Palm Beach County—including Boca Raton and Palm Beach Gardens—these engineered systems provide shade, weather protection, and long-term energy value.':
-        'Construimos estructuras preparadas para llevar fotovoltaica sin perder resistencia ni estética. Trabajamos en Miami-Dade, Broward y Palm Beach —Boca Ratón y Palm Beach Gardens incluidas— con sistemas calculados que dan sombra, protegen del tiempo y aportan valor energético a largo plazo.',
+        'Construimos estructuras preparadas para llevar fotovoltaica sin perder resistencia ni estética. Trabajamos en Miami-Dade, Broward y Palm Beach —Boca Raton y Palm Beach Gardens incluidas— con sistemas calculados que dan sombra, protegen del tiempo y aportan valor energético a largo plazo.',
       'Solar Pergola Integration &amp; Features': 'Qué trae una pérgola solar',
       'Shade your outdoor space while generating clean energy for your home. Discover the robust structural engineering and dual-purpose design that makes our solar pergolas a smart, sustainable, and stylish investment.':
         'Sombra en el exterior y energía limpia para la casa. Esta es la ingeniería y el diseño de doble función que convierten a nuestras pérgolas solares en una inversión sensata.',

@@ -1,0 +1,504 @@
+{
+  "_nota": "F2 · textos SEO en español de Florida (C1, C2, C8 y glosario). Solo lo que J5 marcaba; «t» = seo.titulo.es, «d» = seo.descripcion.es, «h1» = H1 (propuesta en borrador: lo aprueba el cliente). Sin hechos nuevos.",
+  "/es/about-us/about-us/": {
+    "d": "Sobre Pergola Plus Florida: más de diez años diseñando e instalando pérgolas de aluminio y cubiertas de patio en Miami-Dade, Broward y Palm Beach."
+  },
+  "/es/about-us/brands/": {
+    "t": "Marcas de pérgolas y cubiertas | Pergola Plus Florida",
+    "d": "Las marcas de pérgolas que instalamos en el sur de Florida: FORTE, Equinox, Apollo, Renaissance y Fenetex, elegidas por resistencia y prestaciones.",
+    "h1": "Marcas de pérgolas y cubiertas de patio",
+    "h1Actual": "Marcas y modelos de cubierta"
+  },
+  "/es/about-us/industries-we-serve/": {
+    "t": "Pérgolas comerciales en el sur de Florida | Pergola Plus",
+    "d": "Pérgolas comerciales para hostelería, comercio, promotoras, comunidades y espacios públicos en Miami-Dade, Broward y Palm Beach.",
+    "h1Partes": {
+      "s0.div-block-hero-homepage.h1.t": "Pérgolas",
+      "s0.h1.span-text-span-4.t": "comerciales",
+      "s0.div-block-hero-homepage.h1.t-2": "para",
+      "s0.h1.span-text-span-4.t-2": "empresas de Florida"
+    }
+  },
+  "/es/about-us/testimonials/": {
+    "t": "Opiniones de Pergola Plus Florida | Clientes",
+    "d": "Opiniones de clientes de Pergola Plus Florida: lo que cuentan los propietarios del sur de Florida sobre sus pérgolas y cubiertas de patio.",
+    "h1": "Opiniones de clientes de Pergola Plus Florida",
+    "h1Actual": "Opiniones de clientes"
+  },
+  "/es/about-us/where-we-work/": {
+    "t": "Zonas de servicio de pérgolas en el sur de Florida",
+    "d": "Nuestras zonas de servicio de pérgolas en el sur de Florida: las 25 ciudades de Miami-Dade, Broward y Palm Beach donde instalamos pérgolas.",
+    "h1": "Zonas de servicio: pérgolas en el sur de Florida",
+    "h1Actual": "El especialista en pérgolas del sur de Florida"
+  },
+  "/es/brands/apollo/": {
+    "t": "Techos de lamas Apollo | Instaladores en el sur de Florida",
+    "d": "Techos de lamas Apollo motorizados en el sur de Florida: control del sol, la sombra y el aire con control remoto, app o voz, compatibles con domótica.",
+    "h1": "Techos de lamas motorizados Apollo",
+    "h1Actual": "Apollo"
+  },
+  "/es/brands/equinox/": {
+    "t": "Techos de lamas Equinox | Pergola Plus Florida",
+    "d": "Techos de lamas Equinox motorizados en el sur de Florida: sombra y ventilación a medida, con protección frente al tiempo con solo pulsar un botón.",
+    "h1": "Techos de lamas Equinox",
+    "h1Actual": "Equinox"
+  },
+  "/es/brands/fenetex/": {
+    "t": "Cortinas motorizadas Fenetex | Sur de Florida",
+    "d": "Cortinas motorizadas Fenetex en el sur de Florida: de malla, transparentes, de sombra y homologadas para huracán, para casas y negocios.",
+    "h1": "Cortinas motorizadas y antihuracán Fenetex",
+    "h1Actual": "Fenetex"
+  },
+  "/es/brands/pergola-plus-forte/": {
+    "t": "Sistemas de pérgola FORTE | Pergola Plus Florida",
+    "d": "Sistemas de pérgola FORTE de aluminio: solidez estructural, diseño limpio y cálculo conforme a la normativa de Florida, instalados en el sur de Florida.",
+    "h1": "Sistemas de pérgola FORTE",
+    "h1Actual": "Pergola Plus | Forte"
+  },
+  "/es/brands/renaissance/": {
+    "t": "Cubiertas de patio Renaissance | Sur de Florida",
+    "d": "Cubiertas de patio Renaissance, pérgolas y salas con malla en el sur de Florida: aluminio resistente, personalizable y de poco mantenimiento.",
+    "h1": "Cubiertas de patio y pérgolas Renaissance",
+    "h1Actual": "Renaissance"
+  },
+  "/es/contact-us/get-a-quote/": {
+    "t": "Cotización de pérgola gratis | Sur de Florida",
+    "d": "Pida su cotización de pérgola: cuéntenos su proyecto de patio en el sur de Florida y reciba una propuesta a medida para una pérgola de aluminio.",
+    "h1": "Pida su cotización de pérgola gratis",
+    "h1Actual": "Solicite un presupuesto de pérgola a medida"
+  },
+  "/es/contact-us/get-in-touch/": {
+    "t": "Contacto | Pergola Plus Florida, Boca Raton, FL",
+    "d": "Contacto de Pergola Plus Florida: llámenos, escríbanos o visítenos en Boca Raton para hablar de pérgolas y cubiertas de patio en el sur de Florida.",
+    "h1": "Contacto con Pergola Plus Florida",
+    "h1Actual": "Hablemos"
+  },
+  "/es/contact-us/schedule-a-visit/": {
+    "t": "Consulta de diseño de pérgola gratis | Sur de Florida",
+    "d": "Reserve una consulta de diseño de pérgola en el sur de Florida para ver opciones, prestaciones de cada sistema y qué estructura encaja en su patio.",
+    "h1": "Reserve su consulta de diseño de pérgola gratis",
+    "h1Actual": "Reserve una consulta de diseño gratuita"
+  },
+  "/es/countries/broward-county-pergola-contractor/": {
+    "d": "Pérgolas de aluminio y techos de lamas a medida en todo el condado de Broward, de Fort Lauderdale a Weston, con cálculo de viento y permisos."
+  },
+  "/es/countries/miami-dade-pergola-contractor/": {
+    "d": "Pérgolas en el condado de Miami-Dade: pérgolas de aluminio y techos de lamas motorizados en Miami, Coral Gables, Doral y la costa del condado."
+  },
+  "/es/countries/palm-beach-county-pergola-contractor/": {
+    "d": "Pérgolas en el condado de Palm Beach: pérgolas de aluminio y cubiertas de patio a medida de Boca Raton a Palm Beach Gardens, con permisos."
+  },
+  "/es/": {
+    "t": "Pérgolas en el sur de Florida | Pergola Plus Florida",
+    "d": "Contratista de pérgolas con licencia en el sur de Florida: pérgolas de lamas motorizadas, cubiertas de patio y screen enclosures, con cotización gratis."
+  },
+  "/es/post/add-shade-backyard-south-florida/": {
+    "t": "Sombra para el patio en el sur de Florida | Guía",
+    "d": "Cómo dar sombra al patio en el sur de Florida, de la opción más barata a la más duradera, con lo que aporta y lo que cuesta cada una.",
+    "h1": "Cómo dar sombra a su patio con el calor del sur de Florida",
+    "h1Actual": "Cómo dar sombra a su jardín con el calor del sur de Florida"
+  },
+  "/es/post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale/": {
+    "t": "Precio de una pérgola de aluminio en Boca Raton",
+    "d": "Por qué el precio de una pérgola de aluminio cambia entre Boca Raton y Fort Lauderdale: permisos, cargas de viento, acceso a la obra y acabados."
+  },
+  "/es/post/aluminum-vs-wood-pergolas-humid-climate/": {
+    "t": "Pérgolas de aluminio o de madera en el clima de Florida",
+    "d": "Pérgolas de aluminio o de madera en el clima húmedo del sur de Florida: durabilidad, mantenimiento, costo a diez años y qué le pasa a cada una."
+  },
+  "/es/post/best-outdoor-structures-rain-sun-florida/": {
+    "t": "Estructuras exteriores para el sol y la lluvia en Florida",
+    "d": "Qué estructura exterior conviene en el sur de Florida para el sol y la lluvia: sombra, agua, ventilación o poder cerrar el espacio del todo.",
+    "h1": "Las mejores estructuras exteriores para el sol y la lluvia en Florida",
+    "h1Actual": "Las mejores estructuras exteriores para el sol y la lluvia"
+  },
+  "/es/post/best-pergola-materials-coastal-florida/": {
+    "d": "Los mejores materiales para una pérgola en la costa del sur de Florida: cuáles aguantan el salitre, la humedad y el sol, y cuáles se degradan."
+  },
+  "/es/post/building-custom-pergola-south-florida/": {
+    "t": "Construir una pérgola a medida en el sur de Florida",
+    "d": "Cómo construir una pérgola a medida en el sur de Florida, fase a fase: diseño, cálculo, permisos, cimentación y montaje, con lo que pide cada una."
+  },
+  "/es/post/can-you-use-your-patio-year-round-in-south-florida/": {
+    "t": "¿Se puede usar el patio todo el año en el sur de Florida?",
+    "d": "Qué hace falta para usar el patio todo el año en el sur de Florida: sombra, lluvia, insectos, calor y ventilación, uno por uno."
+  },
+  "/es/post/design-build-pergola-process-south-florida/": {
+    "t": "El proceso de diseño y obra de una pérgola en Florida",
+    "d": "El proceso de diseño y obra de una pérgola en el sur de Florida, de la primera visita a la inspección final, y cuánto tarda cada fase."
+  },
+  "/es/post/hoa-rules-pergolas-south-florida/": {
+    "t": "La HOA y su pérgola en el sur de Florida | Guía 2026",
+    "d": "Qué revisa el comité de la HOA antes de aprobar una pérgola en el sur de Florida, y cómo preparar la solicitud para que salga a la primera.",
+    "h1": "Lo que pide la HOA para instalar una pérgola",
+    "h1Actual": "Qué pide la comunidad de propietarios para una pérgola"
+  },
+  "/es/post/how-long-pergola-installation-florida/": {
+    "t": "¿Cuánto se tarda en instalar una pérgola en Florida?",
+    "d": "Cuánto se tarda en instalar una pérgola en el sur de Florida: diseño, cálculo, permisos, fabricación y montaje, con los plazos de cada fase."
+  },
+  "/es/post/hurricane-resistant-pergolas-south-florida/": {
+    "t": "Pérgolas resistentes a huracanes en el sur de Florida",
+    "d": "Pérgolas resistentes a huracanes en el sur de Florida: qué hace que una pérgola aguante, del cálculo y los anclajes a las homologaciones."
+  },
+  "/es/post/is-a-louvered-roof-pergola-worth-it-in-florida/": {
+    "t": "¿Compensa una pérgola de techo de lamas en Florida?",
+    "d": "¿Compensa una pérgola de techo de lamas en el sur de Florida? Qué aporta frente a una pérgola fija, cuánto cuesta la diferencia y cuándo conviene."
+  },
+  "/es/post/luxury-pergola-ideas-for-south-florida-backyards/": {
+    "t": "Ideas de pérgola para patios del sur de Florida"
+  },
+  "/es/post/modern-outdoor-living-trends-in-south-florida/": {
+    "t": "Tendencias de exterior en el sur de Florida (2026)",
+    "d": "Tendencias de exterior en el sur de Florida para 2026: sombra regulable, cocinas al aire libre y materiales que aguantan la costa."
+  },
+  "/es/post/pergola-building-codes-broward-palm-beach/": {
+    "d": "La normativa de pérgolas en Broward y Palm Beach: cargas de viento, anclajes, retiros y la documentación que pide cada ciudad o condado."
+  },
+  "/es/post/pergola-design-ideas-waterfront-properties/": {
+    "t": "Ideas de pérgola para casas frente al agua en Florida",
+    "d": "Ideas de pérgola para casas frente al agua en el sur de Florida: vistas, viento, salitre y los materiales que aguantan una propiedad expuesta."
+  },
+  "/es/post/pergola-permit-south-florida/": {
+    "t": "¿Hace falta permiso para una pérgola en el sur de Florida?"
+  },
+  "/es/post/poolside-pergola-ideas-for-florida-homes/": {
+    "d": "Ideas de pérgola junto a la piscina en el sur de Florida: sombra donde hace falta, materiales que aguantan el cloro y el salitre, y zonas de estar."
+  },
+  "/es/post/resort-style-backyard-boca-raton/": {
+    "t": "Un patio estilo resort en Boca Raton | Guía de diseño",
+    "d": "Cómo conseguir un patio estilo resort en Boca Raton: zonas, sombra, agua, iluminación y los materiales que lo sostienen frente al clima de Florida.",
+    "h1": "Un patio estilo resort en Boca Raton: cómo conseguirlo",
+    "h1Actual": "Cómo hacer de su jardín de Boca Raton un resort"
+  },
+  "/es/products/cabanas/": {
+    "h1": "Cabañas de aluminio a medida",
+    "h1Actual": "Cabañas"
+  },
+  "/es/products/carports/": {
+    "t": "Carports de aluminio en el sur de Florida | Pergola Plus",
+    "d": "Carports de aluminio calculados para las cargas de viento de Florida, con drenaje oculto y acabados que combinan con la casa. En el sur de Florida.",
+    "h1": "Carports de aluminio",
+    "h1Actual": "Cocheras de aluminio"
+  },
+  "/es/products/": {
+    "t": "Pérgolas de aluminio en el sur de Florida | Pergola Plus",
+    "h1": "Pérgolas de aluminio y sistemas de sombra en el sur de Florida",
+    "d": "Pérgolas de aluminio a medida, techos de lamas motorizados, screen enclosures y carports, diseñados e instalados en el sur de Florida.",
+    "h1Actual": "Pérgolas de lujo y soluciones de sombra para exteriores"
+  },
+  "/es/products/motorized-louvered-pergolas/": {
+    "d": "Pérgolas de lamas motorizadas con sensor de lluvia y viento, integración domótica y cálculo para las cargas de viento del sur de Florida."
+  },
+  "/es/products/motorized-screens/": {
+    "d": "Cortinas motorizadas para patio con control remoto o app, detección de obstáculos y carcasa oculta, integradas en pérgolas del sur de Florida.",
+    "h1": "Cortinas motorizadas para patios y pérgolas",
+    "h1Actual": "Cortinas motorizadas"
+  },
+  "/es/products/open-air-pergolas/": {
+    "h1": "Pérgolas de aluminio abiertas",
+    "h1Actual": "Pérgolas abiertas"
+  },
+  "/es/products/polycarbonate-pergolas/": {
+    "d": "Pérgolas de policarbonato con paneles translúcidos que bloquean el 99 % de los UV y dejan pasar la luz, sobre aluminio reforzado en el sur de Florida."
+  },
+  "/es/products/screen-enclosures/": {
+    "t": "Screen enclosures para piscina | Sur de Florida",
+    "d": "Screen enclosures para piscina y patio calculados para las cargas de viento de Florida, con malla de alta visibilidad y opción a prueba de mascotas.",
+    "h1": "Screen enclosures para piscina y patio",
+    "h1Actual": "Cerramientos con mosquitero"
+  },
+  "/es/products/solar-pergolas/": {
+    "t": "Pérgolas solares en el sur de Florida | Pergola Plus",
+    "d": "Pérgolas solares preparadas para paneles fotovoltaicos: refuerzo de carga, cableado oculto y drenaje integrado, con orientación estudiada en el sur de Florida."
+  },
+  "/es/products/solid-roof-pergolas/": {
+    "t": "Pérgolas de techo sólido aislado | Sur de Florida",
+    "d": "Pérgolas de techo sólido con paneles aislantes que cortan el calor radiante, canaleta oculta y preparación para ventiladores en el sur de Florida."
+  },
+  "/es/products/sukkah/": {
+    "t": "Sukkah de aluminio Sukkah 3000 | Sur de Florida",
+    "d": "La sukkah de aluminio Sukkah 3000: ingeniería modular, aluminio de alto rendimiento y diseño minimalista, instalada en propiedades del sur de Florida.",
+    "h1": "Sukkah 3000 de aluminio",
+    "h1Actual": "Sukkah"
+  },
+  "/es/project-estimator/": {
+    "t": "Calculadora de precio de pérgola | Sur de Florida",
+    "d": "Calculadora de precio de pérgola: calcule lo que cuesta su pérgola o cubierta de patio en el sur de Florida con nuestras tarifas instaladas de 2026.",
+    "h1": "Calculadora de precio de pérgola",
+    "h1Actual": "Calculador de presupuesto",
+    "h1Doc": "estimador"
+  },
+  "/es/project-gallery/": {
+    "t": "Proyectos de pérgolas en el sur de Florida | Galería",
+    "d": "Proyectos de pérgolas en el sur de Florida: pérgolas a medida, cubiertas de patio y espacios exteriores ya construidos en Miami-Dade, Broward y Palm Beach.",
+    "h1": "Proyectos de pérgolas en el sur de Florida",
+    "h1Actual": "Proyectos destacados"
+  },
+  "/es/project/attached-forte-pergola-in-west-palm-beach/": {
+    "d": "Pérgola FORTE adosada a la vivienda en West Palm Beach: estructura de aluminio calculada para la normativa de Florida y el clima del sur de Florida."
+  },
+  "/es/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton/": {
+    "t": "Pérgola FORTE Plus en el Intracoastal, Boca Raton",
+    "h1": "Pérgola FORTE Plus adosada sobre el Intracoastal, en Boca Raton",
+    "h1Actual": "Pérgola FORTE Plus adosada sobre el Intracoastal, en Boca Ratón"
+  },
+  "/es/project/custom-sukkah-pergola-at-boca-beach/": {
+    "d": "Sukkah a medida en Boca Beach: estructura blanca de aire libre sobre la terraza de eventos, sin apoyos en la zona de mesas, con vegetación y luces."
+  },
+  "/es/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club/": {
+    "d": "Pérgola FORTE con tramos de lamas y de techo sólido, luz empotrada y cocina exterior: la pieza central de la zona común de Elan Polo Club."
+  },
+  "/es/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens/": {
+    "t": "Pérgola FORTE, muro privacidad parcial, Palm Beach Gardens",
+    "d": "Pérgola FORTE de aluminio con muro de privacidad parcial en Palm Beach Gardens, que cierra un lado del patio sin quitarle luz ni ventilación."
+  },
+  "/es/project/forte-pergola-with-privacy-wall-motorized-screen-in-delray-beach/": {
+    "d": "Pérgola FORTE con muro de privacidad y cortina de sombra motorizada en Delray Beach, para cerrar el patio al sol de la tarde cuando hace falta."
+  },
+  "/es/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach/": {
+    "t": "Pérgola FORTE, muro privacidad y soporte TV, Delray Beach",
+    "d": "Pérgola FORTE con muro de privacidad y soporte de TV en Delray Beach: una zona de ocio exterior cubierta, con la pantalla protegida del sol."
+  },
+  "/es/project/forte-pergolas-in-greenacres-pool-patio/": {
+    "d": "Pérgolas FORTE de aluminio en el patio de piscina de una casa en Greenacres, con sombra junto al agua y estructura calculada para Florida."
+  },
+  "/es/project/forte-plus-aluminum-carport-installation-in-pompano-beach/": {
+    "t": "Carport de aluminio FORTE Plus en Pompano Beach",
+    "d": "Carport de aluminio FORTE Plus en Pompano Beach, calculado para superar la normativa de Florida y proteger los autos del sol y la lluvia.",
+    "h1": "Carport de aluminio FORTE Plus en Pompano Beach",
+    "h1Actual": "Cochera de aluminio FORTE Plus en Pompano Beach"
+  },
+  "/es/project/forte-plus-pergola-with-outdoor-kitchen-in-delray-beach/": {
+    "d": "Pérgola FORTE Plus con cocina exterior totalmente integrada en Delray Beach, calculada para el clima de la costa del sur de Florida."
+  },
+  "/es/project/forte-plus-pergolas-in-hillsboro-beach-estate/": {
+    "d": "Pérgolas FORTE Plus en una finca frente a la playa en Hillsboro Beach, calculadas para el salitre y el viento de la costa del sur de Florida."
+  },
+  "/es/project/oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club/": {
+    "d": "Terraza de piscina en Jupiter Ocean Club con pavers, franjas de césped y cabañas blancas de techo plano, para una comunidad frente al océano."
+  },
+  "/es/resources/blog/buying-guides-cost/": {
+    "d": "Guías de compra y precios de pérgolas en el sur de Florida: lo que cuesta una pérgola, qué entra en el precio y cómo comparar cotizaciones.",
+    "h1": "Guías de compra y precios de pérgolas",
+    "h1Actual": "Guías de compra y precios"
+  },
+  "/es/resources/blog/": {
+    "t": "Blog de pérgolas y exteriores | Pergola Plus Florida",
+    "d": "Blog de pérgolas y exteriores: pérgolas de aluminio, techos de lamas motorizados y sistemas de sombra para las casas del sur de Florida.",
+    "h1": "Blog de pérgolas y exteriores",
+    "h1Actual": "blog y consejos"
+  },
+  "/es/resources/blog/maintenance-care/": {
+    "d": "Mantenimiento de pérgolas en la costa del sur de Florida: cómo mantener una pérgola de aluminio, un techo de lamas o unas cortinas frente al salitre.",
+    "h1": "Mantenimiento de pérgolas",
+    "h1Actual": "Mantenimiento y cuidado"
+  },
+  "/es/resources/blog/materials-engineering/": {
+    "t": "Materiales e ingeniería de pérgolas | Sur de Florida",
+    "d": "Materiales e ingeniería de pérgolas en el sur de Florida: aluminio o madera, cargas de viento y anclajes, qué aguanta en la costa y por qué.",
+    "h1": "Materiales e ingeniería de pérgolas",
+    "h1Actual": "Materiales e ingeniería"
+  },
+  "/es/resources/blog/outdoor-living-design/": {
+    "t": "Diseño de exteriores en el sur de Florida | Blog",
+    "d": "Diseño de exteriores en el sur de Florida: ideas para patios, piscinas y jardines con pérgolas, cabañas, iluminación y sombra para todo el año."
+  },
+  "/es/resources/blog/pergolas-shade-systems/": {
+    "d": "Pérgolas y sistemas de sombra para el sur de Florida: techos de lamas, techos sólidos, cortinas y screen enclosures, y cuándo compensa cada uno."
+  },
+  "/es/resources/faq/": {
+    "t": "Preguntas frecuentes sobre pérgolas | Pergola Plus",
+    "d": "Preguntas frecuentes sobre pérgolas, cortinas, pavers y obra exterior en el sur de Florida: permisos, cargas de viento, precios y plazos.",
+    "h1": "Preguntas frecuentes sobre pérgolas",
+    "h1Actual": "Preguntas frecuentes"
+  },
+  "/es/resources/warranties/": {
+    "t": "Garantía de pérgolas y cortinas | Pergola Plus Florida",
+    "d": "Garantía de pérgolas en el sur de Florida: qué cubre la garantía de los sistemas FORTE, Equinox, Renaissance, Fenetex y MaestroShield que instalamos.",
+    "h1": "Garantía de pérgolas y cortinas",
+    "h1Actual": "Información de garantía"
+  },
+  "/es/services/concrete/": {
+    "t": "Concreto estructural para patios | Sur de Florida",
+    "d": "Concreto estructural en el sur de Florida: losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y pavers.",
+    "h1": "Concreto estructural para patios y pérgolas",
+    "h1Actual": "Servicios de hormigón estructural"
+  },
+  "/es/services/deck-builders/": {
+    "d": "Constructores de decks en el sur de Florida: decks de composite y aluminio calculados para el ambiente de la costa, con permisos e instalación profesional."
+  },
+  "/es/services/driveways/": {
+    "t": "Driveways de pavers en el sur de Florida | Pergola Plus",
+    "d": "Driveways de pavers sobre bases reforzadas, con las pendientes y el drenaje calculados para las lluvias del sur de Florida.",
+    "h1": "Diseño e instalación de driveways de pavers",
+    "h1Actual": "Diseño e instalación de entradas de coche"
+  },
+  "/es/services/fence-solutions/": {
+    "t": "Cercas de aluminio en el sur de Florida | Pergola Plus",
+    "d": "Cercas de aluminio y de privacidad calculadas para el viento y la corrosión de la costa del sur de Florida, con permisos y aprobación de la HOA.",
+    "h1": "Cercas de aluminio y de privacidad",
+    "h1Actual": "Soluciones de vallado"
+  },
+  "/es/services/full-outdoor-remodel/": {
+    "d": "Remodelación exterior integral en el sur de Florida: patio, pavers, concreto, decks, cercas, pérgolas, iluminación y drenaje en un solo proyecto."
+  },
+  "/es/services/": {
+    "t": "Construcción exterior en el sur de Florida | Pergola Plus",
+    "d": "Construcción exterior en el sur de Florida: pérgolas a medida, pavers, driveways, concreto, decks, cercas y remodelación de patio.",
+    "h1": "Construcción exterior y servicios de patio en el sur de Florida",
+    "h1Actual": "Construcción exterior y servicios de patio de lujo en el sur de Florida"
+  },
+  "/es/services/pavers/": {
+    "t": "Instalación de pavers para patio y piscina | Sur de Florida",
+    "d": "Instalación de pavers en el sur de Florida: patios, bordes de piscina y driveways sobre bases calculadas, con el drenaje que piden las lluvias.",
+    "h1": "Instalación de pavers para patio y piscina",
+    "h1Actual": "Instalación de adoquinado"
+  },
+  "/es/services/pergola-design-construction/": {
+    "d": "Diseño y construcción de pérgolas en el sur de Florida: pérgolas de aluminio a medida con cálculo estructural y permisos, para el calor y el viento."
+  },
+  "/es/pergolas-contractors/aventura-pergola-builders/": {
+    "t": "Pérgolas de aluminio en Aventura, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Aventura",
+    "h1Actual": "Pérgolas en Aventura"
+  },
+  "/es/pergolas-contractors/boca-raton-pergola-contractor/": {
+    "t": "Pérgolas de aluminio en Boca Raton, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Boca Raton",
+    "h1Actual": "Pérgolas en Boca Raton"
+  },
+  "/es/pergolas-contractors/boynton-beach-contractors/": {
+    "t": "Pérgolas de aluminio en Boynton Beach, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Boynton Beach",
+    "h1Actual": "Pérgolas en Boynton Beach"
+  },
+  "/es/pergolas-contractors/cooper-city-pergola-installation/": {
+    "t": "Pérgolas de aluminio en Cooper City, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Cooper City",
+    "h1Actual": "Pérgolas en Cooper City"
+  },
+  "/es/pergolas-contractors/coral-gables/": {
+    "t": "Pérgolas de aluminio en Coral Gables, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Coral Gables, condado de Miami-Dade. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Coral Gables",
+    "h1Actual": "Pérgolas en Coral Gables"
+  },
+  "/es/pergolas-contractors/coral-springs-installation/": {
+    "t": "Pérgolas de aluminio en Coral Springs, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Coral Springs, condado de Broward. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Coral Springs",
+    "h1Actual": "Pérgolas en Coral Springs"
+  },
+  "/es/pergolas-contractors/davie-installation/": {
+    "t": "Pérgolas de aluminio en Davie, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Davie, condado de Broward. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Davie",
+    "h1Actual": "Pérgolas en Davie"
+  },
+  "/es/pergolas-contractors/delray-beach-contractors/": {
+    "t": "Pérgolas de aluminio en Delray Beach, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Delray Beach",
+    "h1Actual": "Pérgolas en Delray Beach"
+  },
+  "/es/pergolas-contractors/doral-pergola-builders/": {
+    "t": "Pérgolas de aluminio en Doral, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Doral, condado de Miami-Dade. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Doral",
+    "h1Actual": "Pérgolas en Doral"
+  },
+  "/es/pergolas-contractors/fort-lauderdale-installation/": {
+    "t": "Pérgolas de aluminio en Fort Lauderdale, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Fort Lauderdale",
+    "h1Actual": "Pérgolas en Fort Lauderdale"
+  },
+  "/es/pergolas-contractors/hollywood-pergola-installation/": {
+    "t": "Pérgolas de aluminio en Hollywood, FL | Pergola Plus",
+    "h1": "Pérgolas de aluminio en Hollywood",
+    "h1Actual": "Pérgolas en Hollywood"
+  },
+  "/es/pergolas-contractors/jupiter-contractors/": {
+    "t": "Pérgolas de aluminio en Jupiter, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Jupiter, condado de Palm Beach. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Jupiter",
+    "h1Actual": "Pérgolas en Jupiter"
+  },
+  "/es/pergolas-contractors/key-biscayne-pergola-builders/": {
+    "t": "Pérgolas de aluminio en Key Biscayne, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Key Biscayne, condado de Miami-Dade. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Key Biscayne",
+    "h1Actual": "Pérgolas en Key Biscayne"
+  },
+  "/es/pergolas-contractors/miami-beach-pergola-design/": {
+    "t": "Pérgolas de aluminio en Miami Beach, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Miami Beach, condado de Miami-Dade. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Miami Beach",
+    "h1Actual": "Pérgolas en Miami Beach"
+  },
+  "/es/pergolas-contractors/miami-pergola-experts/": {
+    "t": "Pérgolas de aluminio en Miami, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Miami, condado de Miami-Dade. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Miami",
+    "h1Actual": "Pérgolas en Miami"
+  },
+  "/es/pergolas-contractors/miramar-installation/": {
+    "t": "Pérgolas de aluminio en Miramar, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Miramar, condado de Broward. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Miramar",
+    "h1Actual": "Pérgolas en Miramar"
+  },
+  "/es/pergolas-contractors/palm-beach-contractors/": {
+    "t": "Pérgolas de aluminio en Palm Beach, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Palm Beach, condado de Palm Beach. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Palm Beach",
+    "h1Actual": "Pérgolas en Palm Beach"
+  },
+  "/es/pergolas-contractors/palm-beach-gardens/": {
+    "t": "Pérgolas de aluminio en Palm Beach Gardens | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Palm Beach Gardens, condado de Palm Beach. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Palm Beach Gardens",
+    "h1Actual": "Pérgolas en Palm Beach Gardens"
+  },
+  "/es/pergolas-contractors/parkland-installation/": {
+    "t": "Pérgolas de aluminio en Parkland, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Parkland, condado de Broward. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Parkland",
+    "h1Actual": "Pérgolas en Parkland"
+  },
+  "/es/pergolas-contractors/pembroke-pines-pergola-installation/": {
+    "t": "Pérgolas de aluminio en Pembroke Pines, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Pembroke Pines, condado de Broward. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Pembroke Pines",
+    "h1Actual": "Pérgolas en Pembroke Pines"
+  },
+  "/es/pergolas-contractors/royal-palm-beach-contractors/": {
+    "t": "Pérgolas de aluminio en Royal Palm Beach, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Royal Palm Beach, condado de Palm Beach. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Royal Palm Beach",
+    "h1Actual": "Pérgolas en Royal Palm Beach"
+  },
+  "/es/pergolas-contractors/sunny-isles-beach-pergola-builders/": {
+    "t": "Pérgolas de aluminio en Sunny Isles Beach, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Sunny Isles Beach, condado de Miami-Dade. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Sunny Isles Beach",
+    "h1Actual": "Pérgolas en Sunny Isles Beach"
+  },
+  "/es/pergolas-contractors/wellington-contractors/": {
+    "t": "Pérgolas de aluminio en Wellington, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Wellington, condado de Palm Beach. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Wellington",
+    "h1Actual": "Pérgolas en Wellington"
+  },
+  "/es/pergolas-contractors/west-palm-beach-contractors/": {
+    "t": "Pérgolas de aluminio en West Palm Beach, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en West Palm Beach, condado de Palm Beach. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en West Palm Beach",
+    "h1Actual": "Pérgolas en West Palm Beach"
+  },
+  "/es/pergolas-contractors/weston-pergola-solutions/": {
+    "t": "Pérgolas de aluminio en Weston, FL | Pergola Plus",
+    "d": "Pérgolas de aluminio, techos de lamas motorizados y cubiertas de patio en Weston, condado de Broward. Diseño, permisos e instalación.",
+    "h1": "Pérgolas de aluminio en Weston",
+    "h1Actual": "Pérgolas en Weston"
+  }
+}

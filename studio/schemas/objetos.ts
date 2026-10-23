@@ -6,6 +6,7 @@
  * documento sin `es` no genera página española (es el caso de Terms of Service).
  */
 import { defineArrayMember, defineField, defineType } from 'sanity';
+import { VistaSerp } from './vista-serp';
 
 const IDIOMAS = [
   { id: 'en', titulo: 'English' },
@@ -145,6 +146,7 @@ export const seo = defineType({
   name: 'seo',
   title: 'SEO',
   type: 'object',
+  components: { input: VistaSerp },
   options: { collapsible: true, collapsed: true },
   // El titulo es obligatorio (es el <title> de la pagina); la descripcion, aviso.
   validation: (r) => r.custom((v: { titulo?: { en?: string } } | undefined) => (!v || v.titulo?.en?.trim() ? true : 'Falta el título (pestaña y Google)')),
@@ -394,6 +396,9 @@ export const imagenCuerpo = defineType({
     defineField({ name: 'alt', title: 'Texto alternativo', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'procedencia', title: 'Procedencia', type: 'string', options: { list: PROCEDENCIAS, layout: 'radio' }, validation: (r) => r.required() }),
     defineField({ name: 'procedenciaNota', title: 'De dónde viene', type: 'string' }),
+    // Las 80 imagenes del cuerpo de los posts lo traen (C9, export 17): sin el campo, el Studio
+    // las marcaba como «campo desconocido» (T17).
+    defineField({ name: 'retocadaConIA', title: 'Foto real retocada con IA', type: 'boolean', initialValue: false, hidden: ({ parent }) => parent?.procedencia !== 'real-cliente' }),
     defineField({ name: 'cargaDiferida', title: 'Carga diferida', type: 'boolean', initialValue: true, hidden: true }),
   ],
 });

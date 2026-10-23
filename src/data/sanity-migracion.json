@@ -1,4 +1,6 @@
 {
  "_nota": "Fin de la ultima importacion de la migracion al dataset (max _updatedAt de lo importado). Un documento con _updatedAt posterior lo edito alguien en el Studio: check:sanity-fidelidad no lo compara con el repo. Se actualiza en cada importacion de la migracion.",
- "ultimaMigracion": "2026-10-21T13:13:33Z"
+ "ultimaMigracion": "2026-10-21T13:13:33Z",
+ "_notaEscrituraTecnica": "Fin de las escrituras tecnicas de la entrega (C8/C9: alt, og, retocadaConIA, claves...), 21-oct-2026 (informe 08, T5). El sitemap y el dateModified de los posts solo cuentan como fecha de modificacion un _updatedAt POSTERIOR a esta marca: lo anterior no es una edicion de contenido. check:sanity-fidelidad sigue usando ultimaMigracion.",
+ "ultimaEscrituraTecnica": "2026-10-21T15:07:02Z"
 }

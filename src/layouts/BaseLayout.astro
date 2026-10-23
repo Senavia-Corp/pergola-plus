@@ -8,7 +8,7 @@ import { idiomaDeRuta, rutaEnIdioma } from '../i18n';
 import { SITIO } from '../lib/ajustes';
 import { NEGOCIO } from '../lib/jsonld';
 import { dimensionesOg } from '../lib/og.mjs';
-import { FUENTE, ogDeRuta } from '../lib/sanity/fuente.mjs';
+import { FUENTE, ogDeRuta, ogAltDeRuta, docDeRuta } from '../lib/sanity/fuente.mjs';
 // Va PRIMERO: define los @font-face, y el CSS migrado que viene después ya usa Inter.
 import '../styles/fuentes.css';
 import '../styles/tipografia.css';
@@ -148,7 +148,10 @@ const {
 // olvide la variable sale noindex, que es el fallo barato; al reves seria publicar
 // una copia del sitio compitiendo con el que el cliente tiene en vivo.
 // La regla completa y las otras tres capas, en astro.config.mjs (ES_PRODUCCION).
-const indexable = import.meta.env.PUBLIC_ES_PRODUCCION === '1' && !noindex;
+// `seo.indexable` del documento («Visible en buscadores» en el Studio, T2): si el editor lo
+// apaga, la pagina sale con noindex en EN y ES y el sitemap la deja fuera (astro.config.mjs).
+const ocultaEnSanity = FUENTE === 'sanity' && docDeRuta(Astro.url.pathname)?.seo?.indexable === false;
+const indexable = import.meta.env.PUBLIC_ES_PRODUCCION === '1' && !noindex && !ocultaEnSanity;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
@@ -167,6 +170,8 @@ const ogMedidas = ogImage ? await dimensionesOg(ogImage) : null;
 // <html lang="en"> mentiria en la version española, y lang es lo que usan los
 // lectores de pantalla para elegir voz y los buscadores para segmentar.
 const idiomaPagina = idiomaDeRuta(Astro.url.pathname);
+// El alt de la imagen al compartir, en el idioma de la pagina (T10).
+const ogAlt = FUENTE === 'sanity' ? ogAltDeRuta(Astro.url.pathname, idiomaPagina === 'es' ? 'es' : 'en') : undefined;
 
 // Solo se declara el `hreflang` de las traducciones que EXISTEN. `rutaEnIdioma`
 // devuelve null cuando no hay gemela y aquí se filtra.
@@ -215,6 +220,8 @@ const ogLocaleAlterna = alternativas.length > 1 ? LOCALE_OG[idiomaPagina === 'es
     <meta content="summary_large_image" name="twitter:card" />
     {ogImageUrl && <meta content={ogImageUrl} property="og:image" />}
     {ogImageUrl && <meta content={ogImageUrl} name="twitter:image" />}
+    {ogImageUrl && ogAlt && <meta content={ogAlt} property="og:image:alt" />}
+    {ogImageUrl && ogAlt && <meta content={ogAlt} name="twitter:image:alt" />}
     {ogMedidas && <meta content={String(ogMedidas.ancho)} property="og:image:width" />}
     {ogMedidas && <meta content={String(ogMedidas.alto)} property="og:image:height" />}
     <meta content={canonicalUrl} property="og:url" />

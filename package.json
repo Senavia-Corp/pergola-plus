@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "node scripts/sanity/instantanea.mjs && astro build && node scripts/rutas-vercel.mjs",
+    "build:vercel": "npm run build && npm run check:seo && npm run check:noindex && npm run check:i18n && npm run check:jsonld && npm run check:og && npm run check:canonicos && npm run check:enlaces && npm run check:urls-antiguas && npm run check:sanity-cobertura && npm run check:blog && npm run check:paginas",
     "preview": "astro preview",
     "astro": "astro",
     "check": "npm run build && npm run check:sanity-cobertura && npm run check:sanity-fidelidad && npm run check:sanity-esquema && npm run check:blog && npm run check:enlaces && npm run check:carruseles && npm run check:marquee && npm run check:animaciones && npm run check:imagenes && npm run check:cta && npm run check:estimador && npm run check:formularios && npm run check:i18n && npm run check:seo && npm run check:paginas && npm run check:noindex && npm run check:resenas && npm run check:iconos && npm run check:ritmo && npm run check:correo && npm run check:canonicos && npm run check:pagina-actual && npm run check:urls-antiguas && npm run check:og && npm run check:jsonld",
@@ -45,7 +46,18 @@
     "check:sanity-fidelidad": "node scripts/sanity/fidelidad.mjs",
     "check:sanity-esquema": "node scripts/sanity/esquema.mjs",
     "check:og": "node scripts/comprobar-og.mjs",
-    "check:jsonld": "node scripts/comprobar-jsonld.mjs"
+    "check:jsonld": "node scripts/comprobar-jsonld.mjs",
+    "check:seo-estricto": "node scripts/seo-loop/j05-seo-estricto.mjs",
+    "check:sanity-completo": "node scripts/seo-loop/j06-sanity-completo.mjs",
+    "check:jsonld-google": "node scripts/seo-loop/j07-jsonld-google.mjs",
+    "check:silo": "node scripts/seo-loop/j08-silo.mjs",
+    "check:lastmod": "node scripts/seo-loop/j09-lastmod.mjs",
+    "check:es-florida": "node scripts/seo-loop/j10-es-florida.mjs",
+    "check:geo": "node scripts/seo-loop/j11-geo.mjs",
+    "check:aeo": "node scripts/seo-loop/j12-aeo.mjs",
+    "check:contenido-local": "node scripts/seo-loop/j13-contenido-local.mjs",
+    "check:canibalizacion": "node scripts/seo-loop/j14-canibalizacion.mjs",
+    "juez": "node scripts/seo-loop/juez.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.16",

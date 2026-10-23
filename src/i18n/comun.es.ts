@@ -24,11 +24,11 @@ export const COMUN_ES: Record<string, string> = {
   'Luxury Custom Outdoor Cabanas':
     'Cabañas exteriores de lujo a medida',
   'Custom Screen Enclosures for Outdoor Living':
-    'Cerramientos con mosquitero a medida para vivir fuera',
+    'Screen enclosures a medida para vivir fuera',
   'Integrated Motorized Screen Systems':
     'Sistemas integrados de cortinas motorizadas',
   'Engineered Aluminum Carport Structures':
-    'Estructuras de cochera de aluminio calculadas',
+    'Estructuras de carport de aluminio calculadas',
   'Sukkah 3000 Premium Louvered System':
     'Sukkah 3000, sistema de lamas premium',
   'The Sukkah 3000 System':
@@ -36,7 +36,7 @@ export const COMUN_ES: Record<string, string> = {
   'Poolside Aluminum Cabanas':
     'Cabañas de aluminio junto a la piscina',
   'Pool And Patio Screen Enclosures':
-    'Cerramientos con mosquitero para piscina y patio',
+    'Screen enclosures para piscina y patio',
   'Motorized Retractable Screens':
     'Cortinas motorizadas retráctiles',
 
@@ -80,7 +80,7 @@ export const COMUN_ES: Record<string, string> = {
   // --- CTA final, en ~100 páginas ---
   'Request your free Estimate': 'Solicite su presupuesto gratis',
   'Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.':
-    'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluamos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o cerramientos de piscina.',
+    'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluamos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o screen enclosures de piscina.',
   // El alt del fondo generico, el que llevan las ~79 paginas que NO son ficha de
   // producto o servicio. Faltaba: iba en ingles en las ~100 paginas de /es/ y
   // ninguna puerta lo veia. La version por clave de shell.ts solo cubre el
@@ -207,9 +207,9 @@ export const COMUN_ES: Record<string, string> = {
   'FORTE Plus Pergolas in Hillsboro Beach Estate': 'Pérgolas FORTE Plus en una finca de Hillsboro Beach',
   'FORTE Plus aluminum pergolas installed at a luxury beachfront estate in Hillsboro Beach, engineered for South Florida coastal durability.':
     'Pérgolas FORTE Plus de aluminio instaladas en una finca frente al mar en Hillsboro Beach, calculadas para durar en la costa del sur de Florida.',
-  'Attached FORTE Plus Pergola on the Intracoastal in Boca Raton': 'Pérgola FORTE Plus adosada sobre el Intracoastal, en Boca Ratón',
+  'Attached FORTE Plus Pergola on the Intracoastal in Boca Raton': 'Pérgola FORTE Plus adosada sobre el Intracoastal, en Boca Raton',
   'Attached FORTE Plus aluminum pergola installed on the Intracoastal in Boca Raton, engineered for South Florida coastal durability.':
-    'Pérgola FORTE Plus de aluminio adosada, instalada sobre el Intracoastal en Boca Ratón y calculada para durar en la costa del sur de Florida.',
+    'Pérgola FORTE Plus de aluminio adosada, instalada sobre el Intracoastal en Boca Raton y calculada para durar en la costa del sur de Florida.',
   'FORTE Pergola with Privacy Wall &amp; TV Mount in Delray Beach': 'Pérgola FORTE con muro de privacidad y soporte de TV en Delray Beach',
   'Custom FORTE pergola with privacy wall and TV mount installed in Delray Beach, engineered for South Florida residential outdoor living.':
     'Pérgola FORTE a medida con muro de privacidad y soporte de televisión, instalada en Delray Beach para vivir el exterior en el sur de Florida.',
@@ -231,9 +231,9 @@ export const COMUN_ES: Record<string, string> = {
   'FORTE Pergola with Privacy Wall &amp; Motorized Screen in Delray Beach': 'Pérgola FORTE con muro de privacidad y cortina motorizada en Delray Beach',
   'Custom FORTE pergola with privacy wall and motorized shade screen installed in Delray Beach, engineered for South Florida luxury homes.':
     'Pérgola FORTE a medida con muro de privacidad y cortina motorizada, instalada en Delray Beach para viviendas de lujo del sur de Florida.',
-  'FORTE Plus Aluminum Carport Installation in Pompano Beach': 'Cochera de aluminio FORTE Plus en Pompano Beach',
+  'FORTE Plus Aluminum Carport Installation in Pompano Beach': 'Carport de aluminio FORTE Plus en Pompano Beach',
   'Custom FORTE Plus aluminum carport installed in Pompano Beach, engineered to meet Florida building codes and coastal conditions.':
-    'Cochera de aluminio FORTE Plus a medida instalada en Pompano Beach, calculada para cumplir la normativa de Florida y aguantar el ambiente costero.',
+    'Carport de aluminio FORTE Plus a medida instalado en Pompano Beach, calculada para cumplir la normativa de Florida y aguantar el ambiente costero.',
 
   // --- Sellos que se repiten en varias páginas de servicio ---
   'Engineered for Florida’s Climate': 'Calculado para el clima de Florida',
@@ -248,32 +248,32 @@ export const COMUN_ES: Record<string, string> = {
   'Reviews &amp; testimonials': 'Opiniones y testimonios',
   'What Clients Say About Our Work': 'Lo que dicen nuestros clientes',
   'Discover how our pergola contractors transform outdoor spaces with expert installation of pergolas, patio covers, pool screen enclosures, and louvered roof systems across South Florida.':
-    'Vea cómo transformamos espacios exteriores instalando pérgolas, cubiertas de patio, cerramientos de piscina y techos de lamas por todo el sur de Florida.',
+    'Vea cómo transformamos espacios exteriores instalando pérgolas, cubiertas de patio, screen enclosures de piscina y techos de lamas por todo el sur de Florida.',
   'Miami-Dade County': 'Condado de Miami-Dade',
   'Broward County': 'Condado de Broward',
   'Palm Beach County': 'Condado de Palm Beach',
 
   // Las entradillas de servicio salen IGUAL en /services y en /services/<slug>.
   'Our premium paver installations enhance driveways, patios, and pool decks with structural precision and refined finishes. Each system is engineered for proper drainage, long-term stability, and full code compliance. Designed for upscale properties, our pavers withstand South Florida’s heavy rain and heat while elevating curb appeal. We focus on permanent, professionally installed solutions — not temporary surface upgrades.':
-    'Nuestro adoquinado premium mejora entradas de coche, patios y bordes de piscina con precisión estructural y buenos acabados. Cada sistema se calcula para drenar bien, mantenerse estable en el tiempo y cumplir la normativa. Pensado para propiedades de alto nivel, aguanta las lluvias fuertes y el calor del sur de Florida a la vez que mejora la fachada. Buscamos soluciones permanentes y bien instaladas, no un apaño de superficie.',
+    'Nuestros pavers premium mejoran entradas de autos, patios y bordes de piscina con precisión estructural y buenos acabados. Cada sistema se calcula para drenar bien, mantenerse estable en el tiempo y cumplir la normativa. Pensado para propiedades de alto nivel, aguanta las lluvias fuertes y el calor del sur de Florida a la vez que mejora la fachada. Buscamos soluciones permanentes y bien instaladas, no un apaño de superficie.',
 
   // Se repiten en el indice /services Y en la pagina de cada servicio.
   'As well as building in accordance with the latest codes to ensure your structure is safe, we strive to provide unique service, installation, quality, satisfaction, and reasonable pricing. Work with us and you won&#x27;t be disappointed. Beauty and security will last a lifetime.':
         'Además de construir conforme a la normativa vigente para que su estructura sea segura, nos esforzamos por dar un servicio, una instalación, una calidad y un precio que merezcan la pena. Trabaje con nosotros y no se arrepentirá: la belleza y la seguridad duran toda la vida.',
   'A custom driveway defines your property’s first impression. We design and install high-end paver driveways with reinforced foundations engineered for durability and structural performance. Built for luxury homes, our driveway systems combine architectural elegance with long-term resilience against Florida’s climate conditions. Every project is permitted, professionally executed, and tailored to complement your home’s exterior design.':
-    'La entrada de coche es la primera impresión de una propiedad. Diseñamos e instalamos entradas adoquinadas de gama alta sobre bases reforzadas, calculadas para durar y para aguantar el uso. Pensadas para viviendas de lujo, combinan elegancia arquitectónica con resistencia a largo plazo frente al clima de Florida. Cada proyecto se tramita, se ejecuta con profesionales y se ajusta al diseño exterior de su casa.',
+    'La entrada de autos es la primera impresión de una propiedad. Diseñamos e instalamos entradas de pavers de gama alta sobre bases reforzadas, calculadas para durar y para aguantar el uso. Pensadas para viviendas de lujo, combinan elegancia arquitectónica con resistencia a largo plazo frente al clima de Florida. Cada proyecto se tramita, se ejecuta con profesionales y se ajusta al diseño exterior de su casa.',
   'We design and build fully engineered custom pergolas for high-end residential properties across Palm Beach and Broward County. Every structure is professionally designed, permitted, and installed to withstand Florida’s heat, humidity, and coastal exposure. From modern aluminum pergolas to advanced louvered roof systems, our projects are architecturally integrated and built for long-term durability. This is not a kit installation — it’s a custom investment designed to elevate outdoor comfort and increase property value.':
     'Diseñamos y construimos pérgolas a medida, con cálculo estructural completo, para viviendas de alto nivel en Palm Beach y Broward. Cada estructura se proyecta, se tramita y se instala para aguantar el calor, la humedad y la exposición costera de Florida. Desde pérgolas de aluminio modernas hasta sistemas avanzados de techo de lamas, nuestros proyectos se integran en la arquitectura y se construyen para durar. Esto no es montar un kit: es una inversión a medida para vivir mejor el exterior y revalorizar la propiedad.',
 
   'Our structural concrete services provide the foundation for high-end outdoor projects. From reinforced pergola slabs to patio foundations and custom drive surfaces, every installation is engineered for strength, precision, and code compliance. We prioritize proper reinforcement, drainage, and curing to ensure long-term structural integrity. These are permanent solutions designed to support premium outdoor living investments.':
-    'Nuestros servicios de hormigón estructural son la base de los proyectos exteriores de alto nivel. Desde losas armadas para pérgolas hasta cimentaciones de patio y pavimentos de acceso, cada trabajo se calcula para resistir, ser preciso y cumplir normativa. Cuidamos el armado, el drenaje y el curado para garantizar la integridad estructural a largo plazo. Son soluciones permanentes, pensadas para sostener una inversión exterior premium.',
+    'Nuestros servicios de concreto estructural son la base de los proyectos exteriores de alto nivel. Desde losas armadas para pérgolas hasta cimentaciones de patio y pavimentos de acceso, cada trabajo se calcula para resistir, ser preciso y cumplir normativa. Cuidamos el armado, el drenaje y el curado para garantizar la integridad estructural a largo plazo. Son soluciones permanentes, pensadas para sostener una inversión exterior premium.',
   'We design and build custom composite and aluminum decks tailored to upscale Florida homes. Engineered for durability and coastal performance, our decks are fully permitted and professionally installed. Ideal for poolside environments and integrated pergola systems, each project enhances outdoor functionality while increasing property value. We focus on long-term architectural solutions — not temporary wood installations.':
     'Diseñamos y construimos decks a medida en composite y aluminio para viviendas de alto nivel en Florida. Calculados para durar y rendir en ambiente costero, se instalan con todos los permisos y por profesionales. Ideales junto a la piscina y para integrarse con pérgolas, cada proyecto suma funcionalidad al exterior y valor a la propiedad. Buscamos soluciones arquitectónicas duraderas, no una tarima de madera provisional.',
 
   'Our custom fence installations enhance privacy, security, and architectural cohesion for luxury residential properties. We install high-quality aluminum and modern fencing systems engineered for wind resistance and coastal durability. Every project is professionally installed and compliant with local regulations. Designed to complement upscale homes, our fencing solutions balance aesthetics with long-term performance.':
-    'Nuestro vallado a medida aporta privacidad, seguridad y coherencia arquitectónica a viviendas de lujo. Instalamos sistemas de aluminio de alta calidad y vallados modernos, calculados para resistir el viento y durar en ambiente costero. Cada proyecto lo instalan profesionales y cumple la normativa local. Pensadas para acompañar a casas de alto nivel, nuestras soluciones equilibran estética y rendimiento a largo plazo.',
+    'Nuestra cerca a medida aporta privacidad, seguridad y coherencia arquitectónica a viviendas de lujo. Instalamos sistemas de aluminio de alta calidad y cercas modernas, calculados para resistir el viento y durar en ambiente costero. Cada proyecto lo instalan profesionales y cumple la normativa local. Pensadas para acompañar a casas de alto nivel, nuestras soluciones equilibran estética y rendimiento a largo plazo.',
   'We remodel entire outdoor spaces, not just the patio. Pavers and driveways, structural concrete, decks and fencing, integrated pergolas, motorized screens, lighting and drainage — designed, permitted and built as one project. Our approach focuses on architectural integration, durability, and long-term value, turning the whole exterior of your home into a seamless extension of the way you live indoors.':
-    'Remodelamos exteriores enteros, no solo el patio. Adoquinado y entradas de coche, hormigón estructural, decks y cercas, pérgolas integradas, cortinas motorizadas, iluminación y drenaje: diseñado, tramitado y construido como un solo proyecto. Nos centramos en la integración con la arquitectura, en la durabilidad y en el valor a largo plazo, para que todo el exterior de la casa sea una continuación natural de cómo se vive dentro.',
+    'Remodelamos exteriores enteros, no solo el patio. Pavers y entradas de autos, concreto estructural, decks y cercas, pérgolas integradas, cortinas motorizadas, iluminación y drenaje: diseñado, tramitado y construido como un solo proyecto. Nos centramos en la integración con la arquitectura, en la durabilidad y en el valor a largo plazo, para que todo el exterior de la casa sea una continuación natural de cómo se vive dentro.',
 
   // --- Paleta de acabados, en las 10 fichas de producto ---
   // Los nombres de color SÍ se traducen: son etiquetas descriptivas de una carta de
@@ -299,21 +299,21 @@ export const COMUN_ES: Record<string, string> = {
   'Our Services': 'Nuestros servicios',
   'Everything Your Patio Needs, All In One Place': 'Todo lo que su patio necesita, en un solo sitio',
   'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full outdoor remodels—designed to enhance both beauty and functionality.':
-    'Transforme su espacio exterior con una gama completa de servicios: desde pérgolas a medida hasta hormigón, adoquinado, decks, vallado y remodelaciones exteriores integrales, pensados para que gane en belleza y en uso.',
+    'Transforme su espacio exterior con una gama completa de servicios: desde pérgolas a medida hasta concreto, pavers, decks, cercas y remodelaciones exteriores integrales, pensados para que gane en belleza y en uso.',
   'Custom aluminum pergolas built for shade, style, and durability.':
     'Pérgolas de aluminio a medida, hechas para dar sombra, estilo y durar.',
   'Premium paver installations for patios, walkways, and driveways.':
-    'Adoquinado de gama alta para patios, caminos y entradas de coche.',
+    'Pavers de gama alta para patios, caminos y entradas de autos.',
   'Custom driveways engineered for strength and curb appeal.':
-    'Entradas de coche a medida, calculadas para resistir y para lucir.',
+    'Entradas de autos a medida, calculadas para resistir y para lucir.',
   'Architectural concrete patios built for lasting performance.':
-    'Patios de hormigón con diseño, construidos para durar.',
+    'Patios de concreto con diseño, construidos para durar.',
   'Custom decks designed for durability &amp; seamless integration.':
     'Decks a medida, pensados para durar e integrarse sin costuras.',
   'Residential fencing for privacy, security, and clean design.':
-    'Vallado residencial para privacidad, seguridad y una línea limpia.',
+    'Cercas residenciales para privacidad, seguridad y una línea limpia.',
   'Complete outdoor renovations: patio, hardscape, shade and lighting as one project.':
-    'Remodelación completa del exterior: patio, adoquinado, sombra e iluminación en un solo proyecto.',
+    'Remodelación completa del exterior: patio, pavers, sombra e iluminación en un solo proyecto.',
   'Contractors Proudly Serving South Florida': 'Damos servicio en todo el sur de Florida',
 
   // --- Teasers del blog, en las 10 fichas ---
@@ -358,7 +358,7 @@ export const COMUN_ES: Record<string, string> = {
   'HOA Rules for Pergolas in South Florida Communities':
     'Normas de la HOA para pérgolas en comunidades del sur de Florida',
   'HOA requirements for pergolas in South Florida explained.':
-    'Qué exigen las comunidades de propietarios para una pérgola, explicado.',
+    'Qué exigen las HOA para una pérgola, explicado.',
   'Modern Outdoor Living Trends in South Florida':
     'Tendencias actuales de vida al aire libre en el sur de Florida',
   '2026 luxury outdoor living trends shaping South Florida homes.':
@@ -373,14 +373,14 @@ export const COMUN_ES: Record<string, string> = {
   // contradecirse entre sí.
   'Pergola Design &amp; Construction': 'Diseño y construcción de pérgolas',
   'Deck Builders': 'Decks',
-  'Fence Solutions': 'Vallado',
+  'Fence Solutions': 'Cercas',
   'Full Outdoor Remodel': 'Remodelación exterior integral',
   'Take full control of your outdoor space with our custom louvered pergolas. Engineered for South Florida, the adjustable aluminum louvers regulate sun and rain at the touch of a button. A sophisticated, all-season solution for luxury outdoor living.':
     'Tome el control total de su espacio exterior con nuestras pérgolas de lamas a medida. Diseñadas para el sur de Florida, las lamas de aluminio orientables regulan el sol y la lluvia con solo pulsar un botón. Una solución sofisticada para disfrutar del exterior todo el año.',
 
-  Pavers: 'Adoquinado',
-  Driveways: 'Entradas de coche',
-  Concrete: 'Hormigón',
+  Pavers: 'Pavers',
+  Driveways: 'Entradas de autos',
+  Concrete: 'Concreto',
   'Our insulated roof pergolas offer maximum thermal performance, reducing heat while providing full shade and rain protection. These engineered aluminum systems create a cooler, comfortable outdoor space—perfect for year-round use and architectural beauty.':
     'Nuestras pérgolas de techo aislado ofrecen el máximo rendimiento térmico: reducen el calor y dan sombra total y protección frente a la lluvia. Estos sistemas de aluminio calculados crean un espacio exterior más fresco y confortable, perfecto para usar todo el año y con una estética cuidada.',
 
@@ -389,12 +389,12 @@ export const COMUN_ES: Record<string, string> = {
   'Our custom aluminum cabanas create refined outdoor retreats with resort-inspired design. Engineered for durability and privacy, these structures provide shaded comfort while elevating the overall aesthetic of your pool area or backyard entertainment space.':
     'Nuestras cabañas de aluminio a medida crean refugios exteriores con un diseño de inspiración resort. Calculadas para durar y para dar privacidad, aportan sombra y confort a la vez que elevan la estética de su zona de piscina o de su jardín.',
   'Motorized Screens': 'Cortinas motorizadas',
-  'Aluminum Carports': 'Cocheras de aluminio',
+  'Aluminum Carports': 'Carports de aluminio',
   'Polycarbonate Pergolas': 'Pérgolas de policarbonato',
   'Solar Pergolas': 'Pérgolas solares',
   'Custom Architectural Integration': 'Integración con la arquitectura',
   'Our aluminum carports protect luxury vehicles from harsh sun and rain while elevating your home’s architecture. Built for structural integrity and long-term durability, they offer premium, stylish protection. The perfect blend of strength and design.':
-    'Nuestras cocheras de aluminio protegen los coches del sol fuerte y de la lluvia, y de paso elevan la arquitectura de la casa. Calculadas para ser sólidas y durar, dan una protección de calidad y con buen aspecto: la mezcla justa de resistencia y diseño.',
+    'Nuestros carports de aluminio protegen los autos del sol fuerte y de la lluvia, y de paso elevan la arquitectura de la casa. Calculadas para ser sólidas y durar, dan una protección de calidad y con buen aspecto: la mezcla justa de resistencia y diseño.',
   'Our polycarbonate pergolas blend durability with natural light, blocking UV rays while maintaining brightness. Engineered for weather resistance, they are perfect for elegant patios and pool decks. Get a modern design that offers protection and openness.':
     'Nuestras pérgolas de policarbonato unen durabilidad y luz natural: frenan los rayos UV sin dejar el espacio a oscuras. Calculadas para aguantar el tiempo, van muy bien en patios y zonas de piscina. Un diseño actual que protege sin cerrar.',
   'Solar roof structures combine architectural strength with energy innovation. Engineered to support solar panel integration, these systems provide shade and weather protection while allowing homeowners to invest in sustainable, high-performance outdoor infrastructure.':
@@ -402,14 +402,14 @@ export const COMUN_ES: Record<string, string> = {
   'The Sukkah 3000 is a premium outdoor structure that merges cutting-edge engineering with contemporary design. Built for homeowners seeking the highest level of performance, durability, and customization, this system redefines what a luxury outdoor space can achieve.':
     'El Sukkah 3000 es una estructura exterior de alta gama que une ingeniería de vanguardia y diseño contemporáneo. Pensada para quien busca lo máximo en prestaciones, durabilidad y personalización, redefine hasta dónde puede llegar un exterior de lujo.',
   'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida, they preserve airflow and visibility, ensuring comfortable evenings while matching your home’s architectural integrity.':
-    'Proteja su exterior de insectos y suciedad con nuestros cerramientos a medida y con todos los permisos. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes se disfruten, y respetan la arquitectura de la casa.',
+    'Proteja su exterior de insectos y suciedad con nuestros screen enclosures a medida y con todos los permisos. Pensados para el sur de Florida, mantienen la ventilación y las vistas para que las tardes se disfruten, y respetan la arquitectura de la casa.',
   'Motorized screens provide on-demand shade, privacy, and wind control with seamless automation. Designed to integrate into pergolas, patios, and covered outdoor spaces, these premium systems enhance comfort while maintaining a sleek, modern appearance.':
     'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted quiere, con una automatización que no se nota. Se integran en pérgolas, patios y porches, y aportan confort sin romper una línea limpia y actual.',
   // Nombres de producto: salen en la galeria (filtros), en el menu y en las fichas.
   'Motorized Louvered Pergolas': 'Pérgolas de lamas motorizadas',
   'Solid Roof Pergolas': 'Pérgolas de techo macizo',
   'Open-Air Pergolas': 'Pérgolas abiertas',
-  'Screen Enclosures': 'Cerramientos con mosquitero',
+  'Screen Enclosures': 'Screen enclosures',
   'Residential': 'Residencial',
   'Commercial': 'Comercial',
   'Cabanas': 'Cabañas',
@@ -475,7 +475,7 @@ export const COMUN_ES: Record<string, string> = {
   'Your project is protected and handled by certified professionals with full licensing and insurance in South Florida.':
     'Su obra la llevan profesionales certificados, con licencia y seguro en regla en el sur de Florida.',
   'More than a decade designing and installing premium outdoor structures, including pergolas, enclosures, and louvered roofs.':
-    'Más de diez años diseñando e instalando estructuras exteriores: pérgolas, cerramientos y techos de lamas.',
+    'Más de diez años diseñando e instalando estructuras exteriores: pérgolas, screen enclosures y techos de lamas.',
   'We use top-grade materials and expert craftsmanship to ensure long-lasting, durable, and visually stunning shade structures.':
     'Usamos materiales de primera y buen oficio para que la estructura de sombra dure y se vea bien.',
   'Every project is built from scratch—no templates. We measure, design, and craft a solution that fits your home perfectly.':
@@ -536,7 +536,7 @@ export const COMUN_ES: Record<string, string> = {
   'FORTE aluminum pergola with motorized shade screen installed in Delray Beach, engineered for South Florida residential outdoor living.':
     'Pérgola de aluminio FORTE con cortina de sombra motorizada, instalada en Delray Beach para la vida al aire libre en el sur de Florida.',
   'FORTE Plus aluminum carport installed in Pompano Beach, South Florida. Engineered residential structure built to meet Florida building codes and coastal conditions.':
-    'Cochera de aluminio FORTE Plus instalada en Pompano Beach, sur de Florida. Estructura residencial calculada para cumplir el código de edificación de Florida y aguantar la costa.',
+    'Carport de aluminio FORTE Plus instalado en Pompano Beach, sur de Florida. Estructura residencial calculada para cumplir el código de edificación de Florida y aguantar la costa.',
 
   // Los cuatro pasos de `process`.
   'On-site property visit by licensed South Florida pergola contractor to assess measurements, layout, and project requirements.':

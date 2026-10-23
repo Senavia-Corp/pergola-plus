@@ -90,8 +90,8 @@ export const PROPIAS_EN = propiasSanity?.PROPIAS_EN ?? {
 
 export const PROPIAS_ES: typeof PROPIAS_EN = propiasSanity?.PROPIAS_ES ?? {
   contacto: {
-    title: 'Contacte con Pergola Plus Florida | Boca Ratón',
-    description: 'Llame, escriba o visítenos en Boca Ratón para hablar de pérgolas, cubiertas de patio y cerramientos en cualquier punto del sur de Florida.',
+    title: 'Comuníquese con Pergola Plus Florida | Boca Raton',
+    description: 'Llame, escriba o visítenos en Boca Raton para hablar de pérgolas, cubiertas de patio y screen enclosures en cualquier punto del sur de Florida.',
   },
   blog: {
     title: 'Blog de vida al aire libre | Pergola Plus Florida',
@@ -102,10 +102,10 @@ export const PROPIAS_ES: typeof PROPIAS_EN = propiasSanity?.PROPIAS_ES ?? {
   },
   faq: {
     title: 'Biblioteca de preguntas frecuentes | Pergola Plus',
-    description: 'Todas las preguntas que nos hacen sobre pérgolas, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios y plazos.',
+    description: 'Todas las preguntas que nos hacen sobre pérgolas, cortinas, pavers y obra exterior en el sur de Florida: permisos, cargas de viento, precios y plazos.',
     nombre: 'Biblioteca de preguntas de Pergola Plus',
     titulo: 'Preguntas frecuentes',
-    intro: 'Busque entre todas las preguntas que nos hacen sobre pérgolas, techos de lamas motorizados, cortinas, adoquinado y obra exterior en el sur de Florida: permisos, cargas de viento, precios, materiales y cuánto se tarda.',
+    intro: 'Busque entre todas las preguntas que nos hacen sobre pérgolas, techos de lamas motorizados, cortinas, pavers y obra exterior en el sur de Florida: permisos, cargas de viento, precios, materiales y cuánto se tarda.',
   },
   estimador: {
     title: 'Calculador de presupuesto de pérgola | Pergola Plus Florida',
