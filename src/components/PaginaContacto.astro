@@ -104,7 +104,9 @@ const DATOS = [
           <input type="text" id="pp-website-contact" name="website" tabindex="-1" autocomplete="off" />
         </div>
         <div class="cf-turnstile" data-sitekey="0x4AAAAAAAQTptj2So4dx43e"></div>
-        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        {/* Turnstile (unos 750 KB) se carga al primer foco o toque en el formulario, no con la
+            pagina (T13): el render implicito pinta el widget en cuanto llega el script. */}
+        <script is:inline>(()=>{const f=document.currentScript.closest("form");const c=()=>{if(window.ppTurnstile)return;window.ppTurnstile=1;const s=document.createElement("script");s.src="https://challenges.cloudflare.com/turnstile/v0/api.js";s.async=true;document.head.appendChild(s)};f.addEventListener("focusin",c,{once:true});f.addEventListener("pointerdown",c,{once:true})})()</script>
 
         {/* `form-div` se conserva ademas de `pp-campo`: es el contenedor que busca
             Formulario.astro para colgar el error junto al campo. */}
