@@ -1,6 +1,6 @@
 # Prompt para lanzar el loop
 
-Pegar en una sesión nueva de Claude Code abierta en `/Users/senavia/Sites/pp-loop`, con Ahrefs ya autorizado (`/mcp`):
+Pegar en una sesión nueva de Claude Code abierta en `/Users/senavia/Sites/pp-loop`. Sin Ahrefs: el mapa de keywords va por intención, con WebSearch.
 
 ---
 

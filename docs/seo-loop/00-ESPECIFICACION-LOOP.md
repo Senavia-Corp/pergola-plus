@@ -16,7 +16,7 @@ Antes de nada se lee `~/Sites/CLAUDE.md` y su tabla de enrutado (skills `seo`, `
 | Escrituras en Sanity | **Una Content Release** sin publicar: «SEO loop 2026-10». Si el plan Free no admite Releases, borradores `drafts.*`. Publica Senavia o el cliente, nunca el loop |
 | Datos del negocio | **Solo fuentes públicas y verificables, citadas.** Lo que dependa del cliente se marca pendiente y no se inventa |
 | Estructura | Se permiten páginas nuevas o fusionadas con 301, **siempre en la Release**. Los slugs que existen no se tocan (`/countries/` incluido) |
-| Keywords | **Ahrefs**, con volumen y dificultad EN/ES de Florida. Hay que autorizarlo con `/mcp` antes de lanzar |
+| Keywords | **Sin Ahrefs** (decisión del 23-oct). El mapa va por intención, con evidencia pública: la SERP real de cada consulta (WebSearch: quién posiciona y qué tipo de página), las preguntas relacionadas y las búsquedas de la propia SERP, el léxico de Florida en EN y ES, y los títulos y H1 actuales y del sitio en vivo. Sin cifras de volumen: no se inventan. Se recalibra con Search Console a las 4 semanas del lanzamiento |
 | Código | Rama + commits. **Se fusiona en `main` si el juez independiente pasa** (y el deploy de producción, que sigue cerrado, sale en READY) |
 | Diseño visible | Se permite, con capturas antes/después en el PR, **excepto en lo que el cliente pidió** (registro 01 §1). Ahí se deja su versión y se documenta el coste SEO |
 | Español | De Florida, con los anglicismos de uso: concreto, cerca, auto, Contáctenos, celular, Boca Raton; y se quedan en inglés pavers, screen enclosure, carport, driveway y HOA |
@@ -51,7 +51,7 @@ Están en `docs/seo-loop/HASHES.txt`. El juez falla si alguno cambia sin una lí
 
 - `docs/seo-loop/01-REGISTRO-PETICIONES-CLIENTE.md`
 - `docs/seo-loop/02-VACIOS-PERMITIDOS.json`: los campos de Sanity que pueden quedar vacíos, con su motivo (la tabla C9 del informe 06)
-- `docs/seo-loop/04-MAPA-KEYWORDS.json`: una keyword principal por URL, con volumen y dificultad de Ahrefs, en EN y ES
+- `docs/seo-loop/04-MAPA-KEYWORDS.json`: una keyword principal por URL en EN y ES, con su intención, 2–4 secundarias y la evidencia (consulta buscada, tipo de resultado que posiciona y fecha). Sin volumen
 - `docs/seo-loop/glosario-es-florida.json`
 - `scripts/seo-loop/juez.mjs` y las puertas nuevas de `scripts/seo-loop/`
 - Las 26 puertas de `package.json` y sus scripts: **no se pueden debilitar** (umbrales, listas de excepciones ni `continue` nuevos)
@@ -91,7 +91,7 @@ Están en `docs/seo-loop/HASHES.txt`. El juez falla si alguno cambia sin una lí
 
 | Fase | Contenido | Escribe en |
 |---|---|---|
-| **F0 · Línea base y puertas** | `npm ci`; build de producción y cerrado; Lighthouse ×3 de línea base; foto del dataset (`npx sanity dataset export`); comprobar si hay Releases (`client.releases.create` de prueba, archivarla después); **escribir J5–J17**, `02-VACIOS-PERMITIDOS.json`, el glosario y el mapa de keywords con Ahrefs. **Se para aquí** hasta que Sebastian firme `HASHES.txt` | Rama |
+| **F0 · Línea base y puertas** | `npm ci`; build de producción y cerrado; Lighthouse ×3 de línea base; foto del dataset (`npx sanity dataset export`); comprobar si hay Releases (`client.releases.create` de prueba, archivarla después); **escribir J5–J17**, `02-VACIOS-PERMITIDOS.json`, el glosario y el mapa de keywords por intención (con WebSearch y sin Ahrefs). **Se para aquí** hasta que Sebastian firme `HASHES.txt` | Rama |
 | **F1 · Técnico** | T1 (puertas en el build de Vercel), T2, T3, T4, T5, T10, T11, T12, T16 (vista previa SERP y tipo `redirect`), T17, T18 y T13/T14 (si no rompen J15); robots de IA según §0; `PP_PERSPECTIVA=<releaseId>` en `scripts/sanity/instantanea.mjs` (por defecto, publicado) para construir y juzgar con el contenido de la Release | Rama |
 | **F2 · Textos SEO** | C1, C2 (salvo R1 y R8) y C8 con el mapa de keywords: `seo.titulo`, `seo.descripcion`, H1 y alt del og (C9) | Release |
 | **F3 · Español de Florida** | C3 con el glosario, en Sanity (`texto.es`, `faq`, `post.cuerpo.es`) y en `src/i18n/*.es.ts` | Release + rama |
