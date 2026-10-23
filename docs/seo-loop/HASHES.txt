@@ -76,3 +76,6 @@ e4d96616c4fde129b83ac6c7677c68e6f131ffe416cfe4e736909d38f2fa7483  docs/seo-loop/
 3afb549d7be63b10767c2b0dbac3a355cafffa6f20fe3b00c0d84981a0f9d48f  scripts/seo-loop/j07-jsonld-google.mjs
 717deda8164680d506786df2d50515b38e6e154aa79e2d685da20fea6607ed30  scripts/seo-loop/j15-lighthouse.mjs
 a7e68e568f4227e7d93fb099b18ab4f5e5ba4c19f41441562f747d3ca8d9ce27  scripts/seo-loop/j17-fuera-del-loop.mjs
+
+# BLOQUE SIN FIRMAR · propuesto el 2026-10-23: j15 con el umbral solo desde una base limpia (revisión de la sesión principal sobre 4791c2b)
+14757172a346352f007fcf6650d17ea53b5731ac70a16fe211b834396ae7d097  scripts/seo-loop/j15-lighthouse.mjs

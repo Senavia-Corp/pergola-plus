@@ -42,9 +42,11 @@ await puerta('J15', 'lighthouse x3', async () => {
       // CPU (rtt > 0,1) solo empeora la nota, asi que una ruidosa que pasa es un aprobado conservador.
       // Si no llegan, es un fallo: nunca se da por buena una celda sin medir.
       const ruidosa = (c) => Number(String(c.perfCorridas).split('/').map((x) => parseInt(x, 10)).sort((x, y) => x - y)[1]);
+      // El umbral sale SOLO de una base limpia: una base ruidosa bajaria el listón.
       const perf = m.perf ?? ruidosa(m);
-      const minimo = (b.perf ?? ruidosa(b)) - (dev === 'mobile' ? 1 : 0);
-      if (!Number.isFinite(perf) || !Number.isFinite(minimo)) fallos.push(`${k}: Perf no medido (${m.perfCorridas}; base ${b.perfCorridas})`);
+      if (b.perf == null) { fallos.push(`${k}: base sin medir limpia (${b.perfCorridas}): hay que volver a medir esa celda de la linea base`); continue; }
+      const minimo = b.perf - (dev === 'mobile' ? 1 : 0);
+      if (!Number.isFinite(perf)) fallos.push(`${k}: Perf no medido (${m.perfCorridas}; base ${b.perfCorridas})`);
       else if (perf < minimo) fallos.push(`${k}: Perf ${perf}${m.perf == null ? ' (solo corridas ruidosas)' : ''} (${m.perfCorridas}) < base ${minimo + (dev === 'mobile' ? 1 : 0)} (${b.perfCorridas})`);
       else if (m.perf == null) avisos.push(`${k}: aprobado con corridas ruidosas (${m.perfCorridas})`);
     }
