@@ -1,0 +1,55 @@
+{
+  "_nota": "F5 · C6: el hero de Coral Springs era wf-placeholder.svg (su LCP). Foto real enviada por el cliente (public/images/cliente/solid-roof-pergolas.avif, procedencia real-cliente, elegida por hoja de contactos), con su nota de procedencia intacta. No es de Coral Springs: es una obra del cliente en el sur de Florida, y el alt no dice otra cosa. La sección ya existía con el alt genérico y sin imagen: se le añade la imagen y se fija el alt que la describe (EN y ES).",
+  "@city-coral-springs-installation": {
+    "insertarSecciones": [
+      {
+        "posicion": 0,
+        "bloque": {
+          "_key": "s0-section-hero-product",
+          "_type": "bloque",
+          "clave": "s0.section-hero-product",
+          "imagenes": [
+            {
+              "_key": "s0-section-hero-product-div-img-bg-hero-product-img-image-4",
+              "_type": "imagenClave",
+              "clave": "s0.section-hero-product.div-img-bg-hero-product.img-image-4",
+              "imagen": {
+                "_type": "imagenPlantilla",
+                "asset": {
+                  "_ref": "image-7de82167be207c12c2324c7cf866542438c19600-2500x1406-avif",
+                  "_type": "reference"
+                },
+                "origen": "/images/cliente/solid-roof-pergolas.avif",
+                "procedencia": "real-cliente",
+                "procedenciaNota": "Foto enviada por el cliente (handoff §6). Posible ampliación con IA (Topaz) sin verificar en esta fase",
+                "retocadaConIA": false
+              }
+            }
+          ],
+          "textos": [
+            {
+              "_key": "s0-section-hero-product-div-img-bg-hero-product-img-image-4-alt",
+              "_type": "textoClave",
+              "clave": "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt",
+              "texto": {
+                "_type": "textoLargoI18n",
+                "en": "Solid-roof aluminum pergola with ceiling fans over a poolside outdoor kitchen at a South Florida home.",
+                "es": "Pérgola de aluminio de techo sólido con ventiladores sobre una cocina exterior junto a la piscina, en una casa del sur de Florida."
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "/pergolas-contractors/coral-springs-installation/": {
+    "textos": {
+      "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": "Solid-roof aluminum pergola with ceiling fans over a poolside outdoor kitchen at a South Florida home."
+    }
+  },
+  "/es/pergolas-contractors/coral-springs-installation/": {
+    "textos": {
+      "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": "Pérgola de aluminio de techo sólido con ventiladores sobre una cocina exterior junto a la piscina, en una casa del sur de Florida."
+    }
+  }
+}

@@ -153,9 +153,14 @@ for (const f of ficheros) {
         cuerpo.splice(cta === -1 ? cuerpo.length : cta, 0, ...nuevos);
         cambios.push({ id: doc._id.slice(7), campo: `cuerpo.${i} (fuentes oficiales)`, antes: null, despues: md });
       }
-      // insertarSecciones: [{ posicion, bloque }] — una sección que falta (no pisa las que hay).
+      // insertarSecciones: [{ posicion, bloque }] — una sección que falta; si ya está, solo se le
+      // añaden los campos que no tiene (p. ej. `imagenes`). No pisa nada.
       for (const { posicion, bloque } of p.insertarSecciones ?? []) {
-        if ((doc.secciones ?? []).some((x) => x._key === bloque._key)) continue;
+        const ya = (doc.secciones ?? []).find((x) => x._key === bloque._key);
+        if (ya) {
+          for (const [k, v] of Object.entries(bloque)) if (ya[k] === undefined) { ya[k] = v; cambios.push({ id: doc._id.slice(7), campo: `secciones[${bloque._key}].${k} (nuevo)`, antes: null, despues: k }); }
+          continue;
+        }
         (doc.secciones ??= []).splice(posicion, 0, bloque);
         cambios.push({ id: doc._id.slice(7), campo: `secciones[${bloque._key}] (nueva)`, antes: null, despues: bloque.clave });
       }
