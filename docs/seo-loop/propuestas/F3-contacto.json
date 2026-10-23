@@ -1,0 +1,13 @@
+{
+  "_nota": "F3 · J6: los 6 textos en español vacíos de /es/contact-us/get-in-touch/ (sección «condados»): nombre y alt de los 3 condados. Los alt son la misma traducción que la del og de cada condado (F2-alt-es.json).",
+  "/es/contact-us/get-in-touch/": {
+    "textos": {
+      "condados.0.nombre": "Condado de Miami-Dade",
+      "condados.0.alt": "Contratista de exteriores en Miami-Dade: pérgolas homologadas para huracanes, techos de lamas motorizados, patios a medida y diseño y obra de patios de alta gama.",
+      "condados.1.nombre": "Condado de Broward",
+      "condados.1.alt": "Contratista de pérgolas y exteriores en el condado de Broward: estructuras de aluminio a medida, patios, pavers y remodelación completa del patio.",
+      "condados.2.nombre": "Condado de Palm Beach",
+      "condados.2.alt": "Contratista de exteriores de alta gama en el condado de Palm Beach: pérgolas homologadas para huracanes, techos de lamas motorizados, pavers y remodelación de patios."
+    }
+  }
+}
