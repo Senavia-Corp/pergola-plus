@@ -10,6 +10,7 @@
 import crypto from 'node:crypto';
 import { partesAsset } from './assets.mjs';
 import { portableAHtml } from '../portable.mjs';
+import MIGRACION from '../../data/sanity-migracion.json' with { type: 'json' };
 import { aplicarContacto } from './contacto-sitio.mjs';
 
 /** Palabras por minuto para el tiempo de lectura (el mismo PPM de src/lib/blog.ts). */
@@ -70,7 +71,9 @@ export function blogDesde(c, conv) {
       altPrincipal: d.principal.alt?.en ?? '',
       publicado: new Date(d.fechaPublicacion),
       creado: new Date(d.fechaCreacion),
-      actualizado: new Date(d.fechaActualizacion),
+      // dateModified >= datePublished (T11) y, si el post se edito en el Studio despues de las
+      // escrituras tecnicas de la entrega, esa fecha (T5): asi coincide con el lastmod del sitemap.
+      actualizado: new Date(Math.max(...[d.fechaPublicacion, d.fechaActualizacion, d._updatedAt > MIGRACION.ultimaEscrituraTecnica ? d._updatedAt : null].filter(Boolean).map((f) => Date.parse(f)))),
       minutos: Math.max(1, Math.round(palabras / PPM)),
       palabras,
       destacadoCms: Boolean(d.destacado),

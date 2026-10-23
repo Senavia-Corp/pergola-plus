@@ -402,7 +402,7 @@ function sitemapYRobots() {
         const docs = docsSanity() ?? [];
         const editadoEl = new Map();
         for (const d of docs) {
-          if (!(d._updatedAt > MIGRACION.ultimaMigracion)) continue;
+          if (!(d._updatedAt > (MIGRACION.ultimaEscrituraTecnica ?? MIGRACION.ultimaMigracion))) continue;
           let r; try { r = canonica(rutaDe(d)); } catch { continue; }
           editadoEl.set(r, d._updatedAt);
           editadoEl.set(canonica('/es' + rutaDe(d)), d._updatedAt);
