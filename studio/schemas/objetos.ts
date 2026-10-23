@@ -6,6 +6,7 @@
  * documento sin `es` no genera página española (es el caso de Terms of Service).
  */
 import { defineArrayMember, defineField, defineType } from 'sanity';
+import { VistaSerp } from './vista-serp';
 
 const IDIOMAS = [
   { id: 'en', titulo: 'English' },
@@ -145,6 +146,7 @@ export const seo = defineType({
   name: 'seo',
   title: 'SEO',
   type: 'object',
+  components: { input: VistaSerp },
   options: { collapsible: true, collapsed: true },
   // El titulo es obligatorio (es el <title> de la pagina); la descripcion, aviso.
   validation: (r) => r.custom((v: { titulo?: { en?: string } } | undefined) => (!v || v.titulo?.en?.trim() ? true : 'Falta el título (pestaña y Google)')),
