@@ -76,6 +76,29 @@ const textos = (doc) => {
   return out;
 };
 
+/**
+ * Markdown mínimo → Portable Text: «## » h2, «### » h3, «- » viñeta, el resto párrafos (separados por una
+ * línea en blanco) y [texto](url) enlaces; «ref:<id>» enlaza a un documento del sitio (sale en su idioma).
+ */
+function bloques(md, prefijo) {
+  let n = 0;
+  return md.trim().split(/\n\s*\n|\n(?=- |#)/).map((trozo) => {
+    const k = `${prefijo}${n++}`;
+    const [, marca, resto] = trozo.trim().match(/^(### |## |- )?([\s\S]*)$/);
+    const markDefs = [], children = [];
+    let i = 0;
+    for (const m of resto.replace(/\s*\n\s*/g, ' ').matchAll(/\[([^\]]+)\]\(([^)]+)\)|[^[]+|\[/g)) {
+      if (!m[1]) { children.push({ _key: `${k}s${i++}`, _type: 'span', marks: [], text: m[0] }); continue; }
+      const mk = `${k}m${markDefs.length}`;
+      markDefs.push({ _key: mk, _type: 'enlace', ...(m[2].startsWith('ref:') ? { destino: { _type: 'reference', _ref: m[2].slice(4) } } : { href: m[2] }) });
+      children.push({ _key: `${k}s${i++}`, _type: 'span', marks: [mk], text: m[1] });
+    }
+    const b = { _key: k, _type: 'block', style: { '## ': 'h2', '### ': 'h3' }[marca] ?? 'normal', markDefs, children };
+    if (marca === '- ') Object.assign(b, { listItem: 'bullet', level: 1 });
+    return b;
+  });
+}
+
 if (GLOSARIO) {
   const { aFlorida } = await import(path.join(RAIZ, 'scripts/sanity/es-florida.mjs'));
   const g = JSON.parse(fs.readFileSync(path.join(RAIZ, 'docs/seo-loop/glosario-es-florida.json'), 'utf8'));
@@ -119,6 +142,23 @@ for (const f of ficheros) {
     if (ruta.startsWith('@')) {
       const doc = base(ruta.slice(1)); if (!doc) continue;
       for (const [campo, valor] of Object.entries(p.set ?? {})) fijar(doc, campo, valor);
+      // local: {en, es} en markdown mínimo → el campo `local` (bloqueI18n) de una ciudad o un condado.
+      if (p.local) fijar(doc, 'local', { _type: 'bloqueI18n', ...Object.fromEntries(Object.entries(p.local).map(([i, md]) => [i, bloques(md, `l${i}`)])) }, 'local');
+      // fuentes: {en, es} en markdown → bloques añadidos al cuerpo del post, antes de su último CTA (una vez).
+      for (const [i, md] of Object.entries(p.fuentes ?? {})) {
+        const cuerpo = doc.cuerpo[i];
+        if (cuerpo.some((b) => b._key?.startsWith('fo'))) continue;
+        const nuevos = bloques(md, `fo${i}`);
+        const cta = cuerpo.findLastIndex((b) => b._type === 'botones');
+        cuerpo.splice(cta === -1 ? cuerpo.length : cta, 0, ...nuevos);
+        cambios.push({ id: doc._id.slice(7), campo: `cuerpo.${i} (fuentes oficiales)`, antes: null, despues: md });
+      }
+      // insertarSecciones: [{ posicion, bloque }] — una sección que falta (no pisa las que hay).
+      for (const { posicion, bloque } of p.insertarSecciones ?? []) {
+        if ((doc.secciones ?? []).some((x) => x._key === bloque._key)) continue;
+        (doc.secciones ??= []).splice(posicion, 0, bloque);
+        cambios.push({ id: doc._id.slice(7), campo: `secciones[${bloque._key}] (nueva)`, antes: null, despues: bloque.clave });
+      }
       continue;
     }
     const es = ruta === '/es/' || ruta.startsWith('/es/');
