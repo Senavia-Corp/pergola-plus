@@ -14,16 +14,30 @@ import { PLANTILLAS } from '../perf/plantillas.mjs';
 const tipos = (n) => [n['@type']].flat();
 const digitos = (t) => String(t ?? '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
 
-// validator.schema.org limita la frecuencia (429, y a veces 405 mientras dura): 4 s entre paginas y,
-// si limita, reintentos a los 30, 60 y 120 s. Si sigue sin responder, la puerta NO pasa.
+// validator.schema.org limita la frecuencia (429, y 405 mientras dura). Una URL por plantilla, una
+// llamada cada 25 s y, si limita, reintentos a los 60, 120 y 240 s. Cada HTML ya validado queda en
+// una cache por su sha256 (fuera del repo): el mismo HTML no se vuelve a mandar. «No pudo validar»
+// es un FALLO, nunca un verde.
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+const CACHE = '/Users/senavia/Sites/pp-exports/loop-juez/validator-cache';
 const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+let ultima = 0;
 async function validar(html) {
+  const clave = crypto.createHash('sha256').update(html).digest('hex');
+  const f = `${CACHE}/${clave}.json`;
+  if (fs.existsSync(f)) return JSON.parse(fs.readFileSync(f, 'utf8'));
   for (let i = 0; ; i++) {
+    await espera(Math.max(0, ultima + 25000 - Date.now()));
+    ultima = Date.now();
     try {
       const r = await fetch('https://validator.schema.org/validate', { method: 'POST', body: new URLSearchParams({ html }) });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return JSON.parse((await r.text()).replace(/^\)\]\}'\n?/, ''));
-    } catch (e) { if (i >= 3) throw new Error(`validator.schema.org no responde: ${e.message}`); await espera(30000 * 2 ** i); }
+      const v = JSON.parse((await r.text()).replace(/^\)\]\}'\n?/, ''));
+      fs.mkdirSync(CACHE, { recursive: true });
+      fs.writeFileSync(f, JSON.stringify({ totalNumErrors: v.totalNumErrors, totalNumWarnings: v.totalNumWarnings, numObjects: v.numObjects }));
+      return v;
+    } catch (e) { if (i >= 3) throw new Error(`validator.schema.org no responde: ${e.message}`); await espera(60000 * 2 ** i); }
   }
 }
 
@@ -56,7 +70,6 @@ await puerta('J7', 'check:jsonld-google', async () => {
     for (const r of muestra) {
       const html = paginas().get(r);
       if (!html) { fallos.push(`${r}: no esta en el dist`); continue; }
-      await espera(4000);
       const v = await validar(html);
       if (v.totalNumErrors || v.totalNumWarnings) fallos.push(`${r}: validator.schema.org ${v.totalNumErrors} errores y ${v.totalNumWarnings} avisos`);
     }
