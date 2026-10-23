@@ -176,20 +176,31 @@ export function paginaDe(ruta) {
 const ogDe = (doc) => (doc?.seo?.imagenOg?.asset ? rutaImagen(doc.seo.imagenOg) : undefined);
 
 let porRuta = null;
+/** El documento de una ruta del sitio (EN o /es/), por su tipo y su slug; null si no tiene. */
+export function docDeRuta(pathname) {
+  const c = sanity();
+  if (!porRuta) {
+    porRuta = new Map();
+    for (const d of c.docs) { try { porRuta.set(rutaDe(d), d); } catch { /* sin pagina */ } }
+  }
+  return porRuta.get(pathname.replace(/^\/es(?=\/|$)/, '').replace(/\/+$/, '') || '/') ?? null;
+}
+
 /**
  * og:image de una ruta del sitio (EN o /es/): la de su documento y, si no tiene, la de
  * siteSettings.imagenOgPorDefecto. Los documentos creados en el Studio se encuentran
  * igual, por su tipo y su slug.
  */
 export function ogDeRuta(pathname) {
-  const c = sanity();
-  if (!porRuta) {
-    porRuta = new Map();
-    for (const d of c.docs) { try { porRuta.set(rutaDe(d), d); } catch { /* sin pagina */ } }
-  }
-  const r = pathname.replace(/^\/es(?=\/|$)/, '').replace(/\/+$/, '') || '/';
-  const defecto = c.doc('siteSettings')?.imagenOgPorDefecto;
-  return ogDe(porRuta.get(r)) ?? (defecto?.asset ? rutaImagen(defecto) : undefined);
+  const defecto = sanity().doc('siteSettings')?.imagenOgPorDefecto;
+  return ogDe(docDeRuta(pathname)) ?? (defecto?.asset ? rutaImagen(defecto) : undefined);
+}
+
+/** Alt de esa misma imagen en el idioma de la pagina (og:image:alt, T10); el ingles si falta. */
+export function ogAltDeRuta(pathname, idioma) {
+  const doc = docDeRuta(pathname);
+  const img = doc?.seo?.imagenOg?.asset ? doc.seo.imagenOg : sanity().doc('siteSettings')?.imagenOgPorDefecto;
+  return img?.alt?.[idioma] || img?.alt?.en || undefined;
 }
 
 /**
