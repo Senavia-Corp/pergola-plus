@@ -4,7 +4,8 @@
  *   - tiene entrada en 04-MAPA-KEYWORDS.json (o `fueraDelLoop`, p. ej. los legales de §1);
  *   - <title> de 30–60 caracteres y description de 110–160; un solo H1;
  *   - la keyword principal en el title y en la description, y en el H1 salvo `excepcionH1`
- *     R1 (hero de la home) o R8 (titulos de proyecto de Adrian), del registro del cliente;
+ *     R1 (hero de la home), R4 (nombres de producto del módulo de la home, X8) o R8 (titulos de
+ *     proyecto de Adrian), del registro del cliente;
  *   - «South Florida» / «sur de Florida», «FL», una ciudad o un condado del sur de Florida en el
  *     title o en la description (R6);
  *   - og:image:alt presente y, en /es/, distinto del de su gemela inglesa (alt en su idioma);
@@ -14,7 +15,10 @@ import { puerta, paginas, datos, indexables, mapaKeywords, contieneKw, contenido
 
 // Lugares del sur de Florida que no tienen pagina pero salen en proyectos (R6).
 const OTROS_LUGARES = ['Greenacres', 'Pompano Beach', 'Riviera Beach', 'Hillsboro Beach', 'Boca Beach', 'Lake Worth', 'Lantana', 'Highland Beach', 'Lighthouse Point', 'Deerfield Beach', 'Tamarac', 'Plantation', 'Sunrise', 'Margate', 'Lauderhill', 'Hialeah', 'Palmetto Bay', 'Coconut Creek', 'Elan Polo Club', 'Jupiter Ocean Club'];
-const EXCEPCIONES_H1 = new Set(['R1', 'R8']);
+// Excepciones SOLO del H1 (el title y la descripción siguen exigiendo la principal): R1 (hero de la
+// home), R8 (títulos de proyecto de Adrian) y R4 (el H1 de las fichas es el nombre del producto que
+// pinta el módulo de la home; conflicto X8).
+const EXCEPCIONES_H1 = new Set(['R1', 'R4', 'R8']);
 
 await puerta('J5', 'check:seo-estricto', () => {
   const mapa = mapaKeywords().urls;
@@ -37,7 +41,7 @@ await puerta('J5', 'check:seo-estricto', () => {
     if (!kw) { fallos.push(`${r}: la entrada del mapa no tiene keyword principal`); continue; }
     if (!contieneKw(d.title, kw)) fallos.push(`${r}: el title no lleva «${kw}» («${d.title}»)`);
     if (!contieneKw(d.description, kw)) fallos.push(`${r}: la description no lleva «${kw}»`);
-    if (e.excepcionH1 && !EXCEPCIONES_H1.has(e.excepcionH1)) fallos.push(`${r}: excepcionH1 «${e.excepcionH1}» no es R1 ni R8`);
+    if (e.excepcionH1 && !EXCEPCIONES_H1.has(e.excepcionH1)) fallos.push(`${r}: excepcionH1 «${e.excepcionH1}» no es R1, R4 ni R8`);
     if (!e.excepcionH1 && d.h1.length === 1 && !contieneKw(d.h1[0], kw)) fallos.push(`${r}: el H1 no lleva «${kw}» («${d.h1[0]}»)`);
     if (!local(d.title) && !local(d.description)) fallos.push(`${r}: ni el title ni la description nombran South Florida, FL, una ciudad o un condado (R6)`);
     if (!d.ogImageAlt) fallos.push(`${r}: sin og:image:alt`);

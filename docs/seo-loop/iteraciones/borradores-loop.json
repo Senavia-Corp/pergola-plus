@@ -38,14 +38,14 @@
   "post-plan-pergola-south-florida-backyard": "2026-10-23T17:00:36.623Z",
   "post-poolside-pergola-ideas-for-florida-homes": "2026-10-23T17:00:36.623Z",
   "post-resort-style-backyard-boca-raton": "2026-10-23T17:00:36.623Z",
-  "product-cabanas": "2026-10-23T17:03:17.663Z",
+  "product-cabanas": "2026-10-23T18:01:10.806Z",
   "page-products": "2026-10-23T17:00:36.623Z",
   "product-motorized-louvered-pergolas": "2026-10-23T17:00:36.623Z",
-  "product-motorized-screens": "2026-10-23T17:03:17.663Z",
-  "product-open-air-pergolas": "2026-10-23T17:03:17.663Z",
+  "product-motorized-screens": "2026-10-23T18:01:10.806Z",
+  "product-open-air-pergolas": "2026-10-23T18:01:10.806Z",
   "product-polycarbonate-pergolas": "2026-10-23T17:03:17.663Z",
-  "product-screen-enclosures": "2026-10-23T17:03:17.663Z",
-  "product-sukkah": "2026-10-23T17:03:17.663Z",
+  "product-screen-enclosures": "2026-10-23T18:01:10.806Z",
+  "product-sukkah": "2026-10-23T18:01:10.806Z",
   "page-project-estimator": "2026-10-23T17:00:36.623Z",
   "estimador": "2026-10-23T17:00:36.623Z",
   "page-project-gallery": "2026-10-23T17:00:36.623Z",
@@ -107,7 +107,7 @@
   "project-forte-plus-pergolas-in-hillsboro-beach-estate": "2026-10-23T17:00:36.623Z",
   "project-oceanfront-pool-deck-and-cabanas-at-jupiter-ocean-club": "2026-10-23T17:00:36.623Z"
  },
- "ultimaEscritura": "2026-10-23T17:03:17.663Z",
+ "ultimaEscritura": "2026-10-23T18:01:10.806Z",
  "tandas": [
   {
    "fecha": "2026-10-23T17:00:36.623Z",
@@ -2825,6 +2825,45 @@
      "id": "product-sukkah",
      "campo": "secciones[s0-div-wrapper-hero-product].textos[s0-div-wrapper-hero-product-h1-t].texto.en (H1)",
      "antes": "Sukkah 3000 Aluminum Sukkah",
+     "despues": "Sukkah"
+    }
+   ]
+  },
+  {
+   "fecha": "2026-10-23T18:01:10.806Z",
+   "ficheros": [
+    "docs/seo-loop/propuestas/F2-revertir-h1-fichas-es.json"
+   ],
+   "documentos": 5,
+   "cambios": [
+    {
+     "id": "product-cabanas",
+     "campo": "secciones[s0-div-wrapper-hero-product].textos[s0-div-wrapper-hero-product-h1-t].texto.es (H1)",
+     "antes": "Cabañas de aluminio a medida",
+     "despues": "Cabañas"
+    },
+    {
+     "id": "product-motorized-screens",
+     "campo": "secciones[s0-div-wrapper-hero-product].textos[s0-div-wrapper-hero-product-h1-t].texto.es (H1)",
+     "antes": "Cortinas motorizadas para patios y pérgolas",
+     "despues": "Cortinas motorizadas"
+    },
+    {
+     "id": "product-open-air-pergolas",
+     "campo": "secciones[s0-div-wrapper-hero-product].textos[s0-div-wrapper-hero-product-h1-t].texto.es (H1)",
+     "antes": "Pérgolas de aluminio abiertas",
+     "despues": "Pérgolas abiertas"
+    },
+    {
+     "id": "product-screen-enclosures",
+     "campo": "secciones[s0-div-wrapper-hero-product].textos[s0-div-wrapper-hero-product-h1-t].texto.es (H1)",
+     "antes": "Screen enclosures para piscina y patio",
+     "despues": "Cerramientos con mosquitero"
+    },
+    {
+     "id": "product-sukkah",
+     "campo": "secciones[s0-div-wrapper-hero-product].textos[s0-div-wrapper-hero-product-h1-t].texto.es (H1)",
+     "antes": "Sukkah 3000 de aluminio",
      "despues": "Sukkah"
     }
    ]

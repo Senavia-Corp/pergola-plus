@@ -1,0 +1,23 @@
+{
+  "_nota": "R4 (conflicto X8): los H1 en español de las fichas exentas vuelven a su texto original; la keyword larga sigue exigida en title y descripción.",
+  "/es/products/cabanas/": {
+    "h1": "Cabañas",
+    "h1Actual": "Cabañas de aluminio a medida"
+  },
+  "/es/products/motorized-screens/": {
+    "h1": "Cortinas motorizadas",
+    "h1Actual": "Cortinas motorizadas para patios y pérgolas"
+  },
+  "/es/products/open-air-pergolas/": {
+    "h1": "Pérgolas abiertas",
+    "h1Actual": "Pérgolas de aluminio abiertas"
+  },
+  "/es/products/screen-enclosures/": {
+    "h1": "Cerramientos con mosquitero",
+    "h1Actual": "Screen enclosures para piscina y patio"
+  },
+  "/es/products/sukkah/": {
+    "h1": "Sukkah",
+    "h1Actual": "Sukkah 3000 de aluminio"
+  }
+}
