@@ -95,6 +95,8 @@ export function blogDesde(c, conv) {
     if (!d.titulo.es) continue;
     postsEs[d.slug.current] = {
       titulo: d.titulo.es, resumen: d.resumen.es, tituloLargo: d.tituloLargo?.es ?? d.seo?.titulo?.es, descripcionSeo: d.seo?.descripcion?.es,
+      // La pestaña y Google: el título SEO del documento, como en inglés; el título largo es del bloque destacado.
+      ...(d.seo?.titulo?.es ? { tituloSeo: d.seo.titulo.es } : {}),
       ...(d.miniatura?.alt?.es ? { altMiniatura: d.miniatura.alt.es } : {}),
       ...(d.principal?.alt?.es ? { altPrincipal: d.principal.alt.es } : {}),
     };

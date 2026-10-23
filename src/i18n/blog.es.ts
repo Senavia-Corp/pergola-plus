@@ -126,8 +126,10 @@ export const COPY_CATEGORIAS_ES: Record<string, CopyCategoriaEs> = blogSanity?.c
 export interface PostEs {
   titulo: string;
   resumen: string;
-  /** El `<title>` de la pagina. */
+  /** El título del bloque destacado, y el `<title>` si no hay `tituloSeo`. */
   tituloLargo: string;
+  /** El `<title>` de la pagina: `seo.titulo.es` del documento, si lo tiene. */
+  tituloSeo?: string;
   descripcionSeo: string;
   /** El alt español de la miniatura y de la principal (Sanity, alt.es). Sin el, el ingles. */
   altMiniatura?: string;
