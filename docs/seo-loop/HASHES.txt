@@ -68,3 +68,11 @@ fecc2362c3c7fce562bd85d1f881fa9d0e8796d374dab85d7fbbf3d6bccea4fc  scripts/compro
 
 # BLOQUE SIN FIRMAR · propuesto el 2026-10-23 en la F2: la keyword principal de 6 fichas (/products/cabanas, motorized-screens, open-air-pergolas, polycarbonate-pergolas, screen-enclosures, sukkah) pasa a ser su nombre, que el cliente pidió mantener como H1 y que pinta el módulo de productos de la home (R3, R4, conflicto X8); la anterior queda como secundaria
 e4d96616c4fde129b83ac6c7677c68e6f131ffe416cfe4e736909d38f2fa7483  docs/seo-loop/04-MAPA-KEYWORDS.json
+
+# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 tras el juez de la iteración 02 (commits hasta 848cd88): mapa con principales largas y excepción de H1 R4; J5 acepta R4 solo en el H1; J7 espaciado con caché; J15 con celdas ruidosas que solo cuentan si ya pasan; J17 con la foto de Vercel del conector y sin falsos positivos de CSP; línea base de Vercel ampliada
+644350b769f73baa133e7043d755327f2d3650954b0224acad11fba975e07aaa  docs/seo-loop/04-MAPA-KEYWORDS.json
+67355d747457404e5508ad7629da2ac62d4f8273473c1ab08ad1dbec6aba8cf4  docs/seo-loop/linea-base/vercel-env.json
+008e7c55f61d8e18f68288b3e37b95010548b19ba4fdc88f49ccb5814ea6186e  scripts/seo-loop/j05-seo-estricto.mjs
+3afb549d7be63b10767c2b0dbac3a355cafffa6f20fe3b00c0d84981a0f9d48f  scripts/seo-loop/j07-jsonld-google.mjs
+717deda8164680d506786df2d50515b38e6e154aa79e2d685da20fea6607ed30  scripts/seo-loop/j15-lighthouse.mjs
+a7e68e568f4227e7d93fb099b18ab4f5e5ba4c19f41441562f747d3ca8d9ce27  scripts/seo-loop/j17-fuera-del-loop.mjs
