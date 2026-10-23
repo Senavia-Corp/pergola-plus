@@ -1,0 +1,15 @@
+{
+  "_nota": "F4 · E-E-A-T, solo lo firme del registro §2: la ficha de Google (siteSettings.resumenResenas.fichaGoogle) y el perfil de la BBB (el enlace que ya publica el pie) entran en siteSettings.redes, que es el sameAs del JSON-LD. hasCredential, autor de los posts y NAP: pendientes del cliente (X3, X4, X5, X7).",
+  "@siteSettings": {
+    "set": {
+      "redes": [
+        "https://www.facebook.com/p/Pergola-Plus-Corp-100089973993816/",
+        "https://www.instagram.com/pergolaplusflorida/",
+        "https://www.youtube.com/@pergolapluscorp",
+        "https://www.tiktok.com/@pergolaplus",
+        "https://maps.app.goo.gl/jsRrfKeuB4SJDSFP8",
+        "https://www.bbb.org/us/fl/boca-raton/profile/pool-enclosures/pergola-plus-corp-0633-92032287"
+      ]
+    }
+  }
+}

@@ -115,6 +115,12 @@ for (const f of ficheros) {
   }
   for (const [ruta, p] of Object.entries(prop)) {
     if (ruta.startsWith('_')) continue;
+    // «@<id>»: campos de un documento sin pagina (siteSettings…), por su ruta con puntos.
+    if (ruta.startsWith('@')) {
+      const doc = base(ruta.slice(1)); if (!doc) continue;
+      for (const [campo, valor] of Object.entries(p.set ?? {})) fijar(doc, campo, valor);
+      continue;
+    }
     const es = ruta === '/es/' || ruta.startsWith('/es/');
     const idioma = es ? 'es' : 'en';
     const pub = porRuta.get(es ? (ruta === '/es/' ? '/' : ruta.slice(3)) : ruta);

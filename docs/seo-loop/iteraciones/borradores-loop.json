@@ -182,9 +182,10 @@
   "plantilla-city": "2026-10-23T18:03:13.717Z",
   "plantilla-county": "2026-10-23T18:03:13.717Z",
   "plantilla-project": "2026-10-23T18:03:13.717Z",
-  "plantilla-service": "2026-10-23T18:03:13.717Z"
+  "plantilla-service": "2026-10-23T18:03:13.717Z",
+  "siteSettings": "2026-10-23T18:06:04.768Z"
  },
- "ultimaEscritura": "2026-10-23T18:04:52.278Z",
+ "ultimaEscritura": "2026-10-23T18:06:04.768Z",
  "tandas": [
   {
    "fecha": "2026-10-23T17:00:36.623Z",
@@ -6362,6 +6363,33 @@
      "campo": "s1.div-intro-column-right.div.t.es",
      "antes": "Pergola Plus Florida instala cercas de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestros sistemas de aluminio y de privacidad se calculan para resistir el viento, la corrosión y el paso del tiempo en el clima del sur de Florida. Si busca profesionales de la cerca en el sur de Florida, entregamos soluciones que cumplen normativa y están bien instaladas, que dan seguridad y encajan con la arquitectura. Buscamos cercas duraderas y de poco mantenimiento, que acompañe a su casa y dé privacidad y protección de verdad.",
      "despues": "Pergola Plus Florida instala cercas de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestros sistemas de aluminio y de privacidad se calculan para resistir el viento, la corrosión y el paso del tiempo en el clima del sur de Florida. Si busca profesionales de la cerca en el sur de Florida, entregamos soluciones que cumplen normativa y están bien instaladas, que dan seguridad y encajan con la arquitectura. Buscamos cercas duraderas y de poco mantenimiento, que acompañen a su casa y dé privacidad y protección de verdad."
+    }
+   ]
+  },
+  {
+   "fecha": "2026-10-23T18:06:04.768Z",
+   "ficheros": [
+    "docs/seo-loop/propuestas/F4-entidad.json"
+   ],
+   "documentos": 1,
+   "cambios": [
+    {
+     "id": "siteSettings",
+     "campo": "redes",
+     "antes": [
+      "https://www.facebook.com/p/Pergola-Plus-Corp-100089973993816/",
+      "https://www.instagram.com/pergolaplusflorida/",
+      "https://www.youtube.com/@pergolapluscorp",
+      "https://www.tiktok.com/@pergolaplus"
+     ],
+     "despues": [
+      "https://www.facebook.com/p/Pergola-Plus-Corp-100089973993816/",
+      "https://www.instagram.com/pergolaplusflorida/",
+      "https://www.youtube.com/@pergolapluscorp",
+      "https://www.tiktok.com/@pergolaplus",
+      "https://maps.app.goo.gl/jsRrfKeuB4SJDSFP8",
+      "https://www.bbb.org/us/fl/boca-raton/profile/pool-enclosures/pergola-plus-corp-0633-92032287"
+     ]
     }
    ]
   }
