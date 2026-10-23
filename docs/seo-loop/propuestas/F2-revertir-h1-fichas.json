@@ -1,0 +1,27 @@
+{
+  "_nota": "R4: el módulo de productos de la home pinta el H1 de cada ficha como nombre del producto, que el cliente pidió mantener. Se devuelven los 6 H1 EN a su texto original; la keyword de esas fichas pasa a ser su nombre (04-MAPA-KEYWORDS, firma pendiente).",
+  "/products/cabanas/": {
+    "h1": "Cabanas",
+    "h1Actual": "Custom Aluminum Cabanas"
+  },
+  "/products/motorized-screens/": {
+    "h1": "Motorized Screens",
+    "h1Actual": "Motorized Patio & Pergola Screens"
+  },
+  "/products/open-air-pergolas/": {
+    "h1": "Open-Air Pergolas",
+    "h1Actual": "Open-Air Aluminum Pergolas"
+  },
+  "/products/polycarbonate-pergolas/": {
+    "h1": "Polycarbonate Pergolas",
+    "h1Actual": "Polycarbonate Roof Pergolas"
+  },
+  "/products/screen-enclosures/": {
+    "h1": "Screen Enclosures",
+    "h1Actual": "Pool & Patio Screen Enclosures"
+  },
+  "/products/sukkah/": {
+    "h1": "Sukkah",
+    "h1Actual": "Sukkah 3000 Aluminum Sukkah"
+  }
+}

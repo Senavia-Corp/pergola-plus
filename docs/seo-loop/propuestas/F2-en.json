@@ -1,0 +1,383 @@
+{
+  "_nota": "F2 · textos SEO en inglés (C1, C2, C8). Solo lo que J5 marcaba; «t» = <title> (seo.titulo.en), «d» = description (seo.descripcion.en), «h1» = H1 (propuesta, en borrador: lo aprueba el cliente). Sin hechos nuevos: todo sale del texto que ya publica el sitio.",
+  "/about-us/about-us/": {
+    "d": "Pergola Plus Florida is a licensed and insured South Florida contractor that has built custom pergolas and outdoor structures for over ten years."
+  },
+  "/about-us/brands/": {
+    "d": "The pergola brands we install in South Florida: FORTE, Equinox, Renaissance, Fenetex and Apollo, and what each system is engineered for.",
+    "h1": "Pergola & Patio Cover Brands We Install",
+    "h1Actual": "Patio Cover Models Brands"
+  },
+  "/about-us/industries-we-serve/": {
+    "t": "Commercial Pergolas in South Florida | Pergola Plus",
+    "d": "Commercial pergolas and shade structures for hospitality, offices and property managers across Miami-Dade, Broward and Palm Beach counties."
+  },
+  "/about-us/testimonials/": {
+    "t": "Pergola Plus Florida Reviews | Customer Testimonials",
+    "d": "Pergola Plus Florida reviews from South Florida homeowners and businesses, from the first design meeting to the finished installation.",
+    "h1": "Pergola Plus Florida Reviews",
+    "h1Actual": "Client Reviews"
+  },
+  "/about-us/where-we-work/": {
+    "t": "Pergola Service Areas in South Florida | Pergola Plus",
+    "d": "Our pergola service areas in South Florida: the cities and counties we build in across Miami-Dade, Broward and Palm Beach, each with its own page.",
+    "h1": "Pergola Contractor Service Areas in South Florida",
+    "h1Actual": "South Florida’s Leading Pergola Contractor"
+  },
+  "/brands/apollo/": {
+    "t": "Apollo Louvered Roof Pergolas | South Florida Installer",
+    "h1": "Apollo Motorized Louvered Roofs",
+    "h1Actual": "Apollo"
+  },
+  "/brands/equinox/": {
+    "t": "Equinox Louvered Roof Pergolas | South Florida Installer",
+    "h1": "Equinox Adjustable Louvered Roofs",
+    "h1Actual": "Equinox"
+  },
+  "/brands/fenetex/": {
+    "t": "Fenetex Motorized Screens | South Florida Installer",
+    "h1": "Fenetex Motorized & Hurricane Screens",
+    "h1Actual": "Fenetex"
+  },
+  "/brands/pergola-plus-forte/": {
+    "t": "FORTE Aluminum Pergola Systems | Pergola Plus Florida",
+    "d": "FORTE aluminum pergola and patio cover systems, engineered and installed by Pergola Plus Florida for homes across South Florida.",
+    "h1": "FORTE Aluminum Pergola Systems",
+    "h1Actual": "Pergola Plus | Forte"
+  },
+  "/brands/renaissance/": {
+    "t": "Renaissance Patio Covers & Pergolas | South Florida",
+    "h1": "Renaissance Patio Covers & Pergolas",
+    "h1Actual": "Renaissance"
+  },
+  "/contact-us/get-a-quote/": {
+    "t": "Free Pergola Quote in South Florida | Pergola Plus",
+    "d": "Get a free pergola quote: tell us about your South Florida patio or backyard and get a tailored proposal for an aluminum pergola or patio cover.",
+    "h1": "Get a Free Pergola Quote",
+    "h1Actual": "Request a Custom Pergola Quote"
+  },
+  "/contact-us/get-in-touch/": {
+    "d": "Contact Pergola Plus Florida: call, email or write to our Boca Raton team about pergolas, patio covers and screen enclosures in South Florida.",
+    "h1": "Contact Pergola Plus Florida",
+    "h1Actual": "Get in touch"
+  },
+  "/contact-us/schedule-a-visit/": {
+    "t": "Free Pergola Design Consultation | South Florida",
+    "d": "Book a free pergola design consultation in South Florida to review design options, system features and the right shade structure for your space.",
+    "h1": "Book a Free Pergola Design Consultation",
+    "h1Actual": "Book a Free Design Consultation"
+  },
+  "/countries/broward-county-pergola-contractor/": {
+    "t": "Pergola Contractor in Broward County, FL | Pergola Plus"
+  },
+  "/countries/miami-dade-pergola-contractor/": {
+    "t": "Pergola Contractor in Miami-Dade County | Pergola Plus",
+    "d": "Miami-Dade County pergola contractor for custom aluminum pergolas, patio covers and louvered roof systems engineered for South Florida weather."
+  },
+  "/countries/palm-beach-county-pergola-contractor/": {
+    "t": "Pergola Contractor in Palm Beach County | Pergola Plus"
+  },
+  "/": {
+    "t": "Pergola Contractor in South Florida | Pergola Plus Florida"
+  },
+  "/post/add-shade-backyard-south-florida/": {
+    "t": "How to Add Shade to a South Florida Backyard"
+  },
+  "/post/aluminum-pergola-cost-boca-raton-vs-fort-lauderdale/": {
+    "t": "Aluminum Pergola Cost: Boca Raton vs Fort Lauderdale"
+  },
+  "/post/aluminum-vs-wood-pergolas-humid-climate/": {
+    "t": "Aluminum vs Wood Pergolas in Florida's Humid Climate",
+    "d": "Aluminum vs wood pergola: which material holds up best in South Florida heat, humidity and hurricane season, and what each one needs over time."
+  },
+  "/post/best-outdoor-structures-rain-sun-florida/": {
+    "t": "Best Outdoor Structures for Florida Rain & Sun (2026)",
+    "d": "The best outdoor structures for rain and sun in South Florida: louvered pergolas, insulated patio covers and aluminum cabanas compared."
+  },
+  "/post/best-pergola-materials-coastal-florida/": {
+    "t": "Best Pergola Materials for Coastal Florida Homes",
+    "d": "The best pergola materials for coastal Florida homes: aluminum, wood and steel compared for salt air, humidity and hurricane resistance in South Florida."
+  },
+  "/post/building-custom-pergola-south-florida/": {
+    "t": "Building a Custom Pergola in South Florida, Step by Step"
+  },
+  "/post/can-you-use-your-patio-year-round-in-south-florida/": {
+    "t": "Can You Use Your Patio Year-Round in South Florida?"
+  },
+  "/post/design-build-pergola-process-south-florida/": {
+    "t": "The Design-Build Pergola Process in South Florida"
+  },
+  "/post/hoa-rules-pergolas-south-florida/": {
+    "t": "HOA Rules for Pergolas in South Florida (2026)"
+  },
+  "/post/how-long-pergola-installation-florida/": {
+    "t": "How Long Does Pergola Installation Take in Florida?"
+  },
+  "/post/hurricane-resistant-pergolas-south-florida/": {
+    "t": "Hurricane-Resistant Pergolas in South Florida (2026)"
+  },
+  "/post/is-a-louvered-roof-pergola-worth-it-in-florida/": {
+    "t": "Is a Louvered Roof Pergola Worth It in Florida?"
+  },
+  "/post/luxury-pergola-ideas-for-south-florida-backyards/": {
+    "t": "Luxury Pergola Ideas for South Florida Backyards"
+  },
+  "/post/modern-outdoor-living-trends-in-south-florida/": {
+    "t": "Outdoor Living Trends in South Florida for 2026"
+  },
+  "/post/pergola-building-codes-broward-palm-beach/": {
+    "t": "Pergola Building Codes: Broward & Palm Beach (2026)"
+  },
+  "/post/pergola-cost-south-florida/": {
+    "t": "How Much Does a Pergola Cost in South Florida? (2026)"
+  },
+  "/post/pergola-design-ideas-waterfront-properties/": {
+    "t": "Pergola Design Ideas for Waterfront Homes in Florida",
+    "d": "Pergola design ideas for waterfront properties in South Florida: aluminum systems built for salt air, sun and high winds on the water."
+  },
+  "/post/pergola-permit-south-florida/": {
+    "t": "Do You Need a Pergola Permit in South Florida? (2026)"
+  },
+  "/post/plan-pergola-south-florida-backyard/": {
+    "t": "How to Plan a Pergola for a South Florida Backyard"
+  },
+  "/post/poolside-pergola-ideas-for-florida-homes/": {
+    "t": "Poolside Pergola Ideas for South Florida Homes",
+    "d": "Poolside pergola ideas for Florida homes: aluminum frames, louvered roofs and shade layouts that work around a South Florida pool."
+  },
+  "/post/resort-style-backyard-boca-raton/": {
+    "t": "How to Create a Resort-Style Backyard in Boca Raton"
+  },
+  "/products/cabanas/": {},
+  "/products/": {
+    "t": "Aluminum Pergolas & Shade Systems in South Florida",
+    "d": "Aluminum pergolas for South Florida: motorized louvered roofs, insulated and solid roofs, cabanas, screens and carports, engineered for Florida weather.",
+    "h1": "Aluminum Pergolas & Outdoor Shade in South Florida",
+    "h1Actual": "Luxury Pergolas & Outdoor Shade Solutions"
+  },
+  "/products/motorized-louvered-pergolas/": {
+    "d": "Motorized louvered pergolas with adjustable roofs that open for sun and close against rain, engineered and installed for South Florida homes."
+  },
+  "/products/motorized-screens/": {
+    "t": "Motorized Patio Screens in South Florida | Pergola Plus",
+    "d": "Motorized patio screens that turn a patio or pergola into shaded, insect-free living space at the touch of a button, installed across South Florida."
+  },
+  "/products/open-air-pergolas/": {},
+  "/products/polycarbonate-pergolas/": {
+    "t": "Polycarbonate Roof Pergolas in South Florida",
+    "d": "Polycarbonate roof pergolas with translucent panels that keep out rain and UV while the patio stays bright, engineered for coastal South Florida."
+  },
+  "/products/screen-enclosures/": {
+    "t": "Pool Screen Enclosures in South Florida | Pergola Plus",
+    "d": "Pool screen enclosures and patio enclosures engineered for Florida wind loads, built to keep insects and debris out all year in South Florida."
+  },
+  "/products/sukkah/": {
+    "t": "Sukkah 3000 Aluminum Sukkah | South Florida"
+  },
+  "/project-estimator/": {
+    "t": "Pergola Cost Calculator | South Florida Prices",
+    "d": "Pergola cost calculator for South Florida: estimate a custom pergola or patio cover with our published 2026 installed price ranges, no contact details needed.",
+    "h1": "Pergola Cost Calculator",
+    "h1Actual": "Project Estimator",
+    "h1Doc": "estimador"
+  },
+  "/project-gallery/": {
+    "t": "Pergola Projects in South Florida | Project Gallery",
+    "d": "Pergola projects in South Florida: custom pergolas, patio covers and outdoor living builds across Miami-Dade, Broward and Palm Beach County.",
+    "h1": "Pergola Projects in South Florida",
+    "h1Actual": "Featured Projects"
+  },
+  "/project/attached-forte-pergola-in-west-palm-beach/": {
+    "t": "Attached FORTE Pergola in West Palm Beach"
+  },
+  "/project/attached-forte-plus-pergola-on-the-intracoastal-in-boca-raton/": {
+    "t": "FORTE Plus Pergola on the Intracoastal in Boca Raton"
+  },
+  "/project/custom-sukkah-pergola-at-boca-beach/": {
+    "d": "A custom white open-air sukkah pergola over an event terrace at Boca Beach, clear-span across the dining area, with greenery and string lighting."
+  },
+  "/project/eclipse-cabanas-forte-pergola-hospitality-project-in-riviera-beach/": {
+    "t": "ECLIPSE Cabanas & FORTE Pergola in Riviera Beach"
+  },
+  "/project/forte-pergola-with-outdoor-kitchen-at-elan-polo-club/": {
+    "d": "FORTE pergola with louvered and solid roof sections, recessed lights and a built-in outdoor kitchen: the amenity centerpiece at Elan Polo Club."
+  },
+  "/project/forte-pergola-with-partial-privacy-wall-in-palm-beach-gardens/": {
+    "t": "FORTE Pergola, Partial Privacy Wall, Palm Beach Gardens"
+  },
+  "/project/forte-pergola-with-privacy-wall-tv-mount-in-delray-beach/": {
+    "t": "FORTE Pergola with Privacy Wall & TV Mount, Delray Beach"
+  },
+  "/resources/blog/buying-guides-cost/": {
+    "d": "Pergola cost and buying guides: permits, HOA rules, county building codes and real pergola pricing for Broward, Palm Beach and Miami-Dade homes.",
+    "h1": "Pergola Cost & Buying Guides",
+    "h1Actual": "Buying Guides & Cost"
+  },
+  "/resources/blog/": {
+    "d": "Our pergola and outdoor living blog: aluminum pergolas, motorized louvered roofs and outdoor shade systems for South Florida homes.",
+    "h1": "Pergola & Outdoor Living Blog",
+    "h1Actual": "blog & tips"
+  },
+  "/resources/blog/maintenance-care/": {
+    "d": "Pergola maintenance and care in coastal Florida: how to keep an aluminum pergola, louvered roof or screen looking new in South Florida salt air.",
+    "h1": "Pergola Maintenance & Care",
+    "h1Actual": "Maintenance & Care"
+  },
+  "/resources/blog/materials-engineering/": {
+    "d": "Pergola materials and engineering for South Florida: aluminum vs wood, wind loads, anchoring and hurricane-rated construction, and why they matter.",
+    "h1": "Pergola Materials & Engineering",
+    "h1Actual": "Materials & Engineering"
+  },
+  "/resources/blog/outdoor-living-design/": {
+    "d": "Outdoor living design ideas for South Florida backyards: poolside, resort-style and year-round patios with pergolas, cabanas, lighting and shade.",
+    "h1": "Outdoor Living Design Ideas",
+    "h1Actual": "Outdoor Living Design"
+  },
+  "/resources/blog/pergolas-shade-systems/": {
+    "t": "Pergolas & Shade Systems for South Florida | Blog",
+    "d": "Pergolas and shade systems for South Florida homes: louvered, solid and polycarbonate roofs, screens and enclosures for rain, sun and waterfronts."
+  },
+  "/resources/faq/": {
+    "d": "Pergola FAQs from South Florida homeowners about pergolas, screens, pavers and outdoor construction: permits, wind load, pricing and timelines."
+  },
+  "/resources/warranties/": {
+    "d": "Pergola warranty information for our FORTE, Equinox, Renaissance, Fenetex and MaestroShield systems in South Florida, and what each one covers.",
+    "h1": "Pergola & Screen Warranty Information",
+    "h1Actual": "Warranty Information"
+  },
+  "/services/concrete/": {
+    "d": "Structural concrete services in South Florida: reinforced footings, slabs and structural concrete that form the foundation of high-end outdoor projects."
+  },
+  "/services/deck-builders/": {
+    "d": "Deck builders for South Florida homes: composite and aluminum decks designed and built for durability in Florida heat, rain and salt air."
+  },
+  "/services/driveways/": {
+    "h1": "Paver Driveways: Design & Installation",
+    "h1Actual": "Driveway Design & Installation"
+  },
+  "/services/fence-solutions/": {
+    "t": "Aluminum Fence Installation | South Florida",
+    "d": "Aluminum fence installation in South Florida: custom fencing for privacy, security and a cohesive look on residential properties.",
+    "h1": "Aluminum Fence Installation",
+    "h1Actual": "Fence Solutions"
+  },
+  "/services/full-outdoor-remodel/": {
+    "d": "Full outdoor remodel across South Florida: patio, hardscape, shade structures, lighting and drainage, designed and permitted as one project."
+  },
+  "/services/": {
+    "d": "Outdoor construction services in South Florida: custom pergolas, pavers, driveways, decks, fencing and full remodels in Miami-Dade, Broward and Palm Beach."
+  },
+  "/services/pavers/": {
+    "d": "Paver installation in South Florida: paver patios, pool decks and driveways on engineered bases, with drainage built for heavy Florida rain."
+  },
+  "/services/pergola-design-construction/": {
+    "d": "Pergola design and construction: fully engineered custom pergolas designed and built for homes across Palm Beach, Broward and Miami-Dade counties."
+  },
+  "/pergolas-contractors/aventura-pergola-builders/": {
+    "t": "Pergola Contractor in Aventura, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Aventura, FL",
+    "h1Actual": "Aventura Pergola Builders"
+  },
+  "/pergolas-contractors/boca-raton-pergola-contractor/": {
+    "t": "Pergola Contractor in Boca Raton, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/boynton-beach-contractors/": {
+    "t": "Pergola Contractor in Boynton Beach, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/cooper-city-pergola-installation/": {
+    "t": "Pergola Contractor in Cooper City, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Cooper City, FL",
+    "h1Actual": "Cooper City Pergola Installation"
+  },
+  "/pergolas-contractors/coral-gables/": {
+    "t": "Pergola Contractor in Coral Gables, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Coral Gables, FL",
+    "h1Actual": "Coral Gables Pergola Builders"
+  },
+  "/pergolas-contractors/coral-springs-installation/": {
+    "t": "Pergola Contractor in Coral Springs, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Coral Springs, FL",
+    "h1Actual": "Coral Springs Pergola Installation"
+  },
+  "/pergolas-contractors/davie-installation/": {
+    "t": "Pergola Contractor in Davie, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Davie, FL",
+    "h1Actual": "Davie Pergola Installation"
+  },
+  "/pergolas-contractors/delray-beach-contractors/": {
+    "t": "Pergola Contractor in Delray Beach, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/doral-pergola-builders/": {
+    "t": "Pergola Contractor in Doral, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Doral, FL",
+    "h1Actual": "Doral Pergola Builders"
+  },
+  "/pergolas-contractors/fort-lauderdale-installation/": {
+    "t": "Pergola Contractor in Fort Lauderdale, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Fort Lauderdale, FL",
+    "h1Actual": "Fort Lauderdale Pergola Installation"
+  },
+  "/pergolas-contractors/hollywood-pergola-installation/": {
+    "t": "Pergola Contractor in Hollywood, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Hollywood, FL",
+    "h1Actual": "Hollywood Pergola Installation"
+  },
+  "/pergolas-contractors/jupiter-contractors/": {
+    "t": "Pergola Contractor in Jupiter, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/key-biscayne-pergola-builders/": {
+    "t": "Pergola Contractor in Key Biscayne, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Key Biscayne, FL",
+    "h1Actual": "Key Biscayne Pergola Builders"
+  },
+  "/pergolas-contractors/miami-beach-pergola-design/": {
+    "t": "Pergola Contractor in Miami Beach, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Miami Beach, FL",
+    "h1Actual": "Miami Beach Pergola Builders"
+  },
+  "/pergolas-contractors/miami-pergola-experts/": {
+    "t": "Pergola Contractor in Miami, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Miami, FL",
+    "h1Actual": "Miami Pergola Builders"
+  },
+  "/pergolas-contractors/miramar-installation/": {
+    "t": "Pergola Contractor in Miramar, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Miramar, FL",
+    "h1Actual": "Miramar Pergola Installation"
+  },
+  "/pergolas-contractors/palm-beach-contractors/": {
+    "t": "Pergola Contractor in Palm Beach, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/palm-beach-gardens/": {
+    "t": "Pergola Contractor in Palm Beach Gardens, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/parkland-installation/": {
+    "t": "Pergola Contractor in Parkland, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Parkland, FL",
+    "h1Actual": "Parkland Pergola Installation"
+  },
+  "/pergolas-contractors/pembroke-pines-pergola-installation/": {
+    "t": "Pergola Contractor in Pembroke Pines, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Pembroke Pines, FL",
+    "h1Actual": "Pembroke Pines Pergola Installation"
+  },
+  "/pergolas-contractors/royal-palm-beach-contractors/": {
+    "t": "Pergola Contractor in Royal Palm Beach, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/sunny-isles-beach-pergola-builders/": {
+    "t": "Pergola Contractor in Sunny Isles Beach, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Sunny Isles Beach, FL",
+    "h1Actual": "Sunny Isles Beach Pergola Builders"
+  },
+  "/pergolas-contractors/wellington-contractors/": {
+    "t": "Pergola Contractor in Wellington, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/west-palm-beach-contractors/": {
+    "t": "Pergola Contractor in West Palm Beach, FL | Pergola Plus"
+  },
+  "/pergolas-contractors/weston-pergola-solutions/": {
+    "t": "Pergola Contractor in Weston, FL | Pergola Plus",
+    "h1": "Pergola Contractor in Weston, FL",
+    "h1Actual": "Weston Pergola Installation"
+  }
+}
