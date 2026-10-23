@@ -65,3 +65,28 @@ p.pp-cercanas a {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Contenido local de ciudades y condados (src/lib/local.mjs): prosa del blog en una banda clara
+   entre la intro y la galería, que son oscuras. La respuesta corta que sigue a la pregunta es la
+   entradilla: un punto mayor que el resto. */
+.pp-local {
+  padding: 6rem 2rem;
+  background-color: var(--white);
+}
+.pp-local .pp-prosa h2 + p {
+  font-size: 20px;
+  color: var(--primary);
+}
+.pp-local .pp-prosa ul {
+  margin: 0 0 1.4em;
+  padding-left: 1.2em;
+}
+.pp-local .pp-prosa li {
+  margin-bottom: 0.4em;
+}
+@media (width <= 767px) {
+  .pp-local {
+    padding: 4rem 1.25rem;
+  }
+}
+

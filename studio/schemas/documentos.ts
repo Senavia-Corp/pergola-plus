@@ -546,7 +546,7 @@ export const county = defineType({
   title: 'Condado',
   type: 'document',
   groups: grupos,
-  fields: [nombre(), slugFijo(), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }), cuerpo, seo],
+  fields: [nombre(), slugFijo(), defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }), cuerpo, defineField({ name: 'local', title: 'Contenido local (permisos, normativa y fuentes oficiales)', description: 'Se pinta tras la intro. Empiece con una pregunta (encabezado) y una respuesta corta; cite fuentes oficiales con enlace.', type: 'bloqueI18n', group: 'contenido' }), seo],
   preview: vistaNombre,
 });
 
@@ -562,6 +562,7 @@ export const city = defineType({
     defineField({ name: 'condado', title: 'Condado', type: 'reference', to: [{ type: 'county' }], group: 'contenido', validation: (r) => r.required() }),
     defineField({ name: 'portada', title: 'Portada', type: 'imagen', group: 'contenido', ...SIN_USO }),
     cuerpo,
+    defineField({ name: 'local', title: 'Contenido local (permisos, normativa y fuentes oficiales)', description: 'Se pinta tras la intro. Empiece con una pregunta (encabezado) y una respuesta corta; cite fuentes oficiales con enlace.', type: 'bloqueI18n', group: 'contenido' }),
     tarjetas,
     seo,
   ],
