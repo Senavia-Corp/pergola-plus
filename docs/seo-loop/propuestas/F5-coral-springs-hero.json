@@ -1,5 +1,5 @@
 {
-  "_nota": "F5 · C6: el hero de Coral Springs era wf-placeholder.svg (su LCP). Foto real enviada por el cliente (public/images/cliente/solid-roof-pergolas.avif, procedencia real-cliente, elegida por hoja de contactos), con su nota de procedencia intacta. No es de Coral Springs: es una obra del cliente en el sur de Florida, y el alt no dice otra cosa. La sección ya existía con el alt genérico y sin imagen: se le añade la imagen y se fija el alt que la describe (EN y ES).",
+  "_nota": "F5 · C6: el hero de Coral Springs era wf-placeholder.svg (su LCP). Foto real enviada por el cliente (public/images/cliente/solid-roof-pergolas.avif, procedencia real-cliente, elegida por hoja de contactos), con su nota de procedencia intacta. No es de Coral Springs: es una obra del cliente en el sur de Florida, y el alt no dice otra cosa. La sección ya existía con el alt genérico y sin imagen: se le añade la imagen y se fija el alt que la describe (EN y ES). La imagen de la intro también era wf-placeholder: va otra foto real del cliente (custom-pergolas-and-patio-covers, elegida por hoja de contactos), distinta de la del hero.",
   "@city-coral-springs-installation": {
     "insertarSecciones": [
       {
@@ -39,17 +39,45 @@
             }
           ]
         }
+      },
+      {
+        "posicion": 2,
+        "bloque": {
+          "_key": "s1-div-wrapper-intro-city",
+          "_type": "bloque",
+          "clave": "s1.div-wrapper-intro-city",
+          "imagenes": [
+            {
+              "_key": "s1-div-wrapper-intro-city-div-intro-column-left-img-intro-img-city",
+              "_type": "imagenClave",
+              "clave": "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city",
+              "imagen": {
+                "_type": "imagenPlantilla",
+                "asset": {
+                  "_ref": "image-3a182a587749cbd8d481b3fea4fae32b95af86af-2500x1406-avif",
+                  "_type": "reference"
+                },
+                "origen": "/images/cliente/custom-pergolas-and-patio-covers.avif",
+                "procedencia": "real-cliente",
+                "procedenciaNota": "Foto enviada por el cliente (handoff §6). Posible ampliación con IA (Topaz) sin verificar en esta fase",
+                "retocadaConIA": false
+              }
+            }
+          ]
+        }
       }
     ]
   },
   "/pergolas-contractors/coral-springs-installation/": {
     "textos": {
-      "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": "Solid-roof aluminum pergola with ceiling fans over a poolside outdoor kitchen at a South Florida home."
+      "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": "Solid-roof aluminum pergola with ceiling fans over a poolside outdoor kitchen at a South Florida home.",
+      "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city.alt": "White aluminum pergola attached to a single-story home, shading a poolside patio with an outdoor bar and lounge chairs."
     }
   },
   "/es/pergolas-contractors/coral-springs-installation/": {
     "textos": {
-      "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": "Pérgola de aluminio de techo sólido con ventiladores sobre una cocina exterior junto a la piscina, en una casa del sur de Florida."
+      "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt": "Pérgola de aluminio de techo sólido con ventiladores sobre una cocina exterior junto a la piscina, en una casa del sur de Florida.",
+      "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city.alt": "Pérgola de aluminio blanca adosada a una casa de una planta, que da sombra a un patio junto a la piscina con barra exterior y tumbonas."
     }
   }
 }

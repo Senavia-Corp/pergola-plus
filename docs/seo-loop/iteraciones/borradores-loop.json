@@ -77,7 +77,7 @@
   "city-boynton-beach-contractors": "2026-10-23T18:31:44.118Z",
   "city-cooper-city-pergola-installation": "2026-10-23T18:31:44.118Z",
   "city-coral-gables": "2026-10-23T18:31:44.118Z",
-  "city-coral-springs-installation": "2026-10-23T18:31:44.118Z",
+  "city-coral-springs-installation": "2026-10-23T18:34:15.675Z",
   "city-davie-installation": "2026-10-23T18:31:44.118Z",
   "city-delray-beach-contractors": "2026-10-23T18:31:44.118Z",
   "city-doral-pergola-builders": "2026-10-23T18:31:44.118Z",
@@ -185,7 +185,7 @@
   "plantilla-service": "2026-10-23T18:03:13.717Z",
   "siteSettings": "2026-10-23T18:06:04.768Z"
  },
- "ultimaEscritura": "2026-10-23T18:31:44.118Z",
+ "ultimaEscritura": "2026-10-23T18:34:15.675Z",
  "tandas": [
   {
    "fecha": "2026-10-23T17:00:36.623Z",
@@ -16241,6 +16241,45 @@
      "campo": "cuerpo.es (fuentes oficiales)",
      "antes": null,
      "despues": "## Fuentes oficiales\n\n- [Florida Building Code 2023, capítulo 2: definición de la High Velocity Hurricane Zone](https://codes.iccsafe.org/content/FLBC2023P1/chapter-2-definitions)\n- [Miami-Dade Product Control: Notices of Acceptance (NOA)](https://www.miamidade.gov/global/economy/board-and-code/product-approval.page)\n- [Buscador de aprobaciones de producto de Miami-Dade: consulte cualquier NOA](https://www.miamidade.gov/building/pc-search_app.asp)\n- [Florida Building Commission: buscador de aprobaciones de producto](https://www.floridabuilding.org/pr/pr_app_srch.aspx)\n- [Board of Rules and Appeals del condado de Broward](https://www.broward.org/codeappeals)"
+    }
+   ]
+  },
+  {
+   "fecha": "2026-10-23T18:34:15.675Z",
+   "ficheros": [
+    "docs/seo-loop/propuestas/F5-coral-springs-hero.json"
+   ],
+   "documentos": 1,
+   "cambios": [
+    {
+     "id": "city-coral-springs-installation",
+     "campo": "secciones[s1-div-wrapper-intro-city].imagenes (nuevo)",
+     "antes": null,
+     "despues": "imagenes"
+    },
+    {
+     "id": "city-coral-springs-installation",
+     "campo": "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt.en",
+     "antes": "Solid-roof aluminum pergola with ceiling fans over a poolside outdoor kitchen at a South Florida home.",
+     "despues": "Solid-roof aluminum pergola with ceiling fans over a poolside outdoor kitchen at a South Florida home."
+    },
+    {
+     "id": "city-coral-springs-installation",
+     "campo": "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city.alt.en",
+     "antes": "Experienced pergola contractors in Coral Springs delivering engineered aluminum shade systems built for Florida weather.",
+     "despues": "White aluminum pergola attached to a single-story home, shading a poolside patio with an outdoor bar and lounge chairs."
+    },
+    {
+     "id": "city-coral-springs-installation",
+     "campo": "s0.section-hero-product.div-img-bg-hero-product.img-image-4.alt.es",
+     "antes": "Pérgola de aluminio de techo sólido con ventiladores sobre una cocina exterior junto a la piscina, en una casa del sur de Florida.",
+     "despues": "Pérgola de aluminio de techo sólido con ventiladores sobre una cocina exterior junto a la piscina, en una casa del sur de Florida."
+    },
+    {
+     "id": "city-coral-springs-installation",
+     "campo": "s1.div-wrapper-intro-city.div-intro-column-left.img-intro-img-city.alt.es",
+     "antes": "Experienced pergola contractors in Coral Springs delivering engineered aluminum shade systems built for Florida weather.",
+     "despues": "Pérgola de aluminio blanca adosada a una casa de una planta, que da sombra a un patio junto a la piscina con barra exterior y tumbonas."
     }
    ]
   }
