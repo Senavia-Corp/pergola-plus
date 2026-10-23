@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import items from '../../contenido-migrado/pergolas-contractors/_items.json';
 import { grafo, breadcrumbs, producto, servicio, areaDeServicio } from '../../lib/jsonld';
-import { CIUDADES, CONDADOS } from '../../data/ubicaciones.mjs';
+import { CIUDADES, CONDADOS, SLUG_CONDADO } from '../../data/ubicaciones.mjs';
 import { partirEnMarca, MARCA_RESENAS } from '../../lib/faq-ficha';
 import ReseñasGoogle from '../../components/ReseñasGoogle.astro';
 import { FUENTE, sanity, fragmentoColeccion, itemDe } from '../../lib/sanity/fuente.mjs';
@@ -48,8 +48,11 @@ const ruta = '/pergolas-contractors/' + item.slug + '/';
 // es lo que paso en el primer intento y dejo el nombre cayendo al title.
 const nombre = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? item.title)
   .replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
+// Home › Where We Work › Condado › Ciudad (silo, T3).
+const condado = CIUDADES[item.slug as keyof typeof CIUDADES]?.condado;
 const migas = breadcrumbs(site, [
   ["Where We Work","/about-us/where-we-work/"],
+  ...(condado && SLUG_CONDADO[condado] ? [[condado, `/countries/${SLUG_CONDADO[condado]}/`]] : []),
   [nombre, ruta],
 ] as [string, string][]);
 const jsonLd = grafo(areaDeServicio(site, { nombre, descripcion: item.description ?? '', ruta, area: CIUDADES[item.slug as keyof typeof CIUDADES] }), migas);

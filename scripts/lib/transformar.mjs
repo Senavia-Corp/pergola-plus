@@ -1425,7 +1425,7 @@ export function precargarLcp(html) {
  * Los href se escriben en ingles; en /es/ los reescribe enlazarEnEspanol() despues
  * (astro.config.mjs), que es quien sabe que traducciones existen.
  */
-import { CIUDADES } from '../../src/data/ubicaciones.mjs';
+import { CIUDADES, SLUG_CONDADO } from '../../src/data/ubicaciones.mjs';
 const CIUDADES_POR_NOMBRE = Object.entries(CIUDADES)
   .map(([slug, c]) => ({ slug, ...c }))
   .sort((a, b) => b.municipio.length - a.municipio.length); // «West Palm Beach» antes que «Palm Beach»
@@ -1442,10 +1442,32 @@ export function enlazarCiudades(html, ruta) {
     const vecinas = CIUDADES_POR_NOMBRE.filter((c) => c.condado === propia.condado && c.slug !== m[1])
       .sort((a, b) => a.municipio.localeCompare(b.municipio));
     const condadoEs = propia.condado.replace(' County', '');
-    const rotulo = es ? `También trabajamos cerca, en el condado de ${condadoEs}:` : `Also serving nearby in ${propia.condado}:`;
+    // El condado enlaza a su pagina (silo condado › ciudad, T3 del informe 08).
+    const condado = (texto) => (SLUG_CONDADO[propia.condado] ? `<a href="/countries/${SLUG_CONDADO[propia.condado]}">${texto}</a>` : texto);
+    const rotulo = es ? `También trabajamos cerca, en el ${condado(`condado de ${condadoEs}`)}:` : `Also serving nearby in ${condado(propia.condado)}:`;
     const linea = `<p class="pp-cercanas">${rotulo} ${vecinas.map((c) => enlace(c)).join(', ')}.</p>`;
     const ancla = /<section class="intro-location">[\s\S]*?(<div class="wrapper-buttons">)/;
     if (ancla.test(html)) { html = html.replace(ancla, (t, botones) => t.replace(botones, linea + botones)); puestos += vecinas.length; }
+  }
+
+  // Cada condado enlaza a todas sus ciudades, en la misma linea que usan las ciudades (T3).
+  const mc = base.match(/^\/countries\/([^/]+)\/$/);
+  const nombreCondado = mc && Object.entries(SLUG_CONDADO).find(([, slug]) => slug === mc[1])?.[0];
+  if (nombreCondado) {
+    const suyas = CIUDADES_POR_NOMBRE.filter((c) => c.condado === nombreCondado).sort((a, b) => a.municipio.localeCompare(b.municipio));
+    const rotulo = es ? `Ciudades donde trabajamos en el condado de ${nombreCondado.replace(' County', '')}:` : `Cities we serve in ${nombreCondado}:`;
+    const linea = `<p class="pp-cercanas">${rotulo} ${suyas.map((c) => enlace(c)).join(', ')}.</p>`;
+    const ancla = /<section class="intro-location">[\s\S]*?(<div class="wrapper-buttons">)/;
+    if (suyas.length && ancla.test(html)) { html = html.replace(ancla, (t, botones) => t.replace(botones, linea + botones)); puestos += suyas.length; }
+  }
+
+  // La ficha de techos de lamas enlaza a las dos marcas de techo de lamas que instala el negocio
+  // (las dos estan en /about-us/brands/): Apollo solo tenia 2 enlaces entrantes (J8).
+  if (base === '/products/motorized-louvered-pergolas/') {
+    const rotulo = es ? 'Marcas de techo de lamas que instalamos:' : 'Louvered roof brands we install:';
+    const linea = `<p class="pp-cercanas">${rotulo} <a href="/brands/apollo">Apollo</a>, <a href="/brands/equinox">Equinox</a>.</p>`;
+    const ancla = /<section class="intro-location">[\s\S]*?(<div class="wrapper-buttons">)/;
+    if (ancla.test(html)) { html = html.replace(ancla, (t, botones) => t.replace(botones, linea + botones)); puestos += 2; }
   }
 
   const primeraMencion = (bloque) => {
