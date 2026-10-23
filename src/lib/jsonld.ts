@@ -29,6 +29,7 @@
 import { canonica } from './canonica.mjs';
 import { negocioDesde } from './sanity/negocio.mjs';
 import { ajustes } from './ajustes.ts';
+import { FUENTE, ogDeRuta } from './sanity/fuente.mjs';
 
 /**
  * Datos del negocio, todos tomados de /contact-us/get-in-touch y del pie. Con
@@ -70,6 +71,8 @@ export function localBusiness(site: string) {
     // PNG de 512x512 generado desde el unico logotipo del repo (scripts/generar-logo.mjs).
     // Google pide >= 112 px y rasterizable; un SVG no vale aqui.
     logo: absoluta(site, '/images/logo-pergola-plus-florida.png'),
+    // La imagen al compartir por defecto (JPEG 1200x630, siteSettings): una foto real de obra (F4).
+    ...(FUENTE === 'sanity' && ogDeRuta('/') ? { image: absoluta(site, ogDeRuta('/')!) } : {}),
     telephone: NEGOCIO.telefono,
     email: NEGOCIO.email,
     address: {
