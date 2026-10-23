@@ -16,7 +16,7 @@ Antes de nada se lee `~/Sites/CLAUDE.md` y su tabla de enrutado (skills `seo`, `
 | Escrituras en Sanity | **Una Content Release** sin publicar: «SEO loop 2026-10». Si el plan Free no admite Releases, borradores `drafts.*`. Publica Senavia o el cliente, nunca el loop |
 | Datos del negocio | **Solo fuentes públicas y verificables, citadas.** Lo que dependa del cliente se marca pendiente y no se inventa |
 | Estructura | Se permiten páginas nuevas o fusionadas con 301, **siempre en la Release**. Los slugs que existen no se tocan (`/countries/` incluido) |
-| Keywords | **Sin Ahrefs** (decisión del 23-oct). El mapa va por intención, con evidencia pública: la SERP real de cada consulta (WebSearch: quién posiciona y qué tipo de página), las preguntas relacionadas y las búsquedas de la propia SERP, el léxico de Florida en EN y ES, y los títulos y H1 actuales y del sitio en vivo. Sin cifras de volumen: no se inventan. Se recalibra con Search Console a las 4 semanas del lanzamiento |
+| Keywords | **Sin Ahrefs. SEOptimer** (cuenta de Senavia, sesión ya iniciada en el Chrome del usuario: se usa con Claude in Chrome, en una pestaña propia que se cierra al terminar). Ver §5 bis. Además, por intención: la SERP real de cada consulta (WebSearch: quién posiciona y qué tipo de página) y las preguntas relacionadas. Si una keyword no tiene dato de SEOptimer, se deja sin volumen: no se inventa. Se recalibra con Search Console a las 4 semanas del lanzamiento |
 | Código | Rama + commits. **Se fusiona en `main` si el juez independiente pasa** (y el deploy de producción, que sigue cerrado, sale en READY) |
 | Diseño visible | Se permite, con capturas antes/después en el PR, **excepto en lo que el cliente pidió** (registro 01 §1). Ahí se deja su versión y se documenta el coste SEO |
 | Español | De Florida, con los anglicismos de uso: concreto, cerca, auto, Contáctenos, celular, Boca Raton; y se quedan en inglés pavers, screen enclosure, carport, driveway y HOA |
@@ -99,6 +99,24 @@ Están en `docs/seo-loop/HASHES.txt`. El juez falla si alguno cambia sin una lí
 | **F5 · Contenido local y estructura** | C5 con fuentes públicas citadas: permisos del municipio, HVHZ de Miami-Dade y Broward (Florida Building Code), proyectos propios de la ciudad o el condado. C6: el hero de Coral Springs con una foto real del cliente (de `public/photos/` o del Drive; si no hay, pendiente). C4: fusionar posts con 301. C10: Pompano Beach y Riviera Beach (hay proyecto) y una página de patio covers. Coral Gables (el cliente dice que no la trabaja): **propuesta**, no cambio | Release + rama (301) |
 | **F6 · GEO / AEO / AIO** | `llms.txt` ampliado (y `llms-full.txt` si hace falta), bloques de respuesta directa (J12), FAQ sin duplicados, entidades y citas en los posts (siguiendo `docs/blog-seo-2026-10/06`), datos estructurados coherentes | Release + rama |
 | **F7 · Cierre** | Dos corridas limpias del juez; PR y fusión; `05-CONFLICTOS-SEO-CLIENTE.md` y `06-INFORME-FINAL.md`; **borrador** (sin enviar) del correo a Daniel con los conflictos y las preguntas pendientes | Rama |
+
+## 5 bis. SEOptimer: presupuesto y uso
+
+Comprobado el 23-oct-2026: **prueba gratuita con 10 días restantes (caduca hacia el 2-nov) y 25 búsquedas de palabras clave.**
+
+- **Investigación de palabras clave** (`seoptimer.com/es/keyword/research`):
+  - Admite varias keywords por búsqueda, separadas por comas. Se agrupan: unas 20–30 por búsqueda, por plantilla y por idioma.
+  - País «Estados Unidos (EE.UU.)», sin desglose por Florida. La keyword lleva la ciudad o «south florida» cuando importa.
+  - Idioma: «Inglés» para EN y «Español» para ES.
+  - **Presupuesto:** como máximo 18 búsquedas en la fase 0 (unas 10 EN, unas 6 ES y 2 «Buscar por Dominio» de 2 competidores locales que salgan en la SERP). Se reservan 7 para las fases 2 y 5.
+  - Cada búsqueda se apunta en `04-MAPA-KEYWORDS.json` (campo `fuente: "seoptimer AAAA-MM-DD"`), con volumen, competencia y CPC tal como los da la herramienta.
+- **Auditorías SEO, GEO, del perfil de Google y de SEO local:**
+  - Solo sobre URL públicas: el sitio en vivo de Webflow (línea base), la ficha de Google y la competencia.
+  - **No se audita el deploy de Vercel con un enlace de acceso.** Eso expondría la copia a un tercero.
+  - El sitio nuevo se audita el día del lanzamiento, si la prueba sigue activa.
+  - Si hay límite de auditorías, se mira en la fase 0 antes de gastarlas.
+- **No se toca la cuenta:** nada de plan, facturación, configuración, marca blanca ni widgets. No se crean proyectos de seguimiento, salvo uno de keywords si lo aprueba Sebastian en la fase 0.
+- Si la sesión de SEOptimer caduca o pide credenciales, el loop **no inicia sesión**: lo anota en `07-BLOQUEOS.md` y sigue con WebSearch.
 
 ## 6. Protocolo de escritura en Sanity
 
