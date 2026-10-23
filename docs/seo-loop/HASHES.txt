@@ -3,7 +3,7 @@
 # Un bloque cuenta solo si lo abre «# FIRMA: Sebastian <AAAA-MM-DD> …». Para cada ruta vale la última línea de un bloque firmado.
 # Lo comprueba J0 (scripts/seo-loop/lib/fijados.mjs) en cada corrida del juez.
 
-# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 al cerrar la F0 (commit en la rama seo/loop-optimizacion)
+# FIRMA: Sebastian 2026-10-23 · en el chat: «Firmo HASHES.txt tal cual» (bloque propuesto al cerrar la F0, commit 80b4512)
 984371c39e0fd447c8c44d4a205d714f50c37bb2add953ba73e18ba71bce1aee  docs/seo-loop/01-REGISTRO-PETICIONES-CLIENTE.md
 60bed20e5e75060ea1398810a72ebc8a147bd8c226624996f27d015c9272892c  docs/seo-loop/02-VACIOS-PERMITIDOS.json
 f9acb9088e30e0f71156bbebdc307a8d75e716c5761fbc2d07fc20d916cc73eb  docs/seo-loop/04-MAPA-KEYWORDS.json
