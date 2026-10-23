@@ -104,8 +104,9 @@ if (!ES_PRODUCCION) {
 } else {
   // --- Modo produccion: que el candado no se haya quedado puesto ---
   // Por grupo (RFC 9309: lineas User-agent seguidas y sus reglas). El candado no puede
-  // estar en `*` ni en los buscadores y asistentes que enlazan; los recolectores para
-  // entrenar modelos SI lo llevan (politica del bloque S, astro.config.mjs).
+  // estar en `*`, ni en los buscadores y asistentes, ni en los rastreadores de entrenamiento
+  // (decision del 23-oct-2026, docs/seo-loop/00-ESPECIFICACION-LOOP.md §0). Bytespider SI lo
+  // lleva: no tiene documentacion oficial.
   const grupos = [];
   for (const l of String(robots ?? '').split('\n').map((x) => x.replace(/#.*/, '').trim()).filter(Boolean)) {
     const [k, ...v] = l.split(':'); const val = v.join(':').trim();
@@ -115,10 +116,11 @@ if (!ES_PRODUCCION) {
   const grupoDe = (ua) => grupos.find((g) => g.agentes.includes(ua));
   const cerrado = (g) => g?.reglas.includes('Disallow: /');
   decir(grupoDe('*')?.reglas.includes('Allow: /') && !cerrado(grupoDe('*')), 'robots.txt: User-agent * lleva Allow: / y no Disallow: /');
-  for (const ua of ['Googlebot', 'Bingbot', 'Applebot', 'OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User']) {
+  for (const ua of ['Googlebot', 'Bingbot', 'Applebot', 'OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User',
+    'GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'meta-externalagent']) {
     decir(!cerrado(grupoDe(ua) ?? grupoDe('*')), `robots.txt: ${ua} puede entrar`);
   }
-  for (const ua of ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Bytespider', 'meta-externalagent']) {
+  for (const ua of ['Bytespider']) {
     decir(cerrado(grupoDe(ua)), `robots.txt: ${ua} lleva Disallow: /`);
   }
   decir(grupos.every((g) => cerrado(g) || g.reglas.includes('Disallow: /api/')), 'robots.txt: /api/ fuera en todos los grupos abiertos');
