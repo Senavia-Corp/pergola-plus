@@ -15,6 +15,10 @@
  * Seguridad: si ya hay un borrador que no es del loop (no esta en el registro), no lo toca y lo anota.
  * El registro de lo escrito queda en docs/seo-loop/iteraciones/borradores-loop.json.
  * Sin --aplicar solo enseña lo que haria.
+ *
+ * --glosario: aplica scripts/sanity/es-florida.mjs (glosario del español de Florida) a todo el español de
+ * todos los documentos (campos `.es` y el cuerpo de los posts), salvo los textos legales (§1), las
+ * reseñas (texto literal de Google) y los sinónimos del buscador (no se ven y ayudan a buscar).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -26,6 +30,7 @@ const { rutaDe } = await import(path.join(RAIZ, 'src/lib/rutas-sanity.mjs'));
 const c = getCliClient({ apiVersion: '2025-02-19' });
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const APLICAR = args.includes('--aplicar');
+const GLOSARIO = args.includes('--glosario');
 const ficheros = args.filter((a) => a.endsWith('.json')).map((f) => path.resolve(RAIZ, f));
 const REGISTRO = path.join(RAIZ, 'docs/seo-loop/iteraciones/borradores-loop.json');
 const registro = fs.existsSync(REGISTRO) ? JSON.parse(fs.readFileSync(REGISTRO, 'utf8')) : { documentos: {} };
@@ -71,6 +76,30 @@ const textos = (doc) => {
   return out;
 };
 
+if (GLOSARIO) {
+  const { aFlorida } = await import(path.join(RAIZ, 'scripts/sanity/es-florida.mjs'));
+  const g = JSON.parse(fs.readFileSync(path.join(RAIZ, 'docs/seo-loop/glosario-es-florida.json'), 'utf8'));
+  const res = g.prohibidos.map((p) => new RegExp(`(?<![\\p{L}])(${p.patron})(?![\\p{L}])`, 'iu'));
+  const toca = (t) => typeof t === 'string' && res.some((r) => r.test(t));
+  for (const pub of publicados) {
+    if (/^(legalPage|review)-/.test(pub._id)) continue;
+    // Primero sobre una copia: solo se abre borrador si hay algo que cambiar.
+    const muestra = [];
+    const recorrer = (x, ruta, enEs, cambiar) => {
+      if (Array.isArray(x)) return x.forEach((y, i) => recorrer(y, `${ruta}[${y?._key ?? i}]`, enEs, cambiar));
+      if (!x || typeof x !== 'object') return;
+      if (/sinonimos/.test(ruta)) return;
+      if (typeof x.es === 'string' && toca(x.es)) cambiar(x, 'es', `${ruta}.es`);
+      if (enEs && x._type === 'span' && toca(x.text)) cambiar(x, 'text', `${ruta}.text`);
+      for (const [k, v] of Object.entries(x)) if (!k.startsWith('_')) recorrer(v, `${ruta}.${k}`, enEs || (k === 'es' && Array.isArray(v)), cambiar);
+    };
+    recorrer(pub, '', false, (o, k, r) => muestra.push(r));
+    if (!muestra.length) continue;
+    const doc = base(pub._id); if (!doc) continue;
+    recorrer(doc, '', false, (o, k, r) => { const nuevo = aFlorida(o[k]); if (nuevo !== o[k]) { cambios.push({ id: pub._id, campo: `${r.slice(1)} (glosario)`, antes: o[k], despues: nuevo }); o[k] = nuevo; } });
+  }
+}
+
 for (const f of ficheros) {
   const prop = JSON.parse(fs.readFileSync(f, 'utf8'));
   if (path.basename(f).includes('alt')) {
@@ -94,10 +123,10 @@ for (const f of ficheros) {
     if (p.t) fijar(doc, `seo.titulo.${idioma}`, p.t);
     if (p.d) fijar(doc, `seo.descripcion.${idioma}`, p.d);
     // h1Partes: un H1 partido en varios textos (con <span>), fijado trozo a trozo por su clave.
-    for (const [clave, texto] of Object.entries(p.h1Partes ?? {})) {
+    for (const [clave, texto] of Object.entries({ ...p.h1Partes, ...p.textos })) {
       const t = (doc.secciones ?? []).flatMap((x) => x.textos ?? []).find((x) => x.clave === clave);
       if (!t) throw new Error(`${ruta}: no hay un texto con clave ${clave}`);
-      cambios.push({ id: pub._id, campo: `${clave}.${idioma} (H1)`, antes: t.texto[idioma], despues: texto });
+      cambios.push({ id: pub._id, campo: `${clave}.${idioma}${p.h1Partes?.[clave] ? ' (H1)' : ''}`, antes: t.texto[idioma], despues: texto });
       t.texto[idioma] = texto;
     }
     if (p.h1) {
