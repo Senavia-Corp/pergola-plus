@@ -16,3 +16,20 @@ Cada fila es una petición del cliente que el loop **respetó** aunque cueste po
 
 | X10 | Posts que se canibalizan (C4) | — (no hay petición del cliente: son posts publicados por el equipo) | No se fusiona nada ni se hacen 301: R13 no deja borrar ni redirigir URLs de contenido sin el cliente | Tres posts compiten por «cómo hacer una pérgola» (`building-custom-pergola-south-florida`, `plan-pergola-south-florida-backyard`, `design-build-pergola-process-south-florida`), dos por normativa (`pergola-permit-south-florida`, `pergola-building-codes-broward-palm-beach`) y dos por precio (`pergola-cost-south-florida`, `aluminum-pergola-cost-boca-raton-vs-fort-lauderdale`). Google elige uno de cada grupo y los demás se quedan sin posición | Fusionar cada grupo en el post más fuerte, con un 301 desde los otros: «plan» y «design-build» → `building-custom-pergola-south-florida`; `pergola-building-codes-broward-palm-beach` → `pergola-permit-south-florida`. El de precio por ciudad se mantiene (intención distinta) y enlaza al general | Daniel / Senavia |
 | X11 | Páginas que faltan (C10) | — | No se crean páginas nuevas (R13) | Hay proyectos en Pompano Beach y Riviera Beach sin página de ciudad, y no hay ficha de «patio covers», que Daniel nombra (X8) | Crear las dos ciudades (Broward y Palm Beach) con contenido local propio y una ficha de patio covers, o confirmar que no se quieren | Daniel |
+| X12 | Vídeo en el hero de la home | Reunión del 27-feb-2026 (notas de Gemini, `19ca0ed004976124`): «vídeo en el hero» | La home lleva el vídeo en reproducción automática (versión móvil de 4,5 MB, `preload="metadata"` y póster AVIF) | Medio: la velocidad en móvil cuenta para el ranking y se mide con visitantes reales. La home es de las plantillas más lentas en móvil (Perf 95; la mayoría, 98–100). Lighthouse no descarga el vídeo, pero un móvil real sí | Póster fijo en móvil y vídeo solo en pantallas grandes | Daniel |
+
+## Decisiones de Sebastian (23-oct-2026, en el chat del loop)
+
+| # | Decisión |
+|---|---|
+| X3 | Teléfono principal: **(561) 292-5054**, el que pidió Daniel. Pendiente de aplicar en `siteSettings` (cambia el NAP que vigila J16: hará falta una línea base nueva, firmada) |
+| X4 | Es una oficina. No se plantea al cliente: no es trabajo técnico ni creativo de Senavia |
+| X5 | La licencia `CGC1539940` es correcta y Daniel está autorizado a usarla |
+| X6 | Coral Gables se **mantiene** |
+| X7 | Se pide autorización a Daniel |
+| X1, X8, X12 | Se explica a Daniel la implicación SEO y queda a su aprobación por escrito |
+| X10, X11 | **Autorizados** (fusión de posts con 301 y las tres páginas nuevas). Pendiente de hacer, después de la fusión de esta rama |
+
+Correo de cierre (F7): borrador en el Gmail de Sebastian para Daniel y Adrian (23-oct-2026, sin enviar). El proyecto queda en pausa hasta recibir: acceso al DNS, Search Console (Owner), credenciales SMTP por un canal seguro y la confirmación del chat con IA (sin respuesta antes del 30-oct-2026 cuenta como un no). Pide «Keep» o «Alternative» por escrito para X1, X8 y X12, y el sí o el no para X7.
+
+Barrido de los correos de Daniel (23-oct-2026): 29 hilos con correos suyos, 50 mensajes y 36 peticiones sobre el sitio, de las que 22 no están en el registro 01. Solo X1, X8 y X12 restan SEO. Las demás son textos del menú, fotos, orden de proyectos, formularios e integraciones; el enlace roto de «Deck Builders» ya está resuelto. Detalle en `evidencia/peticiones-daniel-2026-10-23.json`. No se pudieron leer los adjuntos: las 5 capturas del 6-mar-2026, las capturas y carpetas de Drive del 11-ago-2026, una captura del 29-sep-2026 y la transcripción de la reunión del 27-feb-2026. El registro 01 es de Senavia: las filas nuevas las añade Senavia.
