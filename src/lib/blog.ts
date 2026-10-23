@@ -10,7 +10,7 @@
  * (src/lib/sanity/blog.mjs) con la misma forma; las plantillas no se enteran.
  */
 import { canonica } from './canonica.mjs';
-import { NEGOCIO, grafo, breadcrumbs } from './jsonld';
+import { grafo, breadcrumbs, localBusiness } from './jsonld';
 import { FUENTE, sanity, rutaImagen, hrefDe, contacto } from './sanity/fuente.mjs';
 import { blogDesde } from './sanity/blog.mjs';
 import { parseCSV } from '../../scripts/lib/csv.mjs';
@@ -279,14 +279,13 @@ export const WF_SITE = '6903b7794d5df3d76a7a2488';
  *
  * Ahora el dominio entra por parametro, igual que en el resto de este archivo.
  */
-export const organizacion = (site: string) => ({
-  '@type': 'Organization',
-  // El mismo `@id` que el negocio de src/lib/jsonld.ts (localBusiness): es la misma entidad.
-  '@id': new URL('/#negocio', site).href,
-  name: NEGOCIO.nombre,
-  url: new URL('/', site).href,
-  logo: new URL('/images/logo-pergola-plus-florida.png', site).href,
-});
+/**
+ * Autor y editor de los posts y del blog: el negocio, por su `@id` (T12). Antes se redefinia
+ * aqui como `Organization` con el mismo `@id` que el `HomeAndConstructionBusiness`: dos tipos
+ * para una misma entidad. El nodo completo va en el mismo grafo (`localBusiness`), asi que la
+ * referencia resuelve en la propia pagina, con su nombre.
+ */
+export const organizacion = (site: string) => ({ '@id': new URL('/#negocio', site).href });
 
 /** JSON-LD del listado y de cada categoria. */
 export function jsonLdBlog(opciones: {
@@ -319,5 +318,5 @@ export function jsonLdBlog(opciones: {
       articleSection: p.categoria.nombre,
     })),
   };
-  return grafo(blog, migas && breadcrumbs(site, migas, idioma.startsWith('es') ? 'es' : 'en'));
+  return grafo(blog, localBusiness(site), migas && breadcrumbs(site, migas, idioma.startsWith('es') ? 'es' : 'en'));
 }
