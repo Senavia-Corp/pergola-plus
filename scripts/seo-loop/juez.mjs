@@ -34,7 +34,8 @@ fs.mkdirSync(CARPETA, { recursive: true });
 
 const RELEASE = fs.existsSync(path.join(RAIZ, 'docs/seo-loop/RELEASE.json')) ? JSON.parse(fs.readFileSync(path.join(RAIZ, 'docs/seo-loop/RELEASE.json'), 'utf8')) : {};
 const PROD = { PP_FUENTE: 'sanity', PUBLIC_ES_PRODUCCION: '1', PUBLIC_SITE_URL: 'https://www.pergolaplusflorida.com', PUERTO_FORMULARIOS: '4351', ...(RELEASE.perspectiva ? { PP_PERSPECTIVA: RELEASE.perspectiva } : {}) };
-const CERRADO = { PP_FUENTE: 'sanity', PUBLIC_ES_PRODUCCION: '', PUBLIC_SITE_URL: '', ...(RELEASE.perspectiva ? { PP_PERSPECTIVA: RELEASE.perspectiva } : {}) };
+// En modo cerrado las variables de produccion se QUITAN (null): vacias, Astro rechaza `site` («Invalid URL»).
+const CERRADO = { PP_FUENTE: 'sanity', PUBLIC_ES_PRODUCCION: null, PUBLIC_SITE_URL: null, ...(RELEASE.perspectiva ? { PP_PERSPECTIVA: RELEASE.perspectiva } : {}) };
 
 const resultados = {};
 const anotar = (j, ok, fallos = [], extra = {}) => {
@@ -43,7 +44,9 @@ const anotar = (j, ok, fallos = [], extra = {}) => {
 };
 /** Corre un comando con su salida a un log de la carpeta de la corrida. */
 const correr = (nombre, cmd, args, env = {}, cwd = RAIZ) => {
-  const r = spawnSync(cmd, args, { cwd, env: { ...process.env, ...env }, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024, timeout: 90 * 60 * 1000 });
+  const entorno = { ...process.env };
+  for (const [k, v] of Object.entries(env)) if (v === null) delete entorno[k]; else entorno[k] = v;
+  const r = spawnSync(cmd, args, { cwd, env: entorno, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024, timeout: 90 * 60 * 1000 });
   fs.writeFileSync(path.join(CARPETA, `${nombre}.log`), `${r.stdout ?? ''}\n${r.stderr ?? ''}\nexit ${r.status}\n`);
   return r;
 };
@@ -113,7 +116,7 @@ if (quiere('J2')) {
 }
 if (!resultados.J17) puerta('J17', 'j17-fuera-del-loop.mjs');
 
-const ok = Object.values(resultados).every((r) => r.ok) && (SOLO || Object.keys(resultados).length === 18);
+const ok = Object.values(resultados).every((r) => r.ok) && (SOLO ? true : Object.keys(resultados).length === 18);
 const commit = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: RAIZ, encoding: 'utf8' }).stdout.trim();
 const sucio = spawnSync('git', ['status', '--porcelain'], { cwd: RAIZ, encoding: 'utf8' }).stdout.trim() !== '';
 const salida = { fecha: new Date().toISOString(), commit, arbolSucio: sucio, parcial: Boolean(SOLO), perspectiva: RELEASE.perspectiva ?? 'publicado', carpeta: CARPETA, ok, pasan: Object.values(resultados).filter((r) => r.ok).length, total: Object.keys(resultados).length, resultados };

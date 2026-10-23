@@ -1,8 +1,8 @@
 /**
  * Lighthouse x3 de las 16 plantillas (scripts/perf/lighthouse.sh) sobre servir.mjs, con
  * la regla de ruido de la especificacion (J15): una corrida con diagnostics.rtt > 0,1 se
- * borra y se repite (hasta 2 veces, con 30 s de pausa); si sigue asi, se queda marcada
- * como ruidosa y NO cuenta para la mediana de Perf.
+ * borra y se repite (hasta 4 veces, con 90 s de pausa para que baje la CPU); si sigue asi,
+ * se queda marcada como ruidosa y NO cuenta para la mediana de Perf.
  *
  *     node scripts/seo-loop/lib/lighthouse.mjs <carpeta>      # servir.mjs ya en el 4173
  *
@@ -21,11 +21,11 @@ export function medir(carpeta) {
   fs.mkdirSync(carpeta, { recursive: true });
   const lh = () => spawnSync('bash', [path.join(RAIZ, 'scripts/perf/lighthouse.sh'), carpeta, '3'], { cwd: RAIZ, stdio: 'inherit' });
   lh();
-  for (let repeticion = 1; repeticion <= 2; repeticion++) {
+  for (let repeticion = 1; repeticion <= 4; repeticion++) {
     const ruidosas = fs.readdirSync(carpeta).filter((f) => f.endsWith('.json') && /-\d\.json$/.test(f) && rtt(path.join(carpeta, f)) > RTT_MAX);
     if (!ruidosas.length) break;
     console.log(`[lighthouse] repeticion ${repeticion}: ${ruidosas.length} corridas con rtt > ${RTT_MAX}`);
-    spawnSync('sleep', ['30']);
+    spawnSync('sleep', ['90']);
     for (const f of ruidosas) fs.renameSync(path.join(carpeta, f), path.join(carpeta, f.replace(/\.json$/, `.ruido${repeticion}`)));
     lh();
   }
