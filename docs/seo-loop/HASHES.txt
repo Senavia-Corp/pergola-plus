@@ -62,6 +62,6 @@ c33d0ab60c001732c6ee7fc96775d664a8130c667c0826aa5b93662c5c8cb86c  scripts/sanity
 # FIRMA: Sebastian 2026-10-23 · en el chat: «Firmo el hash nuevo de scripts/comprobar-noindex.mjs (política de robots de §0)» · F1, commit 8ca98e6: check:noindex exige la política de robots de §0 (entrenamiento permitido, Bytespider bloqueado) en vez de la anterior (entrenamiento bloqueado)
 fecc2362c3c7fce562bd85d1f881fa9d0e8796d374dab85d7fbbf3d6bccea4fc  scripts/comprobar-noindex.mjs
 
-# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 al cerrar la iteración 01 (commit 83830e3): el juez quita las variables en modo cerrado y el ok de --solo es booleano; Lighthouse repite las corridas ruidosas hasta 4 veces con 90 s de pausa (antes 2 con 30 s). Umbrales sin cambios
+# FIRMA: Sebastian 2026-10-23 · en el chat: «Firmo los hashes nuevos de scripts/seo-loop/juez.mjs y lib/lighthouse.mjs» · iteración 01, commit 83830e3: el juez quita las variables en modo cerrado y el ok de --solo es booleano; Lighthouse repite las corridas ruidosas hasta 4 veces con 90 s de pausa (antes 2 con 30 s). Umbrales sin cambios
 4236ddc5b1b1cc6265984644bf353c98e913a801097d7d3e082edfbb60de38ad  scripts/seo-loop/juez.mjs
 2e1d2e6d218f370dc8c3ebceb412097eb41f65d737f18e5681d0b5bd807ff1d4  scripts/seo-loop/lib/lighthouse.mjs
