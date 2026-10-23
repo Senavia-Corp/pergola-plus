@@ -158,7 +158,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = nav
     ctaTexto:
       'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Estudiamos '
       + 'su espacio y sus objetivos para planificar la instalación de pérgolas, techos de '
-      + 'patio o cerramientos de piscina.',
+      + 'patio o screen enclosures de piscina.',
     ctaAlt:
       'Vida al aire libre de lujo en el sur de Florida: piscina a medida, pérgola moderna con '
       + 'cocina exterior, jardinería tropical y patio elegante para viviendas de alta gama.',
@@ -166,7 +166,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = nav
     scheduleAVisit: 'Agendar visita',
 
     grupoPergolas: 'Pérgolas y cubiertas de patio',
-    grupoCerramientos: 'Cerramientos y sistemas exteriores',
+    grupoCerramientos: 'Screen enclosures y sistemas exteriores',
     grupoHardscape: 'Obra y pavimentos',
     grupoExteriores: 'Mejoras del exterior',
     verTodosProductos: 'Ver todos los productos',
@@ -177,18 +177,18 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = nav
     polycarbonate: 'Pérgolas de policarbonato',
     openAir: 'Pérgolas abiertas',
     cabanas: 'Cabañas',
-    screenEnclosures: 'Cerramientos con mosquitero',
+    screenEnclosures: 'Screen enclosures',
     motorizedScreens: 'Cortinas motorizadas',
-    carports: 'Cocheras',
+    carports: 'Carports',
     solar: 'Pérgolas solares',
     sukkha: 'Sukkah',
 
     customPergolas: 'Pérgolas y cubiertas a medida',
-    pavers: 'Adoquines',
-    driveways: 'Entradas de vehículos',
-    concrete: 'Hormigón',
+    pavers: 'Pavers',
+    driveways: 'Entradas de autos',
+    concrete: 'Concreto',
     deck: 'Terraza de madera',
-    fence: 'Vallado',
+    fence: 'Cercas',
     fullRemodel: 'Remodelación exterior integral',
 
     aboutUsTitulo: 'Sobre nosotros',
@@ -216,7 +216,7 @@ export const SHELL: Record<Idioma, Record<Claves, string>> = nav
     visitTitulo: 'Agendar visita de un experto',
     visitTexto: 'Reserve una consulta con nuestros especialistas en su propiedad.',
     touchTitulo: 'Hablar con el equipo',
-    touchTexto: 'Contacte con nosotros para diseños a medida.',
+    touchTexto: 'Contáctenos para diseños a medida.',
 
     cambiarIdioma: 'Cambiar idioma. Idioma actual:',
     idiomaNoDisponible: 'No disponible',

@@ -39,9 +39,9 @@ export const HOME_ES: Record<string, string> = {
   'Polycarbonate Pergolas': 'Pérgolas de policarbonato',
   'Open-Air Pergolas': 'Pérgolas abiertas',
   Cabanas: 'Cabañas',
-  'Screen Enclosures': 'Cerramientos con mosquitero',
+  'Screen Enclosures': 'Screen enclosures',
   'Motorized Screens': 'Cortinas motorizadas',
-  'Aluminum Carports': 'Cocheras de aluminio',
+  'Aluminum Carports': 'Carports de aluminio',
   'Solar Pergolas': 'Pérgolas solares',
   Sukkah: 'Sukkah',
 
@@ -69,9 +69,9 @@ export const HOME_ES: Record<string, string> = {
     'Nuestras cabañas de aluminio a medida crean refugios exteriores de estilo resort. Diseñadas para durar y para dar privacidad, aportan sombra y confort a la vez que elevan la estética de su piscina o su zona de entretenimiento.',
 
   'Custom Screen Enclosures for Outdoor Living':
-    'Cerramientos con mosquitero a medida',
+    'Screen enclosures a medida',
   'Protect your outdoor space from insects and debris with our custom, fully permitted screen enclosures. Designed for South Florida, they preserve airflow and visibility, ensuring comfortable evenings while matching your home’s architectural integrity.':
-    'Proteja su espacio exterior de insectos y suciedad con nuestros cerramientos con mosquitero a medida, con todos los permisos en regla. Pensados para el sur de Florida, mantienen la ventilación y las vistas, y respetan la arquitectura de su casa.',
+    'Proteja su espacio exterior de insectos y suciedad con nuestros screen enclosures a medida, con todos los permisos en regla. Pensados para el sur de Florida, mantienen la ventilación y las vistas, y respetan la arquitectura de su casa.',
 
   'Integrated Motorized Screen Systems':
     'Sistemas integrados de cortinas motorizadas',
@@ -79,9 +79,9 @@ export const HOME_ES: Record<string, string> = {
     'Las cortinas motorizadas dan sombra, privacidad y control del viento cuando usted lo decide, con una automatización discreta. Pensadas para integrarse en pérgolas, patios y espacios cubiertos, suman confort manteniendo una estética limpia y moderna.',
 
   'Engineered Aluminum Carport Structures':
-    'Cocheras de aluminio calculadas y certificadas',
+    'Carports de aluminio calculados y certificados',
   'Our aluminum carports protect luxury vehicles from harsh sun and rain while elevating your home’s architecture. Built for structural integrity and long-term durability, they offer premium, stylish protection. The perfect blend of strength and design.':
-    'Nuestras cocheras de aluminio protegen vehículos de alta gama del sol y la lluvia y realzan la arquitectura de su casa. Construidas para la integridad estructural y la durabilidad a largo plazo, unen resistencia y diseño.',
+    'Nuestros carports de aluminio protegen vehículos de alta gama del sol y la lluvia y realzan la arquitectura de su casa. Construidas para la integridad estructural y la durabilidad a largo plazo, unen resistencia y diseño.',
 
   'Solar-Integrated Shade Structures':
     'Estructuras de sombra con integración solar',
@@ -105,7 +105,7 @@ export const HOME_ES: Record<string, string> = {
     'Su proyecto queda en manos de profesionales certificados, con licencia y seguro en regla en el sur de Florida.',
   'Over 10 Years of Experience': 'Más de 10 años de experiencia',
   'More than a decade designing and installing premium outdoor structures, including pergolas, enclosures, and louvered roofs.':
-    'Más de una década diseñando e instalando estructuras exteriores premium: pérgolas, cerramientos y techos de lamas.',
+    'Más de una década diseñando e instalando estructuras exteriores premium: pérgolas, screen enclosures y techos de lamas.',
   'Premium Materials &amp; Guaranteed Installation':
     'Materiales premium e instalación garantizada',
   'We use top-grade materials and expert craftsmanship to ensure long-lasting, durable, and visually stunning shade structures.':
@@ -159,16 +159,16 @@ export const HOME_ES: Record<string, string> = {
   'Custom FORTE pergola with privacy wall and motorized shade screen installed in Delray Beach, engineered for South Florida luxury homes.':
     'Pérgola FORTE a medida con muro de privacidad y cortina de sombra motorizada, instalada en Delray Beach para viviendas de lujo del sur de Florida.',
   'FORTE Plus Aluminum Carport Installation in Pompano Beach':
-    'Instalación de cochera de aluminio FORTE Plus en Pompano Beach',
+    'Instalación de carport de aluminio FORTE Plus en Pompano Beach',
   'Custom FORTE Plus aluminum carport installed in Pompano Beach, engineered to meet Florida building codes and coastal conditions.':
-    'Cochera de aluminio FORTE Plus a medida instalada en Pompano Beach, calculada para cumplir los códigos de construcción de Florida y las condiciones costeras.',
+    'Carport de aluminio FORTE Plus a medida instalado en Pompano Beach, calculada para cumplir los códigos de construcción de Florida y las condiciones costeras.',
 
   // --- Reseñas ---
   'Reviews &amp; testimonials': 'Reseñas y testimonios',
   'What Clients Say About Our Work':
     'Lo que dicen nuestros clientes sobre nuestro trabajo',
   'Discover how our pergola contractors transform outdoor spaces with expert installation of pergolas, patio covers, pool screen enclosures, and louvered roof systems across South Florida.':
-    'Descubra cómo nuestros contratistas transforman espacios exteriores instalando pérgolas, cubiertas de patio, cerramientos de piscina y techos de lamas por todo el sur de Florida.',
+    'Descubra cómo nuestros contratistas transforman espacios exteriores instalando pérgolas, cubiertas de patio, screen enclosures de piscina y techos de lamas por todo el sur de Florida.',
   'Read Client Reviews': 'Leer reseñas de clientes',
 
   // --- Proceso ---
@@ -195,28 +195,28 @@ export const HOME_ES: Record<string, string> = {
   'Everything Your Patio Needs, All In One Place':
     'Todo lo que su patio necesita, en un solo sitio',
   'Transform your outdoor space with a complete range of services—from custom pergola construction to concrete, pavers, decks, fencing, and full outdoor remodels—designed to enhance both beauty and functionality.':
-    'Transforme su espacio exterior con una gama completa de servicios: desde la construcción de pérgolas a medida hasta hormigón, adoquines, terrazas de madera, vallados y la remodelación exterior integral.',
+    'Transforme su espacio exterior con una gama completa de servicios: desde la construcción de pérgolas a medida hasta concreto, pavers, terrazas de madera, cercas y la remodelación exterior integral.',
   'Pergola Design &amp; Construction': 'Diseño y construcción de pérgolas',
   'Custom aluminum pergolas built for shade, style, and durability.':
     'Pérgolas de aluminio a medida, pensadas para dar sombra, estilo y durabilidad.',
-  Pavers: 'Adoquines',
+  Pavers: 'Pavers',
   'Premium paver installations for patios, walkways, and driveways.':
-    'Instalación de adoquines premium para patios, senderos y entradas de vehículos.',
-  Driveways: 'Entradas de vehículos',
+    'Instalación de pavers premium para patios, senderos y entradas de autos.',
+  Driveways: 'Entradas de autos',
   'Custom driveways engineered for strength and curb appeal.':
     'Entradas a medida, calculadas para resistir y para lucir desde la calle.',
-  Concrete: 'Hormigón',
+  Concrete: 'Concreto',
   'Architectural concrete patios built for lasting performance.':
-    'Patios de hormigón arquitectónico construidos para durar.',
+    'Patios de concreto arquitectónico construidos para durar.',
   'Deck Builders': 'Terrazas de madera',
   'Custom decks designed for durability &amp; seamless integration.':
     'Terrazas a medida, diseñadas para durar e integrarse sin costuras.',
-  'Fence Solutions': 'Soluciones de vallado',
+  'Fence Solutions': 'Soluciones de cercas',
   'Residential fencing for privacy, security, and clean design.':
-    'Vallado residencial para privacidad, seguridad y un diseño limpio.',
+    'Cercas residenciales para privacidad, seguridad y un diseño limpio.',
   'Full Outdoor Remodel': 'Remodelación exterior integral',
   'Complete outdoor renovations: patio, hardscape, shade and lighting as one project.':
-    'Remodelación completa del exterior: patio, adoquinado, sombra e iluminación en un solo proyecto.',
+    'Remodelación completa del exterior: patio, pavers, sombra e iluminación en un solo proyecto.',
 
   // --- Zonas de servicio ---
   'Service Areas': 'Zonas de servicio',
@@ -279,7 +279,7 @@ export const HOME_ES: Record<string, string> = {
   // --- CTA final ---
   'Request your free Estimate': 'Solicite su presupuesto gratuito',
   'Meet with our exterior designers for a free consultation. We&#x27;ll assess your space and goals to plan the installation of pergolas, patio covers, or pool enclosures.':
-    'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluaremos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o cerramientos de piscina.',
+    'Reúnase con nuestros diseñadores de exteriores en una consulta gratuita. Evaluaremos su espacio y sus objetivos para planificar la instalación de pérgolas, cubiertas de patio o screen enclosures de piscina.',
 
   // Tarjetas de los tres proyectos propios de "Recent Projects".
   'FORTE Pergola with Outdoor Kitchen at Elan Polo Club':
@@ -289,7 +289,7 @@ export const HOME_ES: Record<string, string> = {
   'Oceanfront Pool Deck &amp; Cabanas at Jupiter Ocean Club':
     'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
   'A resort pool deck steps from the Atlantic, with wide paver decking, turf inlays and white flat-roof cabanas along the water side.':
-    'Una terraza de piscina a un paso del Atlántico, con pavimento amplio de adoquín, franjas de césped y cabañas blancas de techo plano junto al agua.',
+    'Una terraza de piscina a un paso del Atlántico, con pavimento amplio de pavers, franjas de césped y cabañas blancas de techo plano junto al agua.',
   'Custom Sukkah Pergola at Boca Beach':
     'Sukkah a medida en Boca Beach',
   'A white open-air sukkah pergola over an event terrace, clear-span across the dining area and dressed with greenery and string lighting.':

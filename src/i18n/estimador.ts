@@ -406,7 +406,7 @@ export const ESTIMADOR_ES: TextosEstimador = estimadorSanity?.ESTIMADOR_ES ?? {
       nota: 'Screen Enclosure',
     },
     carport: {
-      nombre: 'Cubrir el coche o el barco',
+      nombre: 'Cubrir el auto o el barco',
       nota: 'Aluminum Carport',
     },
     solar: {
@@ -446,8 +446,8 @@ export const ESTIMADOR_ES: TextosEstimador = estimadorSanity?.ESTIMADOR_ES ?? {
     'Una pérgola no se ancla al césped. Suele ser la partida más grande del proyecto,'
     + ' así que conviene acertarla.',
   suelo: {
-    'losa-ok': { nombre: 'Una losa de hormigón en buen estado', nota: 'Anclamos directamente.' },
-    'pavers-ok': { nombre: 'Adoquines ya puestos', nota: 'Levantamos lo justo y lo reponemos.' },
+    'losa-ok': { nombre: 'Una losa de concreto en buen estado', nota: 'Anclamos directamente.' },
+    'pavers-ok': { nombre: 'Pavers ya puestos', nota: 'Levantamos lo justo y lo reponemos.' },
     cesped: { nombre: 'Césped, tierra o arena', nota: 'La base nueva entra en el proyecto.' },
     'deck-madera': { nombre: 'Una tarima de madera', nota: 'Comprobamos si aguanta la carga.' },
     'no-se': { nombre: 'No estoy seguro', nota: 'Lo confirmamos en la visita.' },
@@ -456,11 +456,11 @@ export const ESTIMADOR_ES: TextosEstimador = estimadorSanity?.ESTIMADOR_ES ?? {
   baseAyuda: 'Las dos se calculan para sostener la estructura. La diferencia es estética y de precio.',
   base: {
     'nueva-losa': {
-      nombre: 'Losa de hormigón',
+      nombre: 'Losa de concreto',
       nota: 'Más barata al principio. Con los años aparecen fisuras finas.',
     },
     'nueva-pavers': {
-      nombre: 'Base de adoquines',
+      nombre: 'Base de pavers',
       nota: 'Cuesta más, dura décadas y una pieza suelta se levanta y se repone.',
     },
   },
@@ -478,7 +478,7 @@ export const ESTIMADOR_ES: TextosEstimador = estimadorSanity?.ESTIMADOR_ES ?? {
       nota: 'Sol, mosquitos y lluvia de costado, cuando haga falta.',
     },
     'Paver-Extension': {
-      nombre: 'Ampliación de adoquines',
+      nombre: 'Ampliación de pavers',
       nota: 'Extiende el suelo más allá de la estructura.',
     },
     'Drainage-System': { nombre: 'Drenaje', nota: 'Canalones y desagüe lejos de la casa.' },

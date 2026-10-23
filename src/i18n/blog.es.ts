@@ -111,7 +111,7 @@ export const COPY_CATEGORIAS_ES: Record<string, CopyCategoriaEs> = blogSanity?.c
   },
   'pergolas-shade-systems': {
     titulo: 'Pérgolas y sistemas de sombra',
-    meta: 'Pérgolas de lamas, techos macizos, cortinas y cerramientos: qué hace cada sistema y cuándo compensa.',
+    meta: 'Pérgolas de lamas, techos macizos, cortinas y screen enclosures: qué hace cada sistema y cuándo compensa.',
     intro:
       'Lamas motorizadas, techos macizos, policarbonato y cortinas. Qué hace cada sistema y cuándo compensa cada uno.',
   },
@@ -157,7 +157,7 @@ export const POSTS_ES: Record<string, PostEs> = blogSanity?.postsEs ?? {
     resumen: 'Entender la normativa de pérgolas en Broward y Palm Beach.',
     tituloLargo: 'Normativa de pérgolas en Broward y Palm Beach | Guía 2026',
     descripcionSeo:
-      'Qué exigen Broward y Palm Beach a una pérgola: cargas de viento, anclajes, retranqueos y la documentación que pide cada ayuntamiento.',
+      'Qué exigen Broward y Palm Beach a una pérgola: cargas de viento, anclajes, retranqueos y la documentación que pide cada ciudad.',
   },
   'design-build-pergola-process-south-florida': {
     titulo: 'El proceso de diseño y obra de una pérgola en el sur de Florida',
@@ -181,9 +181,9 @@ export const POSTS_ES: Record<string, PostEs> = blogSanity?.postsEs ?? {
       'Cuándo lleva permiso una pérgola en el sur de Florida, qué documentación piden y qué pasa si se construye sin él.',
   },
   'hoa-rules-pergolas-south-florida': {
-    titulo: 'Qué pide la comunidad de propietarios para una pérgola',
+    titulo: 'Qué pide la HOA para una pérgola',
     resumen: 'Los requisitos de la comunidad para una pérgola, explicados.',
-    tituloLargo: 'Pérgolas y comunidades de propietarios | Guía 2026',
+    tituloLargo: 'Pérgolas y HOA | Guía 2026',
     descripcionSeo:
       'Qué revisa el comité arquitectónico de una urbanización antes de aprobar una pérgola, y cómo llevar el expediente para que salga a la primera.',
   },

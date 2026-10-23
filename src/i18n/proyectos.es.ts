@@ -103,15 +103,15 @@ export const PROYECTOS_ES: Record<string, ProyectoEs> = {
     },
   },
   'forte-plus-aluminum-carport-installation-in-pompano-beach': {
-    nombre: 'Cochera FORTE Plus en Pompano Beach',
-    title: 'Cochera FORTE Plus en Pompano Beach | Aluminio',
+    nombre: 'Carport FORTE Plus en Pompano Beach',
+    title: 'Carport FORTE Plus en Pompano Beach | Aluminio',
     description:
-      'Cochera de aluminio FORTE Plus en Pompano Beach, calculada para superar la normativa de Florida.',
+      'Carport de aluminio FORTE Plus en Pompano Beach, calculada para superar la normativa de Florida.',
     dic: {
       'FORTE Plus Carport in Pompano Beach | Aluminum Contractor':
-        'Cochera FORTE Plus en Pompano Beach | Aluminio',
+        'Carport FORTE Plus en Pompano Beach | Aluminio',
       'This FORTE Plus aluminum carport project in Pompano Beach, Broward County, was engineered to meet and exceed current Florida building codes while delivering modern architectural styling and long-term durability. Designed for a residential property in South Florida, this custom aluminum structure provides reliable vehicle protection against sun, rain, and coastal exposure. Our team managed the full installation process using high-quality materials and detailed, craftsman-level workmanship to ensure structural integrity and refined aesthetics. Built specifically for South Florida’s climate and code requirements, this FORTE Plus carport enhances functionality while complementing the home’s outdoor environment.':
-        'Esta cochera de aluminio FORTE Plus en Pompano Beach, condado de Broward, se calculó para cumplir y superar la normativa vigente de Florida, con una estética actual y con durabilidad a largo plazo. Diseñada para una vivienda del sur de Florida, protege los coches del sol, de la lluvia y de la exposición a la costa. Nuestro equipo llevó todo el montaje con materiales de calidad y un acabado de oficio, cuidando la solidez y el aspecto. Hecha a la medida del clima y de la normativa del sur de Florida, suma uso sin desentonar con la casa.',
+        'Este carport de aluminio FORTE Plus en Pompano Beach, condado de Broward, se calculó para cumplir y superar la normativa vigente de Florida, con una estética actual y con durabilidad a largo plazo. Diseñada para una vivienda del sur de Florida, protege los autos del sol, de la lluvia y de la exposición a la costa. Nuestro equipo llevó todo el montaje con materiales de calidad y un acabado de oficio, cuidando la solidez y el aspecto. Hecha a la medida del clima y de la normativa del sur de Florida, suma uso sin desentonar con la casa.',
     },
   },
   'forte-plus-pergola-with-outdoor-kitchen-in-delray-beach': {
@@ -162,16 +162,16 @@ export const PROYECTOS_ES: Record<string, ProyectoEs> = {
     nombre: 'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
     title: 'Terraza de piscina y cabañas | Jupiter Ocean Club',
     description:
-      'Terraza de piscina en Jupiter con pavimento de adoquín, franjas de césped y cabañas blancas de techo plano, para una comunidad a pie de océano.',
+      'Terraza de piscina en Jupiter con pavimento de pavers, franjas de césped y cabañas blancas de techo plano, para una comunidad a pie de océano.',
     dic: {
       'Oceanfront Pool Deck &amp; Cabanas at Jupiter Ocean Club':
         'Terraza de piscina y cabañas frente al mar en Jupiter Ocean Club',
       'Oceanfront Pool Deck &amp; Cabanas | Jupiter Ocean Club':
         'Terraza de piscina y cabañas | Jupiter Ocean Club',
       'A full resort deck for an oceanfront community in Jupiter, a few hundred feet from the Atlantic. The pool is wrapped in wide paver decking that carries through to the walkways, the spa and the turf inlays, so the whole amenity area reads as one surface instead of a patchwork. White flat-roof cabanas line the deck and give shade where residents actually sit, kept low and open so they never block the water views the property is built around. Everything here lives in salt air, and the structures and paving were specified for it.':
-        'Una terraza completa para una comunidad frente al mar en Jupiter, a cien metros del Atlántico. La piscina va envuelta en un pavimento amplio de adoquín que sigue por los paseos, el spa y las franjas de césped, de modo que toda la zona común se lee como una sola superficie y no como un remiendo. Las cabañas blancas de techo plano bordean la terraza y dan sombra justo donde la gente se sienta, bajas y abiertas para no tapar nunca las vistas al agua sobre las que está construida la finca. Aquí todo vive en aire salino, y tanto las estructuras como el pavimento se eligieron pensando en eso.',
+        'Una terraza completa para una comunidad frente al mar en Jupiter, a cien metros del Atlántico. La piscina va envuelta en un pavimento amplio de pavers que sigue por los paseos, el spa y las franjas de césped, de modo que toda la zona común se lee como una sola superficie y no como un remiendo. Las cabañas blancas de techo plano bordean la terraza y dan sombra justo donde la gente se sienta, bajas y abiertas para no tapar nunca las vistas al agua sobre las que está construida la finca. Aquí todo vive en aire salino, y tanto las estructuras como el pavimento se eligieron pensando en eso.',
       'The pool deck, the cabanas and the paver walkways, from above and along the water side.':
-        'La terraza de la piscina, las cabañas y los paseos de adoquín, desde el aire y desde el lado del agua.',
+        'La terraza de la piscina, las cabañas y los paseos de pavers, desde el aire y desde el lado del agua.',
     },
   },
   'custom-sukkah-pergola-at-boca-beach': {

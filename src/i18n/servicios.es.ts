@@ -23,55 +23,55 @@ export interface ServicioEs {
 
 export const SERVICIOS_ES: Record<string, ServicioEs> = {
   pavers: {
-    nombre: 'Adoquinado',
-    title: 'Adoquinado de lujo | Sur de Florida',
-    description: 'Patios, bordes de piscina y entradas de coche adoquinados sobre bases calculadas, con el drenaje que pide la lluvia de Florida.',
+    nombre: 'Pavers',
+    title: 'Pavers de lujo | Sur de Florida',
+    description: 'Patios, bordes de piscina y entradas de autos pavers sobre bases calculadas, con el drenaje que pide la lluvia de Florida.',
     dic: {
       // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
       // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
       // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
       'Structural base preparation for luxury paver installation in South Florida residential property.':
-        'Preparación de la base estructural para una instalación de adoquín de alto nivel en una propiedad residencial del sur de Florida.',
+        'Preparación de la base estructural para una instalación de pavers de alto nivel en una propiedad residencial del sur de Florida.',
       'Premium concrete paver patio installed at luxury South Florida residence.':
-        'Patio de adoquín de hormigón de primera instalado en una residencia de lujo del sur de Florida.',
+        'Patio de pavers de concreto de primera instalado en una residencia de lujo del sur de Florida.',
       'Luxury paver driveway with engineered drainage system in South Florida.':
-        'Entrada de coches de adoquín de alto nivel con sistema de drenaje calculado, en el sur de Florida.',
+        'Entrada de autos de pavers de alto nivel con sistema de drenaje calculado, en el sur de Florida.',
       'Reinforced edge restraint system for premium paver installation in Florida.':
-        'Sistema de confinamiento de borde reforzado para una instalación de adoquín de primera en Florida.',
+        'Sistema de confinamiento de borde reforzado para una instalación de pavers de primera en Florida.',
       'Custom paver patio integrated with pergola and pool in South Florida home.':
-        'Patio de adoquín a medida integrado con pérgola y piscina en una casa del sur de Florida.',
+        'Patio de pavers a medida integrado con pérgola y piscina en una casa del sur de Florida.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Large-format paver patio laid in a grid with planted turf joints, running up to the wall of a home beside a pool.':
-        'Patio de adoquín de gran formato en retícula, con juntas plantadas de césped, hasta el muro de una casa junto a la piscina.',
+        'Patio de pavers de gran formato en retícula, con juntas plantadas de césped, hasta el muro de una casa junto a la piscina.',
       // Los `alt` del hero y de la portada de intro, que llegaban vacíos. Los escribe
       // el paso 6f (scripts/lib/servicios.mjs) mirando la foto.
       'Large-format grey paver patio laid in a grid with planted turf joints, beside a pool.':
-        'Patio de adoquín gris de gran formato en retícula, con juntas plantadas de césped, junto a la piscina.',
+        'Patio de pavers grises de gran formato en retícula, con juntas plantadas de césped, junto a la piscina.',
       'Herringbone paver driveway in mixed greys running up to a modern two-story home, with a linear trench drain across it.':
-        'Entrada de coches en adoquín gris en espiga que sube hasta una casa moderna de dos plantas, con un sumidero lineal atravesándola.',
+        'Entrada de autos en pavers grises en espiga que sube hasta una casa moderna de dos plantas, con un sumidero lineal atravesándola.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Luxury paver patio installation at modern South Florida residence with pool integration.':
-        'Patio adoquinado de lujo instalado en una residencia moderna del sur de Florida, integrado con la piscina.',
-      'Paver Installation': 'Instalación de adoquinado',
-      'Luxury Paver Installation in South Florida': 'Adoquinado de lujo en el sur de Florida',
+        'Patio de pavers de lujo instalado en una residencia moderna del sur de Florida, integrado con la piscina.',
+      'Paver Installation': 'Instalación de pavers',
+      'Luxury Paver Installation in South Florida': 'Pavers de lujo en el sur de Florida',
       'Pergola Plus Florida provides premium paver installation services throughout Palm Beach and Broward County for high-end residential properties. From pool decks and patios to expansive outdoor entertainment areas, our paver systems are engineered for structural integrity, proper drainage, and long-term performance. If you&#x27;re searching for professional paver contractors in South Florida, our team delivers custom-designed surfaces that enhance curb appeal and withstand Florida’s heavy rain and sun exposure. We focus on permanent, professionally installed solutions that elevate your entire outdoor living environment.':
-        'Pergola Plus Florida instala adoquinado de gama alta en Palm Beach y Broward para viviendas de alto nivel. Desde bordes de piscina y patios hasta grandes zonas de estar al aire libre, nuestros sistemas se calculan para aguantar, drenar bien y durar. Si busca profesionales del adoquinado en el sur de Florida, nuestro equipo hace superficies a medida que mejoran la fachada y resisten las lluvias fuertes y el sol de Florida. Buscamos soluciones permanentes y bien instaladas que eleven todo su espacio exterior.',
+        'Pergola Plus Florida instala pavers de gama alta en Palm Beach y Broward para viviendas de alto nivel. Desde bordes de piscina y patios hasta grandes zonas de estar al aire libre, nuestros sistemas se calculan para aguantar, drenar bien y durar. Si busca profesionales de los pavers en el sur de Florida, nuestro equipo hace superficies a medida que mejoran la fachada y resisten las lluvias fuertes y el sol de Florida. Buscamos soluciones permanentes y bien instaladas que eleven todo su espacio exterior.',
       'We design and install premium paver systems for luxury homes throughout Palm Beach and Broward County. Our custom patios, pool decks, and hardscape surfaces are built on reinforced foundations engineered for drainage performance and long-term structural stability.':
-        'Diseñamos e instalamos adoquinado de gama alta para viviendas de lujo en Palm Beach y Broward. Nuestros patios, bordes de piscina y superficies de hardscape se levantan sobre bases reforzadas, calculadas para drenar bien y mantenerse estables con los años.',
+        'Diseñamos e instalamos pavers de gama alta para viviendas de lujo en Palm Beach y Broward. Nuestros patios, bordes de piscina y superficies de hardscape se levantan sobre bases reforzadas, calculadas para drenar bien y mantenerse estables con los años.',
       'Engineered Base Preparation': 'Preparación de la base',
       'Built on Structural Integrity': 'Se empieza por abajo',
       'We install high-performance concrete and stone pavers designed for strength, color retention, and long-term wear resistance. Selected for upscale residential properties, our materials resist fading, cracking, and moisture damage while delivering refined finishes that elevate curb appeal and outdoor living spaces.':
-        'Instalamos adoquines de hormigón y piedra de alto rendimiento, elegidos por su resistencia, por cómo mantienen el color y por cómo aguantan el uso. Pensados para viviendas de alto nivel, resisten la decoloración, las grietas y la humedad, con acabados cuidados que mejoran la fachada y el espacio exterior.',
-      'Premium-Grade Paver Materials': 'Adoquines de primera',
+        'Instalamos pavers de concreto y piedra de alto rendimiento, elegidos por su resistencia, por cómo mantienen el color y por cómo aguantan el uso. Pensados para viviendas de alto nivel, resisten la decoloración, las grietas y la humedad, con acabados cuidados que mejoran la fachada y el espacio exterior.',
+      'Premium-Grade Paver Materials': 'Pavers de primera',
       'Durability Meets Architectural Design': 'Durabilidad con buen diseño',
       'Advanced Drainage Solutions': 'Drenaje bien resuelto',
       'Designed for Florida’s Heavy Rainfall': 'Pensado para las lluvias de Florida',
       'Proper drainage is critical in South Florida’s climate. We design paver systems with grading precision, permeable solutions, and integrated drainage channels to prevent water pooling and surface damage. Every installation protects both the hardscape and the surrounding foundation.':
-        'En el clima del sur de Florida el drenaje lo es todo. Diseñamos el adoquinado con las pendientes medidas, soluciones permeables y canales integrados para que no se acumule agua ni se estropee la superficie. Cada instalación protege tanto el pavimento como la cimentación de alrededor.',
+        'En el clima del sur de Florida el drenaje lo es todo. Diseñamos los pavers con las pendientes medidas, soluciones permeables y canales integrados para que no se acumule agua ni se estropee la superficie. Cada instalación protege tanto el pavimento como la cimentación de alrededor.',
       'Precision Edge Restraint &amp; Reinforcement': 'Bordes y refuerzo con precisión',
       'Preventing Shifting and Separation': 'Que no se mueva ni se abra',
       'We install reinforced edge restraints and interlocking systems that maintain structural alignment over time. This prevents lateral movement, uneven settling, and joint separation — common issues in low-cost installations. Our method ensures long-term surface stability and aesthetic consistency.':
@@ -79,20 +79,20 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'Custom Layout &amp; Design Integration': 'Trazado a medida e integración',
       'Architectural Outdoor Cohesion': 'Un exterior que va junto',
       'Every paver installation is custom designed to integrate seamlessly with pergolas, decks, driveways, and pool areas. We consider flow, elevation, material tone, and property aesthetics to create cohesive outdoor environments. The result is not just a surface upgrade — it’s a fully integrated outdoor transformation.':
-        'Cada adoquinado se diseña a medida para integrarse con las pérgolas, los decks, la entrada de coche y la zona de piscina. Tenemos en cuenta los recorridos, los desniveles, el tono del material y la estética de la casa para que el exterior sea un conjunto. El resultado no es cambiar un suelo: es transformar el exterior entero.',
+        'Cada proyecto de pavers se diseña a medida para integrarse con las pérgolas, los decks, la entrada de autos y la zona de piscina. Tenemos en cuenta los recorridos, los desniveles, el tono del material y la estética de la casa para que el exterior sea un conjunto. El resultado no es cambiar un suelo: es transformar el exterior entero.',
       'Browse our premium paver patios, pool decks, and hardscapes designed for structural performance, refined finishes, and long-term durability.':
-        'Vea nuestros patios, bordes de piscina y hardscape adoquinados, hechos para rendir, durar y tener buen acabado.',
+        'Vea nuestros patios, bordes de piscina y hardscape pavers, hechos para rendir, durar y tener buen acabado.',
       'Common questions about professional paver installation in South Florida.':
-        'Preguntas frecuentes sobre el adoquinado profesional en el sur de Florida.',
+        'Preguntas frecuentes sobre los pavers profesionales en el sur de Florida.',
       'How long do professionally installed pavers last in Florida?':
-        '¿Cuánto dura un adoquinado bien instalado en Florida?',
+        '¿Cuánto dura un pavimento de pavers bien instalado en Florida?',
       'Professionally installed pavers in South Florida can last decades when built on a properly compacted and reinforced base. Our paver installation process prioritizes drainage planning and structural stability to prevent shifting or surface failure.':
-        'Un adoquinado bien instalado en el sur de Florida puede durar décadas si va sobre una base bien compactada y reforzada. En nuestro proceso lo primero es planificar el drenaje y asegurar la estabilidad, que es lo que evita que se mueva o se hunda.',
+        'Un pavimento de pavers bien instalado en el sur de Florida puede durar décadas si va sobre una base bien compactada y reforzada. En nuestro proceso lo primero es planificar el drenaje y asegurar la estabilidad, que es lo que evita que se mueva o se hunda.',
       'Are pavers better than poured concrete for patios?':
-        '¿Es mejor adoquinar un patio que hacerlo de hormigón?',
+        '¿Es mejor adoquinar un patio que hacerlo de concreto?',
       'Pavers offer greater flexibility and crack resistance compared to poured concrete patios. In South Florida’s climate, paver systems handle heat expansion and heavy rainfall more effectively while providing elevated design options.':
-        'El adoquinado tiene más flexibilidad y resiste mejor las grietas que una losa de hormigón. En el clima del sur de Florida absorbe mejor la dilatación por calor y las lluvias fuertes, y además da muchas más opciones de diseño.',
-      'Do paver patios require drainage systems?': '¿Un patio adoquinado necesita drenaje?',
+        'Los pavers tienen más flexibilidad y resisten mejor las grietas que una losa de concreto. En el clima del sur de Florida absorbe mejor la dilatación por calor y las lluvias fuertes, y además da muchas más opciones de diseño.',
+      'Do paver patios require drainage systems?': '¿Un patio de pavers necesita drenaje?',
       'Yes. Proper grading and drainage are critical for paver patios in South Florida. Our paver contractors design installations that prevent water pooling, protect foundations, and maintain long-term structural integrity.':
         'Sí. Las pendientes y el drenaje son críticos en el sur de Florida. Diseñamos la instalación para que no se encharque, para proteger la cimentación y para que aguante con los años.',
       'How long does paver installation take?': '¿Cuánto se tarda en adoquinar?',
@@ -100,7 +100,7 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
         'Depende del tamaño y de cuánta base haya que preparar. La mayoría de proyectos residenciales en Palm Beach y Broward llevan varias semanas, contando excavación, compactación y acabado.',
       'Do paver installations increase property value?': '¿Adoquinar revaloriza la propiedad?',
       'Luxury paver patios and driveways enhance curb appeal and outdoor functionality. Professionally installed pavers in South Florida can positively impact resale value and overall market appeal.':
-        'Un patio o una entrada adoquinados mejoran la fachada y hacen el exterior más útil. Un buen adoquinado en el sur de Florida suele influir de forma positiva en el valor de reventa.',
+        'Un patio o una entrada de pavers mejoran la fachada y hacen el exterior más útil. Un buen trabajo de pavers en el sur de Florida suele influir de forma positiva en el valor de reventa.',
           },
   },
 
@@ -119,7 +119,7 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'Dark wood-look open-slat pergola attached to a white home above French doors, with garden trellis panels and planted pots below.':
         'Pérgola de lamas abiertas con textura tipo madera oscura, adosada a una casa blanca sobre las puertas francesas, con paneles de enrejado y macetas debajo.',
       'Bronze louvered pergola attached to a tile-roof home, louvers open over a travertine pool deck, with the gutter downspout running down inside the post.':
-        'Pérgola de lamas bronce adosada a una casa con tejado de teja, con las lamas abiertas sobre una terraza de travertino junto a la piscina y la bajante del canalón por dentro del poste.',
+        'Pérgola de lamas bronce adosada a una casa con techo de teja, con las lamas abiertas sobre una terraza de travertino junto a la piscina y la bajante del canalón por dentro del poste.',
       'White louvered pergola attached to a yellow stucco home, shading an outdoor dining and grill area beside the pool.':
         'Pérgola de lamas blanca adosada a una casa de estuco amarillo, dando sombra a la zona de comedor y parrilla junto a la piscina.',
       'Freestanding insulated roof pergola with a dark bronze frame on a lawn beside a pool, sheltering a hanging wicker chair and a daybed among tropical planting.':
@@ -139,13 +139,13 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'Weather-resistant aluminum pergola designed for South Florida climate conditions.':
         'Pérgola de aluminio resistente a la intemperie, pensada para el clima del sur de Florida.',
       'Dark bronze pergola with a slatted roof and a matching louvered privacy screen in a narrow side yard, over paver-and-turf paving.':
-        'Pérgola en bronce oscuro con techo de listones y un panel de lamas a juego para privacidad, en un pasillo lateral estrecho, sobre pavimento de adoquín y césped.',
+        'Pérgola en bronce oscuro con techo de listones y un panel de lamas a juego para privacidad, en un pasillo lateral estrecho, sobre pavimento de pavers y césped.',
       'Looking up at a translucent polycarbonate roof on a dark frame, with two ceiling fans below and palms showing through the panels.':
         'Vista hacia arriba de un techo traslúcido de policarbonato sobre estructura oscura, con dos ventiladores debajo y las palmeras asomando a través de los paneles.',
       'Cream open-slat pergola over a poolside terrace, with striped loungers and an ornate stone screen at one end.':
         'Pérgola color crema de listones abiertos sobre una terraza junto a la piscina, con camastros de rayas y una celosía de piedra labrada en un extremo.',
       'Louvered pergola attached to a tile-roof home, shading a paver pool deck behind a safety fence.':
-        'Pérgola de lamas adosada a una casa con techo de teja, dando sombra a una terraza de adoquín junto a la piscina, detrás de una valla de seguridad.',
+        'Pérgola de lamas adosada a una casa con techo de teja, dando sombra a una terraza de pavers junto a la piscina, detrás de una cerca de seguridad.',
       'Dark-framed pergola with white louvers over a paved terrace with a lounge set, against a tall clipped hedge.':
         'Pérgola de estructura oscura con lamas blancas sobre una terraza pavimentada con juego de estar, contra un seto alto recortado.',
       'Close-up of white louvers part-open on a dark beam, with the drive gear that turns them.':
@@ -187,7 +187,7 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'Seamless Outdoor Living Integration': 'Todo el exterior, en un conjunto',
       'Expand Comfort Beyond Interior Walls': 'El confort no se acaba en la pared',
       'Our pergolas integrate effortlessly with outdoor kitchens, decks, paver patios, and motorized screens. We design complete outdoor living environments — not standalone structures. This holistic approach ensures visual harmony, functional flow, and maximum return on investment.':
-        'Nuestras pérgolas se integran con cocinas exteriores, decks, patios adoquinados y cortinas motorizadas. Diseñamos espacios exteriores completos, no estructuras sueltas. Así todo encaja visualmente, se usa mejor y la inversión rinde más.',
+        'Nuestras pérgolas se integran con cocinas exteriores, decks, patios de pavers y cortinas motorizadas. Diseñamos espacios exteriores completos, no estructuras sueltas. Así todo encaja visualmente, se usa mejor y la inversión rinde más.',
       'Explore our custom aluminum and louvered pergolas built across South Florida, engineered for durability, architectural integration, and elevated outdoor living.':
         'Vea nuestras pérgolas de aluminio y de lamas construidas por el sur de Florida, calculadas para durar, integrarse en la arquitectura y elevar el espacio exterior.',
       'Answers to common questions about custom pergola design and installation in South Florida.':
@@ -211,48 +211,48 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
   },
 
   driveways: {
-    nombre: 'Entradas de coche',
-    title: 'Entradas de coche a medida | Sur de Florida',
+    nombre: 'Entradas de autos',
+    title: 'Entradas de autos a medida | Sur de Florida',
     description: 'Entradas adoquinadas sobre bases reforzadas, con las pendientes y el drenaje calculados para las lluvias de Florida.',
     dic: {
       // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
       // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
       // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
       'Reinforced structural base preparation for luxury driveway installation in South Florida.':
-        'Preparación de la base estructural reforzada para una entrada de coches de alto nivel en el sur de Florida.',
+        'Preparación de la base estructural reforzada para una entrada de autos de alto nivel en el sur de Florida.',
       'Luxury paver driveway installed at upscale South Florida residence.':
-        'Entrada de coches de adoquín de alto nivel instalada en una residencia de categoría del sur de Florida.',
+        'Entrada de autos de pavers de alto nivel instalada en una residencia de categoría del sur de Florida.',
       'Luxury driveway with engineered drainage system in South Florida.':
-        'Entrada de coches de alto nivel con sistema de drenaje calculado, en el sur de Florida.',
+        'Entrada de autos de alto nivel con sistema de drenaje calculado, en el sur de Florida.',
       'Custom designed paver driveway complementing modern South Florida home.':
-        'Entrada de coches de adoquín diseñada a medida, a juego con una casa actual del sur de Florida.',
+        'Entrada de autos de pavers diseñada a medida, a juego con una casa actual del sur de Florida.',
       'Fully permitted luxury driveway installation in South Florida residential property.':
-        'Entrada de coches de alto nivel instalada con todos los permisos en una propiedad residencial del sur de Florida.',
+        'Entrada de autos de alto nivel instalada con todos los permisos en una propiedad residencial del sur de Florida.',
       'Grey brick-paver driveway curving up to a single-story home behind a lawn and palms.':
-        'Entrada de coches de adoquín gris que describe una curva hasta una casa de una planta, tras el césped y las palmeras.',
+        'Entrada de autos de pavers grises que describe una curva hasta una casa de una planta, tras el césped y las palmeras.',
       'Wide motor court in light grey pavers opening in front of a two-story home with stone columns and a metal roof.':
-        'Amplia explanada de acceso en adoquín gris claro que se abre ante una casa de dos plantas con columnas de piedra y cubierta metálica.',
+        'Amplia explanada de acceso en pavers gris claro que se abre ante una casa de dos plantas con columnas de piedra y cubierta metálica.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Herringbone paver driveway with a soldier-course border sweeping up to a luxury home in Palm Beach, Florida.':
-        'Entrada de coches adoquinada en espiga, con cenefa de remate, subiendo hasta una vivienda de lujo en Palm Beach, Florida.',
+        'Entrada de autos adoquinada en espiga, con cenefa de remate, subiendo hasta una vivienda de lujo en Palm Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Modern paver driveway installation at upscale South Florida residence.':
-        'Entrada de coche adoquinada y de línea actual instalada en una residencia de alto nivel del sur de Florida.',
-      'Driveway Design &amp; Installation': 'Diseño e instalación de entradas de coche',
-      'Custom Driveway Installation in South Florida': 'Entradas de coche a medida en el sur de Florida',
+        'Entrada de autos adoquinada y de línea actual instalada en una residencia de alto nivel del sur de Florida.',
+      'Driveway Design &amp; Installation': 'Diseño e instalación de entradas de autos',
+      'Custom Driveway Installation in South Florida': 'Entradas de autos a medida en el sur de Florida',
       'Pergola Plus Florida designs and installs luxury driveway systems across Palm Beach and Broward County for upscale residential properties. Our custom paver and concrete driveways are built on reinforced foundations engineered for durability, load-bearing performance, and climate resilience. If you&#x27;re searching for driveway contractors in South Florida, we deliver architecturally cohesive installations that enhance curb appeal and withstand heavy rainfall, sun exposure, and daily vehicle use. We focus on structural precision and long-term performance to ensure your driveway remains both functional and visually refined for years to come.':
-        'Pergola Plus Florida diseña e instala entradas de coche de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestras entradas de adoquín y de hormigón se levantan sobre bases reforzadas, calculadas para durar, soportar el peso y aguantar el clima. Si busca profesionales para su entrada de coche en el sur de Florida, hacemos instalaciones que encajan con la arquitectura, mejoran la fachada y resisten las lluvias fuertes, el sol y el paso diario de vehículos. Nos centramos en la precisión estructural para que su entrada siga siendo funcional y bonita durante años.',
+        'Pergola Plus Florida diseña e instala entradas de autos de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestras entradas de pavers y de concreto se levantan sobre bases reforzadas, calculadas para durar, soportar el peso y aguantar el clima. Si busca profesionales para su entrada de autos en el sur de Florida, hacemos instalaciones que encajan con la arquitectura, mejoran la fachada y resisten las lluvias fuertes, el sol y el paso diario de vehículos. Nos centramos en la precisión estructural para que su entrada siga siendo funcional y bonita durante años.',
       'We design and install luxury driveway systems for upscale homes across Palm Beach and Broward County. Our custom paver driveways are built on reinforced foundations engineered for durability, load-bearing performance, and long-term resilience in Florida’s climate. Homeowners searching for driveway contractors in South Florida choose us for our precision craftsmanship, permitting expertise, and architectural approach. Every driveway is designed to complement your home’s exterior while increasing curb appeal and property value.':
-        'Diseñamos e instalamos entradas de coche de gama alta para viviendas de alto nivel en Palm Beach y Broward, sobre bases reforzadas y calculadas para durar y soportar el peso en el clima de Florida. Quien busca profesionales en el sur de Florida nos elige por el acabado, por saber tramitar los permisos y por el enfoque arquitectónico. Cada entrada se diseña para acompañar al exterior de su casa y sumar valor.',
+        'Diseñamos e instalamos entradas de autos de gama alta para viviendas de alto nivel en Palm Beach y Broward, sobre bases reforzadas y calculadas para durar y soportar el peso en el clima de Florida. Quien busca profesionales en el sur de Florida nos elige por el acabado, por saber tramitar los permisos y por el enfoque arquitectónico. Cada entrada se diseña para acompañar al exterior de su casa y sumar valor.',
       'Reinforced Structural Foundations': 'Bases estructurales reforzadas',
       'Built to Handle Vehicle Load &amp; Time': 'Preparado para el peso y para los años',
       'We install high-performance pavers selected for load resistance, color retention, and architectural refinement. Designed for upscale residences, our materials resist fading, staining, and surface deterioration caused by sun exposure and heavy rainfall. The result is a driveway that elevates curb appeal while delivering long-term durability.':
-        'Instalamos adoquines de alto rendimiento, elegidos por cómo soportan el peso, cómo mantienen el color y cómo quedan. Pensados para viviendas de alto nivel, resisten la decoloración, las manchas y el deterioro por sol y lluvia. El resultado es una entrada que mejora la fachada y aguanta.',
-      'Premium Paver &amp; Surface Materials': 'Adoquines y pavimentos de primera',
+        'Instalamos pavers de alto rendimiento, elegidos por cómo soportan el peso, cómo mantienen el color y cómo quedan. Pensados para viviendas de alto nivel, resisten la decoloración, las manchas y el deterioro por sol y lluvia. El resultado es una entrada que mejora la fachada y aguanta.',
+      'Premium Paver &amp; Surface Materials': 'Pavers y pavimentos de primera',
       'Designed for Strength and Curb Appeal': 'Resistencia y buena imagen',
       'Precision Grading &amp; Drainage Control': 'Pendientes y drenaje al milímetro',
       'Engineered for Florida Rainfall': 'Calculado para la lluvia de Florida',
@@ -265,21 +265,21 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'We manage permitting requirements and ensure full compliance with local building codes across Palm Beach and Broward County. Our professional installation process guarantees structural reliability, proper inspections, and peace of mind. This is a long-term investment executed with precision and accountability.':
         'Nos ocupamos de los permisos y de que todo cumpla la normativa local de Palm Beach y Broward. Nuestro proceso garantiza fiabilidad estructural, las inspecciones en regla y tranquilidad. Es una inversión a largo plazo, ejecutada con precisión y con alguien que responde.',
       'View our luxury driveway installations built on reinforced foundations, combining structural strength with refined curb appeal.':
-        'Vea nuestras entradas de coche sobre bases reforzadas, que unen resistencia estructural y buena imagen.',
+        'Vea nuestras entradas de autos sobre bases reforzadas, que unen resistencia estructural y buena imagen.',
       'Key questions about custom driveway installation in South Florida.':
-        'Las preguntas clave sobre entradas de coche a medida en el sur de Florida.',
-      'What is the best driveway material for South Florida homes?': '¿Qué material es mejor para una entrada de coche en el sur de Florida?',
+        'Las preguntas clave sobre entradas de autos a medida en el sur de Florida.',
+      'What is the best driveway material for South Florida homes?': '¿Qué material es mejor para una entrada de autos en el sur de Florida?',
       'Concrete pavers are ideal for driveway installation in South Florida due to their load-bearing strength and flexibility. Reinforced paver driveways resist cracking better than poured concrete under heavy rain and sun exposure.':
-        'El adoquín de hormigón es lo ideal por cómo soporta el peso y por su flexibilidad. Una entrada adoquinada y reforzada resiste mejor las grietas que una losa de hormigón cuando llueve fuerte y aprieta el sol.',
-      'Do driveway installations require permits?': '¿Hace falta permiso para hacer una entrada de coche?',
+        'El paver de concreto es lo ideal por cómo soporta el peso y por su flexibilidad. Una entrada de pavers bien reforzada resiste mejor las grietas que una losa de concreto cuando llueve fuerte y aprieta el sol.',
+      'Do driveway installations require permits?': '¿Hace falta permiso para hacer una entrada de autos?',
       'Permit requirements vary by city. Our driveway contractors in Palm Beach and Broward County manage permitting, inspections, and compliance to ensure your driveway installation meets local building standards.':
         'Depende del municipio. Nosotros gestionamos permisos, inspecciones y cumplimiento en Palm Beach y Broward para que su entrada cumpla la normativa local.',
       'How long does a paver driveway last?': '¿Cuánto dura una entrada adoquinada?',
       'A professionally installed paver driveway in South Florida can last decades when built on a reinforced foundation. Proper compaction and drainage are essential for long-term performance.':
         'Una entrada adoquinada bien instalada en el sur de Florida puede durar décadas si va sobre una base reforzada. La compactación y el drenaje son lo que marca la diferencia.',
-      'Can you replace an old concrete driveway?': '¿Se puede sustituir una entrada de hormigón vieja?',
+      'Can you replace an old concrete driveway?': '¿Se puede sustituir una entrada de concreto vieja?',
       'Yes. We remove damaged concrete and install custom paver or reinforced concrete driveway systems engineered for improved durability and enhanced curb appeal in South Florida.':
-        'Sí. Retiramos el hormigón dañado e instalamos una entrada de adoquín a medida o de hormigón reforzado, calculada para durar más y mejorar la fachada.',
+        'Sí. Retiramos el concreto dañado e instalamos una entrada de pavers a medida o de concreto reforzado, calculada para durar más y mejorar la fachada.',
       'Will a new driveway increase property value?': '¿Una entrada nueva revaloriza la casa?',
       'A luxury driveway enhances first impressions and architectural cohesion. Professionally installed driveways in South Florida can improve resale value and overall property marketability.':
         'Una buena entrada mejora la primera impresión y la coherencia del conjunto. Bien instalada, suele mejorar el valor de reventa y lo fácil que resulta vender la casa.',
@@ -287,77 +287,77 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
   },
 
   concrete: {
-    nombre: 'Hormigón estructural',
-    title: 'Hormigón estructural | Sur de Florida',
-    description: 'Losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y adoquinado, con permisos en regla.',
+    nombre: 'Concreto estructural',
+    title: 'Concreto estructural | Sur de Florida',
+    description: 'Losas armadas, cimentaciones de patio y pavimentos calculados para soportar pérgolas, decks y pavers, con permisos en regla.',
     dic: {
       // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
       // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
       // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
       'Professional grading and site preparation for concrete installation in South Florida.':
-        'Nivelación y preparación del terreno, hechas por profesionales, para una obra de hormigón en el sur de Florida.',
+        'Nivelación y preparación del terreno, hechas por profesionales, para una obra de concreto en el sur de Florida.',
       'Reinforced concrete slab engineered for luxury pergola installation in South Florida.':
-        'Losa de hormigón armado calculada para una pérgola de alto nivel en el sur de Florida.',
+        'Losa de concreto armado calculada para una pérgola de alto nivel en el sur de Florida.',
       'Code-compliant concrete foundation installation in South Florida residential property.':
-        'Cimentación de hormigón ejecutada conforme al código en una propiedad residencial del sur de Florida.',
+        'Cimentación de concreto ejecutada conforme al código en una propiedad residencial del sur de Florida.',
       'Concrete patio engineered with drainage control for South Florida climate.':
-        'Patio de hormigón calculado con control de drenaje para el clima del sur de Florida.',
+        'Patio de concreto calculado con control de drenaje para el clima del sur de Florida.',
       'Concrete foundation supporting pergola and paver patio in South Florida residence.':
-        'Cimentación de hormigón que sostiene la pérgola y el patio de adoquín de una residencia del sur de Florida.',
+        'Cimentación de concreto que sostiene la pérgola y el patio de pavers de una residencia del sur de Florida.',
       'Finished concrete patio with saw-cut joints, a lounge set and potted plants against sliding glass doors.':
-        'Patio de hormigón terminado con juntas aserradas, juego de estar y macetas frente a las puertas corredizas de vidrio.',
+        'Patio de concreto terminado con juntas aserradas, juego de estar y macetas frente a las puertas corredizas de vidrio.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Finished structural concrete patio slab with saw-cut joints and a clean square edge in Pompano Beach, Florida.':
-        'Losa de hormigón estructural terminada, con juntas aserradas y canto recto y limpio, en Pompano Beach, Florida.',
+        'Losa de concreto estructural terminada, con juntas aserradas y canto recto y limpio, en Pompano Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Structural concrete patio foundation installation at South Florida luxury property.':
-        'Cimentación de hormigón estructural para patio instalada en una propiedad de lujo del sur de Florida.',
-      'Structural Concrete Services': 'Servicios de hormigón estructural',
-      'Structural Concrete Services in South Florida': 'Hormigón estructural en el sur de Florida',
+        'Cimentación de concreto estructural para patio instalada en una propiedad de lujo del sur de Florida.',
+      'Structural Concrete Services': 'Servicios de concreto estructural',
+      'Structural Concrete Services in South Florida': 'Concreto estructural en el sur de Florida',
       'Pergola Plus Florida provides structural concrete services for high-end residential outdoor projects across Palm Beach and Broward County. From reinforced pergola slabs and patio foundations to custom drive surfaces, every installation is engineered for strength, longevity, and code compliance. If you need professional concrete contractors in South Florida for a fully permitted project, our team ensures proper reinforcement, grading, and curing to support long-term structural performance. We build foundations that protect and enhance your outdoor investment.':
-        'Pergola Plus Florida hace hormigón estructural para proyectos exteriores de alto nivel en Palm Beach y Broward. Desde losas armadas para pérgolas y cimentaciones de patio hasta pavimentos de acceso, cada trabajo se calcula para resistir, durar y cumplir normativa. Si necesita profesionales del hormigón en el sur de Florida para un proyecto con todos los permisos, cuidamos el armado, las pendientes y el curado para que aguante. Hacemos las bases que protegen su inversión.',
+        'Pergola Plus Florida hace concreto estructural para proyectos exteriores de alto nivel en Palm Beach y Broward. Desde losas armadas para pérgolas y cimentaciones de patio hasta pavimentos de acceso, cada trabajo se calcula para resistir, durar y cumplir normativa. Si necesita profesionales del concreto en el sur de Florida para un proyecto con todos los permisos, cuidamos el armado, las pendientes y el curado para que aguante. Hacemos las bases que protegen su inversión.',
       'Our structural concrete services provide the engineered foundation behind luxury outdoor living projects across Palm Beach and Broward County. From reinforced pergola slabs to patio foundations and custom flatwork, every installation is designed for strength, longevity, and full code compliance.':
-        'Nuestro hormigón estructural es la base calculada que hay debajo de los proyectos exteriores de lujo en Palm Beach y Broward. Desde losas armadas para pérgolas hasta cimentaciones de patio y soleras a medida, todo se diseña para resistir, durar y cumplir normativa.',
+        'Nuestro concreto estructural es la base calculada que hay debajo de los proyectos exteriores de lujo en Palm Beach y Broward. Desde losas armadas para pérgolas hasta cimentaciones de patio y soleras a medida, todo se diseña para resistir, durar y cumplir normativa.',
       'Reinforced Structural Slabs': 'Losas armadas',
       'Engineered for Load &amp; Longevity': 'Calculadas para el peso y para el tiempo',
       'Before pouring, we properly grade and compact the soil to ensure even support and long-term stability. Correct preparation prevents settlement issues and drainage problems — two of the most common failures in Florida concrete installations. Structural integrity begins beneath the surface.':
-        'Antes de hormigonar, nivelamos y compactamos el terreno para que el apoyo sea uniforme y estable. Prepararlo bien evita asentamientos y problemas de drenaje, que son los dos fallos más habituales del hormigón en Florida. La solidez empieza debajo.',
+        'Antes de hormigonar, nivelamos y compactamos el terreno para que el apoyo sea uniforme y estable. Prepararlo bien evita asentamientos y problemas de drenaje, que son los dos fallos más habituales del concreto en Florida. La solidez empieza debajo.',
       'Precision Grading &amp; Site Preparation': 'Nivelación y preparación del terreno',
       'Foundation Stability Starts Below': 'La estabilidad empieza abajo',
       'Code-Compliant &amp; Fully Permitted Work': 'Conforme a normativa y con permisos',
       'Built to Meet Florida Standards': 'Hecho según lo que pide Florida',
       'Our concrete projects meet local building codes and wind-load requirements across Palm Beach and Broward County. We manage inspections, permitting, and compliance to ensure your project is professionally executed from start to finish. This protects both safety and long-term property value.':
-        'Nuestros trabajos de hormigón cumplen la normativa local y los requisitos de carga de viento de Palm Beach y Broward. Nos ocupamos de inspecciones, permisos y cumplimiento para que el proyecto salga bien de principio a fin. Eso protege la seguridad y el valor de la propiedad.',
+        'Nuestros trabajos de concreto cumplen la normativa local y los requisitos de carga de viento de Palm Beach y Broward. Nos ocupamos de inspecciones, permisos y cumplimiento para que el proyecto salga bien de principio a fin. Eso protege la seguridad y el valor de la propiedad.',
       'Moisture &amp; Drainage Control Design': 'Control de humedad y drenaje',
       'South Florida’s heavy rainfall demands proper drainage planning. We incorporate slope control and moisture management strategies into every concrete installation to prevent water pooling, erosion, and foundation damage. Our approach ensures durability in high-humidity environments.':
         'Las lluvias del sur de Florida obligan a planificar el drenaje. Incorporamos control de pendientes y gestión de la humedad en cada trabajo para evitar encharcamientos, erosión y daños en la cimentación. Así aguanta en un ambiente húmedo.',
       'Integrated Outdoor Construction Support': 'La base del resto del proyecto',
       'The Structural Base for Luxury Additions': 'Lo que sostiene todo lo demás',
       'Our concrete services support pergolas, decks, paver systems, and full outdoor remodels. By engineering the foundation in-house, we ensure seamless integration between structural elements and surface finishes. This unified approach guarantees stability, alignment, and long-term performance across your entire outdoor project.':
-        'Nuestro hormigón sostiene pérgolas, decks, adoquinado y remodelaciones exteriores integrales. Al calcular la base nosotros mismos, la estructura y los acabados encajan sin sorpresas. Ese enfoque unificado garantiza estabilidad, alineación y rendimiento en todo el proyecto.',
+        'Nuestro concreto sostiene pérgolas, decks, pavers y remodelaciones exteriores integrales. Al calcular la base nosotros mismos, la estructura y los acabados encajan sin sorpresas. Ese enfoque unificado garantiza estabilidad, alineación y rendimiento en todo el proyecto.',
       'Discover our structural concrete projects engineered to support pergolas, patios, and driveways with long-term stability.':
-        'Vea nuestros trabajos de hormigón estructural, calculados para sostener pérgolas, patios y entradas de coche con estabilidad a largo plazo.',
+        'Vea nuestros trabajos de concreto estructural, calculados para sostener pérgolas, patios y entradas de autos con estabilidad a largo plazo.',
       'Answers about structural concrete services for outdoor projects.':
-        'Respuestas sobre el hormigón estructural en proyectos exteriores.',
-      'Why is reinforced concrete important for outdoor projects?': '¿Por qué es importante el hormigón armado en un proyecto exterior?',
+        'Respuestas sobre el concreto estructural en proyectos exteriores.',
+      'Why is reinforced concrete important for outdoor projects?': '¿Por qué es importante el concreto armado en un proyecto exterior?',
       'Reinforced concrete provides structural support for pergolas, decks, patios, and driveways. Proper steel reinforcement and grading prevent cracking and settlement in South Florida soil conditions.':
-        'El hormigón armado es lo que sostiene pérgolas, decks, patios y entradas de coche. Un buen armado y una buena nivelación evitan grietas y asentamientos en los suelos del sur de Florida.',
-      'How long does concrete take to fully cure?': '¿Cuánto tarda el hormigón en curar del todo?',
+        'El concreto armado es lo que sostiene pérgolas, decks, patios y entradas de autos. Un buen armado y una buena nivelación evitan grietas y asentamientos en los suelos del sur de Florida.',
+      'How long does concrete take to fully cure?': '¿Cuánto tarda el concreto en curar del todo?',
       'Concrete gains initial strength within days but continues curing for several weeks. Proper curing ensures long-term durability and climate resistance for South Florida construction projects.':
-        'El hormigón coge resistencia inicial en días, pero sigue curando durante varias semanas. Curarlo bien es lo que le da durabilidad y aguante frente al clima.',
-      'Do structural concrete projects require permits?': '¿Hace falta permiso para un trabajo de hormigón estructural?',
+        'El concreto gana resistencia inicial en días, pero sigue curando durante varias semanas. Curarlo bien es lo que le da durabilidad y aguante frente al clima.',
+      'Do structural concrete projects require permits?': '¿Hace falta permiso para un trabajo de concreto estructural?',
       'Many structural concrete installations require permits in Palm Beach and Broward County. Professional concrete contractors manage documentation, inspections, and code compliance.':
-        'Muchos trabajos de hormigón estructural requieren permiso en Palm Beach y Broward. Nosotros gestionamos la documentación, las inspecciones y el cumplimiento normativo.',
-      'Can concrete slabs support pergolas and decks?': '¿Una losa de hormigón puede sostener una pérgola o un deck?',
+        'Muchos trabajos de concreto estructural requieren permiso en Palm Beach y Broward. Nosotros gestionamos la documentación, las inspecciones y el cumplimiento normativo.',
+      'Can concrete slabs support pergolas and decks?': '¿Una losa de concreto puede sostener una pérgola o un deck?',
       'Yes. Engineered concrete slabs provide the structural foundation required for aluminum pergolas, composite decks, and outdoor kitchens in South Florida residential properties.':
         'Sí. Una losa calculada es la base que necesitan las pérgolas de aluminio, los decks de composite y las cocinas exteriores en las viviendas del sur de Florida.',
-      'How long does structural concrete last?': '¿Cuánto dura el hormigón estructural?',
+      'How long does structural concrete last?': '¿Cuánto dura el concreto estructural?',
       'When properly reinforced and professionally installed, structural concrete in South Florida can last decades, supporting luxury outdoor living structures.':
-        'Bien armado y bien ejecutado, el hormigón estructural en el sur de Florida dura décadas sosteniendo las estructuras de exterior.',
+        'Bien armado y bien ejecutado, el concreto estructural en el sur de Florida dura décadas sosteniendo las estructuras de exterior.',
     },
   },
 
@@ -428,7 +428,7 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
         'Un deck de composite en el sur de Florida puede durar 25 años o más con muy poco mantenimiento, así que es una inversión que sale a cuenta.',
       'Can decks integrate with pergolas?': '¿Se puede integrar un deck con una pérgola?',
       'Custom deck builders design composite and aluminum decks that integrate seamlessly with pergolas, paver patios, and pool areas for cohesive outdoor living design.':
-        'Sí. Diseñamos decks de composite y aluminio que se integran con pérgolas, patios adoquinados y zonas de piscina para que el exterior sea un conjunto.',
+        'Sí. Diseñamos decks de composite y aluminio que se integran con pérgolas, patios de pavers y zonas de piscina para que el exterior sea un conjunto.',
       'Does installing a deck increase property value?': '¿Instalar un deck revaloriza la casa?',
       'A professionally installed deck enhances usability and curb appeal. High-end deck construction in South Florida can positively impact resale value.':
         'Un deck bien instalado hace el exterior más útil y mejora la imagen de la casa. En el sur de Florida suele influir de forma positiva en el valor de reventa.',
@@ -436,83 +436,83 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
   },
 
   'fence-solutions': {
-    nombre: 'Vallado',
-    title: 'Instalación de vallado | Sur de Florida',
-    description: 'Vallado de aluminio y cerramientos de privacidad calculados para resistir el viento y la corrosión de la costa, con permisos y visto bueno de la HOA.',
+    nombre: 'Cercas',
+    title: 'Instalación de cercas | Sur de Florida',
+    description: 'Cercas de aluminio y cercas de privacidad calculadas para resistir el viento y la corrosión de la costa, con permisos y visto bueno de la HOA.',
     dic: {
       // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
       // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
       // a comparar atributos contra la gemela inglesa (A1 de F4a-veracidad.md).
       'Reinforced fence post installation designed for Florida wind resistance.':
-        'Postes de valla reforzados, pensados para aguantar el viento de Florida.',
+        'Postes de cerca reforzados, pensados para aguantar el viento de Florida.',
       'Architectural aluminum fence complementing modern South Florida home.':
-        'Valla de aluminio de línea arquitectónica, a juego con una casa actual del sur de Florida.',
+        'Cerca de aluminio de línea arquitectónica, a juego con una casa actual del sur de Florida.',
       'Custom privacy fence installed around luxury South Florida backyard.':
-        'Valla de privacidad a medida instalada alrededor de un patio de lujo del sur de Florida.',
+        'Cerca de privacidad a medida instalada alrededor de un patio de lujo del sur de Florida.',
       'Fully permitted aluminum fence installation in South Florida residential property.':
-        'Valla de aluminio instalada con todos los permisos en una propiedad residencial del sur de Florida.',
+        'Cerca de aluminio instalada con todos los permisos en una propiedad residencial del sur de Florida.',
       'Black horizontal-slat fence with a matching sliding driveway gate meeting the paver apron at the street.':
-        'Valla de lamas horizontales negras con portón corredizo a juego, que llega al adoquín de la entrada junto a la calle.',
+        'Cerca de lamas horizontales negras con portón corredizo a juego, que llega al paver de la entrada junto a la calle.',
       // El alt del fondo del CTA propio de esta ficha (scripts/lib/cta-slots.mjs).
       // SIN esta entrada el <img> se queda en ingles en /es/ y no lo dice NADIE:
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Dark aluminum horizontal-slat privacy fence running along a landscaped property edge in Boca Raton, Florida.':
-        'Valla de intimidad de aluminio oscuro con lamas horizontales, a lo largo del lindero ajardinado de la parcela, en Boca Raton, Florida.',
+        'Cerca de intimidad de aluminio oscura con lamas horizontales, a lo largo del lindero ajardinado de la parcela, en Boca Raton, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla.
       'Premium aluminum fence installation at luxury South Florida residence.':
-        'Instalación de vallado de aluminio de gama alta en una residencia de lujo del sur de Florida.',
-      'Fence Solutions': 'Soluciones de vallado',
-      'Premium Fence Installation in South Florida': 'Vallado de gama alta en el sur de Florida',
+        'Instalación de cercas de aluminio de gama alta en una residencia de lujo del sur de Florida.',
+      'Fence Solutions': 'Soluciones de cercas',
+      'Premium Fence Installation in South Florida': 'Cercas de gama alta en el sur de Florida',
       'Pergola Plus Florida provides premium fence installation services throughout Palm Beach and Broward County for upscale residential properties. Our aluminum and modern privacy fencing systems are engineered for wind resistance, corrosion protection, and long-term structural performance in South Florida’s climate. If you&#x27;re searching for fence contractors in South Florida, our team delivers fully compliant, professionally installed solutions that enhance security and architectural cohesion. We focus on durable, low-maintenance fencing that complements your home while providing lasting privacy and protection.':
-        'Pergola Plus Florida instala vallado de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestros sistemas de aluminio y de privacidad se calculan para resistir el viento, la corrosión y el paso del tiempo en el clima del sur de Florida. Si busca profesionales del vallado en el sur de Florida, entregamos soluciones que cumplen normativa y están bien instaladas, que dan seguridad y encajan con la arquitectura. Buscamos vallado duradero y de poco mantenimiento, que acompañe a su casa y dé privacidad y protección de verdad.',
+        'Pergola Plus Florida instala cercas de gama alta en Palm Beach y Broward para viviendas de alto nivel. Nuestros sistemas de aluminio y de privacidad se calculan para resistir el viento, la corrosión y el paso del tiempo en el clima del sur de Florida. Si busca profesionales de la cerca en el sur de Florida, entregamos soluciones que cumplen normativa y están bien instaladas, que dan seguridad y encajan con la arquitectura. Buscamos cercas duraderas y de poco mantenimiento, que acompañen a su casa y dé privacidad y protección de verdad.',
       'We design and install high-quality fencing systems for luxury residential properties across Palm Beach and Broward County. Our aluminum and modern privacy fences are engineered for durability, wind resistance, and long-term performance in South Florida’s coastal climate.':
-        'Diseñamos e instalamos vallado de calidad para viviendas de lujo en Palm Beach y Broward. Nuestras vallas de aluminio y de privacidad se calculan para durar, resistir el viento y rendir en el clima costero del sur de Florida.',
+        'Diseñamos e instalamos cercas de calidad para viviendas de lujo en Palm Beach y Broward. Nuestras cercas de aluminio y de privacidad se calculan para durar, resistir el viento y rendir en el clima costero del sur de Florida.',
       'High-Performance Aluminum Systems': 'Aluminio de alto rendimiento',
       'Engineered for Coastal Durability': 'Calculado para aguantar la costa',
       'We install fencing systems with reinforced posts and secure anchoring methods designed to withstand high wind conditions. Our installations meet local building standards and provide structural reliability during storm seasons — protecting both safety and investment value.':
-        'Instalamos vallado con postes reforzados y anclajes seguros, pensados para aguantar rachas fuertes. Cumplen la normativa local y responden en temporada de tormentas, protegiendo tanto la seguridad como la inversión.',
+        'Instalamos cercas con postes reforzados y anclajes seguros, pensados para aguantar rachas fuertes. Cumplen la normativa local y responden en temporada de tormentas, protegiendo tanto la seguridad como la inversión.',
       'Wind-Resistant Structural Installation': 'Instalación que resiste el viento',
       'Built to Meet Florida Wind Loads': 'Según las cargas de viento de Florida',
       'Custom Privacy &amp; Security Solutions': 'Privacidad y seguridad a medida',
       'Designed Around Your Property Layout': 'Diseñado sobre su parcela',
       'From full-privacy perimeter fencing to decorative security enclosures, every project is custom designed to fit your property’s layout and lifestyle needs. We balance visibility, airflow, and protection while maintaining architectural consistency with your home.':
-        'Desde un cerramiento perimetral opaco hasta un vallado decorativo de seguridad, cada proyecto se diseña a medida de su parcela y de cómo vive usted la casa. Equilibramos visibilidad, ventilación y protección sin romper la coherencia con la vivienda.',
+        'Desde un screen enclosure perimetral opaco hasta una cerca decorativa de seguridad, cada proyecto se diseña a medida de su parcela y de cómo vive usted la casa. Equilibramos visibilidad, ventilación y protección sin romper la coherencia con la vivienda.',
       'Architectural Design Integration': 'Integración con el diseño',
       'Enhancing Curb Appeal &amp; Cohesion': 'Que sume a la fachada, no que la rompa',
       'We carefully select fence styles, colors, and layouts that complement your home’s exterior finishes and landscape design. The result is a cohesive look that enhances curb appeal rather than appearing as an afterthought.':
-        'Elegimos el estilo, el color y el trazado del vallado para que acompañen a los acabados exteriores y al jardín. El resultado es un conjunto coherente que mejora la fachada, en vez de parecer algo añadido después.',
+        'Elegimos el estilo, el color y el trazado de la cerca para que acompañen a los acabados exteriores y al jardín. El resultado es un conjunto coherente que mejora la fachada, en vez de parecer algo añadido después.',
       'HOA &amp; Code-Compliant Installation': 'Conforme a normativa y a la HOA',
       'Professional Management from Start to Finish': 'Gestión profesional de principio a fin',
       'We manage permitting requirements and ensure compliance with local building codes and HOA guidelines throughout Palm Beach and Broward County. Our structured installation process guarantees proper inspections, alignment, and long-term structural stability.':
         'Nos ocupamos de los permisos y de que todo cumpla la normativa local y las normas de la comunidad en Palm Beach y Broward. Nuestro proceso garantiza las inspecciones en regla, la alineación correcta y la estabilidad a largo plazo.',
       'Browse our modern aluminum and privacy fencing systems built for wind resistance, security, and architectural cohesion.':
-        'Vea nuestros vallados de aluminio y de privacidad, hechos para resistir el viento, dar seguridad y encajar con la casa.',
+        'Vea nuestras cercas de aluminio y de privacidad, hechas para resistir el viento, dar seguridad y encajar con la casa.',
       'Important questions about fence installation in South Florida.':
-        'Las preguntas importantes sobre instalación de vallado en el sur de Florida.',
+        'Las preguntas importantes sobre instalación de cercas en el sur de Florida.',
       'What is the best fence material for South Florida properties?': '¿Qué material es mejor para vallar en el sur de Florida?',
       'Aluminum fencing is ideal for South Florida due to corrosion resistance and wind durability. It performs better than wood fencing in humid and coastal environments.':
         'El aluminio es lo ideal en el sur de Florida por su resistencia a la corrosión y al viento. Rinde mucho mejor que la madera en ambientes húmedos y costeros.',
-      'Do fence installations require permits?': '¿Hace falta permiso para instalar un vallado?',
+      'Do fence installations require permits?': '¿Hace falta permiso para instalar una cerca?',
       'Permit requirements vary by city and HOA guidelines. Professional fence contractors manage compliance and ensure code-approved installation across Palm Beach and Broward County.':
         'Depende del municipio y de las normas de la comunidad. Nosotros gestionamos el cumplimiento y nos aseguramos de que la instalación esté aprobada en Palm Beach y Broward.',
-      'How long does aluminum fencing last in Florida?': '¿Cuánto dura un vallado de aluminio en Florida?',
+      'How long does aluminum fencing last in Florida?': '¿Cuánto dura una cerca de aluminio en Florida?',
       'Powder-coated aluminum fences can last decades in South Florida with minimal maintenance, even in high-humidity and salt-exposed environments.':
-        'Un vallado de aluminio con recubrimiento en polvo puede durar décadas en el sur de Florida con muy poco mantenimiento, incluso con mucha humedad y salitre.',
-      'Are aluminum fences wind resistant?': '¿El vallado de aluminio resiste el viento?',
+        'Una cerca de aluminio con recubrimiento en polvo puede durar décadas en el sur de Florida con muy poco mantenimiento, incluso con mucha humedad y salitre.',
+      'Are aluminum fences wind resistant?': '¿La cerca de aluminio resiste el viento?',
       'Yes. Professionally installed aluminum fences are engineered with reinforced posts and secure anchoring systems designed to withstand Florida wind loads.':
-        'Sí. Un vallado de aluminio bien instalado lleva postes reforzados y anclajes calculados para las cargas de viento de Florida.',
+        'Sí. Una cerca de aluminio bien instalada lleva postes reforzada y anclajes calculados para las cargas de viento de Florida.',
       'Does installing a fence increase home value?': '¿Vallar revaloriza la casa?',
       'High-quality fencing enhances privacy, security, and curb appeal, contributing to increased property value in South Florida residential markets.':
-        'Un buen vallado aporta privacidad, seguridad y mejor imagen, y eso suele traducirse en más valor en el mercado residencial del sur de Florida.',
+        'Una buena cerca aporta privacidad, seguridad y mejor imagen, y eso suele traducirse en más valor en el mercado residencial del sur de Florida.',
     },
   },
 
   'full-outdoor-remodel': {
     nombre: 'Remodelación exterior integral',
     title: 'Remodelación exterior integral | Sur de Florida',
-    description: 'Remodelamos el exterior entero: patio, adoquinado, hormigón, decks, vallado, pérgolas, cortinas motorizadas, iluminación y drenaje en un solo proyecto.',
+    description: 'Remodelamos el exterior entero: patio, pavers, concreto, decks, cercas, pérgolas, cortinas motorizadas, iluminación y drenaje en un solo proyecto.',
     dic: {
       // Los `alt` de esta página que salían en INGLÉS en /es/: la rejilla `feature`,
       // el hero y la portada de intro. Nadie los miraba hasta que `check:i18n` empezó
@@ -520,7 +520,7 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'Structural outdoor renovation with reinforced base at South Florida luxury home.':
         'Reforma exterior estructural con base reforzada en una casa de lujo del sur de Florida.',
       'Luxury paver work during a full outdoor remodel at a South Florida residence.':
-        'Trabajo de adoquín de alto nivel durante una reforma exterior completa en una residencia del sur de Florida.',
+        'Trabajo de pavers de alto nivel durante una reforma exterior completa en una residencia del sur de Florida.',
       'Full outdoor remodel with integrated aluminum pergola in South Florida.':
         'Reforma exterior completa con pérgola de aluminio integrada, en el sur de Florida.',
       'Custom outdoor remodeling design integrated with modern South Florida home.':
@@ -538,7 +538,7 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       // traducibles.mjs solo extrae nodos de texto y comprobar-i18n.mjs no mira
       // atributos, asi que la cobertura seguiria en verde con el alt sin traducir.
       'Full outdoor remodel with large-format pavers, a louvered pergola and an outdoor kitchen in Delray Beach, Florida.':
-        'Remodelación exterior integral con adoquín de gran formato, pérgola de lamas y cocina exterior, en Delray Beach, Florida.',
+        'Remodelación exterior integral con paver de gran formato, pérgola de lamas y cocina exterior, en Delray Beach, Florida.',
       // El alt de la portada del CMS: hasta ahora esa imagen no salia en ninguna
       // pagina, y desde el FAQ a dos columnas la lee el lector de pantalla. Ojo: no
       // llega por TEXTOS_CLIENTE sino por el alias de PORTADAS en transformar.mjs,
@@ -548,16 +548,16 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
       'Full Outdoor Remodel': 'Remodelación exterior integral',
       'Complete Outdoor Remodeling in South Florida': 'Remodelación exterior integral en el sur de Florida',
       'Pergola Plus Florida remodels entire outdoor spaces across Palm Beach and Broward County. A full outdoor remodel brings the patio, the hardscape, the shade structures, the lighting and the drainage under one design, one set of permits and one crew — pavers and driveways, structural concrete, decks and fencing, custom pergolas and motorized screens. If you&#x27;re searching for outdoor remodeling contractors in South Florida, we deliver custom-designed, fully permitted renovations that enhance functionality and increase property value. Each project is approached with architectural precision and long-term performance in mind.':
-        'Pergola Plus Florida remodela exteriores completos por todo Palm Beach y Broward. Una remodelación exterior integral reúne el patio, el adoquinado, las estructuras de sombra, la iluminación y el drenaje bajo un mismo diseño, un mismo juego de permisos y un mismo equipo: adoquines y entradas de coche, hormigón estructural, decks y cercas, pérgolas a medida y cortinas motorizadas. Si busca quién le remodele el exterior en el sur de Florida, entregamos remodelaciones a medida y con todos los permisos, que mejoran el uso del espacio y suman valor. Cada proyecto se aborda con precisión arquitectónica y mirando al largo plazo.',
+        'Pergola Plus Florida remodela exteriores completos por todo Palm Beach y Broward. Una remodelación exterior integral reúne el patio, los pavers, las estructuras de sombra, la iluminación y el drenaje bajo un mismo diseño, un mismo juego de permisos y un mismo equipo: pavers y entradas de autos, concreto estructural, decks y cercas, pérgolas a medida y cortinas motorizadas. Si busca quién le remodele el exterior en el sur de Florida, entregamos remodelaciones a medida y con todos los permisos, que mejoran el uso del espacio y suman valor. Cada proyecto se aborda con precisión arquitectónica y mirando al largo plazo.',
       'We transform entire exteriors into refined, fully integrated outdoor living environments across Palm Beach and Broward County. A full outdoor remodel combines structural work, premium pavers and driveways, decks and fencing, pergola integration, and lighting and drainage, all designed for long-term durability in South Florida’s climate.':
-        'Convertimos exteriores enteros en espacios cuidados y bien integrados en Palm Beach y Broward. Una remodelación exterior integral combina trabajo estructural, adoquinado y entradas de coche de gama alta, decks y cercas, pérgolas integradas, iluminación y drenaje, todo pensado para durar en el clima del sur de Florida.',
+        'Convertimos exteriores enteros en espacios cuidados y bien integrados en Palm Beach y Broward. Una remodelación exterior integral combina trabajo estructural, pavers y entradas de autos de gama alta, decks y cercas, pérgolas integradas, iluminación y drenaje, todo pensado para durar en el clima del sur de Florida.',
       'One Project, the Whole Exterior': 'Un solo proyecto para todo el exterior',
       'A Single Plan Instead of Five Contractors': 'Un plan en vez de cinco contratistas',
       'Paving, concrete, decking, fencing, shade structures and drainage are drawn together from the start instead of bolted on one at a time. One design, one set of permits and one crew means levels line up, materials match and nothing has to be undone later to make room for the next trade.':
-        'Adoquinado, hormigón, deck, cercas, sombra y drenaje se dibujan juntos desde el principio, en vez de irse añadiendo de uno en uno. Con un solo diseño, un solo juego de permisos y un solo equipo, los niveles cuadran, los materiales pegan entre sí y no hay que deshacer nada para hacerle sitio al siguiente gremio.',
+        'Pavers, concreto, deck, cercas, sombra y drenaje se dibujan juntos desde el principio, en vez de irse añadiendo de uno en uno. Con un solo diseño, un solo juego de permisos y un solo equipo, los niveles cuadran, los materiales pegan entre sí y no hay que deshacer nada para hacerle sitio al siguiente gremio.',
       'We install high-performance pavers and refined surface materials selected for durability, color retention, and architectural elegance. Designed to withstand Florida’s sun and heavy rain, our materials enhance aesthetics while maintaining long-term performance.':
-        'Instalamos adoquines de alto rendimiento y pavimentos elegidos por su durabilidad, por cómo mantienen el color y por cómo quedan. Pensados para aguantar el sol y las lluvias de Florida, mejoran la estética sin renunciar al rendimiento.',
-      'Premium Paver &amp; Surface Finishes': 'Adoquinado y acabados de gama alta',
+        'Instalamos pavers de alto rendimiento y pavimentos elegidos por su durabilidad, por cómo mantienen el color y por cómo quedan. Pensados para aguantar el sol y las lluvias de Florida, mejoran la estética sin renunciar al rendimiento.',
+      'Premium Paver &amp; Surface Finishes': 'Pavers y acabados de gama alta',
       'Elevated Materials for Lasting Beauty': 'Materiales que envejecen bien',
       'Integrated Pergolas &amp; Shade Systems': 'Pérgolas y sombra integradas',
       'Expanding Comfort &amp; Functionality': 'Más confort y más uso',
@@ -576,19 +576,19 @@ export const SERVICIOS_ES: Record<string, ServicioEs> = {
         'Preguntas frecuentes sobre remodelaciones exteriores integrales en el sur de Florida.',
       'Do outdoor remodels require permits in South Florida?': '¿Hace falta permiso para remodelar el exterior en el sur de Florida?',
       'Structural outdoor remodeling projects almost always require permits, and a remodel that touches paving, concrete and a roofed structure needs several at once. We manage the engineering documentation and the building inspections in Palm Beach and Broward County.':
-        'Las remodelaciones que tocan estructura casi siempre requieren permiso, y una que toca adoquinado, hormigón y una estructura techada necesita varios a la vez. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
+        'Las remodelaciones que tocan estructura casi siempre requieren permiso, y una que toca pavers, concreto y una estructura techada necesita varios a la vez. Nosotros gestionamos la documentación de cálculo y las inspecciones en Palm Beach y Broward.',
       'How long does a full outdoor remodel take?': '¿Cuánto se tarda en remodelar el exterior?',
       'Timelines vary based on scope and materials. Most South Florida outdoor remodels take several weeks including demolition, preparation, and installation — and running the trades under one schedule is usually faster than hiring them separately.':
         'Depende del alcance y de los materiales. La mayoría de remodelaciones exteriores en el sur de Florida llevan varias semanas, contando demolición, preparación e instalación, y llevar todos los gremios con un mismo calendario suele salir más rápido que contratarlos por separado.',
       'Can pergolas be added during an outdoor remodel?': '¿Se puede añadir una pérgola durante la remodelación?',
       'Yes, and it is the cheapest moment to do it. Integrating aluminum pergolas, motorized screens, and premium paver systems while the ground is already open creates a cohesive outdoor living environment without paying twice for the same groundwork.':
-        'Sí, y es el momento más barato para hacerlo. Integrar pérgolas de aluminio, cortinas motorizadas y adoquinado de gama alta con el terreno ya abierto deja el exterior como un conjunto y evita pagar dos veces la misma obra de base.',
+        'Sí, y es el momento más barato para hacerlo. Integrar pérgolas de aluminio, cortinas motorizadas y pavers de gama alta con el terreno ya abierto deja el exterior como un conjunto y evita pagar dos veces la misma obra de base.',
       'Will an outdoor remodel increase property value?': '¿Remodelar el exterior revaloriza la casa?',
       'A professionally remodeled exterior enhances usability and curb appeal on every side of the house, not just the back. Luxury outdoor remodeling in South Florida can improve resale value.':
         'Un exterior bien remodelado se usa más y mejora la imagen de la casa por todos sus lados, no solo por detrás. En el sur de Florida suele mejorar el valor de reventa.',
       'What materials are best for outdoor renovations?': '¿Qué materiales son mejores para remodelar el exterior?',
       'High-performance pavers, reinforced concrete slabs, and aluminum shade systems are ideal materials for durable outdoor remodeling in South Florida’s climate.':
-        'Adoquines de alto rendimiento, losas de hormigón armado y sistemas de sombra de aluminio son lo ideal para que una remodelación aguante el clima del sur de Florida.',
+        'Pavers de alto rendimiento, losas de concreto armado y sistemas de sombra de aluminio son lo ideal para que una remodelación aguante el clima del sur de Florida.',
     },
   },
 };
