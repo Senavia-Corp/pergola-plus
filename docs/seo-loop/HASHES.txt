@@ -79,3 +79,8 @@ a7e68e568f4227e7d93fb099b18ab4f5e5ba4c19f41441562f747d3ca8d9ce27  scripts/seo-lo
 
 # FIRMA: Sebastian 2026-10-23 · delegada en la sesión principal; en el chat: «Delego las firmas de HASHES.txt en la sesión principal mientras dure «Termina todo»»; revisión: «Revisado por la sesión principal el 23-oct: j15 con el umbral solo desde una base limpia, aprobado» · commit 84ea7b6
 14757172a346352f007fcf6650d17ea53b5731ac70a16fe211b834396ae7d097  scripts/seo-loop/j15-lighthouse.mjs
+
+# BLOQUE SIN FIRMAR · propuesto el 2026-10-23 (petición de la sesión principal): J7 con validación local de vocabulario obligatoria contra schema.org 30.1 fijado (cada @type es clase; cada propiedad existe, no está reemplazada y vale para su tipo con herencia); validator.schema.org solo si responde: si una sonda mínima cae en google.com/sorry es «no disponible» (aviso, ni verde ni rojo); fijados.mjs fija también los .jsonld de scripts/seo-loop
+0a4b8c4c910fc831ec8695196510973390906a5ee34dc6b862dfec4d21a12f74  scripts/seo-loop/datos/schemaorg-30.1-current-https.jsonld
+3d4c042db5fe50f9cb707b83e4f30027d5c9de239bde5de053826f9e6605112e  scripts/seo-loop/j07-jsonld-google.mjs
+091f895b527828f62f9f9702e459bb102db009e1eeea994089ce2a1386e336a7  scripts/seo-loop/lib/fijados.mjs

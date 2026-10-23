@@ -15,12 +15,12 @@ import crypto from 'node:crypto';
 const RAIZ = path.resolve(import.meta.dirname, '../../..');
 const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 
-/** Rutas fijadas: los JSON del loop, el registro, las lineas base, el juez y sus puertas, y las 26 puertas del repo. */
+/** Rutas fijadas: los JSON del loop, el registro, las lineas base, el juez, sus puertas y sus datos (.jsonld), y las 26 puertas del repo. */
 export function fijados() {
   const pkg = JSON.parse(fs.readFileSync(path.join(RAIZ, 'package.json'), 'utf8'));
   const puertasRepo = pkg.scripts.check.split('&&').map((s) => s.trim().replace(/^npm run /, '')).filter((s) => s !== 'build')
     .map((s) => pkg.scripts[s]?.match(/node (\S+\.mjs)/)?.[1]).filter(Boolean);
-  const loop = fs.readdirSync(path.join(RAIZ, 'scripts/seo-loop'), { recursive: true }).filter((f) => f.endsWith('.mjs')).map((f) => `scripts/seo-loop/${f}`);
+  const loop = fs.readdirSync(path.join(RAIZ, 'scripts/seo-loop'), { recursive: true }).filter((f) => /\.(mjs|jsonld)$/.test(f)).map((f) => `scripts/seo-loop/${f}`); // .jsonld: el vocabulario de J7
   const base = fs.readdirSync(path.join(RAIZ, 'docs/seo-loop/linea-base')).map((f) => `docs/seo-loop/linea-base/${f}`);
   return [
     'docs/seo-loop/01-REGISTRO-PETICIONES-CLIENTE.md', 'docs/seo-loop/02-VACIOS-PERMITIDOS.json',
